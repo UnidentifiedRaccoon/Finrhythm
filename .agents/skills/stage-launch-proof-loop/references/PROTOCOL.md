@@ -19,12 +19,14 @@ At the start of every stage session:
 1. read `AGENTS.md`;
 2. read `docs/architecture/source-of-truth.md`;
 3. read `docs/architecture/documentation-workflow.md`;
-4. read the target stage file;
-5. read `.agent/stages/<stage_id>/progress.md` and `feature_list.json` if present;
-6. inspect current repo state;
-7. run smoke checks if available.
+4. read stage-linked `docs/product/**` product foundation markdown if present;
+5. read the target stage file;
+6. read `.agent/stages/<stage_id>/progress.md` and `feature_list.json` if present;
+7. inspect current repo state;
+8. run smoke checks if available.
 
 Do not start coding until current repo state and scope are understood.
+For the current FinLit MVP, product-intent baseline is `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`; it must be reconciled before spec freeze.
 
 ## Delegation policy
 

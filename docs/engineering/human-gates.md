@@ -10,6 +10,7 @@
 - pricing, paywall boundaries и billing policy;
 - brand/lore/public copy финальной версии;
 - реальные партнёры, реальные награды, реальные операционные процессы выдачи.
+- B2B privacy/reporting boundaries, customer-specific analytics and handling of real employee data.
 
 ## 2. MVP-специфика
 
@@ -22,9 +23,22 @@
 - schema migrations;
 - API contracts;
 - points/redemption rules;
-- admin flows, влияющие на публикацию или выдачу наград.
+- admin flows, влияющие на публикацию или выдачу наград;
+- B2B tenant/cohort/reporting/privacy flows;
+- merch fulfillment, operator exports and pilot outcome reporting.
 
-## 3. Как отражать human gate в артефактах
+## 3. B2B/privacy/reward operations
+
+Для B2B-first MVP агент может подготовить docs, schemas, UI and draft logic, but final approval remains human-gated for:
+
+- расширение HR/sponsor reporting beyond aggregated default;
+- снижение anonymity threshold or showing smaller cohort slices;
+- customer-specific reporting, exports or operational fields;
+- use of real employee/customer data in any environment;
+- real merch catalog, points prices, fulfillment rules and operator procedures;
+- external customer-facing pilot claims, case studies or communication kit copy.
+
+## 4. Как отражать human gate в артефактах
 
 Используй один из честных статусов:
 

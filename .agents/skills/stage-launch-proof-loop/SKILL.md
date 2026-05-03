@@ -90,10 +90,11 @@ Before changes:
 1. read `AGENTS.md`;
 2. read `docs/architecture/source-of-truth.md`;
 3. read `docs/architecture/documentation-workflow.md`;
-4. read relevant `docs/stages/*.md`;
-5. read existing `.agent/stages/<stage_id>/progress.md`, `feature_list.json`, `sprint_contract.md` if present;
-6. inspect recent git state/history when available;
-7. run smoke/baseline checks if app/tooling exists.
+4. read stage-linked `docs/product/**` product foundation markdown if present;
+5. read relevant `docs/stages/*.md`;
+6. read existing `.agent/stages/<stage_id>/progress.md`, `feature_list.json`, `sprint_contract.md` if present;
+7. inspect recent git state/history when available;
+8. run smoke/baseline checks if app/tooling exists.
 
 If smoke fails, record blocker or fix baseline before new implementation.
 
@@ -106,6 +107,8 @@ If stage spec, backlog or sprint contract is missing/stale/ambiguous:
 - update `stage_spec.md`, `backlog.md`, `feature_list.json`, `sprint_contract.md`, task files as needed.
 
 Spec freezer reduces ambiguity. It must not expand stage scope.
+
+For FinLit MVP, `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md` is the current product-intent baseline. Spec freezer must reconcile it with `docs/stages/MVP.md` before selecting or writing a sprint contract. Binary files under product `references/` are supporting artifacts only until normalized into markdown.
 
 ### 3. Build one sprint contract at a time
 

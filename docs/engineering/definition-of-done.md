@@ -55,10 +55,21 @@ If the repository does not yet have wrappers, record exact available package/Mav
 
 - canonical docs updated;
 - no contradiction with `AGENTS.md`, source-of-truth, stage docs and local `AGENTS.md`;
+- product foundation docs and stage docs are synchronized when product intent changed;
 - diagrams updated when text alone is not enough;
 - self-check run if harness files changed.
 
-## 7. Final agent report
+## 7. B2B/privacy/reporting/reward changes
+
+Expected minimum for B2B-first MVP and later corporate rollout slices:
+
+- tenant/cohort/invite-code assumptions and edge cases recorded;
+- HR/sponsor reporting visibility mapped to privacy model;
+- anonymity thresholds, role access and admin audit implications tested or explicitly limited;
+- merch/order/operator export flows include points ledger and refund/idempotency notes;
+- real customer, real employee data and real fulfillment operations have human-gate status.
+
+## 8. Final agent report
 
 Include:
 
@@ -71,6 +82,6 @@ Include:
 - human gates;
 - latest verifier verdict.
 
-## 8. `DONE_WITH_HUMAN_PENDING`
+## 9. `DONE_WITH_HUMAN_PENDING`
 
 Use this when code/docs/content are ready and verified, but final human approval is required, for example legal copy, financial content, reward rules, pricing/paywall or partner operations.
