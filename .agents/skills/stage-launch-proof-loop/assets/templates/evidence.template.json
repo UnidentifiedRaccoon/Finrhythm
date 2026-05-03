@@ -1,0 +1,12 @@
+{
+  "stage_id": "{{STAGE_ID}}",
+  "sprint_contract_id": null,
+  "commands": [],
+  "tests": [],
+  "artifacts": [],
+  "screenshots": [],
+  "documentation_updates": [],
+  "diagram_refs": [],
+  "human_gates": [],
+  "updated_at": "{{TIMESTAMP}}"
+}

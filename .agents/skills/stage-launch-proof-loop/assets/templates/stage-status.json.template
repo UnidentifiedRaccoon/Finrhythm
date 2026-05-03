@@ -1,0 +1,16 @@
+{
+  "stage_id": "{{STAGE_ID}}",
+  "source_path": "{{STAGE_FILE}}",
+  "state": "READY",
+  "active_task_id": null,
+  "completed_task_ids": [],
+  "waiting_human_task_ids": [],
+  "blocked_task_ids": [],
+  "next_ready_task_ids": [],
+  "last_updated": "{{TIMESTAMP}}",
+  "latest_verdict": "PENDING",
+  "exit_gate_summary": {
+    "status": "UNKNOWN",
+    "notes": []
+  }
+}

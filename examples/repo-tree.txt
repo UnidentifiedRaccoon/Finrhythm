@@ -1,0 +1,38 @@
+.
+├─ AGENTS.md
+├─ README.md
+├─ Makefile
+├─ .codex/
+│  ├─ config.toml
+│  └─ agents/
+│     ├─ stage-orchestrator.toml
+│     ├─ task-explorer.toml
+│     ├─ stage-spec-freezer.toml
+│     ├─ stage-builder.toml
+│     ├─ stage-verifier.toml
+│     ├─ stage-fixer.toml
+│     ├─ api-worker.toml
+│     ├─ web-worker.toml
+│     ├─ admin-worker.toml
+│     └─ content-worker.toml
+├─ .agents/
+│  └─ skills/
+│     └─ stage-launch-proof-loop/
+├─ .agent/
+│  ├─ stages/
+│  └─ tasks/
+├─ apps/
+│  ├─ web/
+│  ├─ admin/
+│  └─ api/
+│     ├─ pom.xml
+│     ├─ mvnw
+│     └─ src/
+├─ packages/
+│  ├─ ui/
+│  ├─ config/
+│  └─ api-client/
+├─ content/
+├─ infra/
+├─ tests/
+└─ docs/

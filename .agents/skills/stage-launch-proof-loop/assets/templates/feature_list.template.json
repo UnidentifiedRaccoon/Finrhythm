@@ -1,0 +1,10 @@
+[
+  {
+    "id": "{{STAGE_ID}}-seed-criterion",
+    "category": "bootstrap",
+    "description": "Replace with a concrete, testable stage criterion.",
+    "steps": [],
+    "passes": false,
+    "evidence_refs": []
+  }
+]
