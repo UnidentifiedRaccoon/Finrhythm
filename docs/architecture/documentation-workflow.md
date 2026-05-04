@@ -23,6 +23,7 @@
 
 Обновляй самый узкий source of truth:
 
+- product intent and customer-context assumptions: `docs/product/**` markdown files;
 - product/stage scope: `docs/stages/*.md` only when changing stage baseline intentionally;
 - repo-wide architecture and stack: `docs/architecture/source-of-truth.md`;
 - doc-sync and harness policy: `AGENTS.md`, this document, `.agents/skills/stage-launch-proof-loop/*`;
@@ -32,6 +33,16 @@
 - human gates and DoD: `docs/engineering/*.md`.
 
 Stage artifacts in `.agent/stages/<stage_id>/` are required for handoff and proof, but they do not replace canonical docs.
+
+## Product foundation sync
+
+Если stage связан с product foundation, stage/spec-freeze агент обязан прочитать соответствующий `docs/product/**` markdown before freezing scope. Для текущего MVP это `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`.
+
+Rules:
+- stage docs must stay consistent with canonical product foundation;
+- markdown-нормализация is canonical for agent execution;
+- binary files under `references/` preserve source materials, but do not become source of truth until their decisions are reflected in markdown;
+- if `.docx`, `.pptx`, PDF or other binary source contradicts markdown/stage docs, record the discrepancy and update the narrowest canonical markdown doc before implementation.
 
 ## Что должно попадать в evidence
 

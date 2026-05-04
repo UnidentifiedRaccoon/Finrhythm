@@ -13,9 +13,15 @@ Stage ID: v2
 1. прочитай `AGENTS.md`;
 2. прочитай `docs/architecture/source-of-truth.md`;
 3. прочитай `docs/architecture/documentation-workflow.md`;
-4. прочитай `docs/stages/v2.md`;
-5. проверь `.agent/stages/v2/`, если она уже есть;
-6. заморозь/обнови `stage_spec.md`, `backlog.md`, `feature_list.json`, `sprint_contract.md`.
+4. прочитай linked product foundation `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`, если нет более нового product baseline;
+5. прочитай `docs/stages/v2.md`;
+6. проверь `.agent/stages/v2/`, если она уже есть;
+7. заморозь/обнови `stage_spec.md`, `backlog.md`, `feature_list.json`, `sprint_contract.md`.
+
+Product baseline:
+- B2B pilot/rollout baseline already belongs to MVP/v1;
+- v2 enterprise work means self-service multi-tenant maturity, SSO/SCIM and advanced platform capabilities;
+- do not treat basic B2B pilot launch as deferred to v2.
 
 Execution loop:
 1. выбери следующий ready execution unit;

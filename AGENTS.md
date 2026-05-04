@@ -27,12 +27,13 @@ Core rules:
 1. текущее состояние репозитория и runnable baseline;
 2. `docs/architecture/source-of-truth.md`;
 3. `docs/architecture/documentation-workflow.md`;
-4. `docs/stages/MVP.md`, `docs/stages/v1.md`, `docs/stages/v2.md`;
-5. `docs/engineering/definition-of-done.md`;
-6. `docs/engineering/human-gates.md`;
-7. `docs/engineering/contributing.md`;
-8. ближайший локальный `AGENTS.md`;
-9. `.agent/stages/<stage_id>/sprint_contract.md` или `.agent/stages/<stage_id>/task-files/<TASK_ID>.md`, если работа уже инициализирована.
+4. product-intent baseline: `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`;
+5. `docs/stages/MVP.md`, `docs/stages/v1.md`, `docs/stages/v2.md`;
+6. `docs/engineering/definition-of-done.md`;
+7. `docs/engineering/human-gates.md`;
+8. `docs/engineering/contributing.md`;
+9. ближайший локальный `AGENTS.md`;
+10. `.agent/stages/<stage_id>/sprint_contract.md` или `.agent/stages/<stage_id>/task-files/<TASK_ID>.md`, если работа уже инициализирована.
 
 Если инструкции конфликтуют, приоритет у более близкого файла и более узкого контекста. Stage-файлы определяют scope и exit gates; этот файл определяет operating behavior и engineering guardrails.
 
@@ -115,6 +116,7 @@ Core rules:
 - Contract types come from `packages/api-client`.
 - User-facing copy, labels, help text and empty states are Russian.
 - `apps/web` is mobile-first.
+- MVP product baseline — B2B-first mobile web для корпоративного пилота; бренд заказчика не должен появляться в employee-facing UI без отдельного human-approved stage decision.
 - User-visible changes need screenshot/browser evidence.
 
 ### Backend
@@ -138,6 +140,14 @@ Core rules:
 - `points` are not money and must not be modeled as a monetary balance.
 - Points ledger is separate, auditable, and idempotent.
 - Redemption, raffle, partner rewards, billing-adjacent rules are risk-heavy.
+
+### B2B MVP baseline
+
+- Current MVP product-intent baseline is `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`.
+- MVP — single corporate pilot contour with `tenant`, `cohort/wave`, invite codes, HR/sponsor reporting, privacy aggregation and merch operations.
+- MVP не является in-app subscription product; коммерческий доступ продаётся по корпоративному договору вне приложения.
+- Employee-facing reports for HR по умолчанию агрегируют диагностику/прогресс; персональные финансовые ответы не раскрываются.
+- Self-service multi-tenant enterprise platform, SSO/SCIM and customer white-label UI — later-stage work, если stage doc явно не вводит узкий approved slice.
 
 ## 9. Documentation workflow
 
@@ -177,6 +187,7 @@ Agent may prepare drafts and code, but cannot fully approve:
 - legal texts: privacy, terms, disclaimers, consent copy;
 - final financial correctness of lessons/explanations/quizzes;
 - reward economy rules, raffles, partner terms;
+- B2B privacy/reporting boundaries, customer-specific analytics and обработка реальных employee data;
 - pricing, paywall boundaries, billing policy;
 - final public brand/lore/campaign copy;
 - real partners, real rewards, real fulfillment operations.

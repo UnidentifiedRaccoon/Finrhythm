@@ -7,11 +7,12 @@
 1. фактическое состояние репозитория;
 2. этот файл;
 3. `docs/architecture/documentation-workflow.md`;
-4. stage source-of-truth: `docs/stages/MVP.md`, `docs/stages/v1.md`, `docs/stages/v2.md`;
-5. repo-wide `AGENTS.md`;
-6. локальные `AGENTS.md`;
-7. stage/task artifacts inside `.agent/`;
-8. PR description and temporary notes only as explanation, not canon.
+4. product-intent baseline: `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`;
+5. stage source-of-truth: `docs/stages/MVP.md`, `docs/stages/v1.md`, `docs/stages/v2.md`;
+6. repo-wide `AGENTS.md`;
+7. локальные `AGENTS.md`;
+8. stage/task artifacts inside `.agent/`;
+9. PR description and temporary notes only as explanation, not canon.
 
 Если меняется архитектурное решение, отразить его здесь and in relevant stage docs if the stage baseline changed.
 
@@ -70,14 +71,22 @@ Do not maintain two equal sources of truth for contract types.
 - Production source of truth for lessons, quizzes, challenge and marathon is CMS/PostgreSQL.
 - `content/` is for demo fixtures, import/export bundles, local development and preview/test data.
 
-## 6. Points baseline
+## 6. B2B MVP product baseline
+
+- Current MVP baseline — B2B-first mobile web для корпоративного пилота, а не B2C-first продукт с будущей корпоративной опцией.
+- Canonical product intent lives in `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`; binary originals в `references/` являются supporting artifacts.
+- MVP вводит single corporate pilot contour: `tenant`, `cohort/wave`, invite codes, HR/sponsor reporting, privacy aggregation, points wallet and merch operations.
+- Employee-facing UI использует нейтральный бренд продукта; первый customer context может называться во внутренних docs, operations and tenant configuration, but not in default employee UI.
+- In-app subscription, B2C billing, enterprise SSO/SCIM and self-service multi-tenant platform are out of MVP, если stage doc явно не вводит узкий approved slice.
+
+## 7. Points baseline
 
 - `points` is a separate domain entity.
 - `points` are not money.
-- начисление and списание go through auditable ledger.
+- начисление и списание проходят через auditable ledger.
 - redemption, raffle mechanics and billing-adjacent decisions are high-risk.
 
-## 7. Decisions still to finalize
+## 8. Decisions still to finalize
 
 - exact Node, pnpm and JDK versions;
 - exact e2e runner;

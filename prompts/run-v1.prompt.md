@@ -13,9 +13,15 @@ Stage ID: v1
 1. прочитай `AGENTS.md`;
 2. прочитай `docs/architecture/source-of-truth.md`;
 3. прочитай `docs/architecture/documentation-workflow.md`;
-4. прочитай `docs/stages/v1.md`;
-5. проверь `.agent/stages/v1/`, если она уже есть;
-6. заморозь/обнови `stage_spec.md`, `backlog.md`, `feature_list.json`, `sprint_contract.md`.
+4. прочитай linked product foundation `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`, если нет более нового product baseline;
+5. прочитай `docs/stages/v1.md`;
+6. проверь `.agent/stages/v1/`, если она уже есть;
+7. заморозь/обнови `stage_spec.md`, `backlog.md`, `feature_list.json`, `sprint_contract.md`.
+
+Product baseline:
+- v1 builds on B2B MVP rollout readiness;
+- public B2C launch, subscription and billing are optional tracks only after explicit human-approved product decision;
+- do not reintroduce customer brand in employee UI by default.
 
 Execution loop:
 1. выбери следующий ready execution unit;

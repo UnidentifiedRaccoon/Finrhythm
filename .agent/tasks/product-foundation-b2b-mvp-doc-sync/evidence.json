@@ -1,0 +1,54 @@
+{
+  "task_id": "product-foundation-b2b-mvp-doc-sync",
+  "status": "DONE_WITH_HUMAN_PENDING",
+  "checked_at": "2026-05-03",
+  "scope": "Move B2B MVP product foundation into canonical docs and synchronize stage/harness documentation.",
+  "changed_areas": [
+    "docs/product/b2b-mvp/lemanapro",
+    "AGENTS.md",
+    "docs/architecture",
+    "docs/engineering",
+    "docs/stages",
+    ".agents/skills/stage-launch-proof-loop",
+    "prompts"
+  ],
+  "evidence": [
+    {
+      "kind": "office-integrity",
+      "path": ".agent/tasks/product-foundation-b2b-mvp-doc-sync/raw/unzip-docx.txt"
+    },
+    {
+      "kind": "office-integrity",
+      "path": ".agent/tasks/product-foundation-b2b-mvp-doc-sync/raw/unzip-pptx.txt"
+    },
+    {
+      "kind": "harness-self-check",
+      "path": ".agent/tasks/product-foundation-b2b-mvp-doc-sync/raw/verify-harness-bootstrap.json"
+    },
+    {
+      "kind": "bootstrap-validation",
+      "path": ".agent/tasks/product-foundation-b2b-mvp-doc-sync/raw/validate-bootstrap.txt"
+    },
+    {
+      "kind": "contradiction-search",
+      "path": ".agent/tasks/product-foundation-b2b-mvp-doc-sync/raw/contradiction-search.txt"
+    },
+    {
+      "kind": "whitespace-check",
+      "path": ".agent/tasks/product-foundation-b2b-mvp-doc-sync/raw/git-diff-check.txt"
+    },
+    {
+      "kind": "final-contradiction-search",
+      "path": ".agent/tasks/product-foundation-b2b-mvp-doc-sync/raw/final-contradiction-search.txt"
+    }
+  ],
+  "human_gates": [
+    "legal/privacy/consent wording",
+    "financial content correctness",
+    "reward economy and real merch fulfillment",
+    "customer-specific reporting and real employee data handling"
+  ],
+  "code_changes": false,
+  "api_schema_changes": false,
+  "ui_changes": false
+}

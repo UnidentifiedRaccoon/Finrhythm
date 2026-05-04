@@ -13,9 +13,16 @@ Stage ID: mvp
 1. прочитай `AGENTS.md`;
 2. прочитай `docs/architecture/source-of-truth.md`;
 3. прочитай `docs/architecture/documentation-workflow.md`;
-4. прочитай `docs/stages/MVP.md`;
-5. проверь `.agent/stages/mvp/`, если она уже есть;
-6. заморозь/обнови `stage_spec.md`, `backlog.md`, `feature_list.json`, `sprint_contract.md`.
+4. прочитай product foundation `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`;
+5. прочитай `docs/stages/MVP.md`;
+6. проверь `.agent/stages/mvp/`, если она уже есть;
+7. заморозь/обнови `stage_spec.md`, `backlog.md`, `feature_list.json`, `sprint_contract.md`.
+
+Product baseline:
+- MVP is B2B-first corporate pilot, not B2C/public-launch scope;
+- employee-facing UI uses neutral product brand, not customer brand;
+- no in-app subscription/payment in MVP;
+- HR reports default to aggregated privacy-safe analytics.
 
 Execution loop:
 1. выбери следующий ready execution unit;
