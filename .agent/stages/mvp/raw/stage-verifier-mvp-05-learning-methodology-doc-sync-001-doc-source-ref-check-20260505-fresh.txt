@@ -1,0 +1,10 @@
+methodology_exists=True
+frontmatter_status_accepted_with_human_gates=True
+content/getcourse-finstrategy/README.md: exists=True
+content/getcourse-finstrategy/CONTENT_BRIEF.md: exists=True
+docs/product/b2b-mvp/lemanapro/product-foundation-v1.md: exists=True
+docs/stages/MVP.md: exists=True
+docs/stages/v1.md: exists=True
+docs/stages/v2.md: exists=True
+first_body_line=# Этап 2. Методология обучения MVP
+stray_leading_yo=False

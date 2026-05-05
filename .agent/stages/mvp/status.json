@@ -1,8 +1,8 @@
 {
   "stage_id": "mvp",
-  "state": "SPRINT_PASSED",
-  "active_sprint_contract_id": "MVP-02-invite-issuance-activation-001",
-  "latest_verified_sprint_contract_id": "MVP-02-invite-issuance-activation-001",
+  "state": "SPRINT_PASSED_WITH_ENV_LIMITATION",
+  "active_sprint_contract_id": "MVP-05-learning-methodology-doc-sync-001",
+  "latest_verified_sprint_contract_id": "MVP-05-learning-methodology-doc-sync-001",
   "completed_ids": [
     "MVP-01.01",
     "MVP-01.02",
@@ -14,64 +14,73 @@
     "MVP-02.01",
     "MVP-02-tenant-domain-001",
     "MVP-02.02",
-    "MVP-02-invite-issuance-activation-001"
+    "MVP-02-invite-issuance-activation-001",
+    "MVP-05-learning-methodology-doc-sync-001"
   ],
   "active_ids": [],
-  "blocked_ids": [],
-  "waiting_human_ids": [],
+  "blocked_ids": [
+    "java-backed-make-verify-current-shell"
+  ],
+  "waiting_human_ids": [
+    "financial-correctness-lessons-diagnostics-quizzes",
+    "legal-tax-review-tax-deduction-wording",
+    "hr-wording-review-self-assessment-communications",
+    "reward-economy-stock-prices-fulfillment",
+    "support-answer-policy-sensitive-topics"
+  ],
   "next_recommended_ids": [
     "freeze-next-sprint-contract-for-MVP-02.03-employee-registration",
     "do-not-start-MVP-02.04-before-MVP-02.03-contract-or-explicit-stage-decision"
   ],
-  "last_updated": "2026-05-04",
+  "last_updated": "2026-05-05",
   "exit_gate_summary": {
     "mvp_01_scope_frozen": true,
     "root_wrappers_added": true,
     "safe_self_checks_pass": true,
     "live_init_dev_proven": true,
-    "fresh_verifier_pass": true,
     "mvp_02_allowed": true,
     "mvp_02_01_complete": true,
-    "mvp_02_first_contract_frozen": true,
-    "mvp_02_first_contract_passed": true,
-    "mvp_02_complete": false,
-    "mvp_02_02_contract_frozen": true,
-    "mvp_02_02_implementation_started": true,
-    "mvp_02_02_builder_evidence_updated": true,
-    "mvp_02_02_fresh_verifier_pending": false,
-    "mvp_02_02_fresh_verifier_pass": true,
     "mvp_02_02_complete": true,
+    "mvp_02_complete": false,
     "mvp_02_03_allowed": true,
     "mvp_02_04_allowed": false,
-    "current_resume_baseline_git_status_recorded": true,
-    "current_resume_baseline_make_verify_pass": true,
-    "current_resume_artifact_json_valid": true,
-    "current_resume_harness_verify_pass": true,
-    "current_resume_final_make_verify_after_freeze_pass": true,
-    "current_resume_canonical_docs_changed": false
+    "learning_methodology_doc_sync_frozen": true,
+    "learning_methodology_doc_moved": true,
+    "learning_methodology_canonical_docs_synced": true,
+    "learning_methodology_harness_docs_synced": true,
+    "learning_methodology_fresh_verifier_pending": false,
+    "learning_methodology_fresh_verifier_pass": true,
+    "mvp_05_complete": false,
+    "mvp_06_complete": false,
+    "mvp_07_complete": false,
+    "mvp_09_complete": false,
+    "mvp_10_complete": false,
+    "mvp_11_complete": false,
+    "mvp_12_complete": false
   },
   "runtime_guardrails": {
     "project_config_approval_policy_expected": "on-request",
     "do_not_restore_fixed_service_tier": true,
-    "java_runtime_available": true,
-    "java_version_recorded": "21.0.11",
+    "java_runtime_available_in_current_shell": false,
     "maven_wrapper_present": true,
-    "docker_required_for_testcontainers_verify": true,
+    "docs_only_current_sprint": true,
     "public_api_scope_for_active_sprint": false,
-    "raw_invite_code_persistence_allowed": false
+    "schema_scope_for_active_sprint": false,
+    "ui_scope_for_active_sprint": false
   },
   "handoff": {
     "what_is_proven": [
-      "MVP-02.01 / MVP-02-tenant-domain-001 has fresh verifier PASS.",
-      "Current resume baseline has Java 21, Maven Wrapper and make verify PASS.",
-      "MVP-02.02 scope is frozen as MVP-02-invite-issuance-activation-001.",
-      "Builder evidence for invite issuance, activation and opaque subject binding is recorded.",
-      "Fresh verifier PASS is recorded for MVP-02-invite-issuance-activation-001."
+      "MVP-02.01 / MVP-02-tenant-domain-001 has prior fresh verifier PASS.",
+      "MVP-02.02 / MVP-02-invite-issuance-activation-001 has prior fresh verifier PASS.",
+      "MVP learning methodology v0.2 is moved to canonical product docs and referenced by product, stage and Harness docs.",
+      "This slice is docs-only and does not implement or close downstream learning, diagnostic, CMS, reporting, challenge, store or support execution units."
     ],
     "what_is_not_proven": [
+      "Java-backed make verify currently fails in this shell because Java runtime is not located.",
       "Employee registration by name/email/phone/code.",
-      "Admin code status UI, activation funnel and full MVP-02 completion."
+      "Admin code status UI, activation funnel and full MVP-02 completion.",
+      "Runtime diagnostics, lessons, CMS, support, points, reporting, store and challenge implementation."
     ],
-    "next_slice": "Freeze the next small sprint contract for MVP-02.03 employee registration. Do not start MVP-02.04 or full MVP-02 closure without a separate frozen contract and evidence."
+    "next_slice": "Freeze the next small sprint contract for MVP-02.03 employee registration."
   }
 }

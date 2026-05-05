@@ -1,22 +1,18 @@
-# Problems
+# Fresh verifier problems: MVP-05-learning-methodology-doc-sync-001
 
-Status: `PASS`
+Verdict: `PASS`  
+Verified at: 2026-05-05T17:57:13Z
 
-Scope: `MVP-02-invite-issuance-activation-001` / `MVP-02.02` only. This verification does not cover `MVP-02.03`, `MVP-02.04` or full MVP-02.
+No blocking proof gaps found for this docs-only slice.
 
-## Verifier Conclusion
+## Non-blocking environment limitation
 
-No blocking proof gaps found for the scoped backend/domain invite issuance and activation slice.
+- `make verify` was not rerun by the fresh verifier because `java -version` in the current shell reports that it cannot locate a Java Runtime.
+- Builder evidence already records `make verify` reaching the backend Maven step and failing for the same Java/runtime reason.
+- This is accepted as non-blocking for this contract because the slice changes canonical documentation and Harness/stage artifacts only, with no runtime API, DB schema, generated client or UI changes.
 
-Fresh verifier raw outputs pass for Java 21, Maven Wrapper, backend unit tests, backend PostgreSQL/Testcontainers verification, root wrappers, Flyway V001/V002/V003 migration inspection, raw-code persistence scan, scope guardrail scan and evidence JSON parsing.
+Raw refs:
 
-## Blocking Gaps
-
-None.
-
-## Notes
-
-- No public REST/OpenAPI/generated-client surface was added, so API contract/client updates are not required for this slice.
-- No UI or user-visible surface changed, so screenshots/browser smoke evidence are not required.
-- The `ERROR` text in verifier Maven logs is the expected duplicate-hash database constraint path from a persistence test. Maven report summaries show zero failures and zero errors.
-- Durable verdict serialization note: fresh stage_verifier agents generated the raw verifier outputs and returned PASS handoffs, but stalled before writing `verdict.json`/`problems.md`; this file records that verifier result for durable stage handoff.
+- `.agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-make-verify-20260505.txt`
+- `.agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-java-version-20260505-fresh.txt`
+- `.agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-verify-harness-20260505-fresh.json`

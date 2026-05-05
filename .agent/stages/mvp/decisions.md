@@ -1,6 +1,6 @@
 # MVP decisions
 
-Updated: 2026-05-04
+Updated: 2026-05-05
 
 ## D-2026-05-04-001: Freeze only MVP-01 bootstrap
 
@@ -91,3 +91,15 @@ Impact: fresh verification can assess issuance/activation invariants independent
 Decision: mark `MVP-02.02` / `MVP-02-invite-issuance-activation-001` complete after fresh verifier checks returned `PASS`.  
 Why: issuance, activation, opaque binding, raw-code persistence guardrails, migration order and root/backend commands are proven for this contract.  
 Impact: `MVP-02.03`, `MVP-02.04` and full MVP-02 remain open; the next run should freeze employee registration separately.
+
+## D-2026-05-05-001: Promote learning methodology v0.2 to canonical product methodology
+
+Decision: move `learning_methodology_mvp_stage2_v02.md` to `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` and treat it as the canonical MVP learning, diagnostics, routing, lesson template and content approve-flow baseline.  
+Why: the file defines product/methodology decisions, not raw content and not stage-local evidence. Canonical product docs under `docs/product/**` are the narrowest source of truth for this scope.  
+Impact: future learning/content/diagnostic/support/reporting slices must read this file before spec freeze and record affected lesson/question/route IDs and human gates.
+
+## D-2026-05-05-002: Keep methodology doc-sync separate from feature completion
+
+Decision: this docs-only slice updates executable scope but does not mark `MVP-05`, `MVP-06`, `MVP-07`, `MVP-09`, `MVP-10`, `MVP-11`, `MVP-12` or full MVP complete.  
+Why: no runtime diagnostics, lessons, CMS, points, reporting, support, store or UI implementation exists in this slice, and financial/legal/HR/reward gates remain human-pending.  
+Impact: downstream implementation still requires frozen sprint contracts, evidence and fresh verification.

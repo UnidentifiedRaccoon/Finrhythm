@@ -101,6 +101,7 @@ If smoke fails, record blocker or fix baseline before new implementation.
 For content, CMS, lesson adaptation, import/export or wording-review slices, also read:
 
 - `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`;
+- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`;
 - `content/getcourse-finstrategy/README.md`;
 - `content/getcourse-finstrategy/CONTENT_BRIEF.md`;
 - `.agent/tasks/content-main-course-cleanup/evidence.md` if present.
@@ -120,6 +121,8 @@ Spec freezer reduces ambiguity. It must not expand stage scope.
 For FinLit MVP, `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md` is the current product-intent baseline. Spec freezer must reconcile it with `docs/stages/MVP.md` before selecting or writing a sprint contract. Binary files under product `references/` are supporting artifacts only until normalized into markdown.
 
 For content slices, freeze scope against the `content/getcourse-finstrategy/` inventory and explicitly list blocked lessons, human-review gates and brand-normalization assumptions.
+
+For learning methodology, diagnostic, CMS, support or reporting slices, freeze scope against `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` and explicitly record affected lesson IDs (`N1–N7`, optional `Z1/Z4/Z9`), question IDs (`Q0`, `Q1–Q27`, `Q28`, `SA1–SA3`), route IDs (`R1–R6`), review statuses, sensitive-data policy and human gates.
 
 ### 3. Build one sprint contract at a time
 
