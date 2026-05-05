@@ -1,0 +1,33 @@
+ M .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py
+ M .codex/config.toml
+ M .gitignore
+ M README.md
+ M docs/architecture/init-and-dev-contract.md
+ M docs/architecture/repo-layout.md
+ M docs/setup/codex-setup.md
+?? .agent/stages/mvp/
+?? .agent/tasks/getcourse-collect-lesson-links/
+?? .agent/tasks/getcourse-content-scaffold/
+?? .agent/tasks/getcourse-export-lesson-content/
+?? .agent/tasks/getcourse-finstrategy-export/
+?? Makefile
+?? apps/api/.mvn/
+?? apps/api/mvnw
+?? apps/api/mvnw.cmd
+?? apps/api/pom.xml
+?? apps/api/src/
+?? content/
+?? course-export/
+?? infra/
+?? package.json
+?? packages/
+?? pnpm-lock.yaml
+?? pnpm-workspace.yaml
+?? scripts/dev-local.sh
+?? scripts/getcourse-collect-lesson-links.js
+?? scripts/getcourse-download-visible-assets.js
+?? scripts/getcourse-export-lesson-content.js
+?? scripts/init-local.sh
+?? scripts/init/
+?? scripts/verify-bootstrap.mjs
+?? tests/

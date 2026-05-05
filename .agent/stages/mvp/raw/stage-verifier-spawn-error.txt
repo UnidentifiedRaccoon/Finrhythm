@@ -1,0 +1,9 @@
+stage_verifier spawn attempt after evidence failed before execution.
+
+Error:
+Unsupported service_tier: flex
+
+Context:
+- .codex/config.toml was already updated to remove fixed service_tier entries.
+- Current Codex session still appears to use a previously loaded service_tier value.
+- No fresh verifier could inspect or write verification artifacts.

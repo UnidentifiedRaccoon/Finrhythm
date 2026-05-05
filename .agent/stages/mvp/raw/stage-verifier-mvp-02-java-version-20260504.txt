@@ -1,0 +1,8 @@
+command: java -version
+cwd: /Users/yura-posledov/cursor/Finrhythm
+
+The operation couldn’t be completed. Unable to locate a Java Runtime.
+Please visit http://www.java.com for information on installing Java.
+
+
+[exit_code=1]

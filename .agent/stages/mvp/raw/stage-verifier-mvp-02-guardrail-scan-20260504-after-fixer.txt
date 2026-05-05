@@ -1,0 +1,10 @@
+$ rg -n real/customer/employee/financial/brand/points guardrail scan
+apps/api implementation files scanned:
+apps/api/AGENTS.md
+apps/api/src/main/resources/db/migration/V001__dev_bootstrap_runs.sql
+
+search results in apps/api for MVP-02 forbidden surface markers:
+apps/api/AGENTS.md:25:- Любые operations with `points` должны быть idempotent, traceable and audit-friendly.
+apps/api/AGENTS.md:53:- points ledger;
+
+exit_code=0

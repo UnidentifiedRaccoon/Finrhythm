@@ -1,0 +1,4 @@
+$ cd apps/api && ./mvnw -q test
+apps/api/mvnw is absent or not executable; command not available
+
+exit_code=127

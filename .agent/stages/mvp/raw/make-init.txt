@@ -1,0 +1,5 @@
+./scripts/init-local.sh
+make init: Docker daemon is not running. Start Docker and rerun make init.
+make: *** [init] Error 2
+
+exit_code=2

@@ -1,0 +1,9 @@
+.agent/tasks/product-foundation-b2b-mvp-doc-sync/evidence.json
+.agent/tasks/product-foundation-b2b-mvp-doc-sync/evidence.md
+.agent/tasks/product-foundation-b2b-mvp-doc-sync/raw/contradiction-search.txt
+.agent/tasks/product-foundation-b2b-mvp-doc-sync/raw/final-contradiction-search.txt
+.agent/tasks/product-foundation-b2b-mvp-doc-sync/raw/git-diff-check.txt
+.agent/tasks/product-foundation-b2b-mvp-doc-sync/raw/unzip-docx.txt
+.agent/tasks/product-foundation-b2b-mvp-doc-sync/raw/unzip-pptx.txt
+.agent/tasks/product-foundation-b2b-mvp-doc-sync/raw/validate-bootstrap.txt
+.agent/tasks/product-foundation-b2b-mvp-doc-sync/raw/verify-harness-bootstrap.json

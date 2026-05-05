@@ -1,0 +1,22 @@
+COMMAND: Maven test report summary
+apps/api/target/failsafe-reports/TEST-com.finrhythm.api.tenant.persistence.TenantPersistenceIT.xml
+apps/api/target/failsafe-reports/com.finrhythm.api.tenant.persistence.TenantPersistenceIT.txt
+apps/api/target/failsafe-reports/failsafe-summary.xml
+apps/api/target/surefire-reports/TEST-com.finrhythm.api.tenant.TenantDomainTest.xml
+apps/api/target/surefire-reports/com.finrhythm.api.tenant.TenantDomainTest.txt
+
+Summaries:
+
+== apps/api/target/surefire-reports/com.finrhythm.api.tenant.TenantDomainTest.txt ==
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.tenant.TenantDomainTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.042 s -- in com.finrhythm.api.tenant.TenantDomainTest
+
+== apps/api/target/failsafe-reports/com.finrhythm.api.tenant.persistence.TenantPersistenceIT.txt ==
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.tenant.persistence.TenantPersistenceIT
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.401 s -- in com.finrhythm.api.tenant.persistence.TenantPersistenceIT
+
+EXIT_CODE=0

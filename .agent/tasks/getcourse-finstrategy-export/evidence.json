@@ -1,0 +1,280 @@
+{
+  "task": "getcourse-finstrategy-export",
+  "status": "DONE_WITH_HUMAN_PENDING",
+  "sourceUrl": "https://fgrm.ncfg.ru/teach/control/stream/view/id/546010026",
+  "outputs": {
+    "combinedLinksJson": "course-export/stream-546010026/all-lesson-links.json",
+    "combinedLinksTxt": "course-export/stream-546010026/all-lesson-links.txt",
+    "contentDir": "content/getcourse-finstrategy",
+    "debugGlob": "course-export/stream-546010026/**/debug/",
+    "blockedLinksJson": "course-export/stream-546010026/blocked-lesson-links.json",
+    "adminStorageState": ".local/getcourse/admin-storage-state.json",
+    "downloadDir": "content/getcourse-finstrategy/downloads",
+    "downloadManifestJson": "course-export/stream-546010026/download-manifest.json"
+  },
+  "counts": {
+    "streams": 11,
+    "lessons": 73,
+    "exported": 70,
+    "blocked": 3,
+    "needs_login": 0,
+    "partial": 0
+  },
+  "moduleStatus": [
+    {
+      "title": "Модуль 01. Финансовые цели",
+      "lessons": 7,
+      "exported": 6,
+      "blocked": 1,
+      "needs_login": 0,
+      "partial": 0
+    },
+    {
+      "title": "Модуль 02. Семейный бюджет",
+      "lessons": 7,
+      "exported": 7,
+      "blocked": 0,
+      "needs_login": 0,
+      "partial": 0
+    },
+    {
+      "title": "Модуль 03. Полезные финансовые привычки",
+      "lessons": 7,
+      "exported": 6,
+      "blocked": 1,
+      "needs_login": 0,
+      "partial": 0
+    },
+    {
+      "title": "Модуль 04. Защита семьи от последствий неблагоприятных финансовых событий",
+      "lessons": 7,
+      "exported": 7,
+      "blocked": 0,
+      "needs_login": 0,
+      "partial": 0
+    },
+    {
+      "title": "Модуль 05. Активы и обязательства",
+      "lessons": 7,
+      "exported": 7,
+      "blocked": 0,
+      "needs_login": 0,
+      "partial": 0
+    },
+    {
+      "title": "Модуль 06. Денежное мышление",
+      "lessons": 4,
+      "exported": 4,
+      "blocked": 0,
+      "needs_login": 0,
+      "partial": 0
+    },
+    {
+      "title": "Модуль 07. Оптимизация кредитной нагрузки",
+      "lessons": 7,
+      "exported": 7,
+      "blocked": 0,
+      "needs_login": 0,
+      "partial": 0
+    },
+    {
+      "title": "Модуль 08. Как и куда инвестировать деньги для достижения ваших целей",
+      "lessons": 7,
+      "exported": 7,
+      "blocked": 0,
+      "needs_login": 0,
+      "partial": 0
+    },
+    {
+      "title": "Модуль 09. Финансовая независимость (пенсия, пассивный доход)",
+      "lessons": 7,
+      "exported": 6,
+      "blocked": 1,
+      "needs_login": 0,
+      "partial": 0
+    },
+    {
+      "title": "Модуль 10. Личная финансовая стратегия (точка сборки)",
+      "lessons": 4,
+      "exported": 4,
+      "blocked": 0,
+      "needs_login": 0,
+      "partial": 0
+    },
+    {
+      "title": "Бонус Финансовое Воспитание",
+      "lessons": 9,
+      "exported": 9,
+      "blocked": 0,
+      "needs_login": 0,
+      "partial": 0
+    }
+  ],
+  "verification": [
+    {
+      "command": "node --check scripts/getcourse-collect-lesson-links.js",
+      "status": "PASS"
+    },
+    {
+      "command": "node --check scripts/getcourse-export-lesson-content.js",
+      "status": "PASS"
+    },
+    {
+      "command": "pnpm getcourse:export-content -- --headless --links=course-export/stream-546010026/all-lesson-links.json --content-dir=content/getcourse-finstrategy --out=course-export/stream-546010026",
+      "status": "PASS"
+    },
+    {
+      "command": "safety scans for exported markdown and non-debug link JSONs",
+      "status": "PASS"
+    },
+    {
+      "command": "git check-ignore for .local/getcourse/storage-state.json and nested course-export debug artifacts",
+      "status": "PASS"
+    },
+    {
+      "command": "node --check scripts/getcourse-collect-lesson-links.js",
+      "status": "PASS",
+      "verifiedAt": "2026-05-04 resume"
+    },
+    {
+      "command": "node --check scripts/getcourse-export-lesson-content.js",
+      "status": "PASS",
+      "verifiedAt": "2026-05-04 resume"
+    },
+    {
+      "command": "JSON.parse all course-export/stream-546010026/**/*.json files",
+      "status": "PASS",
+      "files": 27,
+      "verifiedAt": "2026-05-04 resume"
+    },
+    {
+      "command": "count all-lesson-links.json lessons and content/getcourse-finstrategy lesson markdown files",
+      "status": "PASS",
+      "lessons": 73,
+      "markdownFiles": 73,
+      "verifiedAt": "2026-05-04 resume"
+    },
+    {
+      "command": "safety scan course-export/stream-546010026, content/getcourse-finstrategy, and task evidence text files",
+      "status": "PASS",
+      "verifiedAt": "2026-05-04 resume"
+    },
+    {
+      "command": "build course-export/stream-546010026/blocked-lesson-links.json from blocked markdown files",
+      "status": "PASS",
+      "lessons": 54,
+      "verifiedAt": "2026-05-04 admin-session retry"
+    },
+    {
+      "command": "pnpm getcourse:export-content -- --headed --state=.local/getcourse/admin-storage-state.json --links=course-export/stream-546010026/blocked-lesson-links.json --content-dir=content/getcourse-finstrategy --out=course-export/stream-546010026",
+      "status": "PASS_WITH_RETRY",
+      "note": "first admin-session run exported 5 lessons, then redaction for input[type=file] was fixed; second run exported 46 more lessons",
+      "verifiedAt": "2026-05-04 admin-session retry"
+    },
+    {
+      "command": "rebuild blocked-lesson-links.json as final remaining blocked manifest",
+      "status": "PASS",
+      "lessons": 3,
+      "verifiedAt": "2026-05-04 admin-session retry"
+    },
+    {
+      "command": "drop GetCourse cookie service notices from exporter extraction and remove existing cookie-banner noise from markdown files",
+      "status": "PASS",
+      "filesChanged": 51,
+      "verifiedAt": "2026-05-04 admin-session retry"
+    },
+    {
+      "command": "final syntax check for scripts/getcourse-collect-lesson-links.js and scripts/getcourse-export-lesson-content.js",
+      "status": "PASS",
+      "verifiedAt": "2026-05-04 final"
+    },
+    {
+      "command": "final JSON/count check for all-lesson-links.json, blocked-lesson-links.json, evidence.json, and content markdown statuses",
+      "status": "PASS",
+      "lessons": 73,
+      "markdownFiles": 73,
+      "exported": 70,
+      "blocked": 3,
+      "verifiedAt": "2026-05-04 final"
+    },
+    {
+      "command": "final safety scan for course-export/stream-546010026, content/getcourse-finstrategy, and task evidence text files",
+      "status": "PASS",
+      "verifiedAt": "2026-05-04 final"
+    },
+    {
+      "command": "git check-ignore for user/admin Playwright storage state and nested debug artifacts",
+      "status": "PASS",
+      "verifiedAt": "2026-05-04 final"
+    },
+    {
+      "command": "remove admin UI menu noise from exported markdown files",
+      "status": "PASS",
+      "filesChanged": 51,
+      "verifiedAt": "2026-05-04 cleanup"
+    },
+    {
+      "command": "pnpm getcourse:download-assets -- --headless --state=.local/getcourse/admin-storage-state.json --links=course-export/stream-546010026/all-lesson-links.json --download-dir=content/getcourse-finstrategy/downloads --manifest=course-export/stream-546010026/download-manifest.json",
+      "status": "PASS",
+      "downloaded": 30,
+      "bytes": 45774624,
+      "verifiedAt": "2026-05-04 cleanup"
+    },
+    {
+      "command": "file content/getcourse-finstrategy/downloads/*",
+      "status": "PASS",
+      "note": "files recognized as PDF, Microsoft Word 2007+, or Microsoft Excel 2007+",
+      "verifiedAt": "2026-05-04 cleanup"
+    }
+  ],
+  "humanGates": [
+    "final financial content correctness",
+    "tax/credit/investment/pension wording",
+    "child-facing educational material review",
+    "owner-side unlock or corrected admin entitlement for remaining blocked lessons"
+  ],
+  "remainingBlocked": [
+    {
+      "index": 7,
+      "file": "07-lesson-306105699.md",
+      "title": "Как достигать финансовых целей",
+      "sourceUrl": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/306105699"
+    },
+    {
+      "index": 16,
+      "file": "16-lesson-235010156.md",
+      "title": "03.01 Как работают все привычки",
+      "sourceUrl": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/235010156"
+    },
+    {
+      "index": 58,
+      "file": "58-lesson-235010192.md",
+      "title": "09.04 План достижения финансовой независимости",
+      "sourceUrl": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/235010192"
+    }
+  ],
+  "adminSessionRetry": {
+    "date": "2026-05-04",
+    "method": "headed Playwright manual login using authorized admin account",
+    "initialBlocked": 54,
+    "exportedAfterRetry": 51,
+    "remainingBlocked": 3
+  },
+  "downloads": {
+    "date": "2026-05-04",
+    "method": "visible same-host file-service/document links through authorized admin session",
+    "files": 30,
+    "bytes": 45774624,
+    "megabytes": 43.65,
+    "types": {
+      "pdf": 11,
+      "docx": 15,
+      "xlsx": 4
+    },
+    "skipped": [
+      "external hosts",
+      "videos and streaming media",
+      "non-file pages"
+    ]
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "task": "getcourse-export-lesson-content",
+  "status": "DONE_WITH_HUMAN_PENDING",
+  "exportedAt": "2026-05-04T12:29:31.935Z",
+  "outputs": [
+    "scripts/getcourse-export-lesson-content.js",
+    "content/getcourse-path-to-money/01-what-is-path-to-money.md",
+    "content/getcourse-path-to-money/02-financial-freedom-fund.md",
+    "content/getcourse-path-to-money/03-challenge.md",
+    "content/getcourse-path-to-money/04-decluttering-home.md",
+    "content/getcourse-path-to-money/05-financial-goals.md",
+    "content/getcourse-path-to-money/06-tax-deductions.md",
+    "content/getcourse-path-to-money/07-money-psychology.md",
+    "content/getcourse-path-to-money/08-useful-financial-habits.md",
+    "course-export/debug/lesson-content/03-333694072.html",
+    "course-export/debug/lesson-content/03-333694072.png"
+  ],
+  "lessonStatuses": [
+    {
+      "index": 1,
+      "status": "exported",
+      "visibleBlockCount": 18,
+      "visibleLinkCount": 0,
+      "visibleVideoEmbedCount": 0
+    },
+    {
+      "index": 2,
+      "status": "exported",
+      "visibleBlockCount": 18,
+      "visibleLinkCount": 3,
+      "visibleVideoEmbedCount": 1
+    },
+    {
+      "index": 3,
+      "status": "blocked",
+      "reason": "GetCourse page returned 404 / training not found",
+      "visibleBlockCount": 0,
+      "visibleLinkCount": 0,
+      "visibleVideoEmbedCount": 0
+    },
+    {
+      "index": 4,
+      "status": "exported",
+      "visibleBlockCount": 15,
+      "visibleLinkCount": 4,
+      "visibleVideoEmbedCount": 1
+    },
+    {
+      "index": 5,
+      "status": "exported",
+      "visibleBlockCount": 11,
+      "visibleLinkCount": 1,
+      "visibleVideoEmbedCount": 1
+    },
+    {
+      "index": 6,
+      "status": "exported",
+      "visibleBlockCount": 43,
+      "visibleLinkCount": 3,
+      "visibleVideoEmbedCount": 2
+    },
+    {
+      "index": 7,
+      "status": "exported",
+      "visibleBlockCount": 21,
+      "visibleLinkCount": 1,
+      "visibleVideoEmbedCount": 1
+    },
+    {
+      "index": 8,
+      "status": "exported",
+      "visibleBlockCount": 38,
+      "visibleLinkCount": 3,
+      "visibleVideoEmbedCount": 1
+    }
+  ],
+  "verification": [
+    {
+      "command": "node --check scripts/getcourse-export-lesson-content.js",
+      "status": "PASS"
+    },
+    {
+      "command": "pnpm getcourse:export-content -- --help",
+      "status": "PASS"
+    },
+    {
+      "command": "pnpm getcourse:export-content -- --headless",
+      "status": "PASS"
+    },
+    {
+      "command": "make verify",
+      "status": "PASS"
+    },
+    {
+      "command": "git check-ignore -v .local/getcourse/storage-state.json course-export/debug/lesson-content/03-333694072.html course-export/debug/lesson-content/03-333694072.png",
+      "status": "PASS"
+    }
+  ],
+  "humanGates": [
+    "final financial correctness of lessons",
+    "tax wording correctness",
+    "psychological/financial behavior claims",
+    "reward wording and points claims",
+    "corrected access or URL for blocked lesson 3"
+  ]
+}

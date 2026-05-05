@@ -1,0 +1,322 @@
+[
+  {
+    "id": "mvp-01-stage-artifacts",
+    "category": "harness",
+    "description": "Stage artifact contract exists under .agent/stages/mvp.",
+    "steps": [
+      "Create required files",
+      "Record source sync",
+      "Record status"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/source.md",
+      ".agent/stages/mvp/evidence.md"
+    ]
+  },
+  {
+    "id": "mvp-01-source-resync",
+    "category": "documentation",
+    "description": "Required source docs and prior product-foundation evidence were re-synced before implementation.",
+    "steps": [
+      "Read canonical docs",
+      "Read stage file",
+      "Read supporting task evidence"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/source.md",
+      ".agent/stages/mvp/raw/supporting-product-foundation-evidence.txt"
+    ]
+  },
+  {
+    "id": "mvp-01-root-wrappers",
+    "category": "tooling",
+    "description": "Root wrapper commands exist and safe current commands pass.",
+    "steps": [
+      "Run make install",
+      "Run make verify",
+      "Run make test-unit",
+      "Run make test-e2e",
+      "Run make build"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/raw/make-install.txt",
+      ".agent/stages/mvp/raw/make-verify.txt",
+      ".agent/stages/mvp/raw/make-test-unit.txt",
+      ".agent/stages/mvp/raw/make-test-e2e.txt",
+      ".agent/stages/mvp/raw/make-build.txt"
+    ]
+  },
+  {
+    "id": "mvp-01-bootstrap-contract",
+    "category": "init-dev",
+    "description": "Versioned local bootstrap manifest, PostgreSQL compose contract and dev_bootstrap_runs migration exist.",
+    "steps": [
+      "Validate manifest",
+      "Validate compose",
+      "Validate migration"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/raw/verify-bootstrap.json",
+      "scripts/init/version.json",
+      "infra/local/compose.yaml",
+      "apps/api/src/main/resources/db/migration/V001__dev_bootstrap_runs.sql"
+    ]
+  },
+  {
+    "id": "mvp-01-guardrail-fixture",
+    "category": "product-guardrails",
+    "description": "Synthetic bootstrap fixture avoids customer brand, real personal/contact data and money modeling for points.",
+    "steps": [
+      "Run fixture checks",
+      "Run real-data scan"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/raw/verify-bootstrap.json",
+      ".agent/stages/mvp/raw/fixture-real-data-scan.txt"
+    ]
+  },
+  {
+    "id": "mvp-01-doc-sync",
+    "category": "documentation",
+    "description": "Canonical setup/runtime docs are synchronized with root wrappers and current limitations.",
+    "steps": [
+      "Update README",
+      "Update setup docs",
+      "Update init/dev contract",
+      "Update repo layout docs"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      "README.md",
+      "docs/setup/codex-setup.md",
+      "docs/architecture/init-and-dev-contract.md",
+      "docs/architecture/repo-layout.md"
+    ]
+  },
+  {
+    "id": "mvp-01-live-init-dev",
+    "category": "init-dev",
+    "description": "make init and make dev prove live local PostgreSQL startup and idempotent bootstrap.",
+    "steps": [
+      "Start Docker daemon",
+      "Run make dev",
+      "Run make init twice"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/raw/docker-info-after-start-20260504.txt",
+      ".agent/stages/mvp/raw/make-dev-live-20260504.txt",
+      ".agent/stages/mvp/raw/make-init-live-first-20260504.txt",
+      ".agent/stages/mvp/raw/make-init-live-second-20260504.txt",
+      ".agent/stages/mvp/raw/docker-compose-ps-20260504.txt",
+      ".agent/stages/mvp/raw/dev-bootstrap-runs-query-20260504.txt"
+    ]
+  },
+  {
+    "id": "mvp-01-fresh-verifier",
+    "category": "verification",
+    "description": "Fresh stage_verifier checks the current evidence and writes verdict.",
+    "steps": [
+      "Spawn fresh stage_verifier",
+      "Review verdict.json",
+      "Fix concrete gaps if FAIL"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/verdict-mvp-01-bootstrap-001.json",
+      ".agent/stages/mvp/problems-mvp-01-bootstrap-001.md"
+    ]
+  },
+  {
+    "id": "mvp-02-first-contract",
+    "category": "harness",
+    "description": "First MVP-02 sprint contract is frozen without production implementation.",
+    "steps": [
+      "Re-sync MVP sources",
+      "Inspect backend/runtime constraints",
+      "Write narrow sprint contract"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/stage_spec.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-02-tenant-domain-001.md"
+    ]
+  },
+  {
+    "id": "mvp-02-java-maven-precheck",
+    "category": "backend",
+    "description": "Java 21 and Maven Wrapper availability is checked and recorded before backend implementation proof.",
+    "steps": [
+      "Run java -version",
+      "Run apps/api Maven Wrapper version",
+      "Record blocker or proof"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-java-version-20260504.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-mvnw-version-20260504.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-mvnw-version-after-wrapper-20260504.txt"
+    ]
+  },
+  {
+    "id": "mvp-02-api-bootstrap",
+    "category": "backend",
+    "description": "apps/api has a minimal runnable Spring Boot/Maven baseline.",
+    "steps": [
+      "Add Maven/Spring baseline",
+      "Run backend tests",
+      "Sync setup docs if needed"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      "apps/api/pom.xml",
+      "apps/api/mvnw",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-api-mvn-test-final-20260504.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-make-build-20260504.txt"
+    ]
+  },
+  {
+    "id": "mvp-02-tenant-cohort-invite-schema",
+    "category": "domain",
+    "description": "Tenant, cohort/wave and invite code schema/model exists with required constraints.",
+    "steps": [
+      "Add append-only Flyway migration",
+      "Model domain invariants",
+      "Verify constraints"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      "apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql",
+      "apps/api/src/main/java/com/finrhythm/api/tenant/domain/Tenant.java",
+      "apps/api/src/main/java/com/finrhythm/api/tenant/domain/Cohort.java",
+      "apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-api-mvn-verify-pass-20260504.txt",
+      ".agent/stages/mvp/evidence.md"
+    ]
+  },
+  {
+    "id": "mvp-02-domain-verification",
+    "category": "verification",
+    "description": "Domain/schema tests and fresh verifier PASS close MVP-02-tenant-domain-001.",
+    "steps": [
+      "Run backend verification",
+      "Map evidence",
+      "Run fresh stage_verifier"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-api-mvn-test-final-20260504.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-api-mvn-verify-pass-20260504.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-make-verify-20260504.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-make-test-unit-20260504.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-make-build-20260504.txt",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/evidence.json",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-java-version-20260504-current.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-mvnw-version-20260504-current.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-api-mvn-test-20260504-current.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-api-mvn-verify-20260504-current.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-make-verify-20260504-current.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-migration-inspection-20260504-current.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-scope-guardrail-scan-20260504-current.txt",
+      ".agent/stages/mvp/verdict.json",
+      ".agent/stages/mvp/problems.md"
+    ]
+  },
+  {
+    "id": "mvp-02-02-contract-freeze",
+    "category": "harness",
+    "description": "MVP-02.02 invite issuance/activation sprint contract is frozen without production implementation.",
+    "steps": [
+      "Re-sync MVP and product sources",
+      "Inspect current backend model",
+      "Record runnable baseline",
+      "Write narrow sprint contract"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/stage_spec.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-02-invite-issuance-activation-001.md",
+      ".agent/stages/mvp/raw/orchestrator-resume-mvp-git-status-20260504.txt",
+      ".agent/stages/mvp/raw/orchestrator-resume-mvp-java-version-20260504.txt",
+      ".agent/stages/mvp/raw/orchestrator-resume-mvp-mvnw-version-20260504.txt",
+      ".agent/stages/mvp/raw/orchestrator-resume-mvp-make-verify-20260504.txt",
+      ".agent/stages/mvp/raw/orchestrator-resume-mvp-artifact-json-check-20260504.txt",
+      ".agent/stages/mvp/raw/orchestrator-resume-mvp-verify-harness-20260504.json",
+      ".agent/stages/mvp/raw/orchestrator-resume-mvp-final-make-verify-after-freeze-20260504.txt"
+    ]
+  },
+  {
+    "id": "mvp-02-02-invite-issuance-core",
+    "category": "backend",
+    "description": "Invite issuance service generates Wave 1-capable code batches without raw-code persistence.",
+    "steps": [
+      "Implement generator/service",
+      "Verify 500-code issuance",
+      "Prove lookup hashes are unique and raw codes are not persisted"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      "apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeGenerator.java",
+      "apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeAccessService.java",
+      "apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeGeneratorTest.java",
+      "apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeAccessServiceIT.java",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-api-mvn-verify-20260504.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-guardrail-scan-20260504.txt",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/verdict.json",
+      ".agent/stages/mvp/problems.md"
+    ]
+  },
+  {
+    "id": "mvp-02-02-activation-binding-core",
+    "category": "domain",
+    "description": "Invite activation binds exactly one opaque non-PII subject and handles duplicate paths safely.",
+    "steps": [
+      "Implement activation workflow",
+      "Test invalid/expired/revoked/duplicate paths",
+      "Prove same-subject idempotency and double-activation prevention"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      "apps/api/src/main/java/com/finrhythm/api/tenant/domain/ActivationSubjectRef.java",
+      "apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java",
+      "apps/api/src/main/resources/db/migration/V003__invite_issuance_activation_binding.sql",
+      "apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeAccessServiceIT.java",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-api-mvn-verify-20260504.txt",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/verdict.json",
+      ".agent/stages/mvp/problems.md"
+    ]
+  },
+  {
+    "id": "mvp-02-02-fresh-verification",
+    "category": "verification",
+    "description": "Fresh stage_verifier reviews only MVP-02-invite-issuance-activation-001 after builder evidence.",
+    "steps": [
+      "Run required backend/root commands",
+      "Map evidence to criteria",
+      "Run fresh verifier"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-api-mvn-test-20260504-fresh.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-api-mvn-verify-20260504-fresh.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-make-verify-20260504-fresh.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-make-test-unit-20260504-fresh.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-make-build-20260504-fresh.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-migration-inspection-20260504-fresh.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-raw-code-persistence-scan-20260504-fresh.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-scope-guardrail-scan-20260504-fresh.txt",
+      ".agent/stages/mvp/verdict.json",
+      ".agent/stages/mvp/problems.md"
+    ]
+  }
+]

@@ -1,0 +1,11 @@
+command: guardrail scan for MVP-02 production scope
+files:
+apps/api/AGENTS.md
+apps/api/src/main/resources/db/migration/V001__dev_bootstrap_runs.sql
+
+customer brand / SSO / billing / money / currency / points scan in apps/api:
+apps/api/AGENTS.md:25:- Любые operations with `points` должны быть idempotent, traceable and audit-friendly.
+apps/api/AGENTS.md:53:- points ledger;
+
+fixture brand/contact/money scan in content/fixtures:
+exit_code=0

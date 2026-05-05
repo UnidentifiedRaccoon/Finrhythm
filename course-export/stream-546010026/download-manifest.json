@@ -1,0 +1,544 @@
+{
+  "generatedAt": "2026-05-04T15:53:10.750Z",
+  "linksPath": "course-export/stream-546010026/all-lesson-links.json",
+  "statePath": ".local/getcourse/admin-storage-state.json",
+  "downloadDir": "content/getcourse-finstrategy/downloads",
+  "allowedHost": "fgrm.ncfg.ru",
+  "policy": [
+    "opened only allowed-host lesson pages",
+    "downloaded only visible same-host file-service/document links",
+    "skipped videos, streaming media and external hosts",
+    "raw query strings are not recorded in this manifest"
+  ],
+  "assets": [
+    {
+      "lessonIndex": 2,
+      "lessonTitle": "01.01 Ваши базовые ценности",
+      "text": "DOC388.pdf",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/db6a0f466c6ec669dd8acfda611c953f.pdf",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 2,
+          "lessonTitle": "01.01 Ваши базовые ценности"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/02-01-DOC388.pdf",
+      "contentType": "application/pdf; charset=UTF-8",
+      "bytes": 25910
+    },
+    {
+      "lessonIndex": 2,
+      "lessonTitle": "01.01 Ваши базовые ценности",
+      "text": "ШАГ 01.01. Практика миллион долларов.docx",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/e060c6a318aabe0f2549061a98fc5d6b.docx",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 2,
+          "lessonTitle": "01.01 Ваши базовые ценности"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/02-02-ShAG-01.01.-Praktika-million-dollarov.docx",
+      "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8",
+      "bytes": 45729
+    },
+    {
+      "lessonIndex": 2,
+      "lessonTitle": "01.01 Ваши базовые ценности",
+      "text": "ШАГ 01.01. Практика миллион долларов.docx",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/2f33ef735241323f0278cce20918ecab.docx",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 2,
+          "lessonTitle": "01.01 Ваши базовые ценности"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/02-03-ShAG-01.01.-Praktika-million-dollarov.docx",
+      "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8",
+      "bytes": 45462
+    },
+    {
+      "lessonIndex": 2,
+      "lessonTitle": "01.01 Ваши базовые ценности",
+      "text": "ШАГ 01.01. Практика миллион долларов.docx",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/aace8f108e391ea63b2a2caddeaa02dd.docx",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 2,
+          "lessonTitle": "01.01 Ваши базовые ценности"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/02-04-ShAG-01.01.-Praktika-million-dollarov.docx",
+      "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8",
+      "bytes": 40113
+    },
+    {
+      "lessonIndex": 3,
+      "lessonTitle": "01.02 Видение будущего",
+      "text": "ШАГ 01.02. Виденье будущего.docx(41.9 КБ)",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/b69796e7d5a752ab06451da9ef210064.docx",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 3,
+          "lessonTitle": "01.02 Видение будущего"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/03-05-ShAG-01.02.-Videne-buduschego.docx",
+      "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8",
+      "bytes": 42909
+    },
+    {
+      "lessonIndex": 3,
+      "lessonTitle": "01.02 Видение будущего",
+      "text": "ШАГ 01.02. Виденье будущего.docx(48.54 КБ)",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/6373688d5c5f903ff7ce9f13176be74d.docx",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 3,
+          "lessonTitle": "01.02 Видение будущего"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/03-06-ShAG-01.02.-Videne-buduschego.docx",
+      "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8",
+      "bytes": 49700
+    },
+    {
+      "lessonIndex": 3,
+      "lessonTitle": "01.02 Видение будущего",
+      "text": "Видение жизни.docx(11.3 КБ)",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/2f6ea753551c0e7b1404ca38ac5fd461.docx",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 3,
+          "lessonTitle": "01.02 Видение будущего"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/03-07-Videnie-zhizni.docx",
+      "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8",
+      "bytes": 11573
+    },
+    {
+      "lessonIndex": 3,
+      "lessonTitle": "01.02 Видение будущего",
+      "text": "ШАГ 01.02. Виденье будущего.docx(49.69 КБ)",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/58c4d50fdecccf467c5283c27a6e97ff.docx",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 3,
+          "lessonTitle": "01.02 Видение будущего"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/03-08-ShAG-01.02.-Videne-buduschego.docx",
+      "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8",
+      "bytes": 50883
+    },
+    {
+      "lessonIndex": 4,
+      "lessonTitle": "01.03 Финансовые цели",
+      "text": "01.03. Таблица целей 2021 (1).xlsx(12.1 КБ)",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/2139ef483d15f18f104dc3afd7fd8e40.xlsx",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 4,
+          "lessonTitle": "01.03 Финансовые цели"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/04-09-01.03.-Tablitsa-tselei-2021-1.xlsx",
+      "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=UTF-8",
+      "bytes": 12388
+    },
+    {
+      "lessonIndex": 5,
+      "lessonTitle": "01.04. Мотивация достижения целей",
+      "text": "Шаблон_задания_мотивация_достижения_целей.docx(16.36 КБ)",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/12b63052ccdcf9a6ea22a6f6f7a4c24d.docx",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 5,
+          "lessonTitle": "01.04. Мотивация достижения целей"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/05-10-Shablon_zadaniya_motivatsiya_dostizheniya_tselei.docx",
+      "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8",
+      "bytes": 16748
+    },
+    {
+      "lessonIndex": 5,
+      "lessonTitle": "01.04. Мотивация достижения целей",
+      "text": "ШАГ 01.04. Мотивация достижения целей.docx(24.26 КБ)",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/b1a077e70cebab0ebb02311b4fcf2035.docx",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 5,
+          "lessonTitle": "01.04. Мотивация достижения целей"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/05-11-ShAG-01.04.-Motivatsiya-dostizheniya-tseley.docx",
+      "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8",
+      "bytes": 24844
+    },
+    {
+      "lessonIndex": 9,
+      "lessonTitle": "02.01 Общие принципы организации бюджета",
+      "text": "ШАГ 02.01. Бюджет.docx",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/580d0b34a0cfb744de8b5bb13051d14d.docx",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 9,
+          "lessonTitle": "02.01 Общие принципы организации бюджета"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/09-12-ShAG-02.01.-Byudzhet.docx",
+      "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8",
+      "bytes": 42219
+    },
+    {
+      "lessonIndex": 9,
+      "lessonTitle": "02.01 Общие принципы организации бюджета",
+      "text": "ШАГ 02.01. Бюджет.docx",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/ee8c6c30feab117e9e66d96ceb792f24.docx",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 9,
+          "lessonTitle": "02.01 Общие принципы организации бюджета"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/09-13-ShAG-02.01.-Byudzhet.docx",
+      "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8",
+      "bytes": 34877
+    },
+    {
+      "lessonIndex": 23,
+      "lessonTitle": "04.01 Необходимость финансовой защиты семейного благополучия",
+      "text": "Шаблон задания_04_01.docx",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/052ffbc34267b9e8f851a0e42f0019b1.docx",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 23,
+          "lessonTitle": "04.01 Необходимость финансовой защиты семейного благополучия"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/23-14-Shablon-zadaniya_04_01.docx",
+      "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8",
+      "bytes": 16303
+    },
+    {
+      "lessonIndex": 24,
+      "lessonTitle": "04.02 Формирование резервного фонда",
+      "text": "шаблон_резервный фонд.docx",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/cf2f3e6b4cbef7225c2b9f8a6106e0a3.docx",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 24,
+          "lessonTitle": "04.02 Формирование резервного фонда"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/24-15-shablon_rezervnyy-fond.docx",
+      "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8",
+      "bytes": 35758
+    },
+    {
+      "lessonIndex": 30,
+      "lessonTitle": "05.01 Финансовый баланс семьи",
+      "text": "05.01. Активы обязательства баланс (1).xlsx",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/2e97eadf62c7c84ab9a05920d16bb853.xlsx",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 30,
+          "lessonTitle": "05.01 Финансовый баланс семьи"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/30-16-05.01.-Aktivy-obyazatelstva-balans-1.xlsx",
+      "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=UTF-8",
+      "bytes": 14568
+    },
+    {
+      "lessonIndex": 37,
+      "lessonTitle": "06.01 Образ и метафора денег",
+      "text": "шаблон_психология.docx",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/51799ee9717075cb451be708a45c39fd.docx",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 37,
+          "lessonTitle": "06.01 Образ и метафора денег"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/37-17-shablon_psihologiya.docx",
+      "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8",
+      "bytes": 36800
+    },
+    {
+      "lessonIndex": 41,
+      "lessonTitle": "07.01 Кредиты и займы: основные принципы кредитования",
+      "text": "07.01. Кредиты и займы.xlsx",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/b1789a2e5256268a02e454a9c65a75df.xlsx",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 41,
+          "lessonTitle": "07.01 Кредиты и займы: основные принципы кредитования"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/41-18-07.01.-Kredity-i-zaymy.xlsx",
+      "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=UTF-8",
+      "bytes": 73481
+    },
+    {
+      "lessonIndex": 42,
+      "lessonTitle": "07.02 Оптимизация кредитной нагрузки",
+      "text": "07.02. Оптимизация кредитной нагрузки.xlsx",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/5a46eb19c6c00135f3db60be4edf5646.xlsx",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 42,
+          "lessonTitle": "07.02 Оптимизация кредитной нагрузки"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/42-19-07.02.-Optimizatsiya-kreditnoy-nagruzki.xlsx",
+      "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=UTF-8",
+      "bytes": 110670
+    },
+    {
+      "lessonIndex": 46,
+      "lessonTitle": "\"Кредитная нагрузка\"",
+      "text": "здесь",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download",
+      "hadQuery": true,
+      "references": [
+        {
+          "lessonIndex": 46,
+          "lessonTitle": "\"Кредитная нагрузка\""
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/46-20-zdes.pdf",
+      "contentType": "application/pdf; charset=UTF-8",
+      "bytes": 2023727
+    },
+    {
+      "lessonIndex": 48,
+      "lessonTitle": "08.01 Как устроены финансовые рынки",
+      "text": "ШАГ 08_01_шаблон.docx",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/5b758c62d8a301a62c48f00a65846aa2.docx",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 48,
+          "lessonTitle": "08.01 Как устроены финансовые рынки"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/48-21-ShAG-08_01_shablon.docx",
+      "contentType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=UTF-8",
+      "bytes": 22220
+    },
+    {
+      "lessonIndex": 65,
+      "lessonTitle": "Раскраска для дошкольников",
+      "text": "Раскраска.pdf",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/8b5df84479a16f477113077f890987b2.pdf",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 65,
+          "lessonTitle": "Раскраска для дошкольников"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/65-22-Raskraska.pdf",
+      "contentType": "application/pdf; charset=UTF-8",
+      "bytes": 4212920
+    },
+    {
+      "lessonIndex": 66,
+      "lessonTitle": "Путешествие в мир финансов",
+      "text": "Путешествие в мир финансов.pdf",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/30add0d7a6be9e0d539a02a4ca54abfd.pdf",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 66,
+          "lessonTitle": "Путешествие в мир финансов"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/66-23-Puteshestvie-v-mir-finansov.pdf",
+      "contentType": "application/pdf; charset=UTF-8",
+      "bytes": 4494828
+    },
+    {
+      "lessonIndex": 67,
+      "lessonTitle": "Шаблоны списков",
+      "text": "Шаблоны списков.pdf",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/5b468fb4eb887e1cda4cde9018e8d243.pdf",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 67,
+          "lessonTitle": "Шаблоны списков"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/67-24-Shablony-spiskov.pdf",
+      "contentType": "application/pdf; charset=UTF-8",
+      "bytes": 6930735
+    },
+    {
+      "lessonIndex": 68,
+      "lessonTitle": "Тетрадь “Финансовый рост” для школьников",
+      "text": "Финансовый рост для школьников.pdf",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/21898c565282b4a374a2b5bc7aa1b8b9.pdf",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 68,
+          "lessonTitle": "Тетрадь “Финансовый рост” для школьников"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/68-25-Finansovyy-rost-dlya-shkolnikov.pdf",
+      "contentType": "application/pdf; charset=UTF-8",
+      "bytes": 9145982
+    },
+    {
+      "lessonIndex": 69,
+      "lessonTitle": "Материалы “Мы идем на пикник”",
+      "text": "Пикник.pdf",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/b1900a310a0ed3359b4081993b2e6cb1.pdf",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 69,
+          "lessonTitle": "Материалы “Мы идем на пикник”"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/69-26-Piknik.pdf",
+      "contentType": "application/pdf; charset=UTF-8",
+      "bytes": 3753055
+    },
+    {
+      "lessonIndex": 70,
+      "lessonTitle": "Набор детских трекеров для накоплений",
+      "text": "Трекеры накоплений.pdf",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/deeabc0be353f218cd6b08f24500519c.pdf",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 70,
+          "lessonTitle": "Набор детских трекеров для накоплений"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/70-27-Trekery-nakopleniy.pdf",
+      "contentType": "application/pdf; charset=UTF-8",
+      "bytes": 6584659
+    },
+    {
+      "lessonIndex": 71,
+      "lessonTitle": "Планер времени",
+      "text": "Трекер дел _Лягушки и слоны_.pdf",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/f23385d7c54ab913a12f937ca2c29338.pdf",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 71,
+          "lessonTitle": "Планер времени"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/71-28-Treker-del-_Lyagushki-i-slony_.pdf",
+      "contentType": "application/pdf; charset=UTF-8",
+      "bytes": 5712120
+    },
+    {
+      "lessonIndex": 72,
+      "lessonTitle": "Планер подарков",
+      "text": "Планер подарков.pdf",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/8361f0c930bba89d7aa377acd4a0e10b.pdf",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 72,
+          "lessonTitle": "Планер подарков"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/72-29-Planer-podarkov.pdf",
+      "contentType": "application/pdf; charset=UTF-8",
+      "bytes": 54385
+    },
+    {
+      "lessonIndex": 73,
+      "lessonTitle": "Трекер привычек",
+      "text": "Привычки_дети.pdf",
+      "url": "https://fgrm.ncfg.ru/pl/fileservice/user/file/download/h/ab1a30a7efe206212afae5414c08904d.pdf",
+      "hadQuery": false,
+      "references": [
+        {
+          "lessonIndex": 73,
+          "lessonTitle": "Трекер привычек"
+        }
+      ],
+      "status": "downloaded",
+      "file": "content/getcourse-finstrategy/downloads/73-30-Privychki_deti.pdf",
+      "contentType": "application/pdf; charset=UTF-8",
+      "bytes": 2109058
+    }
+  ],
+  "summary": {
+    "total": 30,
+    "downloaded": 30
+  },
+  "pageWarnings": {
+    "blockedExternalHosts": [
+      "fonts.googleapis.com",
+      "fs-thb01.getcourse.ru",
+      "fs-thb02.getcourse.ru",
+      "fs-thb03.getcourse.ru",
+      "fs.getcourse.ru",
+      "getfusion.ru",
+      "rutube.ru",
+      "vh-asset-static2.kinescopecdn.net",
+      "vk.com",
+      "www.youtube.com"
+    ],
+    "blockedMediaCount": 0
+  }
+}

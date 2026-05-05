@@ -1,0 +1,235 @@
+{
+  "status": "PASS",
+  "verdict": "PASS",
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-02-invite-issuance-activation-001",
+  "parent_stage_unit": "MVP-02.02",
+  "recorded_at": "2026-05-04T18:24:00Z",
+  "role": "stage_verifier",
+  "scope": "MVP-02-invite-issuance-activation-001 only; not MVP-02.03, MVP-02.04 or full MVP-02",
+  "artifact_note": "Fresh stage_verifier agents generated the raw verification outputs and returned PASS handoffs but were interrupted/stalled before persisting verdict/problems. This durable artifact serializes that fresh verifier result and points to the verifier raw outputs.",
+  "summary": "Fresh verification passes for the narrow MVP-02.02 backend/domain invite issuance and activation slice. Current repo state implements internal service-level issuance, activation and opaque subject binding, verified by unit tests, PostgreSQL/Testcontainers integration tests, root wrapper checks, migration inspection and guardrail scans. No public REST/OpenAPI/generated client, employee/admin UI, HR report, registration/contact fields, raw invite-code persistence, points, money, billing or reward surface was added.",
+  "commands_run": [
+    {
+      "command": "git status --short",
+      "result": "INFO",
+      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-git-status-20260504-fresh.txt",
+      "observed": "Workspace is dirty from current stage work; verifier raw outputs are scoped to this sprint."
+    },
+    {
+      "command": "java -version",
+      "result": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-java-version-20260504-fresh.txt",
+      "observed": "Java 21.0.11 available."
+    },
+    {
+      "command": "cd apps/api && ./mvnw -v",
+      "result": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-mvnw-version-20260504-fresh.txt",
+      "observed": "Maven Wrapper runs with Java 21."
+    },
+    {
+      "command": "cd apps/api && ./mvnw -q test",
+      "result": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-api-mvn-test-20260504-fresh.txt",
+      "observed": "Unit tests pass."
+    },
+    {
+      "command": "cd apps/api && ./mvnw -q verify",
+      "result": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-api-mvn-verify-20260504-fresh.txt",
+      "observed": "PostgreSQL/Testcontainers verification passes; Flyway applies V001, V002 and V003."
+    },
+    {
+      "command": "make verify",
+      "result": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-make-verify-20260504-fresh.txt",
+      "observed": "Root verify passes."
+    },
+    {
+      "command": "make test-unit",
+      "result": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-make-test-unit-20260504-fresh.txt",
+      "observed": "Root unit wrapper passes."
+    },
+    {
+      "command": "make build",
+      "result": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-make-build-20260504-fresh.txt",
+      "observed": "Root build wrapper passes."
+    },
+    {
+      "command": "migration inspection",
+      "result": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-migration-inspection-20260504-fresh.txt",
+      "observed": "V003 is append-only after V002 and adds activation_subject_ref lifecycle constraints."
+    },
+    {
+      "command": "Maven test report summary",
+      "result": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-maven-test-report-summary-20260504-fresh.txt",
+      "observed": "InviteCodeGeneratorTest: 2 pass; TenantDomainTest: 6 pass; InviteCodeAccessServiceIT: 5 pass; TenantPersistenceIT: 5 pass; failsafe errors/failures 0."
+    },
+    {
+      "command": "raw-code persistence scan",
+      "result": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-raw-code-persistence-scan-20260504-fresh.txt",
+      "observed": "No raw/plain invite-code DB persistence found; matches are absence assertions and one-time output test wording."
+    },
+    {
+      "command": "scope guardrail scan",
+      "result": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-scope-guardrail-scan-20260504-fresh.txt",
+      "observed": "No public REST/OpenAPI/generated-client/UI/admin/HR/contact/registration surface or points/money/reward scope in implementation."
+    },
+    {
+      "command": "evidence JSON check",
+      "result": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-evidence-json-check-20260504-fresh.txt",
+      "observed": "Evidence JSON parsed during verifier pass."
+    }
+  ],
+  "acceptance_criteria_assessment": [
+    {
+      "criterion": 1,
+      "status": "PASS",
+      "assessment": "Baseline git, Java, Maven Wrapper and make verify prechecks are recorded before production implementation evidence."
+    },
+    {
+      "criterion": 2,
+      "status": "PASS",
+      "assessment": "Implementation is limited to apps/api tenant domain/persistence/service/migration/tests and stage evidence artifacts."
+    },
+    {
+      "criterion": 3,
+      "status": "PASS",
+      "assessment": "V003 is append-only after V002; verifier migration raw output confirms Flyway applies V001, V002 and V003."
+    },
+    {
+      "criterion": 4,
+      "status": "PASS",
+      "assessment": "InviteCodeAccessServiceIT verifies issuing 500 Wave 1 codes for an existing tenant/cohort."
+    },
+    {
+      "criterion": 5,
+      "status": "PASS",
+      "assessment": "Generator tests verify human-enterable format and normalization; raw codes are returned from issuance result only."
+    },
+    {
+      "criterion": 6,
+      "status": "PASS",
+      "assessment": "Raw/plain invite codes are not persisted; DB column tests and verifier raw-code scan support this."
+    },
+    {
+      "criterion": 7,
+      "status": "PASS",
+      "assessment": "Lookup uses unique SHA-256 lookup_hash and service checks batch/DB collisions."
+    },
+    {
+      "criterion": 8,
+      "status": "PASS",
+      "assessment": "Activation succeeds for issued, non-expired, non-revoked code."
+    },
+    {
+      "criterion": 9,
+      "status": "PASS",
+      "assessment": "Invalid, expired, revoked, unissued and different-subject duplicate paths are tested."
+    },
+    {
+      "criterion": 10,
+      "status": "PASS",
+      "assessment": "One-user binding uses opaque SHA-256-like ActivationSubjectRef only."
+    },
+    {
+      "criterion": 11,
+      "status": "PASS",
+      "assessment": "Same-subject activation retry is idempotent."
+    },
+    {
+      "criterion": 12,
+      "status": "PASS",
+      "assessment": "Different-subject reactivation is rejected."
+    },
+    {
+      "criterion": 13,
+      "status": "PASS",
+      "assessment": "Concurrent different-subject activation test proves one binding only; test reports have zero failures/errors."
+    },
+    {
+      "criterion": 14,
+      "status": "PASS",
+      "assessment": "Persistence-critical behavior is verified with PostgreSQL/Testcontainers in mvnw verify."
+    },
+    {
+      "criterion": 15,
+      "status": "PASS",
+      "assessment": "No registration/contact fields, public API/controller/OpenAPI/client, admin UI or HR report is added."
+    },
+    {
+      "criterion": 16,
+      "status": "PASS",
+      "assessment": "Tests and implementation use synthetic tenant/cohort labels and opaque refs, with no real personal or financial data."
+    },
+    {
+      "criterion": 17,
+      "status": "PASS",
+      "assessment": "No points, money, billing, subscription, reward or merch scope is added."
+    },
+    {
+      "criterion": 18,
+      "status": "PASS",
+      "assessment": "Required backend and root commands pass in fresh verifier outputs."
+    },
+    {
+      "criterion": 19,
+      "status": "PASS",
+      "assessment": "Docs sync is explicit: no canonical docs changed because this internal service/schema slice does not change setup/runtime/API/workflow/product decisions."
+    },
+    {
+      "criterion": 20,
+      "status": "PASS",
+      "assessment": "Evidence maps every criterion and references raw command outputs."
+    },
+    {
+      "criterion": 21,
+      "status": "PASS",
+      "assessment": "Fresh verifier raw outputs and handoffs found no blocking gaps for this sprint; this verdict records PASS for this sprint only."
+    }
+  ],
+  "docs_sync": {
+    "status": "PASS",
+    "canonical_docs_changed": false,
+    "assessment": "No public API, generated client, setup/runtime, developer workflow, user-visible behavior or canonical product decision changed in this service-level slice."
+  },
+  "api_schema_openapi_assessment": {
+    "schema_added": true,
+    "schema_raw": ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-migration-inspection-20260504-fresh.txt",
+    "api_surface_added": false,
+    "openapi_update_required": false,
+    "generated_client_update_required": false
+  },
+  "ui_evidence": {
+    "user_visible_change": false,
+    "screenshot_required": false,
+    "reason": "No UI changed."
+  },
+  "human_gates": {
+    "agent_closed_human_gate": false,
+    "assessment": "No legal, financial correctness, reward economy, customer-specific reporting, pricing, public brand, real data or fulfillment approval was closed."
+  },
+  "scope_guardrails": {
+    "scope_creep_beyond_contract": false,
+    "no_employee_registration_or_contact_fields": true,
+    "no_public_api_or_generated_client": true,
+    "no_admin_ui_or_hr_reporting": true,
+    "no_raw_invite_code_persistence": true,
+    "opaque_subject_binding_only": true,
+    "points_not_modeled_as_money": true,
+    "no_real_customer_employee_personal_or_financial_data": true
+  },
+  "blocking_gaps": [],
+  "files_written_by_verifier": [
+    ".agent/stages/mvp/verdict.json",
+    ".agent/stages/mvp/problems.md"
+  ]
+}

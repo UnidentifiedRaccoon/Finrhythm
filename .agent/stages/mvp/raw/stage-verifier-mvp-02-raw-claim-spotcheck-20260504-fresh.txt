@@ -1,0 +1,44 @@
+command: spot-check key claimed raw outputs
+FILE .agent/stages/mvp/raw/mvp-02-java-version-20260504.txt
+The operation couldn’t be completed. Unable to locate a Java Runtime.
+Please visit http://www.java.com for information on installing Java.
+
+
+[exit_code] 1
+---
+FILE .agent/stages/mvp/raw/mvp-02-maven-wrapper-version-20260504.txt
+Maven Wrapper absent: apps/api/mvnw does not exist or is not executable.
+
+[exit_code] 127
+---
+FILE .agent/stages/mvp/raw/mvp-02-api-mvn-test-20260504.txt
+Cannot run cd apps/api && ./mvnw -q test: Maven Wrapper absent at apps/api/mvnw.
+
+[exit_code] 127
+---
+FILE .agent/stages/mvp/raw/mvp-02-api-mvn-verify-20260504.txt
+Cannot run cd apps/api && ./mvnw -q verify: Maven Wrapper absent at apps/api/mvnw.
+
+[exit_code] 127
+---
+FILE .agent/stages/mvp/raw/mvp-02-apps-api-file-list-20260504.txt
+apps/api/AGENTS.md
+apps/api/src/main/resources/db/migration/V001__dev_bootstrap_runs.sql
+---
+FILE .agent/stages/mvp/raw/stage-verifier-mvp-02-codex-config-scan-20260504.txt
+command: config scan for approval_policy and service_tier
+cwd: /Users/yura-posledov/cursor/Finrhythm
+
+$ rg -n "approval_policy|service_tier" .codex/config.toml
+5:approval_policy = "on-request"
+28:approval_policy = "on-request"
+35:approval_policy = "on-request"
+42:approval_policy = "on-request"
+49:approval_policy = "on-request"
+
+[combined_rg_exit_code=0]
+[approval_policy_on_request_count=5]
+[service_tier_present=false]
+[exit_code=0]
+---
+exit_code=0

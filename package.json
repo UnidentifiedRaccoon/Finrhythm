@@ -1,0 +1,16 @@
+{
+  "name": "finrhythm",
+  "private": true,
+  "packageManager": "pnpm@10.27.0",
+  "scripts": {
+    "build:docs": "node scripts/verify-bootstrap.mjs",
+    "getcourse:collect-links": "node scripts/getcourse-collect-lesson-links.js",
+    "getcourse:download-assets": "node scripts/getcourse-download-visible-assets.js",
+    "getcourse:export-content": "node scripts/getcourse-export-lesson-content.js",
+    "test:e2e": "node tests/e2e/smoke-placeholder.mjs",
+    "verify:bootstrap": "node scripts/verify-bootstrap.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.59.1"
+  }
+}

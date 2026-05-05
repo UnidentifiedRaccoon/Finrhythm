@@ -1,0 +1,4 @@
+$ test -x apps/api/mvnw
+apps/api/mvnw is absent
+
+exit_code=127

@@ -1,0 +1,2 @@
+$ rg -n "lemanapro|лемана|points|money|billing|price|subscription|RestController|Controller" apps/api/src
+PASS: no customer brand, points, money/billing/subscription, price, or controller/API surface terms found in apps/api/src.

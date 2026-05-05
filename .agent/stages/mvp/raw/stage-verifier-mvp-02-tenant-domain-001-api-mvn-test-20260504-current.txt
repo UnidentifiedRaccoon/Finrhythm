@@ -1,0 +1,3 @@
+COMMAND: cd apps/api && ./mvnw -q test
+
+EXIT_CODE=0

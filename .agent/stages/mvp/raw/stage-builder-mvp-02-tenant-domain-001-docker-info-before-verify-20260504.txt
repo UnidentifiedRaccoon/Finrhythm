@@ -1,0 +1,3 @@
+$ docker info --format {{.ServerVersion}}
+
+Cannot connect to the Docker daemon at unix:///Users/yura-posledov/.docker/run/docker.sock. Is the docker daemon running?

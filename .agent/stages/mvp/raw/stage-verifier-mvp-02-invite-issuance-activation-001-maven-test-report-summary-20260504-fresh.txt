@@ -1,0 +1,31 @@
+surefire/failsafe summary
+apps/api/target/surefire-reports/com.finrhythm.api.tenant.service.InviteCodeGeneratorTest.txt
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.tenant.service.InviteCodeGeneratorTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 s -- in com.finrhythm.api.tenant.service.InviteCodeGeneratorTest
+apps/api/target/surefire-reports/com.finrhythm.api.tenant.TenantDomainTest.txt
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.tenant.TenantDomainTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.035 s -- in com.finrhythm.api.tenant.TenantDomainTest
+apps/api/target/failsafe-reports/com.finrhythm.api.tenant.service.InviteCodeAccessServiceIT.txt
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.tenant.service.InviteCodeAccessServiceIT
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.913 s -- in com.finrhythm.api.tenant.service.InviteCodeAccessServiceIT
+apps/api/target/failsafe-reports/com.finrhythm.api.tenant.persistence.TenantPersistenceIT.txt
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.tenant.persistence.TenantPersistenceIT
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.020 s -- in com.finrhythm.api.tenant.persistence.TenantPersistenceIT
+
+failsafe summary
+<?xml version="1.0" encoding="UTF-8"?>
+<failsafe-summary xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/failsafe-summary.xsd" result="null" timeout="false">
+    <completed>10</completed>
+    <errors>0</errors>
+    <failures>0</failures>
+    <skipped>0</skipped>
+    <failureMessage xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+</failsafe-summary>

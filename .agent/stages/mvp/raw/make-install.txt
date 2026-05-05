@@ -1,0 +1,4 @@
+pnpm install --frozen-lockfile
+Already up to date
+
+Done in 255ms using pnpm v10.27.0

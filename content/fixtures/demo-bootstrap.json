@@ -1,0 +1,63 @@
+{
+  "tenant": {
+    "code": "demo-corporate-pilot",
+    "displayName": "Demo Corporate Pilot",
+    "employeeBrand": "FinRhythm",
+    "customerBrandVisibleToEmployees": false
+  },
+  "cohorts": [
+    {
+      "code": "wave-0-demo",
+      "title": "Волна 0",
+      "sizeLimit": 50
+    },
+    {
+      "code": "wave-1-demo",
+      "title": "Волна 1",
+      "sizeLimit": 500
+    }
+  ],
+  "inviteCodes": [
+    {
+      "code": "DEMO-WAVE0-0001",
+      "cohortCode": "wave-0-demo",
+      "status": "available"
+    }
+  ],
+  "rewardCatalog": [
+    {
+      "sku": "demo-mug",
+      "title": "Кружка",
+      "kind": "merch",
+      "pointsPrice": 1200
+    },
+    {
+      "sku": "demo-tote",
+      "title": "Сумка",
+      "kind": "merch",
+      "pointsPrice": 1800
+    },
+    {
+      "sku": "demo-scarf",
+      "title": "Шарф",
+      "kind": "merch",
+      "pointsPrice": 2400
+    },
+    {
+      "sku": "demo-profile-badge",
+      "title": "Внутренний бонус",
+      "kind": "internal_bonus",
+      "pointsPrice": 600
+    }
+  ],
+  "privacy": {
+    "hrReporting": "aggregate_only",
+    "minimumCohortSize": 20,
+    "personalFinancialAnswersVisibleToHr": false
+  },
+  "notes": [
+    "Synthetic demo fixture only.",
+    "No real employee, customer, personal or financial data.",
+    "pointsPrice is a non-monetary points value and has no cash equivalent."
+  ]
+}

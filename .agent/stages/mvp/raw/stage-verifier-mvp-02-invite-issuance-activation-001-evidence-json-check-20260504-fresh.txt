@@ -1,0 +1,39 @@
+evidence.json OK
+
+invite sprint command raw refs
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-git-status-precheck-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-java-version-precheck-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-mvnw-version-precheck-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-make-verify-precheck-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-api-mvn-test-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-api-mvn-test-after-test-fix-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-api-mvn-verify-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-make-verify-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-make-test-unit-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-make-build-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-migration-inspection-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-guardrail-scan-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-changed-files-20260504.txt
+
+criterion status summary
+AC1 PASS
+AC2 PASS
+AC3 PASS
+AC4 PASS
+AC5 PASS
+AC6 PASS
+AC7 PASS
+AC8 PASS
+AC9 PASS
+AC10 PASS
+AC11 PASS
+AC12 PASS
+AC13 PASS
+AC14 PASS
+AC15 PASS
+AC16 PASS
+AC17 PASS
+AC18 PASS
+AC19 PASS
+AC20 PASS
+AC21 PENDING

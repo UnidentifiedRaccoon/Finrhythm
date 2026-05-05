@@ -1,0 +1,45 @@
+COMMAND: targeted scope and guardrail scan
+
+1. API/controller annotations in apps/api/src/main/java:
+
+2. Out-of-scope domain/UI terms in apps/api/src (expected only invite lifecycle terms if any):
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/Tenant.java:7:import jakarta.persistence.GeneratedValue;
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/Tenant.java:26:    @GeneratedValue(strategy = GenerationType.UUID)
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/Tenant.java:106:            throw new IllegalArgumentException("Slug must be lower-case letters, digits and hyphens.");
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/Tenant.java:113:            throw new IllegalArgumentException(fieldName + " is required.");
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/Cohort.java:8:import jakarta.persistence.GeneratedValue;
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/Cohort.java:25:    @GeneratedValue(strategy = GenerationType.UUID)
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/Cohort.java:75:            throw new IllegalArgumentException("Pilot waves must use WAVE_0 or WAVE_1.");
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/Cohort.java:140:            throw new IllegalArgumentException("Cohort end time must be after start time.");
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/Cohort.java:146:            throw new IllegalArgumentException("Cohort target size must be between 1 and 5000.");
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:8:import jakarta.persistence.GeneratedValue;
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:25:    @GeneratedValue(strategy = GenerationType.UUID)
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:148:            throw new IllegalArgumentException("Invite code cohort must belong to the same tenant.");
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:169:            throw new IllegalArgumentException("Invite code expiry must be after issue time.");
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:172:            throw new IllegalArgumentException("Invite code activation cannot be before issue time.");
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:178:            throw new IllegalArgumentException(fieldName + " is required for invite status.");
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:184:            throw new IllegalArgumentException(fieldName + " is not allowed for invite status.");
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCodeHash.java:11:            throw new IllegalArgumentException("Invite lookup hash is required.");
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCodeHash.java:15:            throw new IllegalArgumentException("Invite lookup hash must be a SHA-256 hex digest.");
+apps/api/src/test/java/com/finrhythm/api/tenant/persistence/TenantPersistenceIT.java:27:import static org.assertj.core.api.Assertions.assertThatThrownBy;
+apps/api/src/test/java/com/finrhythm/api/tenant/persistence/TenantPersistenceIT.java:102:        assertThatThrownBy(() -> inviteCodeRepository.saveAndFlush(InviteCode.issued(
+apps/api/src/test/java/com/finrhythm/api/tenant/persistence/TenantPersistenceIT.java:120:        assertThatThrownBy(() -> insertInviteRow(UUID.randomUUID(), tenant.getId(), otherWave.getId(), HASH_C, "CREATED", null, null))
+apps/api/src/test/java/com/finrhythm/api/tenant/persistence/TenantPersistenceIT.java:131:        assertThatThrownBy(() -> insertInviteRow(
+apps/api/src/test/java/com/finrhythm/api/tenant/TenantDomainTest.java:14:import static org.assertj.core.api.Assertions.assertThatThrownBy;
+apps/api/src/test/java/com/finrhythm/api/tenant/TenantDomainTest.java:21:    void supportsWaveZeroAndWaveOneSizingWithoutGeneratingCodes() {
+apps/api/src/test/java/com/finrhythm/api/tenant/TenantDomainTest.java:35:        assertThatThrownBy(() -> Cohort.createWave(tenant, "wave-1", "Wave 1", CohortKind.WAVE_1, 0))
+apps/api/src/test/java/com/finrhythm/api/tenant/TenantDomainTest.java:46:        assertThatThrownBy(() -> InviteCode.created(
+apps/api/src/test/java/com/finrhythm/api/tenant/TenantDomainTest.java:59:        assertThatThrownBy(() -> InviteCodeHash.fromSha256Hex("raw-invite-code"))
+apps/api/src/test/java/com/finrhythm/api/tenant/TenantDomainTest.java:70:        assertThatThrownBy(() -> InviteCode.activated(
+
+3. Customer brand terms in runtime/source surfaces excluding docs/stage artifacts/dependencies:
+docs/architecture/documentation-workflow.md:39:Если stage связан с product foundation, stage/spec-freeze агент обязан прочитать соответствующий `docs/product/**` markdown before freezing scope. Для текущего MVP это `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`.
+docs/architecture/source-of-truth.md:10:4. product-intent baseline: `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`;
+docs/architecture/source-of-truth.md:77:- Canonical product intent lives in `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`; binary originals в `references/` являются supporting artifacts.
+scripts/verify-bootstrap.mjs:63:assertCheck("fixture-no-customer-brand", !fixtureLower.includes("lemanapro") && !fixtureLower.includes("лемана"), "employee fixture does not expose customer brand");
+content/getcourse-path-to-money/06-tax-deductions.md:109:В компании Лемана ПРО есть услуга по налоговым вычетам от партнера Добросервис. Вы можете ознакомиться на корпоративном портале.
+content/getcourse-path-to-money/06-tax-deductions.md:171:- В компании Лемана ПРО есть услуга по налоговым вычетам от партнера Добросервис. Вы можете ознакомиться на корпоративном портале.
+
+4. Personal/contact data patterns in apps/api/src:
+
+EXIT_CODE=0

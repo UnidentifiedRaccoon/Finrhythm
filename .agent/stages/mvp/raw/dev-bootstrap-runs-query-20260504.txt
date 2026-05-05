@@ -1,0 +1,8 @@
+2026-05-04T12:52:12+03:00
+command: select bootstrap_key, version, checksum from dev_bootstrap_runs
+ bootstrap_key |   version    |           checksum           
+---------------+--------------+------------------------------
+ local_init    | 2026-05-04.1 | mvp-01-bootstrap-contract-v1
+(1 row)
+
+exit_code: 0

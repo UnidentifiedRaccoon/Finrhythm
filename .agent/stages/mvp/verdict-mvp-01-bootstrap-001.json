@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-01-bootstrap-001",
+  "verifier_role": "fresh_stage_verifier",
+  "verified_at": "2026-05-04T09:57:52Z",
+  "scope": "MVP-01-bootstrap-001 only; MVP-02 was not started or verified.",
+  "summary": "MVP-01 bootstrap criteria were verified as PASS before MVP-02-tenant-domain-001 started. Root wrappers, bootstrap checks, Docker/PostgreSQL live init/dev evidence, doc sync and synthetic fixture guardrails were accepted for MVP-01.",
+  "result": {
+    "blocking_problems": [],
+    "failed_criteria": [],
+    "proof_gaps": []
+  },
+  "commands_run_by_verifier": [
+    {
+      "command": "./scripts/validate-bootstrap.sh",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/verify-bootstrap.mjs",
+      "status": "PASS"
+    },
+    {
+      "command": "make install",
+      "status": "PASS"
+    },
+    {
+      "command": "make verify",
+      "status": "PASS"
+    },
+    {
+      "command": "make test-unit",
+      "status": "PASS"
+    },
+    {
+      "command": "make test-e2e",
+      "status": "PASS_SKIPPED_NO_BROWSER_TARGET_EXPECTED_FOR_MVP_01"
+    },
+    {
+      "command": "make build",
+      "status": "PASS"
+    },
+    {
+      "command": "docker info --format '{{.ServerVersion}}'",
+      "status": "PASS",
+      "observed": "28.4.0"
+    },
+    {
+      "command": "docker compose -f infra/local/compose.yaml ps",
+      "status": "PASS_HEALTHY_POSTGRES"
+    },
+    {
+      "command": "select bootstrap_key, version, checksum from dev_bootstrap_runs order by applied_at",
+      "status": "PASS_ONE_LOCAL_INIT_ROW"
+    }
+  ],
+  "archived_for": "Preserve MVP-01 PASS evidence after verdict.json became the current MVP-02 blocked handoff artifact."
+}

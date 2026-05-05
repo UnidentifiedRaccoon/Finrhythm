@@ -1,0 +1,62 @@
+{
+  "sourceUrl": "https://fgrm.ncfg.ru/teach/control/stream/view/id/926241897",
+  "collectedAt": "2026-05-04T12:46:08.008Z",
+  "pageTitle": "Бонус Финансовое Воспитание",
+  "allowedHost": "fgrm.ncfg.ru",
+  "lessonCount": 0,
+  "duplicateCount": 0,
+  "suspiciousCandidateCount": 5,
+  "policy": {
+    "allowedHost": "fgrm.ncfg.ru",
+    "lessonPathPattern": "/\\/(?:pl\\/)?teach\\/control\\/lesson\\/view\\b/i"
+  },
+  "lessons": [],
+  "duplicates": [],
+  "suspiciousCandidates": [
+    {
+      "domIndex": 77,
+      "title": "Тренинги",
+      "url": "https://fgrm.ncfg.ru/teach/control/stream/index",
+      "path": "/teach/control/stream/index",
+      "section": null,
+      "module": null,
+      "sourceText": "Тренинги → Программа ФинЗдоровье → Школа финансовой грамотности → Курс «ФинCтратегия» Бонус Финансовое Воспитание"
+    },
+    {
+      "domIndex": 78,
+      "title": "Программа ФинЗдоровье",
+      "url": "https://fgrm.ncfg.ru/teach/control/stream/view/id/708092910",
+      "path": "/teach/control/stream/view/id/708092910",
+      "section": null,
+      "module": null,
+      "sourceText": "Тренинги → Программа ФинЗдоровье → Школа финансовой грамотности → Курс «ФинCтратегия» Бонус Финансовое Воспитание"
+    },
+    {
+      "domIndex": 79,
+      "title": "Школа финансовой грамотности",
+      "url": "https://fgrm.ncfg.ru/teach/control/stream/view/id/934729968",
+      "path": "/teach/control/stream/view/id/934729968",
+      "section": null,
+      "module": null,
+      "sourceText": "Тренинги → Программа ФинЗдоровье → Школа финансовой грамотности → Курс «ФинCтратегия» Бонус Финансовое Воспитание"
+    },
+    {
+      "domIndex": 80,
+      "title": "Курс «ФинCтратегия»",
+      "url": "https://fgrm.ncfg.ru/teach/control/stream/view/id/546010026",
+      "path": "/teach/control/stream/view/id/546010026",
+      "section": null,
+      "module": null,
+      "sourceText": "Тренинги → Программа ФинЗдоровье → Школа финансовой грамотности → Курс «ФинCтратегия» Бонус Финансовое Воспитание"
+    },
+    {
+      "domIndex": 81,
+      "title": "Материалы для детей",
+      "url": "https://fgrm.ncfg.ru/teach/control/stream/view/id/926241898",
+      "path": "/teach/control/stream/view/id/926241898",
+      "section": null,
+      "module": null,
+      "sourceText": "Материалы для детей 9 уроков. Анна Деньгина."
+    }
+  ]
+}

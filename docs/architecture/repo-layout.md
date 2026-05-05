@@ -68,3 +68,20 @@ Durable stage memory, task files, evidence, verifier verdicts and audits.
 ## Principle
 
 If one directory starts holding several bounded contexts, decompose. If real layout differs, update this doc and `AGENTS.md` in the same slice.
+
+## MVP-01 bootstrap state
+
+The current repository has the target top-level directories and root wrappers. Empty workspace directories are kept with `.gitkeep` until their first code slice:
+
+- `packages/ui`;
+- `packages/config`;
+- `packages/api-client`;
+- `content/imports`;
+- `content/exports`;
+- `infra/yc`.
+
+Local PostgreSQL bootstrap is defined in `infra/local/compose.yaml` and `apps/api/src/main/resources/db/migration/V001__dev_bootstrap_runs.sql`.
+
+## MVP-02 API baseline
+
+`apps/api` now contains a minimal Spring Boot + Maven Wrapper backend baseline. The first append-only domain migration after `V001` introduces tenant, cohort/wave and invite-code tables for the corporate pilot access model. There is no public API/controller surface in this slice; frontend/admin contract generation remains unchanged until an explicit API slice.

@@ -1,0 +1,8 @@
+command: check apps/api/mvnw and backend Maven commands availability
+cwd: /Users/yura-posledov/cursor/Finrhythm
+
+apps/api/mvnw is absent or not executable.
+Skipped cd apps/api && ./mvnw -q test because Maven Wrapper is unavailable.
+Skipped cd apps/api && ./mvnw -q verify because Maven Wrapper is unavailable.
+
+[mvnw_check_exit_code=127]

@@ -1,0 +1,181 @@
+{
+  "sourceUrl": "https://fgrm.ncfg.ru/teach/control/stream/view/id/926241898",
+  "collectedAt": "2026-05-04T12:46:20.641Z",
+  "pageTitle": "Материалы для детей",
+  "allowedHost": "fgrm.ncfg.ru",
+  "lessonCount": 9,
+  "duplicateCount": 9,
+  "suspiciousCandidateCount": 5,
+  "policy": {
+    "allowedHost": "fgrm.ncfg.ru",
+    "lessonPathPattern": "/\\/(?:pl\\/)?teach\\/control\\/lesson\\/view\\b/i"
+  },
+  "lessons": [
+    {
+      "index": 1,
+      "title": "Раскраска для дошкольников",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/337483670",
+      "section": null,
+      "module": null,
+      "sourceText": "Есть задание Раскраска для дошкольников"
+    },
+    {
+      "index": 2,
+      "title": "Путешествие в мир финансов",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/337483671",
+      "section": null,
+      "module": null,
+      "sourceText": "Есть задание Путешествие в мир финансов"
+    },
+    {
+      "index": 3,
+      "title": "Шаблоны списков",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/337483672",
+      "section": null,
+      "module": null,
+      "sourceText": "Есть задание Шаблоны списков"
+    },
+    {
+      "index": 4,
+      "title": "Тетрадь “Финансовый рост” для школьников",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/337483673",
+      "section": null,
+      "module": null,
+      "sourceText": "Есть задание Тетрадь “Финансовый рост” для школьников"
+    },
+    {
+      "index": 5,
+      "title": "Материалы “Мы идем на пикник”",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/337483674",
+      "section": null,
+      "module": null,
+      "sourceText": "Есть задание Материалы “Мы идем на пикник”"
+    },
+    {
+      "index": 6,
+      "title": "Набор детских трекеров для накоплений",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/337483675",
+      "section": null,
+      "module": null,
+      "sourceText": "Есть задание Набор детских трекеров для накоплений"
+    },
+    {
+      "index": 7,
+      "title": "Планер времени",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/337483676",
+      "section": null,
+      "module": null,
+      "sourceText": "Есть задание Планер времени"
+    },
+    {
+      "index": 8,
+      "title": "Планер подарков",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/337483677",
+      "section": null,
+      "module": null,
+      "sourceText": "Есть задание Планер подарков"
+    },
+    {
+      "index": 9,
+      "title": "Трекер привычек",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/337483678",
+      "section": null,
+      "module": null,
+      "sourceText": "Есть задание Трекер привычек"
+    }
+  ],
+  "duplicates": [
+    {
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/337483670",
+      "firstIndex": 1,
+      "duplicateTitle": "Раскраска для дошкольников"
+    },
+    {
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/337483671",
+      "firstIndex": 2,
+      "duplicateTitle": "Путешествие в мир финансов"
+    },
+    {
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/337483672",
+      "firstIndex": 3,
+      "duplicateTitle": "Шаблоны списков"
+    },
+    {
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/337483673",
+      "firstIndex": 4,
+      "duplicateTitle": "Тетрадь “Финансовый рост” для школьников"
+    },
+    {
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/337483674",
+      "firstIndex": 5,
+      "duplicateTitle": "Материалы “Мы идем на пикник”"
+    },
+    {
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/337483675",
+      "firstIndex": 6,
+      "duplicateTitle": "Набор детских трекеров для накоплений"
+    },
+    {
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/337483676",
+      "firstIndex": 7,
+      "duplicateTitle": "Планер времени"
+    },
+    {
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/337483677",
+      "firstIndex": 8,
+      "duplicateTitle": "Планер подарков"
+    },
+    {
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/337483678",
+      "firstIndex": 9,
+      "duplicateTitle": "Трекер привычек"
+    }
+  ],
+  "suspiciousCandidates": [
+    {
+      "domIndex": 79,
+      "title": "Тренинги",
+      "url": "https://fgrm.ncfg.ru/teach/control/stream/index",
+      "path": "/teach/control/stream/index",
+      "section": null,
+      "module": null,
+      "sourceText": "Тренинги → Программа ФинЗдоровье → Школа финансовой грамотности → Курс «ФинCтратегия» → Бонус Финансовое Воспитание Материалы для детей Есть задание Раскраска для дошкольников Есть задание Путешествие в мир финансов Есть задание Шаблоны списков Есть задание Тетрадь “Финансовый рост” для школьников Есть задание Материалы “Мы идем на пикник” Есть задание Набор детских трекеров для накоплений Есть задание Планер времени Есть задание Планер по"
+    },
+    {
+      "domIndex": 80,
+      "title": "Программа ФинЗдоровье",
+      "url": "https://fgrm.ncfg.ru/teach/control/stream/view/id/708092910",
+      "path": "/teach/control/stream/view/id/708092910",
+      "section": null,
+      "module": null,
+      "sourceText": "Тренинги → Программа ФинЗдоровье → Школа финансовой грамотности → Курс «ФинCтратегия» → Бонус Финансовое Воспитание Материалы для детей Есть задание Раскраска для дошкольников Есть задание Путешествие в мир финансов Есть задание Шаблоны списков Есть задание Тетрадь “Финансовый рост” для школьников Есть задание Материалы “Мы идем на пикник” Есть задание Набор детских трекеров для накоплений Есть задание Планер времени Есть задание Планер по"
+    },
+    {
+      "domIndex": 81,
+      "title": "Школа финансовой грамотности",
+      "url": "https://fgrm.ncfg.ru/teach/control/stream/view/id/934729968",
+      "path": "/teach/control/stream/view/id/934729968",
+      "section": null,
+      "module": null,
+      "sourceText": "Тренинги → Программа ФинЗдоровье → Школа финансовой грамотности → Курс «ФинCтратегия» → Бонус Финансовое Воспитание Материалы для детей Есть задание Раскраска для дошкольников Есть задание Путешествие в мир финансов Есть задание Шаблоны списков Есть задание Тетрадь “Финансовый рост” для школьников Есть задание Материалы “Мы идем на пикник” Есть задание Набор детских трекеров для накоплений Есть задание Планер времени Есть задание Планер по"
+    },
+    {
+      "domIndex": 82,
+      "title": "Курс «ФинCтратегия»",
+      "url": "https://fgrm.ncfg.ru/teach/control/stream/view/id/546010026",
+      "path": "/teach/control/stream/view/id/546010026",
+      "section": null,
+      "module": null,
+      "sourceText": "Тренинги → Программа ФинЗдоровье → Школа финансовой грамотности → Курс «ФинCтратегия» → Бонус Финансовое Воспитание Материалы для детей Есть задание Раскраска для дошкольников Есть задание Путешествие в мир финансов Есть задание Шаблоны списков Есть задание Тетрадь “Финансовый рост” для школьников Есть задание Материалы “Мы идем на пикник” Есть задание Набор детских трекеров для накоплений Есть задание Планер времени Есть задание Планер по"
+    },
+    {
+      "domIndex": 83,
+      "title": "Бонус Финансовое Воспитание",
+      "url": "https://fgrm.ncfg.ru/teach/control/stream/view/id/926241897",
+      "path": "/teach/control/stream/view/id/926241897",
+      "section": null,
+      "module": null,
+      "sourceText": "Тренинги → Программа ФинЗдоровье → Школа финансовой грамотности → Курс «ФинCтратегия» → Бонус Финансовое Воспитание Материалы для детей Есть задание Раскраска для дошкольников Есть задание Путешествие в мир финансов Есть задание Шаблоны списков Есть задание Тетрадь “Финансовый рост” для школьников Есть задание Материалы “Мы идем на пикник” Есть задание Набор детских трекеров для накоплений Есть задание Планер времени Есть задание Планер по"
+    }
+  ]
+}

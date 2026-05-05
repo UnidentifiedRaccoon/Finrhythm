@@ -1,0 +1,10 @@
+.agent/stages/mvp/decisions.md:25:Decision: `.codex/config.toml` no longer pins `service_tier = "flex"`.  
+.agent/stages/mvp/decisions.md:26:Why: custom stage subagents failed before execution with `Unsupported service_tier: flex`.  
+.agent/stages/mvp/sprint_contract.md:42:2. Unsupported fixed `service_tier` no longer blocks future subagent startup.
+.agent/stages/mvp/progress.md:8:- Tried to spawn a top-level `stage_orchestrator` twice; both attempts failed before execution with `Unsupported service_tier: flex`.
+.agent/stages/mvp/progress.md:9:- Removed fixed `service_tier` entries from `.codex/config.toml` while preserving `gpt-5.5`, `xhigh` and `approval_policy = "on-request"`.
+.agent/stages/mvp/evidence.md:44:- `docs/setup/codex-setup.md`: root bootstrap commands and no fixed `service_tier`.
+.agent/stages/mvp/source.md:38:Two attempts to start a top-level `stage_orchestrator` failed before execution with `Unsupported service_tier: flex`. MVP-01 includes a narrow `.codex/config.toml` correction: project config keeps `model = "gpt-5.5"`, `model_reasoning_effort = "xhigh"` and `approval_policy = "on-request"`, but no longer pins an unsupported service tier.
+docs/setup/codex-setup.md:38:- project config does not pin `service_tier`; unsupported fixed tiers must not block subagent startup.
+
+exit_code=0

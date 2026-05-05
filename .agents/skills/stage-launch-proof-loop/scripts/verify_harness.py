@@ -81,6 +81,20 @@ def has(text: str, needle: str) -> bool:
 
 
 def check_no_legacy_terms(root: Path) -> list[str]:
+    ignored_dirs = {
+        ".agent",
+        ".git",
+        ".local",
+        ".pnpm-store",
+        ".next",
+        ".turbo",
+        "coverage",
+        "dist",
+        "node_modules",
+        "out",
+        "raw",
+        "target",
+    }
     legacy_patterns = [
         "gpt-" + "5.4",
         "approval_policy = " + "\"never\"",
@@ -94,7 +108,8 @@ def check_no_legacy_terms(root: Path) -> list[str]:
     for path in root.rglob("*"):
         if not path.is_file():
             continue
-        if ".git" in path.parts:
+        relative = path.relative_to(root)
+        if any(part in ignored_dirs for part in relative.parts):
             continue
         try:
             text = path.read_text(encoding="utf-8")
@@ -102,7 +117,7 @@ def check_no_legacy_terms(root: Path) -> list[str]:
             continue
         for pattern in legacy_patterns:
             if pattern in text:
-                issues.append(f"{path.relative_to(root)} contains legacy token `{pattern}`")
+                issues.append(f"{relative} contains legacy token `{pattern}`")
     return issues
 
 

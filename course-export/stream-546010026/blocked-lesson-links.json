@@ -1,0 +1,48 @@
+{
+  "sourceUrl": "https://fgrm.ncfg.ru/teach/control/stream/view/id/546010026",
+  "generatedAt": "2026-05-04T14:52:18.759Z",
+  "purpose": "Remaining lessons still blocked after authorized admin-session retry.",
+  "allowedHost": "fgrm.ncfg.ru",
+  "lessonCount": 3,
+  "lessons": [
+    {
+      "index": 7,
+      "moduleIndex": 1,
+      "moduleTitle": "Модуль 01. Финансовые цели",
+      "moduleUrl": "https://fgrm.ncfg.ru/teach/control/stream/view/id/546010033",
+      "childStreamTitle": null,
+      "childStreamUrl": null,
+      "title": "Как достигать финансовых целей",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/306105699",
+      "section": null,
+      "module": "Модуль 01. Финансовые цели",
+      "sourceText": "Дата и время начала Вт 26 Сен 2023 Как достигать финансовых целей Спикер Наталья Колбасина"
+    },
+    {
+      "index": 16,
+      "moduleIndex": 3,
+      "moduleTitle": "Модуль 03. Полезные финансовые привычки",
+      "moduleUrl": "https://fgrm.ncfg.ru/teach/control/stream/view/id/546010035",
+      "childStreamTitle": null,
+      "childStreamUrl": null,
+      "title": "03.01 Как работают все привычки",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/235010156",
+      "section": null,
+      "module": "Модуль 03. Полезные финансовые привычки",
+      "sourceText": "Недоступен 03.01 Как работают все привычки Принципы работы механизма привычек"
+    },
+    {
+      "index": 58,
+      "moduleIndex": 9,
+      "moduleTitle": "Модуль 09. Финансовая независимость (пенсия, пассивный доход)",
+      "moduleUrl": "https://fgrm.ncfg.ru/teach/control/stream/view/id/546010042",
+      "childStreamTitle": null,
+      "childStreamUrl": null,
+      "title": "09.04 План достижения финансовой независимости",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/235010192",
+      "section": null,
+      "module": "Модуль 09. Финансовая независимость (пенсия, пассивный доход)",
+      "sourceText": "Недоступен 09.04 План достижения финансовой независимости Составляем план и начинаем его воплощать"
+    }
+  ]
+}

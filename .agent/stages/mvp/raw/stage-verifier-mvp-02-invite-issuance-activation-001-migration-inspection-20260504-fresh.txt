@@ -1,0 +1,60 @@
+migration files
+apps/api/src/main/resources/db/migration/V001__dev_bootstrap_runs.sql
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql
+apps/api/src/main/resources/db/migration/V003__invite_issuance_activation_binding.sql
+
+sha256
+perl: warning: Setting locale failed.
+perl: warning: Please check that your locale settings:
+	LC_ALL = "C.UTF-8",
+	LC_CTYPE = "C.UTF-8",
+	LANG = "C.UTF-8"
+    are supported and installed on your system.
+perl: warning: Falling back to the standard locale ("C").
+34f888df7a34fab8a88961d3bd549772b466f82daa59d114dd4d197fc9aa7f08  apps/api/src/main/resources/db/migration/V001__dev_bootstrap_runs.sql
+6fc731bf81722cef0cc1c17b6c9c1ec46eb66db47642071d1f8c583cd3eb4031  apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql
+8f50917f9e8bb0f3eb790dd820f46da4491744067ca1bbf7065ce09d546981e5  apps/api/src/main/resources/db/migration/V003__invite_issuance_activation_binding.sql
+
+git status migration dir
+?? apps/api/src/main/resources/db/migration/
+
+git diff migration dir
+
+V003 content
+alter table invite_codes
+    add column activation_subject_ref varchar(64);
+
+alter table invite_codes
+    drop constraint invite_codes_lifecycle_check;
+
+alter table invite_codes
+    add constraint invite_codes_activation_subject_ref_format check (
+        activation_subject_ref is null
+        or activation_subject_ref ~ '^[a-f0-9]{64}$'
+    );
+
+alter table invite_codes
+    add constraint invite_codes_lifecycle_check check (
+        (
+            status = 'CREATED'
+            and issued_at is null
+            and activated_at is null
+            and activation_subject_ref is null
+        )
+        or (
+            status in ('ISSUED', 'RESERVED', 'REVOKED', 'EXPIRED')
+            and issued_at is not null
+            and activated_at is null
+            and activation_subject_ref is null
+        )
+        or (
+            status = 'ACTIVATED'
+            and issued_at is not null
+            and activated_at is not null
+            and activation_subject_ref is not null
+        )
+    );
+
+create index ix_invite_codes_activation_subject_ref
+    on invite_codes (activation_subject_ref)
+    where activation_subject_ref is not null;

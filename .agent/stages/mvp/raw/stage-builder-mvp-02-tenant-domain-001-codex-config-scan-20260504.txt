@@ -1,0 +1,14 @@
+$ rg -n "approval_policy|service_tier" .codex/config.toml
+5:approval_policy = "on-request"
+28:approval_policy = "on-request"
+35:approval_policy = "on-request"
+42:approval_policy = "on-request"
+49:approval_policy = "on-request"
+$ rg -n "approval_policy = \"on-request\"" .codex/config.toml
+5:approval_policy = "on-request"
+28:approval_policy = "on-request"
+35:approval_policy = "on-request"
+42:approval_policy = "on-request"
+49:approval_policy = "on-request"
+$ ! rg -n "service_tier" .codex/config.toml
+PASS: approval_policy is on-request and service_tier is absent

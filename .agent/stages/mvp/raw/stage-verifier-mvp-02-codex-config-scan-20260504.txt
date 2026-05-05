@@ -1,0 +1,14 @@
+command: config scan for approval_policy and service_tier
+cwd: /Users/yura-posledov/cursor/Finrhythm
+
+$ rg -n "approval_policy|service_tier" .codex/config.toml
+5:approval_policy = "on-request"
+28:approval_policy = "on-request"
+35:approval_policy = "on-request"
+42:approval_policy = "on-request"
+49:approval_policy = "on-request"
+
+[combined_rg_exit_code=0]
+[approval_policy_on_request_count=5]
+[service_tier_present=false]
+[exit_code=0]

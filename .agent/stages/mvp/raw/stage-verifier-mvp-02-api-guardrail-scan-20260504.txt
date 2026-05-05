@@ -1,0 +1,25 @@
+command: scoped backend/data guardrail scan for MVP-02-tenant-domain-001
+cwd: /Users/yura-posledov/cursor/Finrhythm
+
+Production backend files:
+apps/api/src/main/resources/db/migration/V001__dev_bootstrap_runs.sql
+
+Customer brand scan in production backend and synthetic fixtures (expect no matches):
+
+Real-looking contact/identifier scan in production backend and synthetic fixtures (expect no matches):
+
+Money/billing/currency field scan under apps/api/src (expect no matches):
+
+Points implementation scan under apps/api/src (expect no matches):
+
+Synthetic fixture guardrail fields:
+6:    "customerBrandVisibleToEmployees": false
+32:      "pointsPrice": 1200
+38:      "pointsPrice": 1800
+44:      "pointsPrice": 2400
+50:      "pointsPrice": 600
+61:    "pointsPrice is a non-monetary points value and has no cash equivalent."
+
+make verify fixture guardrails: PASS is recorded in stage-verifier-mvp-02-make-verify-20260504.txt
+
+[exit_code=0]
