@@ -1,6 +1,25 @@
 # MVP progress
 
-Updated: 2026-05-04
+Updated: 2026-05-05
+
+## Current session: MVP-05-learning-methodology-doc-sync-001
+
+- Re-synced Harness/product/stage sources for a docs-only learning methodology slice.
+- Moved the user-provided root file `learning_methodology_mvp_stage2_v02.md` to `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`.
+- Normalized the methodology doc with frontmatter, removed the stray leading `ё`, fixed repo path references and recorded `status: accepted_with_human_gates`.
+- Updated canonical docs so methodology v0.2 is now the MVP learning/diagnostic baseline:
+  - `docs/architecture/source-of-truth.md`;
+  - `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`;
+  - `docs/stages/MVP.md`;
+  - `docs/stages/v1.md`;
+  - `docs/stages/v2.md`;
+  - `.agents/skills/stage-launch-proof-loop/SKILL.md`;
+  - `.agents/skills/stage-launch-proof-loop/references/PROTOCOL.md`;
+  - `.agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md`.
+- Synchronized stage artifacts for `MVP-05-learning-methodology-doc-sync-001` without marking `MVP-05`, `MVP-06`, `MVP-07`, `MVP-09`, `MVP-10`, `MVP-11`, `MVP-12` or full MVP complete.
+- Baseline `make verify` in the current shell failed at `cd apps/api && ./mvnw -q test` because Java runtime could not be located; bootstrap checks passed before that failure. This is recorded as an environment blocker for Java-backed verification, not a docs contradiction.
+- Fresh `stage_verifier` returned `PASS` for `MVP-05-learning-methodology-doc-sync-001`, rerunning lightweight scans and Harness verification; Java-backed `make verify` remains documented as non-blocking for this docs-only slice.
+- Human gates remain pending for final financial correctness, legal/tax review, HR wording, reward operations and support answer policy.
 
 ## Current session: resume-stage mvp
 

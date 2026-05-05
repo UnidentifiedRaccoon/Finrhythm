@@ -318,5 +318,63 @@
       ".agent/stages/mvp/verdict.json",
       ".agent/stages/mvp/problems.md"
     ]
+  },
+  {
+    "id": "mvp-05-methodology-canonical-doc",
+    "category": "documentation",
+    "description": "Learning methodology v0.2 is normalized as canonical MVP product methodology.",
+    "steps": [
+      "Move root file into docs/product",
+      "Add frontmatter and human-gate status",
+      "Fix source references"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md",
+      ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-path-check-20260505.txt",
+      ".agent/stages/mvp/evidence.md"
+    ]
+  },
+  {
+    "id": "mvp-05-methodology-stage-doc-sync",
+    "category": "documentation",
+    "description": "Product, MVP/v1/v2 stage and Harness docs reference methodology v0.2 and carry its executable decisions.",
+    "steps": [
+      "Sync source-of-truth and product foundation",
+      "Sync MVP/v1/v2 stage docs",
+      "Sync Harness skill references"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      "docs/architecture/source-of-truth.md",
+      "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md",
+      "docs/stages/MVP.md",
+      "docs/stages/v1.md",
+      "docs/stages/v2.md",
+      ".agents/skills/stage-launch-proof-loop/SKILL.md",
+      ".agents/skills/stage-launch-proof-loop/references/PROTOCOL.md",
+      ".agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md",
+      ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-link-scan-20260505.txt",
+      ".agent/stages/mvp/evidence.md"
+    ]
+  },
+  {
+    "id": "mvp-05-methodology-guardrail-proof",
+    "category": "verification",
+    "description": "Docs-only methodology sync is checked for stale references and does not mark downstream features complete.",
+    "steps": [
+      "Run contradiction scans",
+      "Run harness verification",
+      "Record make verify result or blocker"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-contradiction-scan-20260505.txt",
+      ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-expected-token-scan-20260505.txt",
+      ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-verify-harness-20260505.json",
+      ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-make-verify-20260505.txt",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/status.json"
+    ]
   }
 ]

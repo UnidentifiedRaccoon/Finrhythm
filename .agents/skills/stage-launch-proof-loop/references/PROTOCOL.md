@@ -27,9 +27,11 @@ At the start of every stage session:
 
 Do not start coding until current repo state and scope are understood.
 For the current FinLit MVP, product-intent baseline is `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`; it must be reconciled before spec freeze.
+For MVP learning, diagnostics, route rules, lesson templates, content approve-flow, support handoff and learning reports, methodology baseline is `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`; it must be reconciled before spec freeze.
 
 For any content, CMS, lesson adaptation, import/export or wording-review slice, also read:
 
+- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`;
 - `content/getcourse-finstrategy/README.md`;
 - `content/getcourse-finstrategy/CONTENT_BRIEF.md`;
 - `.agent/tasks/content-main-course-cleanup/evidence.md` when present.
@@ -84,6 +86,7 @@ For `content/`, CMS and lesson adaptation work:
 - source provenance must point to `content/getcourse-finstrategy/` and `course-export/stream-546010026/`;
 - `content/getcourse-finstrategy/CONTENT_BRIEF.md` is the quick map of theory sections;
 - blocked lessons, human-review status and customer-specific labels must be represented in scope and evidence;
+- methodology-owned IDs must be represented in scope and evidence when touched: lesson IDs (`N1–N7`, optional `Z1/Z4/Z9`), question IDs (`Q0`, `Q1–Q27`, `Q28`, `SA1–SA3`), route IDs (`R1–R6`), review statuses and sensitive-data policy;
 - raw financial, tax, credit, investment and pension wording remains human-gated until reviewed;
 - do not reintroduce removed exploratory exports such as `content/getcourse-path-to-money/`.
 

@@ -1,287 +1,137 @@
 {
   "stage_id": "mvp",
-  "sprint_contract_id": "MVP-02-invite-issuance-activation-001",
-  "parent_stage_unit": "MVP-02.02",
-  "updated_at": "2026-05-04",
-  "status": "PASS",
-  "summary": "Builder implementation and fresh verification PASS are recorded for MVP-02-invite-issuance-activation-001. The slice adds internal backend/domain invite issuance, activation and opaque one-user binding for existing tenant/cohort records, without public API, UI, employee contact fields, HR reporting or reward/money concepts.",
+  "sprint_contract_id": "MVP-05-learning-methodology-doc-sync-001",
+  "parent_stage_unit": "MVP-05-doc-baseline-only",
+  "updated_at": "2026-05-05",
+  "status": "PASS_WITH_ENV_LIMITATION",
+  "summary": "Docs-only slice moved the user-provided learning methodology file into canonical product docs and synchronized product, MVP/v1/v2 stage and Harness docs. No runtime code, schema, API, generated client or UI was changed, and no downstream MVP learning/reporting unit was marked complete.",
   "commands": [
     {
       "command": "git status --short",
       "status": "INFO",
-      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-git-status-precheck-20260504.txt"
+      "raw": ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-git-status-20260505.txt"
     },
     {
-      "command": "java -version",
+      "command": "methodology path uniqueness check",
       "status": "PASS",
-      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-java-version-precheck-20260504.txt"
+      "raw": ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-path-check-20260505.txt"
     },
     {
-      "command": "cd apps/api && ./mvnw -v",
+      "command": "methodology link/path scan",
       "status": "PASS",
-      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-mvnw-version-precheck-20260504.txt"
+      "raw": ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-link-scan-20260505.txt"
     },
     {
-      "command": "make verify precheck",
+      "command": "contradiction scan",
       "status": "PASS",
-      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-make-verify-precheck-20260504.txt"
+      "raw": ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-contradiction-scan-20260505.txt"
     },
     {
-      "command": "cd apps/api && ./mvnw -q test initial",
-      "status": "FAIL_RESOLVED",
-      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-api-mvn-test-20260504.txt",
-      "note": "Interrupted partial implementation had a compile mismatch in InviteCode lifecycle helpers; fixed before final command set."
-    },
-    {
-      "command": "cd apps/api && ./mvnw -q test after compile fixes",
+      "command": "expected token scan",
       "status": "PASS",
-      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-api-mvn-test-after-test-fix-20260504.txt"
+      "raw": ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-expected-token-scan-20260505.txt"
     },
     {
-      "command": "cd apps/api && ./mvnw -q verify",
+      "command": ".agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp",
       "status": "PASS",
-      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-api-mvn-verify-20260504.txt"
+      "raw": ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-verify-harness-20260505.json"
     },
     {
       "command": "make verify",
-      "status": "PASS",
-      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-make-verify-20260504.txt"
+      "status": "BLOCKED_ENV",
+      "raw": ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-make-verify-20260505.txt",
+      "note": "Bootstrap checks passed; backend Maven step reported missing Java runtime, and duplicate long-running checks were terminated to avoid leaving sessions open."
     },
     {
-      "command": "make test-unit",
+      "command": "fresh stage_verifier",
       "status": "PASS",
-      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-make-test-unit-20260504.txt"
-    },
-    {
-      "command": "make build",
-      "status": "PASS",
-      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-make-build-20260504.txt"
-    },
-    {
-      "command": "migration inspection",
-      "status": "PASS",
-      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-migration-inspection-20260504.txt"
-    },
-    {
-      "command": "scope and guardrail scan",
-      "status": "PASS",
-      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-guardrail-scan-20260504.txt",
-      "note": "Only raw-code matches are test assertions that the database does not contain raw-code columns; only points/reward match is ordinary test wording around a concurrency gate."
-    },
-    {
-      "command": "changed file list",
-      "status": "RECORDED",
-      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-changed-files-20260504.txt"
+      "raw": ".agent/stages/mvp/verdict.json",
+      "note": "Fresh verifier reran lightweight path/link/contradiction/status/runtime-scope scans and verify_harness; Java-backed make verify limitation accepted as non-blocking for docs-only slice."
     }
   ],
-  "implementation": {
-    "domain_files": [
-      "apps/api/src/main/java/com/finrhythm/api/tenant/domain/ActivationSubjectRef.java",
-      "apps/api/src/main/java/com/finrhythm/api/tenant/domain/Cohort.java",
-      "apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java",
-      "apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCodeHash.java"
-    ],
-    "persistence_files": [
-      "apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java"
-    ],
-    "service_files": [
-      "apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteActivationFailureReason.java",
-      "apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteActivationResult.java",
-      "apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeAccessService.java",
-      "apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeActivationException.java",
-      "apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeGenerator.java",
-      "apps/api/src/main/java/com/finrhythm/api/tenant/service/IssuedInviteCode.java"
-    ],
-    "migration_notes": [
-      "Added append-only apps/api/src/main/resources/db/migration/V003__invite_issuance_activation_binding.sql after V002.",
-      "V003 adds activation_subject_ref, enforces SHA-256 hex shape when present, updates lifecycle checks and indexes non-null activation subject refs.",
-      "V001/V002 remain earlier migrations; this slice does not add public API schema or generated client changes."
-    ],
-    "test_files": [
-      "apps/api/src/test/java/com/finrhythm/api/tenant/TenantDomainTest.java",
-      "apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeGeneratorTest.java",
-      "apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeAccessServiceIT.java"
-    ],
-    "api_openapi_notes": "No public REST controller or OpenAPI surface was added; generated TypeScript client artifacts are not applicable.",
-    "screenshots": "Not applicable; no user-visible UI changed."
-  },
+  "artifacts": [
+    "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md",
+    "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md",
+    "docs/architecture/source-of-truth.md",
+    "docs/stages/MVP.md",
+    "docs/stages/v1.md",
+    "docs/stages/v2.md",
+    ".agents/skills/stage-launch-proof-loop/SKILL.md",
+    ".agents/skills/stage-launch-proof-loop/references/PROTOCOL.md",
+    ".agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md",
+    ".agent/stages/mvp/stage_spec.md",
+    ".agent/stages/mvp/sprint_contract.md",
+    ".agent/stages/mvp/task-files/MVP-05-learning-methodology-doc-sync-001.md"
+  ],
+  "documentation_updates": [
+    {
+      "path": "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md",
+      "note": "Canonical MVP methodology baseline with frontmatter, source refs and human gates."
+    },
+    {
+      "path": "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md",
+      "note": "Links methodology baseline and replaces stale 4-6/52-week/pre-post P1 wording."
+    },
+    {
+      "path": "docs/stages/MVP.md",
+      "note": "Adds product_methodology and v0.2 executable decisions for future slices."
+    },
+    {
+      "path": "docs/stages/v1.md",
+      "note": "Inherits methodology baseline and refines only from pilot evidence."
+    },
+    {
+      "path": "docs/stages/v2.md",
+      "note": "Starts adaptive/AI/social work from methodology guardrails."
+    }
+  ],
   "acceptance_criteria": [
+    {"id": 1, "status": "PASS", "evidence": ["path uniqueness raw output"]},
+    {"id": 2, "status": "PASS", "evidence": ["canonical methodology path exists"]},
+    {"id": 3, "status": "PASS", "evidence": ["frontmatter and expected-token scan"]},
+    {"id": 4, "status": "PASS", "evidence": ["methodology doc heading after frontmatter"]},
+    {"id": 5, "status": "PASS", "evidence": ["methodology source list"]},
+    {"id": 6, "status": "PASS", "evidence": ["docs/architecture/source-of-truth.md"]},
+    {"id": 7, "status": "PASS", "evidence": ["product foundation and contradiction scan"]},
+    {"id": 8, "status": "PASS", "evidence": ["docs/stages/MVP.md"]},
+    {"id": 9, "status": "PASS", "evidence": ["docs/stages/MVP.md", ".agent/stages/mvp/status.json"]},
+    {"id": 10, "status": "PASS", "evidence": ["docs/stages/v1.md", "docs/stages/v2.md"]},
+    {"id": 11, "status": "PASS", "evidence": ["Harness skill/protocol/artifact docs"]},
+    {"id": 12, "status": "PASS", "evidence": ["stage artifacts and no downstream completion IDs"]},
+    {"id": 13, "status": "PASS", "evidence": ["raw link/path and contradiction scans"]},
+    {"id": 14, "status": "PASS", "evidence": ["verify_harness raw output"]},
+    {"id": 15, "status": "BLOCKED_ENV", "evidence": ["make verify raw output"]},
+    {"id": 16, "status": "PASS", "evidence": [".agent/stages/mvp/verdict.json", ".agent/stages/mvp/problems.md"]}
+  ],
+  "api_openapi_notes": "No public REST controller or OpenAPI surface was changed; generated TypeScript client artifacts are not applicable.",
+  "schema_notes": "No DB schema or migration changed.",
+  "screenshots": "Not applicable; no user-visible UI changed.",
+  "diagram_refs": [],
+  "human_gates": [
     {
-      "id": 1,
-      "status": "PASS",
-      "evidence": [
-        "precheck git/java/mvnw/make verify raw outputs"
-      ]
+      "status": "WAITING_HUMAN",
+      "item": "final financial correctness of lessons, diagnostics, quizzes and explanations"
     },
     {
-      "id": 2,
-      "status": "PASS",
-      "evidence": [
-        "changed file list is limited to apps/api tenant domain/persistence/service/migration/tests plus stage evidence"
-      ]
+      "status": "WAITING_HUMAN",
+      "item": "legal/tax review for tax deduction wording and official-source links"
     },
     {
-      "id": 3,
-      "status": "PASS",
-      "evidence": [
-        "V003 migration inspection",
-        "mvn verify Flyway logs apply V001, V002 and V003"
-      ]
+      "status": "WAITING_HUMAN",
+      "item": "HR wording review for communications, self-assessment and privacy explanations"
     },
     {
-      "id": 4,
-      "status": "PASS",
-      "evidence": [
-        "InviteCodeAccessServiceIT.issuesFiveHundredWaveOneCodesWithoutRawPersistence"
-      ]
+      "status": "WAITING_HUMAN",
+      "item": "reward economy, stock, prices and real fulfillment operations"
     },
     {
-      "id": 5,
-      "status": "PASS",
-      "evidence": [
-        "InviteCodeGeneratorTest",
-        "IssuedInviteCode one-time return value"
-      ]
-    },
-    {
-      "id": 6,
-      "status": "PASS",
-      "evidence": [
-        "InviteCodeAccessServiceIT database column assertion",
-        "guardrail scan"
-      ]
-    },
-    {
-      "id": 7,
-      "status": "PASS",
-      "evidence": [
-        "lookup_hash unique constraint from V002",
-        "InviteCodeAccessService DB collision check"
-      ]
-    },
-    {
-      "id": 8,
-      "status": "PASS",
-      "evidence": [
-        "InviteCodeAccessServiceIT.activatesIssuedCodeAndBindsOpaqueSubject"
-      ]
-    },
-    {
-      "id": 9,
-      "status": "PASS",
-      "evidence": [
-        "InviteCodeAccessServiceIT invalid, expired, revoked, unissued and different-subject failure tests"
-      ]
-    },
-    {
-      "id": 10,
-      "status": "PASS",
-      "evidence": [
-        "ActivationSubjectRef",
-        "V003 activation_subject_ref format constraint"
-      ]
-    },
-    {
-      "id": 11,
-      "status": "PASS",
-      "evidence": [
-        "InviteCodeAccessServiceIT.sameSubjectActivationRetryIsIdempotent"
-      ]
-    },
-    {
-      "id": 12,
-      "status": "PASS",
-      "evidence": [
-        "InviteCodeAccessServiceIT.differentSubjectReactivationIsRejected"
-      ]
-    },
-    {
-      "id": 13,
-      "status": "PASS",
-      "evidence": [
-        "InviteCodeAccessServiceIT.concurrentDifferentSubjectActivationAllowsOnlyOneBinding"
-      ]
-    },
-    {
-      "id": 14,
-      "status": "PASS",
-      "evidence": [
-        "cd apps/api && ./mvnw -q verify with postgres:16-alpine Testcontainers"
-      ]
-    },
-    {
-      "id": 15,
-      "status": "PASS",
-      "evidence": [
-        "guardrail scan",
-        "no controller/OpenAPI/generated-client/UI paths changed"
-      ]
-    },
-    {
-      "id": 16,
-      "status": "PASS",
-      "evidence": [
-        "synthetic tenant/cohort labels and opaque subject refs only"
-      ]
-    },
-    {
-      "id": 17,
-      "status": "PASS",
-      "evidence": [
-        "guardrail scan"
-      ]
-    },
-    {
-      "id": 18,
-      "status": "PASS",
-      "evidence": [
-        "backend and root command raw outputs"
-      ]
-    },
-    {
-      "id": 19,
-      "status": "PASS",
-      "evidence": [
-        "docs sync note: no canonical docs changed because no setup/runtime/API/workflow/product decision changed"
-      ]
-    },
-    {
-      "id": 20,
-      "status": "PASS",
-      "evidence": [
-        ".agent/stages/mvp/evidence.md",
-        ".agent/stages/mvp/evidence.json"
-      ]
-    },
-    {
-      "id": 21,
-      "status": "PASS",
-      "evidence": [
-        ".agent/stages/mvp/verdict.json",
-        ".agent/stages/mvp/problems.md",
-        "fresh stage_verifier raw outputs"
-      ]
+      "status": "WAITING_HUMAN",
+      "item": "support answer policy for sensitive financial, tax, investment and credit questions"
     }
   ],
-  "stage_artifacts_updated": [
-    ".agent/stages/mvp/evidence.md",
-    ".agent/stages/mvp/evidence.json",
-    ".agent/stages/mvp/progress.md",
-    ".agent/stages/mvp/status.json",
-    ".agent/stages/mvp/feature_list.json",
-    ".agent/stages/mvp/risks.md",
-    ".agent/stages/mvp/decisions.md"
-  ],
-  "canonical_docs_updated": [],
-  "docs_sync": {
-    "canonical_docs_changed": false,
-    "reason": "This slice adds internal backend service/schema behavior only; no public API, setup/runtime, developer workflow, user-visible behavior or canonical product decision changed."
-  },
-  "human_gates": [],
   "known_limitations": [
-    "No employee registration, public activation endpoint, admin UI or HR reporting surface exists yet.",
-    "Testcontainers-backed verification requires Docker.",
-    "MVP-02.03, MVP-02.04 and full MVP-02 remain open."
+    "Current shell cannot complete Java-backed make verify; raw output records the Java runtime blocker/termination.",
+    "No runtime learning, diagnostics, CMS, support, points, reports, store or challenge implementation was added."
   ],
-  "next_step": "Freeze the next small sprint contract for MVP-02.03 employee registration."
+  "next_step": "Freeze the next implementation slice separately, starting with MVP-02.03 employee registration unless a new stage decision changes the order."
 }

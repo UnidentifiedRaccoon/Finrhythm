@@ -1,0 +1,52 @@
+docs/stages/v1.md:10:product_methodology: docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
+docs/stages/v1.md:24:- Читать `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md` and `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` before spec freeze unless a newer product foundation/methodology supersedes them.
+docs/stages/v1.md:25:- Не переоткрывать фундаментальные MVP decisions, including `C1–C10`, `N1–N7`, `SA1–SA3`, `R1–R6`, aggregate-only HR learning data and no-photo/no-doc/no-exact-sum defaults, без explicit product/stage doc update.
+docs/stages/v1.md:49:- MVP learning methodology v0.2 remains canonical for the first curriculum/routing model: `C1–C10`, `N1–N7`, optional `Z1/Z4/Z9`, `SA1–SA3`, `R1–R6`, content approve-flow and sensitive learning-data boundaries.
+docs/stages/v1.md:120:- V1-01.01 [agent+human] Expand competency matrix and topic tree from `C1–C10` after MVP evidence.
+docs/stages/v1.md:283:- Content/support hardening preserves MVP approve statuses through `production_ready` and the lesson-linked support categories from methodology v0.2.
+docs/stages/v1.md:305:- V1-07.01 [agent+human] Refine `R1–R6` routing rules from pilot data.
+docs/stages/v1.md:314:- Recommendations start from MVP `C1–C10` skill scores, reinforcement, fast-pass and remedial paths.
+.agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md:78:- active methodology path `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` when the slice touches lessons, diagnostics, routing, CMS review statuses, support handoff or learning reports;
+.agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md:79:- affected methodology IDs: `C1–C10`, `N1–N7`, optional `Z1/Z4/Z9`, `Q0`, `Q1–Q27`, `Q28`, `SA1–SA3`, `R1–R6`;
+docs/stages/v2.md:10:product_methodology: docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
+docs/stages/v2.md:55:- MVP methodology baseline for initial learning model: `C1–C10`, mastery scale 0–4, `N1–N7`, optional `Z1/Z4/Z9`, reinforcement/fast-pass/remedial paths, aggregate-only HR learning data and content approve-flow.
+docs/stages/v2.md:115:**Goal:** превратить MVP `C1–C10` route/review baseline в динамическую систему, а не набор rule-based хаков.
+docs/stages/v2.md:121:- V2-01.01 [agent+human] Зафиксировать mastery model from MVP `C1–C10` and 0–4 mastery scale
+docs/architecture/source-of-truth.md:11:5. MVP learning methodology and diagnostics baseline: `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`;
+docs/architecture/source-of-truth.md:79:- Canonical MVP learning methodology, diagnostics, routing, lesson template and content approve-flow live in `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`; implementation slices must not replace it with stage artifacts.
+.agents/skills/stage-launch-proof-loop/SKILL.md:104:- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`;
+.agents/skills/stage-launch-proof-loop/SKILL.md:125:For learning methodology, diagnostic, CMS, support or reporting slices, freeze scope against `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` and explicitly record affected lesson IDs (`N1–N7`, optional `Z1/Z4/Z9`), question IDs (`Q0`, `Q1–Q27`, `Q28`, `SA1–SA3`), route IDs (`R1–R6`), review statuses, sensitive-data policy and human gates.
+docs/stages/MVP.md:10:product_methodology: docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
+docs/stages/MVP.md:17:Этот файл задаёт исполняемый scope MVP для stage-агента. Канонический продуктовый baseline: `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`; канонический baseline методологии обучения, диагностики and route rules: `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`.
+docs/stages/MVP.md:23:- До spec freeze читать `AGENTS.md`, `docs/architecture/source-of-truth.md`, `docs/architecture/documentation-workflow.md`, этот файл, `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md` and `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` for learning/content/diagnostic/support/reporting slices.
+docs/stages/MVP.md:94:For MVP learning/content/diagnostic implementation, use `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` as the narrow source of truth:
+docs/stages/MVP.md:96:- competency matrix: `C1–C10`; MVP target for `Новичок` is competency level 2, not expert mastery;
+docs/stages/MVP.md:98:- diagnostic structure: `Q0` privacy-card, `Q1–Q27` scoring/personalization, `Q28` route preference screen, and `SA1–SA3` pre/post self-assessment;
+docs/stages/MVP.md:99:- scoring/routing: Knowledge 40%, Behavior evidence 40%, Confidence/readiness 20%, route profiles `R1–R6`;
+docs/stages/MVP.md:103:- content approve-flow: `raw_imported -> method_adapted -> editorial_review -> financial_review -> legal_review -> hr_wording_review -> pilot_ready -> production_ready`.
+docs/stages/MVP.md:109:- Pre/post self-assessment (`SA1–SA3`) is HR-visible only as aggregated group dynamics and never gates rewards or personal comparison.
+docs/stages/MVP.md:179:- Entry diagnostics implement `Q0/Q1–Q27/Q28`, `SA1–SA3`, `C1–C10` scoring and `R1–R6` routing without shaming labels.
+docs/stages/MVP.md:354:- MVP-05.01 [agent+human] Freeze competency matrix `C1–C10` and `N1–N7` outcomes from learning methodology v0.2.
+docs/stages/MVP.md:355:- MVP-05.02 [agent+human] Define diagnostic taxonomy, scoring dimensions and route rules using `Q0`, `Q1–Q27`, `Q28`, `SA1–SA3` and `R1–R6`.
+docs/stages/MVP.md:358:- MVP-05.05 [agent+human] Define methodologist approve-flow and review statuses through `production_ready`.
+docs/stages/MVP.md:364:- Diagnostic uses `C1–C10` score components: Knowledge 40%, Behavior evidence 40%, Confidence/readiness 20%.
+docs/stages/MVP.md:365:- Pre/post self-assessment is separate from scoring and uses `SA1–SA3`.
+docs/stages/MVP.md:372:- Diagnostic samples and scoring output for `Q0/Q1–Q27/Q28`, `SA1–SA3` and `R1–R6`.
+docs/stages/MVP.md:374:- Review checklist and status markers through `production_ready`.
+docs/stages/MVP.md:429:- Route is reproducible and explainable across `R1–R6`.
+docs/stages/MVP.md:430:- Diagnostic stores `Q1–Q27` scoring separately from `Q28` preference and `SA1–SA3` self-assessment.
+.agents/skills/stage-launch-proof-loop/references/PROTOCOL.md:30:For MVP learning, diagnostics, route rules, lesson templates, content approve-flow, support handoff and learning reports, methodology baseline is `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`; it must be reconciled before spec freeze.
+.agents/skills/stage-launch-proof-loop/references/PROTOCOL.md:34:- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`;
+.agents/skills/stage-launch-proof-loop/references/PROTOCOL.md:89:- methodology-owned IDs must be represented in scope and evidence when touched: lesson IDs (`N1–N7`, optional `Z1/Z4/Z9`), question IDs (`Q0`, `Q1–Q27`, `Q28`, `SA1–SA3`), route IDs (`R1–R6`), review statuses and sensitive-data policy;
+docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md:506:| primary_competency | Основная компетенция C1–C10 |
+docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md:631:- Количество вопросов MVP: 28 пользовательских экранов диагностики. Privacy-card Q0 показывается до диагностики и не считается вопросом маршрутизации.
+docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md:657:В production-версии routing diagnostic использует Q1–Q27 и объединённый Q28. Pre/post self-assessment хранится отдельно от диагностического уровня и показывается HR только в агрегированном виде при пороге анонимности.
+docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md:716:**Q0. Что вам важно знать перед стартом?**  
+docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md:966:**Q28. Что поможет вам проходить маршрут в удобном темпе?**  
+docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md:1172:| production_ready | Можно отдавать в Волну 1 |
+docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md:1194:1. Утверждена матрица компетенций C1–C10.
+docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md:1202:9. Описан диагностический тест: Q0 privacy-card, Q1–Q27 scoring/personalization и Q28 preference screen.
+docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md:1205:12. Описаны правила маршрутизации R1–R6.
+docs/product/b2b-mvp/lemanapro/product-foundation-v1.md:15:product_methodology: docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
+docs/product/b2b-mvp/lemanapro/product-foundation-v1.md:593:Методология обучения нормализована в `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`. Этот документ является canonical baseline для матрицы компетенций, 7 уроков «Новичка», optional mini-lessons «Знатока», входной диагностики, scoring, route rules, lesson template, content approve-flow, privacy-sensitive learning data and support handoff.
+docs/product/b2b-mvp/lemanapro/product-foundation-v1.md:597:1. Использовать `C1–C10`, `N1–N7`, `Z1/Z4/Z9`, `Q0`, `Q1–Q27`, `Q28`, `SA1–SA3` and `R1–R6` как исходный scope для MVP learning/diagnostic implementation.
