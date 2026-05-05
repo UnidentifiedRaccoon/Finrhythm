@@ -1,0 +1,46 @@
+command: make verify
+./scripts/validate-bootstrap.sh
+{
+  "status": "FAIL",
+  "checked_at": "2026-05-04T12:04:50.739235+00:00",
+  "repo_root": "/Users/yura-posledov/cursor/Finrhythm",
+  "checks": [
+    {
+      "id": "agents-managed-block",
+      "status": "PASS",
+      "detail": "AGENTS.md contains FinLit harness block."
+    },
+    {
+      "id": "codex-config-policy",
+      "status": "PASS",
+      "detail": "Codex config pins gpt-5.5/xhigh/on-request."
+    },
+    {
+      "id": "codex-agents",
+      "status": "PASS",
+      "detail": "Required subagents are present and pinned to gpt-5.5/xhigh."
+    },
+    {
+      "id": "skill-layout",
+      "status": "PASS",
+      "detail": "Stage skill files are present."
+    },
+    {
+      "id": "documentation-workflow",
+      "status": "PASS",
+      "detail": "Documentation workflow is present."
+    },
+    {
+      "id": "backend-stack",
+      "status": "PASS",
+      "detail": "apps/api baseline is Spring/Java/Maven/PostgreSQL."
+    },
+    {
+      "id": "legacy-token-scan",
+      "status": "FAIL",
+      "detail": "node_modules/.pnpm/playwright-core@1.59.1/node_modules/playwright-core/lib/vite/traceViewer/assets/codeMirrorModule-DS0FLvoc.js contains legacy token `gradle`; node_modules/.pnpm/playwright-core@1.59.1/node_modules/playwright-core/lib/vite/recorder/assets/codeMirrorModule-C8KMvO9L.js contains legacy token `gradle`"
+    }
+  ]
+}
+make: *** [verify] Error 1
+exit_code=2

@@ -1,0 +1,19 @@
+[ERROR] COMPILATION ERROR : 
+[ERROR] /Users/yura-posledov/cursor/Finrhythm/apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeAccessServiceIT.java:[217,49] incompatible types: invalid method reference
+    unexpected static method activated() found in unbound lookup
+[ERROR] /Users/yura-posledov/cursor/Finrhythm/apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeAccessServiceIT.java:[219,40] bad operand type com.finrhythm.api.tenant.service.InviteCodeAccessServiceIT.ActivationAttempt for unary operator '!'
+[ERROR] /Users/yura-posledov/cursor/Finrhythm/apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeAccessServiceIT.java:[346,42] invalid accessor method in record com.finrhythm.api.tenant.service.InviteCodeAccessServiceIT.ActivationAttempt
+  (accessor method must be public)
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.13.0:testCompile (default-testCompile) on project finrhythm-api: Compilation failure: Compilation failure: 
+[ERROR] /Users/yura-posledov/cursor/Finrhythm/apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeAccessServiceIT.java:[217,49] incompatible types: invalid method reference
+[ERROR]     unexpected static method activated() found in unbound lookup
+[ERROR] /Users/yura-posledov/cursor/Finrhythm/apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeAccessServiceIT.java:[219,40] bad operand type com.finrhythm.api.tenant.service.InviteCodeAccessServiceIT.ActivationAttempt for unary operator '!'
+[ERROR] /Users/yura-posledov/cursor/Finrhythm/apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeAccessServiceIT.java:[346,42] invalid accessor method in record com.finrhythm.api.tenant.service.InviteCodeAccessServiceIT.ActivationAttempt
+[ERROR]   (accessor method must be public)
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

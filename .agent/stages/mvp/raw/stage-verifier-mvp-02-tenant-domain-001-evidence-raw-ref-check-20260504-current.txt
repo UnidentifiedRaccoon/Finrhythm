@@ -1,0 +1,21 @@
+COMMAND: evidence raw reference existence check
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-api-guardrail-scan-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-api-mvn-test-final-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-api-mvn-verify-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-api-mvn-verify-pass-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-apps-api-find-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-artifact-json-check-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-codex-config-scan-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-docker-info-after-start-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-docker-info-before-verify-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-final-make-verify-after-artifacts-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-java-version-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-make-build-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-make-test-unit-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-make-verify-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-mvnw-version-20260504.txt
+OK .agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-mvnw-version-after-wrapper-20260504.txt
+raw_ref_count=16
+missing_count=0
+
+EXIT_CODE=0

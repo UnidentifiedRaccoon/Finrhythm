@@ -1,0 +1,2 @@
+$ cd apps/api && ./mvnw -v
+BLOCKED: apps/api/mvnw is absent or not executable before builder changes.

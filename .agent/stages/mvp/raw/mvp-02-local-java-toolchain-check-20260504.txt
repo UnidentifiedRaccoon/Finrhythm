@@ -1,0 +1,16 @@
+/usr/bin/java
+
+[command_v_java_exit_code] 0
+The operation couldn’t be completed. Unable to locate a Java Runtime.
+Please visit http://www.java.com for information on installing Java.
+
+
+[java_home_exit_code] 1
+total 0
+drwxr-xr-x  2 root  wheel   64 Jul 19  2024 .
+drwxr-xr-x  4 root  wheel  128 Jul 19  2024 ..
+
+[library_ls_exit_code] 0
+ls: /Users/yura-posledov/Library/Java/JavaVirtualMachines: No such file or directory
+
+[user_library_ls_exit_code] 1

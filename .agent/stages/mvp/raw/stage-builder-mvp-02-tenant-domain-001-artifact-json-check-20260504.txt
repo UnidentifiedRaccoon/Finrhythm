@@ -1,0 +1,4 @@
+$ node -e JSON parse stage artifacts
+.agent/stages/mvp/evidence.json: PASS
+.agent/stages/mvp/status.json: PASS
+.agent/stages/mvp/feature_list.json: PASS

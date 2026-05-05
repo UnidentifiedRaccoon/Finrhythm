@@ -1,0 +1,4 @@
+command: find apps/api -type f
+apps/api/AGENTS.md
+apps/api/src/main/resources/db/migration/V001__dev_bootstrap_runs.sql
+exit_code=0

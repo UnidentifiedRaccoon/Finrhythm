@@ -1,0 +1,5 @@
+./scripts/dev-local.sh
+make dev: Docker daemon is not running. Start Docker and rerun make dev.
+make: *** [dev] Error 2
+
+exit_code=2

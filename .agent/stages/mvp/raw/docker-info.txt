@@ -1,0 +1,4 @@
+
+Cannot connect to the Docker daemon at unix:///Users/yura-posledov/.docker/run/docker.sock. Is the docker daemon running?
+
+exit_code=1

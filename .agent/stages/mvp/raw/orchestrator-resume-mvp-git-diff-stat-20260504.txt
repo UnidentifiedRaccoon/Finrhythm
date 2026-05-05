@@ -1,0 +1,10 @@
+ .../scripts/verify_harness.py                      | 19 +++++-
+ .codex/config.toml                                 |  5 --
+ .gitignore                                         |  9 +++
+ README.md                                          | 78 +++++++++++++++++++++-
+ docs/architecture/init-and-dev-contract.md         | 22 +++++-
+ docs/architecture/repo-layout.md                   | 17 +++++
+ docs/setup/codex-setup.md                          | 32 +++++++++
+ 7 files changed, 172 insertions(+), 10 deletions(-)
+
+exit_code=0

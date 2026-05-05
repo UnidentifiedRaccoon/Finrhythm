@@ -1,0 +1,29 @@
+command: check evidence.json raw output refs exist
+FOUND .agent/stages/mvp/raw/mvp-02-java-version-20260504.txt
+FOUND .agent/stages/mvp/raw/mvp-02-maven-wrapper-version-20260504.txt
+FOUND .agent/stages/mvp/raw/mvp-02-local-java-toolchain-check-20260504.txt
+FOUND .agent/stages/mvp/raw/mvp-02-java-env-check-20260504.txt
+FOUND .agent/stages/mvp/raw/mvp-02-make-verify-20260504.txt
+FOUND .agent/stages/mvp/raw/mvp-02-make-test-unit-20260504.txt
+FOUND .agent/stages/mvp/raw/mvp-02-make-build-20260504.txt
+FOUND .agent/stages/mvp/raw/mvp-02-api-mvn-test-20260504.txt
+FOUND .agent/stages/mvp/raw/mvp-02-api-mvn-verify-20260504.txt
+FOUND .agent/stages/mvp/raw/mvp-02-apps-api-file-list-20260504.txt
+FOUND .agent/stages/mvp/raw/stage-verifier-mvp-02-java-version-20260504.txt
+FOUND .agent/stages/mvp/raw/stage-verifier-mvp-02-mvnw-check-20260504.txt
+FOUND .agent/stages/mvp/raw/stage-verifier-mvp-02-make-verify-20260504.txt
+FOUND .agent/stages/mvp/raw/stage-verifier-mvp-02-codex-config-scan-20260504.txt
+FOUND .agent/stages/mvp/raw/stage-verifier-mvp-02-apps-api-file-list-20260504.txt
+FOUND .agent/stages/mvp/raw/stage-verifier-mvp-02-api-guardrail-scan-20260504.txt
+FOUND .agent/stages/mvp/raw/final-make-verify-after-mvp-02-blocked-20260504.txt
+FOUND .agent/stages/mvp/raw/orchestrator-mvp-02-java-version-20260504.txt
+FOUND .agent/stages/mvp/raw/orchestrator-mvp-02-mvnw-check-20260504.txt
+FOUND .agent/stages/mvp/raw/orchestrator-mvp-02-make-verify-20260504.txt
+FOUND .agent/stages/mvp/raw/orchestrator-mvp-02-codex-config-scan-20260504.txt
+FOUND .agent/stages/mvp/raw/orchestrator-mvp-02-apps-api-file-list-20260504.txt
+FOUND .agent/stages/mvp/raw/orchestrator-mvp-02-java-version-20260504-rerun.txt
+FOUND .agent/stages/mvp/raw/orchestrator-mvp-02-mvnw-check-20260504-rerun.txt
+FOUND .agent/stages/mvp/raw/orchestrator-mvp-02-make-verify-20260504-rerun.txt
+FOUND .agent/stages/mvp/raw/orchestrator-mvp-02-codex-config-scan-20260504-rerun.txt
+FOUND .agent/stages/mvp/raw/orchestrator-mvp-02-apps-api-file-list-20260504-rerun.txt
+note: pipeline subshell does not expose missing status; see MISSING lines above

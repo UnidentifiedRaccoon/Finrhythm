@@ -1,0 +1,6 @@
+.agent/stages/mvp/feature_list.json: OK
+.agent/stages/mvp/evidence.json: OK
+.agent/stages/mvp/status.json: OK
+.agent/stages/mvp/verdict.json: OK
+
+exit_code=0

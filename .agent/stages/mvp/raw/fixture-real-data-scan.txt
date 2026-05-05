@@ -1,0 +1,15 @@
+package.json:4:  "packageManager": "pnpm@10.27.0",
+Makefile:7:	@printf '%s\n' 'Targets:'
+Makefile:8:	@printf '%s\n' '  make install   Install JS workspace dependencies.'
+Makefile:9:	@printf '%s\n' '  make init      Start local PostgreSQL and apply versioned bootstrap.'
+Makefile:10:	@printf '%s\n' '  make dev       Start local development dependencies only.'
+Makefile:11:	@printf '%s\n' '  make verify    Run bootstrap and harness self-checks.'
+Makefile:12:	@printf '%s\n' '  make test-unit Run current non-browser verification checks.'
+Makefile:13:	@printf '%s\n' '  make test-e2e  Run current browser/e2e smoke placeholder.'
+Makefile:14:	@printf '%s\n' '  make build     Run production-readiness checks available in MVP-01.'
+scripts/validate-bootstrap.sh:33:for rel in "${required_files[@]}"; do
+scripts/verify-bootstrap.mjs:52:assertCheck("package-manager", packageJson.packageManager === "pnpm@10.27.0", "package.json pins pnpm@10.27.0");
+scripts/verify-bootstrap.mjs:63:assertCheck("fixture-no-customer-brand", !fixtureLower.includes("lemanapro") && !fixtureLower.includes("лемана"), "employee fixture does not expose customer brand");
+scripts/verify-bootstrap.mjs:64:assertCheck("fixture-no-real-person", !fixtureLower.includes("@") && !fixtureLower.includes("+7"), "fixture contains no real-looking contact data");
+
+exit_code=0

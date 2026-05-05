@@ -1,0 +1,7 @@
+controller_api_surface_matches
+raw_code_persistence_matches
+apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeAccessServiceIT.java:313:        assertThat(columns).doesNotContain("code", "raw_code", "plain_code", "invite_code");
+apps/api/src/test/java/com/finrhythm/api/tenant/persistence/TenantPersistenceIT.java:153:        assertThat(columns).doesNotContain("code", "raw_code", "plain_code", "invite_code");
+contact_registration_matches
+points_money_reward_matches
+apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeAccessServiceIT.java:211:                fail("Activation attempts did not reach the concurrency gate.");

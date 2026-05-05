@@ -1,0 +1,8 @@
+
+[JAVA_HOME_exit_code] 1
+ls: /Users/yura-posledov/.sdkman/candidates/java: No such file or directory
+
+[sdkman_java_ls_exit_code] 1
+ls: /Users/yura-posledov/.jenv/versions: No such file or directory
+
+[jenv_versions_ls_exit_code] 1

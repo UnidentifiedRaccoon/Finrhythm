@@ -1,0 +1,5 @@
+2026-05-04T12:52:12+03:00
+command: docker compose -f infra/local/compose.yaml ps
+NAME                 IMAGE                COMMAND                  SERVICE    CREATED          STATUS                    PORTS
+finrhythm-postgres   postgres:16-alpine   "docker-entrypoint.s…"   postgres   34 seconds ago   Up 33 seconds (healthy)   0.0.0.0:54329->5432/tcp, [::]:54329->5432/tcp
+exit_code: 0

@@ -11,7 +11,7 @@
 ### `make install`
 
 - installs JS dependencies;
-- prepares Java/Maven toolchain;
+- prepares Java/Maven toolchain when API workspace is present;
 - prepares local env templates if needed.
 
 ### `make init`
@@ -26,6 +26,22 @@
 
 - starts local dev services;
 - must not silently reinitialize database.
+
+## Current implementation
+
+The bootstrap slice and first MVP-02 backend slice provide these root wrappers:
+
+| Target | Current behavior |
+|--------|------------------|
+| `make install` | Runs `pnpm install --frozen-lockfile` for the root workspace. |
+| `make dev` | Starts local PostgreSQL from `infra/local/compose.yaml`; does not apply migrations or seed. |
+| `make init` | Starts PostgreSQL, applies `V001__dev_bootstrap_runs.sql`, reads `scripts/init/version.json` and records the bootstrap run in `dev_bootstrap_runs`. |
+| `make verify` | Runs harness self-check, `scripts/verify-bootstrap.mjs` and `apps/api` backend unit tests. |
+| `make test-unit` | Runs current non-browser bootstrap verification and `apps/api` backend unit tests. |
+| `make test-e2e` | Records that browser e2e has no runnable target in MVP-01. |
+| `make build` | Runs production-readiness checks and packages `apps/api` after explicit test commands. |
+
+`make init` and `make dev` require a running Docker daemon. If Docker is unavailable, they fail fast with an explicit message and do not mutate local data.
 
 ## Versioned bootstrap
 
@@ -71,8 +87,10 @@ create table if not exists dev_bootstrap_runs (
 ## MVP-01 expected output
 
 - root wrappers for `install/init/dev/verify/test-unit/test-e2e/build`;
-- Maven Wrapper under `apps/api` or equivalent root delegation;
+- Maven Wrapper under `apps/api` or equivalent root delegation when API implementation starts;
 - bootstrap manifest;
 - bootstrap status table;
 - reproducible demo seed;
 - docs for local launch.
+
+MVP-01 bootstraps only synthetic fixture metadata and the idempotency table. MVP-02.01 adds the first tenant/cohort/invite schema; domain seed import remains out of scope until a later explicit seed/import slice.

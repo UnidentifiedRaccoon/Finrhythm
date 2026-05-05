@@ -1,0 +1,4 @@
+2026-05-04T12:51:19+03:00
+command: docker info --format {{.ServerVersion}} after open -a Docker
+28.4.0
+exit_code: 0

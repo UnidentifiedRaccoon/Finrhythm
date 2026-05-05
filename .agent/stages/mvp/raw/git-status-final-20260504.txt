@@ -1,0 +1,23 @@
+2026-05-04T13:02:31+03:00
+command: git status --short
+ M .codex/config.toml
+ M .gitignore
+ M README.md
+ M docs/architecture/init-and-dev-contract.md
+ M docs/architecture/repo-layout.md
+ M docs/setup/codex-setup.md
+?? .agent/stages/mvp/
+?? Makefile
+?? apps/api/src/
+?? content/
+?? infra/
+?? package.json
+?? packages/
+?? pnpm-lock.yaml
+?? pnpm-workspace.yaml
+?? scripts/dev-local.sh
+?? scripts/init-local.sh
+?? scripts/init/
+?? scripts/verify-bootstrap.mjs
+?? tests/
+exit_code: 0

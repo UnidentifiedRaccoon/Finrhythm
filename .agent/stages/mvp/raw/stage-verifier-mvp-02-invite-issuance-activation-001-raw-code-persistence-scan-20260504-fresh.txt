@@ -1,0 +1,26 @@
+human-enterable invite code pattern scan
+
+raw/plain code term scan
+.agent/stages/mvp/evidence.md:48:| 6. Raw/plain invite codes are not persisted | PASS | DB column checks in `InviteCodeAccessServiceIT`; guardrail scan only finds absence assertions |
+.agent/stages/mvp/evidence.md:124:- Invite records store `lookup_hash` only. The migration constrains it to a unique SHA-256 hex digest and has no raw/plain invite-code column.
+.agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-guardrail-scan-20260504.txt:3:apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeAccessServiceIT.java:313:        assertThat(columns).doesNotContain("code", "raw_code", "plain_code", "invite_code");
+.agent/stages/mvp/raw/stage-builder-mvp-02-invite-issuance-activation-001-guardrail-scan-20260504.txt:4:apps/api/src/test/java/com/finrhythm/api/tenant/persistence/TenantPersistenceIT.java:153:        assertThat(columns).doesNotContain("code", "raw_code", "plain_code", "invite_code");
+apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeAccessServiceIT.java:296:                fail("Persisted lookup hash was missing for a returned one-time invite code.");
+apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeAccessServiceIT.java:313:        assertThat(columns).doesNotContain("code", "raw_code", "plain_code", "invite_code");
+apps/api/src/test/java/com/finrhythm/api/tenant/persistence/TenantPersistenceIT.java:153:        assertThat(columns).doesNotContain("code", "raw_code", "plain_code", "invite_code");
+
+SQL invite_codes columns from migrations
+apps/api/src/main/resources/db/migration/V003__invite_issuance_activation_binding.sql:2:    add column activation_subject_ref varchar(64);
+apps/api/src/main/resources/db/migration/V003__invite_issuance_activation_binding.sql:8:    add constraint invite_codes_activation_subject_ref_format check (
+apps/api/src/main/resources/db/migration/V003__invite_issuance_activation_binding.sql:9:        activation_subject_ref is null
+apps/api/src/main/resources/db/migration/V003__invite_issuance_activation_binding.sql:10:        or activation_subject_ref ~ '^[a-f0-9]{64}$'
+apps/api/src/main/resources/db/migration/V003__invite_issuance_activation_binding.sql:19:            and activation_subject_ref is null
+apps/api/src/main/resources/db/migration/V003__invite_issuance_activation_binding.sql:25:            and activation_subject_ref is null
+apps/api/src/main/resources/db/migration/V003__invite_issuance_activation_binding.sql:31:            and activation_subject_ref is not null
+apps/api/src/main/resources/db/migration/V003__invite_issuance_activation_binding.sql:35:create index ix_invite_codes_activation_subject_ref
+apps/api/src/main/resources/db/migration/V003__invite_issuance_activation_binding.sql:36:    on invite_codes (activation_subject_ref)
+apps/api/src/main/resources/db/migration/V003__invite_issuance_activation_binding.sql:37:    where activation_subject_ref is not null;
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:46:create table invite_codes (
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:50:    lookup_hash varchar(64) not null,
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:59:    constraint invite_codes_lookup_hash_format check (lookup_hash ~ '^[a-f0-9]{64}$'),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:88:create unique index ux_invite_codes_lookup_hash on invite_codes (lookup_hash);

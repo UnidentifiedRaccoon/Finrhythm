@@ -1,0 +1,109 @@
+{
+  "sourceUrl": "https://fgrm.ncfg.ru/teach/control/stream/view/id/909466707",
+  "collectedAt": "2026-05-04T12:06:49.352Z",
+  "pageTitle": "Путь к деньгам",
+  "allowedHost": "fgrm.ncfg.ru",
+  "lessonCount": 8,
+  "duplicateCount": 0,
+  "suspiciousCandidateCount": 3,
+  "policy": {
+    "allowedHost": "fgrm.ncfg.ru",
+    "lessonPathPattern": "/\\/(?:pl\\/)?teach\\/control\\/lesson\\/view\\b/i"
+  },
+  "lessons": [
+    {
+      "index": 1,
+      "title": "Что такое раздел “Путь к деньгам”",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/333694066",
+      "section": null,
+      "module": null,
+      "sourceText": "Что такое раздел “Путь к деньгам” Подборка материалов прошлых сезонов по самым топовым темам"
+    },
+    {
+      "index": 2,
+      "title": "Фонд финансовой свободы",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/333694143",
+      "section": null,
+      "module": null,
+      "sourceText": "Фонд финансовой свободы Шаг 1. Создайте свой фин.резерв"
+    },
+    {
+      "index": 3,
+      "title": "Челлендж",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/333694072",
+      "section": null,
+      "module": null,
+      "sourceText": "Челлендж 52 недели накоплений Шаг 2. Начните копить играючи"
+    },
+    {
+      "index": 4,
+      "title": "Расхламление дома",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/333694147",
+      "section": null,
+      "module": null,
+      "sourceText": "Расхламление дома Шаг 3. Пополняйте свои копилки за счет продаж ненужных вещей"
+    },
+    {
+      "index": 5,
+      "title": "Финансовые цели",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/333694142",
+      "section": null,
+      "module": null,
+      "sourceText": "Финансовые цели Шаг 4. Поставьте свои финансовые цели"
+    },
+    {
+      "index": 6,
+      "title": "Налоговые вычеты",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/333694139",
+      "section": null,
+      "module": null,
+      "sourceText": "Налоговые вычеты Шаг 5. Пополните свой бюджет за счет налоговых вычетов"
+    },
+    {
+      "index": 7,
+      "title": "Психология денег",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/333694145",
+      "section": null,
+      "module": null,
+      "sourceText": "Психология денег Шаг 6. Разберитесь \"с головой\""
+    },
+    {
+      "index": 8,
+      "title": "Полезные финансовые привычки",
+      "url": "https://fgrm.ncfg.ru/teach/control/lesson/view/id/333694150",
+      "section": null,
+      "module": null,
+      "sourceText": "Полезные финансовые привычки Шаг 7. Внедри привычки"
+    }
+  ],
+  "duplicates": [],
+  "suspiciousCandidates": [
+    {
+      "domIndex": 10,
+      "title": "Тренинги",
+      "url": "https://fgrm.ncfg.ru/teach/control/stream/index",
+      "path": "/teach/control/stream/index",
+      "section": null,
+      "module": null,
+      "sourceText": "Юрий, адрес электронной почты не подтвержден ПОДТВЕРДИТЬ Тренинги → Программа ФинЗдоровье → Школа финансовой грамотности Путь к деньгам Что такое раздел “Путь к деньгам” Подборка материалов прошлых сезонов по самым топовым темам Фонд финансовой свободы Шаг 1. Создайте свой фин.резерв Челлендж 52 недели накоплений Шаг 2. Начните копить играючи Расхламление дома Шаг 3. Пополняйте свои копилки за счет продаж ненужных вещей Финансовые цели Шаг 4. Поставьте свои финансовые цели Налоговые вычеты Шаг 5"
+    },
+    {
+      "domIndex": 11,
+      "title": "Программа ФинЗдоровье",
+      "url": "https://fgrm.ncfg.ru/teach/control/stream/view/id/708092910",
+      "path": "/teach/control/stream/view/id/708092910",
+      "section": null,
+      "module": null,
+      "sourceText": "Юрий, адрес электронной почты не подтвержден ПОДТВЕРДИТЬ Тренинги → Программа ФинЗдоровье → Школа финансовой грамотности Путь к деньгам Что такое раздел “Путь к деньгам” Подборка материалов прошлых сезонов по самым топовым темам Фонд финансовой свободы Шаг 1. Создайте свой фин.резерв Челлендж 52 недели накоплений Шаг 2. Начните копить играючи Расхламление дома Шаг 3. Пополняйте свои копилки за счет продаж ненужных вещей Финансовые цели Шаг 4. Поставьте свои финансовые цели Налоговые вычеты Шаг 5"
+    },
+    {
+      "domIndex": 12,
+      "title": "Школа финансовой грамотности",
+      "url": "https://fgrm.ncfg.ru/teach/control/stream/view/id/934729968",
+      "path": "/teach/control/stream/view/id/934729968",
+      "section": null,
+      "module": null,
+      "sourceText": "Юрий, адрес электронной почты не подтвержден ПОДТВЕРДИТЬ Тренинги → Программа ФинЗдоровье → Школа финансовой грамотности Путь к деньгам Что такое раздел “Путь к деньгам” Подборка материалов прошлых сезонов по самым топовым темам Фонд финансовой свободы Шаг 1. Создайте свой фин.резерв Челлендж 52 недели накоплений Шаг 2. Начните копить играючи Расхламление дома Шаг 3. Пополняйте свои копилки за счет продаж ненужных вещей Финансовые цели Шаг 4. Поставьте свои финансовые цели Налоговые вычеты Шаг 5"
+    }
+  ]
+}

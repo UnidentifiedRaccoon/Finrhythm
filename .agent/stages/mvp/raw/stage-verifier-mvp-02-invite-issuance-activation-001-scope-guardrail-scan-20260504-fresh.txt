@@ -1,0 +1,19 @@
+controller/openapi surface
+
+api-client files
+packages/api-client/.gitkeep
+
+web/admin files
+apps/admin/AGENTS.md
+apps/web/AGENTS.md
+
+contact/registration/hr/report terms in implementation surface
+apps/web/AGENTS.md:37:- profile/settings changes
+
+points/money/reward scope terms
+apps/web/AGENTS.md:34:- reward/points feedback
+apps/web/AGENTS.md:35:- store redemption
+apps/admin/AGENTS.md:10:- управление rewards/store;
+apps/admin/AGENTS.md:33:- изменение reward rules;
+
+customer brand terms

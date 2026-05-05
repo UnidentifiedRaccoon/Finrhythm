@@ -1,0 +1,4 @@
+command: check apps/api/mvnw and run ./mvnw -v if present
+ls: apps/api/mvnw: No such file or directory
+apps/api/mvnw is absent or not executable
+exit_code=1

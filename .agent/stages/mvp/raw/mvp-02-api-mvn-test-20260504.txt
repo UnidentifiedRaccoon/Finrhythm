@@ -1,0 +1,3 @@
+Cannot run cd apps/api && ./mvnw -q test: Maven Wrapper absent at apps/api/mvnw.
+
+[exit_code] 127

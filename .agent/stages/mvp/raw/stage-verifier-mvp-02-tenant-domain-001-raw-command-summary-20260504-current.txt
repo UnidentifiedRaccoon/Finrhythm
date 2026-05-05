@@ -1,0 +1,83 @@
+COMMAND: current verifier raw command summary
+
+== .agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-api-mvn-test-20260504-current.txt ==
+1:COMMAND: cd apps/api && ./mvnw -q test
+3:EXIT_CODE=0
+
+== .agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-api-mvn-verify-20260504-current.txt ==
+1:COMMAND: cd apps/api && ./mvnw -q verify
+66:EXIT_CODE=0
+
+== .agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-apps-api-find-20260504-current.txt ==
+1:COMMAND: find apps/api -type f
+21:apps/api/src/main/resources/db/migration/V001__dev_bootstrap_runs.sql
+22:apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql
+57:EXIT_CODE=0
+
+== .agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-builder-raw-claim-spotcheck-20260504-current.txt ==
+1:COMMAND: builder raw claim spotcheck
+6:openjdk version "21.0.11" 2026-04-21 LTS
+14:Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)
+16:Java version: 21.0.11, vendor: Eclipse Adoptium, runtime: /Users/yura-posledov/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home
+79:EXIT_CODE=0
+
+== .agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-config-scan-20260504-current.txt ==
+1:COMMAND: config scan
+9:approval_policy_on_request_count=5
+10:service_tier_count=0
+12:EXIT_CODE=0
+
+== .agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-doc-openapi-scan-20260504-current.txt ==
+1:COMMAND: docs/API/OpenAPI sync scan
+53:EXIT_CODE=0
+
+== .agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-evidence-raw-ref-check-20260504-current.txt ==
+1:COMMAND: evidence raw reference existence check
+18:raw_ref_count=16
+19:missing_count=0
+21:EXIT_CODE=0
+
+== .agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-git-status-20260504-current.txt ==
+1:COMMAND: git status --short
+35:EXIT_CODE=0
+
+== .agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-java-version-20260504-current.txt ==
+1:COMMAND: java -version
+2:openjdk version "21.0.11" 2026-04-21 LTS
+6:EXIT_CODE=0
+
+== .agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-make-build-20260504-current.txt ==
+1:COMMAND: make build
+350:EXIT_CODE=0
+
+== .agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-make-test-unit-20260504-current.txt ==
+1:COMMAND: make test-unit
+177:EXIT_CODE=0
+
+== .agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-make-verify-20260504-current.txt ==
+1:COMMAND: make verify
+221:EXIT_CODE=0
+
+== .agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-maven-test-report-summary-20260504-current.txt ==
+1:COMMAND: Maven test report summary
+14:Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.042 s -- in com.finrhythm.api.tenant.TenantDomainTest
+20:Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.401 s -- in com.finrhythm.api.tenant.persistence.TenantPersistenceIT
+22:EXIT_CODE=0
+
+== .agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-migration-inspection-20260504-current.txt ==
+1:COMMAND: migration inspection
+3:apps/api/src/main/resources/db/migration/V001__dev_bootstrap_runs.sql
+4:apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql
+117:EXIT_CODE=0
+
+== .agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-mvnw-version-20260504-current.txt ==
+1:COMMAND: cd apps/api && ./mvnw -v
+2:Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)
+4:Java version: 21.0.11, vendor: Eclipse Adoptium, runtime: /Users/yura-posledov/Library/Java/JavaVirtualMachines/temurin-21.jdk/Contents/Home
+8:EXIT_CODE=0
+
+== .agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-scope-guardrail-scan-20260504-current.txt ==
+1:COMMAND: targeted scope and guardrail scan
+45:EXIT_CODE=0
+
+EXIT_CODE=0

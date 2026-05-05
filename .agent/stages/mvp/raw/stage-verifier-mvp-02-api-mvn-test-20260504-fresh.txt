@@ -1,0 +1,3 @@
+command: cd apps/api && ./mvnw -q test if available
+SKIPPED: apps/api/mvnw is not available/executable
+exit_code=127

@@ -1,0 +1,71 @@
+{
+  "status": "DONE",
+  "task": "getcourse-collect-lesson-links",
+  "sourceUrl": "https://fgrm.ncfg.ru/teach/control/stream/view/id/909466707",
+  "allowedHost": "fgrm.ncfg.ru",
+  "outputs": [
+    "course-export/lesson-links.json",
+    "course-export/lesson-links.txt",
+    "course-export/debug/stream-page.html",
+    "course-export/debug/stream-page.png",
+    "course-export/debug/link-candidates.json"
+  ],
+  "result": {
+    "lessonCount": 8,
+    "duplicateCount": 0,
+    "suspiciousCandidateCount": 3,
+    "suspiciousCandidates": [
+      {
+        "title": "Тренинги",
+        "url": "https://fgrm.ncfg.ru/teach/control/stream/index"
+      },
+      {
+        "title": "Программа ФинЗдоровье",
+        "url": "https://fgrm.ncfg.ru/teach/control/stream/view/id/708092910"
+      },
+      {
+        "title": "Школа финансовой грамотности",
+        "url": "https://fgrm.ncfg.ru/teach/control/stream/view/id/934729968"
+      }
+    ]
+  },
+  "verification": [
+    {
+      "command": "node --check scripts/getcourse-collect-lesson-links.js",
+      "status": "PASS"
+    },
+    {
+      "command": "pnpm getcourse:collect-links -- --help",
+      "status": "PASS"
+    },
+    {
+      "command": "pnpm getcourse:collect-links",
+      "status": "PASS"
+    },
+    {
+      "command": "GETCOURSE_DEBUG=0 pnpm getcourse:collect-links -- --headless",
+      "status": "PASS"
+    },
+    {
+      "command": "make verify",
+      "status": "PASS"
+    },
+    {
+      "command": "make test-unit",
+      "status": "PASS"
+    },
+    {
+      "command": "make test-e2e",
+      "status": "SKIPPED_NO_BROWSER_TARGET"
+    },
+    {
+      "command": "make build",
+      "status": "PASS"
+    }
+  ],
+  "secrets": {
+    "printed": false,
+    "sessionStatePath": ".local/getcourse/storage-state.json",
+    "sessionStateIgnoredByGit": true
+  }
+}

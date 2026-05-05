@@ -1,0 +1,53 @@
+COMMAND: docs/API/OpenAPI sync scan
+
+Setup/runtime doc mentions:
+docs/architecture/repo-layout.md:23:│     ├─ mvnw
+docs/architecture/repo-layout.md:56:### `apps/api`
+docs/architecture/repo-layout.md:58:Backend: auth/session, diagnostics scoring, learning progress, points ledger, store/redemption, support tickets, content/CMS APIs, jobs/integrations. Baseline stack is Spring Boot + Java + Maven + PostgreSQL.
+docs/architecture/repo-layout.md:83:Local PostgreSQL bootstrap is defined in `infra/local/compose.yaml` and `apps/api/src/main/resources/db/migration/V001__dev_bootstrap_runs.sql`.
+docs/architecture/repo-layout.md:87:`apps/api` now contains a minimal Spring Boot + Maven Wrapper backend baseline. The first append-only domain migration after `V001` introduces tenant, cohort/wave and invite-code tables for the corporate pilot access model. There is no public API/controller surface in this slice; frontend/admin contract generation remains unchanged until an explicit API slice.
+docs/architecture/init-and-dev-contract.md:14:- prepares Java/Maven toolchain when API workspace is present;
+docs/architecture/init-and-dev-contract.md:39:| `make verify` | Runs harness self-check, `scripts/verify-bootstrap.mjs` and `apps/api` backend unit tests. |
+docs/architecture/init-and-dev-contract.md:40:| `make test-unit` | Runs current non-browser bootstrap verification and `apps/api` backend unit tests. |
+docs/architecture/init-and-dev-contract.md:42:| `make build` | Runs production-readiness checks and packages `apps/api` after explicit test commands. |
+docs/architecture/init-and-dev-contract.md:90:- Maven Wrapper under `apps/api` or equivalent root delegation when API implementation starts;
+docs/setup/codex-setup.md:70:- backend baseline is Spring Boot + Java + Maven + PostgreSQL.
+docs/setup/codex-setup.md:78:make verify
+docs/setup/codex-setup.md:79:make test-unit
+docs/setup/codex-setup.md:81:make build
+docs/setup/codex-setup.md:84:После первого MVP-02 backend slice `make verify` and `make test-unit` also run backend unit checks through `apps/api/mvnw`. `make build` additionally packages `apps/api` with tests skipped after the explicit verification steps.
+docs/setup/codex-setup.md:93:`make dev` starts local PostgreSQL only. `make init` starts PostgreSQL if needed, applies `apps/api/src/main/resources/db/migration/V001__dev_bootstrap_runs.sql`, reads `scripts/init/version.json` and records the bootstrap version in `dev_bootstrap_runs`. If Docker is not running, these targets fail fast with an explicit message and must not reset local state.
+docs/setup/codex-setup.md:95:Backend schema/integration verification for Flyway/JPA constraints is run from `apps/api`:
+docs/setup/codex-setup.md:98:./mvnw -q verify
+docs/setup/codex-setup.md:101:It uses PostgreSQL/Testcontainers and therefore requires Docker.
+README.md:10:- `apps/api` — Spring Boot + Java + Maven;
+README.md:12:- Flyway migrations;
+README.md:24:- local `AGENTS.md` for `apps/web`, `apps/admin`, `apps/api`;
+README.md:39:make verify
+README.md:40:make test-unit
+README.md:42:make build
+README.md:85:- `make verify` выполняет harness/bootstrap self-checks и backend unit checks через `apps/api/mvnw`;
+README.md:86:- `make test-unit` выполняет bootstrap verification и backend unit checks без browser layer;
+README.md:87:- `make build` выполняет production-readiness checks и собирает `apps/api` без повторного запуска тестов;
+README.md:94:cd apps/api
+README.md:95:./mvnw -q verify
+README.md:98:Этот backend verify использует PostgreSQL/Testcontainers для Flyway/JPA constraint checks.
+README.md:121:- Backend build tool: Maven Wrapper.
+README.md:122:- Backend stack: Spring Boot, Java 21, PostgreSQL, Flyway, OpenAPI/springdoc.
+
+OpenAPI/client/controller scan:
+README.md:13:- OpenAPI + generated TypeScript client;
+README.md:122:- Backend stack: Spring Boot, Java 21, PostgreSQL, Flyway, OpenAPI/springdoc.
+docs/architecture/repo-layout.md:28:│  └─ api-client/
+docs/architecture/repo-layout.md:60:### `packages/api-client`
+docs/architecture/repo-layout.md:62:Generated TypeScript client and shared types from OpenAPI. No manual competing contract types.
+docs/architecture/repo-layout.md:78:- `packages/api-client`;
+docs/architecture/repo-layout.md:87:`apps/api` now contains a minimal Spring Boot + Maven Wrapper backend baseline. The first append-only domain migration after `V001` introduces tenant, cohort/wave and invite-code tables for the corporate pilot access model. There is no public API/controller surface in this slice; frontend/admin contract generation remains unchanged until an explicit API slice.
+apps/api/AGENTS.md:14:- OpenAPI/springdoc as backend contract source;
+apps/api/AGENTS.md:20:- Domain/business logic не должна разрастаться в controllers.
+apps/api/AGENTS.md:23:- Нельзя silently менять API contract без обновления OpenAPI and notes для frontend/admin.
+
+api-client files:
+packages/api-client/.gitkeep
+
+EXIT_CODE=0

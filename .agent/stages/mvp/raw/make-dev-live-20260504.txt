@@ -1,0 +1,14 @@
+2026-05-04T12:51:38+03:00
+command: make dev
+./scripts/dev-local.sh
+ Network finrhythm-local_default  Creating
+ Network finrhythm-local_default  Created
+ Volume finrhythm-local_finrhythm-postgres-data  Creating
+ Volume finrhythm-local_finrhythm-postgres-data  Created
+ Container finrhythm-postgres  Creating
+ Container finrhythm-postgres  Created
+ Container finrhythm-postgres  Starting
+ Container finrhythm-postgres  Started
+make dev: local PostgreSQL requested on localhost:54329
+make dev: no migrations or bootstrap seed are applied by this target
+exit_code: 0

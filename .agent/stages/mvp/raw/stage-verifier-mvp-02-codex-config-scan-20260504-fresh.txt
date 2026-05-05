@@ -1,0 +1,7 @@
+command: config scan for approval_policy and service_tier
+5:approval_policy = "on-request"
+28:approval_policy = "on-request"
+35:approval_policy = "on-request"
+42:approval_policy = "on-request"
+49:approval_policy = "on-request"
+exit_code=0
