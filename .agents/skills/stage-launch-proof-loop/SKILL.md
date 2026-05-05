@@ -98,6 +98,15 @@ Before changes:
 
 If smoke fails, record blocker or fix baseline before new implementation.
 
+For content, CMS, lesson adaptation, import/export or wording-review slices, also read:
+
+- `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`;
+- `content/getcourse-finstrategy/README.md`;
+- `content/getcourse-finstrategy/CONTENT_BRIEF.md`;
+- `.agent/tasks/content-main-course-cleanup/evidence.md` if present.
+
+The active raw content baseline is `Курс «ФинCтратегия»` under `content/getcourse-finstrategy/`. The removed `Путь к деньгам` export is not an active source.
+
 ### 2. Freeze scope before implementation
 
 If stage spec, backlog or sprint contract is missing/stale/ambiguous:
@@ -110,6 +119,8 @@ Spec freezer reduces ambiguity. It must not expand stage scope.
 
 For FinLit MVP, `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md` is the current product-intent baseline. Spec freezer must reconcile it with `docs/stages/MVP.md` before selecting or writing a sprint contract. Binary files under product `references/` are supporting artifacts only until normalized into markdown.
 
+For content slices, freeze scope against the `content/getcourse-finstrategy/` inventory and explicitly list blocked lessons, human-review gates and brand-normalization assumptions.
+
 ### 3. Build one sprint contract at a time
 
 After scope is frozen:
@@ -120,6 +131,8 @@ After scope is frozen:
 - builder updates canonical docs if behavior, architecture, workflow or API contract changed.
 
 Backend slices must respect Spring Boot + Java + Maven + PostgreSQL baseline.
+
+Content slices must preserve raw-source provenance, must not publish `humanReview: "required"` content as approved, and must record any customer-specific labels that require normalization before employee-facing use.
 
 ### 4. Evidence is mandatory
 
@@ -185,6 +198,7 @@ At the end of each session:
 - Do not treat stage artifacts as replacement for canonical docs.
 - Do not leave material documentation drift unresolved.
 - Do not use real personal/financial data in seeds/tests.
+- Do not treat removed or exploratory content exports as active source material.
 
 ## References
 

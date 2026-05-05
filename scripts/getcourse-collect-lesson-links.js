@@ -2,12 +2,11 @@
 
 const fs = require("node:fs/promises");
 const path = require("node:path");
-const { chromium } = require("playwright");
 
 const DEFAULT_STREAM_URL =
-  "https://fgrm.ncfg.ru/teach/control/stream/view/id/909466707";
+  "https://fgrm.ncfg.ru/teach/control/stream/view/id/546010026";
 const DEFAULT_STATE_PATH = ".local/getcourse/storage-state.json";
-const DEFAULT_OUTPUT_DIR = "course-export";
+const DEFAULT_OUTPUT_DIR = "course-export/stream-546010026";
 const ALLOWED_HOST = "fgrm.ncfg.ru";
 
 function parseArgs(argv) {
@@ -52,12 +51,12 @@ Usage:
   pnpm getcourse:collect-links
   pnpm getcourse:collect-links -- --headed
   pnpm getcourse:collect-links -- --headless
-  pnpm getcourse:collect-links -- --url=https://fgrm.ncfg.ru/teach/control/stream/view/id/909466707
+  pnpm getcourse:collect-links -- --url=https://fgrm.ncfg.ru/teach/control/stream/view/id/546010026
 
 Environment:
-  GETCOURSE_STREAM_URL       Stream page URL. Defaults to the requested stream.
+  GETCOURSE_STREAM_URL       Stream page URL. Defaults to the main FinStrategy stream.
   GETCOURSE_STORAGE_STATE    Playwright storageState path. Defaults to .local/getcourse/storage-state.json.
-  GETCOURSE_OUTPUT_DIR       Output directory. Defaults to course-export.
+  GETCOURSE_OUTPUT_DIR       Output directory. Defaults to course-export/stream-546010026.
   GETCOURSE_HEADLESS=1       Run headless when an existing storageState is enough.
   GETCOURSE_DEBUG=0          Do not save stream HTML, screenshot, or link candidates.
 `);
@@ -432,6 +431,7 @@ async function main() {
     return;
   }
 
+  const { chromium } = require("playwright");
   const streamUrl = assertAllowedStreamUrl(options.streamUrl);
   const outputDir = path.resolve(options.outputDir);
   const debugDir = path.join(outputDir, "debug");

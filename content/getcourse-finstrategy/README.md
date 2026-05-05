@@ -24,6 +24,7 @@
 - `partial`: 0.
 - downloaded assets: 30 files, 43.65 MB.
 - downloaded asset types: 11 PDF, 15 DOCX, 4 XLSX.
+- Краткая справка по разделам теории: `CONTENT_BRIEF.md`.
 
 ## Статусы по разделам
 

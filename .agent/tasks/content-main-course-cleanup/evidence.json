@@ -1,0 +1,158 @@
+{
+  "task": "content-main-course-cleanup",
+  "status": "DONE_WITH_HUMAN_PENDING",
+  "activeContentBaseline": {
+    "course": "Курс «ФинCтратегия»",
+    "streamId": "546010026",
+    "contentDir": "content/getcourse-finstrategy",
+    "links": "course-export/stream-546010026/all-lesson-links.json",
+    "exportDir": "course-export/stream-546010026"
+  },
+  "removedInactiveCourse": {
+    "title": "Путь к деньгам",
+    "contentDir": "content/getcourse-path-to-money",
+    "rootLinksJson": "course-export/lesson-links.json",
+    "rootLinksTxt": "course-export/lesson-links.txt",
+    "taskArtifacts": [
+      ".agent/tasks/getcourse-collect-lesson-links",
+      ".agent/tasks/getcourse-content-scaffold",
+      ".agent/tasks/getcourse-export-lesson-content"
+    ]
+  },
+  "inventory": {
+    "lessonUrls": 73,
+    "markdownLessons": 73,
+    "statuses": {
+      "exported": 70,
+      "blocked": 3
+    },
+    "blockedLessons": [
+      {
+        "file": "content/getcourse-finstrategy/07-lesson-306105699.md",
+        "title": "Как достигать финансовых целей"
+      },
+      {
+        "file": "content/getcourse-finstrategy/16-lesson-235010156.md",
+        "title": "03.01 Как работают все привычки"
+      },
+      {
+        "file": "content/getcourse-finstrategy/58-lesson-235010192.md",
+        "title": "09.04 План достижения финансовой независимости"
+      }
+    ],
+    "humanReviewRequiredLessons": 73,
+    "downloadedAssets": 30
+  },
+  "reviewFindings": {
+    "customerBrandRawMentions": {
+      "status": "HUMAN_PENDING_FOR_PUBLICATION",
+      "files": 20,
+      "note": "Raw source contains Леруа task/test labels; normalize before employee-facing UI."
+    },
+    "financialLegalRiskMatches": {
+      "status": "HUMAN_PENDING",
+      "files": 29,
+      "note": "Investment, credit, tax, pension, return or guarantee wording requires human review."
+    },
+    "piiSessionScan": {
+      "status": "PASS",
+      "note": "No email, account notice or cookie-banner text found in active content/export artifacts."
+    }
+  },
+  "docSync": {
+    "updated": [
+      "README.md",
+      "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md",
+      ".agents/skills/stage-launch-proof-loop/SKILL.md",
+      ".agents/skills/stage-launch-proof-loop/references/PROTOCOL.md",
+      ".agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md"
+    ],
+    "contentBrief": "content/getcourse-finstrategy/CONTENT_BRIEF.md",
+    "reason": "Content source baseline changed from exploratory short export to the main FinStrategy course export."
+  },
+  "harnessChecks": {
+    "added": [
+      {
+        "id": "content-baseline",
+        "script": ".agents/skills/stage-launch-proof-loop/scripts/verify_harness.py",
+        "mode": "--bootstrap-only",
+        "checks": [
+          "active content baseline docs and link manifest exist",
+          "inactive content/getcourse-path-to-money and root course-export/lesson-links.* are absent",
+          "73 lesson URLs",
+          "73 markdown lesson files",
+          "70 exported lessons",
+          "3 blocked lessons",
+          "73 humanReview=required lessons",
+          "30 downloaded assets excluding downloads/README.md"
+        ],
+        "network": false,
+        "contentReview": false
+      }
+    ]
+  },
+  "verification": [
+    {
+      "command": "count all-lesson-links.json, content/getcourse-finstrategy markdown statuses, and downloads",
+      "status": "PASS"
+    },
+    {
+      "command": "rg removed-course references in README.md scripts docs content course-export .agent/tasks",
+      "status": "PASS_WITH_DECISION_NOTE",
+      "note": "Only product-foundation decision note and this cleanup evidence remain."
+    },
+    {
+      "command": "rg removed-course references in .agent/stages",
+      "status": "HISTORICAL_REFERENCES_ONLY",
+      "note": "Durable stage raw logs keep historical matches."
+    },
+    {
+      "command": "rg email/account/cookie-banner text in active content/export artifacts",
+      "status": "PASS"
+    },
+    {
+      "command": "node --check scripts/getcourse-collect-lesson-links.js && node --check scripts/getcourse-export-lesson-content.js",
+      "status": "PASS"
+    },
+    {
+      "command": "corepack pnpm getcourse:collect-links -- --help",
+      "status": "PASS"
+    },
+    {
+      "command": "corepack pnpm getcourse:export-content -- --help",
+      "status": "PASS"
+    },
+    {
+      "command": "CONTENT_BRIEF.md section/count check",
+      "status": "PASS",
+      "note": "Brief lists 10 main theory modules, bonus block, 53 theory/material entries and 20 checking lessons excluded from theory."
+    },
+    {
+      "command": "python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --bootstrap-only",
+      "status": "PASS",
+      "note": "Includes content-baseline check."
+    },
+    {
+      "command": "./scripts/validate-bootstrap.sh",
+      "status": "PASS",
+      "note": "Includes content-baseline check."
+    },
+    {
+      "command": "python3 -m py_compile .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py",
+      "status": "PASS"
+    },
+    {
+      "command": "node scripts/verify-bootstrap.mjs",
+      "status": "PASS"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS"
+    },
+    {
+      "command": "make verify",
+      "status": "PARTIAL_BLOCKED",
+      "note": "validate-bootstrap.sh PASS and node scripts/verify-bootstrap.mjs PASS; backend Maven step printed Unable to locate a Java Runtime and the controlled run was terminated after 45 seconds to avoid a stuck Maven wrapper."
+    }
+  ]
+}

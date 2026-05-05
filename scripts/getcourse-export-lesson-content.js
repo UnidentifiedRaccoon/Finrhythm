@@ -2,13 +2,12 @@
 
 const fs = require("node:fs/promises");
 const path = require("node:path");
-const { chromium } = require("playwright");
 
 const ALLOWED_HOST = "fgrm.ncfg.ru";
-const DEFAULT_LINKS_PATH = "course-export/lesson-links.json";
-const DEFAULT_CONTENT_DIR = "content/getcourse-path-to-money";
+const DEFAULT_LINKS_PATH = "course-export/stream-546010026/all-lesson-links.json";
+const DEFAULT_CONTENT_DIR = "content/getcourse-finstrategy";
 const DEFAULT_STATE_PATH = ".local/getcourse/storage-state.json";
-const DEFAULT_OUTPUT_DIR = "course-export";
+const DEFAULT_OUTPUT_DIR = "course-export/stream-546010026";
 const DEFAULT_DEBUG_DIR = "debug/lesson-content";
 
 const LESSON_PATH_PATTERN = /^\/(?:pl\/)?teach\/control\/lesson\/view\b/i;
@@ -71,7 +70,7 @@ Usage:
   pnpm getcourse:export-content
   pnpm getcourse:export-content -- --headed
   pnpm getcourse:export-content -- --headless
-  pnpm getcourse:export-content -- --links=course-export/lesson-links.json
+  pnpm getcourse:export-content -- --links=course-export/stream-546010026/all-lesson-links.json
 
 Safety policy:
   - opens only https://${ALLOWED_HOST}/teach/control/lesson/view/... pages;
@@ -79,7 +78,7 @@ Safety policy:
   - asks for manual login only in headed mode;
   - blocks media, archive/document downloads and off-domain network requests;
   - records video/embed metadata from DOM only and never downloads videos;
-  - writes sanitized debug snapshots only under course-export/debug/lesson-content/.
+  - writes sanitized debug snapshots only under course-export/stream-546010026/debug/lesson-content/.
 `);
 }
 
@@ -722,9 +721,6 @@ async function extractVisibleLessonContent(page, expectedTitle) {
         if (!oneLine || oneLine.length < 2) {
           continue;
         }
-        if (oneLine === "Путь к деньгам" && expectedTitle !== "Путь к деньгам") {
-          continue;
-        }
         if (oneLine === title) {
           rawBlocks.push({
             kind: "heading",
@@ -815,7 +811,7 @@ async function extractVisibleLessonContent(page, expectedTitle) {
           /^\/pl\/\d+\b/.test(linkPath) ||
           /^\/user\/my\/profile\b/i.test(linkPath) ||
           (/^\/(?:pl\/)?teach\/control\/stream\b/i.test(linkPath) &&
-            ["Путь к деньгам", "Список тренингов", "Программа ФинЗдоровье", "Школа финансовой грамотности"].includes(text)) ||
+            ["Список тренингов", "Программа ФинЗдоровье", "Школа финансовой грамотности"].includes(text)) ||
           anchor.closest("[class*='lesson-navigation'],[class*='breadcrumb']")
         ) {
           continue;
@@ -1269,6 +1265,7 @@ async function main() {
     return;
   }
 
+  const { chromium } = require("playwright");
   const linksPath = path.resolve(options.linksPath);
   const contentDir = path.resolve(options.contentDir);
   const outputDir = path.resolve(options.outputDir);
