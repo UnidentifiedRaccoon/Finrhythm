@@ -73,6 +73,16 @@ Human-readable proof bundle: commands, tests, screenshots/logs, docs updated, kn
 
 Machine-readable proof index. Suggested keys: `stage_id`, `sprint_contract_id`, `commands`, `tests`, `artifacts`, `screenshots`, `documentation_updates`, `diagram_refs`, `human_gates`, `updated_at`.
 
+For content/CMS/adaptation slices, also include:
+
+- active source paths, especially `content/getcourse-finstrategy/`, `CONTENT_BRIEF.md` and `course-export/stream-546010026/`;
+- content inventory counts: lesson URLs, markdown lessons, exported/blocked statuses, downloaded assets;
+- blocked lesson list and owner/admin follow-up status;
+- `humanReview` status and wording review status;
+- financial/tax/credit/investment/pension review gates;
+- brand-normalization notes for customer-specific raw labels;
+- explicit statement that removed exploratory exports are not active sources.
+
 ### `verdict.json`
 
 Verifier-owned:
