@@ -130,6 +130,73 @@ def read_json(path: Path) -> tuple[Any | None, str | None]:
         return None, f"{path.name} is invalid JSON: {exc.msg}."
 
 
+def check_content_baseline(root: Path) -> list[str]:
+    """Verify local headline facts for the active raw content baseline."""
+
+    issues: list[str] = []
+    content_dir = root / "content" / "getcourse-finstrategy"
+    links_path = root / "course-export" / "stream-546010026" / "all-lesson-links.json"
+    downloads_dir = content_dir / "downloads"
+
+    required = (
+        content_dir / "README.md",
+        content_dir / "CONTENT_BRIEF.md",
+        links_path,
+    )
+    for path in required:
+        if not path.exists():
+            issues.append(f"missing active content baseline path: {path.relative_to(root)}")
+
+    inactive_paths = (
+        root / "content" / "getcourse-path-to-money",
+        root / "course-export" / "lesson-links.json",
+        root / "course-export" / "lesson-links.txt",
+    )
+    for path in inactive_paths:
+        if path.exists():
+            issues.append(f"inactive content export is still present: {path.relative_to(root)}")
+
+    links, err = read_json(links_path)
+    if err:
+        issues.append(f"content links invalid: {err}")
+    elif not isinstance(links, dict) or not isinstance(links.get("lessons"), list):
+        issues.append("all-lesson-links.json must contain a lessons array")
+    elif len(links["lessons"]) != 73:
+        issues.append(f"expected 73 lesson URLs, found {len(links['lessons'])}")
+
+    lesson_files = sorted(content_dir.glob("[0-9][0-9]-lesson-*.md"))
+    if len(lesson_files) != 73:
+        issues.append(f"expected 73 lesson markdown files, found {len(lesson_files)}")
+
+    statuses: dict[str, int] = {}
+    human_review_required = 0
+    for path in lesson_files:
+        text = read(path)
+        status_match = re.search(r'^exportStatus:\s*"?([^"\n]+)"?', text, re.MULTILINE)
+        status = status_match.group(1) if status_match else "missing"
+        statuses[status] = statuses.get(status, 0) + 1
+        if re.search(r'^humanReview:\s*"required"', text, re.MULTILINE):
+            human_review_required += 1
+
+    if statuses.get("exported", 0) != 70 or statuses.get("blocked", 0) != 3:
+        issues.append(f"expected 70 exported and 3 blocked lessons, found {statuses}")
+    if human_review_required != 73:
+        issues.append(f"expected 73 humanReview=required lessons, found {human_review_required}")
+
+    if not downloads_dir.exists():
+        issues.append("missing content/getcourse-finstrategy/downloads")
+    else:
+        downloaded_assets = [
+            path
+            for path in downloads_dir.iterdir()
+            if path.is_file() and not path.name.startswith(".") and path.name != "README.md"
+        ]
+        if len(downloaded_assets) != 30:
+            issues.append(f"expected 30 downloaded assets, found {len(downloaded_assets)}")
+
+    return issues
+
+
 def validate_stage(stage_dir: Path, stage_id: str, root: Path) -> list[str]:
     issues: list[str] = []
     issues.extend(f"missing {p}" for p in missing_paths(stage_dir, REQUIRED_STAGE_FILES))
@@ -220,6 +287,9 @@ def main() -> None:
 
     legacy = check_no_legacy_terms(root)
     checks.append(CheckResult("legacy-token-scan", "PASS" if not legacy else "FAIL", "No legacy model/approval/backend tokens found." if not legacy else "; ".join(legacy[:25])))
+
+    content_baseline = check_content_baseline(root)
+    checks.append(CheckResult("content-baseline", "PASS" if not content_baseline else "FAIL", "Active FinStrategy content baseline is present and matches expected headline counts." if not content_baseline else "; ".join(content_baseline[:25])))
 
     if args.stage_id and not args.bootstrap_only:
         stage_dir = root / ".agent" / "stages" / args.stage_id

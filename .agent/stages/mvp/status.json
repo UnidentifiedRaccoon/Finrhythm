@@ -1,8 +1,8 @@
 {
   "stage_id": "mvp",
-  "state": "SPRINT_PASSED",
-  "active_sprint_contract_id": "MVP-05-content-spec-ingestion-001",
-  "latest_verified_sprint_contract_id": "MVP-05-content-spec-ingestion-001",
+  "state": "SPRINT_PASSED_WITH_ENV_LIMITATION",
+  "active_sprint_contract_id": "MVP-05-learning-methodology-doc-sync-001",
+  "latest_verified_sprint_contract_id": "MVP-05-learning-methodology-doc-sync-001",
   "completed_ids": [
     "MVP-01.01",
     "MVP-01.02",
@@ -15,80 +15,73 @@
     "MVP-02-tenant-domain-001",
     "MVP-02.02",
     "MVP-02-invite-issuance-activation-001",
-    "MVP-05-content-spec-ingestion-001"
+    "MVP-05-learning-methodology-doc-sync-001"
   ],
   "active_ids": [],
-  "blocked_ids": [],
+  "blocked_ids": [
+    "java-backed-make-verify-current-shell"
+  ],
   "waiting_human_ids": [
-    "MVP-05-content-financial-review",
-    "MVP-05-content-legal-tax-review",
-    "MVP-05-content-hr-privacy-review",
-    "MVP-05-content-reward-ops-review",
-    "MVP-05-production-ready-publish-approval"
+    "financial-correctness-lessons-diagnostics-quizzes",
+    "legal-tax-review-tax-deduction-wording",
+    "hr-wording-review-self-assessment-communications",
+    "reward-economy-stock-prices-fulfillment",
+    "support-answer-policy-sensitive-topics"
   ],
   "next_recommended_ids": [
     "freeze-next-sprint-contract-for-MVP-02.03-employee-registration",
     "do-not-start-MVP-02.04-before-MVP-02.03-contract-or-explicit-stage-decision",
     "do-not-mark-MVP-05.01-through-MVP-05.05-complete-without-human-review-and-separate-contracts"
   ],
-  "last_updated": "2026-05-06",
+  "last_updated": "2026-05-05",
   "exit_gate_summary": {
     "mvp_01_scope_frozen": true,
     "root_wrappers_added": true,
     "safe_self_checks_pass": true,
     "live_init_dev_proven": true,
-    "fresh_verifier_pass": true,
     "mvp_02_allowed": true,
     "mvp_02_01_complete": true,
     "mvp_02_02_complete": true,
     "mvp_02_complete": false,
     "mvp_02_03_allowed": true,
     "mvp_02_04_allowed": false,
-    "mvp_05_content_spec_ingestion_active": false,
-    "mvp_05_content_spec_moved_to_canonical_docs": true,
-    "mvp_05_methodology_and_content_brief_local_sources_added": true,
-    "mvp_05_canonical_refs_updated": true,
-    "mvp_05_harness_artifacts_updated": true,
-    "mvp_05_units_complete": false,
-    "mvp_05_content_approval_complete": false,
-    "mvp_05_fresh_verifier_pass": true,
-    "current_content_ingestion_harness_verify_pass": true,
-    "current_content_ingestion_make_verify_pass": true,
-    "current_content_ingestion_canonical_docs_changed": true,
-    "current_content_ingestion_harness_verify_after_json_pass": true,
-    "mvp_05_content_spec_ingestion_pass": true,
-    "current_content_ingestion_final_harness_verify_pass": true,
-    "current_content_ingestion_final_make_verify_pass": true
+    "learning_methodology_doc_sync_frozen": true,
+    "learning_methodology_doc_moved": true,
+    "learning_methodology_canonical_docs_synced": true,
+    "learning_methodology_harness_docs_synced": true,
+    "learning_methodology_fresh_verifier_pending": false,
+    "learning_methodology_fresh_verifier_pass": true,
+    "mvp_05_complete": false,
+    "mvp_06_complete": false,
+    "mvp_07_complete": false,
+    "mvp_09_complete": false,
+    "mvp_10_complete": false,
+    "mvp_11_complete": false,
+    "mvp_12_complete": false
   },
   "runtime_guardrails": {
     "project_config_approval_policy_expected": "on-request",
     "do_not_restore_fixed_service_tier": true,
-    "java_runtime_available": true,
-    "java_version_recorded": "21.0.11",
+    "java_runtime_available_in_current_shell": false,
     "maven_wrapper_present": true,
-    "docker_required_for_testcontainers_verify": true,
+    "docs_only_current_sprint": true,
     "public_api_scope_for_active_sprint": false,
-    "raw_invite_code_persistence_allowed": false,
-    "content_spec_status": "draft_with_human_gates",
-    "content_runtime_source_of_truth": "CMS/PostgreSQL after implementation; docs are canonical planning sources only"
+    "schema_scope_for_active_sprint": false,
+    "ui_scope_for_active_sprint": false
   },
   "handoff": {
     "what_is_proven": [
-      "MVP-02.01 / MVP-02-tenant-domain-001 has fresh verifier PASS.",
-      "MVP-02.02 / MVP-02-invite-issuance-activation-001 has fresh verifier PASS.",
-      "Content MVP draft is placed at docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md.",
-      "Learning methodology and raw content brief sources exist locally.",
-      "Canonical product/stage/architecture docs reference the content spec as draft-with-human-gates.",
-      "Fresh stage_verifier PASS is recorded for MVP-05-content-spec-ingestion-001 only."
+      "MVP-02.01 / MVP-02-tenant-domain-001 has prior fresh verifier PASS.",
+      "MVP-02.02 / MVP-02-invite-issuance-activation-001 has prior fresh verifier PASS.",
+      "MVP learning methodology v0.2 is moved to canonical product docs and referenced by product, stage and Harness docs.",
+      "This slice is docs-only and does not implement or close downstream learning, diagnostic, CMS, reporting, challenge, store or support execution units."
     ],
     "what_is_not_proven": [
-      "MVP-05.01 through MVP-05.05 are not complete.",
-      "Final financial correctness of lessons, diagnostics, quizzes and explanations.",
-      "Legal/tax wording approval.",
-      "HR/privacy wording approval.",
-      "Reward economy and real fulfillment approval.",
-      "Production_ready publish approval for content."
+      "Java-backed make verify currently fails in this shell because Java runtime is not located.",
+      "Employee registration by name/email/phone/code.",
+      "Admin code status UI, activation funnel and full MVP-02 completion.",
+      "Runtime diagnostics, lessons, CMS, support, points, reporting, store and challenge implementation."
     ],
-    "next_slice": "Freeze the next small sprint contract for MVP-02.03 employee registration. Do not treat the content-spec ingestion PASS as MVP-05 completion."
+    "next_slice": "Freeze the next small sprint contract for MVP-02.03 employee registration."
   }
 }

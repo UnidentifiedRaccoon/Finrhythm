@@ -1,6 +1,6 @@
 # MVP decisions
 
-Updated: 2026-05-06
+Updated: 2026-05-05
 
 ## D-2026-05-04-001: Freeze only MVP-01 bootstrap
 
@@ -92,14 +92,14 @@ Decision: mark `MVP-02.02` / `MVP-02-invite-issuance-activation-001` complete af
 Why: issuance, activation, opaque binding, raw-code persistence guardrails, migration order and root/backend commands are proven for this contract.  
 Impact: `MVP-02.03`, `MVP-02.04` and full MVP-02 remain open; the next run should freeze employee registration separately.
 
-## D-2026-05-06-016: Ingest Content MVP spec as draft-with-human-gates
+## D-2026-05-05-001: Promote learning methodology v0.2 to canonical product methodology
 
-Decision: place the prepared Content MVP draft at `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md` and wire it into product/stage/harness sources as `MVP-05-content-spec-ingestion-001`.  
-Why: future MVP-05/06/07/09 work needs a durable canonical draft source, but the content contains human-gated financial, legal/tax, HR/privacy and reward decisions.  
-Impact: agents can use the spec for future sprint freezes and CMS/template work; no lesson/question/challenge/reward wording is final-approved by this slice.
+Decision: move `learning_methodology_mvp_stage2_v02.md` to `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` and treat it as the canonical MVP learning, diagnostics, routing, lesson template and content approve-flow baseline.  
+Why: the file defines product/methodology decisions, not raw content and not stage-local evidence. Canonical product docs under `docs/product/**` are the narrowest source of truth for this scope.  
+Impact: future learning/content/diagnostic/support/reporting slices must read this file before spec freeze and record affected lesson/question/route IDs and human gates.
 
-## D-2026-05-06-017: Preserve MVP-02.03 as next implementation recommendation
+## D-2026-05-05-002: Keep methodology doc-sync separate from feature completion
 
-Decision: after the content-spec ingestion slice is verified, restore the next implementation recommendation to `MVP-02.03` employee registration.  
-Why: this slice is a doc-only placement interruption, not a stage-order decision to start MVP-05 implementation ahead of MVP-02 registration.  
-Impact: `MVP-05-content-spec-ingestion-001` may be marked verified independently, while `MVP-05.01` through `MVP-05.05` remain pending.
+Decision: this docs-only slice updates executable scope but does not mark `MVP-05`, `MVP-06`, `MVP-07`, `MVP-09`, `MVP-10`, `MVP-11`, `MVP-12` or full MVP complete.  
+Why: no runtime diagnostics, lessons, CMS, points, reporting, support, store or UI implementation exists in this slice, and financial/legal/HR/reward gates remain human-pending.  
+Impact: downstream implementation still requires frozen sprint contracts, evidence and fresh verification.

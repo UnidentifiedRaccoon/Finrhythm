@@ -320,49 +320,61 @@
     ]
   },
   {
-    "id": "mvp-05-content-spec-ingestion",
+    "id": "mvp-05-methodology-canonical-doc",
     "category": "documentation",
-    "description": "Content MVP draft is placed in canonical product docs and wired into MVP harness as a draft-with-human-gates source.",
+    "description": "Learning methodology v0.2 is normalized as canonical MVP product methodology.",
     "steps": [
-      "Move root draft into docs/product/b2b-mvp/lemanapro",
-      "Add methodology and content brief local sources",
-      "Update canonical references and stage artifacts",
-      "Run harness validation and make verify"
+      "Move root file into docs/product",
+      "Add frontmatter and human-gate status",
+      "Fix source references"
     ],
     "passes": true,
     "evidence_refs": [
-      "docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md",
       "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md",
-      "content/getcourse-finstrategy/CONTENT_BRIEF.md",
-      "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md",
-      "docs/stages/MVP.md",
-      "docs/architecture/source-of-truth.md",
-      ".agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md",
-      ".agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-path-checks-20260506.txt",
-      ".agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-reference-scan-20260506.txt",
-      ".agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-verify-harness-20260506.json",
-      ".agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-make-verify-20260506.txt",
-      ".agent/stages/mvp/verdict.json",
-      ".agent/stages/mvp/problems.md",
-      ".agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-verify-harness-20260506.json",
-      ".agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-make-verify-20260506.txt"
+      ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-path-check-20260505.txt",
+      ".agent/stages/mvp/evidence.md"
     ]
   },
   {
-    "id": "mvp-05-content-human-gates-open",
-    "category": "human-gates",
-    "description": "Financial/legal/privacy/reward/final publishing approval for MVP content remains open and is not closed by ingestion.",
+    "id": "mvp-05-methodology-stage-doc-sync",
+    "category": "documentation",
+    "description": "Product, MVP/v1/v2 stage and Harness docs reference methodology v0.2 and carry its executable decisions.",
     "steps": [
-      "Record human gates in content spec",
-      "Keep MVP-05.01 through MVP-05.05 open",
-      "Require later human review before production_ready publication"
+      "Sync source-of-truth and product foundation",
+      "Sync MVP/v1/v2 stage docs",
+      "Sync Harness skill references"
     ],
-    "passes": false,
+    "passes": true,
     "evidence_refs": [
-      "docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md",
-      ".agent/stages/mvp/backlog.md",
-      ".agent/stages/mvp/status.json",
-      ".agent/stages/mvp/risks.md"
+      "docs/architecture/source-of-truth.md",
+      "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md",
+      "docs/stages/MVP.md",
+      "docs/stages/v1.md",
+      "docs/stages/v2.md",
+      ".agents/skills/stage-launch-proof-loop/SKILL.md",
+      ".agents/skills/stage-launch-proof-loop/references/PROTOCOL.md",
+      ".agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md",
+      ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-link-scan-20260505.txt",
+      ".agent/stages/mvp/evidence.md"
+    ]
+  },
+  {
+    "id": "mvp-05-methodology-guardrail-proof",
+    "category": "verification",
+    "description": "Docs-only methodology sync is checked for stale references and does not mark downstream features complete.",
+    "steps": [
+      "Run contradiction scans",
+      "Run harness verification",
+      "Record make verify result or blocker"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-contradiction-scan-20260505.txt",
+      ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-expected-token-scan-20260505.txt",
+      ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-verify-harness-20260505.json",
+      ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-make-verify-20260505.txt",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/status.json"
     ]
   }
 ]

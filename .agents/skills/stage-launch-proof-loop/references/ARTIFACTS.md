@@ -73,6 +73,19 @@ Human-readable proof bundle: commands, tests, screenshots/logs, docs updated, kn
 
 Machine-readable proof index. Suggested keys: `stage_id`, `sprint_contract_id`, `commands`, `tests`, `artifacts`, `screenshots`, `documentation_updates`, `diagram_refs`, `human_gates`, `updated_at`.
 
+For content/CMS/adaptation slices, also include:
+
+- active methodology path `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` when the slice touches lessons, diagnostics, routing, CMS review statuses, support handoff or learning reports;
+- affected methodology IDs: `C1–C10`, `N1–N7`, optional `Z1/Z4/Z9`, `Q0`, `Q1–Q27`, `Q28`, `SA1–SA3`, `R1–R6`;
+- sensitive learning-data policy proof: exact sums, photos, documents, bank screenshots and personal finance reports are not required unless a later human-approved scope explicitly changes this;
+- active source paths, especially `content/getcourse-finstrategy/`, `CONTENT_BRIEF.md` and `course-export/stream-546010026/`;
+- content inventory counts: lesson URLs, markdown lessons, exported/blocked statuses, downloaded assets;
+- blocked lesson list and owner/admin follow-up status;
+- `humanReview` status and wording review status;
+- financial/tax/credit/investment/pension review gates;
+- brand-normalization notes for customer-specific raw labels;
+- explicit statement that removed exploratory exports are not active sources.
+
 ### `verdict.json`
 
 Verifier-owned:

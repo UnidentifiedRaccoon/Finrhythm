@@ -42,42 +42,45 @@ make test-e2e
 make build
 ```
 
-## Безопасная выгрузка ссылок GetCourse
+## Контентный baseline
 
-Первый этап выгрузки курса собирает только ссылки на уроки со страницы потока GetCourse.
-Скрипт не открывает уроки, не скачивает материалы, не трогает DRM и ограничивает сбор доменом `fgrm.ncfg.ru`.
+Активный source baseline для образовательного контента — основной GetCourse-курс `Курс «ФинCтратегия»` внутри программы ФинЗдоровье (`stream id 546010026`). Короткая 8-урочная выгрузка `Путь к деньгам` удалена из активного baseline и не должна использоваться как источник для content/CMS/adaptation slices.
 
-Запуск из корня репозитория:
+Ключевые пути:
+
+- raw markdown-уроки: `content/getcourse-finstrategy/`;
+- краткая справка по разделам теории: `content/getcourse-finstrategy/CONTENT_BRIEF.md`;
+- export-артефакты курса: `course-export/stream-546010026/`;
+- объединенный список lesson links: `course-export/stream-546010026/all-lesson-links.json`;
+- скачанные видимые вложения: `content/getcourse-finstrategy/downloads/`.
+
+Текущий инвентарь:
+
+- lesson URL: 73;
+- markdown-файлы уроков: 73;
+- `exported`: 70;
+- `blocked`: 3;
+- скачанные видимые assets: 30 PDF/DOCX/XLSX файлов.
+
+Human gates:
+
+- 73/73 уроков имеют `humanReview: "required"`;
+- финансовая, налоговая, кредитная, инвестиционная и пенсионная корректность требуют human review перед публикацией;
+- customer-specific raw labels, включая `Леруа`, должны быть нормализованы перед employee-facing использованием;
+- 3 `blocked` lessons требуют owner/admin-доступа или исправленной выгрузки перед адаптацией.
+
+## Безопасные GetCourse helper commands
+
+Команды GetCourse по умолчанию настроены на основной stream `546010026`. Они открывают только `fgrm.ncfg.ru`, не скачивают видео/DRM/архивы и хранят Playwright session state в ignored path `.local/getcourse/`.
 
 ```bash
 pnpm getcourse:collect-links
-```
-
-Если GetCourse попросит авторизацию, откроется headful-браузер Playwright. Войдите вручную; cookies, пароли и токены не выводятся. Состояние сессии сохраняется в `.local/getcourse/storage-state.json`, этот путь игнорируется git.
-
-Результаты:
-
-- `course-export/lesson-links.json` — структурированный список уроков;
-- `course-export/lesson-links.txt` — человекочитаемый список;
-- `course-export/debug/stream-page.html`, `stream-page.png`, `link-candidates.json` — debug-артефакты для ручной проверки, игнорируются git.
-
-Повторный запуск с уже сохранённой сессией можно сделать без окна браузера:
-
-```bash
 pnpm getcourse:collect-links -- --headless
-```
-
-## Безопасная выгрузка контента GetCourse
-
-Следующий этап читает только видимый DOM-текст страниц уроков из `course-export/lesson-links.json` и обновляет markdown-файлы в `content/getcourse-path-to-money/`. Скрипт открывает только страницы уроков на `fgrm.ncfg.ru`, блокирует off-domain/media/download-like запросы, не скачивает видео, архивы, файлы и защищённые assets.
-
-Запуск после ручного логина и сохранения `.local/getcourse/storage-state.json`:
-
-```bash
 pnpm getcourse:export-content -- --headless
+pnpm getcourse:download-assets -- --headless
 ```
 
-Если сохранённой сессии нет или она истекла, запустите без `--headless`, войдите вручную в открывшемся Playwright-браузере, затем повторите headless-запуск. Debug для нестандартных/недоступных страниц сохраняется только в `course-export/debug/lesson-content/`, этот путь игнорируется git.
+Если GetCourse попросит авторизацию, запустите нужную команду без `--headless`, войдите вручную в открывшемся Playwright-браузере, затем повторите headless-запуск.
 
 Текущий baseline после первого MVP-02 backend slice:
 
@@ -120,6 +123,7 @@ cd apps/api
 - Service tier: не закреплён в project config, чтобы рантайм мог выбрать supported default tier.
 - Backend build tool: Maven Wrapper.
 - Backend stack: Spring Boot, Java 21, PostgreSQL, Flyway, OpenAPI/springdoc.
+- Content source baseline: `Курс «ФинCтратегия»` в `content/getcourse-finstrategy/`, краткая справка — `CONTENT_BRIEF.md`.
 - Stage execution: self-contained `$stage-launch-proof-loop`, no external task-loop prerequisite.
 
 ## Ключевой принцип

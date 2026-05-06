@@ -1,100 +1,78 @@
-# Sprint contract: MVP-05-content-spec-ingestion-001
+# Sprint contract: MVP-05-learning-methodology-doc-sync-001
 
-Status: `PASS`  
-Owner: `stage_builder` implementation/evidence with fresh `stage_verifier` required  
-Created: 2026-05-06  
+Status: `PASS_WITH_ENV_LIMITATION`  
+Created: 2026-05-05  
 Stage: `mvp`  
-Parent stage units: `MVP-05`, source input for `MVP-06`, `MVP-07`, `MVP-09`
+Parent stage area: `MVP-05` documentation baseline only  
+Execution mode: docs-only Harness slice
 
 ## Objective
 
-Ingest the prepared Content MVP draft into the correct canonical product-doc location and wire it into the MVP harness as a doc-only source slice.
+Normalize the user-provided learning methodology file into canonical product docs and synchronize source-of-truth, stage and Harness documentation so future implementation slices use the methodology v0.2 baseline.
 
-The slice must not approve content. It only proves that the draft is placed, referenced and tracked correctly, with human gates preserved.
+## Files in scope
 
-## Required first action
-
-Before edits, record:
-
-1. `git status --short`
-2. `python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp`
-
-If the harness baseline is broken, record the blocker before changing stage state.
-
-## Files and modules in scope
-
-- `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`
 - `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`
-- `content/getcourse-finstrategy/CONTENT_BRIEF.md`
 - `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`
-- `docs/stages/MVP.md`
 - `docs/architecture/source-of-truth.md`
-- `.agent/stages/mvp/source.md`
+- `docs/stages/MVP.md`
+- `docs/stages/v1.md`
+- `docs/stages/v2.md`
+- `.agents/skills/stage-launch-proof-loop/SKILL.md`
+- `.agents/skills/stage-launch-proof-loop/references/PROTOCOL.md`
+- `.agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md`
 - `.agent/stages/mvp/stage_spec.md`
-- `.agent/stages/mvp/backlog.md`
-- `.agent/stages/mvp/feature_list.json`
 - `.agent/stages/mvp/sprint_contract.md`
-- `.agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md`
-- `.agent/stages/mvp/progress.md`
-- `.agent/stages/mvp/status.json`
-- `.agent/stages/mvp/decisions.md`
-- `.agent/stages/mvp/risks.md`
+- `.agent/stages/mvp/task-files/MVP-05-learning-methodology-doc-sync-001.md`
 - `.agent/stages/mvp/evidence.md`
 - `.agent/stages/mvp/evidence.json`
+- `.agent/stages/mvp/feature_list.json`
+- `.agent/stages/mvp/progress.md`
+- `.agent/stages/mvp/decisions.md`
+- `.agent/stages/mvp/risks.md`
+- `.agent/stages/mvp/status.json`
 - `.agent/stages/mvp/raw/**`
-- `.agent/stages/mvp/verdict.json` and `.agent/stages/mvp/problems.md` for fresh verifier output only.
-
-## In scope
-
-- Move the draft from repo root into `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`.
-- Add canonical frontmatter and note that the document is `draft_with_human_gates`.
-- Import or add the missing local source markdown files referenced by the draft.
-- Add canonical references so future MVP-05/06/07/09 agents read methodology and content spec before implementation.
-- Record a doc-only sprint in stage artifacts, with a narrow evidence bundle.
-- Keep `MVP-05.01` through `MVP-05.05` unclosed.
 
 ## Out of scope
 
-- Runtime application code, tests for runtime behavior, migrations, OpenAPI, generated clients, UI screenshots or CMS implementation.
-- Financial/legal/tax/HR/privacy/reward approval.
-- Editing substantive lesson/question/challenge copy except metadata/frontmatter/source-location notes.
-- Any real employee/customer/personal/financial data.
-- Changing the next implementation recommendation away from `MVP-02.03` after this ingestion is verified.
+- Runtime code, DB schema, migrations, API/OpenAPI, generated client, UI or screenshots.
+- Closing `MVP-05`, `MVP-06`, `MVP-07`, `MVP-09`, `MVP-10`, `MVP-11`, `MVP-12` or full MVP.
+- Final human approval for financial correctness, legal/tax wording, HR wording, reward operations or support answer policy.
 
-## Exact acceptance criteria
+## Acceptance criteria
 
-1. Root `finrhythm_stage3_content_mvp_draft.md` is absent.
-2. `content-mvp-spec-v0.1.md` exists under the product-doc path and carries `draft_with_human_gates` metadata.
-3. `learning-methodology-v0.2.md` and `CONTENT_BRIEF.md` exist at their local referenced paths.
-4. Canonical docs point to the content/methodology docs and explicitly preserve human gates.
-5. Stage artifacts record `MVP-05-content-spec-ingestion-001` as a doc-only ingestion slice.
-6. `feature_list.json` marks only ingestion/proof criteria as passed; content approval criteria remain not passed.
-7. `status.json` records this slice as active/verified without closing MVP-05 units and restores next recommended `MVP-02.03` after verification.
-8. Evidence includes raw refs for git status, root draft absence/path checks, reference scan, harness validation and `make verify`.
-9. No code/schema/API/UI/generated-client files are changed.
-10. Fresh `stage_verifier` returns PASS for this slice only.
+1. The root file `learning_methodology_mvp_stage2_v02.md` is removed.
+2. The methodology doc exists at `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`.
+3. The methodology doc has normalized frontmatter and `status: accepted_with_human_gates`.
+4. The stray leading `ё` before the heading is gone.
+5. Methodology source references point to actual repo paths.
+6. `docs/architecture/source-of-truth.md` lists the methodology baseline after product foundation.
+7. Product foundation links the methodology baseline and no longer carries stale `4–6 weeks`, `52-week challenge` or pre/post P1 wording.
+8. `docs/stages/MVP.md` records `product_methodology`, read-before-freeze rules and v0.2 decisions for learning, diagnostics, support, reports, challenges and store.
+9. `docs/stages/v1.md` and `docs/stages/v2.md` inherit methodology v0.2 instead of reopening it by default.
+10. Harness docs instruct agents to read the methodology baseline and record lesson/question/route IDs, review statuses, sensitive-data policy and human gates.
+11. Stage artifacts identify the slice as docs-only and preserve current MVP-02 proofs.
+12. Verification commands/scans are recorded, including any Java/runtime blocker.
+13. Fresh verifier verdict is recorded before this sprint is considered closed.
 
-## Build and test plan
+## Verification plan
 
 - `git status --short`
-- `test ! -f finrhythm_stage3_content_mvp_draft.md`
-- `test -f docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`
-- reference scan for new canonical paths and `draft_with_human_gates`
-- `python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp`
+- path uniqueness check:
+  - `find . -name '*learning*methodolog*' -o -name '*learning_methodology_mvp_stage2_v02*'`
+- link/path scans with `rg`
+- contradiction scan for stale language:
+  - `learning_methodology_mvp_stage2_v02`
+  - `4–6 weeks` / `4-6 weeks`
+  - `52-week` / `52-недель`
+  - `Опрос до/после пилота по уверенности и финансовому стрессу`
+  - missing expected tokens `SA1`, `Q28`, `Z1`, `production_ready`
+- `.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp`
 - `make verify`
 
-## Evidence requirements
+## Evidence expectations
 
-- Store command outputs in `.agent/stages/mvp/raw/`.
-- Record exact docs added/updated.
-- Record explicit no-code/API/UI/schema note.
-- Record human gates as unresolved.
-- Run one fresh verifier after builder evidence.
-
-## Docs targets
-
-Canonical docs are updated because this slice changes product-content source placement and future stage inputs. No Mermaid diagram is required.
-
-## Human gates
-
-No human gate is closed. Use `DONE_WITH_HUMAN_PENDING` only for the document ingestion readiness, not for the content itself.
+- Raw outputs under `.agent/stages/mvp/raw/`.
+- `evidence.md` and `evidence.json` map all criteria.
+- `feature_list.json` adds only docs-sync criteria; it must not mark downstream MVP learning or reporting features as implemented.
+- Human gates are listed as pending, not closed.

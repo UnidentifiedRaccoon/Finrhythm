@@ -1,21 +1,25 @@
 # MVP progress
 
-Updated: 2026-05-06
+Updated: 2026-05-05
 
-## Current session: MVP-05-content-spec-ingestion-001
+## Current session: MVP-05-learning-methodology-doc-sync-001
 
-- Re-synced stage harness baseline and confirmed `verify_harness.py --stage-id mvp` passed before implementation.
-- Moved `finrhythm_stage3_content_mvp_draft.md` from repo root to `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`.
-- Added `draft_with_human_gates` frontmatter and canonical note to make clear the document is a production-preparation draft, not final content approval.
-- Added local source dependencies:
-  - `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`;
-  - `content/getcourse-finstrategy/CONTENT_BRIEF.md`.
-- Updated narrow canonical references in product foundation, MVP stage source and architecture source-of-truth.
-- Updated stage artifacts for doc-only sprint `MVP-05-content-spec-ingestion-001`.
-- Kept `MVP-05.01` through `MVP-05.05` open; financial correctness, legal/tax wording, HR/privacy wording, reward economy and final `production_ready` publish approval remain human-gated.
-- No runtime code, DB schema, API/OpenAPI/generated client, UI or fixture behavior changed.
-- Fresh `stage_verifier` returned `PASS` for `MVP-05-content-spec-ingestion-001` only.
-- The next implementation recommendation remains freezing `MVP-02.03` employee registration; `MVP-05.01` through `MVP-05.05` remain open.
+- Re-synced Harness/product/stage sources for a docs-only learning methodology slice.
+- Moved the user-provided root file `learning_methodology_mvp_stage2_v02.md` to `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`.
+- Normalized the methodology doc with frontmatter, removed the stray leading `ё`, fixed repo path references and recorded `status: accepted_with_human_gates`.
+- Updated canonical docs so methodology v0.2 is now the MVP learning/diagnostic baseline:
+  - `docs/architecture/source-of-truth.md`;
+  - `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`;
+  - `docs/stages/MVP.md`;
+  - `docs/stages/v1.md`;
+  - `docs/stages/v2.md`;
+  - `.agents/skills/stage-launch-proof-loop/SKILL.md`;
+  - `.agents/skills/stage-launch-proof-loop/references/PROTOCOL.md`;
+  - `.agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md`.
+- Synchronized stage artifacts for `MVP-05-learning-methodology-doc-sync-001` without marking `MVP-05`, `MVP-06`, `MVP-07`, `MVP-09`, `MVP-10`, `MVP-11`, `MVP-12` or full MVP complete.
+- Baseline `make verify` in the current shell failed at `cd apps/api && ./mvnw -q test` because Java runtime could not be located; bootstrap checks passed before that failure. This is recorded as an environment blocker for Java-backed verification, not a docs contradiction.
+- Fresh `stage_verifier` returned `PASS` for `MVP-05-learning-methodology-doc-sync-001`, rerunning lightweight scans and Harness verification; Java-backed `make verify` remains documented as non-blocking for this docs-only slice.
+- Human gates remain pending for final financial correctness, legal/tax review, HR wording, reward operations and support answer policy.
 
 ## Current session: resume-stage mvp
 

@@ -1,0 +1,13 @@
+learning-methodology-v0.2.md: PASS
+status: accepted_with_human_gates: PASS
+C1–C10: PASS
+N1–N7: PASS
+Z1: PASS
+Q0: PASS
+Q28: PASS
+SA1: PASS
+R1–R6: PASS
+production_ready: PASS
+80 mugs: PASS
+40 tote: PASS
+20 scarves: PASS

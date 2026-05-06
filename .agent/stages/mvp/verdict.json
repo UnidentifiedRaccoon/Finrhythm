@@ -1,137 +1,97 @@
 {
   "status": "PASS",
-  "verdict": "PASS",
   "stage_id": "mvp",
-  "sprint_contract_id": "MVP-05-content-spec-ingestion-001",
-  "parent_stage_unit": "MVP-05 source input for MVP-06/MVP-07/MVP-09",
-  "recorded_at": "2026-05-06T15:56:00+03:00",
-  "role": "fresh_stage_verifier",
-  "scope": "MVP-05-content-spec-ingestion-001 only; not full MVP-05, not MVP-02.03, not MVP-02.04 and not full MVP",
-  "summary": "Fresh verification passes for the doc-only Content MVP spec ingestion slice. The root draft is absent, the content spec is present in canonical product docs with draft_with_human_gates metadata, local source dependencies exist, canonical docs and stage artifacts point to the methodology/content spec without approving content, MVP-05.01 through MVP-05.05 remain open, and changed files are limited to docs, stage artifacts and the required content source dependency.",
-  "commands_run": [
+  "sprint_contract_id": "MVP-05-learning-methodology-doc-sync-001",
+  "verifier_role": "fresh_stage_verifier",
+  "last_verified_at": "2026-05-05T17:57:13Z",
+  "summary": "Docs-only MVP-05 learning methodology doc-sync slice is sufficiently proven. The methodology is canonical under docs/product, human gates remain pending, downstream MVP-05/06/07/09/10/11/12 units are not marked complete, no runtime API/schema/UI scope is present, and fresh verifier scans plus verify_harness pass. Java-backed make verify is not feasible in the current shell because java cannot locate a runtime; the blocker is documented and non-blocking for this docs-only slice.",
+  "failed_criteria": [],
+  "proof_gaps": [],
+  "environment_limitations": [
     {
-      "command": "git status --short",
-      "result": "PASS",
-      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-git-status-20260506.txt",
-      "observed": "Workspace changes before verifier artifacts were limited to builder docs/stage artifacts, required content source files and builder raw outputs."
-    },
-    {
-      "command": "root/path/reference checks",
-      "result": "PASS",
-      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-root-path-reference-checks-20260506.txt",
-      "observed": "Root draft is absent; content spec, methodology and CONTENT_BRIEF exist; content spec frontmatter has draft_with_human_gates, version 0.1, date 2026-05-06 and MVP-05/06/07/09 alignment."
-    },
-    {
-      "command": "stage artifacts JSON checks",
-      "result": "PASS",
-      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-stage-artifacts-json-checks-20260506.txt",
-      "observed": "feature_list.json passes only mvp-05-content-spec-ingestion among MVP-05 entries; human-gates entry remains passes=false; status.json keeps MVP-05 units/content approval/fresh verifier flags false before this verdict."
-    },
-    {
-      "command": "changed-files scope check",
-      "result": "PASS",
-      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-changed-files-scope-20260506.txt",
-      "observed": "No runtime code, DB schema, API/OpenAPI/generated-client, UI, fixture behavior, points/reward runtime or real-data paths changed."
-    },
-    {
-      "command": "stage artifacts reference scan",
-      "result": "PASS",
-      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-stage-artifacts-reference-scan-20260506.txt",
-      "observed": ".agent/stages/mvp artifacts record the slice as doc-only ingestion and preserve open MVP-05/human-gated status."
-    },
-    {
-      "command": "python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp",
-      "result": "PASS",
-      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-verify-harness-20260506.json",
-      "observed": "Harness validator returns PASS."
-    },
-    {
-      "command": "make verify",
-      "result": "PASS",
-      "raw": ".agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-make-verify-20260506.txt",
-      "observed": "Root verification passes; backend Maven test command emits no failure output under make verify."
+      "id": "java-runtime-current-shell",
+      "status": "DOCUMENTED_NON_BLOCKING_FOR_DOCS_ONLY_SLICE",
+      "detail": "Fresh verifier reran java -version and the shell reported: Unable to locate a Java Runtime. Builder evidence already records make verify reaching backend Maven and failing for the same Java/runtime reason.",
+      "raw_refs": [
+        ".agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-make-verify-20260505.txt",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-java-version-20260505-fresh.txt"
+      ]
     }
   ],
-  "acceptance_criteria_assessment": [
+  "checks": [
     {
-      "criterion": 1,
+      "id": "root-methodology-file-removed",
       "status": "PASS",
-      "assessment": "Root finrhythm_stage3_content_mvp_draft.md is absent."
+      "detail": "Fresh path scan excluding .agent/.git finds only docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-path-check-20260505-fresh.txt"
     },
     {
-      "criterion": 2,
+      "id": "canonical-methodology-frontmatter",
       "status": "PASS",
-      "assessment": "docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md exists with status draft_with_human_gates, version 0.1, date 2026-05-06 and MVP-05/06/07/09 alignment."
+      "detail": "Methodology exists, frontmatter contains status: accepted_with_human_gates, and first body heading is '# Этап 2. Методология обучения MVP' with no leading ё.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-doc-source-ref-check-20260505-fresh.txt"
     },
     {
-      "criterion": 3,
+      "id": "source-references-real",
       "status": "PASS",
-      "assessment": "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md and content/getcourse-finstrategy/CONTENT_BRIEF.md exist."
+      "detail": "Methodology repo path references checked by the verifier exist.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-doc-source-ref-check-20260505-fresh.txt"
     },
     {
-      "criterion": 4,
+      "id": "product-stage-harness-links",
       "status": "PASS",
-      "assessment": "Product foundation, MVP stage and source-of-truth point to methodology/content spec, keep CMS/PostgreSQL as runtime content source, and preserve human gates instead of marking content approved."
+      "detail": "Source-of-truth, product foundation, MVP/v1/v2 stage docs and Harness docs reference methodology v0.2 and key IDs/statuses.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-link-token-scan-20260505-fresh.txt"
     },
     {
-      "criterion": 5,
+      "id": "stale-wording-scan",
       "status": "PASS",
-      "assessment": ".agent/stages/mvp artifacts record MVP-05-content-spec-ingestion-001 as doc-only ingestion."
+      "detail": "Fresh contradiction scan found no stale root filename, 4-6/4–6 weeks, 52-week/52-недель, old pre/post wording or future-methodology wording in the checked canonical docs/Harness files.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-stale-wording-scan-20260505-fresh.txt"
     },
     {
-      "criterion": 6,
+      "id": "downstream-units-not-closed",
       "status": "PASS",
-      "assessment": "feature_list.json only passes the ingestion/proof criterion for MVP-05 and leaves content human gates not passed."
+      "detail": "status.json completed_ids excludes MVP-05/06/07/09/10/11/12; exit gates for those units are false; active sprint is docs-only.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-downstream-status-check-20260505-fresh.txt"
     },
     {
-      "criterion": 7,
+      "id": "human-gates-pending",
       "status": "PASS",
-      "assessment": "MVP-05.01 through MVP-05.05 and content approvals remain pending/open or waiting human review."
+      "detail": "status.json and evidence.json keep financial correctness, legal/tax, HR wording, reward operations and support answer policy as WAITING_HUMAN.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-downstream-status-check-20260505-fresh.txt"
     },
     {
-      "criterion": 8,
+      "id": "no-runtime-api-schema-ui-scope",
       "status": "PASS",
-      "assessment": "No runtime code, DB schema, API/OpenAPI/generated-client, UI, fixture behavior, points/reward runtime or real-data changes are included."
+      "detail": "Fresh status/runtime scope check found no changed apps/packages/infra/scripts/content/tests paths and active sprint guardrails mark public API, schema and UI scope false.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-runtime-scope-check-20260505-fresh.txt"
     },
     {
-      "criterion": 9,
+      "id": "verify-harness",
       "status": "PASS",
-      "assessment": "Required verifier commands were run and raw outputs were recorded under .agent/stages/mvp/raw."
+      "detail": "Fresh verifier reran .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp and all checks passed.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-verify-harness-20260505-fresh.json"
     },
     {
-      "criterion": 10,
+      "id": "builder-evidence-review",
       "status": "PASS",
-      "assessment": "This fresh stage_verifier returns PASS for MVP-05-content-spec-ingestion-001 only."
+      "detail": "evidence.md/evidence.json map acceptance criteria, raw outputs, docs-only scope, API/schema/UI non-applicability and pending human gates.",
+      "raw_refs": [
+        ".agent/stages/mvp/evidence.md",
+        ".agent/stages/mvp/evidence.json"
+      ]
     }
   ],
-  "docs_sync": {
-    "status": "PASS",
-    "canonical_docs_changed": true,
-    "assessment": "Canonical changes are narrow to content-source placement and future MVP-05/06/07/09 inputs; no material doc drift found for this slice."
-  },
-  "api_schema_openapi_assessment": {
-    "runtime_or_schema_change": false,
-    "maven_or_flyway_required_for_changed_backend": false,
-    "openapi_update_required": false,
-    "generated_client_update_required": false,
-    "assessment": "No backend/schema/API/generated-client files changed. make verify was still run and passed as root proof."
-  },
-  "ui_evidence": {
-    "user_visible_change": false,
-    "screenshot_required": false,
-    "browser_smoke_required": false,
-    "reason": "Doc-only ingestion; no employee/admin/HR UI or runtime behavior changed."
-  },
-  "human_gates": {
-    "agent_closed_human_gate": false,
-    "open_gates": [
-      "final financial correctness of lessons, diagnostics, quizzes and explanations",
-      "legal/tax wording and official-source links",
-      "HR/privacy wording for diagnostics, self-assessment and reporting",
-      "reward economy, stock, points prices and fulfillment operations",
-      "support-answer policy for tax, investment, credit and personal-finance questions",
-      "final production_ready publish approval"
-    ]
-  },
-  "problems_file": ".agent/stages/mvp/problems.md"
+  "raw_outputs_written": [
+    ".agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-git-status-20260505-fresh.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-path-check-20260505-fresh.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-link-token-scan-20260505-fresh.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-stale-wording-scan-20260505-fresh.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-doc-source-ref-check-20260505-fresh.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-downstream-status-check-20260505-fresh.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-runtime-scope-check-20260505-fresh.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-java-version-20260505-fresh.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-verify-harness-20260505-fresh.json"
+  ]
 }

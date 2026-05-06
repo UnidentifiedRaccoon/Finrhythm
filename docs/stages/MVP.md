@@ -7,22 +7,20 @@ default_model: gpt-5.5
 default_reasoning_effort: xhigh
 task_execution_mode: stage-launch-proof-loop
 product_foundation: docs/product/b2b-mvp/lemanapro/product-foundation-v1.md
-learning_methodology: docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
-content_mvp_spec: docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md
-last_updated: 2026-05-03
+product_methodology: docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
+last_updated: 2026-05-05
 language: ru
 ---
 
 # MVP — stage source of truth
 
-Этот файл задаёт исполняемый scope MVP для stage-агента. Канонический продуктовый baseline: `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`.
+Этот файл задаёт исполняемый scope MVP для stage-агента. Канонический продуктовый baseline: `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`; канонический baseline методологии обучения, диагностики and route rules: `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`.
 
 Stage artifacts, progress, evidence, verdicts and audits must live in `.agent/stages/mvp/`. Этот файл не является журналом прогресса.
 
 ## Как агент должен использовать этот файл
 
-- До spec freeze читать `AGENTS.md`, `docs/architecture/source-of-truth.md`, `docs/architecture/documentation-workflow.md`, этот файл and `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`.
-- Для MVP-05/06/07/09 также читать `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` and `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`.
+- До spec freeze читать `AGENTS.md`, `docs/architecture/source-of-truth.md`, `docs/architecture/documentation-workflow.md`, этот файл, `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md` and `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` for learning/content/diagnostic/support/reporting slices.
 - Исполнять MVP как B2B-first corporate pilot, not as B2C/public-launch product.
 - Не расширять scope за пределы `In scope`; disputed product intent возвращать в product foundation/stage docs before implementation.
 - Любую крупную задачу нормализовать в execution unit with `TASK_ID`.
@@ -53,12 +51,13 @@ Stage artifacts, progress, evidence, verdicts and audits must live in `.agent/st
 - Первый корпоративный контур: Лемана ПРО as internal/customer context; customer brand is not used in employee-facing UI.
 - MVP supports one pilot tenant and launch waves; architecture must not block later multi-tenant scaling.
 - Волна 0: 30-50 users for UX/content/reward/report validation.
-- Волна 1: 500 employees; later expansion can reach 5000 after pilot decision.
+- Волна 1: 500 employees, 6 active weeks; later expansion can reach 5000 after pilot decision.
 - Target users: employees 23-30, office and store staff.
 - Commercial model: corporate access by contract outside the app; no in-app subscription or payment in MVP.
 - Access model: individual invite code; corporate SSO is out of MVP.
 - Data collected in MVP: name, email, phone, invite code, learning events, diagnostics, points, merch orders, support/feedback.
 - Product tone: calm mentor / financial trainer, no shame, no promises of fast income, no employer surveillance framing.
+- Learning methodology v0.2 fixes the MVP route: diagnostics -> personalized route -> 7 short `Новичок` lessons -> mini-test -> practice -> points -> challenge/streak return.
 
 ## Architecture baseline
 
@@ -90,11 +89,26 @@ Use these product/domain concepts consistently during implementation:
 - `HR report`: sponsor-facing aggregated analytics with anonymity threshold.
 - `pilot outcome report`: final report for Wave 1 scale/no-scale decision.
 
+## Learning methodology baseline
+
+For MVP learning/content/diagnostic implementation, use `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` as the narrow source of truth:
+
+- competency matrix: `C1–C10`; MVP target for `Новичок` is competency level 2, not expert mastery;
+- core mandatory track: `N1–N7`; optional MVP mini-lessons: `Z1`, `Z4`, `Z9`; `Z2` is stretch only;
+- diagnostic structure: `Q0` privacy-card, `Q1–Q27` scoring/personalization, `Q28` route preference screen, and `SA1–SA3` pre/post self-assessment;
+- scoring/routing: Knowledge 40%, Behavior evidence 40%, Confidence/readiness 20%, route profiles `R1–R6`;
+- lesson completion: theory viewed, mini-test passed at 70%+, practical action selected/submitted; failed tests add reinforcement instead of hard shame/block;
+- sensitive learning data: no required exact income/debt/bank balances, photos, documents, bank screenshots or personal finance reports for MVP completion;
+- HR/sponsor reporting: diagnostics, weak zones, quiz results and self-assessment are aggregate-only by default with anonymity threshold;
+- content approve-flow: `raw_imported -> method_adapted -> editorial_review -> financial_review -> legal_review -> hr_wording_review -> pilot_ready -> production_ready`.
+
 ## Privacy and reporting model
 
 - HR dashboard defaults to aggregated analytics, not personal financial answers.
 - Diagnostics, weak zones and quiz results are HR-visible only in aggregate.
+- Pre/post self-assessment (`SA1–SA3`) is HR-visible only as aggregated group dynamics and never gates rewards or personal comparison.
 - Detailed cohort slices require anonymity threshold of at least 20 users.
+- MVP practice tasks store ranges/categories/checklists/check-ins by default; exact sums, documents, photos and bank screenshots are not required for completion or reporting.
 - Personal data is allowed for access, communications, merch fulfillment and support.
 - Merch reports may be personal because fulfillment requires it.
 - Product/admin access to sensitive data must be role-scoped, logged and justified.
@@ -108,11 +122,11 @@ Use these product/domain concepts consistently during implementation:
 - Invite code issuance, activation and registration by name/email/phone.
 - Onboarding, trust/privacy screen and consent/legal document acceptance.
 - Entry diagnostics, rule-based scoring and personalized route.
-- First 7-step track from product foundation.
+- First 7-step `Новичок` track from learning methodology v0.2, with optional `Знаток` mini-lessons `Z1`, `Z4`, `Z9`.
 - Lesson template: situation/theory/example/mini-test/practical step/reward.
-- Daily challenge and startup version of savings challenge.
+- Daily challenge and 6-week startup savings challenge for Wave 1.
 - Points accrual rules v1, wallet and transaction history.
-- Store with mug, tote bag, scarf and internal bonuses.
+- Store with mug, tote bag, scarf and internal bonuses; methodology v0.2 working stock hypothesis is 80 mugs, 40 tote bags and 20 scarves until human ops approval.
 - Merch order lifecycle and operator/admin fulfillment surface.
 - Admin/CMS for content, diagnostics, challenges, rewards, orders and support.
 - Methodologist approve-flow for educational content.
@@ -162,9 +176,10 @@ MVP is complete only when all are true:
 - Diagnostics runs, assigns route and records events.
 - First 7-step track is available and methodologist-approved.
 - Every lesson includes theory, example, mini-test, practical action and reward.
+- Entry diagnostics implement `Q0/Q1–Q27/Q28`, `SA1–SA3`, `C1–C10` scoring and `R1–R6` routing without shaming labels.
 - Points rules v1 are implemented through auditable ledger with idempotency protections.
 - Wallet and points history work for employee and admin/support views.
-- Store supports mug, tote bag, scarf and internal bonuses.
+- Store supports mug, tote bag, scarf and internal bonuses with explicit stock/operations human-gate status.
 - Merch orders are visible to operator/admin and have statuses.
 - Daily challenge and savings challenge are available.
 - HR dashboard shows standard aggregated reports with privacy threshold.
@@ -282,6 +297,7 @@ Allowed parallelism:
 ### Acceptance criteria
 
 - Employee understands what employer sees and does not see.
+- Privacy-card appears before diagnostics and explains that personal diagnostic answers, weak zones, exact sums and reflection details are not personal HR reports.
 - Consent versions are recorded and auditable.
 - Legal wording has human-gate status.
 - Sensitive admin access is logged.
@@ -314,6 +330,8 @@ Allowed parallelism:
 
 - Employee UI does not show customer brand by default.
 - Mobile-first flows are usable on representative smartphones.
+- Diagnostic, lesson and practice UX supports no-photo/no-doc/no-exact-sum completion and has office/store example variants.
+- HR-facing and mass-communication wording uses "опора", "уверенность", "спокойствие" and avoids stigmatizing debt/stress/control framing.
 - Common UI states support future feature work without ad hoc layout.
 
 ### Evidence required
@@ -336,24 +354,27 @@ The content spec is a draft with explicit human gates. It can guide CMS/template
 
 ### Execution units
 
-- MVP-05.01 [agent+human] Freeze competency matrix for 7 steps.
-- MVP-05.02 [agent+human] Define diagnostic taxonomy, scoring dimensions and route rules.
-- MVP-05.03 [agent] Create lesson, quiz, explanation and practice-task templates.
-- MVP-05.04 [agent+human] Build question bank and content QA checklist.
-- MVP-05.05 [agent+human] Define methodologist approve-flow and review statuses.
+- MVP-05.01 [agent+human] Freeze competency matrix `C1–C10` and `N1–N7` outcomes from learning methodology v0.2.
+- MVP-05.02 [agent+human] Define diagnostic taxonomy, scoring dimensions and route rules using `Q0`, `Q1–Q27`, `Q28`, `SA1–SA3` and `R1–R6`.
+- MVP-05.03 [agent] Create lesson, quiz, explanation and practice-task templates with no-photo/no-doc/no-exact-sum defaults.
+- MVP-05.04 [agent+human] Build question bank and content QA checklist for `N1–N7`, optional `Z1/Z4/Z9` and `Z2` stretch.
+- MVP-05.05 [agent+human] Define methodologist approve-flow and review statuses through `production_ready`.
 
 ### Acceptance criteria
 
 - Diagnostic can route users without shaming labels.
 - Lessons have consistent structure and practical action.
+- Diagnostic uses `C1–C10` score components: Knowledge 40%, Behavior evidence 40%, Confidence/readiness 20%.
+- Pre/post self-assessment is separate from scoring and uses `SA1–SA3`.
 - Content has explicit review states and unresolved labels.
+- Optional `Знаток` lessons do not block mandatory 7-step completion and remain human-gated before publication.
 
 ### Evidence required
 
 - Competency matrix.
-- Diagnostic samples and scoring output.
-- Lesson/question IDs.
-- Review checklist and status markers.
+- Diagnostic samples and scoring output for `Q0/Q1–Q27/Q28`, `SA1–SA3` and `R1–R6`.
+- Lesson/question/route IDs.
+- Review checklist and status markers through `production_ready`.
 
 ---
 
@@ -376,6 +397,8 @@ The content spec is a draft with explicit human gates. It can guide CMS/template
 
 - Admin/methodologist can create, review and publish lessons.
 - First 7 steps render correctly on mobile.
+- Lesson CMS fields cover level, competencies, source materials, review flags, disclaimer type, practice task type, quiz items, reward rule, analytics tags and office/store examples.
+- Publish validation blocks lessons without required review statuses or human-gated financial/tax/HR wording status.
 - Progress is saved and observable.
 - Publish validation blocks incomplete content.
 
@@ -406,7 +429,8 @@ The content spec is a draft with explicit human gates. It can guide CMS/template
 ### Acceptance criteria
 
 - Diagnostic takes 7-12 minutes in target content.
-- Route is reproducible and explainable.
+- Route is reproducible and explainable across `R1–R6`.
+- Diagnostic stores `Q1–Q27` scoring separately from `Q28` preference and `SA1–SA3` self-assessment.
 - Interrupted diagnostic does not corrupt progress.
 - HR receives only aggregated diagnostic insights by default.
 
@@ -437,6 +461,8 @@ The content spec is a draft with explicit human gates. It can guide CMS/template
 ### Acceptance criteria
 
 - Lesson completion, quiz pass and practice task grant points once according to rules.
+- Mini-test pass threshold is 70%; 50–69% may continue with `needs_reinforcement` and no test points; below 50% offers retry/reinforcement without shaming copy.
+- Practice completion stores ranges/categories/checklists/reflection categories/check-ins rather than required exact personal sums.
 - Wallet history is understandable to employee and auditable for admin.
 - Replays/retries do not duplicate rewards.
 - Points are never represented as money.
@@ -452,7 +478,7 @@ The content spec is a draft with explicit human gates. It can guide CMS/template
 
 ## MVP-09. Challenges and retention loop
 
-**Goal:** добавить daily challenge and startup savings challenge for return behavior.
+**Goal:** добавить daily challenge and 6-week startup savings challenge for return behavior.
 
 **Dependencies:** MVP-05, MVP-08
 **Parallelism:** medium
@@ -460,7 +486,7 @@ The content spec is a draft with explicit human gates. It can guide CMS/template
 ### Execution units
 
 - MVP-09.01 [agent] Implement daily challenge definitions and participation.
-- MVP-09.02 [agent] Implement startup savings challenge flow and weekly check-ins.
+- MVP-09.02 [agent] Implement 6-week startup savings challenge flow and weekly check-ins.
 - MVP-09.03 [agent] Implement streak rules with soft missed-day behavior.
 - MVP-09.04 [agent] Implement challenge rewards and anti-duplicate guards.
 - MVP-09.05 [agent] Implement engagement analytics events.
@@ -468,6 +494,7 @@ The content spec is a draft with explicit human gates. It can guide CMS/template
 ### Acceptance criteria
 
 - User can complete daily challenge and savings challenge actions.
+- Challenge pacing respects Wave 1: no more than 2 mandatory lessons per week; week 6 is catch-up, post-assessment, store and feedback.
 - Rewards are idempotent and limited.
 - Missed days invite return without punitive copy.
 - Engagement is visible in reports.
@@ -500,6 +527,7 @@ The content spec is a draft with explicit human gates. It can guide CMS/template
 ### Acceptance criteria
 
 - Store includes mug, tote bag, scarf and internal bonuses.
+- Working Wave 1 stock hypothesis is recorded as 80 mugs, 40 tote bags and 20 scarves until reward operations human approval.
 - Redeem flow prevents double-spend.
 - Cancellation returns points.
 - Operator can see personal fulfillment data only for orders.
@@ -533,6 +561,8 @@ The content spec is a draft with explicit human gates. It can guide CMS/template
 
 - HR sees activation, retention, completion, rewards and support signals.
 - Sensitive diagnostic/learning data is aggregated by default.
+- HR/sponsor reports include aggregate pre/post self-assessment deltas only above anonymity threshold; no personal answers, weak zones, exact financial data or reflection details by default.
+- Event taxonomy includes skill-level learning fields from methodology v0.2, including `self_assessment_submitted`.
 - Groups below anonymity threshold do not show detailed slices.
 - Pilot outcome report supports scale/no-scale decision.
 
@@ -564,7 +594,9 @@ The content spec is a draft with explicit human gates. It can guide CMS/template
 ### Acceptance criteria
 
 - Support and feedback are operational.
+- Support form can be linked to a lesson/question category and must not promise personal tax, investment, credit or legal consultation.
 - Communication kit explains voluntary participation and privacy boundary.
+- Wave readiness includes 6-week calendar, HR wording review, email/in-app reminder checks and post-assessment timing.
 - Critical employee/admin/HR journeys have smoke/e2e evidence.
 - Wave 1 can launch without manual support for every user.
 
