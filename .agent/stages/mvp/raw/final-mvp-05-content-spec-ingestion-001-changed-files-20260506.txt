@@ -1,0 +1,16 @@
+M	.agent/stages/mvp/backlog.md
+M	.agent/stages/mvp/decisions.md
+M	.agent/stages/mvp/evidence.json
+M	.agent/stages/mvp/evidence.md
+M	.agent/stages/mvp/feature_list.json
+M	.agent/stages/mvp/problems.md
+M	.agent/stages/mvp/progress.md
+M	.agent/stages/mvp/risks.md
+M	.agent/stages/mvp/source.md
+M	.agent/stages/mvp/sprint_contract.md
+M	.agent/stages/mvp/stage_spec.md
+M	.agent/stages/mvp/status.json
+M	.agent/stages/mvp/verdict.json
+M	docs/architecture/source-of-truth.md
+M	docs/product/b2b-mvp/lemanapro/product-foundation-v1.md
+M	docs/stages/MVP.md

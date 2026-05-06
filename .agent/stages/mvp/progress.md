@@ -1,6 +1,19 @@
 # MVP progress
 
-Updated: 2026-05-05
+Updated: 2026-05-06
+
+## Current session: MVP-05-content-spec-ingestion-001
+
+- Merged current `origin/main` into the PR branch after GitHub reported the PR as conflicting.
+- Preserved the already verified `MVP-05-learning-methodology-doc-sync-001` baseline from `main`.
+- Placed the prepared Content MVP draft at `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md` with `status: draft_with_human_gates`.
+- Added/kept local source dependencies: `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` and `content/getcourse-finstrategy/CONTENT_BRIEF.md`.
+- Updated canonical references and stage artifacts so future MVP-05/06/07/09 agents read the content spec without treating it as production approval.
+- Kept `MVP-05.01` through `MVP-05.05` open; final financial correctness, legal/tax wording, HR/privacy wording, reward economy and `production_ready` approval remain human-gated.
+- No runtime code, DB schema, API/OpenAPI/generated client, UI or fixture behavior changed.
+- Final `make verify` and Harness verification pass in the current shell with Java 21 available.
+- Fresh verifier PASS is recorded for `MVP-05-content-spec-ingestion-001` only.
+- The next implementation recommendation remains freezing `MVP-02.03` employee registration.
 
 ## Current session: MVP-05-learning-methodology-doc-sync-001
 

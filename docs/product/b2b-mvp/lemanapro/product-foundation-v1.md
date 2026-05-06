@@ -16,6 +16,9 @@ product_methodology: docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
 reference_artifacts:
   - docs/product/b2b-mvp/lemanapro/references/product-foundation-v1.docx
   - docs/product/b2b-mvp/lemanapro/references/lemanapro-comprehensive-program.pptx
+related_canonical_docs:
+  - docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
+  - docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md
 human_gates:
   - legal/privacy/consent wording
   - final financial correctness of lessons and quizzes

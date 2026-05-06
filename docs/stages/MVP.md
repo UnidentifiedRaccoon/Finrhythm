@@ -348,6 +348,9 @@ Allowed parallelism:
 
 **Dependencies:** MVP-01, MVP-04
 **Parallelism:** medium
+**Content sources:** `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`, `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`
+
+The content spec is a draft with explicit human gates. It can guide CMS/templates/diagnostics implementation, but does not by itself mark financial content, legal/tax wording, HR/privacy copy, reward rules or `production_ready` publish approval as done.
 
 ### Execution units
 

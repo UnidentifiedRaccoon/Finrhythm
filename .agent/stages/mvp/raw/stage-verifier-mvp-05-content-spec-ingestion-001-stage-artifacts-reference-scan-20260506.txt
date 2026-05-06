@@ -1,0 +1,79 @@
+# stage artifact reference scan for MVP-05-content-spec-ingestion-001
+.agent/stages/mvp/status.json:4:  "active_sprint_contract_id": "MVP-05-content-spec-ingestion-001",
+.agent/stages/mvp/status.json:20:    "MVP-05-content-spec-ingestion-001"
+.agent/stages/mvp/status.json:31:    "fresh-verify-MVP-05-content-spec-ingestion-001",
+.agent/stages/mvp/status.json:70:    "content_spec_status": "draft_with_human_gates",
+.agent/stages/mvp/status.json:82:      "MVP-05.01 through MVP-05.05 are not complete.",
+.agent/stages/mvp/status.json:89:    "next_slice": "Run a fresh verifier for MVP-05-content-spec-ingestion-001. After PASS, freeze the next small sprint contract for MVP-02.03 employee registration."
+.agent/stages/mvp/sprint_contract.md:1:# Sprint contract: MVP-05-content-spec-ingestion-001
+.agent/stages/mvp/sprint_contract.md:11:Ingest the prepared Content MVP draft into the correct canonical product-doc location and wire it into the MVP harness as a doc-only source slice.
+.agent/stages/mvp/sprint_contract.md:13:The slice must not approve content. It only proves that the draft is placed, referenced and tracked correctly, with human gates preserved.
+.agent/stages/mvp/sprint_contract.md:37:- `.agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md`
+.agent/stages/mvp/sprint_contract.md:50:- Add canonical frontmatter and note that the document is `draft_with_human_gates`.
+.agent/stages/mvp/sprint_contract.md:53:- Record a doc-only sprint in stage artifacts, with a narrow evidence bundle.
+.agent/stages/mvp/sprint_contract.md:54:- Keep `MVP-05.01` through `MVP-05.05` unclosed.
+.agent/stages/mvp/sprint_contract.md:67:2. `content-mvp-spec-v0.1.md` exists under the product-doc path and carries `draft_with_human_gates` metadata.
+.agent/stages/mvp/sprint_contract.md:69:4. Canonical docs point to the content/methodology docs and explicitly preserve human gates.
+.agent/stages/mvp/sprint_contract.md:70:5. Stage artifacts record `MVP-05-content-spec-ingestion-001` as a doc-only ingestion slice.
+.agent/stages/mvp/sprint_contract.md:82:- reference scan for new canonical paths and `draft_with_human_gates`
+.agent/stages/mvp/sprint_contract.md:91:- Record human gates as unresolved.
+.agent/stages/mvp/source.md:5:Command: `resume-stage mvp` / doc-only content spec ingestion  
+.agent/stages/mvp/source.md:27:- current `.agent/stages/mvp/*` artifacts for `MVP-05-content-spec-ingestion-001`
+.agent/stages/mvp/source.md:34:- The content spec is a draft with human gates and does not close final financial/legal/privacy/reward approval.
+.agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md:1:# Task: MVP-05-content-spec-ingestion-001
+.agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md:28:2. Content spec has `draft_with_human_gates` metadata and MVP-05/06/07/09 alignment.
+.agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md:30:4. Canonical docs refer to the new sources and preserve human gates.
+.agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md:31:5. Harness artifacts record this as doc-only ingestion.
+.agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md:32:6. `MVP-05.01` through `MVP-05.05` remain open.
+.agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md:46:- final `production_ready` publish approval.
+.agent/stages/mvp/stage_spec.md:4:Active slice: `MVP-05-content-spec-ingestion-001`  
+.agent/stages/mvp/stage_spec.md:14:This is a documentation and harness synchronization slice only. It records the content spec as a production-preparation input for MVP content factory, CMS/admin, diagnostics/routing and retention/challenge work, while keeping all financial, legal/tax, HR/privacy, reward and final `production_ready` decisions human-gated.
+.agent/stages/mvp/stage_spec.md:34:- Add frontmatter that marks the document as `draft_with_human_gates`, version `0.1`, dated `2026-05-06`, and aligned to MVP-05/06/07/09.
+.agent/stages/mvp/stage_spec.md:40:- Record explicit human gates and ensure `MVP-05.01` through `MVP-05.05` remain open.
+.agent/stages/mvp/stage_spec.md:50:- Closing `MVP-05.01` through `MVP-05.05`, full MVP-05 or later content units.
+.agent/stages/mvp/stage_spec.md:55:2. `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md` exists with `status: draft_with_human_gates`, version `0.1`, date `2026-05-06`, and MVP-05/06/07/09 alignment.
+.agent/stages/mvp/stage_spec.md:58:5. `.agent/stages/mvp/source.md`, `sprint_contract.md`, `task-files/MVP-05-content-spec-ingestion-001.md`, `backlog.md`, `feature_list.json`, `progress.md`, `status.json`, `decisions.md`, `risks.md`, `evidence.md` and `evidence.json` record the doc-only ingestion.
+.agent/stages/mvp/stage_spec.md:60:7. `MVP-05.01` through `MVP-05.05`, full MVP-05 and all content human gates remain open or human-pending.
+.agent/stages/mvp/stage_spec.md:63:10. Fresh `stage_verifier` returns PASS for `MVP-05-content-spec-ingestion-001` only before the sprint is marked verified.
+.agent/stages/mvp/stage_spec.md:70:- `rg -n "content-mvp-spec-v0.1|learning-methodology-v0.2|CONTENT_BRIEF|draft_with_human_gates" docs/product/b2b-mvp/lemanapro docs/stages/MVP.md docs/architecture/source-of-truth.md .agent/stages/mvp`
+.agent/stages/mvp/stage_spec.md:73:- Fresh `stage_verifier` scoped only to `MVP-05-content-spec-ingestion-001`.
+.agent/stages/mvp/stage_spec.md:84:No human gate is closed by this slice. The content spec is ready for production-proработка and future implementation planning, but final financial correctness, legal/tax wording, HR/privacy wording, reward economy, real fulfillment, support-answer policy and `production_ready` publishing remain human-gated.
+.agent/stages/mvp/risks.md:11:| R-005 | Human-gated reward/legal/content decisions are not approvable by agent. | Ongoing | No human-gated wording or real reward operations were marked DONE in this slice. |
+.agent/stages/mvp/risks.md:22:| R-016 | Content spec ingestion could be mistaken for final content approval. | Active until human review | `content-mvp-spec-v0.1.md`, harness evidence and status artifacts mark the document as `draft_with_human_gates`; `MVP-05.01` through `MVP-05.05` remain open. |
+.agent/stages/mvp/feature_list.json:340:      ".agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md",
+.agent/stages/mvp/feature_list.json:352:      "Record human gates in content spec",
+.agent/stages/mvp/feature_list.json:353:      "Keep MVP-05.01 through MVP-05.05 open",
+.agent/stages/mvp/feature_list.json:354:      "Require later human review before production_ready publication"
+.agent/stages/mvp/evidence.json:3:  "sprint_contract_id": "MVP-05-content-spec-ingestion-001",
+.agent/stages/mvp/evidence.json:7:  "summary": "Doc-only builder evidence is recorded for Content MVP spec ingestion. The draft is placed in canonical product docs, missing local source dependencies are added, canonical references and stage artifacts are updated, and content approval remains human-gated.",
+.agent/stages/mvp/evidence.json:62:    ".agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md"
+.agent/stages/mvp/evidence.json:75:      "status": "WAITING_HUMAN"
+.agent/stages/mvp/evidence.json:79:      "status": "WAITING_HUMAN"
+.agent/stages/mvp/evidence.json:83:      "status": "WAITING_HUMAN"
+.agent/stages/mvp/evidence.json:87:      "status": "WAITING_HUMAN"
+.agent/stages/mvp/evidence.json:90:      "gate": "final production_ready publish approval",
+.agent/stages/mvp/evidence.json:91:      "status": "WAITING_HUMAN"
+.agent/stages/mvp/evidence.md:5:## Current sprint: MVP-05-content-spec-ingestion-001
+.agent/stages/mvp/evidence.md:9:The builder work for this doc-only sprint placed the Content MVP draft in canonical product docs and wired it into MVP harness artifacts. This slice does not approve content and does not close `MVP-05.01` through `MVP-05.05`.
+.agent/stages/mvp/evidence.md:26:- Added `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md` with `draft_with_human_gates` frontmatter.
+.agent/stages/mvp/evidence.md:32:- Updated `.agent/stages/mvp/*` artifacts for `MVP-05-content-spec-ingestion-001`.
+.agent/stages/mvp/evidence.md:41:| 4. Canonical docs point to sources and preserve human gates | PASS | Product foundation, MVP stage, source-of-truth and reference scan |
+.agent/stages/mvp/evidence.md:42:| 5. Stage artifacts record doc-only ingestion | PASS | `stage_spec.md`, `sprint_contract.md`, task file, backlog, evidence/status artifacts |
+.agent/stages/mvp/evidence.md:59:No human-gated item was closed. Final financial correctness, legal/tax wording, HR/privacy wording, reward economy, support-answer policy and `production_ready` publish approval remain human-gated.
+.agent/stages/mvp/evidence.md:131:No human-gated item was closed. Legal/privacy wording, financial correctness, reward economy, customer-specific reporting and real operations remain outside this slice.
+.agent/stages/mvp/decisions.md:97:Decision: place the prepared Content MVP draft at `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md` and wire it into product/stage/harness sources as `MVP-05-content-spec-ingestion-001`.  
+.agent/stages/mvp/decisions.md:98:Why: future MVP-05/06/07/09 work needs a durable canonical draft source, but the content contains human-gated financial, legal/tax, HR/privacy and reward decisions.  
+.agent/stages/mvp/decisions.md:104:Why: this slice is a doc-only placement interruption, not a stage-order decision to start MVP-05 implementation ahead of MVP-02 registration.  
+.agent/stages/mvp/decisions.md:105:Impact: `MVP-05-content-spec-ingestion-001` may be marked verified independently, while `MVP-05.01` through `MVP-05.05` remain pending.
+.agent/stages/mvp/backlog.md:21:`MVP-05-content-spec-ingestion-001` is a doc-only interruption to place the prepared Content MVP draft into canonical docs and harness artifacts. It does not close `MVP-05.01` through `MVP-05.05`; after verification, the next implementation recommendation remains `MVP-02.03` employee registration.
+.agent/stages/mvp/backlog.md:55:| MVP-05-content-spec-ingestion-001 | agent | BUILDER_EVIDENCE_READY_FOR_FRESH_VERIFIER | Place Content MVP draft into canonical docs and harness as a draft-with-human-gates source. | `.agent/stages/mvp/evidence.md`, `.agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md` |
+.agent/stages/mvp/backlog.md:56:| MVP-05.01 | agent+human | PENDING | Freeze competency matrix for 7 steps. | Depends on human review and future MVP-05 sprint contract. |
+.agent/stages/mvp/backlog.md:59:| MVP-05.04 | agent+human | PENDING | Build question bank and content QA checklist. | Content approval remains human-gated. |
+.agent/stages/mvp/backlog.md:60:| MVP-05.05 | agent+human | PENDING | Define methodologist approve-flow and review statuses. | Review statuses are drafted; final process remains human-gated. |
+.agent/stages/mvp/progress.md:5:## Current session: MVP-05-content-spec-ingestion-001
+.agent/stages/mvp/progress.md:9:- Added `draft_with_human_gates` frontmatter and canonical note to make clear the document is a production-preparation draft, not final content approval.
+.agent/stages/mvp/progress.md:14:- Updated stage artifacts for doc-only sprint `MVP-05-content-spec-ingestion-001`.
+.agent/stages/mvp/progress.md:15:- Kept `MVP-05.01` through `MVP-05.05` open; financial correctness, legal/tax wording, HR/privacy wording, reward economy and final `production_ready` publish approval remain human-gated.
+.agent/stages/mvp/progress.md:18:- After this doc-only ingestion is verified, the next implementation recommendation remains freezing `MVP-02.03` employee registration.
+
+[exit_code=0]

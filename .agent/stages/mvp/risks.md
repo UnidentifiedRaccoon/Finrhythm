@@ -1,6 +1,6 @@
 # MVP risks
 
-Updated: 2026-05-05
+Updated: 2026-05-06
 
 | ID | Risk | Status | Mitigation |
 |----|------|--------|------------|
@@ -21,4 +21,6 @@ Updated: 2026-05-05
 | R-015 | MVP-02.03 registration could introduce personal/contact data before privacy and API boundaries are frozen. | Active for next slice | Next step must freeze a narrow `MVP-02.03` contract before implementation, including explicit contact-field, consent/privacy and API/client evidence requirements. |
 | R-016 | Methodology v0.2 could be treated as proof that learning/diagnostic/product implementation is done. | Active | Stage docs and artifacts state this is docs-only and does not close `MVP-05/06/07/09/10/11/12`; future implementation still needs sprint contracts, tests and fresh verification. |
 | R-017 | Financial/tax/HR/reward/support decisions in methodology v0.2 could be merged as final human-approved content. | Active | Methodology frontmatter and evidence record `accepted_with_human_gates`; final financial correctness, legal/tax review, HR wording, reward operations and support answer policy remain pending. |
-| R-018 | Current shell cannot run Java-backed verification even though docs-only checks can run. | Active environment blocker | `make verify` baseline reached bootstrap PASS but failed at Maven with `Unable to locate a Java Runtime`; evidence records this honestly and does not mask it as a docs failure. |
+| R-018 | Current shell cannot run Java-backed verification even though docs-only checks can run. | Resolved for current shell | Java 21.0.11 is available after merging `main`; post-merge `make verify` passes for the content-spec ingestion slice. |
+| R-019 | Content spec ingestion could be mistaken for final content approval. | Active until human review | `content-mvp-spec-v0.1.md`, harness evidence and status artifacts mark the document as `draft_with_human_gates`; `MVP-05.01` through `MVP-05.05` remain open. |
+| R-020 | Imported raw GetCourse content could carry unreviewed financial, customer-specific or legally sensitive claims into production. | Ongoing | `CONTENT_BRIEF.md` remains raw baseline only; production source of truth stays CMS/PostgreSQL, and final lesson/question/challenge publication requires human review. |
