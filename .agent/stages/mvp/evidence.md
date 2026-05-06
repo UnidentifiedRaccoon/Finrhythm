@@ -1,6 +1,58 @@
 # MVP stage evidence
 
-Updated: 2026-05-05
+Updated: 2026-05-06
+
+## Current sprint: MVP-05-content-spec-ingestion-001
+
+Status: `PASS`
+
+This docs-only slice places the Content MVP draft into canonical product documentation and synchronizes product, stage and Harness artifacts. It builds on `MVP-05-learning-methodology-doc-sync-001`, does not implement runtime code and does not close `MVP-05.01` through `MVP-05.05`.
+
+### Changed canonical docs and sources
+
+- `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`
+- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`
+- `content/getcourse-finstrategy/CONTENT_BRIEF.md`
+- `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`
+- `docs/architecture/source-of-truth.md`
+- `docs/stages/MVP.md`
+- `.agent/stages/mvp/*` artifacts for `MVP-05-content-spec-ingestion-001`
+
+### Command and scan evidence
+
+| Command/artifact | Result | Raw output |
+|------------------|--------|------------|
+| root/path/reference checks | PASS | `.agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-root-path-reference-checks-20260506.txt` |
+| changed-files scope check | PASS | `.agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-changed-files-scope-20260506.txt` |
+| stage artifacts JSON checks | PASS | `.agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-stage-artifacts-json-checks-20260506.txt` |
+| Harness verification | PASS | `.agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-verify-harness-20260506.json` |
+| `make verify` | PASS | `.agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-make-verify-20260506.txt` |
+| post-merge final Harness verification | PASS | `.agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-verify-harness-20260506.json` |
+| post-merge final `make verify` | PASS | `.agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-make-verify-20260506.txt` |
+| fresh `stage_verifier` | PASS | `.agent/stages/mvp/verdict.json`, `.agent/stages/mvp/problems.md` |
+
+### Acceptance mapping
+
+| Criterion | Status | Evidence |
+|-----------|--------|----------|
+| 1. Root content draft removed | PASS | verifier root/path checks |
+| 2. Content spec exists with `draft_with_human_gates` metadata | PASS | content spec frontmatter and verifier checks |
+| 3. Methodology and `CONTENT_BRIEF.md` exist locally | PASS | verifier root/path checks |
+| 4. Canonical docs point to methodology/content spec and preserve human gates | PASS | product foundation, MVP stage, source-of-truth and reference scans |
+| 5. Stage artifacts record doc-only ingestion | PASS | stage artifacts and task file |
+| 6. Only ingestion/proof criteria pass; content approval remains not passed | PASS | `feature_list.json` and `status.json` |
+| 7. `MVP-05.01` through `MVP-05.05` remain open | PASS | `backlog.md`, `status.json`, `problems.md` |
+| 8. No runtime code/schema/API/UI/generated-client changes | PASS | changed-files scope check |
+| 9. Required verification recorded | PASS | Harness and `make verify` raw outputs |
+| 10. Fresh verifier PASS recorded | PASS | `verdict.json`, `problems.md` |
+
+### API/OpenAPI, schema and screenshots
+
+Not applicable. This slice changed documentation and stage artifacts only. No runtime API/controller/OpenAPI/generated-client surface, DB schema, migrations, UI or user-visible screen changed.
+
+### Human gates
+
+No human-gated item was closed. The content spec is `draft_with_human_gates`; final financial correctness, legal/tax wording, HR/privacy wording, reward stock/prices/fulfillment, sensitive support answer policy and final `production_ready` publish approval remain pending.
 
 ## Current sprint: MVP-05-learning-methodology-doc-sync-001
 

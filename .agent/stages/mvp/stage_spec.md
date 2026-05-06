@@ -1,97 +1,82 @@
-# MVP learning methodology doc-sync spec freeze
+# MVP-05 content spec ingestion spec freeze
 
 Stage ID: `mvp`  
-Sprint: `MVP-05-learning-methodology-doc-sync-001`  
-Parent stage area: `MVP-05` documentation baseline only  
-Status: `PASS_WITH_ENV_LIMITATION`  
-Frozen at: 2026-05-05  
-Owner: parent orchestrator acting as docs-only integration owner
+Active slice: `MVP-05-content-spec-ingestion-001`  
+Parent stage units: `MVP-05`, source input for `MVP-06`, `MVP-07`, `MVP-09`  
+Status: `PASS`  
+Frozen at: 2026-05-06  
+Freezer role: `stage_spec_freezer`
 
 ## Objective
 
-Move `learning_methodology_mvp_stage2_v02.md` into canonical product documentation, normalize it as the MVP learning-methodology baseline and synchronize stage/Harness docs so future learning, diagnostic, CMS, support and reporting slices read the correct source.
+Place the prepared `finrhythm_stage3_content_mvp_draft.md` as a canonical product/content draft and wire it into the MVP stage harness without claiming final content approval.
 
-This slice does not implement runtime behavior and does not complete `MVP-05`, `MVP-06`, `MVP-07`, `MVP-09`, `MVP-10`, `MVP-11`, `MVP-12` or full MVP.
+This slice builds on the already merged `MVP-05-learning-methodology-doc-sync-001` baseline. It records the content spec as a production-preparation input for MVP content factory, CMS/admin, diagnostics/routing and retention/challenge work, while keeping all financial, legal/tax, HR/privacy, reward and final `production_ready` decisions human-gated.
 
 ## Source baseline
 
-- `AGENTS.md`
-- `.agents/skills/stage-launch-proof-loop/SKILL.md`
-- `.agents/skills/stage-launch-proof-loop/references/PROTOCOL.md`
-- `.agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md`
-- `docs/architecture/source-of-truth.md`
-- `docs/architecture/documentation-workflow.md`
-- `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`
-- `docs/stages/MVP.md`
-- `docs/stages/v1.md`
-- `docs/stages/v2.md`
-- `.agent/stages/mvp/progress.md`
-- `.agent/stages/mvp/evidence.md`
-- `.agent/stages/mvp/feature_list.json`
-- `.agent/stages/mvp/status.json`
-- root `learning_methodology_mvp_stage2_v02.md` as user-provided input
+This freeze reconciles:
+
+- current repo state after merging `origin/main` on 2026-05-06;
+- `AGENTS.md`;
+- `docs/architecture/source-of-truth.md`;
+- `docs/architecture/documentation-workflow.md`;
+- `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`;
+- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`;
+- `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`;
+- `docs/stages/MVP.md`;
+- `.agents/skills/stage-launch-proof-loop/SKILL.md`;
+- `.agent/stages/mvp/*` artifacts from the prior verified MVP-02 and methodology doc-sync work.
 
 ## In scope
 
-- Move the methodology file to `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`.
-- Remove the root duplicate.
-- Remove the stray leading `ё`, add frontmatter and fix repo path references in the methodology source list.
-- Add the methodology doc to source-of-truth order after product foundation.
-- Update product foundation to link the methodology baseline and replace stale `4–6 weeks`, `52-week challenge` and pre/post P1 wording.
-- Update `docs/stages/MVP.md` to carry concrete methodology decisions into executable stage scope:
-  - `C1–C10`, `N1–N7`, optional `Z1/Z4/Z9`, `Z2` stretch;
-  - `Q0`, `Q1–Q27`, `Q28`, `SA1–SA3`, `R1–R6`;
-  - 70% quiz threshold, reinforcement, fast-pass/remedial behavior;
-  - 6-week Wave 1 pacing;
-  - no-photo/no-doc/no-exact-sum defaults;
-  - lesson-linked support and aggregate-only HR reporting;
-  - merch stock hypothesis: 80 mugs, 40 tote bags, 20 scarves.
-- Update `docs/stages/v1.md` and `docs/stages/v2.md` so later stages inherit, refine from evidence and preserve privacy/no-advice guardrails.
-- Update Harness docs so future content/CMS/diagnostic/support/reporting slices read the methodology doc and record IDs, review statuses, sensitive-data policy and human gates.
-- Update MVP stage artifacts and evidence for this docs-only slice.
+- Move the root draft into `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`.
+- Add frontmatter that marks the document as `draft_with_human_gates`, version `0.1`, dated `2026-05-06`, and aligned to MVP-05/06/07/09.
+- Add local markdown source referenced by the draft: `content/getcourse-finstrategy/CONTENT_BRIEF.md`.
+- Update narrow canonical references in product foundation, stage source and architecture source-of-truth.
+- Update MVP harness artifacts so future agents know this is an ingested draft source, not approved production content.
+- Record explicit human gates and ensure `MVP-05.01` through `MVP-05.05` remain open.
+- Verify root draft removal, local path references, harness JSON validity and root `make verify`.
 
 ## Out of scope
 
-- Runtime code, API/controllers, OpenAPI/generated client, DB schema, migrations or UI.
-- Implementing diagnostics, lessons, CMS, support, points, reports, challenges, store or notifications.
-- Marking any MVP methodology/learning/diagnostic/reporting execution unit complete.
-- Final approval of financial correctness, legal/tax wording, HR wording, reward economy, stock/prices, real fulfillment or support answer policy.
+- Editing lesson/question/challenge substance beyond wrapping the supplied draft as canonical markdown.
+- Marking any lesson, diagnostic question, quiz explanation, reward rule, HR/privacy wording or legal/tax copy as final.
+- Implementing CMS/admin CRUD, renderer, API contract, DB schema, generated client, web/admin UI or analytics.
+- Changing points ledger, reward economy, merch catalog, fulfillment, pricing, billing or real customer operations.
+- Using real employee/customer/personal/financial data.
+- Closing `MVP-05.01` through `MVP-05.05`, full MVP-05 or later content units.
 
 ## Acceptance criteria
 
-1. Methodology file exists only at `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`.
-2. Methodology frontmatter records `status: accepted_with_human_gates`.
-3. The stray leading `ё` is removed.
-4. Methodology source list uses real repo paths.
-5. Source-of-truth order includes the methodology doc after product foundation.
-6. Product foundation links the methodology baseline and no longer frames methodology as a future unstarted step.
-7. Product foundation no longer contains stale `4–6 weeks`, `52-week challenge` or pre/post-as-P1 wording.
-8. MVP stage doc references `product_methodology` and requires reading it for relevant spec-freeze slices.
-9. MVP stage doc carries concrete v0.2 methodology decisions without marking downstream units complete.
-10. v1/v2 stage docs inherit the methodology baseline and preserve privacy/no-advice guardrails.
-11. Harness docs require methodology-aware evidence for content/CMS/diagnostic/support/reporting slices.
-12. Stage artifacts record this as docs-only and keep existing MVP-02 PASS proofs intact.
-13. Link/path and contradiction scans are recorded.
-14. Harness verification is recorded.
-15. `make verify` is run or current Java/runtime blocker is honestly recorded.
-16. Fresh verifier reviews this slice after evidence update.
+1. `finrhythm_stage3_content_mvp_draft.md` no longer exists at repo root.
+2. `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md` exists with `status: draft_with_human_gates`, version `0.1`, date `2026-05-06`, and MVP-05/06/07/09 alignment.
+3. `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` and `content/getcourse-finstrategy/CONTENT_BRIEF.md` exist locally.
+4. Product foundation, MVP stage and architecture source-of-truth point to the methodology/content spec without expanding stage scope.
+5. `.agent/stages/mvp/source.md`, `sprint_contract.md`, `task-files/MVP-05-content-spec-ingestion-001.md`, `backlog.md`, `feature_list.json`, `progress.md`, `status.json`, `decisions.md`, `risks.md`, `evidence.md` and `evidence.json` record the doc-only ingestion.
+6. `feature_list.json` has a passing criterion only for content spec ingestion into docs/harness; content approval/review criteria remain `passes=false`.
+7. `MVP-05.01` through `MVP-05.05`, full MVP-05 and all content human gates remain open or human-pending.
+8. No runtime code, DB schema, API/OpenAPI/generated-client, UI or fixture behavior changes are introduced.
+9. Verification records `git status --short`, root draft absence/local reference checks, harness validator and `make verify`.
+10. Fresh `stage_verifier` returns PASS for `MVP-05-content-spec-ingestion-001` only before the sprint is marked verified.
 
 ## Verification plan
 
 - `git status --short`
-- path uniqueness check for `learning-methodology-v0.2.md`
-- link/path scan for product foundation, stage docs and Harness docs
-- contradiction scan for stale root filename, `4–6 weeks`, `52-week`, future-methodology wording, missing `SA1`, `Q28`, `Z1`, `production_ready`
-- `.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp`
+- `test ! -f finrhythm_stage3_content_mvp_draft.md`
+- `test -f docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`
+- `rg -n "content-mvp-spec-v0.1|learning-methodology-v0.2|CONTENT_BRIEF|draft_with_human_gates" docs/product/b2b-mvp/lemanapro docs/stages/MVP.md docs/architecture/source-of-truth.md .agent/stages/mvp`
+- `python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp`
 - `make verify`
-- fresh `stage_verifier`
+- Fresh `stage_verifier` scoped only to `MVP-05-content-spec-ingestion-001`.
+
+## Docs targets
+
+- Canonical docs: product foundation, MVP stage source and architecture source-of-truth.
+- Product docs: content spec and raw content brief markdown source.
+- Stage artifacts: current MVP harness files and raw command outputs.
+- Mermaid diagrams: not required; this slice changes source placement and proof routing, not a non-trivial runtime flow.
 
 ## Human gates
 
-This slice records but does not close human gates for:
-
-- final financial correctness of lessons, diagnostics, quizzes and explanations;
-- legal/tax review for tax deduction wording and official links;
-- HR wording review for communications, self-assessment and privacy explanations;
-- reward economy, stock, prices and real fulfillment operations;
-- support answer policy for sensitive financial, tax, investment and credit questions.
+No human gate is closed by this slice. The content spec is ready for production-проработка and future implementation planning, but final financial correctness, legal/tax wording, HR/privacy wording, reward economy, real fulfillment, support-answer policy and `production_ready` publishing remain human-gated.

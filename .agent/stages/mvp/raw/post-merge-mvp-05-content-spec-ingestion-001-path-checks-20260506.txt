@@ -1,0 +1,15 @@
+PASS root draft absent
+PASS content spec exists
+PASS learning methodology exists
+PASS content brief exists
+6:status: draft_with_human_gates
+13:    - MVP-05
+14:    - MVP-06
+15:    - MVP-07
+16:    - MVP-09
+118:**MVP-05. Pedagogy, diagnostics and content factory.**  
+119:Раздел 3 является основным content specification для MVP-05: фиксирует C1–C10, N1–N7, Q0/Q1–Q28/SA1–SA3, lesson/question/practice templates, question bank, QA checklist и approve-flow.
+121:**MVP-06. Learning delivery and CMS/admin.**  
+122:Раздел 3 задаёт CMS-поля, mobile structure, publish validation и review statuses. MVP-06 должен блокировать публикацию урока, если отсутствуют обязательные review gates.
+124:**MVP-07. Diagnostics and personalized route.**  
+127:**MVP-09. Challenges and retention loop.**  

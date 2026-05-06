@@ -1,0 +1,10 @@
+ M .agent/stages/mvp/decisions.md
+ M .agent/stages/mvp/evidence.json
+ M .agent/stages/mvp/evidence.md
+ M .agent/stages/mvp/feature_list.json
+ M .agent/stages/mvp/progress.md
+ M .agent/stages/mvp/risks.md
+ M .agent/stages/mvp/sprint_contract.md
+ M .agent/stages/mvp/stage_spec.md
+ M .agent/stages/mvp/status.json
+?? .agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-git-status-20260506.txt

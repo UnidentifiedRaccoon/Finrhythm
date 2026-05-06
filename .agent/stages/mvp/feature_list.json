@@ -376,5 +376,49 @@
       ".agent/stages/mvp/evidence.md",
       ".agent/stages/mvp/status.json"
     ]
+  },
+  {
+    "id": "mvp-05-content-spec-ingestion",
+    "category": "documentation",
+    "description": "Content MVP draft is placed in canonical product docs and wired into MVP harness as a draft-with-human-gates source.",
+    "steps": [
+      "Move root draft into docs/product/b2b-mvp/lemanapro",
+      "Add content brief local source",
+      "Update canonical references and stage artifacts",
+      "Run harness validation, make verify and fresh verifier"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      "docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md",
+      "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md",
+      "content/getcourse-finstrategy/CONTENT_BRIEF.md",
+      "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md",
+      "docs/stages/MVP.md",
+      "docs/architecture/source-of-truth.md",
+      ".agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md",
+      ".agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-path-checks-20260506.txt",
+      ".agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-reference-scan-20260506.txt",
+      ".agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-verify-harness-20260506.json",
+      ".agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-make-verify-20260506.txt",
+      ".agent/stages/mvp/verdict.json",
+      ".agent/stages/mvp/problems.md"
+    ]
+  },
+  {
+    "id": "mvp-05-content-human-gates-open",
+    "category": "human-gates",
+    "description": "Financial/legal/privacy/reward/final publishing approval for MVP content remains open and is not closed by ingestion.",
+    "steps": [
+      "Record human gates in content spec",
+      "Keep MVP-05.01 through MVP-05.05 open",
+      "Require later human review before production_ready publication"
+    ],
+    "passes": false,
+    "evidence_refs": [
+      "docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/risks.md"
+    ]
   }
 ]
