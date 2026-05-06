@@ -2,8 +2,8 @@
 
 Stage ID: `mvp`  
 Stage file: `docs/stages/MVP.md`  
-Command: `resume-stage mvp`  
-Last synced: 2026-05-04
+Command: `resume-stage mvp` / doc-only content spec ingestion  
+Last synced: 2026-05-06
 
 ## Canonical sources read
 
@@ -11,6 +11,9 @@ Last synced: 2026-05-04
 - `docs/architecture/source-of-truth.md`
 - `docs/architecture/documentation-workflow.md`
 - `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`
+- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`
+- `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`
+- `content/getcourse-finstrategy/CONTENT_BRIEF.md`
 - `docs/architecture/init-and-dev-contract.md`
 - `docs/stages/MVP.md`
 - `.agents/skills/stage-launch-proof-loop/SKILL.md`
@@ -20,7 +23,15 @@ Last synced: 2026-05-04
 - `.agents/skills/stage-launch-proof-loop/references/COMMANDS.md`
 - `.agents/skills/stage-launch-proof-loop/references/DELEGATION.md`
 - `apps/api/AGENTS.md`
-- current `.agent/stages/mvp/*` artifacts for `MVP-02-tenant-domain-001`
+- current `.agent/stages/mvp/*` artifacts for latest verified MVP-02 work
+- current `.agent/stages/mvp/*` artifacts for `MVP-05-content-spec-ingestion-001`
+
+## Content spec source notes
+
+- Root draft `finrhythm_stage3_content_mvp_draft.md` was moved to `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`.
+- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` was added from raw source `https://raw.githubusercontent.com/UnidentifiedRaccoon/Finrhythm/main/docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`.
+- `content/getcourse-finstrategy/CONTENT_BRIEF.md` was added from raw source `https://raw.githubusercontent.com/UnidentifiedRaccoon/Finrhythm/main/content/getcourse-finstrategy/CONTENT_BRIEF.md`.
+- The content spec is a draft with human gates and does not close final financial/legal/privacy/reward approval.
 
 ## Supporting evidence re-synced
 

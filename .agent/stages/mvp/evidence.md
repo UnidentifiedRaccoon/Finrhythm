@@ -1,10 +1,75 @@
 # MVP stage evidence
 
-Updated: 2026-05-04
+Updated: 2026-05-06
+
+## Current sprint: MVP-05-content-spec-ingestion-001
+
+Status: `PASS`
+
+The builder work for this doc-only sprint placed the Content MVP draft in canonical product docs and wired it into MVP harness artifacts. This slice does not approve content and does not close `MVP-05.01` through `MVP-05.05`.
+
+### Builder command evidence
+
+| Command/artifact | Result | Raw output |
+|------------------|--------|------------|
+| precheck `git status --short` | INFO: root draft was the only untracked file before implementation | `.agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-git-status-precheck-20260506.txt` |
+| precheck `python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp` | PASS | `.agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-verify-harness-precheck-20260506.json` |
+| `git status --short` after builder changes | RECORDED | `.agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-git-status-20260506.txt` |
+| root draft absence and local file checks | PASS | `.agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-path-checks-20260506.txt` |
+| canonical reference scan | PASS | `.agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-reference-scan-20260506.txt` |
+| changed file list | RECORDED | `.agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-changed-files-20260506.txt` |
+| harness validation | PASS | `.agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-verify-harness-20260506.json` |
+| `make verify` | PASS | `.agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-make-verify-20260506.txt` |
+
+### Documents added or updated
+
+- Added `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md` with `draft_with_human_gates` frontmatter.
+- Added `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` from the referenced raw source.
+- Added `content/getcourse-finstrategy/CONTENT_BRIEF.md` from the referenced raw source.
+- Updated `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md` to link methodology and content spec.
+- Updated `docs/stages/MVP.md` so MVP-05/06/07/09 agents read the new content sources.
+- Updated `docs/architecture/source-of-truth.md` to record content/methodology docs as subordinate canonical product docs.
+- Updated `.agent/stages/mvp/*` artifacts for `MVP-05-content-spec-ingestion-001`.
+
+### Acceptance mapping
+
+| Criterion | Status | Evidence |
+|-----------|--------|----------|
+| 1. Root draft file is absent | PASS | Path checks raw output |
+| 2. Content spec exists with draft metadata | PASS | `content-mvp-spec-v0.1.md`; reference scan |
+| 3. Methodology and content brief exist locally | PASS | Path checks raw output |
+| 4. Canonical docs point to sources and preserve human gates | PASS | Product foundation, MVP stage, source-of-truth and reference scan |
+| 5. Stage artifacts record doc-only ingestion | PASS | `stage_spec.md`, `sprint_contract.md`, task file, backlog, evidence/status artifacts |
+| 6. Only ingestion criteria pass; content approval remains not passed | PASS | `feature_list.json` |
+| 7. MVP-05 units remain open | PASS | `backlog.md`, `status.json` |
+| 8. No runtime code/schema/API/UI/generated-client changes | PASS | Changed-file list |
+| 9. Verification commands recorded | PASS | Harness validator and `make verify` raw outputs |
+| 10. Fresh verifier PASS before marking verified | PASS | `.agent/stages/mvp/verdict.json`, `.agent/stages/mvp/problems.md`, verifier raw outputs |
+
+### Documentation sync
+
+Canonical docs were updated because this slice changes the product-content source placement and future stage inputs. No Mermaid diagram is required because the slice does not introduce or alter a runtime flow.
+
+### API/OpenAPI and screenshots
+
+Not applicable. No API/OpenAPI/generated-client surface, runtime behavior or user-visible UI changed.
+
+### Human gates
+
+No human-gated item was closed. Final financial correctness, legal/tax wording, HR/privacy wording, reward economy, support-answer policy and `production_ready` publish approval remain human-gated.
+
+### Final closeout checks
+
+| Command/artifact | Result | Raw output |
+|------------------|--------|------------|
+| final `python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp` | PASS | `.agent/stages/mvp/raw/final-mvp-05-content-spec-ingestion-001-verify-harness-20260506.json` |
+| final `make verify` | PASS | `.agent/stages/mvp/raw/final-mvp-05-content-spec-ingestion-001-make-verify-20260506.txt` |
+| final `git status --short` | RECORDED | `.agent/stages/mvp/raw/final-mvp-05-content-spec-ingestion-001-git-status-20260506.txt` |
+
 
 ## Current sprint: MVP-02-invite-issuance-activation-001
 
-Status: `BUILDER_EVIDENCE_READY_FOR_FRESH_VERIFIER`
+Status: `PASS`
 
 The builder implementation for `MVP-02.02` is complete enough for fresh verification. It adds backend/domain invite issuance, activation and opaque one-user binding for existing tenant/cohort records. It does not mark the sprint complete: a fresh `stage_verifier` must still review evidence and write the final verdict.
 

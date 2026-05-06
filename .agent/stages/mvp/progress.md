@@ -1,6 +1,21 @@
 # MVP progress
 
-Updated: 2026-05-04
+Updated: 2026-05-06
+
+## Current session: MVP-05-content-spec-ingestion-001
+
+- Re-synced stage harness baseline and confirmed `verify_harness.py --stage-id mvp` passed before implementation.
+- Moved `finrhythm_stage3_content_mvp_draft.md` from repo root to `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`.
+- Added `draft_with_human_gates` frontmatter and canonical note to make clear the document is a production-preparation draft, not final content approval.
+- Added local source dependencies:
+  - `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`;
+  - `content/getcourse-finstrategy/CONTENT_BRIEF.md`.
+- Updated narrow canonical references in product foundation, MVP stage source and architecture source-of-truth.
+- Updated stage artifacts for doc-only sprint `MVP-05-content-spec-ingestion-001`.
+- Kept `MVP-05.01` through `MVP-05.05` open; financial correctness, legal/tax wording, HR/privacy wording, reward economy and final `production_ready` publish approval remain human-gated.
+- No runtime code, DB schema, API/OpenAPI/generated client, UI or fixture behavior changed.
+- Fresh `stage_verifier` returned `PASS` for `MVP-05-content-spec-ingestion-001` only.
+- The next implementation recommendation remains freezing `MVP-02.03` employee registration; `MVP-05.01` through `MVP-05.05` remain open.
 
 ## Current session: resume-stage mvp
 

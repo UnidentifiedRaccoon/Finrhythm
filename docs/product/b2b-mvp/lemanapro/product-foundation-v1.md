@@ -15,6 +15,9 @@ stage_alignment:
 reference_artifacts:
   - docs/product/b2b-mvp/lemanapro/references/product-foundation-v1.docx
   - docs/product/b2b-mvp/lemanapro/references/lemanapro-comprehensive-program.pptx
+related_canonical_docs:
+  - docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
+  - docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md
 human_gates:
   - legal/privacy/consent wording
   - final financial correctness of lessons and quizzes
@@ -321,6 +324,8 @@ Mobile web-платформа для корпоративной программ
 - Уроки не должны звучать как персональная рекомендация по инвестициям, налогам или кредитам.
 - Основная метафора — финансовая опора и спокойное движение к целям.
 - Первый трек в MVP строится вокруг 7 шагов, предоставленных командой.
+
+Подробная методология MVP зафиксирована в `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`. Production-ready draft для content factory, диагностического банка, шаблонов уроков, QA checklist и review statuses зафиксирован в `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`; он является draft с human gates и не закрывает финальное `production_ready` утверждение материалов.
 
 ## 10.2. Первый трек MVP
 

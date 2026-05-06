@@ -1,6 +1,6 @@
 # MVP risks
 
-Updated: 2026-05-04
+Updated: 2026-05-06
 
 | ID | Risk | Status | Mitigation |
 |----|------|--------|------------|
@@ -19,3 +19,5 @@ Updated: 2026-05-04
 | R-013 | MVP-02.02 could silently expand into registration, public API or admin UI. | Resolved for current slice | Fresh verifier scope guardrail scan found no contact fields, REST/OpenAPI/controller surface, generated client, HR report or UI changes. |
 | R-014 | Builder evidence could be mistaken for final sprint completion. | Resolved for current slice | Durable `verdict.json`/`problems.md` record fresh verifier PASS for `MVP-02-invite-issuance-activation-001`; only `MVP-02.02` is marked complete. |
 | R-015 | MVP-02.03 registration could introduce personal/contact data before privacy and API boundaries are frozen. | Active for next slice | Next step must freeze a narrow `MVP-02.03` contract before implementation, including explicit contact-field, consent/privacy and API/client evidence requirements. |
+| R-016 | Content spec ingestion could be mistaken for final content approval. | Active until human review | `content-mvp-spec-v0.1.md`, harness evidence and status artifacts mark the document as `draft_with_human_gates`; `MVP-05.01` through `MVP-05.05` remain open. |
+| R-017 | Imported raw GetCourse content could carry unreviewed financial, customer-specific or legally sensitive claims into production. | Ongoing | `CONTENT_BRIEF.md` remains raw baseline only; production source of truth stays CMS/PostgreSQL, and final lesson/question/challenge publication requires human review. |

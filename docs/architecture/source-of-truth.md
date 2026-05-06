@@ -70,6 +70,7 @@ Do not maintain two equal sources of truth for contract types.
 
 - Production source of truth for lessons, quizzes, challenge and marathon is CMS/PostgreSQL.
 - `content/` is for demo fixtures, import/export bundles, local development and preview/test data.
+- MVP learning/content decisions are normalized in subordinate canonical product docs under `docs/product/b2b-mvp/lemanapro/`: `learning-methodology-v0.2.md` for methodology/diagnostics assumptions and `content-mvp-spec-v0.1.md` for the content factory draft. These docs do not replace CMS/PostgreSQL as runtime source of truth and do not close human gates for final financial/legal/privacy/reward approval.
 
 ## 6. B2B MVP product baseline
 

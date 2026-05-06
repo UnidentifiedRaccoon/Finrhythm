@@ -7,6 +7,8 @@ default_model: gpt-5.5
 default_reasoning_effort: xhigh
 task_execution_mode: stage-launch-proof-loop
 product_foundation: docs/product/b2b-mvp/lemanapro/product-foundation-v1.md
+learning_methodology: docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
+content_mvp_spec: docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md
 last_updated: 2026-05-03
 language: ru
 ---
@@ -20,6 +22,7 @@ Stage artifacts, progress, evidence, verdicts and audits must live in `.agent/st
 ## Как агент должен использовать этот файл
 
 - До spec freeze читать `AGENTS.md`, `docs/architecture/source-of-truth.md`, `docs/architecture/documentation-workflow.md`, этот файл and `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`.
+- Для MVP-05/06/07/09 также читать `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` and `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`.
 - Исполнять MVP как B2B-first corporate pilot, not as B2C/public-launch product.
 - Не расширять scope за пределы `In scope`; disputed product intent возвращать в product foundation/stage docs before implementation.
 - Любую крупную задачу нормализовать в execution unit with `TASK_ID`.
@@ -327,6 +330,9 @@ Allowed parallelism:
 
 **Dependencies:** MVP-01, MVP-04
 **Parallelism:** medium
+**Content sources:** `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`, `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`
+
+The content spec is a draft with explicit human gates. It can guide CMS/templates/diagnostics implementation, but does not by itself mark financial content, legal/tax wording, HR/privacy copy, reward rules or `production_ready` publish approval as done.
 
 ### Execution units
 

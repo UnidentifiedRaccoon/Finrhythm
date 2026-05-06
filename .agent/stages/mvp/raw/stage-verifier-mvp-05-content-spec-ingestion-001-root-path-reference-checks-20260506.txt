@@ -1,0 +1,94 @@
+# root/path/reference checks for MVP-05-content-spec-ingestion-001
+cwd=/Users/yura-posledov/cursor/Finrhythm
+PASS root draft absent: finrhythm_stage3_content_mvp_draft.md
+PASS exists: docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md
+PASS exists: docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
+PASS exists: content/getcourse-finstrategy/CONTENT_BRIEF.md
+
+# content spec metadata and stage alignment
+6:status: draft_with_human_gates
+7:version: "0.1"
+8:date: 2026-05-06
+12:  execution_units:
+13:    - MVP-05
+14:    - MVP-06
+15:    - MVP-07
+16:    - MVP-09
+23:human_gates:
+28:  - final production_ready publish approval
+37:**Canonical note:** документ является product/content draft с human gates. Он может использоваться для spec freeze и реализации CMS/templates, но сам по себе не закрывает `production_ready` публикацию уроков, диагностики, quiz wording, reward rules или HR/privacy copy.  
+83:   - review statuses от `raw_imported` до `production_ready`.
+270:review_status: enum             # raw_imported ... production_ready
+415:| `production_ready` | Готово к публикации в Волне 1, human gates закрыты или явно помечены как approved pending. | Product owner + humans |
+983:Перед `production_ready` каждый урок/вопрос/challenge должен пройти чек-лист.
+1021:16. Финальное publish approval по статусу `production_ready`.
+
+# canonical and stage reference scan
+.agent/stages/mvp/feature_list.json:334:      "docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md",
+.agent/stages/mvp/feature_list.json:335:      "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md",
+.agent/stages/mvp/feature_list.json:350:    "description": "Financial/legal/privacy/reward/final publishing approval for MVP content remains open and is not closed by ingestion.",
+.agent/stages/mvp/feature_list.json:352:      "Record human gates in content spec",
+.agent/stages/mvp/feature_list.json:354:      "Require later human review before production_ready publication"
+.agent/stages/mvp/feature_list.json:358:      "docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md",
+.agent/stages/mvp/evidence.md:9:The builder work for this doc-only sprint placed the Content MVP draft in canonical product docs and wired it into MVP harness artifacts. This slice does not approve content and does not close `MVP-05.01` through `MVP-05.05`.
+.agent/stages/mvp/evidence.md:26:- Added `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md` with `draft_with_human_gates` frontmatter.
+.agent/stages/mvp/evidence.md:27:- Added `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` from the referenced raw source.
+.agent/stages/mvp/evidence.md:39:| 2. Content spec exists with draft metadata | PASS | `content-mvp-spec-v0.1.md`; reference scan |
+.agent/stages/mvp/evidence.md:41:| 4. Canonical docs point to sources and preserve human gates | PASS | Product foundation, MVP stage, source-of-truth and reference scan |
+.agent/stages/mvp/evidence.md:59:No human-gated item was closed. Final financial correctness, legal/tax wording, HR/privacy wording, reward economy, support-answer policy and `production_ready` publish approval remain human-gated.
+.agent/stages/mvp/evidence.md:131:No human-gated item was closed. Legal/privacy wording, financial correctness, reward economy, customer-specific reporting and real operations remain outside this slice.
+.agent/stages/mvp/status.json:70:    "content_spec_status": "draft_with_human_gates",
+.agent/stages/mvp/status.json:71:    "content_runtime_source_of_truth": "CMS/PostgreSQL after implementation; docs are canonical planning sources only"
+.agent/stages/mvp/status.json:77:      "Content MVP draft is placed at docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md.",
+.agent/stages/mvp/source.md:14:- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`
+.agent/stages/mvp/source.md:15:- `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`
+.agent/stages/mvp/source.md:31:- Root draft `finrhythm_stage3_content_mvp_draft.md` was moved to `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`.
+.agent/stages/mvp/source.md:32:- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` was added from raw source `https://raw.githubusercontent.com/UnidentifiedRaccoon/Finrhythm/main/docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`.
+.agent/stages/mvp/source.md:34:- The content spec is a draft with human gates and does not close final financial/legal/privacy/reward approval.
+docs/stages/MVP.md:10:learning_methodology: docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
+docs/stages/MVP.md:11:content_mvp_spec: docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md
+docs/stages/MVP.md:25:- Для MVP-05/06/07/09 также читать `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` and `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`.
+docs/stages/MVP.md:71:- CMS/PostgreSQL is production source of truth for lessons, quizzes, challenges and rewards;
+docs/stages/MVP.md:175:- Stage audit has no blocking FAIL/UNKNOWN outside explicit human gates.
+docs/stages/MVP.md:194:- unresolved human gates.
+docs/stages/MVP.md:205:- stage close waits for docs, evidence, human gates and fresh verification.
+docs/stages/MVP.md:333:**Content sources:** `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`, `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`
+docs/stages/MVP.md:335:The content spec is a draft with explicit human gates. It can guide CMS/templates/diagnostics implementation, but does not by itself mark financial content, legal/tax wording, HR/privacy copy, reward rules or `production_ready` publish approval as done.
+docs/product/b2b-mvp/lemanapro/product-foundation-v1.md:19:  - docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
+docs/product/b2b-mvp/lemanapro/product-foundation-v1.md:20:  - docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md
+docs/product/b2b-mvp/lemanapro/product-foundation-v1.md:21:human_gates:
+docs/product/b2b-mvp/lemanapro/product-foundation-v1.md:328:Подробная методология MVP зафиксирована в `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`. Production-ready draft для content factory, диагностического банка, шаблонов уроков, QA checklist и review statuses зафиксирован в `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`; он является draft с human gates и не закрывает финальное `production_ready` утверждение материалов.
+.agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md:15:  - `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`
+.agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md:16:  - `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`
+.agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md:28:2. Content spec has `draft_with_human_gates` metadata and MVP-05/06/07/09 alignment.
+.agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md:30:4. Canonical docs refer to the new sources and preserve human gates.
+.agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md:46:- final `production_ready` publish approval.
+docs/architecture/source-of-truth.md:71:- Production source of truth for lessons, quizzes, challenge and marathon is CMS/PostgreSQL.
+docs/architecture/source-of-truth.md:73:- MVP learning/content decisions are normalized in subordinate canonical product docs under `docs/product/b2b-mvp/lemanapro/`: `learning-methodology-v0.2.md` for methodology/diagnostics assumptions and `content-mvp-spec-v0.1.md` for the content factory draft. These docs do not replace CMS/PostgreSQL as runtime source of truth and do not close human gates for final financial/legal/privacy/reward approval.
+.agent/stages/mvp/sprint_contract.md:13:The slice must not approve content. It only proves that the draft is placed, referenced and tracked correctly, with human gates preserved.
+.agent/stages/mvp/sprint_contract.md:26:- `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`
+.agent/stages/mvp/sprint_contract.md:27:- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`
+.agent/stages/mvp/sprint_contract.md:49:- Move the draft from repo root into `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`.
+.agent/stages/mvp/sprint_contract.md:50:- Add canonical frontmatter and note that the document is `draft_with_human_gates`.
+.agent/stages/mvp/sprint_contract.md:67:2. `content-mvp-spec-v0.1.md` exists under the product-doc path and carries `draft_with_human_gates` metadata.
+.agent/stages/mvp/sprint_contract.md:68:3. `learning-methodology-v0.2.md` and `CONTENT_BRIEF.md` exist at their local referenced paths.
+.agent/stages/mvp/sprint_contract.md:69:4. Canonical docs point to the content/methodology docs and explicitly preserve human gates.
+.agent/stages/mvp/sprint_contract.md:81:- `test -f docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`
+.agent/stages/mvp/sprint_contract.md:82:- reference scan for new canonical paths and `draft_with_human_gates`
+.agent/stages/mvp/sprint_contract.md:91:- Record human gates as unresolved.
+.agent/stages/mvp/stage_spec.md:14:This is a documentation and harness synchronization slice only. It records the content spec as a production-preparation input for MVP content factory, CMS/admin, diagnostics/routing and retention/challenge work, while keeping all financial, legal/tax, HR/privacy, reward and final `production_ready` decisions human-gated.
+.agent/stages/mvp/stage_spec.md:25:- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`;
+.agent/stages/mvp/stage_spec.md:26:- `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`;
+.agent/stages/mvp/stage_spec.md:33:- Move the root draft into `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`.
+.agent/stages/mvp/stage_spec.md:34:- Add frontmatter that marks the document as `draft_with_human_gates`, version `0.1`, dated `2026-05-06`, and aligned to MVP-05/06/07/09.
+.agent/stages/mvp/stage_spec.md:36:  - `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`;
+.agent/stages/mvp/stage_spec.md:39:- Update MVP harness artifacts so future agents know this is an ingested draft source, not approved production content.
+.agent/stages/mvp/stage_spec.md:40:- Record explicit human gates and ensure `MVP-05.01` through `MVP-05.05` remain open.
+.agent/stages/mvp/stage_spec.md:55:2. `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md` exists with `status: draft_with_human_gates`, version `0.1`, date `2026-05-06`, and MVP-05/06/07/09 alignment.
+.agent/stages/mvp/stage_spec.md:56:3. `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` and `content/getcourse-finstrategy/CONTENT_BRIEF.md` exist locally and match the intended raw-source role.
+.agent/stages/mvp/stage_spec.md:60:7. `MVP-05.01` through `MVP-05.05`, full MVP-05 and all content human gates remain open or human-pending.
+.agent/stages/mvp/stage_spec.md:69:- `test -f docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`
+.agent/stages/mvp/stage_spec.md:70:- `rg -n "content-mvp-spec-v0.1|learning-methodology-v0.2|CONTENT_BRIEF|draft_with_human_gates" docs/product/b2b-mvp/lemanapro docs/stages/MVP.md docs/architecture/source-of-truth.md .agent/stages/mvp`
+.agent/stages/mvp/stage_spec.md:84:No human gate is closed by this slice. The content spec is ready for production-proработка and future implementation planning, but final financial correctness, legal/tax wording, HR/privacy wording, reward economy, real fulfillment, support-answer policy and `production_ready` publishing remain human-gated.
+
+[exit_code=0]

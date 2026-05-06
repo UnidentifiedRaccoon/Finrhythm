@@ -1,6 +1,6 @@
 # MVP decisions
 
-Updated: 2026-05-04
+Updated: 2026-05-06
 
 ## D-2026-05-04-001: Freeze only MVP-01 bootstrap
 
@@ -91,3 +91,15 @@ Impact: fresh verification can assess issuance/activation invariants independent
 Decision: mark `MVP-02.02` / `MVP-02-invite-issuance-activation-001` complete after fresh verifier checks returned `PASS`.  
 Why: issuance, activation, opaque binding, raw-code persistence guardrails, migration order and root/backend commands are proven for this contract.  
 Impact: `MVP-02.03`, `MVP-02.04` and full MVP-02 remain open; the next run should freeze employee registration separately.
+
+## D-2026-05-06-016: Ingest Content MVP spec as draft-with-human-gates
+
+Decision: place the prepared Content MVP draft at `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md` and wire it into product/stage/harness sources as `MVP-05-content-spec-ingestion-001`.  
+Why: future MVP-05/06/07/09 work needs a durable canonical draft source, but the content contains human-gated financial, legal/tax, HR/privacy and reward decisions.  
+Impact: agents can use the spec for future sprint freezes and CMS/template work; no lesson/question/challenge/reward wording is final-approved by this slice.
+
+## D-2026-05-06-017: Preserve MVP-02.03 as next implementation recommendation
+
+Decision: after the content-spec ingestion slice is verified, restore the next implementation recommendation to `MVP-02.03` employee registration.  
+Why: this slice is a doc-only placement interruption, not a stage-order decision to start MVP-05 implementation ahead of MVP-02 registration.  
+Impact: `MVP-05-content-spec-ingestion-001` may be marked verified independently, while `MVP-05.01` through `MVP-05.05` remain pending.

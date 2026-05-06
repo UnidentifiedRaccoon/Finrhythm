@@ -1,0 +1,41 @@
+ M .agent/stages/mvp/backlog.md
+ M .agent/stages/mvp/decisions.md
+ M .agent/stages/mvp/evidence.json
+ M .agent/stages/mvp/evidence.md
+ M .agent/stages/mvp/feature_list.json
+ M .agent/stages/mvp/problems.md
+ M .agent/stages/mvp/progress.md
+ M .agent/stages/mvp/risks.md
+ M .agent/stages/mvp/source.md
+ M .agent/stages/mvp/sprint_contract.md
+ M .agent/stages/mvp/stage_spec.md
+ M .agent/stages/mvp/status.json
+ M .agent/stages/mvp/verdict.json
+ M docs/architecture/source-of-truth.md
+ M docs/product/b2b-mvp/lemanapro/product-foundation-v1.md
+ M docs/stages/MVP.md
+?? .agent/stages/mvp/raw/final-mvp-05-content-spec-ingestion-001-changed-files-20260506.txt
+?? .agent/stages/mvp/raw/final-mvp-05-content-spec-ingestion-001-git-status-20260506.txt
+?? .agent/stages/mvp/raw/final-mvp-05-content-spec-ingestion-001-make-verify-20260506.txt
+?? .agent/stages/mvp/raw/final-mvp-05-content-spec-ingestion-001-verify-harness-20260506.json
+?? .agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-changed-files-20260506.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-git-status-20260506.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-git-status-precheck-20260506.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-make-verify-20260506.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-path-checks-20260506.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-reference-scan-20260506.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-verify-harness-20260506.json
+?? .agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-verify-harness-after-json-20260506.json
+?? .agent/stages/mvp/raw/stage-builder-mvp-05-content-spec-ingestion-001-verify-harness-precheck-20260506.json
+?? .agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-changed-files-scope-20260506.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-git-status-20260506.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-make-verify-20260506.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-root-path-reference-checks-20260506.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-stage-artifacts-json-checks-20260506.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-stage-artifacts-reference-scan-20260506.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-verify-harness-20260506.json
+?? .agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-verify-harness-after-verdict-20260506.json
+?? .agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md
+?? content/getcourse-finstrategy/CONTENT_BRIEF.md
+?? docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md
+?? docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md

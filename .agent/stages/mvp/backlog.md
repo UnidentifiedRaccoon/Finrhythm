@@ -1,7 +1,7 @@
 # MVP backlog
 
 Stage ID: `mvp`  
-Updated: 2026-05-04
+Updated: 2026-05-06
 
 ## MVP-01. Product/stage foundation and repo baseline
 
@@ -17,6 +17,8 @@ Updated: 2026-05-04
 MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has fresh verifier `PASS` and closes only `MVP-02.01`.
 
 `MVP-02-invite-issuance-activation-001` has fresh verifier `PASS` and closes only `MVP-02.02`. The next sprint should freeze `MVP-02.03` employee registration before implementation.
+
+`MVP-05-content-spec-ingestion-001` is a doc-only interruption to place the prepared Content MVP draft into canonical docs and harness artifacts. It does not close `MVP-05.01` through `MVP-05.05`; after verification, the next implementation recommendation remains `MVP-02.03` employee registration.
 
 ## MVP-02. Corporate tenant, cohorts and invite access
 
@@ -45,3 +47,14 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 - prove idempotent same-subject retry and rejection for different-subject duplicate activation;
 - preserve no-raw-code persistence guardrails;
 - do not implement employee registration/contact fields, REST/OpenAPI/controller surface, admin UI or HR reporting.
+
+## MVP-05. Pedagogy, diagnostics and content factory
+
+| ID | Mode | Status | Goal | Evidence |
+|----|------|--------|------|----------|
+| MVP-05-content-spec-ingestion-001 | agent | PASS | Place Content MVP draft into canonical docs and harness as a draft-with-human-gates source. | `.agent/stages/mvp/evidence.md`, `.agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md` |
+| MVP-05.01 | agent+human | PENDING | Freeze competency matrix for 7 steps. | Depends on human review and future MVP-05 sprint contract. |
+| MVP-05.02 | agent+human | PENDING | Define diagnostic taxonomy, scoring dimensions and route rules. | Depends on human review and future MVP-05 sprint contract. |
+| MVP-05.03 | agent | PENDING | Create lesson, quiz, explanation and practice-task templates. | Can use content spec as draft input after ingestion verification. |
+| MVP-05.04 | agent+human | PENDING | Build question bank and content QA checklist. | Content approval remains human-gated. |
+| MVP-05.05 | agent+human | PENDING | Define methodologist approve-flow and review statuses. | Review statuses are drafted; final process remains human-gated. |

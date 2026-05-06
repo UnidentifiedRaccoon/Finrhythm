@@ -1,0 +1,29 @@
+# feature_list MVP-05 entries
+('mvp-05-content-spec-ingestion', True, 'documentation')
+('mvp-05-content-human-gates-open', False, 'human-gates')
+passed_mvp05= ['mvp-05-content-spec-ingestion']
+PASS feature_list only passes ingestion/proof and leaves content gates not passed
+# status fields
+state= SPRINT_EVIDENCE_READY_FOR_FRESH_VERIFIER
+active_sprint_contract_id= MVP-05-content-spec-ingestion-001
+latest_verified_sprint_contract_id= MVP-02-invite-issuance-activation-001
+active_ids= ['MVP-05-content-spec-ingestion-001']
+waiting_human_ids= ['MVP-05-content-financial-review', 'MVP-05-content-legal-tax-review', 'MVP-05-content-hr-privacy-review', 'MVP-05-content-reward-ops-review', 'MVP-05-production-ready-publish-approval']
+next_recommended_ids= ['fresh-verify-MVP-05-content-spec-ingestion-001', 'after-pass-freeze-next-sprint-contract-for-MVP-02.03-employee-registration', 'do-not-start-MVP-02.04-before-MVP-02.03-contract-or-explicit-stage-decision']
+exit_gate_summary.mvp_05_units_complete= False
+exit_gate_summary.mvp_05_content_approval_complete= False
+exit_gate_summary.mvp_05_fresh_verifier_pass= False
+PASS status keeps MVP-05/content approvals open and preserves MVP-02.03 next recommendation
+# evidence acceptance criteria statuses
+1 PASS ['path checks raw output']
+2 PASS ['content spec frontmatter and reference scan']
+3 PASS ['path checks raw output']
+4 PASS ['canonical docs and reference scan']
+5 PASS ['stage artifacts and task file']
+6 PASS ['feature_list.json has one ingestion pass and one human-gates-open false criterion']
+7 PASS ['backlog.md and status.json keep MVP-05 units open']
+8 PASS ['changed-file list excludes runtime code/schema/API/UI/generated-client files']
+9 PASS ['harness validator raw output', 'make verify raw output']
+10 PENDING ['fresh verifier not yet run']
+
+[exit_code=0]

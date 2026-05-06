@@ -1,134 +1,84 @@
-# MVP-02.02 invite issuance/activation spec freeze
+# MVP-05 content spec ingestion spec freeze
 
 Stage ID: `mvp`  
-Completed slice: `MVP-02-invite-issuance-activation-001`  
-Parent stage unit: `MVP-02.02`  
-Status: `PASS`
-Frozen at: 2026-05-04  
+Active slice: `MVP-05-content-spec-ingestion-001`  
+Parent stage units: `MVP-05`, `MVP-06`, `MVP-07`, `MVP-09` source input  
+Status: `PASS`  
+Frozen at: 2026-05-06  
 Freezer role: `stage_spec_freezer`
 
 ## Objective
 
-Freeze the next small MVP-02 slice after `MVP-02-tenant-domain-001` PASS: backend invite code issuance, activation and one-user binding core.
+Place the prepared `finrhythm_stage3_content_mvp_draft.md` as a canonical product/content draft and wire it into the MVP stage harness without claiming final content approval.
 
-This slice turns the existing tenant/cohort/invite persistence model into a tested service-level workflow that can later be called by employee registration and admin surfaces. It intentionally does not implement employee registration by name/email/phone, admin UI, HR reporting, auth/session, points, rewards or customer-branded employee UI.
+This is a documentation and harness synchronization slice only. It records the content spec as a production-preparation input for MVP content factory, CMS/admin, diagnostics/routing and retention/challenge work, while keeping all financial, legal/tax, HR/privacy, reward and final `production_ready` decisions human-gated.
 
 ## Source baseline
 
 This freeze reconciles:
 
-- current repo state and runnable baseline on 2026-05-04;
+- current repo state and runnable harness baseline on 2026-05-06;
 - `AGENTS.md`;
 - `docs/architecture/source-of-truth.md`;
 - `docs/architecture/documentation-workflow.md`;
 - `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`;
+- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`;
+- `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`;
 - `docs/stages/MVP.md`;
 - `.agents/skills/stage-launch-proof-loop/SKILL.md`;
-- `.agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md`;
-- `.agents/skills/stage-launch-proof-loop/references/COMMANDS.md`;
-- `.agent/stages/mvp/progress.md`;
-- `.agent/stages/mvp/feature_list.json`;
-- `.agent/stages/mvp/sprint_contract.md`;
-- `.agent/stages/mvp/evidence.md`;
-- `.agent/stages/mvp/verdict.json`;
-- `.agent/stages/mvp/problems.md`;
-- `.agent/stages/mvp/decisions.md`;
-- `.agent/stages/mvp/risks.md`;
-- `.agent/stages/mvp/status.json`;
-- `apps/api/AGENTS.md`;
-- current `apps/api` migration/domain/test files.
-
-## Current repo constraints
-
-- `MVP-02-tenant-domain-001` has fresh verifier `PASS` for `MVP-02.01` only.
-- `MVP-02.02`, `MVP-02.03`, `MVP-02.04` and full `MVP-02` remain open.
-- Current baseline checks recorded by the orchestrator:
-  - `java -version`: PASS, Temurin 21.0.11;
-  - `cd apps/api && ./mvnw -v`: PASS, Maven 3.9.9 with Java 21.0.11;
-  - `make verify`: PASS;
-  - `git status --short`: dirty from prior stage work and current stage artifacts.
-- `apps/api` currently has no REST controller, no OpenAPI surface and no generated TypeScript client.
-- Existing invite persistence from `V002` stores only `lookup_hash`, not raw invite codes.
-- Existing invite lifecycle states are `CREATED`, `ISSUED`, `RESERVED`, `ACTIVATED`, `REVOKED`, `EXPIRED`.
-- Current `invite_codes` schema does not yet record an activation subject/user binding; this slice may add it through append-only migration.
+- `.agent/stages/mvp/*` artifacts from the last verified MVP-02 sprint.
 
 ## In scope
 
-- Add the narrow backend service/domain workflow for invite code issuance and activation.
-- Add append-only Flyway migration(s) after `V002` if needed for:
-  - issuance batch metadata or issuance audit fields;
-  - one-user activation binding using an opaque non-PII subject identifier;
-  - idempotency/uniqueness constraints needed to prevent duplicate issuance or double activation.
-- Generate human-enterable invite codes with cryptographically strong randomness.
-- Persist only a normalized lookup hash and non-sensitive operational metadata. Raw/plain invite codes may be returned only as one-time command/service output and must not be stored in database, fixtures, logs or stage artifacts.
-- Support issuing up to a Wave 1 batch of 500 codes for an existing tenant/cohort without implementing admin UI.
-- Implement activation lookup by submitted code, with normalization and hash comparison.
-- Bind an activated code to exactly one opaque subject/user reference and make same-subject retries idempotent.
-- Reject invalid, expired, revoked, unissued or already-activated-by-another-subject codes with understandable domain errors.
-- Add unit and PostgreSQL/Testcontainers tests for issuance, activation, idempotency, uniqueness and guardrails.
-- Update canonical docs only if setup/runtime/API/workflow behavior changes; otherwise record explicit no-doc-change reasoning in evidence.
-- Update stage evidence after builder work and require one fresh verifier pass before marking `MVP-02.02` complete.
+- Move the root draft into `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`.
+- Add frontmatter that marks the document as `draft_with_human_gates`, version `0.1`, dated `2026-05-06`, and aligned to MVP-05/06/07/09.
+- Add local markdown sources referenced by the draft:
+  - `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`;
+  - `content/getcourse-finstrategy/CONTENT_BRIEF.md`.
+- Update narrow canonical references in product foundation, stage source and architecture source-of-truth.
+- Update MVP harness artifacts so future agents know this is an ingested draft source, not approved production content.
+- Record explicit human gates and ensure `MVP-05.01` through `MVP-05.05` remain open.
+- Verify root draft removal, local path references, harness JSON validity and root `make verify`.
 
 ## Out of scope
 
-- Completing all of MVP-02.
-- Employee registration by name/email/phone/code.
-- Storing employee name, email, phone or personal finance data.
-- Login/session/auth, corporate SSO, SCIM or password/account lifecycle.
-- Public REST/OpenAPI/controller surface for issuance or activation in this slice.
-- Admin UI for cohorts, code statuses or activation funnel.
-- HR dashboard/reporting, event taxonomy implementation or analytics pipeline.
-- Employee-facing web UI, onboarding/privacy UI or customer-branded UI.
-- Generating real production/customer invite codes.
-- Persisting raw/plain invite codes.
-- Points, wallet, money, billing, subscription, rewards or merch.
-- Legal/privacy/consent wording.
-- Real customer, employee, personal or financial data.
+- Editing lesson/question/challenge substance beyond wrapping the supplied draft as canonical markdown.
+- Marking any lesson, diagnostic question, quiz explanation, reward rule, HR/privacy wording or legal/tax copy as final.
+- Implementing CMS/admin CRUD, renderer, API contract, DB schema, generated client, web/admin UI or analytics.
+- Changing points ledger, reward economy, merch catalog, fulfillment, pricing, billing or real customer operations.
+- Using real employee/customer/personal/financial data.
+- Closing `MVP-05.01` through `MVP-05.05`, full MVP-05 or later content units.
 
 ## Acceptance criteria
 
-1. Pre-implementation baseline is recorded: `git status --short`, `java -version`, `cd apps/api && ./mvnw -v`, and `make verify`.
-2. Builder changes only the owned backend/domain/test/docs artifact surface for this sprint contract.
-3. Flyway changes are append-only after `V002`; `V001` and `V002` are not modified.
-4. Issuance can create a requested batch for an existing tenant/cohort, including a Wave 1 batch size of 500 in tests or faithful service proof.
-5. Generated codes have enough randomness for invite-code use, are human-enterable, normalized for lookup and never persisted raw.
-6. Database persistence stores unique lookup hashes and no raw/plain invite-code column.
-7. Activation validates submitted codes by hash and rejects invalid, expired, revoked, unissued or duplicate activation paths.
-8. One-user binding is enforced with an opaque non-PII subject identifier; the same subject retry is idempotent and a different subject cannot claim an activated code.
-9. Race/concurrency or database-constraint tests prove a code cannot be activated twice.
-10. Tests use PostgreSQL/Testcontainers or a faithful documented substitute for persistence-critical paths.
-11. No employee registration, contact fields, admin UI, HR reporting, public REST/OpenAPI/controller surface or generated client is implemented.
-12. No real customer, employee, personal or financial data appears in code, tests, fixtures, logs or evidence.
-13. No points, money, billing, subscription, rewards or merch concepts are added.
-14. Relevant commands pass: `cd apps/api && ./mvnw -q test`, `cd apps/api && ./mvnw -q verify`, `make verify`, `make test-unit`, and `make build`, or exact blockers are recorded.
-15. Documentation sync is explicit: canonical docs updated only if behavior/setup/API/workflow changes; otherwise evidence states why no canonical doc changed.
-16. Builder evidence maps every acceptance criterion and includes raw command output references.
-17. A fresh `stage_verifier` reviews only `MVP-02-invite-issuance-activation-001` and returns PASS before `MVP-02.02` or this sprint is marked complete.
+1. `finrhythm_stage3_content_mvp_draft.md` no longer exists at repo root.
+2. `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md` exists with `status: draft_with_human_gates`, version `0.1`, date `2026-05-06`, and MVP-05/06/07/09 alignment.
+3. `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` and `content/getcourse-finstrategy/CONTENT_BRIEF.md` exist locally and match the intended raw-source role.
+4. Product foundation, MVP stage and architecture source-of-truth point to the methodology/content spec without expanding stage scope.
+5. `.agent/stages/mvp/source.md`, `sprint_contract.md`, `task-files/MVP-05-content-spec-ingestion-001.md`, `backlog.md`, `feature_list.json`, `progress.md`, `status.json`, `decisions.md`, `risks.md`, `evidence.md` and `evidence.json` record the doc-only ingestion.
+6. `feature_list.json` has a passing criterion only for content spec ingestion into docs/harness; content approval/review criteria remain `passes=false`.
+7. `MVP-05.01` through `MVP-05.05`, full MVP-05 and all content human gates remain open or human-pending.
+8. No runtime code, DB schema, API/OpenAPI/generated-client, UI or fixture behavior changes are introduced.
+9. Verification records `git status --short`, root draft absence/local reference checks, harness validator and `make verify`.
+10. Fresh `stage_verifier` returns PASS for `MVP-05-content-spec-ingestion-001` only before the sprint is marked verified.
 
 ## Verification plan
 
 - `git status --short`
-- `java -version`
-- `cd apps/api && ./mvnw -v`
-- `cd apps/api && ./mvnw -q test`
-- `cd apps/api && ./mvnw -q verify`
+- `test ! -f finrhythm_stage3_content_mvp_draft.md`
+- `test -f docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`
+- `rg -n "content-mvp-spec-v0.1|learning-methodology-v0.2|CONTENT_BRIEF|draft_with_human_gates" docs/product/b2b-mvp/lemanapro docs/stages/MVP.md docs/architecture/source-of-truth.md .agent/stages/mvp`
+- `python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp`
 - `make verify`
-- `make test-unit`
-- `make build`
-- SQL/Flyway inspection proving append-only migration order and no raw invite-code persistence.
-- Targeted guardrail scan for `raw_code`, `plain_code`, contact data, points, money, billing, rewards, controllers and OpenAPI/client drift.
-- Fresh `stage_verifier` scoped only to `MVP-02-invite-issuance-activation-001`.
+- Fresh `stage_verifier` scoped only to `MVP-05-content-spec-ingestion-001`.
 
 ## Docs targets
 
-- Stage artifacts: always update `.agent/stages/mvp/evidence.md`, `.agent/stages/mvp/evidence.json`, raw outputs, `progress.md`, `status.json`, `feature_list.json`, `decisions.md` and `risks.md`.
-- Canonical docs: update only if the builder changes setup/runtime expectations, API contract, developer workflow or canonical architecture decisions.
-- API/OpenAPI: not expected because this slice excludes public REST/controller surface. If a builder finds a REST/API change unavoidable, stop and re-freeze rather than silently widening scope.
+- Canonical docs: product foundation, MVP stage source and architecture source-of-truth.
+- Product docs: new content spec and methodology markdown source.
+- Stage artifacts: current MVP harness files and raw command outputs.
+- Mermaid diagrams: not required; this slice changes source placement and proof routing, not a non-trivial runtime flow.
 
 ## Human gates
 
-No human gate can be closed by this slice. It does not approve legal wording, customer-specific reporting, reward economy, public brand, real customer data or real fulfillment operations.
-
-## Current outcome
-
-Scope was frozen, implemented and freshly verified for `MVP-02-invite-issuance-activation-001`. Current evidence proves only `MVP-02.02`; `MVP-02.03`, `MVP-02.04` and full MVP-02 remain open.
+No human gate is closed by this slice. The content spec is ready for production-proработка and future implementation planning, but final financial correctness, legal/tax wording, HR/privacy wording, reward economy, real fulfillment, support-answer policy and `production_ready` publishing remain human-gated.
