@@ -1,0 +1,263 @@
+$ git status --short --untracked-files=all
+ M .agent/stages/mvp/evidence.json
+ M .agent/stages/mvp/evidence.md
+ M .agent/stages/mvp/feature_list.json
+ M .agent/stages/mvp/problems.md
+ M .agent/stages/mvp/status.json
+ M .agent/stages/mvp/verdict.json
+ M .agents/skills/stage-launch-proof-loop/SKILL.md
+ M .agents/skills/stage-launch-proof-loop/assets/templates/problems.template.md
+ M .agents/skills/stage-launch-proof-loop/assets/templates/verdict.template.json
+ M .agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md
+ M .agents/skills/stage-launch-proof-loop/references/PROTOCOL.md
+ M .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py
+ M AGENTS.md
+ M docs/architecture/source-of-truth.md
+ M scripts/validate-bootstrap.sh
+?? .agent/stages/harness-optimization/backlog.md
+?? .agent/stages/harness-optimization/decisions.md
+?? .agent/stages/harness-optimization/evidence.json
+?? .agent/stages/harness-optimization/evidence.md
+?? .agent/stages/harness-optimization/evidence/HARNESS-OPT-001.json
+?? .agent/stages/harness-optimization/evidence/HARNESS-OPT-001.md
+?? .agent/stages/harness-optimization/evidence/HARNESS-OPT-002.json
+?? .agent/stages/harness-optimization/evidence/HARNESS-OPT-002.md
+?? .agent/stages/harness-optimization/feature_list.json
+?? .agent/stages/harness-optimization/problems.md
+?? .agent/stages/harness-optimization/problems/HARNESS-OPT-001.md
+?? .agent/stages/harness-optimization/problems/HARNESS-OPT-002.md
+?? .agent/stages/harness-optimization/progress.md
+?? .agent/stages/harness-optimization/raw/changed-files-20260508.txt
+?? .agent/stages/harness-optimization/raw/fix-git-diff-check-20260509.txt
+?? .agent/stages/harness-optimization/raw/fix-verify-harness-stage-harness-optimization-20260509.json
+?? .agent/stages/harness-optimization/raw/fix-verify-harness-stage-mvp-20260509.json
+?? .agent/stages/harness-optimization/raw/fresh-changed-files-20260508.txt
+?? .agent/stages/harness-optimization/raw/fresh-final-git-diff-check-20260508.txt
+?? .agent/stages/harness-optimization/raw/fresh-final-java-version-20260508.txt
+?? .agent/stages/harness-optimization/raw/fresh-final-negative-artifact-consistency-20260508.txt
+?? .agent/stages/harness-optimization/raw/fresh-final-node-verify-bootstrap-quiet-20260508.txt
+?? .agent/stages/harness-optimization/raw/fresh-final-production-scope-check-20260508.txt
+?? .agent/stages/harness-optimization/raw/fresh-final-py-compile-verify-harness-20260508.txt
+?? .agent/stages/harness-optimization/raw/fresh-final-stage-artifact-coherence-20260508.txt
+?? .agent/stages/harness-optimization/raw/fresh-final-validate-bootstrap-20260508.txt
+?? .agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-git-diff-check-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-java-version-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-negative-passed-active-id-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-negative-passed-active-id-v2-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-node-verify-bootstrap-quiet-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-production-scope-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-py-compile-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-validate-bootstrap-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-verify-bootstrap-only-20260509.json
+?? .agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-verify-stage-harness-optimization-20260509.json
+?? .agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-verify-stage-mvp-20260509.json
+?? .agent/stages/harness-optimization/raw/fresh-final-verify-harness-bootstrap-only-20260508.json
+?? .agent/stages/harness-optimization/raw/fresh-final-verify-harness-stage-harness-optimization-20260508.json
+?? .agent/stages/harness-optimization/raw/fresh-final-verify-harness-stage-mvp-20260508.json
+?? .agent/stages/harness-optimization/raw/fresh-git-diff-check-20260508.txt
+?? .agent/stages/harness-optimization/raw/fresh-git-status-20260508.txt
+?? .agent/stages/harness-optimization/raw/fresh-java-version-20260508.txt
+?? .agent/stages/harness-optimization/raw/fresh-negative-artifact-consistency-20260508.txt
+?? .agent/stages/harness-optimization/raw/fresh-node-verify-bootstrap-quiet-20260508.txt
+?? .agent/stages/harness-optimization/raw/fresh-production-scope-check-20260508.txt
+?? .agent/stages/harness-optimization/raw/fresh-py-compile-verify-harness-20260508.txt
+?? .agent/stages/harness-optimization/raw/fresh-validate-bootstrap-20260508.txt
+?? .agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-final-git-diff-check-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-final-verdict-json-check-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-final-verify-bootstrap-only-20260509.json
+?? .agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-final-verify-stage-harness-optimization-20260509.json
+?? .agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-final-verify-stage-mvp-20260509.json
+?? .agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-git-diff-check-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-git-status-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-java-version-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-negative-passed-active-id-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-negative-passed-active-id-v2-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-node-verify-bootstrap-quiet-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-production-scope-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-py-compile-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-source-routing-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-status-semantics-20260509.json
+?? .agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-validate-bootstrap-20260509.txt
+?? .agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-verify-bootstrap-only-20260509.json
+?? .agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-verify-stage-harness-optimization-20260509.json
+?? .agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-verify-stage-mvp-20260509.json
+?? .agent/stages/harness-optimization/raw/fresh2-verify-harness-bootstrap-only-20260508.json
+?? .agent/stages/harness-optimization/raw/fresh2-verify-harness-stage-mvp-20260508.json
+?? .agent/stages/harness-optimization/raw/git-diff-check-20260508.txt
+?? .agent/stages/harness-optimization/raw/harness-opt-002-final-git-diff-check-20260509.txt
+?? .agent/stages/harness-optimization/raw/harness-opt-002-final-verify-stage-harness-optimization-20260509.json
+?? .agent/stages/harness-optimization/raw/harness-opt-002-final-verify-stage-mvp-20260509.json
+?? .agent/stages/harness-optimization/raw/harness-opt-002-git-diff-check-20260509.txt
+?? .agent/stages/harness-optimization/raw/harness-opt-002-java-version-20260509.txt
+?? .agent/stages/harness-optimization/raw/harness-opt-002-negative-passed-active-id-20260509.txt
+?? .agent/stages/harness-optimization/raw/harness-opt-002-node-verify-bootstrap-quiet-20260509.txt
+?? .agent/stages/harness-optimization/raw/harness-opt-002-py-compile-20260509.txt
+?? .agent/stages/harness-optimization/raw/harness-opt-002-validate-bootstrap-20260509.txt
+?? .agent/stages/harness-optimization/raw/harness-opt-002-verify-bootstrap-only-20260509.json
+?? .agent/stages/harness-optimization/raw/harness-opt-002-verify-stage-harness-optimization-20260509.json
+?? .agent/stages/harness-optimization/raw/harness-opt-002-verify-stage-mvp-20260509.json
+?? .agent/stages/harness-optimization/raw/java-version-20260508.txt
+?? .agent/stages/harness-optimization/raw/negative-artifact-consistency-20260508.txt
+?? .agent/stages/harness-optimization/raw/node-verify-bootstrap-quiet-20260508.txt
+?? .agent/stages/harness-optimization/raw/py-compile-verify-harness-20260508.txt
+?? .agent/stages/harness-optimization/raw/validate-bootstrap-20260508.txt
+?? .agent/stages/harness-optimization/raw/verify-harness-bootstrap-only-20260508.json
+?? .agent/stages/harness-optimization/raw/verify-harness-stage-harness-optimization-20260508.json
+?? .agent/stages/harness-optimization/raw/verify-harness-stage-mvp-20260508.json
+?? .agent/stages/harness-optimization/recommendation_coverage.md
+?? .agent/stages/harness-optimization/risks.md
+?? .agent/stages/harness-optimization/source.md
+?? .agent/stages/harness-optimization/sprint_contract.md
+?? .agent/stages/harness-optimization/stage_spec.md
+?? .agent/stages/harness-optimization/status.json
+?? .agent/stages/harness-optimization/task-files/HARNESS-OPT-001.md
+?? .agent/stages/harness-optimization/task-files/HARNESS-OPT-002.md
+?? .agent/stages/harness-optimization/verdict.json
+?? .agent/stages/harness-optimization/verdicts/HARNESS-OPT-001.json
+?? .agent/stages/harness-optimization/verdicts/HARNESS-OPT-002.json
+?? .agent/stages/mvp/evidence/MVP-05-content-spec-ingestion-001.json
+?? .agent/stages/mvp/evidence/MVP-05-content-spec-ingestion-001.md
+?? .agent/stages/mvp/problems/MVP-05-content-spec-ingestion-001.md
+?? .agent/stages/mvp/problems/MVP-05-learning-methodology-doc-sync-001.md
+?? .agent/stages/mvp/verdicts/MVP-05-content-spec-ingestion-001.json
+?? .agent/stages/mvp/verdicts/MVP-05-learning-methodology-doc-sync-001.json
+?? .agents/skills/stage-launch-proof-loop/harness.manifest.json
+?? .agents/skills/stage-launch-proof-loop/profiles/CONTENT_PROFILE.md
+?? .agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md
+?? content/getcourse-finstrategy/content-baseline.manifest.json
+
+$ git diff --name-only
+.agent/stages/mvp/evidence.json
+.agent/stages/mvp/evidence.md
+.agent/stages/mvp/feature_list.json
+.agent/stages/mvp/problems.md
+.agent/stages/mvp/status.json
+.agent/stages/mvp/verdict.json
+.agents/skills/stage-launch-proof-loop/SKILL.md
+.agents/skills/stage-launch-proof-loop/assets/templates/problems.template.md
+.agents/skills/stage-launch-proof-loop/assets/templates/verdict.template.json
+.agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md
+.agents/skills/stage-launch-proof-loop/references/PROTOCOL.md
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py
+AGENTS.md
+docs/architecture/source-of-truth.md
+scripts/validate-bootstrap.sh
+
+$ git ls-files --others --exclude-standard
+.agent/stages/harness-optimization/backlog.md
+.agent/stages/harness-optimization/decisions.md
+.agent/stages/harness-optimization/evidence.json
+.agent/stages/harness-optimization/evidence.md
+.agent/stages/harness-optimization/evidence/HARNESS-OPT-001.json
+.agent/stages/harness-optimization/evidence/HARNESS-OPT-001.md
+.agent/stages/harness-optimization/evidence/HARNESS-OPT-002.json
+.agent/stages/harness-optimization/evidence/HARNESS-OPT-002.md
+.agent/stages/harness-optimization/feature_list.json
+.agent/stages/harness-optimization/problems.md
+.agent/stages/harness-optimization/problems/HARNESS-OPT-001.md
+.agent/stages/harness-optimization/problems/HARNESS-OPT-002.md
+.agent/stages/harness-optimization/progress.md
+.agent/stages/harness-optimization/raw/changed-files-20260508.txt
+.agent/stages/harness-optimization/raw/fix-git-diff-check-20260509.txt
+.agent/stages/harness-optimization/raw/fix-verify-harness-stage-harness-optimization-20260509.json
+.agent/stages/harness-optimization/raw/fix-verify-harness-stage-mvp-20260509.json
+.agent/stages/harness-optimization/raw/fresh-changed-files-20260508.txt
+.agent/stages/harness-optimization/raw/fresh-final-git-diff-check-20260508.txt
+.agent/stages/harness-optimization/raw/fresh-final-java-version-20260508.txt
+.agent/stages/harness-optimization/raw/fresh-final-negative-artifact-consistency-20260508.txt
+.agent/stages/harness-optimization/raw/fresh-final-node-verify-bootstrap-quiet-20260508.txt
+.agent/stages/harness-optimization/raw/fresh-final-production-scope-check-20260508.txt
+.agent/stages/harness-optimization/raw/fresh-final-py-compile-verify-harness-20260508.txt
+.agent/stages/harness-optimization/raw/fresh-final-stage-artifact-coherence-20260508.txt
+.agent/stages/harness-optimization/raw/fresh-final-validate-bootstrap-20260508.txt
+.agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-git-diff-check-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-java-version-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-negative-passed-active-id-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-negative-passed-active-id-v2-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-node-verify-bootstrap-quiet-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-production-scope-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-py-compile-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-validate-bootstrap-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-verify-bootstrap-only-20260509.json
+.agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-verify-stage-harness-optimization-20260509.json
+.agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-verify-stage-mvp-20260509.json
+.agent/stages/harness-optimization/raw/fresh-final-verify-harness-bootstrap-only-20260508.json
+.agent/stages/harness-optimization/raw/fresh-final-verify-harness-stage-harness-optimization-20260508.json
+.agent/stages/harness-optimization/raw/fresh-final-verify-harness-stage-mvp-20260508.json
+.agent/stages/harness-optimization/raw/fresh-git-diff-check-20260508.txt
+.agent/stages/harness-optimization/raw/fresh-git-status-20260508.txt
+.agent/stages/harness-optimization/raw/fresh-java-version-20260508.txt
+.agent/stages/harness-optimization/raw/fresh-negative-artifact-consistency-20260508.txt
+.agent/stages/harness-optimization/raw/fresh-node-verify-bootstrap-quiet-20260508.txt
+.agent/stages/harness-optimization/raw/fresh-production-scope-check-20260508.txt
+.agent/stages/harness-optimization/raw/fresh-py-compile-verify-harness-20260508.txt
+.agent/stages/harness-optimization/raw/fresh-validate-bootstrap-20260508.txt
+.agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-final-git-diff-check-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-final-verdict-json-check-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-final-verify-bootstrap-only-20260509.json
+.agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-final-verify-stage-harness-optimization-20260509.json
+.agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-final-verify-stage-mvp-20260509.json
+.agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-git-diff-check-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-git-status-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-java-version-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-negative-passed-active-id-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-negative-passed-active-id-v2-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-node-verify-bootstrap-quiet-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-production-scope-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-py-compile-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-source-routing-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-status-semantics-20260509.json
+.agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-validate-bootstrap-20260509.txt
+.agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-verify-bootstrap-only-20260509.json
+.agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-verify-stage-harness-optimization-20260509.json
+.agent/stages/harness-optimization/raw/fresh-verifier-harness-opt-002-verify-stage-mvp-20260509.json
+.agent/stages/harness-optimization/raw/fresh2-verify-harness-bootstrap-only-20260508.json
+.agent/stages/harness-optimization/raw/fresh2-verify-harness-stage-mvp-20260508.json
+.agent/stages/harness-optimization/raw/git-diff-check-20260508.txt
+.agent/stages/harness-optimization/raw/harness-opt-002-final-git-diff-check-20260509.txt
+.agent/stages/harness-optimization/raw/harness-opt-002-final-verify-stage-harness-optimization-20260509.json
+.agent/stages/harness-optimization/raw/harness-opt-002-final-verify-stage-mvp-20260509.json
+.agent/stages/harness-optimization/raw/harness-opt-002-git-diff-check-20260509.txt
+.agent/stages/harness-optimization/raw/harness-opt-002-java-version-20260509.txt
+.agent/stages/harness-optimization/raw/harness-opt-002-negative-passed-active-id-20260509.txt
+.agent/stages/harness-optimization/raw/harness-opt-002-node-verify-bootstrap-quiet-20260509.txt
+.agent/stages/harness-optimization/raw/harness-opt-002-py-compile-20260509.txt
+.agent/stages/harness-optimization/raw/harness-opt-002-validate-bootstrap-20260509.txt
+.agent/stages/harness-optimization/raw/harness-opt-002-verify-bootstrap-only-20260509.json
+.agent/stages/harness-optimization/raw/harness-opt-002-verify-stage-harness-optimization-20260509.json
+.agent/stages/harness-optimization/raw/harness-opt-002-verify-stage-mvp-20260509.json
+.agent/stages/harness-optimization/raw/java-version-20260508.txt
+.agent/stages/harness-optimization/raw/negative-artifact-consistency-20260508.txt
+.agent/stages/harness-optimization/raw/node-verify-bootstrap-quiet-20260508.txt
+.agent/stages/harness-optimization/raw/py-compile-verify-harness-20260508.txt
+.agent/stages/harness-optimization/raw/validate-bootstrap-20260508.txt
+.agent/stages/harness-optimization/raw/verify-harness-bootstrap-only-20260508.json
+.agent/stages/harness-optimization/raw/verify-harness-stage-harness-optimization-20260508.json
+.agent/stages/harness-optimization/raw/verify-harness-stage-mvp-20260508.json
+.agent/stages/harness-optimization/recommendation_coverage.md
+.agent/stages/harness-optimization/risks.md
+.agent/stages/harness-optimization/source.md
+.agent/stages/harness-optimization/sprint_contract.md
+.agent/stages/harness-optimization/stage_spec.md
+.agent/stages/harness-optimization/status.json
+.agent/stages/harness-optimization/task-files/HARNESS-OPT-001.md
+.agent/stages/harness-optimization/task-files/HARNESS-OPT-002.md
+.agent/stages/harness-optimization/verdict.json
+.agent/stages/harness-optimization/verdicts/HARNESS-OPT-001.json
+.agent/stages/harness-optimization/verdicts/HARNESS-OPT-002.json
+.agent/stages/mvp/evidence/MVP-05-content-spec-ingestion-001.json
+.agent/stages/mvp/evidence/MVP-05-content-spec-ingestion-001.md
+.agent/stages/mvp/problems/MVP-05-content-spec-ingestion-001.md
+.agent/stages/mvp/problems/MVP-05-learning-methodology-doc-sync-001.md
+.agent/stages/mvp/verdicts/MVP-05-content-spec-ingestion-001.json
+.agent/stages/mvp/verdicts/MVP-05-learning-methodology-doc-sync-001.json
+.agents/skills/stage-launch-proof-loop/harness.manifest.json
+.agents/skills/stage-launch-proof-loop/profiles/CONTENT_PROFILE.md
+.agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md
+content/getcourse-finstrategy/content-baseline.manifest.json
+
+$ production/API/schema/UI/generated-client scope classification
+changed_path_count= 126
+scope_violations= []
+status= PASS
+exit_code=0

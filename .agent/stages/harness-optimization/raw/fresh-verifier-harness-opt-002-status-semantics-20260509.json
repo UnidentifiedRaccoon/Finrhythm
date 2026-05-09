@@ -1,0 +1,16 @@
+{
+  "mvp": {
+    "state": "SPRINT_PASSED",
+    "active_sprint_contract_id": null,
+    "active_ids": [],
+    "latest_verified_sprint_contract_id": "MVP-05-content-spec-ingestion-001"
+  },
+  "harness_optimization": {
+    "state": "BUILDER_EVIDENCE_READY_FOR_FRESH_VERIFIER",
+    "active_sprint_contract_id": "HARNESS-OPT-002",
+    "active_ids": [
+      "HARNESS-OPT-002"
+    ],
+    "latest_verified_sprint_contract_id": "HARNESS-OPT-002"
+  }
+}

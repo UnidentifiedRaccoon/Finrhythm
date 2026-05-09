@@ -19,24 +19,17 @@ At the start of every stage session:
 1. read `AGENTS.md`;
 2. read `docs/architecture/source-of-truth.md`;
 3. read `docs/architecture/documentation-workflow.md`;
-4. read stage-linked `docs/product/**` product foundation markdown if present;
-5. read the target stage file;
-6. read `.agent/stages/<stage_id>/progress.md` and `feature_list.json` if present;
+4. apply `references/READ_MATRIX.md`;
+5. read the target stage file only;
+6. read `.agent/stages/<stage_id>/status.json`, active `sprint_contract.md` or task file, and `evidence.json` if present;
 7. inspect current repo state;
 8. run smoke checks if available.
 
 Do not start coding until current repo state and scope are understood.
 For the current FinLit MVP, product-intent baseline is `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`; it must be reconciled before spec freeze.
-For MVP learning, diagnostics, route rules, lesson templates, content approve-flow, support handoff and learning reports, methodology baseline is `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`; it must be reconciled before spec freeze.
-
-For any content, CMS, lesson adaptation, import/export or wording-review slice, also read:
-
-- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`;
-- `content/getcourse-finstrategy/README.md`;
-- `content/getcourse-finstrategy/CONTENT_BRIEF.md`;
-- `.agent/tasks/content-main-course-cleanup/evidence.md` when present.
-
-The active raw content baseline is `Курс «ФинCтратегия»` under `content/getcourse-finstrategy/`. The removed `Путь к деньгам` export is historical only and must not be used as source material.
+For content, learning, diagnostics, route rules, lesson templates, content approve-flow, support handoff, learning reports and wording-review slices, load `profiles/CONTENT_PROFILE.md`.
+For non-content/backend/admin/harness slices, do not load product/content methodology docs unless the target stage metadata, task type or verifier problem requires them.
+Raw evidence under `.agent/stages/**/raw/**` is never a default read target. Read raw only by exact reference from current `evidence.json`, current `problems.md` or an explicit audit question.
 
 ## Delegation policy
 
@@ -81,14 +74,7 @@ For `apps/api`:
 
 ## Content policy
 
-For `content/`, CMS and lesson adaptation work:
-
-- source provenance must point to `content/getcourse-finstrategy/` and `course-export/stream-546010026/`;
-- `content/getcourse-finstrategy/CONTENT_BRIEF.md` is the quick map of theory sections;
-- blocked lessons, human-review status and customer-specific labels must be represented in scope and evidence;
-- methodology-owned IDs must be represented in scope and evidence when touched: lesson IDs (`N1–N7`, optional `Z1/Z4/Z9`), question IDs (`Q0`, `Q1–Q27`, `Q28`, `SA1–SA3`), route IDs (`R1–R6`), review statuses and sensitive-data policy;
-- raw financial, tax, credit, investment and pension wording remains human-gated until reviewed;
-- do not reintroduce removed exploratory exports such as `content/getcourse-path-to-money/`.
+For `content/`, CMS and lesson adaptation work, load and follow `profiles/CONTENT_PROFILE.md`.
 
 ## Completion policy
 

@@ -1,0 +1,102 @@
+[
+  {
+    "id": "harness-opt-artifact-consistency",
+    "category": "harness",
+    "description": "verify_harness.py detects stale or mismatched latest sprint proof artifacts.",
+    "steps": [
+      "Add semantic consistency check",
+      "Run negative fixture",
+      "Run positive MVP stage verification"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/harness-optimization/raw/fresh-negative-artifact-consistency-20260508.txt",
+      ".agent/stages/harness-optimization/raw/fresh2-verify-harness-stage-mvp-20260508.json",
+      ".agent/stages/harness-optimization/verdicts/HARNESS-OPT-001.json"
+    ]
+  },
+  {
+    "id": "harness-opt-read-gating",
+    "category": "documentation",
+    "description": "Harness docs define target-stage-only read-gating and raw evidence read-by-ref behavior.",
+    "steps": [
+      "Add READ_MATRIX.md",
+      "Sync root and architecture docs",
+      "Sync skill/protocol/artifact docs"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md",
+      "AGENTS.md",
+      "docs/architecture/source-of-truth.md",
+      ".agent/stages/harness-optimization/recommendation_coverage.md",
+      ".agent/stages/harness-optimization/verdicts/HARNESS-OPT-001.json"
+    ]
+  },
+  {
+    "id": "harness-opt-human-gates-unchanged",
+    "category": "human-gates",
+    "description": "Harness optimization does not close product/content/legal/privacy/reward human gates.",
+    "steps": [
+      "Keep MVP human gates unchanged",
+      "Record no production scope"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/harness-optimization/raw/fresh-production-scope-check-20260508.txt",
+      ".agent/stages/harness-optimization/problems/HARNESS-OPT-001.md"
+    ]
+  },
+  {
+    "id": "harness-opt-manifest-driven-verifier",
+    "category": "harness",
+    "description": "Verifier and bootstrap validation read harness file lists, verdict statuses, legacy scan config and content baseline facts from manifests.",
+    "steps": [
+      "Add harness manifest",
+      "Add content baseline manifest",
+      "Update verifier and bootstrap validation",
+      "Run harness checks"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agents/skills/stage-launch-proof-loop/harness.manifest.json",
+      "content/getcourse-finstrategy/content-baseline.manifest.json",
+      ".agent/stages/harness-optimization/raw/harness-opt-002-verify-stage-mvp-20260509.json",
+      ".agent/stages/harness-optimization/raw/harness-opt-002-verify-stage-harness-optimization-20260509.json",
+      ".agent/stages/harness-optimization/raw/harness-opt-002-validate-bootstrap-20260509.txt"
+    ]
+  },
+  {
+    "id": "harness-opt-content-profile-routing",
+    "category": "documentation",
+    "description": "Content and methodology details are routed through CONTENT_PROFILE.md instead of generic harness instructions.",
+    "steps": [
+      "Add content profile",
+      "Sync skill and references"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agents/skills/stage-launch-proof-loop/profiles/CONTENT_PROFILE.md",
+      ".agents/skills/stage-launch-proof-loop/SKILL.md",
+      ".agents/skills/stage-launch-proof-loop/references/PROTOCOL.md",
+      ".agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md",
+      ".agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md"
+    ]
+  },
+  {
+    "id": "harness-opt-passed-status-semantics",
+    "category": "harness",
+    "description": "Passed stages cannot keep active sprint ids.",
+    "steps": [
+      "Add verifier semantic check",
+      "Update current passed statuses",
+      "Run negative fixture"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/harness-optimization/raw/harness-opt-002-negative-passed-active-id-20260509.txt",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/harness-optimization/status.json"
+    ]
+  }
+]

@@ -1,0 +1,65 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "id": "status-last-updated-2026-05-09",
+      "status": "PASS",
+      "actual": "2026-05-09"
+    },
+    {
+      "id": "status-active-none",
+      "status": "PASS",
+      "active_sprint_contract_id": null,
+      "active_ids": []
+    },
+    {
+      "id": "progress-active-none",
+      "status": "PASS"
+    },
+    {
+      "id": "progress-last-updated-2026-05-09",
+      "status": "PASS"
+    },
+    {
+      "id": "recommendation-heading-final",
+      "status": "PASS",
+      "first_line": "# Recommendation coverage: harness-optimization"
+    },
+    {
+      "id": "recommendation-status-pass",
+      "status": "PASS"
+    },
+    {
+      "id": "recommendation-coverage-coherent",
+      "status": "PASS"
+    },
+    {
+      "id": "latest-evidence-harness-opt-002",
+      "status": "PASS",
+      "sprint_contract_id": "HARNESS-OPT-002",
+      "verdict": {
+        "status": "PASS",
+        "raw": ".agent/stages/harness-optimization/verdicts/HARNESS-OPT-002.json",
+        "problems": ".agent/stages/harness-optimization/problems/HARNESS-OPT-002.md"
+      }
+    },
+    {
+      "id": "latest-verdict-pass",
+      "status": "PASS",
+      "current_status": "PASS"
+    },
+    {
+      "id": "immutable-verdict-pass",
+      "status": "PASS",
+      "current_status": "PASS"
+    },
+    {
+      "id": "latest-problems-no-blocking-gaps",
+      "status": "PASS"
+    },
+    {
+      "id": "immutable-problems-no-blocking-gaps",
+      "status": "PASS"
+    }
+  ]
+}

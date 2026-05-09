@@ -1,0 +1,173 @@
+{
+  "status": "PASS",
+  "stage_id": "harness-optimization",
+  "sprint_contract_id": "HARNESS-OPT-002",
+  "verifier_role": "fresh_stage_verifier",
+  "last_verified_at": "2026-05-09T08:31:44Z",
+  "summary": "Fresh final verification after the metadata proof-gap fix passes: final handoff artifacts are coherent, harness checks pass for harness-optimization and mvp, evidence uses immutable HARNESS-OPT-002 verdict/problem refs, and no production/API/schema/UI/generated-client changes are present.",
+  "failed_criteria": [],
+  "proof_gaps": [],
+  "checks": [
+    {
+      "id": "status-json-last-updated",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-artifact-coherence-20260509.json",
+      "detail": "status.json last_updated is 2026-05-09 and passed-stage active ids are empty."
+    },
+    {
+      "id": "progress-active-unit",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-artifact-coherence-20260509.json",
+      "detail": "progress.md records Active unit: none and Last updated: 2026-05-09."
+    },
+    {
+      "id": "recommendation-coverage-final",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-artifact-coherence-20260509.json",
+      "detail": "recommendation_coverage.md heading/status are final for harness-optimization and coverage is coherent."
+    },
+    {
+      "id": "verify-harness-stage-harness-optimization",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-verify-stage-harness-optimization-20260509.json"
+    },
+    {
+      "id": "verify-harness-stage-mvp",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-verify-stage-mvp-20260509.json"
+    },
+    {
+      "id": "verify-harness-bootstrap-only",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-verify-bootstrap-only-20260509.json"
+    },
+    {
+      "id": "python-compile",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-py-compile-20260509.txt"
+    },
+    {
+      "id": "validate-bootstrap",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-validate-bootstrap-20260509.txt"
+    },
+    {
+      "id": "node-verify-bootstrap-quiet",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-node-verify-bootstrap-quiet-20260509.txt"
+    },
+    {
+      "id": "git-diff-check",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-git-diff-check-20260509.txt"
+    },
+    {
+      "id": "negative-passed-stage-active-id",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-negative-passed-active-id-20260509.txt"
+    },
+    {
+      "id": "source-routing-and-manifest-use",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-source-routing-20260509.json"
+    },
+    {
+      "id": "production-api-schema-ui-generated-client-scope",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-production-scope-20260509.json"
+    },
+    {
+      "id": "java-runtime-limitation",
+      "status": "BLOCKED_ENV_HONEST",
+      "raw_ref": ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-java-version-20260509.txt",
+      "detail": "java -version cannot locate a Java runtime in this shell; no backend/API/schema slice is in scope, so Maven/Flyway/OpenAPI proof is not applicable."
+    }
+  ],
+  "acceptance_criteria": [
+    {
+      "id": 1,
+      "status": "PASS",
+      "evidence": [
+        ".agents/skills/stage-launch-proof-loop/harness.manifest.json",
+        ".agents/skills/stage-launch-proof-loop/scripts/verify_harness.py",
+        ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-source-routing-20260509.json"
+      ]
+    },
+    {
+      "id": 2,
+      "status": "PASS",
+      "evidence": [
+        "content/getcourse-finstrategy/content-baseline.manifest.json",
+        ".agents/skills/stage-launch-proof-loop/scripts/verify_harness.py",
+        ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-source-routing-20260509.json"
+      ]
+    },
+    {
+      "id": 3,
+      "status": "PASS",
+      "evidence": [
+        "scripts/validate-bootstrap.sh",
+        ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-validate-bootstrap-20260509.txt"
+      ]
+    },
+    {
+      "id": 4,
+      "status": "PASS",
+      "evidence": [
+        ".agents/skills/stage-launch-proof-loop/profiles/CONTENT_PROFILE.md",
+        ".agents/skills/stage-launch-proof-loop/SKILL.md",
+        ".agents/skills/stage-launch-proof-loop/references/PROTOCOL.md",
+        ".agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md",
+        ".agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md"
+      ]
+    },
+    {
+      "id": 5,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-negative-passed-active-id-20260509.txt"
+      ]
+    },
+    {
+      "id": 6,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-artifact-coherence-20260509.json"
+      ]
+    },
+    {
+      "id": 7,
+      "status": "PASS_WITH_ENV_LIMITATION",
+      "evidence": [
+        ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-verify-stage-mvp-20260509.json",
+        ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-verify-stage-harness-optimization-20260509.json",
+        ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-verify-bootstrap-only-20260509.json",
+        ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-validate-bootstrap-20260509.txt",
+        ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-node-verify-bootstrap-quiet-20260509.txt",
+        ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-git-diff-check-20260509.txt",
+        ".agent/stages/harness-optimization/raw/fresh-final-verifier-harness-opt-002-after-metadata-fix-java-version-20260509.txt"
+      ]
+    },
+    {
+      "id": 8,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/harness-optimization/verdicts/HARNESS-OPT-002.json",
+        ".agent/stages/harness-optimization/problems/HARNESS-OPT-002.md"
+      ]
+    }
+  ],
+  "docs_sync": {
+    "status": "PASS",
+    "notes": "Harness/read-gating docs and recommendation coverage are synchronized for HARNESS-OPT-002. Follow-up items are explicitly marked as follow-up, not hidden blockers."
+  },
+  "openapi_schema_generated_client": {
+    "status": "NOT_APPLICABLE",
+    "notes": "No apps/api, Flyway migration, OpenAPI or packages/api-client paths changed."
+  },
+  "ui_screenshot_browser_smoke": {
+    "status": "NOT_APPLICABLE",
+    "notes": "No UI or user-visible application behavior changed."
+  },
+  "human_gates": []
+}

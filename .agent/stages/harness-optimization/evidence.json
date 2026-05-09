@@ -1,0 +1,148 @@
+{
+  "stage_id": "harness-optimization",
+  "sprint_contract_id": "HARNESS-OPT-002",
+  "updated_at": "2026-05-09",
+  "status": "PASS",
+  "summary": "Harness-only follow-up for manifest-driven verifier config, content profile routing and passed-stage status semantics.",
+  "commands": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m py_compile .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py",
+      "status": "PASS",
+      "raw": ".agent/stages/harness-optimization/raw/harness-opt-002-py-compile-20260509.txt"
+    },
+    {
+      "command": "negative passed-stage active id fixture",
+      "status": "PASS",
+      "raw": ".agent/stages/harness-optimization/raw/harness-opt-002-negative-passed-active-id-20260509.txt"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp",
+      "status": "PASS",
+      "raw": ".agent/stages/harness-optimization/raw/harness-opt-002-verify-stage-mvp-20260509.json"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id harness-optimization",
+      "status": "PASS",
+      "raw": ".agent/stages/harness-optimization/raw/harness-opt-002-verify-stage-harness-optimization-20260509.json"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --bootstrap-only",
+      "status": "PASS",
+      "raw": ".agent/stages/harness-optimization/raw/harness-opt-002-verify-bootstrap-only-20260509.json"
+    },
+    {
+      "command": "./scripts/validate-bootstrap.sh",
+      "status": "PASS",
+      "raw": ".agent/stages/harness-optimization/raw/harness-opt-002-validate-bootstrap-20260509.txt"
+    },
+    {
+      "command": "node scripts/verify-bootstrap.mjs --quiet",
+      "status": "PASS",
+      "raw": ".agent/stages/harness-optimization/raw/harness-opt-002-node-verify-bootstrap-quiet-20260509.txt"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "raw": ".agent/stages/harness-optimization/raw/harness-opt-002-git-diff-check-20260509.txt"
+    },
+    {
+      "command": "java -version",
+      "status": "BLOCKED_ENV",
+      "raw": ".agent/stages/harness-optimization/raw/harness-opt-002-java-version-20260509.txt"
+    },
+    {
+      "command": "fresh stage_verifier PASS",
+      "status": "PASS",
+      "raw": ".agent/stages/harness-optimization/verdicts/HARNESS-OPT-002.json"
+    }
+  ],
+  "artifacts": [
+    ".agents/skills/stage-launch-proof-loop/harness.manifest.json",
+    "content/getcourse-finstrategy/content-baseline.manifest.json",
+    ".agents/skills/stage-launch-proof-loop/profiles/CONTENT_PROFILE.md",
+    ".agents/skills/stage-launch-proof-loop/scripts/verify_harness.py",
+    "scripts/validate-bootstrap.sh"
+  ],
+  "documentation_updates": [
+    "Generic content/methodology instructions route through CONTENT_PROFILE.md.",
+    "Recommendation coverage records follow-up closure for manifests and content profile."
+  ],
+  "human_gates": [],
+  "api_openapi_notes": "Not applicable; no API/OpenAPI/generated-client surface changed.",
+  "schema_notes": "Not applicable; no DB schema or migration changed.",
+  "screenshots": [],
+  "acceptance_criteria": [
+    {
+      "id": 1,
+      "status": "PASS",
+      "evidence": [
+        ".agents/skills/stage-launch-proof-loop/harness.manifest.json",
+        ".agents/skills/stage-launch-proof-loop/scripts/verify_harness.py"
+      ]
+    },
+    {
+      "id": 2,
+      "status": "PASS",
+      "evidence": [
+        "content/getcourse-finstrategy/content-baseline.manifest.json",
+        ".agents/skills/stage-launch-proof-loop/scripts/verify_harness.py"
+      ]
+    },
+    {
+      "id": 3,
+      "status": "PASS",
+      "evidence": [
+        "scripts/validate-bootstrap.sh"
+      ]
+    },
+    {
+      "id": 4,
+      "status": "PASS",
+      "evidence": [
+        ".agents/skills/stage-launch-proof-loop/profiles/CONTENT_PROFILE.md",
+        ".agents/skills/stage-launch-proof-loop/SKILL.md",
+        ".agents/skills/stage-launch-proof-loop/references/PROTOCOL.md",
+        ".agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md",
+        ".agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md"
+      ]
+    },
+    {
+      "id": 5,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/harness-optimization/raw/harness-opt-002-negative-passed-active-id-20260509.txt"
+      ]
+    },
+    {
+      "id": 6,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/status.json",
+        ".agent/stages/harness-optimization/status.json"
+      ]
+    },
+    {
+      "id": 7,
+      "status": "PASS_WITH_ENV_LIMITATION",
+      "evidence": [
+        ".agent/stages/harness-optimization/raw/harness-opt-002-verify-stage-mvp-20260509.json",
+        ".agent/stages/harness-optimization/raw/harness-opt-002-verify-stage-harness-optimization-20260509.json",
+        ".agent/stages/harness-optimization/raw/harness-opt-002-validate-bootstrap-20260509.txt",
+        ".agent/stages/harness-optimization/raw/harness-opt-002-java-version-20260509.txt"
+      ]
+    },
+    {
+      "id": 8,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/harness-optimization/verdicts/HARNESS-OPT-002.json",
+        ".agent/stages/harness-optimization/problems/HARNESS-OPT-002.md"
+      ]
+    }
+  ],
+  "verdict": {
+    "status": "PASS",
+    "raw": ".agent/stages/harness-optimization/verdicts/HARNESS-OPT-002.json",
+    "problems": ".agent/stages/harness-optimization/problems/HARNESS-OPT-002.md"
+  }
+}

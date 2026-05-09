@@ -73,18 +73,12 @@ Human-readable proof bundle: commands, tests, screenshots/logs, docs updated, kn
 
 Machine-readable proof index. Suggested keys: `stage_id`, `sprint_contract_id`, `commands`, `tests`, `artifacts`, `screenshots`, `documentation_updates`, `diagram_refs`, `human_gates`, `updated_at`.
 
-For content/CMS/adaptation slices, also include:
+`evidence.json` is the latest evidence alias. When a sprint contract is verified, also write immutable per-contract copies:
 
-- active methodology path `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` when the slice touches lessons, diagnostics, routing, CMS review statuses, support handoff or learning reports;
-- affected methodology IDs: `C1–C10`, `N1–N7`, optional `Z1/Z4/Z9`, `Q0`, `Q1–Q27`, `Q28`, `SA1–SA3`, `R1–R6`;
-- sensitive learning-data policy proof: exact sums, photos, documents, bank screenshots and personal finance reports are not required unless a later human-approved scope explicitly changes this;
-- active source paths, especially `content/getcourse-finstrategy/`, `CONTENT_BRIEF.md` and `course-export/stream-546010026/`;
-- content inventory counts: lesson URLs, markdown lessons, exported/blocked statuses, downloaded assets;
-- blocked lesson list and owner/admin follow-up status;
-- `humanReview` status and wording review status;
-- financial/tax/credit/investment/pension review gates;
-- brand-normalization notes for customer-specific raw labels;
-- explicit statement that removed exploratory exports are not active sources.
+- `evidence/<SPRINT_CONTRACT_ID>.json`;
+- `evidence/<SPRINT_CONTRACT_ID>.md`.
+
+For content/CMS/adaptation slices, also include the evidence required by `profiles/CONTENT_PROFILE.md`.
 
 ### `verdict.json`
 
@@ -93,6 +87,8 @@ Verifier-owned:
 ```json
 {
   "status": "PENDING",
+  "stage_id": "{{STAGE_ID}}",
+  "sprint_contract_id": "{{SPRINT_CONTRACT_ID}}",
   "summary": "",
   "failed_criteria": [],
   "proof_gaps": [],
@@ -102,9 +98,16 @@ Verifier-owned:
 
 Valid statuses: `PENDING`, `FAIL`, `PASS`, `INSUFFICIENT_EVIDENCE`.
 
+Latest alias invariant:
+- `verdict.json` is the latest verifier alias for the current sprint contract, not long-term archive storage.
+- Before a sprint is treated as verified, `sprint_contract.md`, `status.json` latest/active fields where applicable, `evidence.json`, `verdict.json` and `problems.md` must all point to the same `sprint_contract_id`.
+- Superseded verifier outputs must be archived under immutable per-contract paths, for example `verdicts/<SPRINT_CONTRACT_ID>.json` and `problems/<SPRINT_CONTRACT_ID>.md`, before latest aliases are reused.
+- If `evidence.json.verdict.raw` or `evidence.json.verdict.problems` points to a file, that referenced file must also identify the same sprint contract through `sprint_contract_id` or the problems heading.
+
 ### `problems.md`
 
 Verifier-owned when verdict is not pass. Include failed criterion, why not proven, reproduction, expected vs actual, suspected ownership and smallest safe fix direction.
+The first heading must include the sprint contract id, for example `# Fresh verifier problems: MVP-02-example-001`.
 
 ### `raw/`
 

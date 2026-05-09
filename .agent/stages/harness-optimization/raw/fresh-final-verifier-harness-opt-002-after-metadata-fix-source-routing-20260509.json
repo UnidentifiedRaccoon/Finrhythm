@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "id": "harness-manifest-required-keys",
+      "status": "PASS"
+    },
+    {
+      "id": "verify-harness-loads-harness-manifest",
+      "status": "PASS"
+    },
+    {
+      "id": "verify-harness-uses-manifest-file-lists",
+      "status": "PASS"
+    },
+    {
+      "id": "verify-harness-uses-content-baseline-manifest",
+      "status": "PASS"
+    },
+    {
+      "id": "content-baseline-manifest-owns-counts",
+      "status": "PASS"
+    },
+    {
+      "id": "validate-bootstrap-uses-manifest",
+      "status": "PASS"
+    },
+    {
+      "id": "generic-docs-route-content-profile",
+      "status": "PASS"
+    },
+    {
+      "id": "content-profile-exists-and-has-review-rules",
+      "status": "PASS"
+    }
+  ]
+}

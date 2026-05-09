@@ -1,0 +1,21 @@
+$ negative fixture: passed stage with active ids must be rejected
+Traceback (most recent call last):
+  File "<stdin>", line 11, in <module>
+  File "<frozen importlib._bootstrap_external>", line 850, in exec_module
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/Users/elena/cursor/FinRhythm/.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py", line 17, in <module>
+    class CheckResult:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/dataclasses.py", line 1021, in dataclass
+    return wrap(cls)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/dataclasses.py", line 1013, in wrap
+    return _process_class(cls, init, repr, eq, order, unsafe_hash, frozen)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/dataclasses.py", line 863, in _process_class
+    cls_fields = [_get_field(cls, name, type)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/dataclasses.py", line 863, in <listcomp>
+    cls_fields = [_get_field(cls, name, type)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/dataclasses.py", line 714, in _get_field
+    and _is_type(f.type, cls, typing, typing.ClassVar,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/dataclasses.py", line 660, in _is_type
+    ns = sys.modules.get(cls.__module__).__dict__
+AttributeError: 'NoneType' object has no attribute '__dict__'
+exit_code=1

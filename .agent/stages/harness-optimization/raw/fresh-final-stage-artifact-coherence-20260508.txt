@@ -1,0 +1,3 @@
+command=fresh final harness artifact coherence check
+checked=evidence.json,status.json,progress.md,feature_list.json,verdict.json,problems.md
+PASS: evidence/status/progress/latest verifier artifacts are coherent for HARNESS-OPT-001

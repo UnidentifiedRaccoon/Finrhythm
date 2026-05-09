@@ -33,7 +33,7 @@ For parent and custom subagents:
 - `model_reasoning_effort = "xhigh"`;
 - `approval_policy = "on-request"` in Codex config/profiles.
 
-Do not optimize for token savings. Optimize for correctness, durable handoff, and proof.
+Do not optimize by dropping proof. Optimize for correctness, durable handoff and read-gating: use `references/READ_MATRIX.md` to read the target stage/task, current evidence index and exact raw refs needed for the current proof question.
 
 ## Supported commands
 
@@ -72,14 +72,18 @@ Each stage lives under:
   status.json
   evidence.md
   evidence.json
+  evidence/
   verdict.json
+  verdicts/
   problems.md
+  problems/
   raw/
   task-files/
   audits/
 ```
 
 These files are the source of truth for cross-session handoff. Session-local todo UI is not authoritative.
+Latest aliases (`evidence.json`, `evidence.md`, `verdict.json`, `problems.md`) describe the current/latest sprint. Historical proof refs should use immutable per-contract files under `evidence/`, `verdicts/` and `problems/` when available.
 
 ## Top-level workflow
 
@@ -90,23 +94,15 @@ Before changes:
 1. read `AGENTS.md`;
 2. read `docs/architecture/source-of-truth.md`;
 3. read `docs/architecture/documentation-workflow.md`;
-4. read stage-linked `docs/product/**` product foundation markdown if present;
-5. read relevant `docs/stages/*.md`;
-6. read existing `.agent/stages/<stage_id>/progress.md`, `feature_list.json`, `sprint_contract.md` if present;
+4. apply `references/READ_MATRIX.md`;
+5. read the target `docs/stages/<stage>.md` only;
+6. read existing `.agent/stages/<stage_id>/status.json`, active `sprint_contract.md` or task file, and `evidence.json` if present;
 7. inspect recent git state/history when available;
 8. run smoke/baseline checks if app/tooling exists.
 
 If smoke fails, record blocker or fix baseline before new implementation.
 
-For content, CMS, lesson adaptation, import/export or wording-review slices, also read:
-
-- `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`;
-- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`;
-- `content/getcourse-finstrategy/README.md`;
-- `content/getcourse-finstrategy/CONTENT_BRIEF.md`;
-- `.agent/tasks/content-main-course-cleanup/evidence.md` if present.
-
-The active raw content baseline is `Курс «ФинCтратегия»` under `content/getcourse-finstrategy/`. The removed `Путь к деньгам` export is not an active source.
+For content, CMS, lesson adaptation, import/export, diagnostic/reporting or wording-review slices, load `profiles/CONTENT_PROFILE.md`.
 
 ### 2. Freeze scope before implementation
 
@@ -120,9 +116,7 @@ Spec freezer reduces ambiguity. It must not expand stage scope.
 
 For FinLit MVP, `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md` is the current product-intent baseline. Spec freezer must reconcile it with `docs/stages/MVP.md` before selecting or writing a sprint contract. Binary files under product `references/` are supporting artifacts only until normalized into markdown.
 
-For content slices, freeze scope against the `content/getcourse-finstrategy/` inventory and explicitly list blocked lessons, human-review gates and brand-normalization assumptions.
-
-For learning methodology, diagnostic, CMS, support or reporting slices, freeze scope against `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` and explicitly record affected lesson IDs (`N1–N7`, optional `Z1/Z4/Z9`), question IDs (`Q0`, `Q1–Q27`, `Q28`, `SA1–SA3`), route IDs (`R1–R6`), review statuses, sensitive-data policy and human gates.
+For content, learning methodology, diagnostic, CMS, support or reporting slices, freeze scope against `profiles/CONTENT_PROFILE.md` and record the affected IDs, source inventory, review statuses, sensitive-data policy and human gates required there.
 
 ### 3. Build one sprint contract at a time
 
@@ -207,7 +201,9 @@ At the end of each session:
 
 - `references/PROTOCOL.md`
 - `references/ARTIFACTS.md`
+- `references/READ_MATRIX.md`
 - `references/SUBAGENTS.md`
 - `references/COMMANDS.md`
 - `references/DELEGATION.md`
+- `profiles/CONTENT_PROFILE.md`
 - `scripts/verify_harness.py`

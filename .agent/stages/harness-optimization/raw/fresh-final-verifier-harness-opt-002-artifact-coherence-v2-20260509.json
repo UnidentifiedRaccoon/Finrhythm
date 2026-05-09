@@ -1,0 +1,104 @@
+$ stage artifact coherence check for HARNESS-OPT-002
+{
+  "status": "FAIL",
+  "issues": [
+    "status-last-updated-current: last_updated=2026-05-08",
+    "progress-active-unit-not-stale: progress.md line 4 says `HARNESS-OPT-001`",
+    "progress-last-updated-current: progress.md line 5 says 2026-05-08",
+    "recommendation-coverage-title-current: line 1 says `# Recommendation coverage: HARNESS-OPT-001`",
+    "recommendation-coverage-status-pass: status=PASS_WITH_FOLLOW_UPS"
+  ],
+  "checks": [
+    {
+      "id": "status-latest-contract",
+      "status": "PASS",
+      "detail": "latest_verified_sprint_contract_id=HARNESS-OPT-002"
+    },
+    {
+      "id": "status-passed-no-active",
+      "status": "PASS",
+      "detail": "state=SPRINT_PASSED active_sprint_contract_id=None active_ids=[]"
+    },
+    {
+      "id": "status-last-updated-current",
+      "status": "FAIL",
+      "detail": "last_updated=2026-05-08"
+    },
+    {
+      "id": "evidence-contract-pass",
+      "status": "PASS",
+      "detail": "sprint_contract_id=HARNESS-OPT-002 status=PASS"
+    },
+    {
+      "id": "sprint-contract-pass",
+      "status": "PASS",
+      "detail": "expected HARNESS-OPT-002 and Status: `PASS`"
+    },
+    {
+      "id": "backlog-contract-pass",
+      "status": "PASS",
+      "detail": "expected HARNESS-OPT-002 backlog row with Status PASS"
+    },
+    {
+      "id": "progress-no-active-work",
+      "status": "PASS",
+      "detail": "expected Active work to be None"
+    },
+    {
+      "id": "progress-active-unit-not-stale",
+      "status": "FAIL",
+      "detail": "progress.md line 4 says `HARNESS-OPT-001`"
+    },
+    {
+      "id": "progress-last-updated-current",
+      "status": "FAIL",
+      "detail": "progress.md line 5 says 2026-05-08"
+    },
+    {
+      "id": "progress-latest-completed",
+      "status": "PASS",
+      "detail": "expected HARNESS-OPT-002 implementation and verifier summary"
+    },
+    {
+      "id": "recommendation-coverage-title-current",
+      "status": "FAIL",
+      "detail": "line 1 says `# Recommendation coverage: HARNESS-OPT-001`"
+    },
+    {
+      "id": "recommendation-coverage-status-pass",
+      "status": "FAIL",
+      "detail": "status=PASS_WITH_FOLLOW_UPS"
+    },
+    {
+      "id": "recommendation-harness-opt-002-done",
+      "status": "PASS",
+      "detail": "expected HARNESS-OPT-002 recommendation closure rows"
+    },
+    {
+      "id": "evidence-verdict-raw-immutable",
+      "status": "PASS",
+      "detail": "raw=.agent/stages/harness-optimization/verdicts/HARNESS-OPT-002.json"
+    },
+    {
+      "id": "evidence-problems-ref-immutable",
+      "status": "PASS",
+      "detail": "problems=.agent/stages/harness-optimization/problems/HARNESS-OPT-002.md"
+    },
+    {
+      "id": "immutable-verdict-pass",
+      "status": "PASS",
+      "detail": "status=PASS sprint_contract_id=HARNESS-OPT-002"
+    },
+    {
+      "id": "latest-verdict-pass",
+      "status": "PASS",
+      "detail": "status=PASS sprint_contract_id=HARNESS-OPT-002"
+    },
+    {
+      "id": "latest-problems-heading",
+      "status": "PASS",
+      "detail": "# Fresh verifier problems: HARNESS-OPT-002"
+    }
+  ]
+}
+exit_code=1

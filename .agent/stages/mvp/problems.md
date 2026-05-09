@@ -1,18 +1,21 @@
-# Fresh verifier problems: MVP-05-learning-methodology-doc-sync-001
+# Fresh verifier problems: MVP-05-content-spec-ingestion-001
 
 Verdict: `PASS`  
-Verified at: 2026-05-05T17:57:13Z
+Verified at: 2026-05-06T12:58:07Z
 
-No blocking proof gaps found for this docs-only slice.
+No blocking proof gaps found for this docs-only content spec ingestion slice.
 
-## Non-blocking environment limitation
+## Human gates still open
 
-- `make verify` was not rerun by the fresh verifier because `java -version` in the current shell reports that it cannot locate a Java Runtime.
-- Builder evidence already records `make verify` reaching the backend Maven step and failing for the same Java/runtime reason.
-- This is accepted as non-blocking for this contract because the slice changes canonical documentation and Harness/stage artifacts only, with no runtime API, DB schema, generated client or UI changes.
+- Final financial correctness of lessons, diagnostics, quizzes and explanations.
+- Legal/tax wording and official-source links.
+- HR/privacy wording for diagnostics, self-assessment and reporting.
+- Reward economy, stock, points prices and fulfillment operations.
+- Final `production_ready` publish approval.
 
 Raw refs:
 
-- `.agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-make-verify-20260505.txt`
-- `.agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-java-version-20260505-fresh.txt`
-- `.agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-verify-harness-20260505-fresh.json`
+- `.agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-root-path-reference-checks-20260506.txt`
+- `.agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-stage-artifacts-json-checks-20260506.txt`
+- `.agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-verify-harness-after-verdict-20260506.json`
+- `.agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-make-verify-20260506.txt`

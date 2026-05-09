@@ -400,8 +400,8 @@
       ".agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-reference-scan-20260506.txt",
       ".agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-verify-harness-20260506.json",
       ".agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-make-verify-20260506.txt",
-      ".agent/stages/mvp/verdict.json",
-      ".agent/stages/mvp/problems.md"
+      ".agent/stages/mvp/verdicts/MVP-05-content-spec-ingestion-001.json",
+      ".agent/stages/mvp/problems/MVP-05-content-spec-ingestion-001.md"
     ]
   },
   {

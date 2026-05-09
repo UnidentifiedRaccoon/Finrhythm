@@ -1,0 +1,167 @@
+{
+  "stage_id": "harness-optimization",
+  "sprint_contract_id": "HARNESS-OPT-001",
+  "updated_at": "2026-05-08",
+  "status": "PASS",
+  "summary": "Harness-only artifact consistency and read-gating slice. The verifier now detects stale latest sprint ids, current MVP latest artifacts are aligned to MVP-05-content-spec-ingestion-001, immutable current proof refs were added, and read-gating is documented.",
+  "commands": [
+    {
+      "command": "python3 -m py_compile .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py",
+      "status": "PASS",
+      "raw": ".agent/stages/harness-optimization/raw/py-compile-verify-harness-20260508.txt"
+    },
+    {
+      "command": "negative artifact consistency fixture",
+      "status": "PASS",
+      "raw": ".agent/stages/harness-optimization/raw/negative-artifact-consistency-20260508.txt"
+    },
+    {
+      "command": "python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp",
+      "status": "PASS",
+      "raw": ".agent/stages/harness-optimization/raw/verify-harness-stage-mvp-20260508.json"
+    },
+    {
+      "command": "python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id harness-optimization",
+      "status": "PASS",
+      "raw": ".agent/stages/harness-optimization/raw/verify-harness-stage-harness-optimization-20260508.json"
+    },
+    {
+      "command": "python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --bootstrap-only",
+      "status": "PASS",
+      "raw": ".agent/stages/harness-optimization/raw/verify-harness-bootstrap-only-20260508.json"
+    },
+    {
+      "command": "./scripts/validate-bootstrap.sh",
+      "status": "PASS",
+      "raw": ".agent/stages/harness-optimization/raw/validate-bootstrap-20260508.txt"
+    },
+    {
+      "command": "node scripts/verify-bootstrap.mjs --quiet",
+      "status": "PASS",
+      "raw": ".agent/stages/harness-optimization/raw/node-verify-bootstrap-quiet-20260508.txt"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "raw": ".agent/stages/harness-optimization/raw/git-diff-check-20260508.txt"
+    },
+    {
+      "command": "java -version",
+      "status": "BLOCKED_ENV",
+      "raw": ".agent/stages/harness-optimization/raw/java-version-20260508.txt"
+    },
+    {
+      "command": "fresh stage_verifier PASS",
+      "status": "PASS",
+      "raw": ".agent/stages/harness-optimization/verdict.json"
+    }
+  ],
+  "artifacts": [
+    ".agents/skills/stage-launch-proof-loop/scripts/verify_harness.py",
+    ".agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md",
+    ".agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md",
+    ".agents/skills/stage-launch-proof-loop/references/PROTOCOL.md",
+    ".agents/skills/stage-launch-proof-loop/SKILL.md",
+    "AGENTS.md",
+    "docs/architecture/source-of-truth.md",
+    ".agent/stages/harness-optimization/recommendation_coverage.md",
+    ".agent/stages/mvp/verdicts/MVP-05-content-spec-ingestion-001.json",
+    ".agent/stages/mvp/problems/MVP-05-content-spec-ingestion-001.md"
+  ],
+  "documentation_updates": [
+    "Root AGENTS read-gating and approval-policy wording corrected.",
+    "Source-of-truth target-stage-only read rule added.",
+    "Harness skill/protocol now route through READ_MATRIX.md.",
+    "Artifact contract documents latest alias consistency and immutable per-contract proof paths.",
+    "Original optimization recommendations are mapped in recommendation_coverage.md."
+  ],
+  "human_gates": [],
+  "api_openapi_notes": "Not applicable; no API/OpenAPI/generated-client surface changed.",
+  "schema_notes": "Not applicable; no DB schema or migration changed.",
+  "screenshots": [],
+  "environment_limitations": [
+    {
+      "id": "java-runtime-current-shell",
+      "status": "BLOCKED_ENV",
+      "detail": "java -version reports no Java Runtime. make verify was not run to avoid a predictable Maven blocker for a harness-only slice.",
+      "raw": ".agent/stages/harness-optimization/raw/java-version-20260508.txt"
+    }
+  ],
+  "acceptance_criteria": [
+    {
+      "id": 1,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/harness-optimization/raw/negative-artifact-consistency-20260508.txt"
+      ]
+    },
+    {
+      "id": 2,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/harness-optimization/raw/verify-harness-stage-mvp-20260508.json"
+      ]
+    },
+    {
+      "id": 3,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/evidence.json",
+        ".agent/stages/mvp/verdicts/MVP-05-content-spec-ingestion-001.json",
+        ".agent/stages/mvp/problems/MVP-05-content-spec-ingestion-001.md"
+      ]
+    },
+    {
+      "id": 4,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/verdicts/MVP-05-learning-methodology-doc-sync-001.json",
+        ".agent/stages/mvp/problems/MVP-05-learning-methodology-doc-sync-001.md"
+      ]
+    },
+    {
+      "id": 5,
+      "status": "PASS",
+      "evidence": [
+        ".agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md"
+      ]
+    },
+    {
+      "id": 6,
+      "status": "PASS",
+      "evidence": [
+        ".agents/skills/stage-launch-proof-loop/assets/templates/verdict.template.json",
+        ".agents/skills/stage-launch-proof-loop/assets/templates/problems.template.md"
+      ]
+    },
+    {
+      "id": 7,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/harness-optimization/raw/changed-files-20260508.txt"
+      ]
+    },
+    {
+      "id": 8,
+      "status": "PASS_WITH_ENV_LIMITATION",
+      "evidence": [
+        ".agent/stages/harness-optimization/raw/validate-bootstrap-20260508.txt",
+        ".agent/stages/harness-optimization/raw/verify-harness-stage-harness-optimization-20260508.json",
+        ".agent/stages/harness-optimization/raw/java-version-20260508.txt"
+      ]
+    },
+    {
+      "id": 9,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/harness-optimization/verdict.json",
+        ".agent/stages/harness-optimization/problems.md"
+      ]
+    }
+  ],
+  "verdict": {
+    "status": "PASS",
+    "raw": ".agent/stages/harness-optimization/verdicts/HARNESS-OPT-001.json",
+    "problems": ".agent/stages/harness-optimization/problems/HARNESS-OPT-001.md"
+  }
+}

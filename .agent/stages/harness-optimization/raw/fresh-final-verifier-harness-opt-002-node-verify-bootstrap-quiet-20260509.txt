@@ -1,0 +1,2 @@
+$ node scripts/verify-bootstrap.mjs --quiet
+exit_code=0

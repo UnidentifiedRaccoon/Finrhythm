@@ -1,0 +1,2 @@
+$ PYTHONPYCACHEPREFIX=.agent/stages/harness-optimization/raw/pycache-fresh-final-20260508 python3 -m py_compile .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py
+exit_code=0

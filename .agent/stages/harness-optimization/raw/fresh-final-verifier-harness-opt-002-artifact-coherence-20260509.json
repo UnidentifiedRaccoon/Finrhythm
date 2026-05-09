@@ -1,0 +1,86 @@
+$ stage artifact coherence check for HARNESS-OPT-002
+{
+  "status": "FAIL",
+  "issues": [
+    "progress-active-unit-current: progress.md says stale active unit or no current active-unit sentinel",
+    "recommendation-coverage-pass: status=PASS_WITH_FOLLOW_UPS"
+  ],
+  "checks": [
+    {
+      "id": "status-latest-contract",
+      "status": "PASS",
+      "detail": "HARNESS-OPT-002"
+    },
+    {
+      "id": "status-passed-no-active",
+      "status": "PASS",
+      "detail": "state=SPRINT_PASSED active=None active_ids=[]"
+    },
+    {
+      "id": "evidence-contract-pass",
+      "status": "PASS",
+      "detail": "id=HARNESS-OPT-002 status=PASS"
+    },
+    {
+      "id": "sprint-contract-pass",
+      "status": "PASS",
+      "detail": ""
+    },
+    {
+      "id": "backlog-contract-pass",
+      "status": "PASS",
+      "detail": "HARNESS-OPT-002 row is not PASS"
+    },
+    {
+      "id": "progress-no-active-work",
+      "status": "PASS",
+      "detail": "Active work is not None"
+    },
+    {
+      "id": "progress-active-unit-current",
+      "status": "FAIL",
+      "detail": "progress.md says stale active unit or no current active-unit sentinel"
+    },
+    {
+      "id": "progress-latest-completed",
+      "status": "PASS",
+      "detail": "HARNESS-OPT-002 completion not recorded"
+    },
+    {
+      "id": "recommendation-coverage-pass",
+      "status": "FAIL",
+      "detail": "status=PASS_WITH_FOLLOW_UPS"
+    },
+    {
+      "id": "recommendation-harness-opt-002-done",
+      "status": "PASS",
+      "detail": "HARNESS-OPT-002 recommendation coverage not complete"
+    },
+    {
+      "id": "evidence-verdict-raw-immutable",
+      "status": "PASS",
+      "detail": ".agent/stages/harness-optimization/verdicts/HARNESS-OPT-002.json"
+    },
+    {
+      "id": "evidence-problems-ref-immutable",
+      "status": "PASS",
+      "detail": ".agent/stages/harness-optimization/problems/HARNESS-OPT-002.md"
+    },
+    {
+      "id": "immutable-verdict-pass",
+      "status": "PASS",
+      "detail": "status=PASS id=HARNESS-OPT-002"
+    },
+    {
+      "id": "latest-verdict-pass",
+      "status": "PASS",
+      "detail": "status=PASS id=HARNESS-OPT-002"
+    },
+    {
+      "id": "latest-problems-heading",
+      "status": "PASS",
+      "detail": "# Fresh verifier problems: HARNESS-OPT-002"
+    }
+  ]
+}
+exit_code=1

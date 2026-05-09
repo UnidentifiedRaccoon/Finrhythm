@@ -1,0 +1,23 @@
+ M .agent/stages/mvp/evidence.json
+ M .agent/stages/mvp/evidence.md
+ M .agent/stages/mvp/feature_list.json
+ M .agent/stages/mvp/problems.md
+ M .agent/stages/mvp/status.json
+ M .agent/stages/mvp/verdict.json
+ M .agents/skills/stage-launch-proof-loop/SKILL.md
+ M .agents/skills/stage-launch-proof-loop/assets/templates/problems.template.md
+ M .agents/skills/stage-launch-proof-loop/assets/templates/verdict.template.json
+ M .agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md
+ M .agents/skills/stage-launch-proof-loop/references/PROTOCOL.md
+ M .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py
+ M AGENTS.md
+ M docs/architecture/source-of-truth.md
+ M scripts/validate-bootstrap.sh
+?? .agent/stages/harness-optimization/
+?? .agent/stages/mvp/evidence/
+?? .agent/stages/mvp/problems/
+?? .agent/stages/mvp/verdicts/
+?? .agents/skills/stage-launch-proof-loop/harness.manifest.json
+?? .agents/skills/stage-launch-proof-loop/profiles/
+?? .agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md
+?? content/getcourse-finstrategy/content-baseline.manifest.json

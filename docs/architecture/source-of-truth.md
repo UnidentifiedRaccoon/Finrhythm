@@ -9,13 +9,25 @@
 3. `docs/architecture/documentation-workflow.md`;
 4. product-intent baseline: `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`;
 5. MVP learning methodology and diagnostics baseline: `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`;
-6. stage source-of-truth: `docs/stages/MVP.md`, `docs/stages/v1.md`, `docs/stages/v2.md`;
+6. target stage source-of-truth: only the active `docs/stages/MVP.md`, `docs/stages/v1.md` or `docs/stages/v2.md`;
 7. repo-wide `AGENTS.md`;
 8. локальные `AGENTS.md`;
 9. stage/task artifacts inside `.agent/`;
 10. PR description and temporary notes only as explanation, not canon.
 
 Если меняется архитектурное решение, отразить его здесь and in relevant stage docs if the stage baseline changed.
+
+## 1.1 Read-gating for agent execution
+
+Canonical source order does not mean blanket-reading every canonical file on every task.
+
+- Stage execution reads the target stage doc only by default.
+- `v1.md` and `v2.md` are not default reads for an MVP slice unless the task is migration, roadmap/audit, cross-stage compatibility or the user explicitly asks.
+- Existing stage work resumes from `.agent/stages/<stage_id>/status.json`, then the active sprint/task file, then `evidence.json` as an index.
+- Raw evidence under `.agent/stages/**/raw/**` is read only by exact ref from current evidence, verifier problems or an explicit audit question.
+- Product/content/methodology docs are loaded when stage metadata or task type requires them, especially content/CMS/learning/diagnostic/reporting slices.
+
+The detailed routing matrix lives in `.agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md`.
 
 ## 2. Монорепа baseline
 

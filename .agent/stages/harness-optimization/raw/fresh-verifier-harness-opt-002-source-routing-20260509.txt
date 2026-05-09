@@ -1,0 +1,44 @@
+.agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md:81:For content/CMS/adaptation slices, also include the evidence required by `profiles/CONTENT_PROFILE.md`.
+.agents/skills/stage-launch-proof-loop/harness.manifest.json:23:    "profiles/CONTENT_PROFILE.md"
+.agents/skills/stage-launch-proof-loop/harness.manifest.json:46:  "valid_verdict_statuses": [
+.agents/skills/stage-launch-proof-loop/harness.manifest.json:52:  "pass_states": [
+.agents/skills/stage-launch-proof-loop/harness.manifest.json:58:  "legacy_scan": {
+.agents/skills/stage-launch-proof-loop/harness.manifest.json:86:  "bootstrap_required_files": [
+.agents/skills/stage-launch-proof-loop/harness.manifest.json:102:    ".agents/skills/stage-launch-proof-loop/profiles/CONTENT_PROFILE.md",
+.agents/skills/stage-launch-proof-loop/harness.manifest.json:104:    "content/getcourse-finstrategy/content-baseline.manifest.json",
+.agents/skills/stage-launch-proof-loop/harness.manifest.json:115:  "content_baseline_manifest": "content/getcourse-finstrategy/content-baseline.manifest.json"
+.agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md:44:- Content/CMS/learning/diagnostic/reporting slices: load `profiles/CONTENT_PROFILE.md`, then read only the profile-listed sources needed for the slice.
+.agents/skills/stage-launch-proof-loop/references/PROTOCOL.md:30:For content, learning, diagnostics, route rules, lesson templates, content approve-flow, support handoff, learning reports and wording-review slices, load `profiles/CONTENT_PROFILE.md`.
+.agents/skills/stage-launch-proof-loop/references/PROTOCOL.md:77:For `content/`, CMS and lesson adaptation work, load and follow `profiles/CONTENT_PROFILE.md`.
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:14:HARNESS_MANIFEST = ".agents/skills/stage-launch-proof-loop/harness.manifest.json"
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:43:    legacy_scan = manifest.get("legacy_scan", {})
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:44:    if not isinstance(legacy_scan, dict):
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:45:        return ["harness.manifest.json legacy_scan must be an object"]
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:46:    ignored_dirs = set(legacy_scan.get("ignored_dirs", []))
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:47:    ignored_files = set(legacy_scan.get("ignored_files", []))
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:48:    legacy_patterns = legacy_scan.get("patterns", [])
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:54:        return ["harness.manifest.json legacy_scan ignored_dirs, ignored_files and patterns must be string arrays"]
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:83:def load_manifest(root: Path) -> dict[str, Any]:
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:84:    manifest, err = read_json(root / HARNESS_MANIFEST)
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:92:def manifest_list(manifest: dict[str, Any], key: str) -> list[str]:
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:144:    pass_states = set(manifest_list(manifest, "pass_states"))
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:156:        active_id = normalize_sprint_id(status.get("active_sprint_contract_id"))
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:157:        active_ids = status.get("active_ids")
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:158:        if state in pass_states:
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:160:                issues.append("passed stage must keep active_sprint_contract_id null")
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:161:            if isinstance(active_ids, list) and active_ids:
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:162:                issues.append("passed stage must keep active_ids empty")
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:165:        elif active_id and (not isinstance(active_ids, list) or not active_ids or active_id in active_ids):
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:166:            add_id_source(sources, "status.json.active_sprint_contract_id", active_id)
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:230:    content_manifest_ref = manifest.get("content_baseline_manifest")
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:232:        return ["harness.manifest.json content_baseline_manifest must be a path string"]
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:311:    issues.extend(f"missing {p}" for p in missing_paths(stage_dir, manifest_list(manifest, "required_stage_files")))
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:341:    elif isinstance(verdict, dict) and verdict.get("status") not in set(manifest_list(manifest, "valid_verdict_statuses")):
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:362:    manifest = load_manifest(root)
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:376:    missing_agents = missing_paths(agent_dir, manifest_list(manifest, "required_agent_files"))
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:379:    for rel in manifest_list(manifest, "required_agent_files"):
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py:389:    missing_skill = missing_paths(skill_root, manifest_list(manifest, "required_skill_files"))
+scripts/validate-bootstrap.sh:16:    for rel in manifest["bootstrap_required_files"]
+.agents/skills/stage-launch-proof-loop/SKILL.md:105:For content, CMS, lesson adaptation, import/export, diagnostic/reporting or wording-review slices, load `profiles/CONTENT_PROFILE.md`.
+.agents/skills/stage-launch-proof-loop/SKILL.md:119:For content, learning methodology, diagnostic, CMS, support or reporting slices, freeze scope against `profiles/CONTENT_PROFILE.md` and record the affected IDs, source inventory, review statuses, sensitive-data policy and human gates required there.
+.agents/skills/stage-launch-proof-loop/SKILL.md:208:- `profiles/CONTENT_PROFILE.md`

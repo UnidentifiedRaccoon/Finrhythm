@@ -1,0 +1,31 @@
+{
+  "course": "Курс «ФинCтратегия»",
+  "stream_id": "546010026",
+  "content_dir": "content/getcourse-finstrategy",
+  "links_path": "course-export/stream-546010026/all-lesson-links.json",
+  "downloads_dir": "content/getcourse-finstrategy/downloads",
+  "required_paths": [
+    "content/getcourse-finstrategy/README.md",
+    "content/getcourse-finstrategy/CONTENT_BRIEF.md",
+    "course-export/stream-546010026/all-lesson-links.json"
+  ],
+  "inactive_paths": [
+    "content/getcourse-path-to-money",
+    "course-export/lesson-links.json",
+    "course-export/lesson-links.txt"
+  ],
+  "lesson_file_glob": "content/getcourse-finstrategy/[0-9][0-9]-lesson-*.md",
+  "expected": {
+    "lesson_urls": 73,
+    "markdown_lessons": 73,
+    "export_status_counts": {
+      "exported": 70,
+      "blocked": 3
+    },
+    "human_review_required_lessons": 73,
+    "downloaded_assets": 30
+  },
+  "download_exclude_names": [
+    "README.md"
+  ]
+}

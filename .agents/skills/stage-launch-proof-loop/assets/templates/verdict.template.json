@@ -1,5 +1,7 @@
 {
   "status": "PENDING",
+  "stage_id": "{{STAGE_ID}}",
+  "sprint_contract_id": "{{SPRINT_CONTRACT_ID}}",
   "summary": "",
   "failed_criteria": [],
   "proof_gaps": [],

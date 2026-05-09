@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "issues": [
+    "passed stage must keep active_sprint_contract_id null",
+    "passed stage must keep active_ids empty"
+  ]
+}

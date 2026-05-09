@@ -1,0 +1,14 @@
+.agent/stages/mvp/evidence.json
+.agent/stages/mvp/evidence.md
+.agent/stages/mvp/feature_list.json
+.agent/stages/mvp/problems.md
+.agent/stages/mvp/verdict.json
+.agents/skills/stage-launch-proof-loop/SKILL.md
+.agents/skills/stage-launch-proof-loop/assets/templates/problems.template.md
+.agents/skills/stage-launch-proof-loop/assets/templates/verdict.template.json
+.agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md
+.agents/skills/stage-launch-proof-loop/references/PROTOCOL.md
+.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py
+AGENTS.md
+docs/architecture/source-of-truth.md
+scripts/validate-bootstrap.sh

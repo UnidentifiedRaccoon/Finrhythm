@@ -1,7 +1,7 @@
 {
   "stage_id": "mvp",
   "state": "SPRINT_PASSED",
-  "active_sprint_contract_id": "MVP-05-content-spec-ingestion-001",
+  "active_sprint_contract_id": null,
   "latest_verified_sprint_contract_id": "MVP-05-content-spec-ingestion-001",
   "completed_ids": [
     "MVP-01.01",

@@ -1,0 +1,6 @@
+command=fresh final negative validate_stage stale verdict fixture
+fixture_stage=temporary copy of .agent/stages/mvp
+mutated=verdict.json sprint_contract_id -> MVP-05-learning-methodology-doc-sync-001
+issues:
+- sprint artifact id mismatch: sprint_contract.md=MVP-05-content-spec-ingestion-001; status.json.latest_verified_sprint_contract_id=MVP-05-content-spec-ingestion-001; status.json.active_sprint_contract_id=MVP-05-content-spec-ingestion-001; evidence.json.sprint_contract_id=MVP-05-content-spec-ingestion-001; evidence.json verdict.raw .agent/stages/mvp/verdicts/MVP-05-content-spec-ingestion-001.json=MVP-05-content-spec-ingestion-001; evidence.json verdict.problems .agent/stages/mvp/problems/MVP-05-content-spec-ingestion-001.md=MVP-05-content-spec-ingestion-001; verdict.json.sprint_contract_id=MVP-05-learning-methodology-doc-sync-001; problems.md heading=MVP-05-content-spec-ingestion-001
+PASS: stale latest verifier artifact mismatch detected

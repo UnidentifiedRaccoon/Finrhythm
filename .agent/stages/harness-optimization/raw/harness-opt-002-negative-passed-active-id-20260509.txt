@@ -1,0 +1,2 @@
+passed stage must keep active_sprint_contract_id null
+PASS: passed stage with active_sprint_contract_id is rejected

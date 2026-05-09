@@ -1,0 +1,9 @@
+$ negative fixture: passed stage with active ids must be rejected
+{
+  "status": "PASS",
+  "issues": [
+    "passed stage must keep active_sprint_contract_id null",
+    "passed stage must keep active_ids empty"
+  ]
+}
+exit_code=0

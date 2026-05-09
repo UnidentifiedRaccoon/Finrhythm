@@ -1,0 +1,21 @@
+$ passed stage status semantics check
+{
+  "status": "PASS",
+  "stages": {
+    "mvp": {
+      "status": "PASS",
+      "state": "SPRINT_PASSED",
+      "active_sprint_contract_id": null,
+      "active_ids": [],
+      "latest_verified_sprint_contract_id": "MVP-05-content-spec-ingestion-001"
+    },
+    "harness-optimization": {
+      "status": "PASS",
+      "state": "SPRINT_PASSED",
+      "active_sprint_contract_id": null,
+      "active_ids": [],
+      "latest_verified_sprint_contract_id": "HARNESS-OPT-002"
+    }
+  }
+}
+exit_code=0

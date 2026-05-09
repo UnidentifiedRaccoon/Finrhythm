@@ -28,19 +28,20 @@ Core rules:
 2. `docs/architecture/source-of-truth.md`;
 3. `docs/architecture/documentation-workflow.md`;
 4. product-intent baseline: `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`;
-5. `docs/stages/MVP.md`, `docs/stages/v1.md`, `docs/stages/v2.md`;
+5. целевой stage-file only: `docs/stages/MVP.md`, `docs/stages/v1.md` или `docs/stages/v2.md`;
 6. `docs/engineering/definition-of-done.md`;
 7. `docs/engineering/human-gates.md`;
 8. `docs/engineering/contributing.md`;
 9. ближайший локальный `AGENTS.md`;
-10. `.agent/stages/<stage_id>/sprint_contract.md` или `.agent/stages/<stage_id>/task-files/<TASK_ID>.md`, если работа уже инициализирована.
+10. `.agent/stages/<stage_id>/status.json`, затем активный `.agent/stages/<stage_id>/sprint_contract.md` или `.agent/stages/<stage_id>/task-files/<TASK_ID>.md`, если работа уже инициализирована.
 
 Если инструкции конфликтуют, приоритет у более близкого файла и более узкого контекста. Stage-файлы определяют scope и exit gates; этот файл определяет operating behavior и engineering guardrails.
+Read-gating: не читать все stage docs, product docs или `.agent/stages/**/raw/**` по умолчанию. Для stage work использовать `.agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md`; raw evidence читать только по точной ссылке из текущего `evidence.json`, `problems.md` или audit-вопроса.
 
 ## 2. Codex runtime policy
 
 - Project-scoped `.codex/config.toml` должен использовать `approval_policy = "on-request"`.
-- Нельзя менять profile на `approval_policy = "on-request"` без прямой команды пользователя.
+- Нельзя менять project/profile away from `approval_policy = "on-request"` без прямой команды пользователя.
 - Parent session and custom subagents use `model = "gpt-5.5"` and `model_reasoning_effort = "xhigh"`.
 - `.codex/agents` держит shallow tree: max depth 1, child agents are leaf roles.
 - Для risky commands, network, destructive ops, migrations against non-local DB, secrets, and deployment actions agent must ask approval.

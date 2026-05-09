@@ -1,0 +1,15 @@
+$ manifest/profile/source routing proof check
+PASS - verify_harness loads harness manifest
+PASS - required stage files from manifest
+PASS - valid verdict statuses from manifest
+PASS - pass states from manifest
+PASS - legacy scan from manifest
+PASS - content baseline manifest path from harness manifest
+PASS - bootstrap validation reads manifest required files
+PASS - SKILL.md routes content to profile
+PASS - PROTOCOL.md routes content to profile
+PASS - ARTIFACTS.md routes content to profile
+PASS - READ_MATRIX.md routes content to profile
+PASS - content profile owns content baseline counts
+status=PASS
+exit_code=0
