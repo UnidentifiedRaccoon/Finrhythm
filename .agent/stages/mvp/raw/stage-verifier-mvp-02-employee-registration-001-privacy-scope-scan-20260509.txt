@@ -1,0 +1,76 @@
+## scope status for UI/admin/generated client
+
+## changed backend/status scope
+ M apps/api/pom.xml
+?? apps/api/src/main/java/com/finrhythm/api/registration/
+?? apps/api/src/main/resources/db/migration/V004__employee_registration.sql
+?? apps/api/src/test/java/com/finrhythm/api/registration/
+
+## customer brand / real customer tokens scan in changed code and evidence
+.agent/stages/mvp/evidence/MVP-02-employee-registration-001.md:58:- Real employee/customer data processing: `WAITING_HUMAN`
+.agent/stages/mvp/evidence/MVP-02-employee-registration-001.json:27:    "real employee/customer data processing",
+
+## raw invite-code persistence/storage token scan
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:61:                    description = "Validation or invite-code failure. Raw PII and raw invite code are not echoed.",
+
+## invite-code/contact persistence source lines
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:8:    invite_code_id uuid not null,
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:9:    activation_subject_ref varchar(64) not null,
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:10:    full_name varchar(160) not null,
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:11:    email varchar(254) not null,
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:12:    phone varchar(16) not null,
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:19:        foreign key (invite_code_id, tenant_id, cohort_id)
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:21:    constraint employee_registrations_activation_subject_ref_format check (
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:22:        activation_subject_ref ~ '^[a-f0-9]{64}$'
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:24:    constraint employee_registrations_full_name_non_empty check (btrim(full_name) <> ''),
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:35:    on employee_registrations (invite_code_id);
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:37:create unique index ux_employee_registrations_activation_subject_ref
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:38:    on employee_registrations (activation_subject_ref);
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:3:import com.finrhythm.api.tenant.domain.ActivationSubjectRef;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:62:            ActivationSubjectRef activationSubjectRef,
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:78:            ActivationSubjectRef activationSubjectRef,
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:101:    public String getActivationSubjectRef() {
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:143:        activationSubjectRef = ActivationSubjectRef.fromSha256Hex(activationSubjectRef).value();
+apps/api/src/main/java/com/finrhythm/api/registration/service/RegistrationSubjectRefGenerator.java:3:import com.finrhythm.api.tenant.domain.ActivationSubjectRef;
+apps/api/src/main/java/com/finrhythm/api/registration/service/RegistrationSubjectRefGenerator.java:21:    public ActivationSubjectRef generate() {
+apps/api/src/main/java/com/finrhythm/api/registration/service/RegistrationSubjectRefGenerator.java:24:        return ActivationSubjectRef.fromSha256Hex(HexFormat.of().formatHex(bytes));
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:6:import com.finrhythm.api.tenant.domain.ActivationSubjectRef;
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:7:import com.finrhythm.api.tenant.domain.InviteCodeHash;
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:54:        return employeeRegistrationRepository.findByInviteLookupHash(inviteLookupHash)
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:76:                    ActivationSubjectRef.fromSha256Hex(existingRegistration.getActivationSubjectRef()),
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:90:        ActivationSubjectRef subjectRef = subjectRefGenerator.generate();
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:111:    private InviteActivationResult activateInvite(String inviteCode, ActivationSubjectRef subjectRef, Instant activatedAt) {
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:133:            return InviteCodeHash.fromEnteredCode(inviteCode).value();
+apps/api/src/main/java/com/finrhythm/api/registration/persistence/EmployeeRegistrationRepository.java:18:                    join invite_codes invite_code on invite_code.id = registration.invite_code_id
+apps/api/src/main/java/com/finrhythm/api/registration/persistence/EmployeeRegistrationRepository.java:19:                    where invite_code.lookup_hash = :lookupHash
+apps/api/src/main/java/com/finrhythm/api/registration/persistence/EmployeeRegistrationRepository.java:23:    Optional<EmployeeRegistration> findByInviteLookupHash(@Param("lookupHash") String lookupHash);
+
+## synthetic contact/example lines
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:125:                """, String.class, registrationId)).isEqualTo("Alex Pilot|alex.pilot@example.test|+70000000001");
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:130:                  "fullName": "Alex Pilot",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:131:                  "email": "alex.pilot@example.test",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:132:                  "phone": "+70000000001",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:176:                  "fullName": "First Synthetic",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:177:                  "email": "first.synthetic@example.test",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:178:                  "phone": "+70000000002",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:186:                  "fullName": "Second Synthetic",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:187:                  "email": "second.synthetic@example.test",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:188:                  "phone": "+70000000003",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:199:                .doesNotContain("First Synthetic")
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:200:                .doesNotContain("first.synthetic@example.test")
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:201:                .doesNotContain("+70000000002")
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:213:                  "inviteCode": "SYNTH-RAW-CODE"
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:226:                .doesNotContain("SYNTH-RAW-CODE")
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:242:                  "email": "rollback.first@example.test",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:243:                  "phone": "+70000000004",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:252:                  "email": "rollback.second@example.test",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:253:                  "phone": "+70000000005",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:297:                  "email": "error.path@example.test",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:298:                  "phone": "+70000000006",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:314:        return tenantRepository.saveAndFlush(Tenant.create("pilot-" + suffix, "Pilot tenant"));
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:322:                "Wave 1",
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:10:        @Schema(example = "Alex Pilot")
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:15:        @Schema(example = "alex.pilot@example.test")
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:21:        @Schema(example = "+70000000001")
+
+## out-of-scope domain expansion token scan in production registration source

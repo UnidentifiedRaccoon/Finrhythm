@@ -1,0 +1,113 @@
+$ privacy/raw invite-code/PII/customer-brand guardrail scan for sprint-owned API source/tests/evidence
+--- Response DTO field names ---
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusExceptionHandler.java:14:        return ResponseEntity.status(exception.getHttpStatus()).body(new AdminApiErrorResponse(
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusRow.java:10:public record AdminCodeStatusRow(
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusRow.java:12:        UUID inviteCodeId,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusRow.java:15:        InviteCodeStatus status,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusRow.java:18:        Instant issuedAt,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusRow.java:21:        Instant expiresAt,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusRow.java:24:        Instant activatedAt,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusRow.java:27:        Instant registeredAt,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusRow.java:30:        boolean registered
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminApiFieldError.java:7:        @Schema(example = "status")
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:56:        InviteCodeStatus statusFilter = parseStatus(query.status());
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:60:        Map<InviteCodeStatus, Long> statusCounts = statusCounts(tenantId, cohortId);
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:63:        long registeredCount = employeeRegistrationRepository.countByTenantIdAndCohortId(tenantId, cohortId);
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:67:                statusFilter,
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:79:                summary(cohort, statusCounts, totalCodeCount, issuedCount, registeredCount),
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:80:                statusCounts(statusCounts),
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:117:                    "status",
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:119:                    "Status must be a known invite-code status."
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:124:    private Map<InviteCodeStatus, Long> statusCounts(UUID tenantId, UUID cohortId) {
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:126:        Arrays.stream(InviteCodeStatus.values()).forEach(status -> counts.put(status, 0L));
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:136:            Map<InviteCodeStatus, Long> statusCounts,
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:139:            long registeredCount
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:143:                statusCounts.get(InviteCodeStatus.ACTIVATED),
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:144:                registeredCount,
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:145:                statusCounts.get(InviteCodeStatus.REVOKED),
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:146:                statusCounts.get(InviteCodeStatus.EXPIRED),
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:152:    private static List<AdminCodeStatusCount> statusCounts(Map<InviteCodeStatus, Long> counts) {
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:154:                .map(status -> new AdminCodeStatusCount(status, counts.get(status)))
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java:11:public record AdminCodeStatusResponse(
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java:35:        List<AdminCodeStatusCount> statusCounts,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusQuery.java:3:public record AdminCodeStatusQuery(
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusQuery.java:4:        String status,
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusException.java:28:                "Cohort status view was not found.",
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusSummary.java:6:public record AdminCodeStatusSummary(
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusSummary.java:14:        long registeredCount,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusCount.java:7:public record AdminCodeStatusCount(
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusCount.java:9:        InviteCodeStatus status,
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusFieldViolation.java:3:public record AdminCodeStatusFieldViolation(
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:23:@RequestMapping("/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status")
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:32:            summary = "Read cohort invite-code status for admin operations",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:34:                    Returns privacy-safe cohort metadata, invite-code status counts, activation/registration funnel counts
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:42:                    description = "Cohort code-status view.",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:59:                                                "registeredCount": 60,
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:65:                                              "statusCounts": [
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:66:                                                { "status": "CREATED", "count": 0 },
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:67:                                                { "status": "ISSUED", "count": 350 },
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:68:                                                { "status": "RESERVED", "count": 0 },
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:69:                                                { "status": "ACTIVATED", "count": 120 },
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:70:                                                { "status": "REVOKED", "count": 20 },
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:71:                                                { "status": "EXPIRED", "count": 10 }
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:80:                                                    "inviteCodeId": "44444444-4444-4444-8444-444444444444",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:81:                                                    "status": "ACTIVATED",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:82:                                                    "issuedAt": "2026-05-09T09:00:00Z",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:83:                                                    "expiresAt": "2026-06-09T09:00:00Z",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:84:                                                    "activatedAt": "2026-05-09T10:00:00Z",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:85:                                                    "registeredAt": "2026-05-09T10:01:00Z",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:86:                                                    "registered": true
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:97:                    description = "Invalid UUID, status filter, page or size. Raw invite codes and PII are not echoed.",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:108:                                                  "field": "status",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:110:                                                  "message": "Status must be a known invite-code status."
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:120:                    description = "Tenant/cohort status view not found or not in the requested tenant scope.",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:128:                                              "message": "Cohort status view was not found.",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:145:                    description = "Optional invite-code status filter.",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:150:            @RequestParam(required = false) String status,
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:167:                new AdminCodeStatusQuery(status, page, size)
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusPage.java:8:public record AdminCodeStatusPage(
+
+--- Repository projection selected fields ---
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:18:    Optional<InviteCode> findByLookupHash(String lookupHash);
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:20:    boolean existsByLookupHash(String lookupHash);
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:51:                    select inviteCode.id as inviteCodeId,
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:56:                           registration.registeredAt as registeredAt
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:85:                inviteCode.activationSubjectRef = :activationSubjectRef,
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:87:            where inviteCode.lookupHash = :lookupHash
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:92:            @Param("lookupHash") String lookupHash,
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:93:            @Param("activationSubjectRef") String activationSubjectRef,
+apps/api/src/main/java/com/finrhythm/api/registration/persistence/EmployeeRegistrationRepository.java:21:                    where invite_code.lookup_hash = :lookupHash
+apps/api/src/main/java/com/finrhythm/api/registration/persistence/EmployeeRegistrationRepository.java:25:    Optional<EmployeeRegistration> findByInviteLookupHash(@Param("lookupHash") String lookupHash);
+
+--- Test/evidence synthetic and negative privacy assertions ---
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:119:        assertPrivacySafeResponse(response, seededWave.issuedCodes().get(0).code());
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:148:        assertPrivacySafeResponse(firstPage, seededWave.issuedCodes().get(0).code());
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:182:                .doesNotContain(otherTenant.getId().toString())
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:183:                .doesNotContain(otherCohort.getId().toString());
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:198:        assertThat(invalidStatus).doesNotContain("REGISTERED");
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:229:        assertThat(invalidUuid).doesNotContain("not-a-uuid");
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:248:                .doesNotContain("lookupHash")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:249:                .doesNotContain("activationSubjectRef");
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:267:                    activationSubjectRef(subjectBase, index),
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:276:                    activationSubjectRef(subjectBase, index),
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:291:        return tenantRepository.saveAndFlush(Tenant.create("synthetic-" + suffix, "Synthetic Pilot Tenant"));
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:331:                    email,
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:332:                    phone,
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:344:                "Synthetic Learner %03d".formatted(index),
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:345:                "synthetic.learner%03d@example.test".formatted(index),
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:377:    private static void assertPrivacySafeResponse(String response, String rawInviteCode) {
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:379:                .doesNotContain(rawInviteCode)
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:380:                .doesNotContain("lookupHash")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:381:                .doesNotContain("activationSubjectRef")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:382:                .doesNotContain("fullName")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:383:                .doesNotContain("email")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:384:                .doesNotContain("phone")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:385:                .doesNotContain("Synthetic Learner")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:386:                .doesNotContain("example.test")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:387:                .doesNotContain("Лемана")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:388:                .doesNotContain("Lemana");
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:391:    private static String activationSubjectRef(int subjectBase, int index) {
+.agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.json:202:        "assertPrivacySafeResponse in AdminCodeStatusControllerIT",
+.agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md:81:| 7 | PASS | Test data uses `Synthetic Pilot Tenant`, `Synthetic Learner` and `example.test`; no real customer/employee data or customer brand. |
+
+EXIT_CODE=0

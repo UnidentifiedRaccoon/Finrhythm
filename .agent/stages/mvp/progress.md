@@ -1,6 +1,73 @@
 # MVP progress
 
-Updated: 2026-05-06
+Updated: 2026-05-09
+
+## Current session: MVP-02-admin-code-status-view-001 fresh verifier
+
+- Fresh `stage_verifier` independently re-ran the required checks for `MVP-02-admin-code-status-view-001` and recorded verifier raw outputs under `.agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-*`.
+- Verdict is `PASS` for the backend/admin API-only data contract: `GET /api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status`.
+- Verified 500-code Wave 1 coverage, mixed status counts, activation/registration funnel counts, status filtering, bounded pagination, safe 400/404 errors, OpenAPI/springdoc source and runtime `/v3/api-docs` assertions.
+- Verified no `apps/admin` UI/scaffold changed; screenshot/browser evidence is `NOT_APPLICABLE` for this backend-only slice.
+- Verified no `V005` migration was added, `packages/api-client` remains no-op because no generator exists, and privacy scans cover raw invite-code/PII/customer-brand guardrails.
+- Recorded a non-blocking verifier environment note: unqualified `java -version` fails in this shell, but Homebrew OpenJDK 21.0.11 is installed and all Maven/root checks passed with explicit `JAVA_HOME`/`PATH`.
+- Marked only `MVP-02-admin-code-status-view-001` and the backend API portion of `MVP-02.04` as PASS. `apps/admin` UI/status view, full `MVP-02.04`, full `MVP-02`, admin auth/role/audit policy and real-data/customer-reporting human gates remain open.
+
+## Current session: MVP-02-admin-code-status-view-001 builder and evidence
+
+- Implemented the backend/admin API source slice for `GET /api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status` within the frozen backend-only scope.
+- Added a thin admin controller, read-model DTOs, structured safe admin errors and springdoc/OpenAPI source annotations.
+- Added service-level validation, aggregation, pagination and privacy-safe row mapping; repository additions are read-only projections/queries over existing tenant/invite/registration schema.
+- Avoided a DB migration: no `V005` was added, and inspection records that `V002`-`V004` are sufficient for this read endpoint.
+- Added `AdminCodeStatusControllerIT` with 500 synthetic Wave 1 invite codes, mixed issued/activated/registered/revoked/expired states, funnel counts, status filtering, bounded pagination, safe mismatch/not-found and validation errors, privacy response assertions and `/v3/api-docs` coverage.
+- Required builder checks pass: `cd apps/api && ./mvnw -q test`, `cd apps/api && ./mvnw -q verify`, `make verify`, `make test-unit`, `make build` and `git diff --check`.
+- Recorded generated-client no-op: `packages/api-client` still contains only `.gitkeep`, with no generator or generated artifacts to update.
+- Recorded privacy/raw-code/PII/customer-brand guardrail scan; synthetic test-only contact fields are used only to prove they are not exposed in the admin response.
+- Updated `.agent/stages/mvp/evidence.*` and immutable evidence for `MVP-02-admin-code-status-view-001` with Mermaid flow and acceptance mapping.
+- No `apps/admin` UI/scaffold, screenshots, admin mutations, auth/session/role/audit policy, HR reports, diagnostics, points, rewards, merch, support, real data or full `MVP-02` closure is claimed.
+- Fresh `stage_verifier` is still required; builder did not write `verdict.json` or `verdicts/MVP-02-admin-code-status-view-001.json`.
+
+## Previous session: MVP-02-admin-code-status-view-001 spec freeze
+
+- Re-synced the required read set for an MVP `stage_spec_freezer`: repo AGENTS, stage harness skill/read matrix, architecture docs, DoD, human gates, product foundation, `docs/stages/MVP.md`, current MVP artifacts, prior MVP-02 task files and local `apps/admin` / `apps/api` AGENTS.
+- Confirmed latest fresh verifier `PASS` is scoped to `MVP-02-employee-registration-001`; `MVP-02.04`, full `MVP-02` and human gates remain open.
+- Inspected current repo surface for scope only:
+  - `apps/api` has Spring Boot 3.3, Java 21, Maven Wrapper, PostgreSQL/Flyway, springdoc/OpenAPI and tenant/cohort/invite/registration model through `V004`;
+  - `apps/admin` currently contains only `apps/admin/AGENTS.md`, with no Next.js app baseline or screenshotable UI.
+- Frozen next sprint contract: `MVP-02-admin-code-status-view-001` for parent unit `MVP-02.04`.
+- Scope decision: backend/admin API-only first, because combining the code-status data contract with admin app scaffolding would be too large for one verifiable slice.
+- Required future builder evidence now covers a read-only admin endpoint for cohort/code status, Wave 1-scale 500-code tests, activation/registration funnel counts, pagination/filtering, OpenAPI/springdoc source, generated-client regeneration or explicit no-op, privacy/raw-code/PII scans, raw refs and fresh verification.
+- Explicitly excluded `apps/admin` UI/scaffold, screenshots/browser evidence, admin mutations, auth/session/role/audit policy, HR reporting, diagnostics, points, rewards, merch, support, real data and full `MVP-02` closure.
+- No production code, schemas, configs, generated client or UI were changed in this freeze.
+- No implementation or fresh verification PASS is claimed. New `feature_list.json` entries for `MVP-02.04` remain `passes=false` until builder evidence and fresh verifier PASS exist.
+
+## Current session: MVP-02-employee-registration-001 builder and evidence refresh
+
+- Implemented the backend/API registration source slice for `POST /api/v1/employee-registrations` within the frozen `MVP-02-employee-registration-001` scope.
+- Added append-only `V004__employee_registration.sql` after `V003`; prior migrations were not edited.
+- Added `employee_registrations` persistence with tenant/cohort/invite links, unique invite registration, normalized contact fields and an opaque `activation_subject_ref`.
+- Kept raw invite codes request-only: lookup uses the existing invite hash path and persistence stores invite IDs plus random opaque activation subject refs.
+- Added a thin controller, DTOs, structured 400 error responses and springdoc/OpenAPI source annotations.
+- Added `EmployeeRegistrationControllerIT` covering success, same-contact idempotent retry, invalid/malformed/not-found, expired, revoked, unissued, duplicate activated code, validation no-echo, rollback/no partial registration and OpenAPI endpoint/schema exposure.
+- Installed/used Homebrew OpenJDK 21.0.11 for the current shell and recorded Java/Maven proof.
+- Added a Testcontainers 1.21.4 Maven property because Docker 29 rejects the older Docker API versions used by the inherited Spring Boot dependency stack.
+- Enabled the Corepack pnpm shim so `make build` can use the repo-pinned `pnpm@10.27.0`.
+- Required builder checks now pass: `cd apps/api && ./mvnw -q test`, `cd apps/api && ./mvnw -q verify`, `make verify`, `make test-unit`, `make build` and `git diff --check`.
+- Recorded generated-client no-op: `packages/api-client` still contains only `.gitkeep`, with no generator or generated artifacts to update.
+- Recorded source migration/OpenAPI/guardrail scans and evidence with Mermaid flow diagram.
+- Fresh `stage_verifier` recorded `PASS` for `MVP-02-employee-registration-001` after rerunning Java/Maven/root checks, migration inspection, OpenAPI/source-runtime inspection, generated-client no-op verification, privacy/scope scans and harness checks.
+- Marked only `MVP-02.03` / `MVP-02-employee-registration-001` complete. `MVP-02.04`, full MVP-02 and human gates remain open.
+
+## Current session: MVP-02-employee-registration-001 spec freeze
+
+- Re-synced the required read set for an MVP `stage_spec_freezer`: repo AGENTS, stage harness skill/read matrix, architecture docs, DoD, human gates, product foundation, `docs/stages/MVP.md`, current MVP artifacts and relevant `apps/api` backend context.
+- Reconciled current stage state: `MVP-02.01` and `MVP-02.02` remain prior PASS slices; `MVP-05-content-spec-ingestion-001` remains the latest verified docs-only slice; `MVP-02.03` was not implemented.
+- Inspected the backend baseline for scope only: Spring Boot/Java/Maven Wrapper/PostgreSQL/Flyway exists with tenant/cohort/invite domain and `InviteCodeAccessService`; no REST controller, springdoc/OpenAPI dependency or generated API client currently exists.
+- Frozen next sprint contract: `MVP-02-employee-registration-001` for parent unit `MVP-02.03`.
+- Scope is backend/API registration by name, email, phone and invite code, built on existing invite activation core.
+- Required future builder evidence now covers append-only Flyway migration, thin controller/service split, OpenAPI/springdoc source, generated-client regeneration or explicit no-op, tests, PII/raw invite-code guardrails, raw refs and fresh verification.
+- Explicitly excluded admin UI, employee web UI, HR reporting, diagnostics, points, consent/legal docs, SSO, real data, rewards and full auth/session.
+- No production code, schemas, configs, generated client or UI were changed in this freeze.
+- No implementation or fresh verification PASS is claimed. New `feature_list.json` entries for `MVP-02.03` remain `passes=false` until builder evidence and fresh verifier PASS exist.
 
 ## Current session: MVP-05-content-spec-ingestion-001
 
@@ -102,6 +169,7 @@ Passing:
 - `.codex/config.toml` scan for `approval_policy = "on-request"` and no `service_tier`
 - fresh `stage_verifier` verdict `PASS` for `MVP-02-tenant-domain-001`
 - fresh `stage_verifier` verdict `PASS` for `MVP-02-invite-issuance-activation-001`
+- fresh `stage_verifier` verdict `PASS` for `MVP-02-employee-registration-001`
 
 ## Previous summaries
 

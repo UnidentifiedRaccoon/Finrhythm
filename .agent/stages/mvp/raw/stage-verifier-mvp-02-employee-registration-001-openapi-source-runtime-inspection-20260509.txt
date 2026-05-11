@@ -1,0 +1,109 @@
+## pom OpenAPI/web/Testcontainers dependency lines
+22:        <testcontainers.version>1.21.4</testcontainers.version>
+40:            <artifactId>spring-boot-starter-web</artifactId>
+48:            <artifactId>flyway-database-postgresql</artifactId>
+51:            <groupId>org.postgresql</groupId>
+52:            <artifactId>postgresql</artifactId>
+57:            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+67:            <groupId>org.testcontainers</groupId>
+72:            <groupId>org.testcontainers</groupId>
+73:            <artifactId>postgresql</artifactId>
+
+## controller OpenAPI annotations and endpoint lines
+6:import io.swagger.v3.oas.annotations.Operation;
+10:import io.swagger.v3.oas.annotations.responses.ApiResponse;
+11:import io.swagger.v3.oas.annotations.responses.ApiResponses;
+15:import org.springframework.web.bind.annotation.PostMapping;
+17:import org.springframework.web.bind.annotation.RequestMapping;
+21:@RequestMapping("/api/v1/employee-registrations")
+29:    @Operation(
+33:    @ApiResponses({
+34:            @ApiResponse(
+35:                    responseCode = "201",
+38:                            schema = @Schema(implementation = EmployeeRegistrationResponse.class),
+54:            @ApiResponse(
+55:                    responseCode = "200",
+57:                    content = @Content(schema = @Schema(implementation = EmployeeRegistrationResponse.class))
+59:            @ApiResponse(
+60:                    responseCode = "400",
+61:                    description = "Validation or invite-code failure. Raw PII and raw invite code are not echoed.",
+63:                            schema = @Schema(implementation = ApiErrorResponse.class),
+69:                                                      "code": "INVALID_INVITE_CODE",
+79:                                                      "code": "DUPLICATE_INVITE_CODE",
+89:                                                      "code": "VALIDATION_FAILED",
+105:    @PostMapping
+106:    public ResponseEntity<EmployeeRegistrationResponse> register(
+107:            @Valid @RequestBody EmployeeRegistrationRequest request
+116:        return ResponseEntity.status(status).body(new EmployeeRegistrationResponse(
+
+## DTO schema/request/response/error lines
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationResponse.java:8:@Schema(name = "EmployeeRegistrationResponse")
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationResponse.java:10:        UUID employeeRegistrationId,
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationResponse.java:11:        UUID tenantId,
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationResponse.java:12:        UUID cohortId,
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationResponse.java:13:        UUID inviteCodeId,
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationResponse.java:15:        boolean idempotentRetry
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:38:                            schema = @Schema(implementation = EmployeeRegistrationResponse.class),
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:43:                                              "employeeRegistrationId": "11111111-1111-4111-8111-111111111111",
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:44:                                              "tenantId": "22222222-2222-4222-8222-222222222222",
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:45:                                              "cohortId": "33333333-3333-4333-8333-333333333333",
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:46:                                              "inviteCodeId": "44444444-4444-4444-8444-444444444444",
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:48:                                              "idempotentRetry": false
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:57:                    content = @Content(schema = @Schema(implementation = EmployeeRegistrationResponse.class))
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:63:                            schema = @Schema(implementation = ApiErrorResponse.class),
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:71:                                                      "fieldErrors": []
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:81:                                                      "fieldErrors": []
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:91:                                                      "fieldErrors": [
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:94:                                                          "code": "Email",
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:115:        HttpStatus status = result.idempotentRetry() ? HttpStatus.OK : HttpStatus.CREATED;
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:117:                result.employeeRegistrationId(),
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:118:                result.tenantId(),
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:119:                result.cohortId(),
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:120:                result.inviteCodeId(),
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:122:                result.idempotentRetry()
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiExceptionHandler.java:27:        List<ApiFieldError> fieldErrors = exception.getBindingResult().getFieldErrors().stream()
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiExceptionHandler.java:38:                fieldErrors
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:4:import jakarta.validation.constraints.Email;
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:5:import jakarta.validation.constraints.NotBlank;
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:6:import jakarta.validation.constraints.Size;
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:8:@Schema(name = "EmployeeRegistrationRequest")
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:10:        @Schema(example = "Alex Pilot")
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:11:        @NotBlank
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:12:        @Size(max = 160)
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:15:        @Schema(example = "alex.pilot@example.test")
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:16:        @NotBlank
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:17:        @Email
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:18:        @Size(max = 254)
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:21:        @Schema(example = "+70000000001")
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:22:        @NotBlank
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:23:        @Size(max = 32)
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:26:        @Schema(example = "7K2N-8P4Q-5R6S-9T2U")
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:27:        @NotBlank
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:28:        @Size(max = 64)
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiErrorResponse.java:7:@Schema(name = "ApiErrorResponse")
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiErrorResponse.java:9:        @Schema(example = "INVALID_INVITE_CODE")
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiErrorResponse.java:12:        @Schema(example = "Invite code is invalid.")
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiErrorResponse.java:15:        List<ApiFieldError> fieldErrors
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiFieldError.java:5:@Schema(name = "ApiFieldError")
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiFieldError.java:7:        @Schema(example = "email")
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiFieldError.java:10:        @Schema(example = "NotBlank")
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiFieldError.java:13:        @Schema(example = "Field is required or invalid.")
+
+## runtime /v3/api-docs test source
+150:        assertInviteError("NOT-A-REAL-CODE", "INVALID_INVITE_CODE", "NOT-A-REAL-CODE");
+193:                .andExpect(jsonPath("$.code").value("DUPLICATE_INVITE_CODE"))
+217:                .andExpect(jsonPath("$.code").value("VALIDATION_FAILED"))
+218:                .andExpect(jsonPath("$.fieldErrors[?(@.field == 'fullName')]").exists())
+219:                .andExpect(jsonPath("$.fieldErrors[?(@.field == 'email')]").exists())
+258:                .andExpect(jsonPath("$.code").value("DUPLICATE_INVITE_CODE"));
+269:    void openApiExposesRegistrationEndpointSchemasAndSafeErrorExamples() throws Exception {
+270:        String spec = mockMvc.perform(get("/v3/api-docs"))
+278:                .contains("EmployeeRegistrationRequest")
+279:                .contains("EmployeeRegistrationResponse")
+280:                .contains("ApiErrorResponse")
+283:                .contains("INVALID_INVITE_CODE")
+284:                .contains("DUPLICATE_INVITE_CODE");
+304:                .andExpect(jsonPath("$.fieldErrors").isArray())
+
+## failsafe runtime test summary
+2:<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-failsafe-plugin/xsd/failsafe-test-report-3.0.xsd" version="3.0" name="com.finrhythm.api.registration.EmployeeRegistrationControllerIT" time="3.315" tests="6" errors="0" skipped="0" failures="0">

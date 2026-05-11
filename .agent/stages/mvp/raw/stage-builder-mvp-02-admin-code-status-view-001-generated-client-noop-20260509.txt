@@ -1,0 +1,6 @@
+packages/api-client files:
+packages/api-client/.gitkeep
+
+OpenAPI/client generator hints in repo root depth 4:
+
+Conclusion: packages/api-client contains only .gitkeep and no generator config/script was found; no generated client artifacts were edited for this slice.

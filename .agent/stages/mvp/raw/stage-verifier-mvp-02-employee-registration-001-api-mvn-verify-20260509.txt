@@ -1,0 +1,153 @@
+14:19:13.278 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.finrhythm.api.tenant.persistence.TenantPersistenceIT]: TenantPersistenceIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:19:13.332 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.finrhythm.api.FinrhythmApiApplication for test class com.finrhythm.api.tenant.persistence.TenantPersistenceIT
+14:19:13.391 [main] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+14:19:13.392 [main] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+14:19:13.408 [main] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 1.21.4
+14:19:13.655 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with Environment variables, system properties and defaults. Resolved dockerHost=unix:///Users/elena/.docker/run/docker.sock
+14:19:13.655 [main] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+14:19:13.669 [main] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
+  Server Version: 29.1.2
+  API Version: 1.52
+  Operating System: Docker Desktop
+  Total Memory: 7836 MB
+  Labels: 
+    com.docker.desktop.address=unix:///Users/elena/Library/Containers/com.docker.docker/Data/docker-cli.sock
+14:19:13.824 [main] INFO tc.testcontainers/ryuk:0.12.0 -- Creating container for image: testcontainers/ryuk:0.12.0
+14:19:13.980 [main] INFO org.testcontainers.utility.RegistryAuthLocator -- Credential helper/store (docker-credential-desktop) does not have credentials for https://index.docker.io/v1/
+14:19:14.062 [main] INFO tc.testcontainers/ryuk:0.12.0 -- Container testcontainers/ryuk:0.12.0 is starting: fd481f078182851003c4e079778770026fabd62ca39b2df6542ba2e63090968a
+14:19:14.338 [main] INFO tc.testcontainers/ryuk:0.12.0 -- Container testcontainers/ryuk:0.12.0 started in PT0.51347S
+14:19:14.343 [main] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+14:19:14.343 [main] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+14:19:14.344 [main] INFO org.testcontainers.DockerClientFactory -- ?? Docker server version should be at least 1.6.0
+14:19:14.344 [main] INFO tc.postgres:16-alpine -- Creating container for image: postgres:16-alpine
+14:19:14.390 [main] INFO tc.postgres:16-alpine -- Container postgres:16-alpine is starting: 3ca9533d76536fe8581ecb03e9bb3f0ad9a135aeafe3756270787fb35a027f15
+14:19:15.702 [main] INFO tc.postgres:16-alpine -- Container postgres:16-alpine started in PT1.357878S
+14:19:15.703 [main] INFO tc.postgres:16-alpine -- Container is started (JDBC URL: jdbc:postgresql://localhost:63004/finrhythm_test?loggerLevel=OFF)
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.6)
+
+2026-05-09T14:19:15.887+03:00  INFO 41535 --- [finrhythm-api] [           main] c.f.a.t.persistence.TenantPersistenceIT  : Starting TenantPersistenceIT using Java 21.0.11 with PID 41535 (started by elena in /Users/elena/cursor/FinRhythm/apps/api)
+2026-05-09T14:19:15.888+03:00  INFO 41535 --- [finrhythm-api] [           main] c.f.a.t.persistence.TenantPersistenceIT  : The following 1 profile is active: "test"
+2026-05-09T14:19:16.295+03:00  INFO 41535 --- [finrhythm-api] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-09T14:19:16.327+03:00  INFO 41535 --- [finrhythm-api] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 27 ms. Found 4 JPA repository interfaces.
+2026-05-09T14:19:16.574+03:00  INFO 41535 --- [finrhythm-api] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-09T14:19:16.689+03:00  INFO 41535 --- [finrhythm-api] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6ceb11f9
+2026-05-09T14:19:16.689+03:00  INFO 41535 --- [finrhythm-api] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-09T14:19:16.707+03:00  INFO 41535 --- [finrhythm-api] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:63004/finrhythm_test (PostgreSQL 16.13)
+2026-05-09T14:19:16.732+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-05-09T14:19:16.734+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 4 migrations (execution time 00:00.010s)
+2026-05-09T14:19:16.742+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-05-09T14:19:16.797+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-05-09T14:19:16.803+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "001 - dev bootstrap runs"
+2026-05-09T14:19:16.823+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "002 - tenant cohort invite model"
+2026-05-09T14:19:16.842+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "003 - invite issuance activation binding"
+2026-05-09T14:19:16.853+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "004 - employee registration"
+2026-05-09T14:19:16.868+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 4 migrations to schema "public", now at version v004 (execution time 00:00.032s)
+2026-05-09T14:19:16.917+03:00  INFO 41535 --- [finrhythm-api] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-09T14:19:16.950+03:00  INFO 41535 --- [finrhythm-api] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.3.Final
+2026-05-09T14:19:16.976+03:00  INFO 41535 --- [finrhythm-api] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-09T14:19:17.141+03:00  INFO 41535 --- [finrhythm-api] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-09T14:19:17.616+03:00  INFO 41535 --- [finrhythm-api] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-09T14:19:17.639+03:00  INFO 41535 --- [finrhythm-api] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-09T14:19:17.749+03:00  INFO 41535 --- [finrhythm-api] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-05-09T14:19:18.447+03:00  INFO 41535 --- [finrhythm-api] [           main] c.f.a.t.persistence.TenantPersistenceIT  : Started TenantPersistenceIT in 2.716 seconds (process running for 5.5)
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+WARNING: A Java agent has been loaded dynamically (/Users/elena/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.19/byte-buddy-agent-1.14.19.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+2026-05-09T14:19:18.948+03:00  WARN 41535 --- [finrhythm-api] [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 23505
+2026-05-09T14:19:18.949+03:00 ERROR 41535 --- [finrhythm-api] [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERROR: duplicate key value violates unique constraint "ux_invite_codes_lookup_hash"
+  Detail: Key (lookup_hash)=(bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb) already exists.
+2026-05-09T14:19:19.274+03:00  INFO 41535 --- [finrhythm-api] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.finrhythm.api.tenant.service.InviteCodeAccessServiceIT]: InviteCodeAccessServiceIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-09T14:19:19.280+03:00  INFO 41535 --- [finrhythm-api] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.finrhythm.api.FinrhythmApiApplication for test class com.finrhythm.api.tenant.service.InviteCodeAccessServiceIT
+2026-05-09T14:19:19.282+03:00  INFO 41535 --- [finrhythm-api] [           main] tc.postgres:16-alpine                    : Creating container for image: postgres:16-alpine
+2026-05-09T14:19:19.397+03:00  INFO 41535 --- [finrhythm-api] [           main] tc.postgres:16-alpine                    : Container postgres:16-alpine is starting: 82d4e70a6a1a94f4194fd8f584314157fca527b72cd048e27f0d9286d5b70e0a
+2026-05-09T14:19:20.680+03:00  INFO 41535 --- [finrhythm-api] [           main] tc.postgres:16-alpine                    : Container postgres:16-alpine started in PT1.398191S
+2026-05-09T14:19:20.681+03:00  INFO 41535 --- [finrhythm-api] [           main] tc.postgres:16-alpine                    : Container is started (JDBC URL: jdbc:postgresql://localhost:63035/finrhythm_invite_test?loggerLevel=OFF)
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.6)
+
+2026-05-09T14:19:20.697+03:00  INFO 41535 --- [finrhythm-api] [           main] c.f.a.t.s.InviteCodeAccessServiceIT      : Starting InviteCodeAccessServiceIT using Java 21.0.11 with PID 41535 (started by elena in /Users/elena/cursor/FinRhythm/apps/api)
+2026-05-09T14:19:20.698+03:00  INFO 41535 --- [finrhythm-api] [           main] c.f.a.t.s.InviteCodeAccessServiceIT      : The following 1 profile is active: "test"
+2026-05-09T14:19:20.797+03:00  INFO 41535 --- [finrhythm-api] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-09T14:19:20.807+03:00  INFO 41535 --- [finrhythm-api] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 4 JPA repository interfaces.
+2026-05-09T14:19:20.866+03:00  INFO 41535 --- [finrhythm-api] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-05-09T14:19:20.880+03:00  INFO 41535 --- [finrhythm-api] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@a221405
+2026-05-09T14:19:20.880+03:00  INFO 41535 --- [finrhythm-api] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-05-09T14:19:20.883+03:00  INFO 41535 --- [finrhythm-api] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:63035/finrhythm_invite_test (PostgreSQL 16.13)
+2026-05-09T14:19:20.898+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-05-09T14:19:20.899+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 4 migrations (execution time 00:00.006s)
+2026-05-09T14:19:20.910+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-05-09T14:19:20.934+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-05-09T14:19:20.937+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "001 - dev bootstrap runs"
+2026-05-09T14:19:20.952+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "002 - tenant cohort invite model"
+2026-05-09T14:19:20.984+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "003 - invite issuance activation binding"
+2026-05-09T14:19:20.999+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "004 - employee registration"
+2026-05-09T14:19:21.012+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 4 migrations to schema "public", now at version v004 (execution time 00:00.046s)
+2026-05-09T14:19:21.028+03:00  INFO 41535 --- [finrhythm-api] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-09T14:19:21.029+03:00  INFO 41535 --- [finrhythm-api] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-09T14:19:21.033+03:00  INFO 41535 --- [finrhythm-api] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-09T14:19:21.109+03:00  INFO 41535 --- [finrhythm-api] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-09T14:19:21.118+03:00  INFO 41535 --- [finrhythm-api] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-09T14:19:21.225+03:00  INFO 41535 --- [finrhythm-api] [           main] c.f.a.t.s.InviteCodeAccessServiceIT      : Started InviteCodeAccessServiceIT in 0.541 seconds (process running for 8.278)
+2026-05-09T14:19:22.515+03:00  INFO 41535 --- [finrhythm-api] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.finrhythm.api.registration.EmployeeRegistrationControllerIT]: EmployeeRegistrationControllerIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-05-09T14:19:22.523+03:00  INFO 41535 --- [finrhythm-api] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.finrhythm.api.FinrhythmApiApplication for test class com.finrhythm.api.registration.EmployeeRegistrationControllerIT
+2026-05-09T14:19:22.526+03:00  INFO 41535 --- [finrhythm-api] [           main] tc.postgres:16-alpine                    : Creating container for image: postgres:16-alpine
+2026-05-09T14:19:22.688+03:00  INFO 41535 --- [finrhythm-api] [           main] tc.postgres:16-alpine                    : Container postgres:16-alpine is starting: 3424d853de14aab383545a8fd6a01cbcb1a37a1cea106cc6b1730c0efcaa193b
+2026-05-09T14:19:24.039+03:00  INFO 41535 --- [finrhythm-api] [           main] tc.postgres:16-alpine                    : Container postgres:16-alpine started in PT1.51326S
+2026-05-09T14:19:24.040+03:00  INFO 41535 --- [finrhythm-api] [           main] tc.postgres:16-alpine                    : Container is started (JDBC URL: jdbc:postgresql://localhost:63049/finrhythm_employee_registration_test?loggerLevel=OFF)
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.6)
+
+2026-05-09T14:19:24.059+03:00  INFO 41535 --- [finrhythm-api] [           main] c.f.a.r.EmployeeRegistrationControllerIT : Starting EmployeeRegistrationControllerIT using Java 21.0.11 with PID 41535 (started by elena in /Users/elena/cursor/FinRhythm/apps/api)
+2026-05-09T14:19:24.060+03:00  INFO 41535 --- [finrhythm-api] [           main] c.f.a.r.EmployeeRegistrationControllerIT : The following 1 profile is active: "test"
+2026-05-09T14:19:24.185+03:00  INFO 41535 --- [finrhythm-api] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-09T14:19:24.189+03:00  INFO 41535 --- [finrhythm-api] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 3 ms. Found 4 JPA repository interfaces.
+2026-05-09T14:19:24.428+03:00  INFO 41535 --- [finrhythm-api] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2026-05-09T14:19:24.511+03:00  INFO 41535 --- [finrhythm-api] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection org.postgresql.jdbc.PgConnection@2b722f9c
+2026-05-09T14:19:24.512+03:00  INFO 41535 --- [finrhythm-api] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2026-05-09T14:19:24.514+03:00  INFO 41535 --- [finrhythm-api] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:63049/finrhythm_employee_registration_test (PostgreSQL 16.13)
+2026-05-09T14:19:24.531+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-05-09T14:19:24.532+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 4 migrations (execution time 00:00.009s)
+2026-05-09T14:19:24.546+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-05-09T14:19:24.574+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-05-09T14:19:24.578+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "001 - dev bootstrap runs"
+2026-05-09T14:19:24.593+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "002 - tenant cohort invite model"
+2026-05-09T14:19:24.623+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "003 - invite issuance activation binding"
+2026-05-09T14:19:24.635+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "004 - employee registration"
+2026-05-09T14:19:24.649+03:00  INFO 41535 --- [finrhythm-api] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 4 migrations to schema "public", now at version v004 (execution time 00:00.039s)
+2026-05-09T14:19:24.676+03:00  INFO 41535 --- [finrhythm-api] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-09T14:19:24.680+03:00  INFO 41535 --- [finrhythm-api] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-09T14:19:24.693+03:00  INFO 41535 --- [finrhythm-api] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-09T14:19:24.798+03:00  INFO 41535 --- [finrhythm-api] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-09T14:19:24.813+03:00  INFO 41535 --- [finrhythm-api] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-09T14:19:25.065+03:00  INFO 41535 --- [finrhythm-api] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-05-09T14:19:25.065+03:00  INFO 41535 --- [finrhythm-api] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-05-09T14:19:25.066+03:00  INFO 41535 --- [finrhythm-api] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-05-09T14:19:25.073+03:00  INFO 41535 --- [finrhythm-api] [           main] c.f.a.r.EmployeeRegistrationControllerIT : Started EmployeeRegistrationControllerIT in 1.03 seconds (process running for 12.126)
+2026-05-09T14:19:25.388+03:00  WARN 41535 --- [finrhythm-api] [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 23505
+2026-05-09T14:19:25.388+03:00 ERROR 41535 --- [finrhythm-api] [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERROR: duplicate key value violates unique constraint "ux_employee_registrations_activation_subject_ref"
+  Detail: Key (activation_subject_ref)=(00000000000000000000000000000000000000000000000000000000000003ed) already exists.
+2026-05-09T14:19:25.540+03:00  INFO 41535 --- [finrhythm-api] [           main] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 96 ms

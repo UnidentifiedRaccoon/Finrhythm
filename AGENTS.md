@@ -28,12 +28,13 @@ Core rules:
 2. `docs/architecture/source-of-truth.md`;
 3. `docs/architecture/documentation-workflow.md`;
 4. product-intent baseline: `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`;
-5. целевой stage-file only: `docs/stages/MVP.md`, `docs/stages/v1.md` или `docs/stages/v2.md`;
-6. `docs/engineering/definition-of-done.md`;
-7. `docs/engineering/human-gates.md`;
-8. `docs/engineering/contributing.md`;
-9. ближайший локальный `AGENTS.md`;
-10. `.agent/stages/<stage_id>/status.json`, затем активный `.agent/stages/<stage_id>/sprint_contract.md` или `.agent/stages/<stage_id>/task-files/<TASK_ID>.md`, если работа уже инициализирована.
+5. для account/organization/access/invitation/code/subscription/seat slices: `docs/architecture/access-and-subscriptions.md` and `docs/architecture/organization-access-subscription-model.md`;
+6. целевой stage-file only: `docs/stages/MVP.md`, `docs/stages/v1.md` или `docs/stages/v2.md`;
+7. `docs/engineering/definition-of-done.md`;
+8. `docs/engineering/human-gates.md`;
+9. `docs/engineering/contributing.md`;
+10. ближайший локальный `AGENTS.md`;
+11. `.agent/stages/<stage_id>/status.json`, затем активный `.agent/stages/<stage_id>/sprint_contract.md` или `.agent/stages/<stage_id>/task-files/<TASK_ID>.md`, если работа уже инициализирована.
 
 Если инструкции конфликтуют, приоритет у более близкого файла и более узкого контекста. Stage-файлы определяют scope и exit gates; этот файл определяет operating behavior и engineering guardrails.
 Read-gating: не читать все stage docs, product docs или `.agent/stages/**/raw/**` по умолчанию. Для stage work использовать `.agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md`; raw evidence читать только по точной ссылке из текущего `evidence.json`, `problems.md` или audit-вопроса.
@@ -149,6 +150,19 @@ Read-gating: не читать все stage docs, product docs или `.agent/st
 - MVP не является in-app subscription product; коммерческий доступ продаётся по корпоративному договору вне приложения.
 - Employee-facing reports for HR по умолчанию агрегируют диагностику/прогресс; персональные финансовые ответы не раскрываются.
 - Self-service multi-tenant enterprise platform, SSO/SCIM and customer white-label UI — later-stage work, если stage doc явно не вводит узкий approved slice.
+
+### Access, roles and subscriptions
+
+- Canonical guardrails: `docs/architecture/access-and-subscriptions.md`.
+- Detailed model for `Organization`, `OrgMembership`, invitations, organization codes, subscriptions and seats: `docs/architecture/organization-access-subscription-model.md`.
+- Do not model a user with a single `user.organization_id`; use `org_membership` when account/organization membership becomes part of a slice.
+- Create `OrgMembership` only after invitation/code acceptance and identity verification/authentication; invitation links must not double as unsafe password setup links.
+- Organization codes are separate revocable entities with hashed codes, status, limits and expiry, not plain fields on `Organization`.
+- Roles are administrative/operational authorization only; do not model `pro_user`, `premium` or subscription state as RBAC roles.
+- Product access should resolve from canonical source records (`user_subscriptions`, `org_subscriptions`, `org_subscription_seats`) or an optional entitlement/projection layer built from those records.
+- B2B pro-seat access must be scoped to organization or membership; it must not leak across another organization of the same user.
+- Personal Pro does not expand corporate Organization context; Organization subscription does not expand personal context.
+- Billing, pricing, paywall, refunds, B2B contract quantities and real paid-tier reward rules remain human-gated.
 
 ## 9. Documentation workflow
 

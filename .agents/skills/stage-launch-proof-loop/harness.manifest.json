@@ -104,6 +104,8 @@
     "content/getcourse-finstrategy/content-baseline.manifest.json",
     "docs/architecture/source-of-truth.md",
     "docs/architecture/documentation-workflow.md",
+    "docs/architecture/access-and-subscriptions.md",
+    "docs/architecture/organization-access-subscription-model.md",
     "docs/architecture/init-and-dev-contract.md",
     "docs/engineering/definition-of-done.md",
     "docs/engineering/human-gates.md",

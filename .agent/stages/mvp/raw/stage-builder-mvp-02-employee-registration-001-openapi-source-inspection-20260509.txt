@@ -1,0 +1,41 @@
+apps/api/pom.xml:55:            <groupId>org.springdoc</groupId>
+apps/api/pom.xml:56:            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationResponse.java:8:@Schema(name = "EmployeeRegistrationResponse")
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationResponse.java:9:public record EmployeeRegistrationResponse(
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationResponse.java:15:        boolean idempotentRetry
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationResult.java:12:        boolean idempotentRetry
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiExceptionHandler.java:18:    ResponseEntity<ApiErrorResponse> handleEmployeeRegistration(EmployeeRegistrationException exception) {
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiExceptionHandler.java:19:        return ResponseEntity.badRequest().body(ApiErrorResponse.withoutFields(
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiExceptionHandler.java:26:    ResponseEntity<ApiErrorResponse> handleValidation(MethodArgumentNotValidException exception) {
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiExceptionHandler.java:35:        return ResponseEntity.badRequest().body(new ApiErrorResponse(
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiExceptionHandler.java:43:    ResponseEntity<ApiErrorResponse> handleUnreadableJson() {
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiExceptionHandler.java:44:        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiErrorResponse.withoutFields(
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationFailureReason.java:5:    INVALID_INVITE_CODE,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationFailureReason.java:9:    DUPLICATE_INVITE_CODE
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:8:@Schema(name = "EmployeeRegistrationRequest")
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:9:public record EmployeeRegistrationRequest(
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:21:@RequestMapping("/api/v1/employee-registrations")
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:38:                            schema = @Schema(implementation = EmployeeRegistrationResponse.class),
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:48:                                              "idempotentRetry": false
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:57:                    content = @Content(schema = @Schema(implementation = EmployeeRegistrationResponse.class))
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:63:                            schema = @Schema(implementation = ApiErrorResponse.class),
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:69:                                                      "code": "INVALID_INVITE_CODE",
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:79:                                                      "code": "DUPLICATE_INVITE_CODE",
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:106:    public ResponseEntity<EmployeeRegistrationResponse> register(
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:107:            @Valid @RequestBody EmployeeRegistrationRequest request
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:115:        HttpStatus status = result.idempotentRetry() ? HttpStatus.OK : HttpStatus.CREATED;
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:116:        return ResponseEntity.status(status).body(new EmployeeRegistrationResponse(
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:122:                result.idempotentRetry()
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:102:                    EmployeeRegistrationFailureReason.DUPLICATE_INVITE_CODE,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:134:                    EmployeeRegistrationFailureReason.INVALID_INVITE_CODE,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:144:                    EmployeeRegistrationFailureReason.INVALID_INVITE_CODE,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:169:                EmployeeRegistrationFailureReason.DUPLICATE_INVITE_CODE,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:176:            boolean idempotentRetry
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:184:                idempotentRetry
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiErrorResponse.java:7:@Schema(name = "ApiErrorResponse")
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiErrorResponse.java:8:public record ApiErrorResponse(
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiErrorResponse.java:9:        @Schema(example = "INVALID_INVITE_CODE")
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiErrorResponse.java:17:    public static ApiErrorResponse withoutFields(String code, String message) {
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiErrorResponse.java:18:        return new ApiErrorResponse(code, message, List.of());
+
+EXIT:0

@@ -1,0 +1,21 @@
+check_id: generated-client-verification
+started_at_utc: 2026-05-09T11:33:22.019757+00:00
+cwd: /Users/elena/cursor/FinRhythm
+JAVA_HOME: /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home
+DOCKER_HOST: unix:///Users/elena/.docker/run/docker.sock
+
+--- packages/api-client files ---
+command: find packages/api-client -maxdepth 4 -type f -print | sort
+exit=0
+packages/api-client/.gitkeep
+
+--- packages/api-client git status ---
+command: git status --short -- packages/api-client
+exit=0
+
+--- non-gitkeep files ---
+command: find packages/api-client -maxdepth 4 -type f ! -name .gitkeep -print | sort
+exit=0
+
+--- conclusion ---
+PASS_NOOP_NO_GENERATOR: packages/api-client contains only .gitkeep; no generator/config/artifacts are present and no manual generated client changes were found.

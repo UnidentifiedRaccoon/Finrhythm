@@ -9,11 +9,12 @@
 3. `docs/architecture/documentation-workflow.md`;
 4. product-intent baseline: `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`;
 5. MVP learning methodology and diagnostics baseline: `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`;
-6. target stage source-of-truth: only the active `docs/stages/MVP.md`, `docs/stages/v1.md` or `docs/stages/v2.md`;
-7. repo-wide `AGENTS.md`;
-8. локальные `AGENTS.md`;
-9. stage/task artifacts inside `.agent/`;
-10. PR description and temporary notes only as explanation, not canon.
+6. access/organization model, when the task touches users, organizations, roles, invitations, codes, seats, subscriptions or access: `docs/architecture/access-and-subscriptions.md` and `docs/architecture/organization-access-subscription-model.md`;
+7. target stage source-of-truth: only the active `docs/stages/MVP.md`, `docs/stages/v1.md` or `docs/stages/v2.md`;
+8. repo-wide `AGENTS.md`;
+9. локальные `AGENTS.md`;
+10. stage/task artifacts inside `.agent/`;
+11. PR description and temporary notes only as explanation, not canon.
 
 Если меняется архитектурное решение, отразить его здесь and in relevant stage docs if the stage baseline changed.
 
@@ -93,6 +94,20 @@ Do not maintain two equal sources of truth for contract types.
 - MVP вводит single corporate pilot contour: `tenant`, `cohort/wave`, invite codes, HR/sponsor reporting, privacy aggregation, points wallet and merch operations.
 - Employee-facing UI использует нейтральный бренд продукта; первый customer context может называться во внутренних docs, operations and tenant configuration, but not in default employee UI.
 - In-app subscription, B2C billing, enterprise SSO/SCIM and self-service multi-tenant platform are out of MVP, если stage doc явно не вводит узкий approved slice.
+
+## 6.1 Access, organizations and subscriptions baseline
+
+Canonical access/subscription architecture lives in `docs/architecture/access-and-subscriptions.md`.
+Detailed entity/lifecycle model for `Organization`, `OrgMembership`, invitations, organization codes, subscriptions and seats lives in `docs/architecture/organization-access-subscription-model.md`.
+
+- `users` не должен получать единственный `organization_id`; организация пользователя моделируется через `org_membership`.
+- MVP may enforce one active employee membership by business rule, but schema/domain choices must not block later multi-organization membership.
+- Roles/permissions are for administrative and operational authorization; subscriptions, seats and pro access are not roles.
+- Product access is resolved from canonical source records (`user_subscriptions`, `org_subscriptions`, `org_subscription_seats`) or an optional `entitlement_grant` projection built from those records.
+- Invitation acceptance creates `OrgMembership` only after identity verification/authentication; invitation links must not become password setup links for someone else.
+- Organization codes are separate revocable entities, not plain fields on `Organization`.
+- B2B seats/pro-seats are scoped to organization/membership and must not leak across another organization of the same user.
+- B2C Pro is a personal subscription source and does not expand corporate learning access or leak into HR/admin reporting without explicit approved support/legal scope.
 
 ## 7. Points baseline
 

@@ -1,0 +1,48 @@
+Surefire/failsafe reports for AdminCodeStatusControllerIT and related backend checks:
+apps/api/target/surefire-reports/com.finrhythm.api.admin.AdminCodeStatusControllerIT.txt
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.admin.AdminCodeStatusControllerIT
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.817 s -- in com.finrhythm.api.admin.AdminCodeStatusControllerIT
+apps/api/target/failsafe-reports/com.finrhythm.api.admin.AdminCodeStatusControllerIT.txt
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.admin.AdminCodeStatusControllerIT
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.197 s -- in com.finrhythm.api.admin.AdminCodeStatusControllerIT
+
+All current surefire/failsafe text summaries:
+apps/api/target/surefire-reports/com.finrhythm.api.tenant.service.InviteCodeGeneratorTest.txt
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.tenant.service.InviteCodeGeneratorTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.045 s -- in com.finrhythm.api.tenant.service.InviteCodeGeneratorTest
+apps/api/target/surefire-reports/com.finrhythm.api.admin.AdminCodeStatusControllerIT.txt
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.admin.AdminCodeStatusControllerIT
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.817 s -- in com.finrhythm.api.admin.AdminCodeStatusControllerIT
+apps/api/target/surefire-reports/com.finrhythm.api.tenant.TenantDomainTest.txt
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.tenant.TenantDomainTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.058 s -- in com.finrhythm.api.tenant.TenantDomainTest
+apps/api/target/failsafe-reports/com.finrhythm.api.registration.EmployeeRegistrationControllerIT.txt
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.registration.EmployeeRegistrationControllerIT
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.273 s -- in com.finrhythm.api.registration.EmployeeRegistrationControllerIT
+apps/api/target/failsafe-reports/com.finrhythm.api.tenant.service.InviteCodeAccessServiceIT.txt
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.tenant.service.InviteCodeAccessServiceIT
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.646 s -- in com.finrhythm.api.tenant.service.InviteCodeAccessServiceIT
+apps/api/target/failsafe-reports/com.finrhythm.api.tenant.persistence.TenantPersistenceIT.txt
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.tenant.persistence.TenantPersistenceIT
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.962 s -- in com.finrhythm.api.tenant.persistence.TenantPersistenceIT
+apps/api/target/failsafe-reports/com.finrhythm.api.admin.AdminCodeStatusControllerIT.txt
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.admin.AdminCodeStatusControllerIT
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.197 s -- in com.finrhythm.api.admin.AdminCodeStatusControllerIT

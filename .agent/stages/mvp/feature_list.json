@@ -413,12 +413,227 @@
       "Keep MVP-05.01 through MVP-05.05 open",
       "Require later human review before production_ready publication"
     ],
-    "passes": false,
+    "passes": true,
     "evidence_refs": [
       "docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md",
       ".agent/stages/mvp/backlog.md",
       ".agent/stages/mvp/status.json",
       ".agent/stages/mvp/risks.md"
+    ]
+  },
+  {
+    "id": "mvp-02-03-contract-freeze",
+    "category": "harness",
+    "description": "MVP-02.03 employee registration sprint contract is frozen as a backend/API slice.",
+    "steps": [
+      "Re-sync required MVP/product/harness sources",
+      "Inspect prior MVP-02 PASS task handoff",
+      "Inspect relevant apps/api baseline",
+      "Write narrow sprint contract and task file"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/stage_spec.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-02-employee-registration-001.md",
+      ".agent/stages/mvp/evidence.md"
+    ]
+  },
+  {
+    "id": "mvp-02-03-registration-api-schema",
+    "category": "backend",
+    "description": "Employee registration API/schema implementation by name, email, phone and invite code.",
+    "steps": [
+      "Add append-only Flyway migration",
+      "Implement thin controller and service/domain registration flow",
+      "Represent public contract through springdoc/OpenAPI source",
+      "Record generated-client regeneration or explicit no-op"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-02-employee-registration-001.md",
+      "apps/api/src/main/resources/db/migration/V004__employee_registration.sql",
+      "apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java",
+      "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java",
+      "apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-openapi-source-inspection-20260509.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-api-mvn-verify-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-openapi-source-runtime-inspection-20260509.txt",
+      ".agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json",
+      ".agent/stages/mvp/evidence.md"
+    ]
+  },
+  {
+    "id": "mvp-02-03-pii-and-invite-guardrails",
+    "category": "privacy",
+    "description": "Registration preserves PII, raw invite-code and human-gate guardrails.",
+    "steps": [
+      "Keep raw invite code out of DB/logs/evidence",
+      "Keep activation subject opaque and non-PII",
+      "Use only synthetic contacts in tests/fixtures",
+      "Preserve legal/privacy and real-data human gates"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/risks.md",
+      "apps/api/src/main/java/com/finrhythm/api/registration/service/RegistrationSubjectRefGenerator.java",
+      "apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-guardrail-scan-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-privacy-scope-scan-20260509.txt",
+      ".agent/stages/mvp/problems/MVP-02-employee-registration-001.md",
+      ".agent/stages/mvp/evidence.md"
+    ]
+  },
+  {
+    "id": "mvp-02-03-fresh-verification",
+    "category": "verification",
+    "description": "Fresh verifier reviews implementation evidence for MVP-02-employee-registration-001.",
+    "steps": [
+      "Run backend/root verification commands",
+      "Record migration/OpenAPI/generated-client/PII scans",
+      "Map criteria to raw refs",
+      "Run fresh stage_verifier"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-02-employee-registration-001.md",
+      ".agent/stages/mvp/evidence.json",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-java-version-20260509.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-api-mvn-test-20260509.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-api-mvn-verify-20260509.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-make-verify-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-api-mvn-test-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-api-mvn-verify-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-make-verify-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-make-test-unit-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-make-build-20260509.txt",
+      ".agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json",
+      ".agent/stages/mvp/problems/MVP-02-employee-registration-001.md"
+    ]
+  },
+  {
+    "id": "mvp-02-04-contract-freeze",
+    "category": "harness",
+    "description": "MVP-02.04 admin cohort/code status slice is frozen as backend/admin API-only.",
+    "steps": [
+      "Re-sync required MVP/product/harness sources",
+      "Read apps/admin and apps/api local AGENTS",
+      "Inspect current backend/admin app baseline",
+      "Write narrow sprint contract and task file"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/stage_spec.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-02-admin-code-status-view-001.md",
+      ".agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json"
+    ]
+  },
+  {
+    "id": "mvp-02-04-admin-status-api",
+    "category": "backend",
+    "description": "Read-only backend/admin API returns cohort code statuses and activation/registration funnel data.",
+    "steps": [
+      "Implement thin admin controller",
+      "Implement service/read-model aggregation and pagination",
+      "Represent contract through springdoc/OpenAPI source",
+      "Record generated-client regeneration or explicit no-op"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-02-admin-code-status-view-001.md",
+      "apps/api/src/main/java/com/finrhythm/api/admin/",
+      "apps/api/src/test/java/com/finrhythm/api/admin/",
+      ".agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-api-admin-it-20260509.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-api-mvn-verify-20260509.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-openapi-source-inspection-20260509.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-generated-client-noop-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-api-admin-it-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-api-mvn-verify-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-openapi-source-inspection-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-generated-client-noop-20260509.txt",
+      ".agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json"
+    ]
+  },
+  {
+    "id": "mvp-02-04-admin-status-privacy",
+    "category": "privacy",
+    "description": "Admin code-status response preserves privacy and raw invite-code guardrails.",
+    "steps": [
+      "Exclude raw invite codes, lookup hashes and activation subject refs",
+      "Exclude employee contact fields from this status response",
+      "Use only synthetic data in tests/fixtures/evidence",
+      "Preserve admin auth/role/audit and real-data human gates"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-02-admin-code-status-view-001.md",
+      ".agent/stages/mvp/risks.md",
+      ".agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-api-admin-it-20260509.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-guardrail-scan-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-guardrail-scan-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-admin-ui-noop-20260509.txt",
+      ".agent/stages/mvp/problems/MVP-02-admin-code-status-view-001.md"
+    ]
+  },
+  {
+    "id": "mvp-02-04-admin-ui",
+    "category": "admin-ui",
+    "description": "apps/admin cohort/code status UI with Russian operator copy and screenshot evidence.",
+    "steps": [
+      "Freeze separate admin UI/scaffold contract",
+      "Implement admin UI using backend contract",
+      "Run browser smoke and capture screenshots"
+    ],
+    "passes": false,
+    "evidence_refs": [
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/status.json"
+    ]
+  },
+  {
+    "id": "mvp-02-04-fresh-verification",
+    "category": "verification",
+    "description": "Fresh verifier reviews implementation evidence for MVP-02-admin-code-status-view-001.",
+    "steps": [
+      "Run backend/root verification commands",
+      "Record OpenAPI/generated-client/privacy scans",
+      "Map criteria to raw refs",
+      "Run fresh stage_verifier"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-02-admin-code-status-view-001.md",
+      ".agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-java-version-20260509.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-api-mvn-test-20260509.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-api-mvn-verify-20260509.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-make-verify-20260509.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-make-test-unit-20260509.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-make-build-20260509.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-git-diff-check-20260509.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-verify-harness-20260509.json",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-java-version-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-mvnw-version-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-api-admin-it-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-api-test-report-summary-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-api-mvn-test-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-api-mvn-verify-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-make-verify-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-make-test-unit-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-make-build-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-git-diff-check-20260509.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-verify-harness-after-verdict-20260509.json",
+      ".agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json",
+      ".agent/stages/mvp/problems/MVP-02-admin-code-status-view-001.md"
     ]
   }
 ]

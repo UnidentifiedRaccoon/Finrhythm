@@ -18,9 +18,10 @@
 1. текущее состояние репозитория;
 2. `docs/architecture/source-of-truth.md`;
 3. stage-doc для текущего этапа;
-4. `AGENTS.md` и ближайший локальный `AGENTS.md`;
-5. `docs/engineering/definition-of-done.md`;
-6. `docs/engineering/human-gates.md`.
+4. `docs/architecture/access-and-subscriptions.md` and `docs/architecture/organization-access-subscription-model.md`, если задача трогает users, organizations, roles, invitations, codes, seats, subscriptions or access;
+5. `AGENTS.md` и ближайший локальный `AGENTS.md`;
+6. `docs/engineering/definition-of-done.md`;
+7. `docs/engineering/human-gates.md`.
 
 ## 3. Типы работ
 

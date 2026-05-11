@@ -1,164 +1,71 @@
 {
   "stage_id": "mvp",
-  "sprint_contract_id": "MVP-05-content-spec-ingestion-001",
-  "parent_stage_unit": "MVP-05 source input for MVP-06/MVP-07/MVP-09",
-  "updated_at": "2026-05-06",
-  "status": "PASS",
-  "summary": "Doc-only builder evidence and fresh verifier PASS are recorded for Content MVP spec ingestion after merging current origin/main. The draft is placed in canonical product docs, local source dependencies are available, canonical references and stage artifacts are updated, and content approval remains human-gated.",
-  "commands": [
-    {
-      "command": "post-merge git status --short",
-      "status": "RECORDED",
-      "raw": ".agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-git-status-20260506.txt"
-    },
-    {
-      "command": "post-merge root draft absence and local file checks",
-      "status": "PASS",
-      "raw": ".agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-path-checks-20260506.txt"
-    },
-    {
-      "command": "post-merge canonical reference scan",
-      "status": "PASS",
-      "raw": ".agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-reference-scan-20260506.txt"
-    },
-    {
-      "command": "post-merge changed file scope",
-      "status": "PASS",
-      "raw": ".agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-changed-files-scope-20260506.txt"
-    },
-    {
-      "command": "post-merge python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp",
-      "status": "PASS",
-      "raw": ".agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-verify-harness-20260506.json"
-    },
-    {
-      "command": "post-merge make verify",
-      "status": "PASS",
-      "raw": ".agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-make-verify-20260506.txt"
-    },
-    {
-      "command": "fresh stage_verifier PASS",
-      "status": "PASS",
-      "raw": ".agent/stages/mvp/verdicts/MVP-05-content-spec-ingestion-001.json"
-    }
+  "sprint_contract_id": "MVP-02-admin-code-status-view-001",
+  "status": "BUILT_AWAITING_VERIFIER",
+  "updated_at": "2026-05-09",
+  "latest_alias": ".agent/stages/mvp/evidence.json",
+  "immutable_refs": {
+    "markdown": ".agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md",
+    "json": ".agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.json"
+  },
+  "raw_refs": [
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-git-status-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-java-version-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-mvnw-version-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-api-admin-it-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-api-test-report-summary-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-api-mvn-test-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-api-mvn-verify-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-make-verify-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-make-test-unit-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-make-build-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-git-diff-check-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-migration-inspection-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-openapi-source-inspection-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-generated-client-noop-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-guardrail-scan-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-verify-harness-20260509.json"
   ],
-  "artifacts": [
-    "docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md",
-    "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md",
-    "content/getcourse-finstrategy/CONTENT_BRIEF.md",
-    "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md",
-    "docs/stages/MVP.md",
-    "docs/architecture/source-of-truth.md",
-    ".agent/stages/mvp/task-files/MVP-05-content-spec-ingestion-001.md"
-  ],
-  "documentation_updates": [
-    "Product foundation links learning methodology and content MVP spec.",
-    "MVP stage source names methodology/content spec as required inputs for MVP-05/06/07/09.",
-    "Architecture source-of-truth records content/methodology docs as subordinate canonical product docs while CMS/PostgreSQL remains runtime source of truth."
-  ],
-  "diagram_refs": [],
-  "api_openapi_notes": "Not applicable; no API/OpenAPI/generated-client surface changed.",
-  "screenshots": [],
+  "commands_summary": {
+    "java_version": "PASS",
+    "mvnw_version": "PASS",
+    "api_admin_it": "PASS",
+    "api_test_report_summary": "PASS",
+    "api_mvn_test": "PASS",
+    "api_mvn_verify": "PASS",
+    "make_verify": "PASS",
+    "make_test_unit": "PASS",
+    "make_build": "PASS",
+    "git_diff_check": "PASS",
+    "migration_inspection": "PASS_NO_MIGRATION",
+    "openapi_inspection": "PASS_SOURCE_AND_RUNTIME_TEST",
+    "generated_client": "NOOP_NO_GENERATOR",
+    "guardrail_scan": "PASS_SOURCE_AND_TEST",
+    "verify_harness": "FAIL_EXPECTED_ALIAS_MISMATCH_WAITING_VERIFIER"
+  },
   "human_gates": [
-    {
-      "gate": "final financial correctness of lessons/diagnostics/quizzes/explanations",
-      "status": "WAITING_HUMAN"
-    },
-    {
-      "gate": "legal/tax wording and official-source links",
-      "status": "WAITING_HUMAN"
-    },
-    {
-      "gate": "HR/privacy wording for diagnostics, self-assessment and reporting",
-      "status": "WAITING_HUMAN"
-    },
-    {
-      "gate": "reward economy, stock, points prices and fulfillment operations",
-      "status": "WAITING_HUMAN"
-    },
-    {
-      "gate": "final production_ready publish approval",
-      "status": "WAITING_HUMAN"
-    }
+    "legal/privacy wording",
+    "consent copy",
+    "real employee/customer data processing",
+    "customer-specific reporting boundaries",
+    "admin auth/role/audit policy for production use"
   ],
-  "acceptance_criteria": [
+  "screenshots": [
     {
-      "id": 1,
-      "status": "PASS",
-      "evidence": [
-        "path checks raw output"
-      ]
-    },
-    {
-      "id": 2,
-      "status": "PASS",
-      "evidence": [
-        "content spec frontmatter and reference scan"
-      ]
-    },
-    {
-      "id": 3,
-      "status": "PASS",
-      "evidence": [
-        "path checks raw output"
-      ]
-    },
-    {
-      "id": 4,
-      "status": "PASS",
-      "evidence": [
-        "canonical docs and reference scan"
-      ]
-    },
-    {
-      "id": 5,
-      "status": "PASS",
-      "evidence": [
-        "stage artifacts and task file"
-      ]
-    },
-    {
-      "id": 6,
-      "status": "PASS",
-      "evidence": [
-        "feature_list.json has one ingestion pass and one human-gates-open false criterion"
-      ]
-    },
-    {
-      "id": 7,
-      "status": "PASS",
-      "evidence": [
-        "backlog.md and status.json keep MVP-05 units open"
-      ]
-    },
-    {
-      "id": 8,
-      "status": "PASS",
-      "evidence": [
-        "changed-file list excludes runtime code/schema/API/UI/generated-client files"
-      ]
-    },
-    {
-      "id": 9,
-      "status": "PASS",
-      "evidence": [
-        "harness validator raw output",
-        "make verify raw output"
-      ]
-    },
-    {
-      "id": 10,
-      "status": "PASS",
-      "evidence": [
-        ".agent/stages/mvp/verdicts/MVP-05-content-spec-ingestion-001.json",
-        ".agent/stages/mvp/problems/MVP-05-content-spec-ingestion-001.md",
-        "fresh verifier raw outputs"
-      ]
+      "status": "NOT_APPLICABLE",
+      "reason": "Backend/API-only slice; apps/admin UI/scaffold is out of scope."
     }
   ],
   "verdict": {
-    "status": "PASS",
-    "raw": ".agent/stages/mvp/verdicts/MVP-05-content-spec-ingestion-001.json",
-    "problems": ".agent/stages/mvp/problems/MVP-05-content-spec-ingestion-001.md"
-  }
+    "status": "WAITING_VERIFIER",
+    "raw": null,
+    "problems": null
+  },
+  "blocker": null,
+  "known_limitations": [
+    "Fresh stage_verifier has not run yet.",
+    "MVP-02.04 admin UI remains unimplemented by design.",
+    "Admin auth/role/audit policy and production real-data use remain human-gated.",
+    "Harness validation fails on latest artifact id mismatch until a fresh verifier writes current-task verdict/problem aliases."
+  ]
 }

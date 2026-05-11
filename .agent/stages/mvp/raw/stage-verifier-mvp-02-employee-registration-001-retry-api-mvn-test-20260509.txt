@@ -1,0 +1,14 @@
+check_id: api-mvn-test
+command: cd apps/api && ./mvnw -q test
+cwd: /Users/elena/cursor/FinRhythm
+JAVA_HOME: /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home
+DOCKER_HOST: unix:///Users/elena/.docker/run/docker.sock
+timeout_seconds: 900
+started_at_utc: 2026-05-09T11:30:46.239776+00:00
+finished_at_utc: 2026-05-09T11:30:48.237119+00:00
+exit_code: 0
+timed_out: false
+--- STDOUT ---
+
+--- STDERR ---
+

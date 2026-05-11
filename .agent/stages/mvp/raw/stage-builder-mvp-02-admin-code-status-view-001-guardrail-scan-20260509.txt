@@ -1,0 +1,31 @@
+Production admin/read-model sensitive response field scan (no hits expected):
+
+Admin API test privacy assertions and synthetic-only seed markers:
+119:        assertPrivacySafeResponse(response, seededWave.issuedCodes().get(0).code());
+148:        assertPrivacySafeResponse(firstPage, seededWave.issuedCodes().get(0).code());
+182:                .doesNotContain(otherTenant.getId().toString())
+183:                .doesNotContain(otherCohort.getId().toString());
+198:        assertThat(invalidStatus).doesNotContain("REGISTERED");
+229:        assertThat(invalidUuid).doesNotContain("not-a-uuid");
+248:                .doesNotContain("lookupHash")
+249:                .doesNotContain("activationSubjectRef");
+291:        return tenantRepository.saveAndFlush(Tenant.create("synthetic-" + suffix, "Synthetic Pilot Tenant"));
+310:                    activation_subject_ref = ?,
+329:                    activation_subject_ref,
+330:                    full_name,
+344:                "Synthetic Learner %03d".formatted(index),
+345:                "synthetic.learner%03d@example.test".formatted(index),
+358:                    activation_subject_ref = null,
+377:    private static void assertPrivacySafeResponse(String response, String rawInviteCode) {
+379:                .doesNotContain(rawInviteCode)
+380:                .doesNotContain("lookupHash")
+381:                .doesNotContain("activationSubjectRef")
+382:                .doesNotContain("fullName")
+383:                .doesNotContain("email")
+384:                .doesNotContain("phone")
+385:                .doesNotContain("Synthetic Learner")
+386:                .doesNotContain("example.test")
+387:                .doesNotContain("Лемана")
+388:                .doesNotContain("Lemana");
+
+Known allowed test-only sensitive persistence fields: employee_registrations.full_name/email/phone and invite_codes.activation_subject_ref are populated with synthetic data to prove they are not exposed in the admin response.

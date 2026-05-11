@@ -8,7 +8,7 @@ default_reasoning_effort: xhigh
 task_execution_mode: stage-launch-proof-loop
 product_foundation: docs/product/b2b-mvp/lemanapro/product-foundation-v1.md
 product_methodology: docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
-last_updated: 2026-05-05
+last_updated: 2026-05-11
 language: ru
 ---
 
@@ -21,6 +21,7 @@ Stage artifacts, progress, evidence, verdicts and audits must live in `.agent/st
 ## Как агент должен использовать этот файл
 
 - До spec freeze читать `AGENTS.md`, `docs/architecture/source-of-truth.md`, `docs/architecture/documentation-workflow.md`, этот файл, `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md` and `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` for learning/content/diagnostic/support/reporting slices.
+- Для account, organization, access, invitation, code, subscription or seat slices читать `docs/architecture/access-and-subscriptions.md` and `docs/architecture/organization-access-subscription-model.md`.
 - Исполнять MVP как B2B-first corporate pilot, not as B2C/public-launch product.
 - Не расширять scope за пределы `In scope`; disputed product intent возвращать в product foundation/stage docs before implementation.
 - Любую крупную задачу нормализовать в execution unit with `TASK_ID`.
@@ -55,6 +56,7 @@ Stage artifacts, progress, evidence, verdicts and audits must live in `.agent/st
 - Target users: employees 23-30, office and store staff.
 - Commercial model: corporate access by contract outside the app; no in-app subscription or payment in MVP.
 - Access model: individual invite code; corporate SSO is out of MVP.
+- Account/organization model: do not introduce `user.organization_id`; if user accounts and organization membership are modeled, use `org_membership`. MVP may keep one active corporate context by business rule.
 - Data collected in MVP: name, email, phone, invite code, learning events, diagnostics, points, merch orders, support/feedback.
 - Product tone: calm mentor / financial trainer, no shame, no promises of fast income, no employer surveillance framing.
 - Learning methodology v0.2 fixes the MVP route: diagnostics -> personalized route -> 7 short `Новичок` lessons -> mini-test -> practice -> points -> challenge/streak return.
@@ -78,6 +80,7 @@ If repo state does not explicitly override it, use:
 Use these product/domain concepts consistently during implementation:
 
 - `tenant`: one corporate pilot contour in MVP; self-service multi-tenant enterprise platform is later scope.
+- `org_membership`: future-ready link between user and organization; MVP may defer full implementation but must not add single-organization shortcuts that block multi-org membership.
 - `cohort/wave`: launch group linked to invite codes and reporting.
 - `invite code`: individual code activated once and linked to one user and cohort.
 - `diagnostic`: answers and scoring used for routing; HR sees only aggregated insights by default.
@@ -88,6 +91,7 @@ Use these product/domain concepts consistently during implementation:
 - `merch order`: `new -> approved -> issued / cancelled`; cancellation refunds points.
 - `HR report`: sponsor-facing aggregated analytics with anonymity threshold.
 - `pilot outcome report`: final report for Wave 1 scale/no-scale decision.
+- `subscription/access source`: future product access source for B2B seats/pro-seats or B2C Pro; not an RBAC role. Full subscription/billing implementation is out of MVP, and optional `entitlement_grant` is a resolver/projection layer only if a later slice introduces it.
 
 ## Learning methodology baseline
 
@@ -140,6 +144,7 @@ For MVP learning/content/diagnostic implementation, use `docs/product/b2b-mvp/le
 ## Out of scope
 
 - In-app subscription, B2C billing and payment system.
+- B2B pro-seat billing, seat-package commerce and paid-tier entitlement implementation.
 - Public B2C launch funnel.
 - Enterprise SSO, SCIM and full enterprise security/compliance program.
 - Self-service multi-tenant admin, tenant marketplace and white-label UI.

@@ -26,6 +26,7 @@
 - product intent and customer-context assumptions: `docs/product/**` markdown files;
 - product/stage scope: `docs/stages/*.md` only when changing stage baseline intentionally;
 - repo-wide architecture and stack: `docs/architecture/source-of-truth.md`;
+- organization/access/subscription model: `docs/architecture/access-and-subscriptions.md` and `docs/architecture/organization-access-subscription-model.md`;
 - doc-sync and harness policy: `AGENTS.md`, this document, `.agents/skills/stage-launch-proof-loop/*`;
 - API contract: Spring/OpenAPI source in `apps/api` and generated client notes;
 - setup/runtime: `README.md`, `docs/setup/codex-setup.md`, `docs/architecture/init-and-dev-contract.md`;

@@ -392,6 +392,9 @@ def main() -> None:
     doc_workflow = root / "docs" / "architecture" / "documentation-workflow.md"
     checks.append(CheckResult("documentation-workflow", "PASS" if doc_workflow.exists() else "FAIL", "Documentation workflow is present." if doc_workflow.exists() else "Missing docs/architecture/documentation-workflow.md."))
 
+    missing_bootstrap = missing_paths(root, manifest_list(manifest, "bootstrap_required_files"))
+    checks.append(CheckResult("bootstrap-required-files", "PASS" if not missing_bootstrap else "FAIL", "Bootstrap source-of-truth files are present." if not missing_bootstrap else f"Missing bootstrap files: {missing_bootstrap}"))
+
     api_agents = root / "apps" / "api" / "AGENTS.md"
     api_text = read(api_agents) if api_agents.exists() else ""
     api_ok = all(s in api_text for s in ("Spring Boot", "Maven Wrapper", "PostgreSQL", "Flyway"))

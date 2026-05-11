@@ -1,0 +1,10 @@
+$ rg --files packages/api-client; find generator configs; git status packages/api-client
+
+--- api-client status ---
+
+--- generator/config scan ---
+packages/api-client/.gitkeep
+
+--- package generator keyword scan ---
+
+EXIT_CODE=0

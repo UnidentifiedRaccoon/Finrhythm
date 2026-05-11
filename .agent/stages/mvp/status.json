@@ -1,8 +1,8 @@
 {
   "stage_id": "mvp",
-  "state": "SPRINT_PASSED",
+  "state": "VERIFIED_BACKEND_API_PASS_UI_OPEN",
   "active_sprint_contract_id": null,
-  "latest_verified_sprint_contract_id": "MVP-05-content-spec-ingestion-001",
+  "latest_verified_sprint_contract_id": "MVP-02-admin-code-status-view-001",
   "completed_ids": [
     "MVP-01.01",
     "MVP-01.02",
@@ -16,24 +16,34 @@
     "MVP-02.02",
     "MVP-02-invite-issuance-activation-001",
     "MVP-05-learning-methodology-doc-sync-001",
-    "MVP-05-content-spec-ingestion-001"
+    "MVP-05-content-spec-ingestion-001",
+    "MVP-02.03",
+    "MVP-02-employee-registration-001",
+    "MVP-02-admin-code-status-view-001"
   ],
-  "active_ids": [],
+  "active_ids": [
+    "MVP-02.04"
+  ],
   "blocked_ids": [],
   "waiting_human_ids": [
+    "legal-privacy-consent-wording-and-real-pii-processing",
+    "real-employee-customer-data-processing-approval",
+    "customer-specific-hr-reporting-boundaries",
     "financial-correctness-lessons-diagnostics-quizzes",
     "legal-tax-review-tax-deduction-wording",
     "hr-privacy-wording-review-diagnostics-self-assessment-reports",
     "reward-economy-stock-prices-fulfillment",
     "support-answer-policy-sensitive-topics",
-    "MVP-05-production-ready-publish-approval"
+    "MVP-05-production-ready-publish-approval",
+    "admin-auth-role-audit-policy-for-production-use"
   ],
   "next_recommended_ids": [
-    "freeze-next-sprint-contract-for-MVP-02.03-employee-registration",
-    "do-not-start-MVP-02.04-before-MVP-02.03-contract-or-explicit-stage-decision",
-    "do-not-mark-MVP-05.01-through-MVP-05.05-complete-without-human-review-and-separate-contracts"
+    "freeze-separate-apps-admin-UI-slice-if-MVP-02.04-screen-is-needed",
+    "do-not-mark-MVP-02.04-complete-without-admin-UI-screenshot-browser-evidence",
+    "do-not-mark-full-MVP-02-complete-without-MVP-02.04-UI-and-fresh-verification",
+    "keep-admin-auth-role-audit-policy-and-real-data-processing-human-gated"
   ],
-  "last_updated": "2026-05-06",
+  "last_updated": "2026-05-09",
   "exit_gate_summary": {
     "mvp_01_scope_frozen": true,
     "root_wrappers_added": true,
@@ -42,9 +52,14 @@
     "mvp_02_allowed": true,
     "mvp_02_01_complete": true,
     "mvp_02_02_complete": true,
+    "mvp_02_03_frozen": true,
+    "mvp_02_03_complete": true,
+    "mvp_02_04_allowed": true,
+    "mvp_02_04_frozen": true,
+    "mvp_02_04_backend_admin_api_only_frozen": true,
+    "mvp_02_04_admin_ui_implemented": false,
+    "mvp_02_04_complete": false,
     "mvp_02_complete": false,
-    "mvp_02_03_allowed": true,
-    "mvp_02_04_allowed": false,
     "learning_methodology_doc_sync_pass": true,
     "mvp_05_content_spec_ingestion_pass": true,
     "mvp_05_content_spec_moved_to_canonical_docs": true,
@@ -57,41 +72,76 @@
     "mvp_06_complete": false,
     "mvp_07_complete": false,
     "mvp_09_complete": false,
-    "current_content_ingestion_make_verify_pass": true,
-    "current_content_ingestion_harness_verify_pass": true,
-    "current_content_ingestion_fresh_verifier_pass": true
+    "current_employee_registration_contract_frozen": true,
+    "current_employee_registration_implemented": true,
+    "current_employee_registration_evidence_exists": true,
+    "current_employee_registration_fresh_verifier_pass": true,
+    "current_employee_registration_builder_checks_pass": true,
+    "current_employee_registration_verification_blocked_by_java": false,
+    "current_admin_code_status_view_contract_frozen": true,
+    "current_admin_code_status_view_implemented": true,
+    "current_admin_code_status_view_evidence_exists": true,
+    "current_admin_code_status_view_builder_checks_pass": true,
+    "current_admin_code_status_view_fresh_verifier_pass": true,
+    "current_admin_code_status_view_backend_api_pass": true,
+    "current_admin_code_status_view_ui_screenshots_required": false
   },
   "runtime_guardrails": {
     "project_config_approval_policy_expected": "on-request",
     "do_not_restore_fixed_service_tier": true,
-    "java_runtime_available_in_current_shell": true,
+    "java_runtime_available_in_prior_shell": true,
+    "java_runtime_available_in_current_shell": false,
+    "java_runtime_available_with_explicit_homebrew_jdk21": true,
     "java_version_recorded": "21.0.11",
+    "current_java_blocker": "unqualified java is not on PATH in this verifier shell; Homebrew OpenJDK 21.0.11 works with explicit JAVA_HOME/PATH and all Maven/root checks passed that way",
+    "docker_29_testcontainers_compatibility": "apps/api/pom.xml pins Testcontainers 1.21.4 because Docker 29 rejects older Docker API versions used by the inherited Testcontainers stack.",
+    "pnpm_available_through_corepack": true,
     "maven_wrapper_present": true,
-    "docs_only_current_sprint": true,
-    "public_api_scope_for_active_sprint": false,
-    "schema_scope_for_active_sprint": false,
+    "backend_baseline": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway, OpenAPI/springdoc required for public/admin API slices",
+    "docs_only_current_sprint": false,
+    "public_api_scope_for_active_sprint": true,
+    "schema_scope_for_active_sprint": "avoid; only append-only post-V004 read index migration if necessary",
     "ui_scope_for_active_sprint": false,
+    "admin_scope_for_active_sprint": "backend admin API only; apps/admin UI/scaffold is out of scope for this contract",
+    "generated_client_scope_for_active_sprint": "required note; update artifacts only if generation exists or is introduced by builder",
     "content_spec_status": "draft_with_human_gates",
-    "content_runtime_source_of_truth": "CMS/PostgreSQL after implementation; docs are canonical planning sources only"
+    "content_runtime_source_of_truth": "CMS/PostgreSQL after implementation; docs are canonical planning sources only",
+    "pii_guardrails_for_active_sprint": [
+      "no raw invite-code persistence or response display",
+      "do not expose lookup_hash or activation_subject_ref",
+      "do not expose employee fullName/email/phone in this status response",
+      "no personal financial answers, diagnostics weak zones or exact financial data",
+      "no real employee/customer data in tests/fixtures/evidence",
+      "admin auth/role/audit policy and production real-data use remain human-gated"
+    ]
   },
   "handoff": {
     "what_is_proven": [
       "MVP-02.01 / MVP-02-tenant-domain-001 has prior fresh verifier PASS.",
       "MVP-02.02 / MVP-02-invite-issuance-activation-001 has prior fresh verifier PASS.",
+      "MVP-02.03 / MVP-02-employee-registration-001 has fresh verifier PASS for backend/API employee registration.",
+      "MVP-02-admin-code-status-view-001 has fresh verifier PASS for backend/admin API-only code-status view.",
       "MVP learning methodology v0.2 is canonical and verified by MVP-05-learning-methodology-doc-sync-001.",
       "Content MVP draft is placed at docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md with draft_with_human_gates metadata.",
-      "CONTENT_BRIEF.md exists locally as raw content baseline.",
-      "Fresh stage_verifier PASS is recorded for MVP-05-content-spec-ingestion-001 only."
+      "Fresh stage_verifier PASS is recorded for MVP-05-content-spec-ingestion-001."
+    ],
+    "what_is_closed_now": [
+      "MVP-02-admin-code-status-view-001 is PASS for the backend/admin API-only data contract.",
+      "The backend API portion of MVP-02.04 is proven by fresh verifier evidence.",
+      "The implementation is backend/admin API-only because apps/admin has no Next.js app baseline.",
+      "No apps/admin UI/scaffold, schema migration or generated client artifact was changed."
     ],
     "what_is_not_proven": [
+      "MVP-02.04 admin UI/status view is not complete.",
+      "Full MVP-02 is not complete.",
+      "Admin auth/role/audit policy and production use of real admin data.",
       "MVP-05.01 through MVP-05.05 are not complete.",
       "Final financial correctness of lessons, diagnostics, quizzes and explanations.",
-      "Legal/tax wording approval.",
-      "HR/privacy wording approval.",
+      "Legal/privacy/consent wording and real employee/customer data processing.",
+      "HR/privacy wording and customer-specific reporting boundaries.",
       "Reward economy and real fulfillment approval.",
-      "Production_ready publish approval for content.",
-      "Employee registration by name/email/phone/code."
+      "Production_ready publish approval for content."
     ],
-    "next_slice": "Freeze the next small sprint contract for MVP-02.03 employee registration. Do not treat the methodology/content-spec doc-sync PASS as MVP-05 completion."
+    "next_slice": "Freeze a separate apps/admin UI/scaffold slice if the operator status view is still needed. Do not mark MVP-02.04 or full MVP-02 complete without UI/browser/screenshot evidence and a fresh verifier."
   }
 }

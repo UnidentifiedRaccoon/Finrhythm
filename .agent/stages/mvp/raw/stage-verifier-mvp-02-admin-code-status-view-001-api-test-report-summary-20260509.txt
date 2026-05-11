@@ -1,0 +1,26 @@
+$ ls apps/api/target/surefire-reports and summarize AdminCodeStatusControllerIT
+TEST-com.finrhythm.api.admin.AdminCodeStatusControllerIT.xml
+TEST-com.finrhythm.api.tenant.TenantDomainTest.xml
+TEST-com.finrhythm.api.tenant.service.InviteCodeGeneratorTest.xml
+com.finrhythm.api.admin.AdminCodeStatusControllerIT.txt
+com.finrhythm.api.tenant.TenantDomainTest.txt
+com.finrhythm.api.tenant.service.InviteCodeGeneratorTest.txt
+
+--- AdminCodeStatusControllerIT report ---
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.admin.AdminCodeStatusControllerIT
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.980 s -- in com.finrhythm.api.admin.AdminCodeStatusControllerIT
+
+--- Failsafe reports ---
+TEST-com.finrhythm.api.admin.AdminCodeStatusControllerIT.xml
+TEST-com.finrhythm.api.registration.EmployeeRegistrationControllerIT.xml
+TEST-com.finrhythm.api.tenant.persistence.TenantPersistenceIT.xml
+TEST-com.finrhythm.api.tenant.service.InviteCodeAccessServiceIT.xml
+com.finrhythm.api.admin.AdminCodeStatusControllerIT.txt
+com.finrhythm.api.registration.EmployeeRegistrationControllerIT.txt
+com.finrhythm.api.tenant.persistence.TenantPersistenceIT.txt
+com.finrhythm.api.tenant.service.InviteCodeAccessServiceIT.txt
+failsafe-summary.xml
+
+EXIT_CODE=0

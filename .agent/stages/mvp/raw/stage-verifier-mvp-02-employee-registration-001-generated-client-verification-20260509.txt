@@ -1,0 +1,9 @@
+## packages/api-client files
+packages/api-client/.gitkeep
+
+## packages/api-client dirs
+packages/api-client
+
+## api-client git status
+
+## generator/config references in package manifests only
