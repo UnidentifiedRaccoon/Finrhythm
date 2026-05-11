@@ -72,7 +72,7 @@ Scoped artifacts:
 - `.agent/stages/mvp/problems/MVP-04-design-system-tokenization-001.md`
 - `.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/`
 
-Root latest aliases remain unchanged and still point to the parent-owned latest verified `MVP-06-learning-renderer-fixture-001` artifacts until a separate parent orchestration decision syncs them.
+Parent orchestrator accepted the scoped `MVP-04.04` `PASS` on 2026-05-12 and synchronized root latest aliases to `MVP-04-design-system-tokenization-001`. Immutable `MVP-06-learning-renderer-fixture-001` artifacts are preserved. Full `MVP-04`, full `MVP-06`, the MVP stage and human gates remain open.
 
 ## Human Gates That Remain Open
 

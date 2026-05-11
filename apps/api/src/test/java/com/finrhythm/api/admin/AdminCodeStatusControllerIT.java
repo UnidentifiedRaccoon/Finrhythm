@@ -257,7 +257,7 @@ class AdminCodeStatusControllerIT {
                 .contains("AdminCodeStatusResponse")
                 .contains("AdminCodeStatusSummary")
                 .contains("AdminCodeStatusRow")
-                .contains("AdminApiErrorResponse")
+                .contains("ApiErrorResponse")
                 .contains("ACCESS_POOL_STATUS_VIEW_NOT_FOUND")
                 .contains("VALIDATION_FAILED")
                 .doesNotContain("lookupHash")

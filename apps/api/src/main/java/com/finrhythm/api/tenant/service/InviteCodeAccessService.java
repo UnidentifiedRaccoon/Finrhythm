@@ -9,6 +9,7 @@ import com.finrhythm.api.tenant.domain.Tenant;
 import com.finrhythm.api.tenant.persistence.AccessPoolRepository;
 import com.finrhythm.api.tenant.persistence.InviteCodeRepository;
 import com.finrhythm.api.tenant.persistence.TenantRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class InviteCodeAccessService {
     private static final int MAX_BATCH_SIZE = 500;
 
@@ -28,18 +30,6 @@ public class InviteCodeAccessService {
     private final AccessPoolRepository accessPoolRepository;
     private final InviteCodeRepository inviteCodeRepository;
     private final InviteCodeGenerator inviteCodeGenerator;
-
-    public InviteCodeAccessService(
-            TenantRepository tenantRepository,
-            AccessPoolRepository accessPoolRepository,
-            InviteCodeRepository inviteCodeRepository,
-            InviteCodeGenerator inviteCodeGenerator
-    ) {
-        this.tenantRepository = tenantRepository;
-        this.accessPoolRepository = accessPoolRepository;
-        this.inviteCodeRepository = inviteCodeRepository;
-        this.inviteCodeGenerator = inviteCodeGenerator;
-    }
 
     @Transactional
     public List<IssuedInviteCode> issueBatch(

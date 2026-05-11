@@ -2,6 +2,42 @@
 
 Updated: 2026-05-12
 
+## Current session: MVP-06-learning-n2-fixture-001 verifier PASS
+
+- Fresh scoped verifier returned `PASS` for `MVP-06-learning-n2-fixture-001` and wrote only immutable scoped artifacts: `.agent/stages/mvp/verdicts/MVP-06-learning-n2-fixture-001.json` and `.agent/stages/mvp/problems/MVP-06-learning-n2-fixture-001.md`.
+- Independent state/docs agents also returned `PASS`: latest root aliases still point to `MVP-04-design-system-tokenization-001`, prior immutable `MVP-06-learning-renderer-fixture-001` proof remains discoverable, and full `MVP-04`, full `MVP-06`, the MVP stage and human gates remain open.
+- UI smoke returned `PASS` for `/learning`, `/learning/lessons/N1`, `/learning/lessons/N2`, loading, empty and error states. Browser/IAB was unavailable in the agent session, so Playwright/Chrome fallback was used.
+- Verified N2 scope: synthetic `editorial_draft` fixture, direct N2 route, visible `/learning` CTA, N1 still available, display-only mini-test, non-persistent practice, no exact personal sums/photos/docs/bank screenshots and amber/warning-soft reward surfaces.
+- Root latest aliases were not synchronized in this slice. Parent alias sync for N2 remains a separate decision.
+
+## Current session: MVP-06-learning-n2-fixture-001 builder evidence
+
+- Implemented `MVP-06-learning-n2-fixture-001` as a narrow `apps/web` fixture-only extension after the spec freeze.
+- Added synthetic `N2_SAVINGS_CHALLENGE_START` content, `/learning/lessons/N2` route resolution through the existing renderer and a visible `/learning` CTA for N2 while preserving N1.
+- Kept mini-test display-only, practice non-persistent/category-only and reward surfaces on amber/warning-soft tokens without cash-equivalence, guaranteed-result or random-reward mechanics.
+- Updated focused web tests and browser smoke coverage for N2; Chrome screenshot smoke captured `/learning`, N1, N2, loading, empty and error states under `.agent/stages/mvp/raw/mvp-06-learning-n2-fixture-001-screenshots-20260512/`.
+- Builder checks passed: `pnpm --filter @finrhythm/web typecheck`, `pnpm --filter @finrhythm/web test`, `pnpm --filter @finrhythm/web build`, Browser/IAB route smoke, strict N2 reward UI smoke, JSON validation and `git diff --check`.
+- `java -version` still cannot locate an unqualified Java runtime in this shell, so `make verify` was not run or claimed for this slice.
+- Latest evidence/verdict/problems aliases remain on `MVP-04-design-system-tokenization-001`; `MVP-06-learning-n2-fixture-001` now has scoped fresh verifier PASS, but still needs a separate parent alias-sync decision before aliases move.
+- Full `MVP-04`, full `MVP-06`, the MVP stage and all human gates remain open.
+
+## Current session: MVP-06-learning-n2-fixture-001 spec freeze
+
+- Froze `MVP-06-learning-n2-fixture-001` for parent unit `MVP-06.03` after latest verified `MVP-04-design-system-tokenization-001`.
+- Scope is planning-only: add one additional synthetic `N2` savings-challenge lesson fixture to the existing `apps/web` fixture-backed renderer and link it from `/learning`.
+- Acceptance requires N2 direct route, `/learning` link/CTA, synthetic-only content, office/store examples, display-only mini-test, non-persistent category/fact-only practice, amber/warning-soft reward guardrails, no exact personal sums/photos/docs/bank screenshots, no customer brand and no old cohort terms.
+- Explicitly excluded CMS/admin publishing, progress persistence, scored quiz submission, practice submission, points/wallet, diagnostics/routing, onboarding/consent, backend/API/schema/OpenAPI/generated-client and `packages/ui`.
+- Updated only `.agent/stages/mvp/sprint_contract.md`, `.agent/stages/mvp/task-files/MVP-06-learning-n2-fixture-001.md`, `.agent/stages/mvp/backlog.md`, `.agent/stages/mvp/progress.md`, `.agent/stages/mvp/status.json` and `.agent/stages/mvp/feature_list.json`.
+- Latest evidence/verdict/problems aliases remain on `MVP-04-design-system-tokenization-001`; full `MVP-04`, full `MVP-06`, the MVP stage and all human gates remain open.
+
+## Current session: MVP-04-design-system-tokenization-001 follow-up smoke fix
+
+- Read-only UI smoke found a strict reward-color gap on `/learning/lessons/N1`: reward block border and reward block-type badge still used blue-tinted tokens.
+- Fixed only `apps/web/app/globals.css` and `apps/web/tests/learning-shell.test.mjs`.
+- Reran `pnpm --filter @finrhythm/web typecheck`, `pnpm --filter @finrhythm/web test`, `pnpm --filter @finrhythm/web build`, strict UI smoke on `http://127.0.0.1:3210` and screenshot smoke on `http://127.0.0.1:3211`; all passed.
+- Recorded durable note at `.agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-ui-smoke-fixer-20260512.txt`.
+- No new `TASK_ID` was frozen in this session. Full `MVP-04`, full `MVP-06`, the MVP stage and all human gates remain open.
+
 ## Current session: MVP-04-design-system-tokenization-001 parent alias sync
 
 - Parent orchestrator accepted the scoped fresh verifier `PASS` for `MVP-04-design-system-tokenization-001` as sufficient for the narrow `MVP-04.04` design-token/app-shell/common-state acceptance surface.

@@ -1,24 +1,19 @@
 package com.finrhythm.api.admin.service;
 
+import com.finrhythm.api.common.web.ApiException;
+import com.finrhythm.api.common.web.ApiFieldError;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
-public class AdminCodeStatusException extends RuntimeException {
-    private final HttpStatus httpStatus;
-    private final String code;
-    private final List<AdminCodeStatusFieldViolation> fieldViolations;
-
+public class AdminCodeStatusException extends ApiException {
     private AdminCodeStatusException(
             HttpStatus httpStatus,
             String code,
             String message,
-            List<AdminCodeStatusFieldViolation> fieldViolations
+            List<ApiFieldError> fieldErrors
     ) {
-        super(message);
-        this.httpStatus = httpStatus;
-        this.code = code;
-        this.fieldViolations = List.copyOf(fieldViolations);
+        super(httpStatus, code, message, fieldErrors);
     }
 
     public static AdminCodeStatusException notFound() {
@@ -39,19 +34,7 @@ public class AdminCodeStatusException extends RuntimeException {
                 HttpStatus.BAD_REQUEST,
                 "VALIDATION_FAILED",
                 "Request parameters are invalid.",
-                List.of(new AdminCodeStatusFieldViolation(field, validationCode, message))
+                List.of(new ApiFieldError(field, validationCode, message))
         );
-    }
-
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public List<AdminCodeStatusFieldViolation> getFieldViolations() {
-        return fieldViolations;
     }
 }

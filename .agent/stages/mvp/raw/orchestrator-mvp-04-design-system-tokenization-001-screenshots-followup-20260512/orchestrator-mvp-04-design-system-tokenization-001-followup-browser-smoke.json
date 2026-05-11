@@ -1,0 +1,17 @@
+{
+  "baseUrl": "http://127.0.0.1:3211",
+  "screenshots": [
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-screenshots-followup-20260512/orchestrator-mvp-04-design-system-tokenization-001-followup-mobile-ready.png",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-screenshots-followup-20260512/orchestrator-mvp-04-design-system-tokenization-001-followup-mobile-lesson-n1.png",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-screenshots-followup-20260512/orchestrator-mvp-04-design-system-tokenization-001-followup-mobile-empty.png",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-screenshots-followup-20260512/orchestrator-mvp-04-design-system-tokenization-001-followup-mobile-error.png",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-screenshots-followup-20260512/orchestrator-mvp-04-design-system-tokenization-001-followup-mobile-loading.png"
+  ],
+  "scenarios": [
+    "mobile-ready",
+    "mobile-lesson-n1",
+    "mobile-empty",
+    "mobile-error",
+    "mobile-loading"
+  ]
+}

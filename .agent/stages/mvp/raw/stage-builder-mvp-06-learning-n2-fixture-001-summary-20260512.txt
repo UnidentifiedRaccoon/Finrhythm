@@ -1,0 +1,58 @@
+Task: MVP-06-learning-n2-fixture-001 builder evidence
+Date: 2026-05-12
+
+Implemented:
+- Added synthetic N2 fixture: N2_SAVINGS_CHALLENGE_START.
+- Added /learning/lessons/N2 route resolution through existing fixture renderer lookup.
+- Added visible /learning CTA for N2 while preserving N1.
+- Kept N2 quiz display-only and practice non-persistent/category-only.
+- Kept N2 content synthetic-only and editorial_draft/human-review-required.
+- No backend/API/schema/OpenAPI/generated client, packages/ui, CMS/admin publishing, progress persistence, scored quiz, practice submission, points/wallet, diagnostics/routing or onboarding/consent changes.
+
+Changed production/test files:
+- apps/web/lib/learning-fixtures.ts
+- apps/web/components/learning-shell.ts
+- apps/web/components/lesson-renderer.ts
+- apps/web/app/globals.css
+- apps/web/tests/learning-shell.test.mjs
+- apps/web/tests/browser-smoke.mjs
+
+Commands:
+- pnpm --filter @finrhythm/web typecheck: PASS
+- pnpm --filter @finrhythm/web test: PASS
+- pnpm --filter @finrhythm/web build: PASS
+- Browser/IAB route and console smoke on http://127.0.0.1:3212: PASS
+- CHROMIUM_EXECUTABLE_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' WEB_SMOKE_BASE_URL=http://127.0.0.1:3212 WEB_SMOKE_OUTPUT_DIR=/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/mvp-06-learning-n2-fixture-001-screenshots-20260512 WEB_SMOKE_SCREENSHOT_PREFIX=mvp-06-learning-n2-fixture-001 pnpm --filter @finrhythm/web smoke:browser: PASS
+- Strict N2 reward UI smoke on http://127.0.0.1:3212: PASS
+- jq empty .agent/stages/mvp/status.json .agent/stages/mvp/feature_list.json: PASS
+- git diff --check: PASS
+- java -version: BLOCKED_UNQUALIFIED_JAVA_RUNTIME_MISSING
+
+Browser/IAB proof:
+- /learning title: Финпульс — обучение
+- /learning has N2 CTA href /learning/lessons/N2
+- /learning/lessons/N2 title: Финпульс — обучение
+- /learning/lessons/N2 rendered Челлендж накоплений, N2: начните копить играючи, Выбрать формат без сохранения, Демо без начисления баллов
+- console warnings/errors: []
+
+Strict N2 reward smoke:
+- reward root background: rgb(255, 244, 222)
+- reward root border: rgb(245, 215, 154)
+- reward badge background: rgb(255, 244, 222)
+- reward badge border: rgb(245, 215, 154)
+- blueTintedSurfaces: []
+- console warnings/errors: []
+
+Guardrail scans:
+- Customer brand / old cohort terms / forbidden competitive claims: PASS, no matches in managed apps/web source.
+- Sensitive-data hard requirements: PASS. Matches are only negative test strings, forbidden input labels or privacy copy; N2 fixture has storesExactSum=false, requiresPhoto=false, requiresDocument=false, requiresBankScreenshot=false.
+- Reward scan: PASS_WITH_REVIEWED_NEGATIVE_CONTEXT. Matches for payment/salary language are in no-money-equivalent copy and ordinary payout timing examples; guarantee terms are quiz misconceptions or explicit no-guarantee feedback, not product claims.
+
+Screenshots:
+- .agent/stages/mvp/raw/mvp-06-learning-n2-fixture-001-screenshots-20260512/
+
+Java/make verify:
+- Unqualified java remains unavailable in this shell, so make verify was not run or claimed.
+
+Open gates preserved:
+- Full MVP-04, full MVP-06, MVP stage and all human gates remain open.

@@ -123,3 +123,18 @@ Backend schema/integration verification for Flyway/JPA constraints is run from `
 ```
 
 It uses PostgreSQL/Testcontainers and therefore requires Docker.
+
+## 8. Java 21 local toolchain
+
+Root `make` commands auto-detect Homebrew OpenJDK 21 at:
+
+- `/opt/homebrew/opt/openjdk@21`;
+- `/usr/local/opt/openjdk@21`.
+
+If found and `JAVA_HOME` is not already set, the Makefile exports `JAVA_HOME` and prepends `JAVA_HOME/bin` to `PATH` for `make verify`, `make test-unit` and `make build`. This avoids the macOS `/usr/bin/java` stub that reports "Unable to locate a Java Runtime".
+
+If Java is installed elsewhere, set `JAVA_HOME` before running root wrappers:
+
+```bash
+JAVA_HOME=/path/to/jdk-21 make verify
+```

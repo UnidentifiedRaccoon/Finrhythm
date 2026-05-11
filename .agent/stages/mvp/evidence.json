@@ -32,7 +32,8 @@
     "Mapped design-system-v0.1.md token baseline into apps/web/app/globals.css.",
     "Aligned apps/web learning shell and fixture-backed lesson renderer to Calm Progress Fintech component patterns.",
     "Added focused token guardrail test coverage.",
-    "Captured Browser/IAB review and mobile browser smoke screenshots."
+    "Captured Browser/IAB review and mobile browser smoke screenshots.",
+    "Fixed the follow-up strict UI smoke reward-color gap so the N1 reward block and reward type badge use amber/warning-soft tokens only."
   ],
   "out_of_scope_preserved": [
     "No packages/ui component library scaffold.",
@@ -47,7 +48,8 @@
     ".agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-empty.png",
     ".agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-error.png",
     ".agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-loading.png",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/"
+    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-screenshots-followup-20260512/"
   ],
   "commands_summary": {
     "web_typecheck": "PASS",
@@ -55,6 +57,9 @@
     "web_build": "PASS",
     "browser_iab": "PASS",
     "web_browser_smoke": "PASS",
+    "orchestrator_ui_smoke_fixer": "PASS",
+    "orchestrator_strict_ui_smoke": "PASS",
+    "orchestrator_screenshot_smoke": "PASS",
     "validate_bootstrap": "PASS",
     "build_docs": "PASS",
     "customer_brand_scan": "PASS",
@@ -106,7 +111,9 @@
     ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-git-diff-check-final-20260512.txt",
     ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-alias-invariants-final-20260512.txt",
     ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-verify-harness-final-20260512.txt",
-    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-java-version-final-20260512.txt"
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-java-version-final-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-ui-smoke-fixer-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-screenshots-followup-20260512/"
   ],
   "docs_sync": {
     "status": "NO_CANONICAL_DOC_CHANGE",

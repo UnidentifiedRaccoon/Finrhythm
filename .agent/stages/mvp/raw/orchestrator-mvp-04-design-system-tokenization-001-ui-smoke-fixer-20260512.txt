@@ -1,0 +1,45 @@
+Task: MVP-04-design-system-tokenization-001 follow-up UI smoke fixer
+Date: 2026-05-12
+
+Initial read-only ui-smoke-agent result:
+- FAIL on /learning/lessons/N1 strict reward color criterion.
+- Reward block background was warning-soft, reward panel/points were amber, but reward block border and reward block-type badge still used blue-tinted surface/border values.
+- Browser/IAB was attempted first and unavailable; fallback used regular Playwright with Chrome.
+
+Fix scope:
+- apps/web/app/globals.css
+- apps/web/tests/learning-shell.test.mjs
+
+Fix summary:
+- Set .reward-block border to --color-reward-border.
+- Set .reward-block .block-type background to --color-warning-soft.
+- Set .reward-block .block-type border to --color-reward-border.
+- Added focused token guardrail assertions for the reward block and badge colors.
+
+Post-fix checks:
+- pnpm --filter @finrhythm/web typecheck: PASS
+- pnpm --filter @finrhythm/web test: PASS
+- pnpm --filter @finrhythm/web build: PASS
+- FINPULSE_SMOKE_BASE_URL=http://127.0.0.1:3210 pnpm --dir apps/web exec node /tmp/finpulse-ui-smoke.mjs: PASS
+- CHROMIUM_EXECUTABLE_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' WEB_SMOKE_BASE_URL=http://127.0.0.1:3211 WEB_SMOKE_OUTPUT_DIR=.agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-screenshots-followup-20260512 WEB_SMOKE_SCREENSHOT_PREFIX=orchestrator-mvp-04-design-system-tokenization-001-followup pnpm --filter @finrhythm/web smoke:browser: PASS
+
+Post-fix strict smoke result:
+- PASS 6 routes/checkpoints plus CTA interaction at http://127.0.0.1:3210.
+- /tmp/finpulse-ui-smoke-result.json reports 0 failures across learning-ready, lesson-n1, loading-state, empty-state, error-state, learning-ready-desktop and interaction-cta-to-lesson.
+- /learning/lessons/N1 reward root background: rgb(255, 244, 222)
+- /learning/lessons/N1 reward root border: rgb(245, 215, 154)
+- /learning/lessons/N1 reward panel border: rgb(245, 215, 154)
+- /learning/lessons/N1 reward points color: rgb(245, 185, 66)
+- /learning/lessons/N1 reward blueTintedSurfaces: []
+
+Post-fix screenshot evidence:
+- .agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-screenshots-followup-20260512/
+
+Java/make verify:
+- Unqualified java remains unavailable in this shell, so make verify was not run or claimed.
+
+Scope preserved:
+- No backend/API/schema/OpenAPI/generated client changes.
+- No packages/ui scaffold.
+- No onboarding, diagnostics, progress persistence, points, wallet or CMS publishing.
+- Full MVP-04, full MVP-06, MVP stage and human gates remain open.

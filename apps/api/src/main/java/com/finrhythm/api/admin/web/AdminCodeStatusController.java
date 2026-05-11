@@ -3,13 +3,16 @@ package com.finrhythm.api.admin.web;
 import com.finrhythm.api.admin.readmodel.AdminCodeStatusQuery;
 import com.finrhythm.api.admin.readmodel.AdminCodeStatusResponse;
 import com.finrhythm.api.admin.service.AdminCodeStatusService;
+import com.finrhythm.api.common.web.ApiErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,14 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
+@Tag(
+        name = "Admin code status",
+        description = "Privacy-safe operational views for tenant pilot access-pool invite-code status."
+)
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status")
 public class AdminCodeStatusController {
     private final AdminCodeStatusService adminCodeStatusService;
-
-    public AdminCodeStatusController(AdminCodeStatusService adminCodeStatusService) {
-        this.adminCodeStatusService = adminCodeStatusService;
-    }
 
     @Operation(
             summary = "Read access-pool invite-code status for admin operations",
@@ -100,7 +104,7 @@ public class AdminCodeStatusController {
                     responseCode = "400",
                     description = "Invalid UUID, status filter, page or size. Raw invite codes and PII are not echoed.",
                     content = @Content(
-                            schema = @Schema(implementation = AdminApiErrorResponse.class),
+                            schema = @Schema(implementation = ApiErrorResponse.class),
                             examples = @ExampleObject(
                                     name = "invalidStatus",
                                     value = """
@@ -123,7 +127,7 @@ public class AdminCodeStatusController {
                     responseCode = "404",
                     description = "Tenant/access-pool status view not found or not in the requested tenant and pilot-launch scope.",
                     content = @Content(
-                            schema = @Schema(implementation = AdminApiErrorResponse.class),
+                            schema = @Schema(implementation = ApiErrorResponse.class),
                             examples = @ExampleObject(
                                     name = "notFound",
                                     value = """

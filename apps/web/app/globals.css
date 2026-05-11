@@ -555,6 +555,27 @@ p {
   margin: 6px 0 var(--space-xs);
 }
 
+.lesson-row-link {
+  align-items: center;
+  background: var(--button-primary-bg);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-on-primary);
+  display: inline-flex;
+  font-size: var(--text-caption-size);
+  font-weight: 700;
+  justify-content: center;
+  line-height: var(--text-caption-line);
+  min-height: 34px;
+  padding: 7px 12px;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.lesson-next .lesson-row-link {
+  background: var(--color-primary-soft);
+  color: var(--button-primary-bg);
+}
+
 .lesson-meta,
 .preview-meta {
   display: flex;
@@ -801,6 +822,13 @@ p {
 
 .reward-block {
   background: var(--color-warning-soft);
+  border-color: var(--color-reward-border);
+}
+
+.reward-block .block-type {
+  background: var(--color-warning-soft);
+  border-color: var(--color-reward-border);
+  color: var(--color-warning);
 }
 
 .reward-panel {

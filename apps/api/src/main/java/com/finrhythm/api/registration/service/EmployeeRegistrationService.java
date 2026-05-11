@@ -9,7 +9,7 @@ import com.finrhythm.api.tenant.service.InviteActivationFailureReason;
 import com.finrhythm.api.tenant.service.InviteActivationResult;
 import com.finrhythm.api.tenant.service.InviteCodeAccessService;
 import com.finrhythm.api.tenant.service.InviteCodeActivationException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,32 +18,12 @@ import java.time.Clock;
 import java.time.Instant;
 
 @Service
+@RequiredArgsConstructor
 public class EmployeeRegistrationService {
     private final EmployeeRegistrationRepository employeeRegistrationRepository;
     private final InviteCodeAccessService inviteCodeAccessService;
     private final RegistrationSubjectRefGenerator subjectRefGenerator;
     private final Clock clock;
-
-    @Autowired
-    public EmployeeRegistrationService(
-            EmployeeRegistrationRepository employeeRegistrationRepository,
-            InviteCodeAccessService inviteCodeAccessService,
-            RegistrationSubjectRefGenerator subjectRefGenerator
-    ) {
-        this(employeeRegistrationRepository, inviteCodeAccessService, subjectRefGenerator, Clock.systemUTC());
-    }
-
-    EmployeeRegistrationService(
-            EmployeeRegistrationRepository employeeRegistrationRepository,
-            InviteCodeAccessService inviteCodeAccessService,
-            RegistrationSubjectRefGenerator subjectRefGenerator,
-            Clock clock
-    ) {
-        this.employeeRegistrationRepository = employeeRegistrationRepository;
-        this.inviteCodeAccessService = inviteCodeAccessService;
-        this.subjectRefGenerator = subjectRefGenerator;
-        this.clock = clock;
-    }
 
     @Transactional
     public EmployeeRegistrationResult register(EmployeeRegistrationCommand command) {

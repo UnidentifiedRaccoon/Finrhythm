@@ -56,6 +56,22 @@ Read-gating: не читать все stage docs, product docs или `.agent/st
 - Нельзя self-certify кодовую задачу без fresh verification.
 - Нельзя помечать `agent+human` и `human-gate` задачи как полностью закрытые только агентной работой.
 
+## 3.1 Fast publish mode
+
+Для явных publish-only запросов вроде "закоммить всё", "открой PR", "смёрджи PR" или "прими PR", если пользователь не просит ревью, доработку, stage execution или аудит:
+
+- не запускать `$stage-launch-proof-loop`;
+- не читать `.agent/stages/**/raw/**` и `.agent/tasks/**/raw/**` без точной ссылки на нужный артефакт;
+- не создавать subagents;
+- ограничить repo context командами `git status --short --branch`, `git diff --stat`, `git diff --name-status`, `git diff --check` и PR metadata;
+- для `git diff --check` в publish-only режиме исключать raw evidence pathspec: `:(exclude).agent/stages/**/raw/**` and `:(exclude).agent/tasks/**/raw/**`;
+- если current worktree уже содержит свежие committed evidence refs с PASS verifier для текущего HEAD, не повторять полный proof loop; достаточно указать имеющиеся команды/evidence в PR;
+- если ветка разошлась с remote или `main` уже содержит часть истории, создать чистую publish branch от `origin/main` и перенести только publish commit(s);
+- создавать PR и merge через `gh` CLI, если GitHub app возвращает `403 Resource not accessible by integration`;
+- при явной команде пользователя merge допускается без ожидания review, если PR mergeable, проверки зелёные или их отсутствие/ограничение явно зафиксировано.
+
+Fast publish mode не ослабляет требования для изменения кода. Он только запрещает повторно исполнять и перечитывать stage harness при операции публикации уже подготовленного diff.
+
 ## 4. Рабочий стиль по умолчанию
 
 - Маленькие, верифицируемые slices.

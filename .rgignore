@@ -1,0 +1,15 @@
+# Keep repository-wide search focused on managed source and summary artifacts.
+.agent/stages/**/raw/**
+.agent/tasks/**/raw/**
+
+# Dependency and build output.
+node_modules/**
+.pnpm-store/**
+apps/*/.next/**
+apps/*/tsconfig.tsbuildinfo
+apps/api/target/**
+
+# Local export/debug noise.
+course-export/debug/**
+course-export/**/debug/**
+course-export/.auth/**

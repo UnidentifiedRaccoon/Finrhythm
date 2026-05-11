@@ -29,7 +29,7 @@ export function LessonRendererScreen({ lesson }: LessonRendererProps) {
         "section",
         { className: "lesson-renderer", "aria-labelledby": "lesson-sections-title" },
         h("p", { className: "section-label" }, "Структура урока"),
-        h("h2", { id: "lesson-sections-title" }, "N1: первый резерв"),
+        h("h2", { id: "lesson-sections-title" }, lessonStructureTitle(lesson)),
         h("p", null, "Урок собран из коротких блоков. Ответы и практические шаги в этом демо не сохраняются."),
         h(
           "div",
@@ -55,6 +55,13 @@ function LessonHeader({ lesson }: LessonRendererProps) {
     ),
     h("span", { className: "demo-pill" }, `${lesson.routeId} · демо`)
   );
+}
+
+function lessonStructureTitle(lesson: FixtureLesson) {
+  const [, subtitle] = lesson.title.split(/:\s*/);
+  const title = subtitle ?? lesson.shortTitle;
+
+  return `${lesson.routeId}: ${title.charAt(0).toLowerCase()}${title.slice(1)}`;
 }
 
 function LessonHero({ lesson }: LessonRendererProps) {

@@ -13,6 +13,7 @@ import com.finrhythm.api.tenant.persistence.AccessPoolRepository;
 import com.finrhythm.api.tenant.persistence.InviteCodeRepository;
 import com.finrhythm.api.tenant.persistence.InviteCodeStatusCountProjection;
 import com.finrhythm.api.tenant.persistence.InviteCodeStatusRowProjection;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class AdminCodeStatusService {
     public static final int DEFAULT_PAGE = 0;
     public static final int DEFAULT_SIZE = 50;
@@ -34,16 +36,6 @@ public class AdminCodeStatusService {
     private final AccessPoolRepository accessPoolRepository;
     private final InviteCodeRepository inviteCodeRepository;
     private final EmployeeRegistrationRepository employeeRegistrationRepository;
-
-    public AdminCodeStatusService(
-            AccessPoolRepository accessPoolRepository,
-            InviteCodeRepository inviteCodeRepository,
-            EmployeeRegistrationRepository employeeRegistrationRepository
-    ) {
-        this.accessPoolRepository = accessPoolRepository;
-        this.inviteCodeRepository = inviteCodeRepository;
-        this.employeeRegistrationRepository = employeeRegistrationRepository;
-    }
 
     @Transactional(readOnly = true)
     public AdminCodeStatusResponse getCodeStatus(

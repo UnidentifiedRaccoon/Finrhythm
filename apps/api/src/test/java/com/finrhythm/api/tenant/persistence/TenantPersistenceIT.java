@@ -184,6 +184,17 @@ class TenantPersistenceIT {
         assertThat(columns).doesNotContain(legacyColumn);
     }
 
+    @Test
+    void flywayAddsDatabaseCommentsForCoreEntityTablesAndSensitiveColumns() {
+        assertThat(tableComment("tenants")).contains("Tenant account");
+        assertThat(tableComment("pilot_launches")).contains("Planned pilot rollout");
+        assertThat(tableComment("access_pools")).contains("Capacity-limited access pool");
+        assertThat(tableComment("invite_codes")).contains("Raw invite codes are never stored");
+        assertThat(tableComment("employee_registrations")).contains("Employee registration");
+        assertThat(columnComment("invite_codes", "lookup_hash")).contains("SHA-256 lookup hash");
+        assertThat(columnComment("invite_codes", "activation_subject_ref")).contains("Does not contain employee PII");
+    }
+
     private void insertInviteRow(
             UUID id,
             UUID tenantId,
@@ -227,6 +238,23 @@ class TenantPersistenceIT {
         return accessPoolRepository.saveAndFlush(
                 AccessPool.create(tenant, pilotLaunch, "access-pool-" + suffix, "Access pool " + suffix, capacity)
         );
+    }
+
+    private String tableComment(String tableName) {
+        return jdbcTemplate.queryForObject(
+                "select obj_description(to_regclass(?), 'pg_class')",
+                String.class,
+                tableName
+        );
+    }
+
+    private String columnComment(String tableName, String columnName) {
+        return jdbcTemplate.queryForObject("""
+                select col_description(to_regclass(?), attribute.attnum)
+                from pg_attribute attribute
+                where attribute.attrelid = to_regclass(?)
+                  and attribute.attname = ?
+                """, String.class, tableName, tableName, columnName);
     }
 
     private static Timestamp toTimestamp(Instant instant) {

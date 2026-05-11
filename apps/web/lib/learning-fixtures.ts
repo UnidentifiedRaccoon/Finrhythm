@@ -270,12 +270,204 @@ export const syntheticN1LessonFixture: FixtureLesson = {
   }
 };
 
+export const syntheticN2LessonFixture: FixtureLesson = {
+  source: "synthetic",
+  routeId: "N2",
+  lessonId: "N2_SAVINGS_CHALLENGE_START",
+  version: "0.1-synthetic",
+  level: "novice",
+  title: "Челлендж накоплений: начните копить играючи",
+  shortTitle: "Регулярность",
+  userPromise:
+    "Вы выберете реалистичный формат 6-недельного накопительного challenge и первый check-in без точных личных сумм.",
+  estimatedTime: "6-8 мин",
+  disclaimerType: "education",
+  primaryCompetency: "C3",
+  secondaryCompetencies: ["C8", "C2"],
+  blocks: [
+    {
+      blockId: "n2-situation",
+      blockType: "situation",
+      title: "Ситуация",
+      body:
+        "Копить с понедельника легко начать и легко бросить. Поэтому в MVP мы делаем не идеальный план, а 6 недель маленьких check-in в своем ритме.",
+      sensitiveFlag: false
+    },
+    {
+      blockId: "n2-why",
+      blockType: "why",
+      title: "Зачем это нужно",
+      body:
+        "Регулярность помогает увидеть движение и не ждать идеального дохода. Маленький повторяемый шаг снижает давление и помогает вернуться после пропуска.",
+      sensitiveFlag: false
+    },
+    {
+      blockId: "n2-rule",
+      blockType: "rule",
+      title: "Правило урока",
+      body:
+        "Выберите формат, который реально повторять: одинаковый еженедельный шаг, растущий шаг, округление трат или пополнение после дохода.",
+      sensitiveFlag: false
+    },
+    {
+      blockId: "n2-example",
+      blockType: "example",
+      title: "Примеры",
+      body:
+        "Один challenge может жить в разном рабочем ритме. Важно выбрать повторяемый момент, а не идеальный календарь.",
+      sensitiveFlag: false
+    },
+    {
+      blockId: "n2-mini-test",
+      blockType: "mini_test",
+      title: "Мини-тест",
+      body:
+        "В этом slice вопросы показаны как локальное превью. Ответы не сохраняются, баллы не начисляются, запуск challenge не фиксируется.",
+      sensitiveFlag: false
+    },
+    {
+      blockId: "n2-practice",
+      blockType: "practice",
+      title: "Практика",
+      body:
+        "Выберите формат накоплений, категорию цели и первый check-in. Точные суммы, доход, остатки на счетах, фото, документы и банковские скриншоты не нужны.",
+      ctaLabel: "Выбрать формат без сохранения",
+      sensitiveFlag: true
+    },
+    {
+      blockId: "n2-reward",
+      blockType: "reward",
+      title: "Награда",
+      body:
+        "В будущей полной версии старт challenge сможет показать учебный прогресс. В этом демо нет начисления points, обещания накопить сумму или денежного эквивалента.",
+      sensitiveFlag: false
+    }
+  ],
+  examples: [
+    {
+      variant: "office",
+      title: "Офис",
+      body:
+        "Каждую пятницу после обеда я проверяю копилку и отмечаю check-in. Если выплаты два раза в месяц, можно выбрать пополнение после каждой выплаты."
+    },
+    {
+      variant: "store",
+      title: "Сменный график",
+      body:
+        "Если смены плавают, выбираю событие: после первой выплаты недели или после последней спокойной смены. Главное - повторяемый момент."
+    }
+  ],
+  quizItems: [
+    {
+      quizId: "N2-Q1",
+      prompt: "Почему маленькие регулярные накопления могут работать?",
+      options: [
+        { id: "a", label: "Они снижают барьер старта и тренируют повторение" },
+        { id: "b", label: "Они гарантируют одинаковый результат всем участникам" },
+        { id: "c", label: "Они заменяют финансовую цель" }
+      ],
+      correctOptionId: "a",
+      feedbackCorrect: "Да. Маленький шаг легче повторить, чем ждать идеального момента.",
+      feedbackIncorrect: "Challenge помогает ритму, но не обещает одинаковый результат для всех.",
+      displayOnly: true
+    },
+    {
+      quizId: "N2-Q2",
+      prompt: "Что делать, если пропустили неделю?",
+      options: [
+        { id: "a", label: "Считать прошлые шаги бесполезными" },
+        { id: "b", label: "Вернуться к следующему check-in или выбрать догоняющий шаг" },
+        { id: "c", label: "Загрузить банковский скриншот как доказательство" }
+      ],
+      correctOptionId: "b",
+      feedbackCorrect: "Верно. Пропуск - не провал, а точка возврата.",
+      feedbackIncorrect: "В этом MVP не нужны доказательства и скриншоты. Достаточно мягко вернуться.",
+      displayOnly: true
+    },
+    {
+      quizId: "N2-Q3",
+      prompt: "Какой формат накоплений лучше выбрать?",
+      options: [
+        { id: "a", label: "Тот, который реально повторять в своем ритме" },
+        { id: "b", label: "Самый жесткий, даже если он вызывает давление" },
+        { id: "c", label: "Тот, который виден работодателю персонально" }
+      ],
+      correctOptionId: "a",
+      feedbackCorrect: "Да. Лучший формат - повторяемый и спокойный.",
+      feedbackIncorrect: "Маршрут не должен превращаться в контроль или гонку.",
+      displayOnly: true
+    },
+    {
+      quizId: "N2-Q4",
+      prompt: "Что нельзя считать гарантией результата?",
+      options: [
+        { id: "a", label: "Учебный challenge и внутренние баллы" },
+        { id: "b", label: "Выбранный формат check-in" },
+        { id: "c", label: "Напоминание в приложении" }
+      ],
+      correctOptionId: "a",
+      feedbackCorrect: "Верно. Challenge поддерживает ритм, но не гарантирует сумму или приз.",
+      feedbackIncorrect: "Баллы и challenge - учебные механики без денежного эквивалента.",
+      displayOnly: true
+    }
+  ],
+  practiceTask: {
+    taskId: "N2-PRACTICE-SAVINGS-CHALLENGE-START",
+    taskType: "choice",
+    prompt: "Выберите формат 6-недельного challenge и первую категорию check-in.",
+    completionCriteria: "Для демо достаточно выбрать вариант в голове или на экране; данные не сохраняются.",
+    allowedInputs: [
+      "формат накоплений",
+      "категория цели",
+      "первый check-in",
+      "вариант: пока просто копилка"
+    ],
+    forbiddenInputs: [
+      "точный доход",
+      "точный размер долга",
+      "остаток личного счета",
+      "название финансовой организации",
+      "фото",
+      "документ",
+      "банковский скриншот"
+    ],
+    privacyCopy:
+      "Это не отчет работодателю. В этом демо не сохраняются суммы, выбранная цель, напоминание, документы, фото или данные финансового сервиса.",
+    userCanSkipExactValues: true,
+    storesExactSum: false,
+    requiresPhoto: false,
+    requiresDocument: false,
+    requiresBankScreenshot: false
+  },
+  reward: {
+    title: "Что будет дальше",
+    body:
+      "В будущей полной версии здесь появится отметка старта challenge после проверки правил завершения. В этом демо старт, прогресс и баллы не сохраняются.",
+    pointsLabel: "Демо без начисления баллов",
+    noMoneyEquivalentCopy: "Баллы не являются деньгами, зарплатой, выплатой, гарантией накоплений или обязательным призом."
+  },
+  sensitiveDataPolicy: [
+    "Синтетический урок не использует реальные данные сотрудников или заказчиков.",
+    "Точные суммы накоплений, доход, остатки на счетах, фото, документы и банковские скриншоты не требуются.",
+    "Выбранная цель, check-in и слабые зоны не показываются HR как персональный отчет."
+  ],
+  review: {
+    reviewStatus: "editorial_draft",
+    humanReviewRequired: true,
+    notes: [
+      "Финальная финансовая корректность урока остается human gate.",
+      "Это renderer fixture, а не production_ready публикация контента.",
+      "Reward economy, challenge rules and fulfillment remain human-gated."
+    ]
+  }
+};
+
+const syntheticLessonFixtures = [syntheticN1LessonFixture, syntheticN2LessonFixture];
+
 export function getSyntheticLessonFixture(routeId: string): FixtureLesson | undefined {
   const normalizedRouteId = routeId.toUpperCase();
 
-  if (normalizedRouteId === syntheticN1LessonFixture.routeId || normalizedRouteId === syntheticN1LessonFixture.lessonId) {
-    return syntheticN1LessonFixture;
-  }
-
-  return undefined;
+  return syntheticLessonFixtures.find(
+    (lesson) => normalizedRouteId === lesson.routeId || normalizedRouteId === lesson.lessonId
+  );
 }

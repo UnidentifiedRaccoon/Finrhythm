@@ -22,6 +22,19 @@ const scenarios = [
     expected: ["Финпульс", "Финансовая опора", "N1: первый резерв", "Мини-тест", "Пример: сменный график"]
   },
   {
+    name: "mobile-lesson-n2",
+    path: "/learning/lessons/N2",
+    viewport: { width: 390, height: 844 },
+    expected: [
+      "Финпульс",
+      "Челлендж накоплений",
+      "N2: начните копить играючи",
+      "Мини-тест",
+      "Выбрать формат без сохранения",
+      "Демо без начисления баллов"
+    ]
+  },
+  {
     name: "mobile-empty",
     path: "/learning?state=empty",
     viewport: { width: 390, height: 844 },

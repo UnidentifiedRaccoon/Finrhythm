@@ -6,7 +6,7 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { LessonRendererScreen } from "../components/lesson-renderer.ts";
 import { getLessonRendererState } from "../lib/lesson-state.ts";
 import { LearningShellScreen } from "../components/learning-shell.ts";
-import { noviceLearningFixture, syntheticN1LessonFixture } from "../lib/learning-fixtures.ts";
+import { noviceLearningFixture, syntheticN1LessonFixture, syntheticN2LessonFixture } from "../lib/learning-fixtures.ts";
 import { getLearningShellState } from "../lib/learning-state.ts";
 
 const appRoot = new URL("..", import.meta.url).pathname;
@@ -35,6 +35,8 @@ describe("mobile learning shell", () => {
     assert.match(html, /Новичок/);
     assert.match(html, /План N1-N7/);
     assert.match(html, /Урок-превью N1/);
+    assert.match(html, /href="\/learning\/lessons\/N2"/);
+    assert.match(html, /Открыть N2/);
     assert.match(html, /Пример: офис/);
     assert.match(html, /Пример: сменный график/);
     assert.match(html, /href="\/learning\/lessons\/N1"/);
@@ -95,6 +97,9 @@ describe("mobile learning shell", () => {
     assert.doesNotMatch(css, /--(?:bg|ink|green|blue|line|surface):/);
     assert.match(css, /\.primary-action,[\s\S]*background: var\(--button-primary-bg\)/);
     assert.match(css, /\.privacy-card \{[\s\S]*background: var\(--privacy-card-bg\)/);
+    assert.match(css, /\.reward-block \{[\s\S]*border-color: var\(--color-reward-border\)/);
+    assert.match(css, /\.reward-block \.block-type \{[\s\S]*background: var\(--color-warning-soft\)/);
+    assert.match(css, /\.reward-block \.block-type \{[\s\S]*border-color: var\(--color-reward-border\)/);
     assert.match(css, /\.reward-points \{[\s\S]*color: var\(--color-amber\)/);
   });
 
@@ -117,30 +122,38 @@ describe("mobile learning shell", () => {
 });
 
 describe("fixture-backed lesson renderer", () => {
-  it("resolves a direct N1 lesson entry from the fixture set", () => {
+  it("resolves direct N1 and N2 lesson entries from the fixture set", () => {
     const result = getLessonRendererState("N1");
+    const n2 = getLessonRendererState("N2");
 
     assert.equal(result.state, "ready");
     assert.equal(result.lesson.source, "synthetic");
     assert.equal(result.lesson.routeId, "N1");
     assert.equal(result.lesson.lessonId, "N1_RESERVE_START");
+    assert.equal(n2.state, "ready");
+    assert.equal(n2.lesson.source, "synthetic");
+    assert.equal(n2.lesson.routeId, "N2");
+    assert.equal(n2.lesson.lessonId, "N2_SAVINGS_CHALLENGE_START");
   });
 
   it("keeps the fixture contract aligned to required lesson block order", () => {
-    assert.deepEqual(
-      syntheticN1LessonFixture.blocks.map((block) => block.blockType),
-      ["situation", "why", "rule", "example", "mini_test", "practice", "reward"]
-    );
-    assert.equal(syntheticN1LessonFixture.examples.length, 2);
-    assert.equal(
-      syntheticN1LessonFixture.quizItems.every((item) => item.displayOnly === true),
-      true
-    );
-    assert.equal(syntheticN1LessonFixture.practiceTask.storesExactSum, false);
-    assert.equal(syntheticN1LessonFixture.practiceTask.requiresPhoto, false);
-    assert.equal(syntheticN1LessonFixture.practiceTask.requiresDocument, false);
-    assert.equal(syntheticN1LessonFixture.practiceTask.requiresBankScreenshot, false);
-    assert.equal(syntheticN1LessonFixture.review.humanReviewRequired, true);
+    for (const lesson of [syntheticN1LessonFixture, syntheticN2LessonFixture]) {
+      assert.deepEqual(
+        lesson.blocks.map((block) => block.blockType),
+        ["situation", "why", "rule", "example", "mini_test", "practice", "reward"],
+        `${lesson.routeId} block order`
+      );
+      assert.equal(lesson.examples.length, 2);
+      assert.equal(
+        lesson.quizItems.every((item) => item.displayOnly === true),
+        true
+      );
+      assert.equal(lesson.practiceTask.storesExactSum, false);
+      assert.equal(lesson.practiceTask.requiresPhoto, false);
+      assert.equal(lesson.practiceTask.requiresDocument, false);
+      assert.equal(lesson.practiceTask.requiresBankScreenshot, false);
+      assert.equal(lesson.review.humanReviewRequired, true);
+    }
   });
 
   it("renders the full synthetic N1 lesson without persistence or points claims", () => {
@@ -160,6 +173,27 @@ describe("fixture-backed lesson renderer", () => {
     assert.match(html, /не являются деньгами/);
     assert.doesNotMatch(html, /завершение урока зафиксировано/);
     assert.doesNotMatch(html, /ответ отправлен/);
+  });
+
+  it("renders the synthetic N2 savings challenge without persistence, exact sums or points claims", () => {
+    const html = renderToStaticMarkup(LessonRendererScreen({ lesson: syntheticN2LessonFixture }));
+
+    assert.match(html, /Синтетический урок/);
+    assert.match(html, /Челлендж накоплений/);
+    assert.match(html, /N2: начните копить играючи/);
+    assert.match(html, /6-недельного накопительного challenge/);
+    assert.match(html, /Пример: офис/);
+    assert.match(html, /Пример: сменный график/);
+    assert.match(html, /Мини-тест/);
+    assert.match(html, /Локальное превью/);
+    assert.match(html, /Практика/);
+    assert.match(html, /Выбрать формат без сохранения/);
+    assert.match(html, /Демо без начисления баллов/);
+    assert.match(html, /не являются деньгами/);
+    assert.match(html, /гарантией накоплений/);
+    assert.doesNotMatch(html, /запуск challenge зафиксирован/);
+    assert.doesNotMatch(html, /ответ отправлен/);
+    assert.doesNotMatch(html, /банковский скриншот требуется/);
   });
 
   it("keeps the renderer source free of customer brand, old access terms and unsafe claims", async () => {

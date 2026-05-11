@@ -149,7 +149,59 @@
 - Предпочтительный режим merge — `Squash & merge`.
 - После merge ветку удалять.
 
-## 9. Короткий workflow
+## 9. Agent fast publish workflow
+
+Этот режим применяется только к publish-only запросам: commit, push, PR, merge уже подготовленного diff. Если пользователь просит ревью, доработку, stage execution или аудит, использовать обычный proof loop and Definition of Done.
+
+Цели режима:
+
+- не читать raw evidence corpus без точной ссылки;
+- не запускать stage harness повторно только ради публикации;
+- не тратить контекст на исторические `.agent/**/raw/**` логи;
+- быстро получить чистую PR branch поверх `origin/main`.
+
+Минимальная последовательность:
+
+```bash
+git fetch origin main --prune
+git status --short --branch
+git diff --stat -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'
+git diff --name-status -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'
+git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'
+git add -A
+git commit -m "<type>(scope): <summary>"
+git push -u origin HEAD
+gh pr create --base main --head "$(git branch --show-current)" --title "<type>(scope): <summary>" --body-file <body-file>
+```
+
+Если текущая ветка `ahead/behind`, `main` уже содержит часть истории или PR должен быть минимальным, создать чистую publish branch:
+
+```bash
+git switch -c <type>/<short-kebab-case> origin/main
+git cherry-pick <publish-commit>
+git push -u origin HEAD
+```
+
+Для merge по явной команде пользователя:
+
+```bash
+gh pr view <number> --json state,mergeable,statusCheckRollup,headRefOid
+gh pr merge <number> --squash --delete-branch --subject "<type>(scope): <summary> (#<number>)" --body-file <merge-body-file>
+git fetch origin main --prune
+git switch main
+git pull --ff-only
+```
+
+Использовать `gh` как основной publish backend для PR/merge, если GitHub app недоступен или возвращает `403 Resource not accessible by integration`.
+
+Raw evidence policy для publish-only:
+
+- не читать `.agent/stages/**/raw/**` через blanket `rg`, `find` или `cat`;
+- читать raw только по точному ref из `evidence.json`, `problems.md`, PR body или запроса пользователя;
+- не добавлять в PR `codex-exec-*.log` и полные terminal transcripts без отдельной причины;
+- если raw `.txt` всё же меняется, нормализовать CR/trailing whitespace before commit или исключить raw paths from publish-only `git diff --check`.
+
+## 10. Короткий workflow
 
 ```bash
 git checkout main

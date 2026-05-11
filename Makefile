@@ -1,6 +1,15 @@
 SHELL := /usr/bin/env bash
 .DEFAULT_GOAL := help
 
+HOMEBREW_JAVA_HOME := $(firstword $(wildcard /opt/homebrew/opt/openjdk@21 /usr/local/opt/openjdk@21))
+ifneq ($(HOMEBREW_JAVA_HOME),)
+ifeq ($(strip $(JAVA_HOME)),)
+JAVA_HOME := $(HOMEBREW_JAVA_HOME)
+endif
+export JAVA_HOME
+export PATH := $(JAVA_HOME)/bin:$(PATH)
+endif
+
 .PHONY: help install init dev verify test-unit test-e2e build
 
 help:
