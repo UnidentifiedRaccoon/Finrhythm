@@ -1,0 +1,5 @@
+# Canonical/setup docs scan
+# paths: AGENTS.md README.md docs/architecture docs/engineering docs/product/b2b-mvp docs/setup docs/stages/MVP.md docs/stages/v1.md
+# pattern: cohort|Cohort|COHORT|cohortId|/cohorts|wave|Wave|WAVE|когорт|волна|волны|волну|волне
+NO_MATCHES
+[scan_status]=0

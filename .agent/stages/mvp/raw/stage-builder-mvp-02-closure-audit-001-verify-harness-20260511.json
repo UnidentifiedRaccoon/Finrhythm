@@ -1,0 +1,57 @@
+{
+  "status": "FAIL",
+  "checked_at": "2026-05-11T19:16:30.477585+00:00",
+  "repo_root": "/Users/elena/cursor/FinPulse",
+  "checks": [
+    {
+      "id": "agents-managed-block",
+      "status": "PASS",
+      "detail": "AGENTS.md contains FinLit harness block."
+    },
+    {
+      "id": "codex-config-policy",
+      "status": "PASS",
+      "detail": "Codex config pins gpt-5.5/xhigh/on-request."
+    },
+    {
+      "id": "codex-agents",
+      "status": "PASS",
+      "detail": "Required subagents are present and pinned to gpt-5.5/xhigh."
+    },
+    {
+      "id": "skill-layout",
+      "status": "PASS",
+      "detail": "Stage skill files are present."
+    },
+    {
+      "id": "documentation-workflow",
+      "status": "PASS",
+      "detail": "Documentation workflow is present."
+    },
+    {
+      "id": "bootstrap-required-files",
+      "status": "PASS",
+      "detail": "Bootstrap source-of-truth files are present."
+    },
+    {
+      "id": "backend-stack",
+      "status": "PASS",
+      "detail": "apps/api baseline is Spring/Java/Maven/PostgreSQL."
+    },
+    {
+      "id": "legacy-token-scan",
+      "status": "PASS",
+      "detail": "No legacy model/approval/backend tokens found."
+    },
+    {
+      "id": "content-baseline",
+      "status": "PASS",
+      "detail": "Active FinStrategy content baseline is present and matches expected headline counts."
+    },
+    {
+      "id": "stage-artifacts",
+      "status": "FAIL",
+      "detail": "sprint artifact id mismatch: sprint_contract.md=MVP-02-closure-audit-001; status.json.latest_verified_sprint_contract_id=MVP-02-remove-cohort-domain-001; status.json.active_sprint_contract_id=MVP-02-closure-audit-001; evidence.json.sprint_contract_id=MVP-02-closure-audit-001; verdict.json.sprint_contract_id=MVP-02-remove-cohort-domain-001; problems.md heading=MVP-02-remove-cohort-domain-001"
+    }
+  ]
+}

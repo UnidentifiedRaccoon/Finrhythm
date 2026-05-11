@@ -1,0 +1,4 @@
+▲ Next.js 16.2.6
+- Local:         http://127.0.0.1:3301
+- Network:       http://127.0.0.1:3301
+✓ Ready in 119ms

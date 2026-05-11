@@ -1,0 +1,60 @@
+$ jq evidence completeness refs
+{
+  "sprint_contract_id": "MVP-02-closure-audit-001",
+  "status": "DONE_WITH_HUMAN_PENDING",
+  "verification_status": "AWAITING_FRESH_VERIFIER",
+  "closure_decision": {
+    "decision": "DONE_WITH_HUMAN_PENDING",
+    "non_human_proof_gap_found": false,
+    "next_gap_fix_contract": null,
+    "rationale": "Full MVP-02 technical acceptance is covered by completed MVP-02 PASS refs plus the latest MVP-02-remove-cohort-domain-001 fresh verifier PASS. Remaining blockers are human-gated production/admin/legal/privacy/reporting approvals, so MVP-02 is recorded as DONE_WITH_HUMAN_PENDING rather than DONE."
+  },
+  "prior_pass_summary_count": 7,
+  "acceptance_mapping_count": 4,
+  "human_gates_count": 6,
+  "docs_sync": {
+    "status": "NOOP",
+    "reason": "This closure/audit records a status decision only; no behavior, public contract, setup/runtime expectation or canonical stage scope changed."
+  },
+  "guardrails": {
+    "production_code_edited_by_this_task": false,
+    "tests_edited_by_this_task": false,
+    "schemas_or_api_contracts_edited_by_this_task": false,
+    "ui_or_package_config_edited_by_this_task": false,
+    "canonical_docs_edited_by_this_task": false,
+    "prior_raw_evidence_rewritten": false,
+    "prior_immutable_evidence_or_verdict_rewritten": false,
+    "human_gates_closed": false,
+    "mvp_stage_closed": false,
+    "full_mvp_02_unconditional_done": false
+  },
+  "commands_summary": {
+    "prior_verdict_summary": "RECORDED",
+    "no_cohort_regression_scan": "PASS_WITH_ALLOWED_MIGRATION_HISTORY",
+    "pii_raw_code_guardrail_scan": "PASS_ADMIN_STATUS_NO_HITS_WITH_ALLOWED_REGISTRATION_SCOPE",
+    "verify_harness": "FAIL_EXPECTED_AWAITING_FRESH_VERIFIER_ALIAS_MISMATCH",
+    "make_verify": "PASS",
+    "make_test_unit": "PASS",
+    "make_build": "PASS",
+    "git_diff_check": "PASS",
+    "json_validation": "PASS",
+    "changed_files_scope": "PASS_WITH_PREEXISTING_DIRTY_WORKTREE"
+  },
+  "raw_refs_count": 13,
+  "blocker": null,
+  "known_limitations": [
+    "Fresh verifier has not run for MVP-02-closure-audit-001 yet.",
+    "MVP stage remains open.",
+    "All human gates remain non-DONE.",
+    "Legacy MVP-02.01 and MVP-02.02 slices do not have per-contract immutable verdict JSON files in the current tree; their PASS status is preserved in status/progress and raw verifier outputs, and current access-pool behavior is re-proven by MVP-02-remove-cohort-domain-001."
+  ]
+}
+
+## referenced immutable verdict statuses
+.agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json PASS
+.agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json PASS
+.agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json PASS
+.agent/stages/mvp/verdicts/MVP-02-04-closure-audit-001.json PASS
+.agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json PASS
+
+exit_code=0

@@ -1,0 +1,61 @@
+Scope: all 2 workspace projects
+ WARN  Request took 14740ms: https://registry.npmjs.org/@types%2Fnode
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Progress: resolved 2, reused 0, downloaded 0, added 0
+Progress: resolved 3, reused 0, downloaded 0, added 0
+ WARN  Request took 18687ms: https://registry.npmjs.org/typescript
+Progress: resolved 4, reused 0, downloaded 0, added 0
+ WARN  Request took 41787ms: https://registry.npmjs.org/next
+Progress: resolved 5, reused 0, downloaded 0, added 0
+ WARN  Request took 23108ms: https://registry.npmjs.org/react
+Progress: resolved 6, reused 0, downloaded 0, added 0
+ WARN  Request took 14917ms: https://registry.npmjs.org/react-dom
+Progress: resolved 7, reused 0, downloaded 0, added 0
+Progress: resolved 7, reused 0, downloaded 1, added 0
+Progress: resolved 8, reused 0, downloaded 1, added 0
+Progress: resolved 8, reused 0, downloaded 2, added 0
+Progress: resolved 10, reused 0, downloaded 2, added 0
+Progress: resolved 11, reused 0, downloaded 2, added 0
+Progress: resolved 12, reused 0, downloaded 2, added 0
+Progress: resolved 13, reused 0, downloaded 2, added 0
+ WARN  Request took 10771ms: https://registry.npmjs.org/@next%2Fswc-darwin-arm64
+Progress: resolved 14, reused 0, downloaded 2, added 0
+ WARN  Request took 24625ms: https://registry.npmjs.org/@next%2Fswc-linux-x64-gnu
+Progress: resolved 15, reused 0, downloaded 2, added 0
+ WARN  Request took 20285ms: https://registry.npmjs.org/@next%2Fswc-linux-x64-musl
+Progress: resolved 16, reused 0, downloaded 2, added 0
+ WARN  Request took 21980ms: https://registry.npmjs.org/@next%2Fswc-win32-x64-msvc
+Progress: resolved 17, reused 0, downloaded 2, added 0
+ WARN  Request took 19705ms: https://registry.npmjs.org/@next%2Fswc-linux-arm64-gnu
+Progress: resolved 18, reused 0, downloaded 2, added 0
+ WARN  Request took 18172ms: https://registry.npmjs.org/@next%2Fswc-linux-arm64-musl
+Progress: resolved 19, reused 0, downloaded 2, added 0
+ WARN  Request took 14737ms: https://registry.npmjs.org/@next%2Fswc-win32-arm64-msvc
+Progress: resolved 20, reused 0, downloaded 2, added 0
+Progress: resolved 21, reused 0, downloaded 2, added 0
+ WARN  Request took 10494ms: https://registry.npmjs.org/@next%2Fenv
+Progress: resolved 22, reused 0, downloaded 2, added 0
+Progress: resolved 23, reused 0, downloaded 2, added 0
+Progress: resolved 24, reused 0, downloaded 2, added 0
+ WARN  Request took 12282ms: https://registry.npmjs.org/caniuse-lite
+Progress: resolved 25, reused 0, downloaded 2, added 0
+Progress: resolved 26, reused 0, downloaded 2, added 0
+ WARN  Request took 27147ms: https://registry.npmjs.org/scheduler
+Progress: resolved 27, reused 0, downloaded 2, added 0
+Progress: resolved 29, reused 0, downloaded 2, added 0
+Progress: resolved 32, reused 0, downloaded 2, added 0
+Progress: resolved 35, reused 0, downloaded 2, added 0
+Progress: resolved 38, reused 0, downloaded 2, added 0
+Progress: resolved 40, reused 0, downloaded 2, added 0
+Progress: resolved 43, reused 0, downloaded 2, added 0
+Progress: resolved 46, reused 0, downloaded 2, added 0
+Progress: resolved 49, reused 0, downloaded 2, added 0
+Progress: resolved 51, reused 0, downloaded 2, added 0
+Progress: resolved 53, reused 0, downloaded 2, added 0
+Progress: resolved 54, reused 0, downloaded 2, added 0
+Progress: resolved 55, reused 0, downloaded 2, added 0
+Progress: resolved 58, reused 0, downloaded 2, added 0
+Progress: resolved 60, reused 0, downloaded 2, added 0
+Progress: resolved 60, reused 0, downloaded 3, added 0
+Progress: resolved 60, reused 0, downloaded 4, added 0
+Progress: resolved 60, reused 0, downloaded 5, added 0

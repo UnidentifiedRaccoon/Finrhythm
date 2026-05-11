@@ -31,8 +31,8 @@ public class InviteCode {
     private Tenant tenant;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "cohort_id", nullable = false)
-    private Cohort cohort;
+    @JoinColumn(name = "access_pool_id", nullable = false)
+    private AccessPool accessPool;
 
     @Column(nullable = false, length = 64)
     private String lookupHash;
@@ -61,7 +61,7 @@ public class InviteCode {
 
     private InviteCode(
             Tenant tenant,
-            Cohort cohort,
+            AccessPool accessPool,
             InviteCodeHash lookupHash,
             InviteCodeStatus status,
             Instant issuedAt,
@@ -70,7 +70,7 @@ public class InviteCode {
             ActivationSubjectRef activationSubjectRef
     ) {
         this.tenant = Objects.requireNonNull(tenant, "tenant");
-        this.cohort = Objects.requireNonNull(cohort, "cohort");
+        this.accessPool = Objects.requireNonNull(accessPool, "accessPool");
         this.lookupHash = Objects.requireNonNull(lookupHash, "lookupHash").value();
         this.status = Objects.requireNonNull(status, "status");
         this.issuedAt = issuedAt;
@@ -80,23 +80,23 @@ public class InviteCode {
         validate();
     }
 
-    public static InviteCode created(Tenant tenant, Cohort cohort, InviteCodeHash lookupHash) {
-        return new InviteCode(tenant, cohort, lookupHash, InviteCodeStatus.CREATED, null, null, null, null);
+    public static InviteCode created(Tenant tenant, AccessPool accessPool, InviteCodeHash lookupHash) {
+        return new InviteCode(tenant, accessPool, lookupHash, InviteCodeStatus.CREATED, null, null, null, null);
     }
 
     public static InviteCode issued(
             Tenant tenant,
-            Cohort cohort,
+            AccessPool accessPool,
             InviteCodeHash lookupHash,
             Instant issuedAt,
             Instant expiresAt
     ) {
-        return new InviteCode(tenant, cohort, lookupHash, InviteCodeStatus.ISSUED, issuedAt, expiresAt, null, null);
+        return new InviteCode(tenant, accessPool, lookupHash, InviteCodeStatus.ISSUED, issuedAt, expiresAt, null, null);
     }
 
     public static InviteCode activated(
             Tenant tenant,
-            Cohort cohort,
+            AccessPool accessPool,
             InviteCodeHash lookupHash,
             Instant issuedAt,
             Instant activatedAt,
@@ -104,7 +104,7 @@ public class InviteCode {
     ) {
         return new InviteCode(
                 tenant,
-                cohort,
+                accessPool,
                 lookupHash,
                 InviteCodeStatus.ACTIVATED,
                 issuedAt,
@@ -122,8 +122,8 @@ public class InviteCode {
         return tenant;
     }
 
-    public Cohort getCohort() {
-        return cohort;
+    public AccessPool getAccessPool() {
+        return accessPool;
     }
 
     public String getLookupHash() {
@@ -172,9 +172,9 @@ public class InviteCode {
 
     void validate() {
         tenant = Objects.requireNonNull(tenant, "tenant");
-        cohort = Objects.requireNonNull(cohort, "cohort");
-        if (!cohort.isOwnedBy(tenant)) {
-            throw new IllegalArgumentException("Invite code cohort must belong to the same tenant.");
+        accessPool = Objects.requireNonNull(accessPool, "accessPool");
+        if (!accessPool.isOwnedBy(tenant)) {
+            throw new IllegalArgumentException("Invite code access pool must belong to the same tenant.");
         }
         lookupHash = InviteCodeHash.fromSha256Hex(lookupHash).value();
         status = Objects.requireNonNull(status, "status");

@@ -1,0 +1,9 @@
+COMMAND: rg -n "cohort|Cohort|COHORT|cohortId|/cohorts|wave|Wave|WAVE|когорт|волна" AGENTS.md README.md docs
+PWD: /Users/elena/cursor/FinPulse
+START: 2026-05-11T18:00:41Z
+AGENTS.md:149:- MVP — single corporate pilot contour with `tenant`, `cohort/wave`, invite codes, HR/sponsor reporting, privacy aggregation and merch operations.
+README.md:108:Первый admin route использует локальный typed fixture boundary for the verified backend code-status DTO. Live mode is read-only and requires synthetic `FINRHYTHM_ADMIN_API_BASE_URL`, `FINRHYTHM_ADMIN_SYNTHETIC_TENANT_ID` and `FINRHYTHM_ADMIN_SYNTHETIC_COHORT_ID`.
+README.md:110:Полная backend schema verification для tenant/cohort/invite модели запускается отдельно:
+docs/setup/codex-setup.md:97:The default admin route uses synthetic fixture data. Optional live read-only mode requires synthetic `FINRHYTHM_ADMIN_API_BASE_URL`, `FINRHYTHM_ADMIN_SYNTHETIC_TENANT_ID` and `FINRHYTHM_ADMIN_SYNTHETIC_COHORT_ID`.
+END: 2026-05-11T18:00:41Z
+RG_EXIT_CODE: 0

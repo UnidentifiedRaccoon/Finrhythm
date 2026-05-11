@@ -1,0 +1,6 @@
+
+> @finrhythm/admin@0.0.0 start /Users/elena/cursor/FinPulse/apps/admin
+> next start -- -p 3300
+
+Invalid project directory provided, no such directory: /Users/elena/cursor/FinPulse/apps/admin/-p
+ ELIFECYCLE  Command failed with exit code 1.

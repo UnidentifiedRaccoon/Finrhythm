@@ -1,0 +1,228 @@
+{
+  "status": "PASS",
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-02-admin-ui-status-view-001",
+  "parent_stage_unit": "MVP-02.04 admin UI/status view slice only",
+  "verifier_role": "fresh_stage_verifier_post_fix",
+  "last_verified_at": "2026-05-11T15:16:13Z",
+  "summary": "PASS for current sprint MVP-02-admin-ui-status-view-001 only. The two prior blocking gaps are fixed: the current admin UI renders the cohort status through Russian labels and current git diff --check is clean. This verdict does not close full MVP-02.04, full MVP-02, the MVP stage or any human gate.",
+  "proven_scope": [
+    "Minimal apps/admin Next.js scaffold and read-only cohort/code status view for the already verified backend DTO.",
+    "Typed local DTO/fixture boundary matching the proven backend code-status response.",
+    "Russian operator copy for current rendered success state, plus loading, error and empty states.",
+    "Privacy-safe operator rendering with no raw invite codes, lookup hashes, activation subject refs, employee fullName/email/phone, diagnostics/financial data or customer brand in managed admin source/fixture/rendered proof.",
+    "Generated-client implementation remains an explicit no-op because packages/api-client has no generator/artifacts.",
+    "Admin auth/role/audit policy and production real-data use remain out of scope and human-gated."
+  ],
+  "prior_gaps_resolution": [
+    {
+      "id": "AC-4-russian-cohort-status-label",
+      "status": "FIXED",
+      "proof": [
+        "apps/admin/components/status-labels.ts defines COHORT_STATUS_LABELS for PLANNED, ACTIVE and CLOSED.",
+        "apps/admin/components/admin-code-status-screen.tsx renders COHORT_STATUS_LABELS[data.cohortStatus] instead of data.cohortStatus.",
+        "apps/admin/tests/browser-smoke.mjs now expects \"500 · Запланирована\" and forbids \"500 · PLANNED\".",
+        ".agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-admin-start-curl-20260511.html contains \"500 · Запланирована\" and no PLANNED token."
+      ]
+    },
+    {
+      "id": "verification-git-diff-check",
+      "status": "FIXED",
+      "proof": [
+        ".agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-git-diff-check-20260511.txt is empty from a passing fixer rerun.",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-git-diff-check-20260511.txt is empty from this fresh verifier rerun."
+      ]
+    }
+  ],
+  "acceptance_criteria": [
+    {
+      "id": "AC-1",
+      "status": "PASS",
+      "detail": "Backend/API/schema baseline is unchanged for this UI slice; git diff -- apps/api is empty."
+    },
+    {
+      "id": "AC-2",
+      "status": "PASS",
+      "detail": "apps/admin has a minimal Next.js scaffold with package scripts and focused checks."
+    },
+    {
+      "id": "AC-3",
+      "status": "PASS",
+      "detail": "Default route renders a read-only code-status view from a typed local DTO/fixture boundary."
+    },
+    {
+      "id": "AC-4",
+      "status": "PASS",
+      "detail": "Russian operator copy is proven for current rendered HTML; loading, error, empty and success states exist."
+    },
+    {
+      "id": "AC-5",
+      "status": "PASS",
+      "detail": "Success state shows cohort metadata, summary/funnel counts, status counts, filter/page state and paginated code rows."
+    },
+    {
+      "id": "AC-6",
+      "status": "PASS",
+      "detail": "Status filters use CREATED, ISSUED, RESERVED, ACTIVATED, REVOKED, EXPIRED and page size is bounded by MAX_PAGE_SIZE = 100."
+    },
+    {
+      "id": "AC-7",
+      "status": "PASS",
+      "detail": "Synthetic fixture mode is default and used for test/screenshot evidence."
+    },
+    {
+      "id": "AC-8",
+      "status": "PASS_LIMITED",
+      "detail": "Optional live mode is read-only GET and requires explicit synthetic tenant/cohort environment variables."
+    },
+    {
+      "id": "AC-9",
+      "status": "PASS",
+      "detail": "Guardrail scans and source inspection found no raw invite-code values, lookup hashes, activation subject refs, employee contact fields, diagnostics/financial data, customer brand or rendered raw cohort enum leakage."
+    },
+    {
+      "id": "AC-10",
+      "status": "PASS",
+      "detail": "Builder evidence records root make verify, make test-unit and make build with admin checks."
+    },
+    {
+      "id": "AC-11",
+      "status": "PASS",
+      "detail": "Admin package typecheck/test/build are credible in builder/fixer evidence; this verifier reran typecheck and test."
+    },
+    {
+      "id": "AC-12",
+      "status": "PASS_WITH_LIMITATION",
+      "detail": "Builder system-Chrome browser smoke produced desktop/mobile success plus empty/error/loading screenshots. The success screenshots predate the label fix and still show PLANNED; current post-fix production HTML proof shows the Russian label and no PLANNED. Fixer Chrome rerun aborted before navigation, so screenshots were not refreshed and no browser was downloaded."
+    },
+    {
+      "id": "AC-13",
+      "status": "PASS_NOOP",
+      "detail": "packages/api-client contains only .gitkeep and generated-client implementation remains out of scope."
+    },
+    {
+      "id": "AC-14",
+      "status": "PASS",
+      "detail": "Setup/runtime docs were updated for the admin app/root wrapper behavior; no product/stage scope change is required."
+    },
+    {
+      "id": "AC-15",
+      "status": "PASS",
+      "detail": "Evidence maps criteria to raw refs and includes fixer refresh refs; final PASS aliases are written by this verifier."
+    },
+    {
+      "id": "AC-16",
+      "status": "PASS",
+      "detail": "Human gates remain open and are not marked DONE."
+    }
+  ],
+  "checks": [
+    {
+      "id": "post-fix-admin-typecheck",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-admin-typecheck-20260511.txt"
+    },
+    {
+      "id": "post-fix-admin-test",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-admin-test-20260511.txt"
+    },
+    {
+      "id": "fixer-admin-build",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-admin-build-20260511.txt"
+    },
+    {
+      "id": "post-fix-git-diff-check",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-git-diff-check-20260511.txt"
+    },
+    {
+      "id": "post-fix-rendered-label-proof",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-rendered-label-proof-exact-20260511.txt"
+    },
+    {
+      "id": "post-fix-rendered-raw-enum-scan",
+      "status": "PASS_NO_HITS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-rendered-raw-enum-scan-exact-20260511.txt"
+    },
+    {
+      "id": "post-fix-guardrail-scan",
+      "status": "PASS_NO_HITS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-guardrail-scan-exact-20260511.txt"
+    },
+    {
+      "id": "builder-browser-smoke-system-chrome",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-browser-smoke-system-chrome-final-20260511.txt"
+    },
+    {
+      "id": "fixer-browser-smoke-system-chrome",
+      "status": "ATTEMPTED_ABORTED_BEFORE_NAVIGATION",
+      "raw_ref": ".agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-browser-smoke-system-chrome-20260511.txt"
+    },
+    {
+      "id": "builder-root-make-verify",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-make-verify-20260511.txt"
+    },
+    {
+      "id": "builder-root-make-test-unit",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-make-test-unit-20260511.txt"
+    },
+    {
+      "id": "builder-root-make-build",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-make-build-20260511.txt"
+    },
+    {
+      "id": "post-fix-verify-harness-after-verdict",
+      "status": "FAIL_ORCHESTRATOR_ALIAS_SYNC_REQUIRED",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-verify-harness-after-verdict-20260511.json",
+      "detail": "Harness checks pass except stage-artifacts mismatch caused by status.json.latest_verified_sprint_contract_id still pointing to MVP-02-admin-code-status-view-001 while verifier-owned aliases now point to MVP-02-admin-ui-status-view-001."
+    }
+  ],
+  "browser_evidence": {
+    "status": "PASS_WITH_LIMITATION",
+    "builder_screenshots_present": [
+      ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-desktop-success.png",
+      ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-mobile-success.png",
+      ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-desktop-empty.png",
+      ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-desktop-error.png",
+      ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-desktop-loading.png"
+    ],
+    "honest_limitation": "The desktop/mobile success screenshots are valid state/layout evidence but stale for the cohort label and still show PLANNED. Current rendered production HTML is the post-fix proof for 500 · Запланирована and absence of PLANNED."
+  },
+  "human_gates": [
+    {
+      "gate": "legal/privacy wording",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "consent copy",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "real employee/customer data processing",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "customer-specific reporting boundaries",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "admin auth/role/audit policy for production use",
+      "status": "WAITING_HUMAN"
+    }
+  ],
+  "proof_gaps": [],
+  "failed_criteria": [],
+  "remaining_orchestrator_actions": [
+    "If accepting this PASS, update orchestrator-owned status/backlog/feature_list/progress aliases for MVP-02-admin-ui-status-view-001; this verifier did not edit those files.",
+    "Rerun verify_harness.py after orchestrator-owned status alias sync; this verifier run records the expected mismatch in post-fix-verify-harness-after-verdict.",
+    "Do not mark full MVP-02.04, full MVP-02, the MVP stage or any human gate complete from this sprint verdict alone."
+  ],
+  "scope_statement": "This verdict covers only MVP-02-admin-ui-status-view-001."
+}

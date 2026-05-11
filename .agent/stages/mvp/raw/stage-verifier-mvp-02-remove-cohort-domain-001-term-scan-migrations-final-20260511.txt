@@ -1,0 +1,45 @@
+COMMAND: rg -n "cohort|Cohort|cohortId|/cohorts|wave|Wave|WAVE|когорт|волна" apps/api/src/main/resources/db/migration
+PWD: /Users/elena/cursor/FinPulse
+START: 2026-05-11T17:57:01Z
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:18:create table cohorts (
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:21:    cohort_key varchar(64) not null,
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:30:    constraint fk_cohorts_tenant foreign key (tenant_id) references tenants (id),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:31:    constraint uq_cohorts_id_tenant unique (id, tenant_id),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:32:    constraint cohorts_key_format check (
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:33:        cohort_key = lower(cohort_key)
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:34:        and cohort_key ~ '^[a-z0-9][a-z0-9-]{1,62}[a-z0-9]$'
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:36:    constraint cohorts_name_non_empty check (btrim(name) <> ''),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:37:    constraint cohorts_kind_check check (kind in ('WAVE_0', 'WAVE_1', 'CUSTOM')),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:38:    constraint cohorts_status_check check (status in ('PLANNED', 'ACTIVE', 'CLOSED', 'ARCHIVED')),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:39:    constraint cohorts_target_size_check check (target_size between 1 and 5000),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:40:    constraint cohorts_dates_check check (ends_at is null or starts_at is null or ends_at > starts_at)
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:43:create unique index ux_cohorts_tenant_key on cohorts (tenant_id, cohort_key);
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:44:create index ix_cohorts_tenant_status on cohorts (tenant_id, status);
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:49:    cohort_id uuid not null,
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:58:    constraint fk_invite_codes_cohort_tenant foreign key (cohort_id, tenant_id) references cohorts (id, tenant_id),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:89:create index ix_invite_codes_tenant_cohort_status on invite_codes (tenant_id, cohort_id, status);
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:2:    add constraint uq_invite_codes_id_tenant_cohort unique (id, tenant_id, cohort_id);
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:7:    cohort_id uuid not null,
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:17:    constraint fk_employee_registrations_cohort_tenant foreign key (cohort_id, tenant_id) references cohorts (id, tenant_id),
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:19:        foreign key (invite_code_id, tenant_id, cohort_id)
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:20:        references invite_codes (id, tenant_id, cohort_id),
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:40:create index ix_employee_registrations_tenant_cohort
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:41:    on employee_registrations (tenant_id, cohort_id);
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:71:       regexp_replace(cohort_key, 'wave', 'launch', 'gi') as launch_key,
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:72:       regexp_replace(regexp_replace(name, 'Wave', 'Pilot launch', 'g'), 'Волна', 'Запуск пилота', 'g') as name,
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:79:from cohorts;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:97:       regexp_replace(cohort_key, 'wave', 'access-pool', 'gi') as pool_key,
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:98:       regexp_replace(regexp_replace(name, 'Wave', 'Access pool', 'g'), 'Волна', 'Пул доступа', 'g') as name,
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:105:from cohorts;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:111:set access_pool_id = cohort_id;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:136:  and registration.cohort_id = access_pool.id;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:144:    drop constraint fk_employee_registrations_cohort_tenant;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:146:drop index ix_employee_registrations_tenant_cohort;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:163:    drop column cohort_id;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:166:    drop constraint fk_invite_codes_cohort_tenant,
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:167:    drop constraint uq_invite_codes_id_tenant_cohort;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:169:drop index ix_invite_codes_tenant_cohort_status;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:172:    drop column cohort_id;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:174:drop table cohorts;
+END: 2026-05-11T17:57:01Z
+RG_EXIT_CODE: 0

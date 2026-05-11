@@ -1,0 +1,5 @@
+Scope: all 2 workspace projects
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +31
++++++++++++++++++++++++++++++++
+Progress: resolved 61, reused 30, downloaded 0, added 0

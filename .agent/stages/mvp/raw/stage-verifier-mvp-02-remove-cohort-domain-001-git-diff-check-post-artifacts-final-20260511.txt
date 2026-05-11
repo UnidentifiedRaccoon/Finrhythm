@@ -1,0 +1,5 @@
+COMMAND: git diff --check
+PWD: /Users/elena/cursor/FinPulse
+START: 2026-05-11T18:08:18Z
+END: 2026-05-11T18:08:18Z
+EXIT_CODE: 0

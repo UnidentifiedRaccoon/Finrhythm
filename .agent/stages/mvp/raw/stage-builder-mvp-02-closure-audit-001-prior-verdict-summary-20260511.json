@@ -1,0 +1,173 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-02-closure-audit-001",
+  "generated_at": "2026-05-11",
+  "prior_pass_summary": [
+    {
+      "stage_unit": "MVP-02.01",
+      "sprint_contract_id": "MVP-02-tenant-domain-001",
+      "status": "PASS",
+      "proof_basis": "Legacy PASS recorded in status/progress with fresh verifier raw outputs; the active model is superseded by MVP-02-remove-cohort-domain-001.",
+      "refs": [
+        ".agent/stages/mvp/status.json",
+        ".agent/stages/mvp/progress.md",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-api-mvn-verify-20260504-current.txt",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-make-verify-20260504-current.txt",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-migration-inspection-20260504-current.txt"
+      ]
+    },
+    {
+      "stage_unit": "MVP-02.02",
+      "sprint_contract_id": "MVP-02-invite-issuance-activation-001",
+      "status": "PASS",
+      "proof_basis": "Legacy PASS recorded in status/progress with fresh verifier raw outputs; current access-pool behavior is re-proven by the later refactor PASS.",
+      "refs": [
+        ".agent/stages/mvp/status.json",
+        ".agent/stages/mvp/progress.md",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-api-mvn-verify-20260504-fresh.txt",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-make-verify-20260504-fresh.txt",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-raw-code-persistence-scan-20260504-fresh.txt"
+      ]
+    },
+    {
+      "stage_unit": "MVP-02.03",
+      "sprint_contract_id": "MVP-02-employee-registration-001",
+      "status": "PASS",
+      "proof_basis": "Immutable fresh verifier PASS for backend/API registration by fullName, email, phone and inviteCode.",
+      "refs": [
+        ".agent/stages/mvp/evidence/MVP-02-employee-registration-001.md",
+        ".agent/stages/mvp/evidence/MVP-02-employee-registration-001.json",
+        ".agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json",
+        ".agent/stages/mvp/problems/MVP-02-employee-registration-001.md"
+      ]
+    },
+    {
+      "stage_unit": "MVP-02.04 backend/admin API",
+      "sprint_contract_id": "MVP-02-admin-code-status-view-001",
+      "status": "PASS",
+      "proof_basis": "Immutable fresh verifier PASS for privacy-safe read-only admin status/funnel API.",
+      "refs": [
+        ".agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md",
+        ".agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.json",
+        ".agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json",
+        ".agent/stages/mvp/problems/MVP-02-admin-code-status-view-001.md"
+      ]
+    },
+    {
+      "stage_unit": "MVP-02.04 admin UI/status view",
+      "sprint_contract_id": "MVP-02-admin-ui-status-view-001",
+      "status": "PASS",
+      "proof_basis": "Immutable fresh verifier PASS for minimal read-only apps/admin status view with browser/screenshot evidence.",
+      "refs": [
+        ".agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.md",
+        ".agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.json",
+        ".agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json",
+        ".agent/stages/mvp/problems/MVP-02-admin-ui-status-view-001.md"
+      ]
+    },
+    {
+      "stage_unit": "MVP-02.04 closure decision",
+      "sprint_contract_id": "MVP-02-04-closure-audit-001",
+      "status": "PASS / DONE_WITH_HUMAN_PENDING",
+      "proof_basis": "Immutable fresh verifier PASS for MVP-02.04 closure/audit decision; full MVP-02 intentionally remained open at that time.",
+      "refs": [
+        ".agent/stages/mvp/evidence/MVP-02-04-closure-audit-001.md",
+        ".agent/stages/mvp/evidence/MVP-02-04-closure-audit-001.json",
+        ".agent/stages/mvp/verdicts/MVP-02-04-closure-audit-001.json",
+        ".agent/stages/mvp/problems/MVP-02-04-closure-audit-001.md"
+      ]
+    },
+    {
+      "stage_unit": "MVP-02 access-model refactor",
+      "sprint_contract_id": "MVP-02-remove-cohort-domain-001",
+      "status": "PASS",
+      "proof_basis": "Immutable fresh verifier PASS for replacing the active access model with tenant, pilotLaunch and accessPool and preserving MVP-02 behavior.",
+      "refs": [
+        ".agent/stages/mvp/evidence/MVP-02-remove-cohort-domain-001.md",
+        ".agent/stages/mvp/evidence/MVP-02-remove-cohort-domain-001.json",
+        ".agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json",
+        ".agent/stages/mvp/problems/MVP-02-remove-cohort-domain-001.md"
+      ]
+    }
+  ],
+  "acceptance_mapping": [
+    {
+      "criterion": "Admin can generate and track 500 main pilot access-pool codes.",
+      "status": "PASS",
+      "rationale": "500-code issuance is proven by invite issuance tests and re-proven after the access-pool refactor; tracking is proven by the privacy-safe admin status API/UI over the access-pool code rows.",
+      "evidence_refs": [
+        ".agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json",
+        ".agent/stages/mvp/evidence/MVP-02-remove-cohort-domain-001.json",
+        ".agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json",
+        ".agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json",
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-api-focused-tests-20260511.txt",
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-browser-smoke-20260511.txt"
+      ]
+    },
+    {
+      "criterion": "Code activation is one-time and linked to user/access pool.",
+      "status": "PASS",
+      "rationale": "Invite activation has one-subject binding and idempotent same-subject retry; registration persists the invite/user-contact registration and current responses/records use pilotLaunchId/accessPoolId.",
+      "evidence_refs": [
+        ".agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json",
+        ".agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-api-mvn-verify-20260504-fresh.txt",
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-api-focused-tests-20260511.txt"
+      ]
+    },
+    {
+      "criterion": "Registration does not require corporate SSO.",
+      "status": "PASS",
+      "rationale": "The proven registration path is POST /api/v1/employee-registrations with name, email, phone and invite code; corporate SSO/SCIM remains explicitly out of scope.",
+      "evidence_refs": [
+        ".agent/stages/mvp/evidence/MVP-02-employee-registration-001.md",
+        ".agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json",
+        ".agent/stages/mvp/task-files/MVP-02-employee-registration-001.md",
+        "docs/stages/MVP.md"
+      ]
+    },
+    {
+      "criterion": "Duplicate/expired/invalid code paths are tested and understandable.",
+      "status": "PASS",
+      "rationale": "Invite service and registration API tests cover invalid, expired, revoked, unissued and duplicate/different-subject activation paths; API errors are structured and user-understandable.",
+      "evidence_refs": [
+        ".agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json",
+        ".agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-api-mvn-verify-20260504-fresh.txt",
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-api-focused-tests-20260511.txt"
+      ]
+    }
+  ],
+  "decision": {
+    "decision": "DONE_WITH_HUMAN_PENDING",
+    "non_human_proof_gap_found": false,
+    "next_gap_fix_contract": null,
+    "rationale": "Full MVP-02 technical acceptance is covered by completed MVP-02 PASS refs plus the latest MVP-02-remove-cohort-domain-001 fresh verifier PASS. Remaining blockers are human-gated production/admin/legal/privacy/reporting approvals, so MVP-02 is recorded as DONE_WITH_HUMAN_PENDING rather than DONE."
+  },
+  "human_gates": [
+    {
+      "gate": "legal/privacy wording and consent copy",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "real employee/customer data processing",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "customer-specific HR/reporting boundaries",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "admin auth/role/audit policy for production use",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "personal employee contact/financial/diagnostic disclosure requests",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "financial correctness, rewards, fulfillment, HR wording and production content approval outside MVP-02",
+      "status": "WAITING_HUMAN"
+    }
+  ]
+}

@@ -1,11 +1,11 @@
 package com.finrhythm.api.tenant;
 
 import com.finrhythm.api.tenant.domain.ActivationSubjectRef;
-import com.finrhythm.api.tenant.domain.Cohort;
-import com.finrhythm.api.tenant.domain.CohortKind;
+import com.finrhythm.api.tenant.domain.AccessPool;
 import com.finrhythm.api.tenant.domain.InviteCode;
 import com.finrhythm.api.tenant.domain.InviteCodeHash;
 import com.finrhythm.api.tenant.domain.InviteCodeStatus;
+import com.finrhythm.api.tenant.domain.PilotLaunch;
 import com.finrhythm.api.tenant.domain.Tenant;
 import org.junit.jupiter.api.Test;
 
@@ -19,34 +19,48 @@ class TenantDomainTest {
     private static final String HASH_B = "b".repeat(64);
 
     @Test
-    void supportsWaveZeroAndWaveOneSizingWithoutGeneratingCodes() {
+    void supportsPilotLaunchAndAccessPoolSizingWithoutGeneratingCodes() {
         Tenant tenant = Tenant.create("pilot-tenant", "Pilot tenant");
 
-        Cohort waveZero = Cohort.createWave(tenant, "wave-0", "Wave 0", CohortKind.WAVE_0, 50);
-        Cohort waveOne = Cohort.createWave(tenant, "wave-1", "Wave 1", CohortKind.WAVE_1, 500);
+        PilotLaunch pilotLaunch = PilotLaunch.create(tenant, "pilot-launch-main", "Pilot launch main", 500);
+        AccessPool accessPool = AccessPool.create(
+                tenant,
+                pilotLaunch,
+                "access-pool-main",
+                "Access pool main",
+                500
+        );
 
-        assertThat(waveZero.getTargetSize()).isEqualTo(50);
-        assertThat(waveOne.getTargetSize()).isEqualTo(500);
+        assertThat(pilotLaunch.getTargetSize()).isEqualTo(500);
+        assertThat(accessPool.getCapacity()).isEqualTo(500);
     }
 
     @Test
-    void rejectsInvalidWaveTargetSize() {
+    void rejectsInvalidAccessPoolCapacity() {
         Tenant tenant = Tenant.create("pilot-tenant", "Pilot tenant");
+        PilotLaunch pilotLaunch = PilotLaunch.create(tenant, "pilot-launch-main", "Pilot launch main", 500);
 
-        assertThatThrownBy(() -> Cohort.createWave(tenant, "wave-1", "Wave 1", CohortKind.WAVE_1, 0))
+        assertThatThrownBy(() -> AccessPool.create(tenant, pilotLaunch, "access-pool-main", "Access pool main", 0))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("target size");
+                .hasMessageContaining("capacity");
     }
 
     @Test
-    void inviteCodeMustReferenceCohortFromSameTenant() {
+    void inviteCodeMustReferenceAccessPoolFromSameTenant() {
         Tenant tenant = Tenant.create("pilot-tenant", "Pilot tenant");
         Tenant otherTenant = Tenant.create("other-pilot", "Other pilot");
-        Cohort cohort = Cohort.createWave(tenant, "wave-0", "Wave 0", CohortKind.WAVE_0, 50);
+        PilotLaunch pilotLaunch = PilotLaunch.create(tenant, "pilot-launch-main", "Pilot launch main", 500);
+        AccessPool accessPool = AccessPool.create(
+                tenant,
+                pilotLaunch,
+                "access-pool-main",
+                "Access pool main",
+                500
+        );
 
         assertThatThrownBy(() -> InviteCode.created(
                 otherTenant,
-                cohort,
+                accessPool,
                 InviteCodeHash.fromSha256Hex(HASH_A)
         ))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -65,12 +79,13 @@ class TenantDomainTest {
     @Test
     void activatedInviteRequiresIssuedAndActivatedTimestamps() {
         Tenant tenant = Tenant.create("pilot-tenant", "Pilot tenant");
-        Cohort cohort = Cohort.createWave(tenant, "wave-1", "Wave 1", CohortKind.WAVE_1, 500);
+        PilotLaunch pilotLaunch = PilotLaunch.create(tenant, "pilot-launch-main", "Pilot launch main", 500);
+        AccessPool accessPool = AccessPool.create(tenant, pilotLaunch, "access-pool-main", "Access pool main", 500);
         Instant issuedAt = Instant.parse("2026-05-04T09:00:00Z");
 
         assertThatThrownBy(() -> InviteCode.activated(
                 tenant,
-                cohort,
+                accessPool,
                 InviteCodeHash.fromSha256Hex(HASH_A),
                 issuedAt,
                 null,
@@ -83,10 +98,11 @@ class TenantDomainTest {
     @Test
     void issuedInviteHasLifecycleStatusPreparedForLaterActivation() {
         Tenant tenant = Tenant.create("pilot-tenant", "Pilot tenant");
-        Cohort cohort = Cohort.createWave(tenant, "wave-1", "Wave 1", CohortKind.WAVE_1, 500);
+        PilotLaunch pilotLaunch = PilotLaunch.create(tenant, "pilot-launch-main", "Pilot launch main", 500);
+        AccessPool accessPool = AccessPool.create(tenant, pilotLaunch, "access-pool-main", "Access pool main", 500);
         InviteCode inviteCode = InviteCode.issued(
                 tenant,
-                cohort,
+                accessPool,
                 InviteCodeHash.fromSha256Hex(HASH_B),
                 Instant.parse("2026-05-04T09:00:00Z"),
                 Instant.parse("2026-06-04T09:00:00Z")

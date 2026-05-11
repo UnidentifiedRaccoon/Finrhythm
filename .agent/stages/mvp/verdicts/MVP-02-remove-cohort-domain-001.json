@@ -1,0 +1,297 @@
+{
+  "status": "PASS",
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-02-remove-cohort-domain-001",
+  "parent_stage_unit": "MVP-02",
+  "verifier_role": "fresh_stage_verifier",
+  "last_verified_at": "2026-05-11T18:30:15Z",
+  "alias_of": ".agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json",
+  "summary": "PASS for current sprint MVP-02-remove-cohort-domain-001 only. The fixer closed DOC-SYNC-001: current AGENTS.md, README.md and docs/setup/codex-setup.md no longer expose cohort/wave or the old cohort admin env var as current MVP/setup wording. Active backend/API/admin code, final V005 migration behavior, tests, OpenAPI/generated-client no-op, admin screenshots and sensitive-data guardrails are proven for this scoped refactor. The harness still fails only on status.json latest_verified_sprint_contract_id alias sync, which this verifier intentionally did not edit. This verdict does not close full MVP-02, the MVP stage or any human gate.",
+  "proof_gaps": [],
+  "failed_criteria": [],
+  "proven_scope": [
+    "Active production/admin/test code scan has no cohort/wave/COHORT matches in apps/api src, apps/admin, apps/web or packages.",
+    "No hidden /cohorts or cohortId public/admin MVP route remains in scoped active code; the admin status route is /api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status.",
+    "Canonical/setup docs scan has no cohort/wave/COHORT/current env-var hits after the fixer, including AGENTS.md, README.md and docs/setup/codex-setup.md.",
+    "Append-only V005 creates pilot_launches/access_pools, backfills old rows, moves invite_codes and employee_registrations to access_pool/pilot_launch references and drops old cohort columns/table.",
+    "Historical V002/V004 cohort refs are immutable migration history; V005 cohort refs are transition backfill/drop detail with no runtime exposure.",
+    "Focused tests cover 500-code access-pool issuance, one-time activation, idempotent same-subject retry, duplicate/expired/invalid paths, employee registration and privacy-safe admin code-status rows.",
+    "Employee registration response returns tenantId, pilotLaunchId and accessPoolId, not cohortId.",
+    "Admin UI renders access-pool Russian copy and refreshed screenshots exist for success, mobile success, empty, error and loading states.",
+    "OpenAPI source/tests match the new contract and assert the old /cohorts path/cohortId are absent.",
+    "packages/api-client still contains only .gitkeep, so generated-client update is a valid explicit no-op for this sprint.",
+    "Sensitive-data guardrails hold for this scope: admin status DTO/UI fixture do not expose raw invite codes, lookup hashes, activation subject refs or employee contact fields."
+  ],
+  "not_closed": [
+    "full MVP-02",
+    "MVP stage",
+    "MVP-02.04 human gates beyond existing DONE_WITH_HUMAN_PENDING technical decision",
+    "admin auth/session/role/audit production policy",
+    "real employee/customer data processing",
+    "customer-specific reporting boundaries",
+    "legal/privacy wording and consent copy",
+    "financial correctness, rewards, fulfillment, HR wording and production content approval"
+  ],
+  "acceptance_criteria": [
+    {
+      "id": "AC-1",
+      "status": "PASS",
+      "detail": "Active production API/backend/admin code scan has no cohort/wave/COHORT matches.",
+      "evidence": [
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-active-code-20260511.txt"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "status": "PASS",
+      "detail": "V005 is append-only and drops active cohort table/columns after backfill; V002/V004 remain historical immutable migrations.",
+      "evidence": [
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-migrations-20260511.txt",
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-migration-inspection-20260511.txt"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "status": "PASS",
+      "detail": "Invite issuance/activation tests cover 500-code access-pool capacity, one-time activation, idempotent retry and duplicate/expired/invalid rejection.",
+      "evidence": [
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-api-focused-tests-20260511.txt",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-make-test-unit-20260511.txt"
+      ]
+    },
+    {
+      "id": "AC-4",
+      "status": "PASS",
+      "detail": "Employee registration still accepts name/email/phone/code and returns pilotLaunchId/accessPoolId.",
+      "evidence": [
+        "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationResponse.java",
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-api-focused-tests-20260511.txt"
+      ]
+    },
+    {
+      "id": "AC-5",
+      "status": "PASS",
+      "detail": "Admin status/funnel view is read-only, privacy-safe and uses access-pool path/DTO/Russian UI copy.",
+      "evidence": [
+        "apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java",
+        "apps/admin/components/admin-code-status-screen.tsx",
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-browser-smoke-20260511.txt",
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshot-refs-20260511.txt"
+      ]
+    },
+    {
+      "id": "AC-6",
+      "status": "PASS_NOOP",
+      "detail": "OpenAPI source/tests match the new contract; packages/api-client has no generator/artifacts beyond .gitkeep.",
+      "evidence": [
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-route-openapi-client-scan-clean-20260511.txt",
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-openapi-contract-inspection-20260511.txt",
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-generated-client-noop-20260511.txt"
+      ]
+    },
+    {
+      "id": "AC-7",
+      "status": "PASS",
+      "detail": "Docs-sync gap from prior FAIL is fixed: current canonical/setup docs scan has no cohort/wave/current old-env-var hits.",
+      "evidence": [
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-canonical-docs-20260511.txt",
+        ".agent/stages/mvp/raw/stage-fixer-mvp-02-remove-cohort-domain-001-doc-sync-scan-20260511.txt"
+      ]
+    },
+    {
+      "id": "AC-8",
+      "status": "PASS_WITH_ALLOWED_HISTORY",
+      "detail": "Remaining cohort/wave matches are limited to historical migrations, V005 transition backfill/drop detail, prior immutable stage history or current cleanup contract text.",
+      "evidence": [
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-active-code-20260511.txt",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-canonical-docs-20260511.txt",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-migrations-20260511.txt"
+      ]
+    },
+    {
+      "id": "AC-9",
+      "status": "PASS",
+      "detail": "Human gates remain open/non-DONE in status/evidence; this verifier did not close them.",
+      "evidence": [
+        ".agent/stages/mvp/status.json",
+        ".agent/stages/mvp/evidence.json"
+      ]
+    },
+    {
+      "id": "AC-10",
+      "status": "PASS",
+      "detail": "Full MVP-02 and MVP stage remain open; this verdict is scoped only to MVP-02-remove-cohort-domain-001.",
+      "evidence": [
+        ".agent/stages/mvp/status.json",
+        ".agent/stages/mvp/sprint_contract.md"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "verify-harness",
+      "status": "FAIL_STATUS_ALIAS_SYNC_ONLY",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-verify-harness-20260511.txt",
+      "detail": "Harness fails only because status.json.latest_verified_sprint_contract_id remains MVP-02-04-closure-audit-001 while current sprint aliases point to MVP-02-remove-cohort-domain-001. Per verifier scope, status.json was read but not edited."
+    },
+    {
+      "id": "verify-harness-post-verdict",
+      "status": "FAIL_STATUS_ALIAS_SYNC_ONLY",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-verify-harness-post-verdict-20260511.txt",
+      "detail": "Post-verdict harness result is unchanged: only status.json.latest_verified_sprint_contract_id remains on the previous verified sprint."
+    },
+    {
+      "id": "json-validation-post-verdict",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-json-validation-post-verdict-20260511.txt"
+    },
+    {
+      "id": "make-verify",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-make-verify-20260511.txt"
+    },
+    {
+      "id": "make-test-unit",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-make-test-unit-20260511.txt"
+    },
+    {
+      "id": "make-build",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-make-build-20260511.txt"
+    },
+    {
+      "id": "git-diff-check",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-git-diff-check-20260511.txt"
+    },
+    {
+      "id": "git-diff-check-post-verdict",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-git-diff-check-post-verdict-20260511.txt"
+    },
+    {
+      "id": "active-code-term-scan",
+      "status": "PASS_NO_HITS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-active-code-20260511.txt"
+    },
+    {
+      "id": "canonical-docs-term-scan",
+      "status": "PASS_NO_HITS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-canonical-docs-20260511.txt"
+    },
+    {
+      "id": "migration-term-scan",
+      "status": "PASS_ALLOWED_HISTORY_AND_V005_BRIDGE",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-migrations-20260511.txt"
+    },
+    {
+      "id": "route-openapi-client-scan",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-route-openapi-client-scan-clean-20260511.txt"
+    },
+    {
+      "id": "sensitive-guardrail-dto-fields",
+      "status": "PASS_NO_FORBIDDEN_EXPOSED_FIELDS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-sensitive-guardrail-dto-fields-20260511.txt"
+    },
+    {
+      "id": "builder-browser-smoke-screenshots",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-browser-smoke-20260511.txt"
+    },
+    {
+      "id": "builder-json-validation",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-json-validation-20260511.txt"
+    },
+    {
+      "id": "fixer-doc-sync-scan",
+      "status": "PASS_NO_CURRENT_DOC_HITS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-fixer-mvp-02-remove-cohort-domain-001-doc-sync-scan-20260511.txt"
+    }
+  ],
+  "remaining_term_classification": [
+    {
+      "class": "active_production_admin_test_code",
+      "status": "PASS_NO_HITS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-active-code-20260511.txt"
+    },
+    {
+      "class": "canonical_setup_docs",
+      "status": "PASS_NO_HITS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-canonical-docs-20260511.txt"
+    },
+    {
+      "class": "historical_migrations",
+      "status": "ALLOWED_HISTORY",
+      "detail": "V002 and V004 retain old schema text as immutable migration history."
+    },
+    {
+      "class": "transition_migration",
+      "status": "ALLOWED_TEMPORARY_DETAIL",
+      "detail": "V005 mentions old table/columns only to backfill and drop them; final statements drop old columns/indexes/constraints/table."
+    },
+    {
+      "class": "stage_artifacts",
+      "status": "ALLOWED_STAGE_HISTORY_OR_CURRENT_CLEANUP_CONTRACT",
+      "detail": "Current sprint/task/evidence text names the removed term by design; prior task/verdict/evidence/raw refs preserve pre-refactor history."
+    }
+  ],
+  "human_gates": [
+    {
+      "gate": "legal/privacy wording and consent copy",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "real employee/customer data processing",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "customer-specific HR/reporting boundaries",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "admin auth/role/audit policy for production use",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "financial correctness, rewards, fulfillment, HR wording and production content approval outside this refactor",
+      "status": "WAITING_HUMAN"
+    }
+  ],
+  "environment_notes": [
+    "Root make commands were run with JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home and PATH prefixed with /opt/homebrew/opt/openjdk@21/bin.",
+    "status.json remains intentionally unsynced for latest_verified_sprint_contract_id because verifier scope is read-only for status/stage closure artifacts."
+  ],
+  "dirty_worktree_notes": [
+    "The worktree was already dirty before this verifier started and includes prior builder/fixer production, docs and stage changes.",
+    "This verifier wrote only allowed verification artifacts under .agent/stages/mvp/: raw outputs, verdict aliases and problems artifacts.",
+    "Production code, canonical docs and status.json were read but not edited."
+  ],
+  "raw_refs": [
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-verify-harness-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-verify-harness-post-verdict-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-json-validation-post-verdict-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-make-verify-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-make-test-unit-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-make-build-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-git-diff-check-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-git-diff-check-post-verdict-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-active-code-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-canonical-docs-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-migrations-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-route-openapi-client-scan-clean-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-sensitive-guardrail-dto-fields-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-api-focused-tests-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-openapi-contract-inspection-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-generated-client-noop-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-migration-inspection-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-browser-smoke-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshot-refs-20260511.txt",
+    ".agent/stages/mvp/raw/stage-fixer-mvp-02-remove-cohort-domain-001-doc-sync-scan-20260511.txt",
+    ".agent/stages/mvp/raw/stage-fixer-mvp-02-remove-cohort-domain-001-json-validation-20260511.txt",
+    ".agent/stages/mvp/raw/stage-fixer-mvp-02-remove-cohort-domain-001-git-diff-check-20260511.txt"
+  ],
+  "scope_statement": "This verdict covers only MVP-02-remove-cohort-domain-001. It does not close full MVP-02, the MVP stage or any human gate."
+}

@@ -1,7 +1,7 @@
 package com.finrhythm.api.admin.readmodel;
 
-import com.finrhythm.api.tenant.domain.CohortKind;
-import com.finrhythm.api.tenant.domain.CohortStatus;
+import com.finrhythm.api.tenant.domain.AccessPoolStatus;
+import com.finrhythm.api.tenant.domain.PilotLaunchStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
@@ -13,22 +13,31 @@ public record AdminCodeStatusResponse(
         UUID tenantId,
 
         @Schema(example = "33333333-3333-4333-8333-333333333333")
-        UUID cohortId,
+        UUID pilotLaunchId,
 
-        @Schema(example = "wave-1")
-        String cohortKey,
+        @Schema(example = "pilot-launch-main")
+        String pilotLaunchKey,
 
-        @Schema(example = "Wave 1")
-        String cohortName,
-
-        @Schema(example = "WAVE_1")
-        CohortKind cohortKind,
+        @Schema(example = "Main pilot launch")
+        String pilotLaunchName,
 
         @Schema(example = "PLANNED")
-        CohortStatus cohortStatus,
+        PilotLaunchStatus pilotLaunchStatus,
+
+        @Schema(example = "55555555-5555-4555-8555-555555555555")
+        UUID accessPoolId,
+
+        @Schema(example = "access-pool-main")
+        String accessPoolKey,
+
+        @Schema(example = "Main access pool")
+        String accessPoolName,
+
+        @Schema(example = "PLANNED")
+        AccessPoolStatus accessPoolStatus,
 
         @Schema(example = "500")
-        int targetSize,
+        int poolCapacity,
 
         AdminCodeStatusSummary summary,
 

@@ -1,12 +1,12 @@
 package com.finrhythm.api.tenant.service;
 
 import com.finrhythm.api.tenant.domain.ActivationSubjectRef;
-import com.finrhythm.api.tenant.domain.Cohort;
+import com.finrhythm.api.tenant.domain.AccessPool;
 import com.finrhythm.api.tenant.domain.InviteCode;
 import com.finrhythm.api.tenant.domain.InviteCodeHash;
 import com.finrhythm.api.tenant.domain.InviteCodeStatus;
 import com.finrhythm.api.tenant.domain.Tenant;
-import com.finrhythm.api.tenant.persistence.CohortRepository;
+import com.finrhythm.api.tenant.persistence.AccessPoolRepository;
 import com.finrhythm.api.tenant.persistence.InviteCodeRepository;
 import com.finrhythm.api.tenant.persistence.TenantRepository;
 import org.springframework.stereotype.Service;
@@ -25,18 +25,18 @@ public class InviteCodeAccessService {
     private static final int MAX_BATCH_SIZE = 500;
 
     private final TenantRepository tenantRepository;
-    private final CohortRepository cohortRepository;
+    private final AccessPoolRepository accessPoolRepository;
     private final InviteCodeRepository inviteCodeRepository;
     private final InviteCodeGenerator inviteCodeGenerator;
 
     public InviteCodeAccessService(
             TenantRepository tenantRepository,
-            CohortRepository cohortRepository,
+            AccessPoolRepository accessPoolRepository,
             InviteCodeRepository inviteCodeRepository,
             InviteCodeGenerator inviteCodeGenerator
     ) {
         this.tenantRepository = tenantRepository;
-        this.cohortRepository = cohortRepository;
+        this.accessPoolRepository = accessPoolRepository;
         this.inviteCodeRepository = inviteCodeRepository;
         this.inviteCodeGenerator = inviteCodeGenerator;
     }
@@ -44,7 +44,7 @@ public class InviteCodeAccessService {
     @Transactional
     public List<IssuedInviteCode> issueBatch(
             UUID tenantId,
-            UUID cohortId,
+            UUID accessPoolId,
             int count,
             Instant issuedAt,
             Instant expiresAt
@@ -58,14 +58,14 @@ public class InviteCodeAccessService {
         }
         Tenant tenant = tenantRepository.findById(Objects.requireNonNull(tenantId, "tenantId"))
                 .orElseThrow(() -> new IllegalArgumentException("Tenant does not exist."));
-        Cohort cohort = cohortRepository.findById(Objects.requireNonNull(cohortId, "cohortId"))
-                .orElseThrow(() -> new IllegalArgumentException("Cohort does not exist."));
-        if (!cohort.isOwnedBy(tenant)) {
-            throw new IllegalArgumentException("Cohort must belong to the same tenant.");
+        AccessPool accessPool = accessPoolRepository.findById(Objects.requireNonNull(accessPoolId, "accessPoolId"))
+                .orElseThrow(() -> new IllegalArgumentException("Access pool does not exist."));
+        if (!accessPool.isOwnedBy(tenant)) {
+            throw new IllegalArgumentException("Access pool must belong to the same tenant.");
         }
-        long existingInviteCount = inviteCodeRepository.countByTenantIdAndCohortId(tenant.getId(), cohort.getId());
-        if (existingInviteCount + count > cohort.getTargetSize()) {
-            throw new IllegalArgumentException("Invite batch exceeds cohort target size.");
+        long existingInviteCount = inviteCodeRepository.countByTenantIdAndAccessPoolId(tenant.getId(), accessPool.getId());
+        if (existingInviteCount + count > accessPool.getCapacity()) {
+            throw new IllegalArgumentException("Invite batch exceeds access pool capacity.");
         }
 
         List<IssuedInviteCode> issuedCodes = new ArrayList<>(count);
@@ -83,12 +83,19 @@ public class InviteCodeAccessService {
             }
             InviteCode inviteCode = inviteCodeRepository.save(InviteCode.issued(
                     tenant,
-                    cohort,
+                    accessPool,
                     lookupHash,
                     issueTime,
                     expiresAt
             ));
-            issuedCodes.add(new IssuedInviteCode(inviteCode.getId(), tenant.getId(), cohort.getId(), code, expiresAt));
+            issuedCodes.add(new IssuedInviteCode(
+                    inviteCode.getId(),
+                    tenant.getId(),
+                    accessPool.getPilotLaunch().getId(),
+                    accessPool.getId(),
+                    code,
+                    expiresAt
+            ));
         }
         inviteCodeRepository.flush();
         return List.copyOf(issuedCodes);
@@ -140,7 +147,8 @@ public class InviteCodeAccessService {
         return new InviteActivationResult(
                 inviteCode.getId(),
                 inviteCode.getTenant().getId(),
-                inviteCode.getCohort().getId(),
+                inviteCode.getAccessPool().getPilotLaunch().getId(),
+                inviteCode.getAccessPool().getId(),
                 subjectRef.value(),
                 idempotentRetry
         );

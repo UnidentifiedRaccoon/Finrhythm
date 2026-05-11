@@ -2,10 +2,11 @@ package com.finrhythm.api.admin;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.finrhythm.api.tenant.domain.Cohort;
-import com.finrhythm.api.tenant.domain.CohortKind;
+import com.finrhythm.api.tenant.domain.AccessPool;
+import com.finrhythm.api.tenant.domain.PilotLaunch;
 import com.finrhythm.api.tenant.domain.Tenant;
-import com.finrhythm.api.tenant.persistence.CohortRepository;
+import com.finrhythm.api.tenant.persistence.AccessPoolRepository;
+import com.finrhythm.api.tenant.persistence.PilotLaunchRepository;
 import com.finrhythm.api.tenant.persistence.TenantRepository;
 import com.finrhythm.api.tenant.service.InviteCodeAccessService;
 import com.finrhythm.api.tenant.service.IssuedInviteCode;
@@ -42,7 +43,7 @@ class AdminCodeStatusControllerIT {
     private static final Instant EXPIRES_AT = Instant.parse("2026-06-09T09:00:00Z");
     private static final Instant ACTIVATED_AT = Instant.parse("2026-05-09T10:00:00Z");
     private static final Instant REGISTERED_AT = Instant.parse("2026-05-09T10:01:00Z");
-    private static final AtomicInteger WAVE_SEQUENCE = new AtomicInteger(10_000);
+    private static final AtomicInteger SUBJECT_SEQUENCE = new AtomicInteger(10_000);
 
     @Container
     static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:16-alpine")
@@ -70,29 +71,36 @@ class AdminCodeStatusControllerIT {
     TenantRepository tenantRepository;
 
     @Autowired
-    CohortRepository cohortRepository;
+    PilotLaunchRepository pilotLaunchRepository;
+
+    @Autowired
+    AccessPoolRepository accessPoolRepository;
 
     @Autowired
     JdbcTemplate jdbcTemplate;
 
     @Test
-    void returnsWaveOneScaleCountsFunnelPaginationAndPrivacySafeRows() throws Exception {
-        SeededWave seededWave = seedMixedWaveOne();
+    void returnsPilotAccessPoolScaleCountsFunnelPaginationAndPrivacySafeRows() throws Exception {
+        SeededAccessPool seededAccessPool = seedMixedAccessPool();
 
         String response = mockMvc.perform(get(
-                        "/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status",
-                        seededWave.tenant().getId(),
-                        seededWave.cohort().getId()
+                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+                        seededAccessPool.tenant().getId(),
+                        seededAccessPool.accessPool().getPilotLaunch().getId(),
+                        seededAccessPool.accessPool().getId()
                 )
                         .param("page", "0")
                         .param("size", "25"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.tenantId").value(seededWave.tenant().getId().toString()))
-                .andExpect(jsonPath("$.cohortId").value(seededWave.cohort().getId().toString()))
-                .andExpect(jsonPath("$.cohortKey").value(seededWave.cohort().getKey()))
-                .andExpect(jsonPath("$.cohortName").value("Wave 1"))
-                .andExpect(jsonPath("$.cohortKind").value("WAVE_1"))
-                .andExpect(jsonPath("$.targetSize").value(500))
+                .andExpect(jsonPath("$.tenantId").value(seededAccessPool.tenant().getId().toString()))
+                .andExpect(jsonPath("$.pilotLaunchId").value(seededAccessPool.accessPool().getPilotLaunch().getId().toString()))
+                .andExpect(jsonPath("$.pilotLaunchKey").value(seededAccessPool.accessPool().getPilotLaunch().getKey()))
+                .andExpect(jsonPath("$.pilotLaunchName").value("Pilot launch main"))
+                .andExpect(jsonPath("$.accessPoolId").value(seededAccessPool.accessPool().getId().toString()))
+                .andExpect(jsonPath("$.accessPoolKey").value(seededAccessPool.accessPool().getKey()))
+                .andExpect(jsonPath("$.accessPoolName").value("Access pool main"))
+                .andExpect(jsonPath("$.accessPoolStatus").value("PLANNED"))
+                .andExpect(jsonPath("$.poolCapacity").value(500))
                 .andExpect(jsonPath("$.summary.issuedCount").value(500))
                 .andExpect(jsonPath("$.summary.activatedCount").value(120))
                 .andExpect(jsonPath("$.summary.registeredCount").value(60))
@@ -116,17 +124,18 @@ class AdminCodeStatusControllerIT {
         assertStatusCount(body, "ACTIVATED", 120);
         assertStatusCount(body, "REVOKED", 20);
         assertStatusCount(body, "EXPIRED", 10);
-        assertPrivacySafeResponse(response, seededWave.issuedCodes().get(0).code());
+        assertPrivacySafeResponse(response, seededAccessPool.issuedCodes().get(0).code());
     }
 
     @Test
     void filtersByStatusAndPaginatesDeterministicallyWithMixedRegistrationRows() throws Exception {
-        SeededWave seededWave = seedMixedWaveOne();
+        SeededAccessPool seededAccessPool = seedMixedAccessPool();
 
         String firstPage = mockMvc.perform(get(
-                        "/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status",
-                        seededWave.tenant().getId(),
-                        seededWave.cohort().getId()
+                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+                        seededAccessPool.tenant().getId(),
+                        seededAccessPool.accessPool().getPilotLaunch().getId(),
+                        seededAccessPool.accessPool().getId()
                 )
                         .param("status", "ACTIVATED")
                         .param("page", "0")
@@ -145,12 +154,13 @@ class AdminCodeStatusControllerIT {
         assertThat(items).allSatisfy(row -> assertThat(row.path("status").asText()).isEqualTo("ACTIVATED"));
         assertThat(items).anySatisfy(row -> assertThat(row.path("registered").asBoolean()).isTrue());
         assertThat(items).anySatisfy(row -> assertThat(row.path("registered").asBoolean()).isFalse());
-        assertPrivacySafeResponse(firstPage, seededWave.issuedCodes().get(0).code());
+        assertPrivacySafeResponse(firstPage, seededAccessPool.issuedCodes().get(0).code());
 
         mockMvc.perform(get(
-                        "/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status",
-                        seededWave.tenant().getId(),
-                        seededWave.cohort().getId()
+                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+                        seededAccessPool.tenant().getId(),
+                        seededAccessPool.accessPool().getPilotLaunch().getId(),
+                        seededAccessPool.accessPool().getId()
                 )
                         .param("status", "activated")
                         .param("page", "1")
@@ -165,27 +175,29 @@ class AdminCodeStatusControllerIT {
     void returnsSafeNotFoundAndValidationErrorsWithoutScopeOrInputEchoes() throws Exception {
         Tenant tenant = seedTenant();
         Tenant otherTenant = seedTenant();
-        Cohort otherCohort = seedWaveOne(otherTenant, 5);
+        AccessPool otherAccessPool = seedAccessPool(otherTenant, 5);
 
         String mismatch = mockMvc.perform(get(
-                        "/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status",
+                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
                         tenant.getId(),
-                        otherCohort.getId()
+                        otherAccessPool.getPilotLaunch().getId(),
+                        otherAccessPool.getId()
                 ))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.code").value("COHORT_STATUS_VIEW_NOT_FOUND"))
+                .andExpect(jsonPath("$.code").value("ACCESS_POOL_STATUS_VIEW_NOT_FOUND"))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
 
         assertThat(mismatch)
                 .doesNotContain(otherTenant.getId().toString())
-                .doesNotContain(otherCohort.getId().toString());
+                .doesNotContain(otherAccessPool.getId().toString());
 
         String invalidStatus = mockMvc.perform(get(
-                        "/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status",
+                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
                         tenant.getId(),
-                        otherCohort.getId()
+                        otherAccessPool.getPilotLaunch().getId(),
+                        otherAccessPool.getId()
                 )
                         .param("status", "REGISTERED"))
                 .andExpect(status().isBadRequest())
@@ -198,27 +210,30 @@ class AdminCodeStatusControllerIT {
         assertThat(invalidStatus).doesNotContain("REGISTERED");
 
         mockMvc.perform(get(
-                        "/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status",
+                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
                         tenant.getId(),
-                        otherCohort.getId()
+                        otherAccessPool.getPilotLaunch().getId(),
+                        otherAccessPool.getId()
                 )
                         .param("page", "-1"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.fieldErrors[0].field").value("page"));
 
         mockMvc.perform(get(
-                        "/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status",
+                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
                         tenant.getId(),
-                        otherCohort.getId()
+                        otherAccessPool.getPilotLaunch().getId(),
+                        otherAccessPool.getId()
                 )
                         .param("size", "101"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.fieldErrors[0].field").value("size"));
 
         String invalidUuid = mockMvc.perform(get(
-                        "/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status",
+                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
                         "not-a-uuid",
-                        otherCohort.getId()
+                        otherAccessPool.getPilotLaunch().getId(),
+                        otherAccessPool.getId()
                 ))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("VALIDATION_FAILED"))
@@ -238,24 +253,26 @@ class AdminCodeStatusControllerIT {
                 .getContentAsString();
 
         assertThat(spec)
-                .contains("/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status")
+                .contains("/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status")
                 .contains("AdminCodeStatusResponse")
                 .contains("AdminCodeStatusSummary")
                 .contains("AdminCodeStatusRow")
                 .contains("AdminApiErrorResponse")
-                .contains("COHORT_STATUS_VIEW_NOT_FOUND")
+                .contains("ACCESS_POOL_STATUS_VIEW_NOT_FOUND")
                 .contains("VALIDATION_FAILED")
                 .doesNotContain("lookupHash")
-                .doesNotContain("activationSubjectRef");
+                .doesNotContain("activationSubjectRef")
+                .doesNotContain("co" + "hortId")
+                .doesNotContain("/co" + "horts/");
     }
 
-    private SeededWave seedMixedWaveOne() {
+    private SeededAccessPool seedMixedAccessPool() {
         Tenant tenant = seedTenant();
-        Cohort cohort = seedWaveOne(tenant, 500);
-        int subjectBase = WAVE_SEQUENCE.getAndAdd(1_000);
+        AccessPool accessPool = seedAccessPool(tenant, 500);
+        int subjectBase = SUBJECT_SEQUENCE.getAndAdd(1_000);
         List<IssuedInviteCode> issuedCodes = inviteCodeAccessService.issueBatch(
                 tenant.getId(),
-                cohort.getId(),
+                accessPool.getId(),
                 500,
                 ISSUED_AT,
                 EXPIRES_AT
@@ -271,7 +288,7 @@ class AdminCodeStatusControllerIT {
         for (int index = 0; index < 60; index++) {
             register(
                     tenant,
-                    cohort,
+                    accessPool,
                     issuedCodes.get(index).inviteCodeId(),
                     activationSubjectRef(subjectBase, index),
                     index
@@ -283,7 +300,7 @@ class AdminCodeStatusControllerIT {
         for (int index = 140; index < 150; index++) {
             setTerminalStatus(issuedCodes.get(index).inviteCodeId(), "EXPIRED");
         }
-        return new SeededWave(tenant, cohort, issuedCodes);
+        return new SeededAccessPool(tenant, accessPool, issuedCodes);
     }
 
     private Tenant seedTenant() {
@@ -291,14 +308,20 @@ class AdminCodeStatusControllerIT {
         return tenantRepository.saveAndFlush(Tenant.create("synthetic-" + suffix, "Synthetic Pilot Tenant"));
     }
 
-    private Cohort seedWaveOne(Tenant tenant, int targetSize) {
+    private AccessPool seedAccessPool(Tenant tenant, int capacity) {
         String suffix = UUID.randomUUID().toString().substring(0, 8);
-        return cohortRepository.saveAndFlush(Cohort.createWave(
+        PilotLaunch pilotLaunch = pilotLaunchRepository.saveAndFlush(PilotLaunch.create(
                 tenant,
-                "wave-" + suffix,
-                "Wave 1",
-                CohortKind.WAVE_1,
-                targetSize
+                "pilot-launch-" + suffix,
+                "Pilot launch main",
+                capacity
+        ));
+        return accessPoolRepository.saveAndFlush(AccessPool.create(
+                tenant,
+                pilotLaunch,
+                "access-pool-" + suffix,
+                "Access pool main",
+                capacity
         ));
     }
 
@@ -318,13 +341,14 @@ class AdminCodeStatusControllerIT {
         );
     }
 
-    private void register(Tenant tenant, Cohort cohort, UUID inviteCodeId, String subjectRef, int index) {
+    private void register(Tenant tenant, AccessPool accessPool, UUID inviteCodeId, String subjectRef, int index) {
         Instant registeredAt = REGISTERED_AT.plusSeconds(index);
         jdbcTemplate.update("""
                 insert into employee_registrations (
                     id,
                     tenant_id,
-                    cohort_id,
+                    pilot_launch_id,
+                    access_pool_id,
                     invite_code_id,
                     activation_subject_ref,
                     full_name,
@@ -334,11 +358,12 @@ class AdminCodeStatusControllerIT {
                     created_at,
                     updated_at
                 )
-                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 UUID.randomUUID(),
                 tenant.getId(),
-                cohort.getId(),
+                accessPool.getPilotLaunch().getId(),
+                accessPool.getId(),
                 inviteCodeId,
                 subjectRef,
                 "Synthetic Learner %03d".formatted(index),
@@ -392,6 +417,6 @@ class AdminCodeStatusControllerIT {
         return "%064x".formatted(subjectBase + index);
     }
 
-    private record SeededWave(Tenant tenant, Cohort cohort, List<IssuedInviteCode> issuedCodes) {
+    private record SeededAccessPool(Tenant tenant, AccessPool accessPool, List<IssuedInviteCode> issuedCodes) {
     }
 }

@@ -1,9 +1,9 @@
 package com.finrhythm.api.tenant.persistence;
 
-import com.finrhythm.api.tenant.domain.Cohort;
-import com.finrhythm.api.tenant.domain.CohortKind;
+import com.finrhythm.api.tenant.domain.AccessPool;
 import com.finrhythm.api.tenant.domain.InviteCode;
 import com.finrhythm.api.tenant.domain.InviteCodeHash;
+import com.finrhythm.api.tenant.domain.PilotLaunch;
 import com.finrhythm.api.tenant.domain.Tenant;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,10 @@ class TenantPersistenceIT {
     TenantRepository tenantRepository;
 
     @Autowired
-    CohortRepository cohortRepository;
+    PilotLaunchRepository pilotLaunchRepository;
+
+    @Autowired
+    AccessPoolRepository accessPoolRepository;
 
     @Autowired
     InviteCodeRepository inviteCodeRepository;
@@ -61,39 +64,41 @@ class TenantPersistenceIT {
     JdbcTemplate jdbcTemplate;
 
     @Test
-    void flywaySchemaPersistsTenantCohortsAndInviteHashes() {
+    void flywaySchemaPersistsTenantLaunchPoolsAndInviteHashes() {
         Tenant tenant = tenantRepository.saveAndFlush(Tenant.create("pilot-tenant-a", "Pilot tenant A"));
-        Cohort waveZero = cohortRepository.saveAndFlush(
-                Cohort.createWave(tenant, "wave-0", "Wave 0", CohortKind.WAVE_0, 50)
+        PilotLaunch pilotLaunch = pilotLaunchRepository.saveAndFlush(
+                PilotLaunch.create(tenant, "pilot-launch-main", "Pilot launch main", 500)
         );
-        Cohort waveOne = cohortRepository.saveAndFlush(
-                Cohort.createWave(tenant, "wave-1", "Wave 1", CohortKind.WAVE_1, 500)
+        AccessPool accessPool = accessPoolRepository.saveAndFlush(
+                AccessPool.create(tenant, pilotLaunch, "access-pool-main", "Access pool main", 500)
         );
 
         InviteCode inviteCode = inviteCodeRepository.saveAndFlush(InviteCode.issued(
                 tenant,
-                waveOne,
+                accessPool,
                 InviteCodeHash.fromSha256Hex(HASH_A),
                 Instant.parse("2026-05-04T09:00:00Z"),
                 Instant.parse("2026-06-04T09:00:00Z")
         ));
 
         assertThat(tenantRepository.findBySlug("pilot-tenant-a")).map(Tenant::getId).contains(tenant.getId());
-        assertThat(cohortRepository.findByTenantIdAndKey(tenant.getId(), "wave-0")).map(Cohort::getId).contains(waveZero.getId());
-        assertThat(cohortRepository.findByTenantIdAndKey(tenant.getId(), "wave-1")).map(Cohort::getId).contains(waveOne.getId());
+        assertThat(pilotLaunchRepository.findByTenantIdAndKey(tenant.getId(), "pilot-launch-main"))
+                .map(PilotLaunch::getId)
+                .contains(pilotLaunch.getId());
+        assertThat(accessPoolRepository.findByTenantIdAndKey(tenant.getId(), "access-pool-main"))
+                .map(AccessPool::getId)
+                .contains(accessPool.getId());
         assertThat(inviteCodeRepository.findByLookupHash(HASH_A)).map(InviteCode::getId).contains(inviteCode.getId());
     }
 
     @Test
     void inviteLookupHashIsUnique() {
         Tenant tenant = tenantRepository.saveAndFlush(Tenant.create("pilot-tenant-b", "Pilot tenant B"));
-        Cohort wave = cohortRepository.saveAndFlush(
-                Cohort.createWave(tenant, "wave-1", "Wave 1", CohortKind.WAVE_1, 500)
-        );
+        AccessPool accessPool = seedAccessPool(tenant, "b", 500);
         Instant issuedAt = Instant.parse("2026-05-04T09:00:00Z");
         inviteCodeRepository.saveAndFlush(InviteCode.issued(
                 tenant,
-                wave,
+                accessPool,
                 InviteCodeHash.fromSha256Hex(HASH_B),
                 issuedAt,
                 null
@@ -101,7 +106,7 @@ class TenantPersistenceIT {
 
         assertThatThrownBy(() -> inviteCodeRepository.saveAndFlush(InviteCode.issued(
                 tenant,
-                wave,
+                accessPool,
                 InviteCodeHash.fromSha256Hex(HASH_B),
                 issuedAt,
                 null
@@ -110,28 +115,32 @@ class TenantPersistenceIT {
     }
 
     @Test
-    void databaseRejectsInviteLinkedToCohortFromAnotherTenant() {
+    void databaseRejectsInviteLinkedToAccessPoolFromAnotherTenant() {
         Tenant tenant = tenantRepository.saveAndFlush(Tenant.create("pilot-tenant-c", "Pilot tenant C"));
         Tenant otherTenant = tenantRepository.saveAndFlush(Tenant.create("pilot-tenant-d", "Pilot tenant D"));
-        Cohort otherWave = cohortRepository.saveAndFlush(
-                Cohort.createWave(otherTenant, "wave-1", "Wave 1", CohortKind.WAVE_1, 500)
-        );
+        AccessPool otherAccessPool = seedAccessPool(otherTenant, "d", 500);
 
-        assertThatThrownBy(() -> insertInviteRow(UUID.randomUUID(), tenant.getId(), otherWave.getId(), HASH_C, "CREATED", null, null))
+        assertThatThrownBy(() -> insertInviteRow(
+                UUID.randomUUID(),
+                tenant.getId(),
+                otherAccessPool.getId(),
+                HASH_C,
+                "CREATED",
+                null,
+                null
+        ))
                 .isInstanceOf(DataAccessException.class);
     }
 
     @Test
     void databaseRejectsActivatedStatusWithoutActivatedTimestamp() {
         Tenant tenant = tenantRepository.saveAndFlush(Tenant.create("pilot-tenant-e", "Pilot tenant E"));
-        Cohort wave = cohortRepository.saveAndFlush(
-                Cohort.createWave(tenant, "wave-1", "Wave 1", CohortKind.WAVE_1, 500)
-        );
+        AccessPool accessPool = seedAccessPool(tenant, "e", 500);
 
         assertThatThrownBy(() -> insertInviteRow(
                 UUID.randomUUID(),
                 tenant.getId(),
-                wave.getId(),
+                accessPool.getId(),
                 HASH_D,
                 "ACTIVATED",
                 Instant.parse("2026-05-04T09:00:00Z"),
@@ -153,10 +162,32 @@ class TenantPersistenceIT {
         assertThat(columns).doesNotContain("code", "raw_code", "plain_code", "invite_code");
     }
 
+    @Test
+    void flywayFinalSchemaUsesLaunchPoolModelOnly() {
+        String legacyTable = "co" + "horts";
+        String legacyColumn = "co" + "hort_id";
+        List<String> tables = jdbcTemplate.queryForList("""
+                select table_name
+                from information_schema.tables
+                where table_schema = 'public'
+                """, String.class);
+        List<String> columns = jdbcTemplate.queryForList("""
+                select column_name
+                from information_schema.columns
+                where table_schema = 'public'
+                  and table_name in ('invite_codes', 'employee_registrations')
+                """, String.class);
+
+        assertThat(tables).contains("pilot_launches", "access_pools");
+        assertThat(tables).doesNotContain(legacyTable);
+        assertThat(columns).contains("access_pool_id");
+        assertThat(columns).doesNotContain(legacyColumn);
+    }
+
     private void insertInviteRow(
             UUID id,
             UUID tenantId,
-            UUID cohortId,
+            UUID accessPoolId,
             String lookupHash,
             String status,
             Instant issuedAt,
@@ -167,7 +198,7 @@ class TenantPersistenceIT {
                 insert into invite_codes (
                     id,
                     tenant_id,
-                    cohort_id,
+                    access_pool_id,
                     lookup_hash,
                     status,
                     issued_at,
@@ -179,13 +210,22 @@ class TenantPersistenceIT {
                 """,
                 id,
                 tenantId,
-                cohortId,
+                accessPoolId,
                 lookupHash,
                 status,
                 toTimestamp(issuedAt),
                 toTimestamp(activatedAt),
                 Timestamp.from(now),
                 Timestamp.from(now)
+        );
+    }
+
+    private AccessPool seedAccessPool(Tenant tenant, String suffix, int capacity) {
+        PilotLaunch pilotLaunch = pilotLaunchRepository.saveAndFlush(
+                PilotLaunch.create(tenant, "pilot-launch-" + suffix, "Pilot launch " + suffix, capacity)
+        );
+        return accessPoolRepository.saveAndFlush(
+                AccessPool.create(tenant, pilotLaunch, "access-pool-" + suffix, "Access pool " + suffix, capacity)
         );
     }
 

@@ -1,0 +1,3 @@
+$ rg forbidden fields in admin status DTO/UI boundary
+
+exit_code=1

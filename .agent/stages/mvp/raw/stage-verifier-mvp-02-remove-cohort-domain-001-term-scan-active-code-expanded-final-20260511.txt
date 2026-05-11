@@ -1,0 +1,5 @@
+COMMAND: rg -n "cohort|Cohort|COHORT|cohortId|/cohorts|wave|Wave|WAVE|когорт|волна" apps/api/src/main/java apps/api/src/test/java apps/admin apps/web packages
+PWD: /Users/elena/cursor/FinPulse
+START: 2026-05-11T18:00:41Z
+END: 2026-05-11T18:00:41Z
+RG_EXIT_CODE: 1

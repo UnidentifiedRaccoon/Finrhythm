@@ -1,0 +1,20 @@
+JSON validation for changed machine artifacts
+Date: 2026-05-11
+
+== .agent/stages/mvp/evidence.json ==
+PASS
+
+== .agent/stages/mvp/evidence/MVP-02-closure-audit-001.json ==
+PASS
+
+== .agent/stages/mvp/status.json ==
+PASS
+
+== .agent/stages/mvp/feature_list.json ==
+PASS
+
+== .agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-prior-verdict-summary-20260511.json ==
+PASS
+
+== .agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-verify-harness-20260511.json ==
+PASS

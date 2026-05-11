@@ -1,0 +1,9 @@
+
+> @finrhythm/admin@0.0.0 start /Users/elena/cursor/FinPulse/apps/admin
+> next start
+
+▲ Next.js 16.2.6
+- Local:         http://localhost:3300
+- Network:       http://192.168.0.134:3300
+✓ Ready in 89ms
+ ELIFECYCLE  Command failed with exit code 143.

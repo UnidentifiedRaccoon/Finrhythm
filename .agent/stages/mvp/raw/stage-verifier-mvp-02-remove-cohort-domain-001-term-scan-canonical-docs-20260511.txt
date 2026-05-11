@@ -1,0 +1,6 @@
+COMMAND: rg -n "cohort|Cohort|cohortId|/cohorts|wave|Wave|WAVE|когорт|волна" AGENTS.md README.md docs
+PWD: /Users/elena/cursor/FinPulse
+START: 2026-05-11T17:55:26Z
+AGENTS.md:149:- MVP — single corporate pilot contour with `tenant`, `cohort/wave`, invite codes, HR/sponsor reporting, privacy aggregation and merch operations.
+README.md:110:Полная backend schema verification для tenant/cohort/invite модели запускается отдельно:
+zsh:7: read-only variable: status

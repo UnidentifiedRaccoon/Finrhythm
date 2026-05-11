@@ -1,0 +1,255 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-02-remove-cohort-domain-001",
+  "parent_stage_unit": "MVP-02",
+  "status": "PASS",
+  "verification_status": "FRESH_VERIFIER_PASS_ACCEPTED_BY_PARENT",
+  "updated_at": "2026-05-11",
+  "latest_alias": ".agent/stages/mvp/evidence.json",
+  "immutable_refs": {
+    "markdown": ".agent/stages/mvp/evidence/MVP-02-remove-cohort-domain-001.md",
+    "json": ".agent/stages/mvp/evidence/MVP-02-remove-cohort-domain-001.json"
+  },
+  "verdict": {
+    "status": "PASS",
+    "raw": ".agent/stages/mvp/verdict.json",
+    "immutable": ".agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json",
+    "problems": ".agent/stages/mvp/problems.md",
+    "immutable_problems": ".agent/stages/mvp/problems/MVP-02-remove-cohort-domain-001.md"
+  },
+  "implementation_summary": {
+    "replacement_model": [
+      "tenant",
+      "pilotLaunch",
+      "accessPool"
+    ],
+    "db": "Append-only V005 creates pilot_launches/access_pools, backfills old rows, moves invite_codes and employee_registrations to access-pool/pilot-launch references, then drops old active table/columns.",
+    "backend": "Active domain/repository/service/API code uses PilotLaunch and AccessPool names and identifiers.",
+    "admin_api": "GET /api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+    "admin_ui": "Read-only access-pool status screen with Russian operator copy and no raw-code/PII exposure.",
+    "docs": "Canonical MVP/product/architecture/stage/engineering docs synchronized to the pilot launch/access pool model; fixer additionally synchronized AGENTS.md, README.md and docs/setup/codex-setup.md."
+  },
+  "fixer_update": {
+    "id": "DOC-SYNC-001",
+    "status": "VERIFIED_FIXED",
+    "changed_files": [
+      "AGENTS.md",
+      "README.md",
+      "docs/setup/codex-setup.md",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/evidence.json",
+      ".agent/stages/mvp/problems.md"
+    ],
+    "raw_refs": [
+      ".agent/stages/mvp/raw/stage-fixer-mvp-02-remove-cohort-domain-001-doc-sync-scan-20260511.txt",
+      ".agent/stages/mvp/raw/stage-fixer-mvp-02-remove-cohort-domain-001-json-validation-20260511.txt",
+      ".agent/stages/mvp/raw/stage-fixer-mvp-02-remove-cohort-domain-001-git-diff-check-20260511.txt"
+    ],
+    "notes": "Only the verifier-reported current canonical/setup docs drift was fixed. No production code, broader docs, feature list or human gate was changed; a new fresh verifier later returned PASS."
+  },
+  "guardrails": {
+    "raw_invite_codes_exposed": false,
+    "lookup_hash_exposed": false,
+    "activation_subject_ref_exposed": false,
+    "employee_contact_fields_exposed_in_admin_status": false,
+    "real_employee_customer_data_added": false,
+    "human_gates_closed": false,
+    "full_mvp_02_closed": false,
+    "mvp_stage_closed": false
+  },
+  "remaining_term_classification": [
+    {
+      "class": "active_production_code",
+      "status": "PASS",
+      "notes": "Current backend/admin runtime code uses pilotLaunch/accessPool for the MVP access/status contract."
+    },
+    {
+      "class": "canonical_setup_docs",
+      "status": "PASS_AFTER_FIXER",
+      "notes": "Current setup/canonical docs, including AGENTS.md, README.md and docs/setup/codex-setup.md, are synchronized to pilot launch / access pool wording."
+    },
+    {
+      "class": "historical_migrations",
+      "status": "ALLOWED_HISTORY",
+      "notes": "V002 and V004 are immutable Flyway history."
+    },
+    {
+      "class": "transition_migration",
+      "status": "ALLOWED_TEMPORARY_DETAIL",
+      "notes": "V005 references old table/column names only for backfill/drop migration work; public/API/UI exposure is none."
+    },
+    {
+      "class": "prior_stage_artifacts",
+      "status": "ALLOWED_HISTORY",
+      "notes": "Earlier task, evidence, verdict and raw refs preserve the pre-refactor contract history."
+    },
+    {
+      "class": "current_cleanup_contract_text",
+      "status": "ALLOWED_CONTRACT_TEXT",
+      "notes": "The current contract/task/stage spec mention the removed term because they define this cleanup."
+    }
+  ],
+  "raw_refs": [
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-api-focused-tests-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-api-mvn-verify-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-make-verify-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-make-test-unit-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-make-build-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-admin-typecheck-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-admin-test-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-admin-build-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-browser-smoke-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshot-refs-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-generated-client-noop-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-openapi-contract-inspection-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-migration-inspection-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-guardrail-scan-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-term-scan-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-json-validation-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-git-diff-check-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-verify-harness-20260511.json",
+    ".agent/stages/mvp/raw/stage-fixer-mvp-02-remove-cohort-domain-001-doc-sync-scan-20260511.txt",
+    ".agent/stages/mvp/raw/stage-fixer-mvp-02-remove-cohort-domain-001-json-validation-20260511.txt",
+    ".agent/stages/mvp/raw/stage-fixer-mvp-02-remove-cohort-domain-001-git-diff-check-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-verify-harness-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-verify-harness-post-verdict-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-json-validation-post-verdict-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-make-verify-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-make-test-unit-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-make-build-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-git-diff-check-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-git-diff-check-post-verdict-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-active-code-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-canonical-docs-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-migrations-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-route-openapi-client-scan-clean-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-sensitive-guardrail-dto-fields-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-verify-harness-final-20260511.json",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-json-validation-final-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-git-diff-check-final-20260511.txt"
+  ],
+  "screenshots": {
+    "directory": ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshots-20260511/",
+    "refs": ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshot-refs-20260511.txt",
+    "count": 5
+  },
+  "commands_summary": {
+    "focused_backend_tests": "PASS",
+    "api_mvn_verify": "PASS",
+    "make_verify": "PASS",
+    "make_test_unit": "PASS",
+    "make_build": "PASS",
+    "admin_typecheck": "PASS",
+    "admin_test": "PASS",
+    "admin_build": "PASS",
+    "browser_smoke": "PASS",
+    "generated_client": "PASS_NOOP",
+    "openapi_contract_inspection": "PASS",
+    "migration_inspection": "PASS",
+    "guardrail_scan": "PASS",
+    "term_scan": "PASS_WITH_ALLOWED_HISTORY",
+    "json_validation": "PASS",
+    "git_diff_check": "PASS",
+    "fixer_doc_sync_scan": "PASS_NO_CURRENT_DOC_HITS",
+    "fixer_json_validation": "PASS",
+    "fixer_git_diff_check": "PASS",
+    "verify_harness": "PASS_AFTER_PARENT_ALIAS_SYNC",
+    "fresh_verifier": "PASS"
+  },
+  "acceptance_criteria": [
+    {
+      "id": 1,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-openapi-contract-inspection-20260511.txt",
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-term-scan-20260511.txt"
+      ]
+    },
+    {
+      "id": 2,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-migration-inspection-20260511.txt",
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-api-focused-tests-20260511.txt"
+      ]
+    },
+    {
+      "id": 3,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-api-focused-tests-20260511.txt"
+      ]
+    },
+    {
+      "id": 4,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-api-focused-tests-20260511.txt"
+      ]
+    },
+    {
+      "id": 5,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-admin-test-20260511.txt",
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-browser-smoke-20260511.txt"
+      ]
+    },
+    {
+      "id": 6,
+      "status": "PASS_NOOP",
+      "evidence": [
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-generated-client-noop-20260511.txt"
+      ]
+    },
+    {
+      "id": 7,
+      "status": "PASS_AFTER_FIXER_AND_FRESH_VERIFIER",
+      "evidence": [
+        "docs/stages/MVP.md",
+        "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md",
+        "docs/architecture/source-of-truth.md",
+        "AGENTS.md",
+        "README.md",
+        "docs/setup/codex-setup.md",
+        ".agent/stages/mvp/raw/stage-fixer-mvp-02-remove-cohort-domain-001-doc-sync-scan-20260511.txt"
+      ]
+    },
+    {
+      "id": 8,
+      "status": "PASS_AFTER_FIXER_WITH_ALLOWED_HISTORY_AND_FRESH_VERIFIER",
+      "evidence": [
+        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-term-scan-20260511.txt",
+        ".agent/stages/mvp/raw/stage-fixer-mvp-02-remove-cohort-domain-001-doc-sync-scan-20260511.txt",
+        "remaining_term_classification"
+      ]
+    },
+    {
+      "id": 9,
+      "status": "PASS",
+      "evidence": [
+        "guardrails.human_gates_closed=false"
+      ]
+    },
+    {
+      "id": 10,
+      "status": "PASS",
+      "evidence": [
+        "guardrails.full_mvp_02_closed=false"
+      ]
+    }
+  ],
+  "fresh_verifier": {
+    "status": "PASS",
+    "scope": "MVP-02-remove-cohort-domain-001",
+    "builder_did_not_write_pass_verdict": true,
+    "fixer_did_not_write_pass_verdict": true,
+    "verdict_ref": ".agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json"
+  },
+  "blocker": null,
+  "known_limitations": [
+    "Full MVP-02 remains open.",
+    "MVP stage remains open.",
+    "All human gates remain non-DONE."
+  ]
+}

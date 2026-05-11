@@ -1,0 +1,30 @@
+$ python3 -m json.tool <stage machine artifacts>
+
+## .agent/stages/mvp/status.json
+PASS json valid
+
+## .agent/stages/mvp/evidence.json
+PASS json valid
+
+## .agent/stages/mvp/evidence/MVP-02-closure-audit-001.json
+PASS json valid
+
+## .agent/stages/mvp/verdict.json
+PASS json valid
+
+## .agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json
+PASS json valid
+
+## .agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json
+PASS json valid
+
+## .agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json
+PASS json valid
+
+## .agent/stages/mvp/verdicts/MVP-02-04-closure-audit-001.json
+PASS json valid
+
+## .agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json
+PASS json valid
+
+exit_code=0

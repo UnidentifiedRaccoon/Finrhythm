@@ -93,4 +93,4 @@ create table if not exists dev_bootstrap_runs (
 - reproducible demo seed;
 - docs for local launch.
 
-MVP-01 bootstraps only synthetic fixture metadata and the idempotency table. MVP-02.01 adds the first tenant/cohort/invite schema; domain seed import remains out of scope until a later explicit seed/import slice.
+MVP-01 bootstraps only synthetic fixture metadata and the idempotency table. MVP-02 now uses the tenant/pilot-launch/access-pool/invite schema after the append-only migration path; domain seed import remains out of scope until a later explicit seed/import slice.

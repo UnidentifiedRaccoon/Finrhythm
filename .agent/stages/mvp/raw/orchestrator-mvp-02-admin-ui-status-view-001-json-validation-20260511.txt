@@ -1,0 +1,4 @@
+.agent/stages/mvp/status.json: OK
+.agent/stages/mvp/feature_list.json: OK
+.agent/stages/mvp/evidence.json: OK
+.agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.json: OK

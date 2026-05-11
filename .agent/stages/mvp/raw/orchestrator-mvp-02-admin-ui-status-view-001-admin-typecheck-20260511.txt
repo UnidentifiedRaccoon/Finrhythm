@@ -1,0 +1,4 @@
+
+> @finrhythm/admin@0.0.0 typecheck /Users/elena/cursor/FinPulse/apps/admin
+> tsc --noEmit
+

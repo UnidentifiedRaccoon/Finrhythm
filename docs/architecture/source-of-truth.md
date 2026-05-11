@@ -91,7 +91,7 @@ Do not maintain two equal sources of truth for contract types.
 - Current MVP baseline — B2B-first mobile web для корпоративного пилота, а не B2C-first продукт с будущей корпоративной опцией.
 - Canonical product intent lives in `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`; binary originals в `references/` являются supporting artifacts.
 - Canonical MVP learning methodology, diagnostics, routing, lesson template and content approve-flow live in `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`; implementation slices must not replace it with stage artifacts.
-- MVP вводит single corporate pilot contour: `tenant`, `cohort/wave`, invite codes, HR/sponsor reporting, privacy aggregation, points wallet and merch operations.
+- MVP вводит single corporate pilot contour: `tenant`, `pilotLaunch`, `accessPool`, invite codes, HR/sponsor reporting, privacy aggregation, points wallet and merch operations.
 - Employee-facing UI использует нейтральный бренд продукта; первый customer context может называться во внутренних docs, operations and tenant configuration, but not in default employee UI.
 - In-app subscription, B2C billing, enterprise SSO/SCIM and self-service multi-tenant platform are out of MVP, если stage doc явно не вводит узкий approved slice.
 

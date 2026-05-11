@@ -1,0 +1,17 @@
+{
+  "baseUrl": "http://127.0.0.1:3300",
+  "screenshots": [
+    "/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-desktop-success.png",
+    "/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-mobile-success.png",
+    "/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-desktop-empty.png",
+    "/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-desktop-error.png",
+    "/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-desktop-loading.png"
+  ],
+  "scenarios": [
+    "desktop-success",
+    "mobile-success",
+    "desktop-empty",
+    "desktop-error",
+    "desktop-loading"
+  ]
+}

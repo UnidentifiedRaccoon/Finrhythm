@@ -189,11 +189,11 @@ RBAC отвечает за административные действия:
 
 ## 8. MVP boundary
 
-MVP остаётся B2B-first пилотом без in-app подписки и платежей. Текущий MVP может реализовывать `tenant`, `cohort/wave`, invite codes and registration без полной subscription/seat модели.
+MVP остаётся B2B-first пилотом без in-app подписки и платежей. Текущий MVP может реализовывать `tenant`, `pilotLaunch`, `accessPool`, invite codes and registration без полной subscription/seat модели.
 
 Однако любые новые account, organization, admin role, access, seat, billing or subscription slices должны следовать этому документу and `docs/architecture/organization-access-subscription-model.md`. Если stage решает временно отложить полную модель, evidence должен явно зафиксировать:
 
-- почему достаточно текущего `tenant/cohort/invite` boundary;
+- почему достаточно текущего `tenant/pilotLaunch/accessPool/invite` boundary;
 - что не добавлен `user.organization_id`;
 - что нет `pro_user`/`premium` role shortcut;
 - какие migration/backfill assumptions нужны для будущего `org_membership`, `user_subscriptions`, `org_subscriptions`, `org_subscription_seats` and optional `entitlement_grant`.

@@ -1,0 +1,28 @@
+# Route/OpenAPI/generated-client scan (clean)
+## old route/id refs
+NO_OLD_ROUTE_OR_COHORTID_MATCHES
+[old_scan_status]=0
+## new route refs
+apps/admin/tests/status-boundary.test.mjs:7:const fixturePath = join(appRoot, "lib", "code-status-fixture.json");
+apps/admin/tests/status-boundary.test.mjs:11:describe("admin code-status local boundary", () => {
+apps/admin/lib/code-status-client.ts:1:import fixture from "./code-status-fixture.json";
+apps/admin/lib/code-status-client.ts:8:} from "./code-status-types";
+apps/admin/lib/code-status-client.ts:90:    `/api/v1/admin/tenants/${tenantId}/pilot-launches/${pilotLaunchId}/access-pools/${accessPoolId}/code-status`,
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:23:@RequestMapping("/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status")
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:43:                    description = "Access-pool code-status view.",
+apps/admin/components/status-labels.ts:1:import type { AdminCodeStatusResponse, CodeStatus } from "../lib/code-status-types";
+apps/admin/app/page.tsx:1:import { AdminCodeStatusScreen } from "../components/admin-code-status-screen";
+apps/admin/app/page.tsx:2:import { getAdminCodeStatus } from "../lib/code-status-client";
+apps/admin/components/admin-code-status-screen.tsx:2:import { CODE_STATUSES, type AdminCodeStatusResult, type CodeStatus } from "../lib/code-status-types";
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:87:                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:135:                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:160:                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:181:                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:197:                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:213:                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:223:                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:233:                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:256:                .contains("/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status")
+## packages/api-client files
+packages/api-client/.gitkeep
+[scan_status]=0

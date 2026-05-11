@@ -1,0 +1,8 @@
+
+> @finrhythm/admin@0.0.0 start /Users/elena/cursor/FinPulse/apps/admin
+> next start -- -H 127.0.0.1 -p 3300
+
+Invalid project directory provided, no such directory: /Users/elena/cursor/FinPulse/apps/admin/-H
+/Users/elena/cursor/FinPulse/apps/admin:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @finrhythm/admin@0.0.0 start: `next start -- -H 127.0.0.1 -p 3300`
+Exit status 1

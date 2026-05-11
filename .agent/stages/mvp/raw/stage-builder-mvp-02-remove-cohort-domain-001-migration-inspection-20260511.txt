@@ -1,0 +1,55 @@
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:1:create table pilot_launches (
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:12:    constraint fk_pilot_launches_tenant foreign key (tenant_id) references tenants (id),
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:13:    constraint uq_pilot_launches_id_tenant unique (id, tenant_id),
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:14:    constraint pilot_launches_key_format check (
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:18:    constraint pilot_launches_name_non_empty check (btrim(name) <> ''),
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:19:    constraint pilot_launches_status_check check (status in ('PLANNED', 'ACTIVE', 'CLOSED', 'ARCHIVED')),
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:20:    constraint pilot_launches_target_size_check check (target_size between 1 and 5000),
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:21:    constraint pilot_launches_dates_check check (ends_at is null or starts_at is null or ends_at > starts_at)
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:24:create unique index ux_pilot_launches_tenant_key on pilot_launches (tenant_id, launch_key);
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:25:create index ix_pilot_launches_tenant_status on pilot_launches (tenant_id, status);
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:27:create table access_pools (
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:39:    constraint fk_access_pools_tenant foreign key (tenant_id) references tenants (id),
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:40:    constraint fk_access_pools_pilot_launch_tenant
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:42:        references pilot_launches (id, tenant_id),
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:43:    constraint uq_access_pools_id_tenant unique (id, tenant_id),
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:44:    constraint access_pools_key_format check (
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:48:    constraint access_pools_name_non_empty check (btrim(name) <> ''),
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:49:    constraint access_pools_status_check check (status in ('PLANNED', 'ACTIVE', 'CLOSED', 'ARCHIVED')),
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:50:    constraint access_pools_capacity_check check (capacity between 1 and 5000),
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:51:    constraint access_pools_dates_check check (ends_at is null or starts_at is null or ends_at > starts_at)
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:54:create unique index ux_access_pools_tenant_key on access_pools (tenant_id, pool_key);
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:55:create index ix_access_pools_tenant_launch_status on access_pools (tenant_id, pilot_launch_id, status);
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:57:insert into pilot_launches (
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:79:from cohorts;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:81:insert into access_pools (
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:105:from cohorts;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:111:set access_pool_id = cohort_id;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:122:        references access_pools (id, tenant_id);
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:134:from access_pools access_pool
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:136:  and registration.cohort_id = access_pool.id;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:151:        references pilot_launches (id, tenant_id),
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:154:        references access_pools (id, tenant_id),
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:163:    drop column cohort_id;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:172:    drop column cohort_id;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:174:drop table cohorts;
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:18:create table cohorts (
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:30:    constraint fk_cohorts_tenant foreign key (tenant_id) references tenants (id),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:31:    constraint uq_cohorts_id_tenant unique (id, tenant_id),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:32:    constraint cohorts_key_format check (
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:36:    constraint cohorts_name_non_empty check (btrim(name) <> ''),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:37:    constraint cohorts_kind_check check (kind in ('WAVE_0', 'WAVE_1', 'CUSTOM')),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:38:    constraint cohorts_status_check check (status in ('PLANNED', 'ACTIVE', 'CLOSED', 'ARCHIVED')),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:39:    constraint cohorts_target_size_check check (target_size between 1 and 5000),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:40:    constraint cohorts_dates_check check (ends_at is null or starts_at is null or ends_at > starts_at)
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:43:create unique index ux_cohorts_tenant_key on cohorts (tenant_id, cohort_key);
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:44:create index ix_cohorts_tenant_status on cohorts (tenant_id, status);
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:49:    cohort_id uuid not null,
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:58:    constraint fk_invite_codes_cohort_tenant foreign key (cohort_id, tenant_id) references cohorts (id, tenant_id),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:89:create index ix_invite_codes_tenant_cohort_status on invite_codes (tenant_id, cohort_id, status);
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:2:    add constraint uq_invite_codes_id_tenant_cohort unique (id, tenant_id, cohort_id);
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:7:    cohort_id uuid not null,
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:17:    constraint fk_employee_registrations_cohort_tenant foreign key (cohort_id, tenant_id) references cohorts (id, tenant_id),
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:19:        foreign key (invite_code_id, tenant_id, cohort_id)
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:20:        references invite_codes (id, tenant_id, cohort_id),
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:41:    on employee_registrations (tenant_id, cohort_id);

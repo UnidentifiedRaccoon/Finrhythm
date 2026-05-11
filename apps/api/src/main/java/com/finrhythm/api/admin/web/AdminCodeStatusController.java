@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status")
+@RequestMapping("/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status")
 public class AdminCodeStatusController {
     private final AdminCodeStatusService adminCodeStatusService;
 
@@ -29,9 +29,10 @@ public class AdminCodeStatusController {
     }
 
     @Operation(
-            summary = "Read cohort invite-code status for admin operations",
+            summary = "Read access-pool invite-code status for admin operations",
             description = """
-                    Returns privacy-safe cohort metadata, invite-code status counts, activation/registration funnel counts
+                    Returns privacy-safe pilot launch and access-pool metadata, invite-code status counts,
+                    activation/registration funnel counts
                     and paginated per-code operational rows. The response never includes sensitive invite identifiers
                     or employee contact fields.
                     """
@@ -39,20 +40,23 @@ public class AdminCodeStatusController {
     @ApiResponses({
             @ApiResponse(
                     responseCode = "200",
-                    description = "Cohort code-status view.",
+                    description = "Access-pool code-status view.",
                     content = @Content(
                             schema = @Schema(implementation = AdminCodeStatusResponse.class),
                             examples = @ExampleObject(
-                                    name = "waveOneCodeStatus",
+                                    name = "pilotAccessPoolCodeStatus",
                                     value = """
                                             {
                                               "tenantId": "22222222-2222-4222-8222-222222222222",
-                                              "cohortId": "33333333-3333-4333-8333-333333333333",
-                                              "cohortKey": "wave-1",
-                                              "cohortName": "Wave 1",
-                                              "cohortKind": "WAVE_1",
-                                              "cohortStatus": "PLANNED",
-                                              "targetSize": 500,
+                                              "pilotLaunchId": "33333333-3333-4333-8333-333333333333",
+                                              "pilotLaunchKey": "pilot-launch-main",
+                                              "pilotLaunchName": "Main pilot launch",
+                                              "pilotLaunchStatus": "PLANNED",
+                                              "accessPoolId": "55555555-5555-4555-8555-555555555555",
+                                              "accessPoolKey": "access-pool-main",
+                                              "accessPoolName": "Main access pool",
+                                              "accessPoolStatus": "PLANNED",
+                                              "poolCapacity": 500,
                                               "summary": {
                                                 "issuedCount": 500,
                                                 "activatedCount": 120,
@@ -117,15 +121,15 @@ public class AdminCodeStatusController {
             ),
             @ApiResponse(
                     responseCode = "404",
-                    description = "Tenant/cohort status view not found or not in the requested tenant scope.",
+                    description = "Tenant/access-pool status view not found or not in the requested tenant and pilot-launch scope.",
                     content = @Content(
                             schema = @Schema(implementation = AdminApiErrorResponse.class),
                             examples = @ExampleObject(
                                     name = "notFound",
                                     value = """
                                             {
-                                              "code": "COHORT_STATUS_VIEW_NOT_FOUND",
-                                              "message": "Cohort status view was not found.",
+                                              "code": "ACCESS_POOL_STATUS_VIEW_NOT_FOUND",
+                                              "message": "Access-pool status view was not found.",
                                               "fieldErrors": []
                                             }
                                             """
@@ -138,8 +142,11 @@ public class AdminCodeStatusController {
             @Parameter(description = "Tenant identifier.", example = "22222222-2222-4222-8222-222222222222")
             @PathVariable UUID tenantId,
 
-            @Parameter(description = "Cohort identifier.", example = "33333333-3333-4333-8333-333333333333")
-            @PathVariable UUID cohortId,
+            @Parameter(description = "Pilot launch identifier.", example = "33333333-3333-4333-8333-333333333333")
+            @PathVariable UUID pilotLaunchId,
+
+            @Parameter(description = "Access pool identifier.", example = "55555555-5555-4555-8555-555555555555")
+            @PathVariable UUID accessPoolId,
 
             @Parameter(
                     description = "Optional invite-code status filter.",
@@ -156,14 +163,15 @@ public class AdminCodeStatusController {
             @RequestParam(defaultValue = "0") Integer page,
 
             @Parameter(
-                    description = "Page size, bounded for Wave 1 operational pagination.",
+                    description = "Page size, bounded for pilot access-pool operational pagination.",
                     schema = @Schema(defaultValue = "50", minimum = "1", maximum = "100", example = "50")
             )
             @RequestParam(defaultValue = "50") Integer size
     ) {
         return ResponseEntity.ok(adminCodeStatusService.getCodeStatus(
                 tenantId,
-                cohortId,
+                pilotLaunchId,
+                accessPoolId,
                 new AdminCodeStatusQuery(status, page, size)
         ));
     }

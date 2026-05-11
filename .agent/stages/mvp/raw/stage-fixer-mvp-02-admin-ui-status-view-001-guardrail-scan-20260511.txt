@@ -1,0 +1,17 @@
+Rendered Russian cohort status label proof:
+1:500 · Запланирована
+1:500 · Запланирована
+
+Forbidden rendered raw cohort status enum:
+NO_HITS
+
+Forbidden raw code / PII / diagnostic / financial / customer tokens in managed admin source and rendered HTML:
+NO_HITS
+
+Plain invite-code-like tokens in managed admin source:
+NO_HITS
+
+Cohort status source mapping refs:
+apps/admin/components/status-labels.ts:21:export const COHORT_STATUS_LABELS: Record<AdminCodeStatusResponse["cohortStatus"], string> = {
+apps/admin/components/admin-code-status-screen.tsx:3:import { COHORT_STATUS_LABELS, STATUS_HINTS, STATUS_LABELS } from "./status-labels";
+apps/admin/components/admin-code-status-screen.tsx:44:          <MetaCell label="План / статус" value={`${data.targetSize} · ${COHORT_STATUS_LABELS[data.cohortStatus]}`} />

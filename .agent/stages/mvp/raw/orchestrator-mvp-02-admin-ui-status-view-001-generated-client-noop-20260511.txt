@@ -1,0 +1,4 @@
+packages/api-client contains:
+packages/api-client/.gitkeep
+
+No generator/artifacts exist; MVP-02-admin-ui-status-view-001 keeps generated-client implementation out of scope.

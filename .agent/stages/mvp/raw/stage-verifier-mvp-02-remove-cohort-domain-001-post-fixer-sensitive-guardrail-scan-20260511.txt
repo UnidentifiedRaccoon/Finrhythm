@@ -1,0 +1,36 @@
+# Sensitive-data guardrail scan for admin status response/UI fixture
+## forbidden field/token scan in admin response/UI/fixture
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:35:    private final InviteCodeRepository inviteCodeRepository;
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:40:            InviteCodeRepository inviteCodeRepository,
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:44:        this.inviteCodeRepository = inviteCodeRepository;
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:66:        long totalCodeCount = inviteCodeRepository.countByTenantIdAndAccessPoolId(tenantId, accessPoolId);
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:67:        long issuedCount = inviteCodeRepository.countIssuedByTenantIdAndAccessPoolId(tenantId, accessPoolId);
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:69:        Page<InviteCodeStatusRowProjection> codeRows = inviteCodeRepository.findCodeStatusRows(
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:136:                : inviteCodeRepository.countStatusesByTenantIdAndAccessPoolId(tenantId, accessPoolId)) {
+[forbidden_scan_status]=0
+## positive privacy assertions in tests
+apps/admin/components/admin-code-status-screen.tsx:35:              Экран не показывает значения кодов, контакты сотрудников или чувствительные учебные данные.
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:193:                .doesNotContain(otherTenant.getId().toString())
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:194:                .doesNotContain(otherAccessPool.getId().toString());
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:210:        assertThat(invalidStatus).doesNotContain("REGISTERED");
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:244:        assertThat(invalidUuid).doesNotContain("not-a-uuid");
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:263:                .doesNotContain("lookupHash")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:264:                .doesNotContain("activationSubjectRef")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:265:                .doesNotContain("co" + "hortId")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:266:                .doesNotContain("/co" + "horts/");
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:284:                    activationSubjectRef(subjectBase, index),
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:293:                    activationSubjectRef(subjectBase, index),
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:355:                    email,
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:356:                    phone,
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:404:                .doesNotContain(rawInviteCode)
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:405:                .doesNotContain("lookupHash")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:406:                .doesNotContain("activationSubjectRef")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:407:                .doesNotContain("fullName")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:408:                .doesNotContain("email")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:409:                .doesNotContain("phone")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:410:                .doesNotContain("Synthetic Learner")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:411:                .doesNotContain("example.test")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:412:                .doesNotContain("Лемана")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:413:                .doesNotContain("Lemana");
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:416:    private static String activationSubjectRef(int subjectBase, int index) {
+[scan_status]=0

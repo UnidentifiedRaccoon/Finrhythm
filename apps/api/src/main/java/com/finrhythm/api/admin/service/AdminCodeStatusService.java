@@ -7,9 +7,9 @@ import com.finrhythm.api.admin.readmodel.AdminCodeStatusResponse;
 import com.finrhythm.api.admin.readmodel.AdminCodeStatusRow;
 import com.finrhythm.api.admin.readmodel.AdminCodeStatusSummary;
 import com.finrhythm.api.registration.persistence.EmployeeRegistrationRepository;
-import com.finrhythm.api.tenant.domain.Cohort;
+import com.finrhythm.api.tenant.domain.AccessPool;
 import com.finrhythm.api.tenant.domain.InviteCodeStatus;
-import com.finrhythm.api.tenant.persistence.CohortRepository;
+import com.finrhythm.api.tenant.persistence.AccessPoolRepository;
 import com.finrhythm.api.tenant.persistence.InviteCodeRepository;
 import com.finrhythm.api.tenant.persistence.InviteCodeStatusCountProjection;
 import com.finrhythm.api.tenant.persistence.InviteCodeStatusRowProjection;
@@ -31,16 +31,16 @@ public class AdminCodeStatusService {
     public static final int DEFAULT_SIZE = 50;
     public static final int MAX_SIZE = 100;
 
-    private final CohortRepository cohortRepository;
+    private final AccessPoolRepository accessPoolRepository;
     private final InviteCodeRepository inviteCodeRepository;
     private final EmployeeRegistrationRepository employeeRegistrationRepository;
 
     public AdminCodeStatusService(
-            CohortRepository cohortRepository,
+            AccessPoolRepository accessPoolRepository,
             InviteCodeRepository inviteCodeRepository,
             EmployeeRegistrationRepository employeeRegistrationRepository
     ) {
-        this.cohortRepository = cohortRepository;
+        this.accessPoolRepository = accessPoolRepository;
         this.inviteCodeRepository = inviteCodeRepository;
         this.employeeRegistrationRepository = employeeRegistrationRepository;
     }
@@ -48,35 +48,43 @@ public class AdminCodeStatusService {
     @Transactional(readOnly = true)
     public AdminCodeStatusResponse getCodeStatus(
             UUID tenantId,
-            UUID cohortId,
+            UUID pilotLaunchId,
+            UUID accessPoolId,
             AdminCodeStatusQuery query
     ) {
         int page = normalizePage(query.page());
         int size = normalizeSize(query.size());
         InviteCodeStatus statusFilter = parseStatus(query.status());
-        Cohort cohort = cohortRepository.findByTenantIdAndId(tenantId, cohortId)
+        AccessPool accessPool = accessPoolRepository.findByTenantIdAndPilotLaunchIdAndId(
+                tenantId,
+                pilotLaunchId,
+                accessPoolId
+        )
                 .orElseThrow(AdminCodeStatusException::notFound);
 
-        Map<InviteCodeStatus, Long> statusCounts = statusCounts(tenantId, cohortId);
-        long totalCodeCount = inviteCodeRepository.countByTenantIdAndCohortId(tenantId, cohortId);
-        long issuedCount = inviteCodeRepository.countIssuedByTenantIdAndCohortId(tenantId, cohortId);
-        long registeredCount = employeeRegistrationRepository.countByTenantIdAndCohortId(tenantId, cohortId);
+        Map<InviteCodeStatus, Long> statusCounts = statusCounts(tenantId, accessPoolId);
+        long totalCodeCount = inviteCodeRepository.countByTenantIdAndAccessPoolId(tenantId, accessPoolId);
+        long issuedCount = inviteCodeRepository.countIssuedByTenantIdAndAccessPoolId(tenantId, accessPoolId);
+        long registeredCount = employeeRegistrationRepository.countByTenantIdAndAccessPoolId(tenantId, accessPoolId);
         Page<InviteCodeStatusRowProjection> codeRows = inviteCodeRepository.findCodeStatusRows(
                 tenantId,
-                cohortId,
+                accessPoolId,
                 statusFilter,
                 PageRequest.of(page, size)
         );
 
         return new AdminCodeStatusResponse(
                 tenantId,
-                cohortId,
-                cohort.getKey(),
-                cohort.getName(),
-                cohort.getKind(),
-                cohort.getStatus(),
-                cohort.getTargetSize(),
-                summary(cohort, statusCounts, totalCodeCount, issuedCount, registeredCount),
+                accessPool.getPilotLaunch().getId(),
+                accessPool.getPilotLaunch().getKey(),
+                accessPool.getPilotLaunch().getName(),
+                accessPool.getPilotLaunch().getStatus(),
+                accessPoolId,
+                accessPool.getKey(),
+                accessPool.getName(),
+                accessPool.getStatus(),
+                accessPool.getCapacity(),
+                summary(accessPool, statusCounts, totalCodeCount, issuedCount, registeredCount),
                 statusCounts(statusCounts),
                 codesPage(codeRows)
         );
@@ -121,18 +129,18 @@ public class AdminCodeStatusService {
         }
     }
 
-    private Map<InviteCodeStatus, Long> statusCounts(UUID tenantId, UUID cohortId) {
+    private Map<InviteCodeStatus, Long> statusCounts(UUID tenantId, UUID accessPoolId) {
         Map<InviteCodeStatus, Long> counts = new EnumMap<>(InviteCodeStatus.class);
         Arrays.stream(InviteCodeStatus.values()).forEach(status -> counts.put(status, 0L));
         for (InviteCodeStatusCountProjection projection
-                : inviteCodeRepository.countStatusesByTenantIdAndCohortId(tenantId, cohortId)) {
+                : inviteCodeRepository.countStatusesByTenantIdAndAccessPoolId(tenantId, accessPoolId)) {
             counts.put(projection.getStatus(), projection.getCount());
         }
         return counts;
     }
 
     private static AdminCodeStatusSummary summary(
-            Cohort cohort,
+            AccessPool accessPool,
             Map<InviteCodeStatus, Long> statusCounts,
             long totalCodeCount,
             long issuedCount,
@@ -145,7 +153,7 @@ public class AdminCodeStatusService {
                 statusCounts.get(InviteCodeStatus.REVOKED),
                 statusCounts.get(InviteCodeStatus.EXPIRED),
                 totalCodeCount,
-                Math.max(0L, cohort.getTargetSize() - totalCodeCount)
+                Math.max(0L, accessPool.getCapacity() - totalCodeCount)
         );
     }
 

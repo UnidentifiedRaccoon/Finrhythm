@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface EmployeeRegistrationRepository extends JpaRepository<EmployeeRegistration, UUID> {
     Optional<EmployeeRegistration> findByInviteCodeId(UUID inviteCodeId);
 
-    long countByTenantIdAndCohortId(UUID tenantId, UUID cohortId);
+    long countByTenantIdAndAccessPoolId(UUID tenantId, UUID accessPoolId);
 
     @Query(
             value = """

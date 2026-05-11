@@ -1,6 +1,11 @@
-# FinLit product Codex bootstrap
+# FinPulse / FinLit product Codex bootstrap
 
 Этот пакет — стартовый baseline для реального продуктового репозитория проекта по финансовой грамотности.
+
+## Идентичность репозитория
+
+- GitHub-репозиторий и локальная директория checkout: `FinPulse`.
+- Текущий технический package/env namespace остается `finrhythm` / `FINRHYTHM_*` до отдельной кодовой миграции; runnable commands ниже намеренно сохраняют действующие identifiers.
 
 ## Целевой стек
 
@@ -82,16 +87,27 @@ pnpm getcourse:download-assets -- --headless
 
 Если GetCourse попросит авторизацию, запустите нужную команду без `--headless`, войдите вручную в открывшемся Playwright-браузере, затем повторите headless-запуск.
 
-Текущий baseline после первого MVP-02 backend slice:
+Текущий baseline после первого MVP-02 backend slice and минимального admin UI slice:
 
 - `make install` запускает `pnpm install --frozen-lockfile`;
-- `make verify` выполняет harness/bootstrap self-checks и backend unit checks через `apps/api/mvnw`;
-- `make test-unit` выполняет bootstrap verification и backend unit checks без browser layer;
-- `make build` выполняет production-readiness checks и собирает `apps/api` без повторного запуска тестов;
+- `make verify` выполняет harness/bootstrap self-checks, `apps/admin` typecheck/test и backend unit checks через `apps/api/mvnw`;
+- `make test-unit` выполняет bootstrap verification, focused `apps/admin` tests и backend unit checks без browser layer;
+- `make build` выполняет production-readiness checks, собирает `apps/admin` and `apps/api` без повторного запуска backend tests;
 - `make test-e2e` пока фиксирует отсутствие browser target для MVP-01;
 - `make init` and `make dev` требуют запущенный Docker daemon and local PostgreSQL compose.
 
-Полная backend schema verification для tenant/cohort/invite модели запускается отдельно:
+Минимальная admin-поверхность запускается отдельно:
+
+```bash
+pnpm --filter @finrhythm/admin dev -- --port 3300
+pnpm --filter @finrhythm/admin typecheck
+pnpm --filter @finrhythm/admin test
+pnpm --filter @finrhythm/admin build
+```
+
+Первый admin route использует локальный typed fixture boundary for the verified backend code-status DTO. Live mode is read-only and requires synthetic `FINRHYTHM_ADMIN_API_BASE_URL`, `FINRHYTHM_ADMIN_SYNTHETIC_TENANT_ID`, `FINRHYTHM_ADMIN_SYNTHETIC_PILOT_LAUNCH_ID` and `FINRHYTHM_ADMIN_SYNTHETIC_ACCESS_POOL_ID`.
+
+Полная backend schema verification для tenant/pilot-launch/access-pool/invite модели запускается отдельно:
 
 ```bash
 cd apps/api

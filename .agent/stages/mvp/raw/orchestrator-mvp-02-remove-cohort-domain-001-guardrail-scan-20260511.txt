@@ -1,0 +1,91 @@
+Sensitive guardrail scan in active app/API/admin sources:
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:7:public record RegistrationContact(String fullName, String email, String phone) {
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:14:        fullName = normalizeFullName(fullName);
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:15:        email = normalizeEmail(email);
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:16:        phone = normalizePhone(phone);
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:20:        return Objects.equals(fullName, other.fullName)
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:21:                && Objects.equals(email, other.email)
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:22:                && Objects.equals(phone, other.phone);
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:26:        String normalized = requireText(value, "fullName").replaceAll("\\s+", " ");
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:28:            throw new IllegalArgumentException("fullName is too long.");
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:34:        String normalized = requireText(value, "email").toLowerCase(Locale.ROOT);
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:36:            throw new IllegalArgumentException("email is invalid.");
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:42:        String normalized = requireText(value, "phone").replaceAll("[\\s().-]", "");
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:49:            throw new IllegalArgumentException("phone is invalid.");
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:38:    private String activationSubjectRef;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:41:    private String fullName;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:44:    private String email;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:47:    private String phone;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:66:            ActivationSubjectRef activationSubjectRef,
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:74:        this.activationSubjectRef = Objects.requireNonNull(activationSubjectRef, "activationSubjectRef").value();
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:84:            ActivationSubjectRef activationSubjectRef,
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:93:                activationSubjectRef,
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:120:        return activationSubjectRef;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:124:        return fullName;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:128:        return email;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:132:        return phone;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:140:        return new RegistrationContact(fullName, email, phone).sameContact(contact);
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:162:        activationSubjectRef = ActivationSubjectRef.fromSha256Hex(activationSubjectRef).value();
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:163:        applyContact(new RegistrationContact(fullName, email, phone));
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:169:        fullName = normalized.fullName();
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:170:        email = normalized.email();
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:171:        phone = normalized.phone();
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:38:    private String lookupHash;
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:51:    private String activationSubjectRef;
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:65:            InviteCodeHash lookupHash,
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:70:            ActivationSubjectRef activationSubjectRef
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:74:        this.lookupHash = Objects.requireNonNull(lookupHash, "lookupHash").value();
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:79:        this.activationSubjectRef = activationSubjectRef == null ? null : activationSubjectRef.value();
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:83:    public static InviteCode created(Tenant tenant, AccessPool accessPool, InviteCodeHash lookupHash) {
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:84:        return new InviteCode(tenant, accessPool, lookupHash, InviteCodeStatus.CREATED, null, null, null, null);
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:90:            InviteCodeHash lookupHash,
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:94:        return new InviteCode(tenant, accessPool, lookupHash, InviteCodeStatus.ISSUED, issuedAt, expiresAt, null, null);
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:100:            InviteCodeHash lookupHash,
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:103:            ActivationSubjectRef activationSubjectRef
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:108:                lookupHash,
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:113:                activationSubjectRef
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:130:        return lookupHash;
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:150:        return activationSubjectRef;
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:155:                && activationSubjectRef != null
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:156:                && activationSubjectRef.equals(Objects.requireNonNull(subjectRef, "subjectRef").value());
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:179:        lookupHash = InviteCodeHash.fromSha256Hex(lookupHash).value();
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:181:        if (activationSubjectRef != null) {
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:182:            activationSubjectRef = ActivationSubjectRef.fromSha256Hex(activationSubjectRef).value();
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:191:            requireNull(activationSubjectRef, "activationSubjectRef");
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:197:            requirePresent(activationSubjectRef, "activationSubjectRef");
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java:201:            requireNull(activationSubjectRef, "activationSubjectRef");
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationCommand.java:4:        String fullName,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationCommand.java:5:        String email,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationCommand.java:6:        String phone,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:122:            return new RegistrationContact(command.fullName(), command.email(), command.phone());
+apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeAccessService.java:80:            InviteCodeHash lookupHash = InviteCodeHash.fromEnteredCode(code);
+apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeAccessService.java:81:            if (!batchLookupHashes.add(lookupHash.value()) || inviteCodeRepository.existsByLookupHash(lookupHash.value())) {
+apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeAccessService.java:87:                    lookupHash,
+apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeAccessService.java:106:        ActivationSubjectRef activationSubjectRef = Objects.requireNonNull(subjectRef, "subjectRef");
+apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeAccessService.java:108:        String lookupHash = lookupHashForSubmittedCode(submittedCode);
+apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeAccessService.java:111:                lookupHash,
+apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeAccessService.java:112:                activationSubjectRef.value(),
+apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeAccessService.java:117:        InviteCode inviteCode = inviteCodeRepository.findByLookupHash(lookupHash)
+apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeAccessService.java:123:            return activationResult(inviteCode, activationSubjectRef, false);
+apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeAccessService.java:125:        if (inviteCode.isActivatedFor(activationSubjectRef)) {
+apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeAccessService.java:126:            return activationResult(inviteCode, activationSubjectRef, true);
+apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeAccessService.java:131:    private static String lookupHashForSubmittedCode(String submittedCode) {
+apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteActivationResult.java:10:        String activationSubjectRef,
+apps/api/src/main/java/com/finrhythm/api/registration/persistence/EmployeeRegistrationRepository.java:21:                    where invite_code.lookup_hash = :lookupHash
+apps/api/src/main/java/com/finrhythm/api/registration/persistence/EmployeeRegistrationRepository.java:25:    Optional<EmployeeRegistration> findByInviteLookupHash(@Param("lookupHash") String lookupHash);
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:13:        String fullName,
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:19:        String email,
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:24:        String phone,
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:18:    Optional<InviteCode> findByLookupHash(String lookupHash);
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:20:    boolean existsByLookupHash(String lookupHash);
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:85:                inviteCode.activationSubjectRef = :activationSubjectRef,
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:87:            where inviteCode.lookupHash = :lookupHash
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:92:            @Param("lookupHash") String lookupHash,
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:93:            @Param("activationSubjectRef") String activationSubjectRef,
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:94:                                                          "field": "email",
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:111:                request.fullName(),
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:112:                request.email(),
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:113:                request.phone(),
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiFieldError.java:7:        @Schema(example = "email")
+
+Allowed notes: request DTO may contain employee registration contact fields; persistence may store contact fields; admin status response must not expose them.

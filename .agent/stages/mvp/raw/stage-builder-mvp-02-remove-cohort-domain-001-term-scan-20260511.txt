@@ -1,0 +1,270 @@
+docs/stages/v1.md:48:- B2B pilot concepts from MVP remain canonical: `tenant`, `cohort/wave`, invite code, aggregated HR reports, points ledger, merch operations and privacy threshold.
+docs/stages/v1.md:57:- Repeatable cohort/wave operations for additional corporate launches.
+docs/stages/v1.md:92:- Additional corporate waves can be prepared, launched and reported with documented runbooks.
+docs/stages/v1.md:95:- HR/sponsor reports compare cohorts/waves without exposing sensitive personal answers.
+docs/stages/v1.md:143:## V1-02. Corporate rollout and cohort operations
+docs/stages/v1.md:145:**Goal:** make launches repeatable beyond one Wave 1 setup.
+docs/stages/v1.md:147:**Dependencies:** MVP tenant/cohort baseline
+docs/stages/v1.md:152:- V1-02.01 [agent] Improve cohort/wave setup, cloning and status tracking.
+docs/stages/v1.md:155:- V1-02.04 [agent] Add cohort health indicators for product/admin teams.
+docs/stages/v1.md:156:- V1-02.05 [agent+human] Update HR communication kit for repeated waves.
+docs/stages/v1.md:160:- Operators can prepare another wave without manual SQL or file chaos.
+docs/stages/v1.md:162:- Launch docs explain Wave 0/Wave 1/relaunch operations.
+docs/stages/v1.md:183:- V1-03.02 [agent] Add wave/cohort comparison reports.
+docs/stages/v1.md:190:- Sponsor can compare waves and make scale decisions.
+.agent/stages/mvp/decisions.md:31:Decision: the first MVP-02 contract is `MVP-02-tenant-domain-001`, scoped to minimal API bootstrap plus tenant, cohort/wave and invite code persistence/domain model.
+.agent/stages/mvp/decisions.md:33:Impact: later slices own invite issuance/activation, employee registration, admin cohort screens and 500-code generation.
+.agent/stages/mvp/decisions.md:45:Impact: no tenant/cohort/invite schema or API baseline is implemented yet; the next run must provide Java 21 and Maven Wrapper proof before continuing this same contract.
+.agent/stages/mvp/decisions.md:61:Decision: implement tenant, cohort/wave and invite-code persistence/domain model without controllers or OpenAPI changes.
+.agent/stages/mvp/decisions.md:73:Decision: the next sprint contract is `MVP-02-invite-issuance-activation-001`, scoped to backend/domain invite issuance, activation and one-user binding for existing tenant/cohort records.
+.agent/stages/mvp/decisions.md:74:Why: `MVP-02.02` should build on the proven tenant/cohort/invite model without widening into employee registration, admin UI, auth/session or HR reports.
+.agent/stages/mvp/decisions.md:122:Why: `MVP-02.01` and `MVP-02.02` already proved the tenant/cohort/invite model and activation core; the next small verifiable slice is the public registration contract that attaches MVP contact fields to that activation path.
+.agent/stages/mvp/decisions.md:151:Decision: the next sprint contract is `MVP-02-admin-code-status-view-001`, scoped to a read-only backend/admin API data contract for cohort code statuses and activation/registration funnel counts.
+.agent/stages/mvp/decisions.md:152:Why: `apps/admin` currently has only local instructions and no Next.js app baseline, while `apps/api` already contains the proven tenant/cohort/invite/registration model needed for a small verifiable admin data slice.
+.agent/stages/mvp/decisions.md:157:Decision: the frozen admin code-status API may return cohort metadata, status counts, funnel counts and per-code operational rows, but not raw invite-code values, lookup hashes, activation subject refs or employee contact fields.
+.agent/stages/mvp/decisions.md:163:Decision: `MVP-02-admin-code-status-view-001` uses read-only repository projections over existing `V002` tenant/cohort/invite tables and `V004` employee registration data instead of adding a `V005` migration.
+.agent/stages/mvp/decisions.md:164:Why: the frozen endpoint needs aggregation and pagination only; existing indexes and constraints are sufficient for Wave 1 proof, and a schema change would widen the slice without a concrete read-supporting need.
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:71:       regexp_replace(cohort_key, 'wave', 'launch', 'gi') as launch_key,
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:72:       regexp_replace(regexp_replace(name, 'Wave', 'Pilot launch', 'g'), 'Волна', 'Запуск пилота', 'g') as name,
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:79:from cohorts;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:97:       regexp_replace(cohort_key, 'wave', 'access-pool', 'gi') as pool_key,
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:98:       regexp_replace(regexp_replace(name, 'Wave', 'Access pool', 'g'), 'Волна', 'Пул доступа', 'g') as name,
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:105:from cohorts;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:111:set access_pool_id = cohort_id;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:136:  and registration.cohort_id = access_pool.id;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:144:    drop constraint fk_employee_registrations_cohort_tenant;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:146:drop index ix_employee_registrations_tenant_cohort;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:163:    drop column cohort_id;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:166:    drop constraint fk_invite_codes_cohort_tenant,
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:167:    drop constraint uq_invite_codes_id_tenant_cohort;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:169:drop index ix_invite_codes_tenant_cohort_status;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:172:    drop column cohort_id;
+apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql:174:drop table cohorts;
+.agent/stages/mvp/evidence.md:21:- Together they cover the non-human technical scope of `docs/stages/MVP.md` `MVP-02.04`: admin can view cohort/code statuses and activation/registration funnel data through a privacy-safe backend contract and read-only operator UI.
+.agent/stages/mvp/evidence.md:32:| `MVP-02-admin-code-status-view-001` | PASS | `.agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json` | Read-only backend/admin API status data contract, 500-code Wave 1 proof, activation/registration funnel counts, privacy-safe response, OpenAPI/source/runtime checks. |
+.agent/stages/mvp/evidence.md:39:| Admin view for cohorts | Covered by backend cohort metadata and minimal admin read-only screen. |
+.agent/stages/mvp/evidence.md:42:| 500 Wave 1 codes | Covered by prior backend Testcontainers/MockMvc evidence. |
+.agent/stages/mvp/evidence.md:55:- Broader admin/CMS operations beyond the read-only cohort/code status view.
+docs/architecture/init-and-dev-contract.md:96:MVP-01 bootstraps only synthetic fixture metadata and the idempotency table. MVP-02.01 adds the first tenant/cohort/invite schema; domain seed import remains out of scope until a later explicit seed/import slice.
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:18:create table cohorts (
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:21:    cohort_key varchar(64) not null,
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:30:    constraint fk_cohorts_tenant foreign key (tenant_id) references tenants (id),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:31:    constraint uq_cohorts_id_tenant unique (id, tenant_id),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:32:    constraint cohorts_key_format check (
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:33:        cohort_key = lower(cohort_key)
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:34:        and cohort_key ~ '^[a-z0-9][a-z0-9-]{1,62}[a-z0-9]$'
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:36:    constraint cohorts_name_non_empty check (btrim(name) <> ''),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:37:    constraint cohorts_kind_check check (kind in ('WAVE_0', 'WAVE_1', 'CUSTOM')),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:38:    constraint cohorts_status_check check (status in ('PLANNED', 'ACTIVE', 'CLOSED', 'ARCHIVED')),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:39:    constraint cohorts_target_size_check check (target_size between 1 and 5000),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:40:    constraint cohorts_dates_check check (ends_at is null or starts_at is null or ends_at > starts_at)
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:43:create unique index ux_cohorts_tenant_key on cohorts (tenant_id, cohort_key);
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:44:create index ix_cohorts_tenant_status on cohorts (tenant_id, status);
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:49:    cohort_id uuid not null,
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:58:    constraint fk_invite_codes_cohort_tenant foreign key (cohort_id, tenant_id) references cohorts (id, tenant_id),
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql:89:create index ix_invite_codes_tenant_cohort_status on invite_codes (tenant_id, cohort_id, status);
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:2:    add constraint uq_invite_codes_id_tenant_cohort unique (id, tenant_id, cohort_id);
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:7:    cohort_id uuid not null,
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:17:    constraint fk_employee_registrations_cohort_tenant foreign key (cohort_id, tenant_id) references cohorts (id, tenant_id),
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:19:        foreign key (invite_code_id, tenant_id, cohort_id)
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:20:        references invite_codes (id, tenant_id, cohort_id),
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:40:create index ix_employee_registrations_tenant_cohort
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql:41:    on employee_registrations (tenant_id, cohort_id);
+docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md:30:**Контур:** корпоративный пилот, Волна 1 — 500 сотрудников  
+docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md:41:В версии 0.2 сняты ключевые неопределённости для следующего этапа: активная Волна 1 планируется на **6 недель**, обязательная нагрузка ограничивается **двумя короткими уроками в неделю**, точные личные суммы не становятся частью HR-отчётности, pre/post self-assessment включается в MVP, а уровень «Знаток» открывается как небольшой набор optional mini-lessons, а не как полный второй уровень.
+docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md:60:4. Пилотная Волна 1 — 500 сотрудников.
+.agent/stages/mvp/evidence.json:19:      "cohort metadata and code status counts",
+.agent/stages/mvp/risks.md:10:| R-004 | Bootstrap currently validates synthetic fixture metadata, not domain table imports. | Accepted for MVP-01 | Domain seed import becomes enforceable after MVP-02/API schema creates tenant/cohort/invite/reward tables. |
+.agent/stages/mvp/task-files/MVP-02-invite-issuance-activation-001.md:10:Implement backend/domain invite code issuance, activation and one-user binding for existing tenant/cohort records, without employee registration, UI, public API or HR reporting.
+.agent/stages/mvp/task-files/MVP-02-invite-issuance-activation-001.md:22:- current `apps/api` tenant/cohort/invite model from `MVP-02-tenant-domain-001`
+.agent/stages/mvp/problems.md:39:- Broader admin/CMS operations beyond the read-only cohort/code status view.
+.agent/stages/mvp/task-files/MVP-02-04-closure-audit-001.md:31:Rationale: the prior fresh verifier `PASS` refs for `MVP-02-admin-code-status-view-001` and `MVP-02-admin-ui-status-view-001` cover the non-human technical scope of the admin cohorts/code statuses/activation funnel view. No concrete non-human proof gap remains for `MVP-02.04`.
+.agent/stages/mvp/feature_list.json:185:    "id": "mvp-02-tenant-cohort-invite-schema",
+.agent/stages/mvp/feature_list.json:187:    "description": "Tenant, cohort/wave and invite code schema/model exists with required constraints.",
+.agent/stages/mvp/feature_list.json:195:      "apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql",
+.agent/stages/mvp/feature_list.json:197:      "apps/api/src/main/java/com/finrhythm/api/tenant/domain/Cohort.java",
+.agent/stages/mvp/feature_list.json:259:    "description": "Invite issuance service generates Wave 1-capable code batches without raw-code persistence.",
+.agent/stages/mvp/feature_list.json:520:    "description": "MVP-02.04 admin cohort/code status slice is frozen as backend/admin API-only.",
+.agent/stages/mvp/feature_list.json:537:    "description": "Read-only backend/admin API returns cohort code statuses and activation/registration funnel data.",
+.agent/stages/mvp/feature_list.json:586:    "description": "apps/admin cohort/code status UI with Russian operator copy and screenshot evidence.",
+.agent/stages/mvp/feature_list.json:724:    "id": "mvp-02-remove-cohort-domain-contract-freeze",
+.agent/stages/mvp/feature_list.json:726:    "description": "Minimal refactor sprint contract is frozen to remove cohort/wave from the MVP domain without implementing code or closing MVP-02.",
+.agent/stages/mvp/feature_list.json:729:      "Inspect backend/admin cohort references",
+.agent/stages/mvp/feature_list.json:739:      ".agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md"
+.agent/stages/mvp/task-files/MVP-02-admin-ui-status-view-001.md:10:Build the minimal `apps/admin` Next.js scaffold and read-only cohort/code status view needed to make the verified backend admin API screenshotable and testable.
+.agent/stages/mvp/task-files/MVP-02-admin-ui-status-view-001.md:69:- Use synthetic fixtures for screenshots unless a live local API smoke uses synthetic tenant/cohort data.
+.agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json:157:      "detail": "V001-V003 are not modified, V004 follows V003, employee_registrations links tenant/cohort/invite, no raw invite-code column is present, and constraints/indexes are present.",
+.agent/stages/mvp/verdicts/MVP-02-04-closure-audit-001.json:14:    "Closure evidence maps those PASS slices to MVP-02.04 and limits coverage to cohort metadata, code statuses, activation/registration funnel counts and a privacy-safe read-only operator view.",
+.agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json:8:  "summary": "Read-only backend/admin code-status API is verified for this sprint slice. The endpoint GET /api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status returns privacy-safe cohort metadata, status counts, activation/registration funnel counts and paginated code rows. The slice has 500-code Wave 1 Testcontainers/MockMvc coverage, OpenAPI/springdoc source and runtime /v3/api-docs test coverage, no V005 migration, no generated-client artifacts, no apps/admin UI/scaffold change and no closed human gates.",
+.agent/stages/mvp/task-files/MVP-02-tenant-domain-001.md:5:Implement only the first MVP-02 backend/domain bootstrap slice: minimal API runtime plus tenant, cohort/wave and invite code model.
+.agent/stages/mvp/task-files/MVP-02-tenant-domain-001.md:13:Builder update on 2026-05-04: Java 21.0.11 is available, Maven Wrapper was added under `apps/api`, and the tenant/cohort/invite model was implemented with append-only `V002`. Required root/backend commands passed and raw outputs are recorded.
+.agent/stages/mvp/task-files/MVP-02-tenant-domain-001.md:15:Fresh verifier update on 2026-05-04: verifier returned `PASS` for this task only. This closes `MVP-02.01` / `MVP-02-tenant-domain-001`; it does not close invite issuance/activation, employee registration or admin cohort UI.
+.agent/stages/mvp/task-files/MVP-02-tenant-domain-001.md:44:- Tests or DB checks proving tenant/cohort/invite constraints.
+.agent/stages/mvp/status.json:145:      "MVP-02.04 is recorded as DONE_WITH_HUMAN_PENDING for the technical admin cohort/code status view scope: backend/admin API status data contract plus minimal read-only admin UI/status view.",
+.agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json:8:  "summary": "PASS for current sprint MVP-02-admin-ui-status-view-001 only. The two prior blocking gaps are fixed: the current admin UI renders the cohort status through Russian labels and current git diff --check is clean. This verdict does not close full MVP-02.04, full MVP-02, the MVP stage or any human gate.",
+.agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json:10:    "Minimal apps/admin Next.js scaffold and read-only cohort/code status view for the already verified backend DTO.",
+.agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json:19:      "id": "AC-4-russian-cohort-status-label",
+.agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json:22:        "apps/admin/components/status-labels.ts defines COHORT_STATUS_LABELS for PLANNED, ACTIVE and CLOSED.",
+.agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json:23:        "apps/admin/components/admin-code-status-screen.tsx renders COHORT_STATUS_LABELS[data.cohortStatus] instead of data.cohortStatus.",
+.agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json:61:      "detail": "Success state shows cohort metadata, summary/funnel counts, status counts, filter/page state and paginated code rows."
+.agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json:76:      "detail": "Optional live mode is read-only GET and requires explicit synthetic tenant/cohort environment variables."
+.agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json:81:      "detail": "Guardrail scans and source inspection found no raw invite-code values, lookup hashes, activation subject refs, employee contact fields, diagnostics/financial data, customer brand or rendered raw cohort enum leakage."
+.agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json:196:    "honest_limitation": "The desktop/mobile success screenshots are valid state/layout evidence but stale for the cohort label and still show PLANNED. Current rendered production HTML is the post-fix proof for 500 · Запланирована and absence of PLANNED."
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:1:# Task: MVP-02-remove-cohort-domain-001
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:11:Refactor MVP-02 so `cohort` is fully removed from the MVP domain.
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:18:- no `cohort` or `wave` operator/product concept.
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:20:The task is not complete if `cohort` survives as public API wording, admin UI wording, active Java domain, active repository boundary, active DB final-schema model or undocumented compatibility path.
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:28:- `MVP-02.04` is `DONE_WITH_HUMAN_PENDING` under the old admin cohort/code status model;
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:31:Canonical docs currently still mention `cohort/wave`; this task must sync them during implementation because the product decision changed. This freezer did not edit canonical docs.
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:38:- Migrate active schema from `cohorts` / `cohort_id` to the chosen replacement model (`pilot_launch` and/or `access_pool`).
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:40:- Remove active runtime dependency on cohort table/columns/FKs/indexes/constraints.
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:41:- Remove `WAVE_0`, `WAVE_1`, `CUSTOM` as domain enum semantics for the MVP access path.
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:46:- Replace active references to `Cohort`, `CohortKind`, `CohortStatus`, `CohortRepository` and `cohortId`.
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:50:- Update backend tests that seed or assert waves/cohorts.
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:60:- Replace `/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status`.
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:61:- Remove `cohort*` response/request fields from public/admin DTOs.
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:68:  - `Статус кодов по когорте`;
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:69:  - `ID когорты`;
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:70:  - `Когорта`;
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:71:  - `Волна` / `wave`.
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:72:- Rename local types, fixture fields, env vars and fetch path away from `cohort*`.
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:81:  - `docs/architecture/source-of-truth.md` if its MVP baseline still names `cohort/wave`;
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:82:  - access docs only if their MVP boundary wording still permits `tenant/cohort/invite` as the current slice.
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:100:1. `cohort`/`wave` no longer appears in active production API/backend/admin code as MVP domain/API/UI terminology.
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:101:2. Final Flyway schema has no active first-class cohort model or `cohort_id` runtime contract.
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:103:4. Employee registration keeps the same user-facing capability and returns replacement identifiers instead of `cohortId`.
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:106:7. Canonical docs and stage artifacts are synchronized with the no-cohort MVP decision.
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:107:8. Any remaining `cohort`/`wave` match is historical evidence, old immutable migration text, or an explicitly documented temporary migration detail with no product/API/UI exposure.
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:118:  - `cohort`;
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:119:  - `Cohort`;
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:120:  - `COHORT`;
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:121:  - `wave`;
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:122:  - `Wave`;
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:123:  - `WAVE`;
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:124:  - `когорт`;
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:125:  - `волна`.
+.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md:131:- Fresh verifier verdict scoped only to `MVP-02-remove-cohort-domain-001`.
+.agent/stages/mvp/task-files/MVP-02-employee-registration-001.md:10:Implement backend/API employee registration by `fullName`, `email`, `phone` and `inviteCode`, using the existing tenant/cohort/invite activation core.
+.agent/stages/mvp/task-files/MVP-02-employee-registration-001.md:28:- current `apps/api` tenant/cohort/invite model and `InviteCodeAccessService`
+.agent/stages/mvp/task-files/MVP-02-employee-registration-001.md:43:- No admin view for cohorts, code statuses or activation funnel.
+.agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md:8:- `GET /api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status`;
+.agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md:9:- cohort metadata, invite-code status counts, activation/registration funnel counts;
+.agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md:30:    AdminClient->>Controller: GET /api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status
+.agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md:31:    Controller->>Service: tenantId, cohortId, status/page/size
+.agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md:33:    Service->>Repositories: load cohort scoped by tenant
+.agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md:34:    alt scoped cohort exists
+.agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md:40:    else missing or tenant/cohort mismatch
+.agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md:78:| 4 | PASS | `AdminCodeStatusControllerIT` seeds 500 synthetic Wave 1 codes with mixed issued/activated/registered/revoked/expired states. |
+.agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md:104:- `apps/api/src/main/java/com/finrhythm/api/tenant/persistence/CohortRepository.java`
+.agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.json:7:  "summary": "Read-only backend/admin code-status API is implemented with privacy-safe aggregation, 500-code Wave 1 Testcontainers coverage, OpenAPI/springdoc source and generated-client no-op evidence. Fresh stage_verifier is still required before this task can be marked PASS.",
+.agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.json:104:    "apps/api/src/main/java/com/finrhythm/api/tenant/persistence/CohortRepository.java",
+.agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.json:125:  "migration_notes": "No V005 migration was added; existing V002 tenant/cohort/invite and V004 employee_registrations schema support read aggregation.",
+.agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.json:185:        "AdminCodeStatusControllerIT seeds 500 synthetic Wave 1 invite codes",
+.agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.json:276:      "500-code Wave 1 mixed status/read-model tests",
+.agent/stages/mvp/verdict.json:15:    "Closure evidence maps those PASS slices to MVP-02.04 and limits coverage to cohort metadata, code statuses, activation/registration funnel counts and a privacy-safe read-only operator view.",
+.agent/stages/mvp/stage_spec.md:1:# MVP-02 cohort-domain removal spec freeze
+.agent/stages/mvp/stage_spec.md:4:Active slice: `MVP-02-remove-cohort-domain-001`
+.agent/stages/mvp/stage_spec.md:12:Freeze the smallest honest refactor sprint that removes `cohort` as a first-class MVP domain concept.
+.agent/stages/mvp/stage_spec.md:14:New product decision for MVP: one corporate pilot `tenant` has one pilot launch / access pool of invite codes. `cohort` and `wave` must not remain operator/product concepts, API path labels, admin UI labels or first-class Java/DB domain models. Where the product needs launch/access grouping, use `tenant`, `pilot launch`, `access pool` and `status`. If implementation needs a technical issuance batch, it is not a first-class MVP domain model and must not appear in public API paths or UI labels.
+.agent/stages/mvp/stage_spec.md:36:- relevant `apps/api` and `apps/admin` files that currently mention `cohort`/`wave`.
+.agent/stages/mvp/stage_spec.md:38:Current canonical docs still describe MVP-02 with `cohort/wave`. This freezer is not allowed to edit canonical docs, so the contradiction is deliberately captured as required scope for the future implementation sprint.
+.agent/stages/mvp/stage_spec.md:43:- `MVP-02.01`, `MVP-02.02` and `MVP-02.03` are closed as `PASS` under the old `tenant/cohort/status` model.
+.agent/stages/mvp/stage_spec.md:44:- `MVP-02.04` is `DONE_WITH_HUMAN_PENDING` under the old admin cohort/code status model.
+.agent/stages/mvp/stage_spec.md:53:- DB/Flyway: append-only migration after the current tenant/cohort/invite and employee-registration migrations; final schema must not keep `cohorts`, `cohort_id`, cohort FK/index/constraint names or `WAVE_*`/cohort enum semantics as active MVP domain state unless documented as a temporary migration detail with drop criteria.
+.agent/stages/mvp/stage_spec.md:54:- Java domain/service/repository/tests: remove or rename `Cohort`, `CohortKind`, `CohortStatus`, `CohortRepository`, `cohortId` method parameters/records and cohort-target-size rules; update invite issuance/activation, employee registration, admin status services, repositories and integration/domain tests.
+.agent/stages/mvp/stage_spec.md:55:- OpenAPI/API paths and DTOs: remove `/cohorts/{cohortId}` paths and `cohort*` response fields; replace with tenant/pilot-launch/access-pool identifiers and examples; refresh springdoc/OpenAPI source and generated-client notes or explicit no-op.
+.agent/stages/mvp/stage_spec.md:56:- Admin UI copy/routes/types/tests: replace Russian operator copy such as `когорта` and product terms such as `wave`; rename fixture/type/env-var/client fields away from `cohort*`; update route/fetch path, status labels, browser smoke and boundary tests.
+.agent/stages/mvp/stage_spec.md:61:- DB migrations: `V002__tenant_cohort_invite_model.sql`, `V004__employee_registration.sql`;
+.agent/stages/mvp/stage_spec.md:62:- backend path: `/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status`;
+.agent/stages/mvp/stage_spec.md:63:- backend DTO fields: `cohortId`, `cohortKey`, `cohortName`, `cohortKind`, `cohortStatus`;
+.agent/stages/mvp/stage_spec.md:64:- admin UI copy: `Статус кодов по когорте`, `ID когорты`, `Когорта`;
+.agent/stages/mvp/stage_spec.md:65:- admin fixture/types/env vars: `cohortId`, `cohortKey`, `cohortName`, `cohortKind`, `cohortStatus`, `FINRHYTHM_ADMIN_SYNTHETIC_COHORT_ID`.
+.agent/stages/mvp/stage_spec.md:69:Freeze one refactor sprint: `MVP-02-remove-cohort-domain-001`.
+.agent/stages/mvp/stage_spec.md:76:- Remove active cohort/wave domain semantics from DB final schema, Java domain, repositories, services, tests, API paths/DTOs and admin UI.
+.agent/stages/mvp/stage_spec.md:80:- Update canonical docs required by the changed product decision, because the current docs still say `cohort/wave`.
+.agent/stages/mvp/stage_spec.md:96:Hidden cohort compatibility is prohibited.
+.agent/stages/mvp/stage_spec.md:98:The implementation sprint must not keep duplicate public routes, DTO fields, admin labels, fixture fields, environment variables or Java services under `cohort*` names for convenience. A temporary DB migration bridge is allowed only when it is explicitly documented as a migration detail, has no product/operator/API/UI surface, is covered by tests and has clear removal criteria.
+.agent/stages/mvp/stage_spec.md:102:1. No active production code in `apps/api`, `apps/admin` or `packages/api-client` exposes `cohort`/`wave` as MVP domain/API/UI terminology after the refactor, except explicitly documented temporary migration details.
+.agent/stages/mvp/stage_spec.md:103:2. Final DB schema after Flyway migrations has no active first-class `cohorts` model or `cohort_id` contract for invite codes/employee registrations/admin status.
+.agent/stages/mvp/stage_spec.md:115:- migration inspection and schema grep proving no active cohort domain remains;
+.agent/stages/mvp/stage_spec.md:119:- focused `rg` scan for `cohort|Cohort|COHORT|wave|Wave|WAVE|когорт|волна` with allowed historical/temporary matches explained;
+.agent/stages/mvp/stage_spec.md:123:- fresh verifier verdict scoped only to `MVP-02-remove-cohort-domain-001`.
+.agent/stages/mvp/task-files/MVP-02-admin-code-status-view-001.md:10:Implement the backend/admin API data contract for the future admin cohort/code status view and activation funnel.
+.agent/stages/mvp/task-files/MVP-02-admin-code-status-view-001.md:32:- current `apps/api` tenant/cohort/invite/registration model and repositories
+.agent/stages/mvp/task-files/MVP-02-admin-code-status-view-001.md:49:- No admin mutations for tenant/cohort/code generation/revocation/bulk actions.
+.agent/stages/mvp/task-files/MVP-02-admin-code-status-view-001.md:86:- API/read-model tests for 500-code Wave 1 scale, mixed status counts, activation/registration funnel counts, status filtering, pagination, safe not-found/mismatch and validation errors
+.agent/stages/mvp/backlog.md:29:`MVP-02-04-closure-audit-001` has fresh verifier `PASS` and records the explicit `MVP-02.04` closure decision: `DONE_WITH_HUMAN_PENDING` for the technical admin cohort/code status view scope, with human gates, full `MVP-02` and the MVP stage still open.
+.agent/stages/mvp/backlog.md:31:`MVP-02-remove-cohort-domain-001` is frozen as the next minimal refactor contract after the new product decision: MVP must no longer model `cohort`/`wave` as a domain/operator concept. It does not implement code, does not close full `MVP-02`, and keeps all human gates open.
+.agent/stages/mvp/backlog.md:37:| MVP-02.01 | agent | PASS | Model tenant, legacy cohorts/waves and invite codes under the previous contract. Superseded by `MVP-02-remove-cohort-domain-001`. | `.agent/stages/mvp/evidence.md`, `.agent/stages/mvp/verdict.json`, `.agent/stages/mvp/task-files/MVP-02-tenant-domain-001.md` |
+.agent/stages/mvp/backlog.md:40:| MVP-02.04 | agent+human | DONE_WITH_HUMAN_PENDING | Implement admin view for legacy cohort/code statuses and activation funnel under the previous contract. Superseded by `MVP-02-remove-cohort-domain-001`. | `.agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json`; `.agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json`; `.agent/stages/mvp/verdicts/MVP-02-04-closure-audit-001.json`; human-gated production policy/statuses remain open and full `MVP-02` is not closed. |
+.agent/stages/mvp/backlog.md:41:| MVP-02-remove-cohort-domain-001 | agent | FROZEN | Remove `cohort`/`wave` from the MVP domain and replace the old model with one tenant pilot launch / access pool contract. | `.agent/stages/mvp/stage_spec.md`, `.agent/stages/mvp/sprint_contract.md`, `.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md`; implementation and fresh verification still pending. |
+.agent/stages/mvp/backlog.md:48:- model tenant, cohort/wave and invite code persistence;
+.agent/stages/mvp/backlog.md:56:- issue invite-code batches for existing tenant/cohort records, including Wave 1 size proof;
+.agent/stages/mvp/backlog.md:77:- expose a read-only admin endpoint for one tenant/cohort code-status and activation/registration funnel data;
+.agent/stages/mvp/backlog.md:78:- return cohort metadata, status counts, Wave 1-scale pagination and privacy-safe per-code operational rows;
+.agent/stages/mvp/backlog.md:89:- use the proven backend DTO for `GET /api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status`;
+.agent/stages/mvp/backlog.md:94:- one fixer pass added Russian cohort status labels, refreshed checks/evidence and proved current rendered production HTML contains `500 · Запланирована` with no `PLANNED` token;
+.agent/stages/mvp/backlog.md:109:### Frozen cohort-domain removal refactor
+.agent/stages/mvp/backlog.md:111:`MVP-02-remove-cohort-domain-001` is intentionally scoped to freezing the next implementation contract after the product decision that MVP has no first-class `cohort` domain:
+.agent/stages/mvp/backlog.md:115:- hidden cohort compatibility is forbidden unless explicitly documented as a temporary migration detail with no API/UI/operator surface and clear removal criteria;
+.agent/stages/mvp/problems/MVP-02-admin-ui-status-view-001.md:14:1. Russian operator label for cohort status: fixed.
+.agent/stages/mvp/problems/MVP-02-admin-ui-status-view-001.md:15:   - Source now renders `COHORT_STATUS_LABELS[data.cohortStatus]` in [admin-code-status-screen.tsx](/Users/elena/cursor/FinPulse/apps/admin/components/admin-code-status-screen.tsx:44).
+.agent/stages/mvp/problems/MVP-02-admin-ui-status-view-001.md:27:- Current post-fix rendered HTML is the proof for `500 · Запланирована` and absence of rendered raw cohort enum.
+.agent/stages/mvp/evidence/MVP-02-04-closure-audit-001.md:22:- Cohort metadata, code statuses and activation/registration funnel counts: covered by `MVP-02-admin-code-status-view-001`.
+.agent/stages/mvp/problems/MVP-02-04-closure-audit-001.md:39:- Broader admin/CMS operations beyond the read-only cohort/code status view.
+.agent/stages/mvp/evidence/MVP-02-employee-registration-001.md:29:        RegistrationService->>DB: persist registration linked to tenant/cohort/invite
+.agent/stages/mvp/progress.md:11:- Found no remaining non-human proof gap for the `MVP-02.04` technical scope: together the verified slices cover cohort/code status backend data, activation/registration funnel counts, Russian read-only operator UI, privacy-safe rendering and screenshot/browser evidence limitations.
+.agent/stages/mvp/progress.md:25:- Fixed cohort status rendering with `COHORT_STATUS_LABELS` so the operator UI shows `500 · Запланирована` instead of `500 · PLANNED`.
+.agent/stages/mvp/progress.md:36:- Added a typed local DTO/client/fixture boundary, synthetic fixture mode, optional read-only live mode with explicit synthetic tenant/cohort env vars, and Russian operator copy.
+.agent/stages/mvp/progress.md:51:- Confirmed the proven backend endpoint shape for `GET /api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status`: optional `status/page/size`, status enum `CREATED|ISSUED|RESERVED|ACTIVATED|REVOKED|EXPIRED`, size max `100`, privacy-safe metadata/summary/statusCounts/code rows and no raw invite codes or employee contact fields.
+.agent/stages/mvp/progress.md:63:- Verdict is `PASS` for the backend/admin API-only data contract: `GET /api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status`.
+.agent/stages/mvp/progress.md:64:- Verified 500-code Wave 1 coverage, mixed status counts, activation/registration funnel counts, status filtering, bounded pagination, safe 400/404 errors, OpenAPI/springdoc source and runtime `/v3/api-docs` assertions.
+.agent/stages/mvp/progress.md:72:- Implemented the backend/admin API source slice for `GET /api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status` within the frozen backend-only scope.
+.agent/stages/mvp/progress.md:76:- Added `AdminCodeStatusControllerIT` with 500 synthetic Wave 1 invite codes, mixed issued/activated/registered/revoked/expired states, funnel counts, status filtering, bounded pagination, safe mismatch/not-found and validation errors, privacy response assertions and `/v3/api-docs` coverage.
+.agent/stages/mvp/progress.md:89:  - `apps/api` has Spring Boot 3.3, Java 21, Maven Wrapper, PostgreSQL/Flyway, springdoc/OpenAPI and tenant/cohort/invite/registration model through `V004`;
+.agent/stages/mvp/progress.md:93:- Required future builder evidence now covers a read-only admin endpoint for cohort/code status, Wave 1-scale 500-code tests, activation/registration funnel counts, pagination/filtering, OpenAPI/springdoc source, generated-client regeneration or explicit no-op, privacy/raw-code/PII scans, raw refs and fresh verification.
+.agent/stages/mvp/progress.md:102:- Added `employee_registrations` persistence with tenant/cohort/invite links, unique invite registration, normalized contact fields and an opaque `activation_subject_ref`.
+.agent/stages/mvp/progress.md:119:- Inspected the backend baseline for scope only: Spring Boot/Java/Maven Wrapper/PostgreSQL/Flyway exists with tenant/cohort/invite domain and `InviteCodeAccessService`; no REST controller, springdoc/OpenAPI dependency or generated API client currently exists.
+.agent/stages/mvp/progress.md:171:- Scope is backend/domain service-level invite issuance, activation and one-user binding for existing tenant/cohort records.
+.agent/stages/mvp/progress.md:200:- Implemented only the MVP-02.01 backend/domain model slice: minimal Spring Boot application, append-only `V002__tenant_cohort_invite_model.sql`, tenant/cohort/invite JPA/domain model and repositories for persistence tests.
+.agent/stages/mvp/progress.md:202:  - unit/domain checks for Wave 0/Wave 1 sizing, hash validation, same-tenant ownership and activation lifecycle validation;
+.agent/stages/mvp/progress.md:203:  - PostgreSQL/Testcontainers checks for Flyway migration, unique invite lookup hash, DB-level tenant/cohort ownership, invalid activated state rejection and absence of raw invite-code columns.
+.agent/stages/mvp/sprint_contract.md:1:# Sprint contract: MVP-02-remove-cohort-domain-001
+.agent/stages/mvp/sprint_contract.md:11:Remove `cohort` as a first-class MVP domain entity and replace old `cohort/wave` wording with the new MVP access model:
+.agent/stages/mvp/sprint_contract.md:17:`cohort` and `wave` must not remain public API paths, DTO fields, admin UI labels, operator concepts or Java/DB first-class domain models. A technical issuance batch is allowed only as an internal implementation detail, not as a product/API/UI concept.
+.agent/stages/mvp/sprint_contract.md:24:- `MVP-02.01`, `MVP-02.02`, `MVP-02.03` are `PASS` under the previous `tenant/cohort/status` model.
+.agent/stages/mvp/sprint_contract.md:25:- `MVP-02.04` is `DONE_WITH_HUMAN_PENDING` under the previous admin cohort/code status model.
+.agent/stages/mvp/sprint_contract.md:35:- Remove active first-class `cohorts` / `cohort_id` final-schema dependency from invite codes, employee registrations and admin status queries.
+.agent/stages/mvp/sprint_contract.md:36:- Rename/drop cohort FK/index/constraint names and `WAVE_*`/cohort enum semantics from active schema.
+.agent/stages/mvp/sprint_contract.md:42:- Remove/rename `Cohort`, `CohortKind`, `CohortStatus`, `CohortRepository` and `cohortId` records/parameters from active domain/service/repository/API code.
+.agent/stages/mvp/sprint_contract.md:49:- Replace `/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status` with a tenant/pilot-launch/access-pool path.
+.agent/stages/mvp/sprint_contract.md:50:- Remove `cohort*` fields from registration/admin responses and examples.
+.agent/stages/mvp/sprint_contract.md:56:- Replace operator copy such as `Статус кодов по когорте`, `ID когорты`, `Когорта`, `Волна` with access-pool / pilot-launch wording.
+.agent/stages/mvp/sprint_contract.md:57:- Rename local DTO types, fixture JSON fields, fetch client variables and env vars away from `cohort*`, including `FINRHYTHM_ADMIN_SYNTHETIC_COHORT_ID`.
+.agent/stages/mvp/sprint_contract.md:63:- Update the narrowest canonical docs that own the changed decision, because current docs still describe `tenant/cohort/wave`.
+.agent/stages/mvp/sprint_contract.md:73:- `.agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md`.
+.agent/stages/mvp/sprint_contract.md:77:Do not keep hidden cohort compatibility.
+.agent/stages/mvp/sprint_contract.md:82:- DTOs that expose both `cohortId` and replacement IDs;
+.agent/stages/mvp/sprint_contract.md:83:- admin UI labels or fixture/type fields retaining `cohort*`;
+.agent/stages/mvp/sprint_contract.md:84:- Java repositories/services that keep cohort terminology as the active domain boundary;
+.agent/stages/mvp/sprint_contract.md:85:- database views/tables/columns under cohort names used by runtime code after the migration.
+.agent/stages/mvp/sprint_contract.md:103:1. The implementation removes active `cohort`/`wave` MVP terminology from production API/admin/backend surfaces listed above.
+.agent/stages/mvp/sprint_contract.md:104:2. Final Flyway-managed schema has no active first-class cohort table/columns/FKs/indexes used by runtime code.
+.agent/stages/mvp/sprint_contract.md:106:4. Employee registration still works by name/email/phone/code and returns replacement tenant/access-pool/pilot-launch fields instead of `cohortId`.
+.agent/stages/mvp/sprint_contract.md:121:- focused term scan for `cohort|Cohort|COHORT|wave|Wave|WAVE|когорт|волна`, with every remaining match classified as historical evidence, canonical doc update target or temporary migration detail;
+.agent/stages/mvp/sprint_contract.md:128:- fresh verifier verdict scoped to `MVP-02-remove-cohort-domain-001`.
+.agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.md:11:This slice implements the minimal screenshotable `apps/admin` scaffold and read-only cohort/code status view for the already verified backend DTO. It does not change backend/API/schema behavior and does not close full `MVP-02.04`, full `MVP-02` or any human gate.
+.agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.md:18:- Added synthetic fixture mode for screenshots and tests; live mode remains read-only and requires explicit synthetic tenant/cohort env vars.
+.agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.md:43:    UI-->>Browser: cohort metadata, summary, status counts and operational rows
+.agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.md:98:- Fixed verifier gap: cohort status now renders through `COHORT_STATUS_LABELS`, preserving the backend DTO while displaying Russian labels for `PLANNED`, `ACTIVE` and `CLOSED`.
+.agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.md:123:5. Cohort metadata, summary/funnel/status/page/code rows: `PASS`; screenshots and fixture prove rendered state.
+.agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.md:130:12. Browser smoke/screenshots: `PASS_WITH_LIMITATION`; system Google Chrome produced five builder screenshots for route states/layout. Fixer refresh attempted the same installed Chrome path, but Chrome aborted before navigation; post-fix production HTML proves the corrected Russian cohort label.
+.agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.json:128:    "Builder screenshots are valid for layout/states but predate the cohort label fix; post-fix production HTML proves the Russian label and absence of PLANNED.",
+docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md:380:marathon_id: N2_SAVINGS_6W_WAVE1
+docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md:382:wave: Wave1
+docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md:413:| `ready_for_wave0` | Можно тестировать в закрытой Волне 0, есть unresolved human gates label. | Product owner |
+docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md:414:| `wave0_feedback_applied` | Учтены UX/content/reward замечания Волны 0. | Product + methodology |
+docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md:509:| Практика | Запустить `N2_SAVINGS_6W_WAVE1`, выбрать формат, категорию цели и напоминание. |
+docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md:867:**Статус:** stretch optional после Волны 0; не включать как required для Wave 1 readiness.  
+docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md:958:**ID:** `N2_SAVINGS_6W_WAVE1`  
+docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md:1020:15. Wave 0 feedback: что переписать после проверки на 30–50 пользователях.
