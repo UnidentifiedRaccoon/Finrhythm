@@ -1,0 +1,1 @@
+PASS: no nested app-local .agent generated artifacts

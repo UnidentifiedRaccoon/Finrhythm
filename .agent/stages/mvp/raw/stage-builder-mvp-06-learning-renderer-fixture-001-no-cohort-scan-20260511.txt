@@ -1,0 +1,1 @@
+PASS: no active cohort/cohortId/cohorts terms in apps/web renderer scope

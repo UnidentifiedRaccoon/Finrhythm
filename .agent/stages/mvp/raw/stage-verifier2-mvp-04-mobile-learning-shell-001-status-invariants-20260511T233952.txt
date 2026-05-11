@@ -1,0 +1,14 @@
+# status and scope invariants
+state=SPRINT_BUILT_AWAITING_VERIFICATION latest_verified=MVP-02-closure-audit-001 active=MVP-04-mobile-learning-shell-001
+mvp_stage_complete=false human_gates_open=true mvp_03_onboarding_consent_complete=false mvp_07_diagnostics_routing_complete=false fresh_verifier_pass=false
+waiting_human: legal-privacy-consent-wording-and-real-pii-processing
+waiting_human: real-employee-customer-data-processing-approval
+waiting_human: customer-specific-hr-reporting-boundaries
+waiting_human: financial-correctness-lessons-diagnostics-quizzes
+waiting_human: legal-tax-review-tax-deduction-wording
+waiting_human: hr-privacy-wording-review-diagnostics-self-assessment-reports
+waiting_human: reward-economy-stock-prices-fulfillment
+waiting_human: support-answer-policy-sensitive-topics
+waiting_human: MVP-05-production-ready-publish-approval
+waiting_human: admin-auth-role-audit-policy-for-production-use
+PASS: MVP stage remains open, human gates remain waiting/open, onboarding/consent and diagnostics/routing are not closed.

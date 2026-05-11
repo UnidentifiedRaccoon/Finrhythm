@@ -1,0 +1,172 @@
+{
+  "status": "PASS",
+  "checked_at": "2026-05-11T21:53:59.351Z",
+  "repo_root": "/Users/elena/cursor/FinPulse",
+  "checks": [
+    {
+      "id": "path:Makefile",
+      "status": "PASS",
+      "detail": "Makefile exists"
+    },
+    {
+      "id": "path:package.json",
+      "status": "PASS",
+      "detail": "package.json exists"
+    },
+    {
+      "id": "path:pnpm-workspace.yaml",
+      "status": "PASS",
+      "detail": "pnpm-workspace.yaml exists"
+    },
+    {
+      "id": "path:infra/local/compose.yaml",
+      "status": "PASS",
+      "detail": "infra/local/compose.yaml exists"
+    },
+    {
+      "id": "path:scripts/init/version.json",
+      "status": "PASS",
+      "detail": "scripts/init/version.json exists"
+    },
+    {
+      "id": "path:content/fixtures/demo-bootstrap.json",
+      "status": "PASS",
+      "detail": "content/fixtures/demo-bootstrap.json exists"
+    },
+    {
+      "id": "path:apps/api/src/main/resources/db/migration/V001__dev_bootstrap_runs.sql",
+      "status": "PASS",
+      "detail": "apps/api/src/main/resources/db/migration/V001__dev_bootstrap_runs.sql exists"
+    },
+    {
+      "id": "path:packages/ui",
+      "status": "PASS",
+      "detail": "packages/ui exists"
+    },
+    {
+      "id": "path:packages/config",
+      "status": "PASS",
+      "detail": "packages/config exists"
+    },
+    {
+      "id": "path:packages/api-client",
+      "status": "PASS",
+      "detail": "packages/api-client exists"
+    },
+    {
+      "id": "path:content/fixtures",
+      "status": "PASS",
+      "detail": "content/fixtures exists"
+    },
+    {
+      "id": "path:content/imports",
+      "status": "PASS",
+      "detail": "content/imports exists"
+    },
+    {
+      "id": "path:content/exports",
+      "status": "PASS",
+      "detail": "content/exports exists"
+    },
+    {
+      "id": "path:tests/e2e",
+      "status": "PASS",
+      "detail": "tests/e2e exists"
+    },
+    {
+      "id": "make-target:install",
+      "status": "PASS",
+      "detail": "Makefile defines install"
+    },
+    {
+      "id": "make-target:init",
+      "status": "PASS",
+      "detail": "Makefile defines init"
+    },
+    {
+      "id": "make-target:dev",
+      "status": "PASS",
+      "detail": "Makefile defines dev"
+    },
+    {
+      "id": "make-target:verify",
+      "status": "PASS",
+      "detail": "Makefile defines verify"
+    },
+    {
+      "id": "make-target:test-unit",
+      "status": "PASS",
+      "detail": "Makefile defines test-unit"
+    },
+    {
+      "id": "make-target:test-e2e",
+      "status": "PASS",
+      "detail": "Makefile defines test-e2e"
+    },
+    {
+      "id": "make-target:build",
+      "status": "PASS",
+      "detail": "Makefile defines build"
+    },
+    {
+      "id": "package-manager",
+      "status": "PASS",
+      "detail": "package.json pins pnpm@10.27.0"
+    },
+    {
+      "id": "bootstrap-key",
+      "status": "PASS",
+      "detail": "bootstrap key is local_init"
+    },
+    {
+      "id": "bootstrap-version",
+      "status": "PASS",
+      "detail": "bootstrap version is date-versioned"
+    },
+    {
+      "id": "bootstrap-checksum",
+      "status": "PASS",
+      "detail": "bootstrap checksum marker is present"
+    },
+    {
+      "id": "bootstrap-fixture",
+      "status": "PASS",
+      "detail": "bootstrap fixture path is explicit"
+    },
+    {
+      "id": "fixture-no-customer-brand",
+      "status": "PASS",
+      "detail": "employee fixture does not expose customer brand"
+    },
+    {
+      "id": "fixture-no-real-person",
+      "status": "PASS",
+      "detail": "fixture contains no real-looking contact data"
+    },
+    {
+      "id": "fixture-privacy-threshold",
+      "status": "PASS",
+      "detail": "fixture keeps HR reporting threshold at least 20"
+    },
+    {
+      "id": "fixture-points-not-money",
+      "status": "PASS",
+      "detail": "rewards use pointsPrice, not money fields"
+    },
+    {
+      "id": "migration-bootstrap-table",
+      "status": "PASS",
+      "detail": "migration creates dev_bootstrap_runs"
+    },
+    {
+      "id": "migration-idempotency-key",
+      "status": "PASS",
+      "detail": "migration records bootstrap idempotency key"
+    },
+    {
+      "id": "compose-postgres",
+      "status": "PASS",
+      "detail": "local compose defines PostgreSQL 16"
+    }
+  ]
+}

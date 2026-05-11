@@ -845,5 +845,214 @@
       ".agent/stages/mvp/raw/orchestrator-mvp-02-closure-audit-001-verify-harness-final-20260511.json"
     ],
     "note": "Fresh verifier PASS accepted by parent; latest verified alias synchronized."
+  },
+  {
+    "id": "mvp-04-mobile-learning-shell-contract-freeze",
+    "category": "harness",
+    "description": "Next MVP sprint contract is frozen for a minimal mobile-first apps/web learning shell.",
+    "steps": [
+      "Apply decision rule after latest verified MVP-02 closure audit",
+      "Confirm apps/web has no production-ready mobile shell",
+      "Freeze direct learning entry, `Новичок` track entry and one synthetic lesson preview",
+      "Keep onboarding, consent, diagnostics, MVP stage and human gates open"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/stage_spec.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/task-files/MVP-04-mobile-learning-shell-001.md",
+      "apps/web/AGENTS.md",
+      "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md",
+      "docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md"
+    ],
+    "note": "This freezer records only the next contract. It does not implement apps/web, close MVP-04/MVP-06/MVP-07, close the MVP stage or close human gates."
+  },
+  {
+    "id": "mvp-04-mobile-learning-shell-builder",
+    "category": "web",
+    "description": "apps/web mobile learning shell implementation is complete and fresh-verified.",
+    "steps": [
+      "Implement minimal mobile-first employee shell",
+      "Render direct dev/demo learning entry",
+      "Render `Новичок` track entry and one lesson preview from synthetic fixtures",
+      "Add component/unit tests and browser/mobile evidence"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-04-mobile-learning-shell-001.md",
+      ".agent/stages/mvp/evidence/MVP-04-mobile-learning-shell-001.json",
+      ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-typecheck-20260511.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-test-20260511.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-build-20260511.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-browser-smoke-20260511.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-browser-iab-20260511.json",
+      ".agent/stages/mvp/raw/mvp-04-mobile-learning-shell-001-screenshots-20260511/",
+      ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-make-verify-20260511.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-make-test-unit-20260511.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-make-build-20260511.txt"
+    ],
+    "note": "Builder evidence complete and verifier raw proof passed. Synthetic fixtures only; no onboarding, consent, diagnostics, routing, CMS, progress, points or real data claim."
+  },
+  {
+    "id": "mvp-04-mobile-learning-shell-fresh-verification",
+    "category": "verification",
+    "description": "Fresh verifier reviewed only MVP-04-mobile-learning-shell-001 after builder evidence.",
+    "steps": [
+      "Run web/root verification commands",
+      "Review tests, browser smoke and mobile screenshots",
+      "Review synthetic data, customer-brand, forbidden-copy and cohort-term scans",
+      "Write scoped verifier verdict/problems artifacts"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-04-mobile-learning-shell-001.md",
+      ".agent/stages/mvp/evidence/MVP-04-mobile-learning-shell-001.md",
+      ".agent/stages/mvp/evidence/MVP-04-mobile-learning-shell-001.json",
+      ".agent/stages/mvp/verdicts/MVP-04-mobile-learning-shell-001.json",
+      ".agent/stages/mvp/problems/MVP-04-mobile-learning-shell-001.md",
+      ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-make-verify-20260511T233952.txt",
+      ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-make-test-unit-20260511T233952.txt",
+      ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-make-build-20260511T233952.txt",
+      ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-browser-smoke-absolute-20260511T233952.txt",
+      ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-nested-app-agent-scan-20260511T233952.txt"
+    ],
+    "note": "PASS for this sprint only. MVP-03 onboarding/consent, MVP-07 diagnostics/routing, full MVP-04, MVP-06, full MVP and human gates remain open."
+  },
+  {
+    "id": "mvp-06-learning-renderer-fixture-contract-freeze",
+    "category": "harness",
+    "description": "Next MVP sprint contract is frozen for a tiny apps/web fixture-backed lesson renderer after MVP-04 mobile shell PASS.",
+    "steps": [
+      "Apply decision rule after latest verified MVP-04 mobile learning shell PASS",
+      "Confirm the current apps/web shell is sufficient for a fixture-backed renderer",
+      "Use the content spec draft lesson fields and mobile blocks as enough structure for a synthetic N1 fixture",
+      "Freeze renderer-only scope without CMS, progress, quiz submission, practice submission or points",
+      "Keep onboarding, consent, diagnostics, MVP stage and human gates open"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/stage_spec.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/task-files/MVP-06-learning-renderer-fixture-001.md",
+      "apps/web/AGENTS.md",
+      "apps/web/lib/learning-fixtures.ts",
+      "apps/web/components/learning-shell.ts",
+      "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md",
+      "docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md"
+    ],
+    "note": "This freezer records only the next contract. It does not implement apps/web changes, close MVP-03/MVP-04/MVP-06/MVP-07, close the MVP stage or close human gates."
+  },
+  {
+    "id": "mvp-06-learning-renderer-fixture-builder",
+    "category": "web",
+    "description": "apps/web renders one synthetic N1 lesson through a typed fixture-backed mobile renderer.",
+    "steps": [
+      "Add typed synthetic lesson fixture contract",
+      "Render /learning/lessons/N1 from fixture data",
+      "Link existing /learning demo shell to the renderer",
+      "Keep mini-test and practice display-only/non-persistent",
+      "Add tests, browser smoke, screenshots and guardrail scans"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.md",
+      ".agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.json",
+      "apps/web/lib/learning-types.ts",
+      "apps/web/lib/learning-fixtures.ts",
+      "apps/web/components/lesson-renderer.ts",
+      "apps/web/app/learning/lessons/[lessonId]/page.tsx",
+      "apps/web/tests/learning-shell.test.mjs",
+      ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-web-test-20260511.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-browser-smoke-20260511.txt",
+      ".agent/stages/mvp/raw/mvp-06-learning-renderer-fixture-001-screenshots-20260511/"
+    ],
+    "note": "Fresh stage_verifier returned PASS for MVP-06-learning-renderer-fixture-001 only. Full MVP-06, MVP stage and human gates remain open."
+  },
+  {
+    "id": "mvp-06-learning-renderer-fixture-fresh-verification",
+    "category": "verification",
+    "description": "Fresh stage_verifier reviewed only MVP-06-learning-renderer-fixture-001 after builder evidence.",
+    "steps": [
+      "Run web/root verification commands",
+      "Review browser/mobile screenshots and smoke evidence",
+      "Review synthetic-data, customer-brand, forbidden-copy and no-cohort scans",
+      "Write scoped verifier verdict/problems artifacts"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.md",
+      ".agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.json",
+      ".agent/stages/mvp/verdicts/MVP-06-learning-renderer-fixture-001.json",
+      ".agent/stages/mvp/problems/MVP-06-learning-renderer-fixture-001.md",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-web-test-20260512T002252.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-browser-smoke-chrome-20260512T002252.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-make-verify-20260512T002252.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-make-test-unit-20260512T002252.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-make-build-20260512T002252.txt"
+    ],
+    "note": "PASS for this sprint only. CMS publishing, progress persistence, scored quiz submission, practice submission, points/wallet, onboarding/consent, diagnostics/routing, full MVP-06, full MVP and human gates remain open."
+  },
+  {
+    "id": "mvp-04-design-system-tokenization-builder",
+    "category": "web",
+    "description": "apps/web uses the draft Calm Progress Fintech design-system token layer for the current learning shell and lesson renderer.",
+    "steps": [
+      "Map design-system-v0.1.md code-relevant tokens into globals.css",
+      "Align current learning shell and lesson renderer surfaces to tokenized cards, chips, buttons, progress and privacy panels",
+      "Keep packages/ui unscaffolded until a shared package pattern exists",
+      "Add focused token guardrail tests and browser/mobile evidence",
+      "Keep full MVP-04, MVP-06, MVP stage and human gates open"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/task-files/MVP-04-design-system-tokenization-001.md",
+      ".agent/stages/mvp/evidence/MVP-04-design-system-tokenization-001.md",
+      ".agent/stages/mvp/evidence/MVP-04-design-system-tokenization-001.json",
+      "apps/web/app/globals.css",
+      "apps/web/components/learning-shell.ts",
+      "apps/web/components/lesson-renderer.ts",
+      "apps/web/tests/learning-shell.test.mjs",
+      ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-web-test-20260512.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-browser-smoke-20260512.txt",
+      ".agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/",
+      ".agent/stages/mvp/verdicts/MVP-04-design-system-tokenization-001.json",
+      ".agent/stages/mvp/problems/MVP-04-design-system-tokenization-001.md",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/",
+      ".agent/stages/mvp/evidence.json",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/verdict.json",
+      ".agent/stages/mvp/problems.md",
+      ".agent/stages/mvp/status.json"
+    ],
+    "note": "Fresh verifier returned PASS for this sprint only after one minimal fixer pass. Parent orchestrator accepted the scoped PASS for MVP-04.04 and synchronized root latest aliases; full MVP-04, full MVP-06, MVP stage and human gates remain open."
+  },
+  {
+    "id": "mvp-04-design-system-tokenization-parent-sync",
+    "category": "harness",
+    "description": "Parent orchestrator accepted scoped MVP-04-design-system-tokenization-001 PASS and synchronized latest aliases.",
+    "steps": [
+      "Review scoped evidence, verdict and problems artifacts",
+      "Accept scoped PASS for narrow MVP-04.04 design-token/app-shell/common-state surface",
+      "Synchronize root latest aliases without overwriting immutable MVP-06 artifacts",
+      "Validate JSON, git diff whitespace, alias target and open-gate invariants"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-04-design-system-tokenization-001.md",
+      ".agent/stages/mvp/evidence/MVP-04-design-system-tokenization-001.json",
+      ".agent/stages/mvp/verdicts/MVP-04-design-system-tokenization-001.json",
+      ".agent/stages/mvp/problems/MVP-04-design-system-tokenization-001.md",
+      ".agent/stages/mvp/evidence.json",
+      ".agent/stages/mvp/verdict.json",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-json-validation-final-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-git-diff-check-final-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-alias-invariants-final-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-verify-harness-final-20260512.txt"
+    ],
+    "note": "Latest aliases now point to MVP-04-design-system-tokenization-001. Immutable MVP-06 artifacts remain preserved; full MVP-04, full MVP-06, MVP stage and human gates remain open."
   }
 ]

@@ -1,0 +1,1 @@
+Token mapping PASS final: doc-declared palette, neutral, typography, card, motion tokens and amber-only reward surface verified

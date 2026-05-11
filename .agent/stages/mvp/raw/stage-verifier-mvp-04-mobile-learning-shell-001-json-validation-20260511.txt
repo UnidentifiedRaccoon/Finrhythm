@@ -1,0 +1,9 @@
+validating package.json
+validating apps/web/package.json
+validating .agent/stages/mvp/status.json
+validating .agent/stages/mvp/evidence.json
+validating .agent/stages/mvp/evidence/MVP-04-mobile-learning-shell-001.json
+validating .agent/stages/mvp/feature_list.json
+validating .agent/stages/mvp/verdict.json
+
+[exit_code=0]

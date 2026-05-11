@@ -1,0 +1,4 @@
+Customer brand scan in active employee-facing web source/tests
+PASS: no customer brand token found in apps/web active source/tests
+
+[exit_code=0]

@@ -1,0 +1,2 @@
+apps/web file list before implementation
+apps/web/AGENTS.md

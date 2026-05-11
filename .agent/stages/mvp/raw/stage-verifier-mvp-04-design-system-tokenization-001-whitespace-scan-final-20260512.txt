@@ -1,0 +1,1 @@
+Scoped whitespace/final-newline scan PASS final for 10 text files

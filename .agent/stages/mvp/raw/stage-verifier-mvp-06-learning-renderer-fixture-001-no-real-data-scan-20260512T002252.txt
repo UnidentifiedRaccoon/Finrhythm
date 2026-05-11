@@ -1,0 +1,18 @@
+$ scan apps/web active source/tests for real-looking contact/document/card identifiers
+PASS: no real-looking email/phone/card/passport/SNILS/INN identifiers found in apps/web active source/tests
+
+$ inspect sensitive fixture booleans
+apps/web/components/lesson-renderer.ts:32:        h("p", null, "Урок собран из коротких блоков. Ответы и практические шаги в этом демо не сохраняются."),
+apps/web/lib/learning-fixtures.ts:91:      "Личные точные суммы и документы не требуются для этого шага.",
+apps/web/lib/learning-fixtures.ts:147:        "В этом slice вопросы показаны как локальное превью. Ответы не сохраняются, баллы не начисляются, завершение урока не фиксируется.",
+apps/web/lib/learning-fixtures.ts:227:    completionCriteria: "Для демо достаточно выбрать вариант в голове или на экране; данные не сохраняются.",
+apps/web/lib/learning-fixtures.ts:243:      "Это не отчет работодателю. В этом демо не сохраняются личные суммы, документы, фото или данные финансового сервиса.",
+apps/web/lib/learning-fixtures.ts:244:    userCanSkipExactValues: true,
+apps/web/lib/learning-fixtures.ts:245:    storesExactSum: false,
+apps/web/lib/learning-fixtures.ts:246:    requiresPhoto: false,
+apps/web/lib/learning-fixtures.ts:247:    requiresDocument: false,
+apps/web/lib/learning-fixtures.ts:248:    requiresBankScreenshot: false
+apps/web/lib/learning-fixtures.ts:253:      "В будущей полной версии здесь появится учебная отметка прогресса после проверки правил завершения. В этом демо прогресс и баллы не сохраняются.",
+apps/web/lib/learning-fixtures.ts:259:    "Личные точные суммы, финансовые организации, фото, документы и скриншоты приложений не требуются.",
+
+exit_code=0

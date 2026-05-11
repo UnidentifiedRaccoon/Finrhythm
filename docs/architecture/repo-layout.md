@@ -49,6 +49,8 @@ Recommended monorepo structure:
 
 User-facing scenarios: onboarding, diagnostic, learning path, lessons/quizzes, challenge/marathon, store, profile/support.
 
+Current MVP-04 web baseline: a minimal Next.js + React mobile-first learning shell renders a direct demo learning entry, the `Новичок` N1-N7 track and one safe lesson preview from synthetic fixtures. It intentionally bypasses deferred onboarding/consent/diagnostics for development and must not be treated as a production employee flow until those slices are separately approved.
+
 ### `apps/admin`
 
 Operator scenarios: content, challenge/marathon, rewards/store, moderation/support, publish/unpublish, import/export, audit views.
@@ -91,3 +93,7 @@ Local PostgreSQL bootstrap is defined in `infra/local/compose.yaml` and `apps/ap
 ## MVP-02 admin UI baseline
 
 `apps/admin` now contains a minimal Next.js + React scaffold for the read-only access-pool/code status view. Root `make verify`, `make test-unit` and `make build` include the available admin checks. The admin UI must keep using privacy-safe DTO fields only and must not expose raw invite codes or employee contact data.
+
+## MVP-04 web learning shell baseline
+
+`apps/web` now contains a minimal Next.js + React scaffold for the mobile learning entry. Root `make verify`, `make test-unit` and `make build` include the available web checks before admin/backend checks. The web shell uses synthetic fixtures only and must keep customer brand, real employee/customer data, diagnostics completion, consent completion, progress persistence and points out of scope until separate frozen slices introduce them.

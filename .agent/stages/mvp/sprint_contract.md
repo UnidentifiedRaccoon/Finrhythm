@@ -1,119 +1,86 @@
-# Sprint contract: MVP-02-closure-audit-001
+# Sprint contract: MVP-04-design-system-tokenization-001
 
-Status: `PASS`
-Created: 2026-05-11
-Builder updated: 2026-05-11
-Fresh verifier updated: 2026-05-11
-Parent accepted: 2026-05-11
 Stage: `mvp`
-Parent stage unit: `MVP-02`
-Execution mode: closure/audit-only sprint contract
+Parent unit: `MVP-04.04`
+Status: `PASS`
+Created: 2026-05-12
+Builder updated: 2026-05-12
+Verifier updated: 2026-05-12
+Parent accepted: 2026-05-12
+Owner role: stage_builder
 
-## Objective
+## Purpose
 
-Run a small closure/audit pass for full `MVP-02` after the latest verified access-model refactor.
+Implement the smallest code tokenization slice for the draft FinRhythm / Calm Progress Fintech design-system baseline in the existing `apps/web` learning harness.
 
-The audit must decide whether the MVP-02 technical scope is fully proven and can be recorded as `DONE_WITH_HUMAN_PENDING`, or whether a concrete non-human proof gap requires the next narrow gap-fix slice.
+This task aligns the already existing employee learning shell and fixture-backed lesson renderer to design-system tokens and component patterns. It does not close full `MVP-04`, any human gate, or the separate active `MVP-06-learning-renderer-fixture-001` verifier flow.
 
-This contract is not an implementation task and does not close human gates.
+## Inputs
 
-## Current Verified Baseline To Preserve
+- `AGENTS.md`
+- `apps/web/AGENTS.md`
+- `docs/architecture/source-of-truth.md`
+- `docs/architecture/documentation-workflow.md`
+- `docs/stages/MVP.md`
+- `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md`
+- `docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png`
+- `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`
+- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`
+- `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`
+- current `apps/web` learning shell and lesson renderer files
 
-- `status.json.state` is `SPRINT_PASSED`.
-- `status.json.active_sprint_contract_id` is `null`.
-- `status.json.latest_verified_sprint_contract_id` points to the latest verified MVP-02 access-model refactor.
-- `MVP-02.01`, `MVP-02.02` and `MVP-02.03` are recorded as `PASS`.
-- `MVP-02.04` is recorded as `DONE_WITH_HUMAN_PENDING`.
-- The prior `MVP-02.04` closure/audit decision has fresh verifier `PASS`.
-- Full `MVP-02` is still open.
-- The MVP stage is still open.
-- Human gates remain open.
+## In Scope
 
-## Files This Freezer Updated
-
-- `.agent/stages/mvp/stage_spec.md`;
-- `.agent/stages/mvp/backlog.md`;
-- `.agent/stages/mvp/feature_list.json`;
-- `.agent/stages/mvp/sprint_contract.md`;
-- `.agent/stages/mvp/task-files/MVP-02-closure-audit-001.md`.
-
-## In Scope For The Future Audit
-
-- Reconcile `docs/stages/MVP.md` `MVP-02` acceptance criteria with current stage status/evidence/verdict artifacts.
-- Summarize immutable PASS evidence for all completed MVP-02 technical slices.
-- Confirm whether the proven scope covers:
-  - pilot tenant, pilot launch and access pool;
-  - invite-code issuance for the pilot access pool;
-  - one-time activation and one-user binding;
-  - employee registration by name, email, phone and invite code;
-  - read-only admin status/funnel visibility;
-  - duplicate, expired and invalid code paths;
-  - no corporate SSO requirement.
-- Record one explicit status decision for full `MVP-02`.
-- Keep all human gates open/non-DONE.
-- Require fresh verifier review scoped only to `MVP-02-closure-audit-001`.
-
-## Required Decision
-
-Choose exactly one outcome:
-
-1. `MVP-02` can be recorded as `DONE_WITH_HUMAN_PENDING` because no concrete non-human proof gap remains.
-2. `MVP-02` remains open because a concrete non-human proof gap exists; record that gap and name the next smallest gap-fix contract.
-
-Do not mark the MVP stage complete. Do not mark human-gated items as `DONE`.
+- Map the code-relevant design-system color, typography, spacing, radius, shadow and control tokens into `apps/web/app/globals.css`.
+- Keep `packages/ui` unscaffolded because no shared UI package pattern exists yet.
+- Align the employee learning shell, lesson renderer, loading/empty/error states, cards, chips, buttons, progress, bottom nav and privacy/sensitive panels to the token layer.
+- Preserve existing routes, fixture contracts and non-persistent demo behavior.
+- Add focused test coverage that guards the token baseline and old local palette removal.
+- Capture browser/mobile screenshots and guardrail scan evidence.
 
 ## Out Of Scope
 
-- Production code, tests, schemas, API contracts, generated clients, package manifests, lockfiles, app config or UI edits.
-- Raw evidence rewrites.
-- Prior immutable evidence/verdict rewrites.
-- Canonical doc edits unless a future executor finds a concrete contradiction and a parent explicitly scopes doc-sync.
-- New feature implementation.
-- Admin auth/session/role/audit production policy implementation.
-- Real employee/customer data processing.
-- Legal/privacy/consent approval.
-- Customer-specific reporting approval.
-- Financial correctness, rewards, fulfillment, HR wording or production content approval.
-- MVP stage closure.
-- Human approval.
+- Final brand naming approval.
+- Accessibility contrast audit as a closed human gate.
+- Legal/privacy wording approval.
+- Design QA on real mobile devices as a closed human gate.
+- Full `packages/ui` component library.
+- Backend/API/schema/OpenAPI/generated-client changes.
+- Admin UI redesign.
+- Onboarding, diagnostics, progress persistence, points ledger, wallet or CMS publishing.
+- Closing full `MVP-04`, `MVP-06`, the MVP stage or any human gate.
 
-## Acceptance Criteria
+## Acceptance Checklist
 
-1. All MVP-02 sub-slice statuses are reconciled against `docs/stages/MVP.md`.
-2. Latest verified access-model refactor evidence is included in the closure reasoning.
-3. Full `MVP-02` status decision is explicit.
-4. Any remaining non-human proof gap is concrete and mapped to a smallest next contract, or explicitly recorded as absent.
-5. Human gates remain non-DONE.
-6. MVP stage remains open.
-7. No production code, canonical docs, raw evidence or prior immutable evidence/verdict files are edited.
-8. Changed JSON artifacts validate.
-9. `git diff --check` is clean for changed artifacts.
-10. Fresh verifier verdict is scoped only to `MVP-02-closure-audit-001`.
+- Canonical design-system CSS custom properties exist in `apps/web/app/globals.css`.
+- Legacy local CSS variables such as `--bg`, `--ink`, `--green`, `--blue`, `--line` and `--surface` are not used as the active token layer.
+- Primary CTA uses `#1677F2`; cyan/teal/mint/success/reward/neutral tokens are mapped.
+- Amber is reserved for reward/points emphasis.
+- Learning shell and lesson renderer use tokenized cards, chips, progress, button and privacy/sensitive states.
+- Employee UI remains neutral and contains no customer brand.
+- No public ranking, casino/random reward mechanics, exact personal sums, bank screenshots, photos or document requirements are introduced.
+- Existing behavior and fixture contracts remain intact.
+- Focused web typecheck/test/build, browser smoke, screenshots and guardrail scans are recorded.
+- Java-backed `make verify` is not claimed when unqualified Java runtime is unavailable.
+- Fresh verifier PASS is recorded for this task only.
 
-## Verification Evidence Required Later
+## Fresh Verifier Result
 
-Record proof for:
+Fresh verifier returned `PASS` for `MVP-04-design-system-tokenization-001` only after one minimal fixer pass.
 
-- prior-verdict summary for completed MVP-02 work;
-- acceptance mapping from `docs/stages/MVP.md` `MVP-02` to existing evidence/verdict refs;
-- full `MVP-02` decision rationale;
-- human gates still open;
-- MVP stage still open;
-- changed-files scope check;
-- JSON validation for edited machine artifacts;
-- `git diff --check`;
-- harness validation when possible;
-- fresh verifier verdict scoped only to `MVP-02-closure-audit-001`.
+Scoped artifacts:
 
-## Human Gates
+- `.agent/stages/mvp/verdicts/MVP-04-design-system-tokenization-001.json`
+- `.agent/stages/mvp/problems/MVP-04-design-system-tokenization-001.md`
+- `.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/`
 
-No human gate is closed by this contract.
+Root latest aliases remain unchanged and still point to the parent-owned latest verified `MVP-06-learning-renderer-fixture-001` artifacts until a separate parent orchestration decision syncs them.
 
-Keep these open:
+## Human Gates That Remain Open
 
-- legal/privacy wording and consent copy;
-- real employee/customer data processing;
-- customer-specific HR/reporting boundaries;
-- admin auth/role/audit policy for production use;
-- any request to expose personal employee contact fields, financial answers, diagnostic weak zones or below-threshold reporting slices;
-- financial correctness, rewards, fulfillment, HR wording and production content approval outside `MVP-02`.
+- Brand naming approval.
+- Accessibility contrast audit.
+- Final legal/privacy wording review.
+- Design QA on real mobile screens.
+- Reward economy/fulfillment approval.
+- Customer-specific HR/reporting boundaries.

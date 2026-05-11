@@ -1,0 +1,7 @@
+ M .agent/stages/mvp/backlog.md
+ M .agent/stages/mvp/feature_list.json
+ M .agent/stages/mvp/sprint_contract.md
+ M .agent/stages/mvp/stage_spec.md
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-git-status-pre-edit-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-file-list-before-20260511.txt
+?? .agent/stages/mvp/task-files/MVP-04-mobile-learning-shell-001.md

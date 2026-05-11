@@ -1,0 +1,26 @@
+
+> @finrhythm/web@0.0.0 test /Users/elena/cursor/FinPulse/apps/web
+> node --test tests/learning-shell.test.mjs
+
+▶ mobile learning shell
+  ✔ resolves the ready state with synthetic N1-N7 metadata and one preview (0.733959ms)
+  ✔ renders the shell, track entry and lesson preview (6.896375ms)
+  ✔ renders loading, empty and error states from query-like params (2.225375ms)
+  ✔ keeps managed web source free of customer brand, active old access terms and forbidden claims (5.734542ms)
+  ✔ maps the Calm Progress design-system tokens into global CSS (0.8935ms)
+  ✔ uses synthetic fixtures without required personal finance artifacts (0.184333ms)
+✔ mobile learning shell (17.335875ms)
+▶ fixture-backed lesson renderer
+  ✔ resolves a direct N1 lesson entry from the fixture set (0.12925ms)
+  ✔ keeps the fixture contract aligned to required lesson block order (0.106542ms)
+  ✔ renders the full synthetic N1 lesson without persistence or points claims (4.05075ms)
+  ✔ keeps the renderer source free of customer brand, old access terms and unsafe claims (2.498084ms)
+✔ fixture-backed lesson renderer (6.966042ms)
+ℹ tests 10
+ℹ suites 2
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 137.5235

@@ -1,0 +1,4 @@
+$ rg customer brand terms in apps/web active source/tests
+PASS: no customer brand terms found in apps/web active source/tests
+
+exit_code=0

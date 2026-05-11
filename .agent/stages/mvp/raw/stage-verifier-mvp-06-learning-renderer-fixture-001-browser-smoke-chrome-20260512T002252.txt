@@ -1,0 +1,8 @@
+$ WEB_SMOKE_BASE_URL=http://127.0.0.1:3406 WEB_SMOKE_OUTPUT_DIR=/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-screenshots-20260512T002252 WEB_SMOKE_SCREENSHOT_PREFIX=stage-verifier-mvp-06-learning-renderer-fixture-001 CHROMIUM_EXECUTABLE_PATH=/Applications/Google Chrome.app/Contents/MacOS/Google Chrome pnpm --filter @finrhythm/web smoke:browser
+
+> @finrhythm/web@0.0.0 smoke:browser /Users/elena/cursor/FinPulse/apps/web
+> node tests/browser-smoke.mjs
+
+web browser smoke passed: 5 screenshots
+
+exit_code=0

@@ -1,0 +1,4 @@
+.agent/stages/mvp/backlog.md
+.agent/stages/mvp/feature_list.json
+.agent/stages/mvp/sprint_contract.md
+.agent/stages/mvp/stage_spec.md

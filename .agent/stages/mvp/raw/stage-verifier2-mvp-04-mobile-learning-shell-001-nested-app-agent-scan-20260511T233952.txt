@@ -1,0 +1,2 @@
+# nested apps/*/.agent scan
+PASS: no nested apps/*/.agent directories remain.

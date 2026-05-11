@@ -1,0 +1,1 @@
+Scoped whitespace/final-newline scan PASS after JSON normalization for 10 files

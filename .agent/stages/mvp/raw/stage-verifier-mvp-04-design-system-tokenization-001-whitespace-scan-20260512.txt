@@ -1,0 +1,1 @@
+Scoped whitespace scan PASS for 7 files

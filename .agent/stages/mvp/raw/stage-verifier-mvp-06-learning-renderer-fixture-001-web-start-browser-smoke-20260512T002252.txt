@@ -1,0 +1,7 @@
+$ pnpm --filter @finrhythm/web exec next start -H 127.0.0.1 -p 3406
+▲ Next.js 16.2.6
+- Local:         http://127.0.0.1:3406
+- Network:       http://127.0.0.1:3406
+✓ Ready in 169ms
+
+server_stopped_by_verifier_after_browser_smoke=SIGINT

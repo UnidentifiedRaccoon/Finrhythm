@@ -1,0 +1,1 @@
+Scoped whitespace/final-newline scan PASS after verdict for 11 text files

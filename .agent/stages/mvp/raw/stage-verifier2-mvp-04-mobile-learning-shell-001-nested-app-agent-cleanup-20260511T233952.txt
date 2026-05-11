@@ -1,0 +1,1 @@
+moved nested browser smoke screenshots to root raw and removed apps/web/.agent

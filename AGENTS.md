@@ -28,13 +28,14 @@ Core rules:
 2. `docs/architecture/source-of-truth.md`;
 3. `docs/architecture/documentation-workflow.md`;
 4. product-intent baseline: `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`;
-5. для account/organization/access/invitation/code/subscription/seat slices: `docs/architecture/access-and-subscriptions.md` and `docs/architecture/organization-access-subscription-model.md`;
-6. целевой stage-file only: `docs/stages/MVP.md`, `docs/stages/v1.md` или `docs/stages/v2.md`;
-7. `docs/engineering/definition-of-done.md`;
-8. `docs/engineering/human-gates.md`;
-9. `docs/engineering/contributing.md`;
-10. ближайший локальный `AGENTS.md`;
-11. `.agent/stages/<stage_id>/status.json`, затем активный `.agent/stages/<stage_id>/sprint_contract.md` или `.agent/stages/<stage_id>/task-files/<TASK_ID>.md`, если работа уже инициализирована.
+5. для UI/design/token/component/screen slices: `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md`;
+6. для account/organization/access/invitation/code/subscription/seat slices: `docs/architecture/access-and-subscriptions.md` and `docs/architecture/organization-access-subscription-model.md`;
+7. целевой stage-file only: `docs/stages/MVP.md`, `docs/stages/v1.md` или `docs/stages/v2.md`;
+8. `docs/engineering/definition-of-done.md`;
+9. `docs/engineering/human-gates.md`;
+10. `docs/engineering/contributing.md`;
+11. ближайший локальный `AGENTS.md`;
+12. `.agent/stages/<stage_id>/status.json`, затем активный `.agent/stages/<stage_id>/sprint_contract.md` или `.agent/stages/<stage_id>/task-files/<TASK_ID>.md`, если работа уже инициализирована.
 
 Если инструкции конфликтуют, приоритет у более близкого файла и более узкого контекста. Stage-файлы определяют scope и exit gates; этот файл определяет operating behavior и engineering guardrails.
 Read-gating: не читать все stage docs, product docs или `.agent/stages/**/raw/**` по умолчанию. Для stage work использовать `.agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md`; raw evidence читать только по точной ссылке из текущего `evidence.json`, `problems.md` или audit-вопроса.
@@ -146,6 +147,7 @@ Read-gating: не читать все stage docs, product docs или `.agent/st
 ### B2B MVP baseline
 
 - Current MVP product-intent baseline is `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`.
+- Current MVP product-design style baseline is `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md`; use it for UI implementation, design tokens, component QA, screen generation and visual consistency checks, with `docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png` as companion artifact only.
 - MVP — single corporate pilot contour with `tenant`, pilot launch, access pool of invite codes, HR/sponsor reporting, privacy aggregation and merch operations.
 - MVP не является in-app subscription product; коммерческий доступ продаётся по корпоративному договору вне приложения.
 - Employee-facing reports for HR по умолчанию агрегируют диагностику/прогресс; персональные финансовые ответы не раскрываются.

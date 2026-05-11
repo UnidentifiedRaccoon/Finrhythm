@@ -1,7 +1,7 @@
 # MVP backlog
 
 Stage ID: `mvp`
-Updated: 2026-05-11
+Updated: 2026-05-12
 
 ## MVP-01. Product/stage foundation and repo baseline
 
@@ -31,6 +31,14 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 `MVP-02-remove-cohort-domain-001` has fresh verifier `PASS`: active code/API/admin UI/docs now use the tenant/pilot-launch/access-pool model. It does not close full `MVP-02`, and keeps all human gates open.
 
 `MVP-02-closure-audit-001` has fresh verifier `PASS` and records full `MVP-02` as `DONE_WITH_HUMAN_PENDING`. The MVP stage remains open and all human gates remain non-DONE.
+
+`MVP-04-mobile-learning-shell-001` has fresh verifier raw proof and parent-synced `PASS`. It proved the minimal mobile-first `apps/web` learning shell with direct `/learning` demo entry, `Новичок` N1-N7 synthetic metadata and one `N1` preview. It does not close onboarding/privacy/consent, diagnostics/routing, `MVP-04`, `MVP-06`, `MVP-07`, the MVP stage or any human gate.
+
+`design-system-v0.1.md` is now available as a draft product-design style baseline for future MVP-04/MVP-06 UI work. It is an input artifact for UI implementation, design tokens, component QA, screen generation and visual consistency checks, not a completion claim for full `MVP-04` or any human gate.
+
+`MVP-04-design-system-tokenization-001` has fresh verifier `PASS` for applying the draft design-system tokens to the existing `apps/web` employee learning shell and lesson renderer. Parent orchestrator accepted the scoped PASS for narrow `MVP-04.04` acceptance and synchronized root latest aliases on 2026-05-12. It does not close full `MVP-04`, full `MVP-06`, the MVP stage or any human gate.
+
+`MVP-06-learning-renderer-fixture-001` is now frozen as the next small sprint contract. The current mobile shell is sufficient, and the content spec already defines enough draft lesson fields and mobile lesson blocks for a synthetic fixture-backed renderer. This contract does not implement code and does not close full `MVP-06`, CMS/admin publishing, progress, quizzes, practice submission, points, onboarding/consent, diagnostics/routing, the MVP stage or any human gate.
 
 ## MVP-02. Corporate tenant and invite access
 
@@ -134,6 +142,29 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 - do not edit production code, schemas, API contracts, generated clients, UI, canonical docs, raw evidence or prior immutable proof refs;
 - fresh verifier returned `PASS` for this closure/audit task only.
 
+## MVP-04. UX/UI foundation and neutral brand
+
+| ID | Mode | Status | Goal | Evidence |
+|----|------|--------|------|----------|
+| MVP-04-mobile-learning-shell-001 | agent | PASS | Build the smallest mobile-first `apps/web` learning shell: direct dev/demo learning entry, `Новичок` track entry and one synthetic lesson preview with Russian neutral copy. | `.agent/stages/mvp/evidence/MVP-04-mobile-learning-shell-001.md`; `.agent/stages/mvp/evidence/MVP-04-mobile-learning-shell-001.json`; `.agent/stages/mvp/verdicts/MVP-04-mobile-learning-shell-001.json`; `.agent/stages/mvp/raw/mvp-04-mobile-learning-shell-001-screenshots-20260511/` |
+| MVP-04-design-system-tokenization-001 | agent | PASS | Tokenize the current `apps/web` learning shell and lesson renderer against draft Calm Progress Fintech design-system tokens. | `.agent/stages/mvp/evidence/MVP-04-design-system-tokenization-001.md`; `.agent/stages/mvp/evidence/MVP-04-design-system-tokenization-001.json`; `.agent/stages/mvp/verdicts/MVP-04-design-system-tokenization-001.json`; `.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/` |
+| MVP-04.04 | agent | PASS | Design tokens, current app shell/nav and common states are accepted for the scoped MVP-04 implementation surface after `MVP-04-mobile-learning-shell-001` and `MVP-04-design-system-tokenization-001`. | `.agent/stages/mvp/evidence/MVP-04-design-system-tokenization-001.md`; `.agent/stages/mvp/verdicts/MVP-04-design-system-tokenization-001.json`; `.agent/stages/mvp/status.json` |
+| MVP-04 | agent+human | OPEN | Full UX/UI foundation and neutral brand remain open; this slice only starts the employee learning surface. | Future builder evidence and human-gated brand/voice decisions required. Use `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md` and `docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png` as draft design inputs. |
+
+### Frozen mobile learning shell slice
+
+`MVP-04-mobile-learning-shell-001` is intentionally scoped to `apps/web` shell/app-surface readiness:
+
+- create a minimal production-ready mobile-first employee shell for learning;
+- allow direct dev/demo entry to learning while onboarding/privacy/consent and diagnostics/routing remain deferred;
+- show a `Новичок` track entry and one lesson preview from synthetic fixtures only;
+- use Russian, calm, neutral, anti-shame copy with no customer brand in employee UI;
+- use `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md` for tokens, component patterns and visual consistency when extending the UI;
+- avoid real employee/customer/personal/financial data and avoid income, fast-gain or guaranteed-result promises;
+- do not restore `cohort`, `cohortId` or `cohorts`;
+- require component/unit tests plus browser/mobile screenshot evidence;
+- do not close `MVP-03`, `MVP-04`, `MVP-06`, `MVP-07`, the MVP stage or human gates.
+
 ## MVP-05. Pedagogy, diagnostics and content factory
 
 | ID | Mode | Status | Goal | Evidence |
@@ -144,3 +175,27 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 | MVP-05.03 | agent | PENDING | Create lesson, quiz, explanation and practice-task templates. | Can use content spec as draft input after ingestion verification. |
 | MVP-05.04 | agent+human | PENDING | Build question bank and content QA checklist. | Content approval remains human-gated. |
 | MVP-05.05 | agent+human | PENDING | Define methodologist approve-flow and review statuses. | Review statuses are drafted; final process remains human-gated. |
+
+## MVP-06. Learning delivery and CMS/admin
+
+| ID | Mode | Status | Goal | Evidence |
+|----|------|--------|------|----------|
+| MVP-06-learning-renderer-fixture-001 | agent | PASS | Build a tiny mobile-first `apps/web` fixture-backed renderer for one synthetic `N1` lesson, reachable from the verified learning shell. | `.agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.md`; `.agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.json`; `.agent/stages/mvp/verdicts/MVP-06-learning-renderer-fixture-001.json`; `.agent/stages/mvp/raw/mvp-06-learning-renderer-fixture-001-screenshots-20260511/` |
+| MVP-06 | agent | OPEN | Full learning delivery, CMS/admin, content states, publish validation, progress tracking and analytics hooks remain open. | Future builder evidence and human-gated content approvals required. |
+
+### Frozen fixture-backed renderer slice
+
+`MVP-06-learning-renderer-fixture-001` is intentionally scoped to a renderer proof, not a CMS or production-content implementation:
+
+- render one synthetic `N1` lesson from a typed local fixture contract aligned to the content spec draft;
+- keep `apps/web` mobile-first and reachable from the existing `/learning` demo entry;
+- use `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md` as the design/style input for renderer layout, tokens, states and visual QA;
+- cover the lesson sections: situation, why, rule, example, mini-test, practice and reward;
+- include office and store/shift example variants;
+- keep mini-test and practice local/non-persistent, with no scored submission, no progress claim and no points claim;
+- use Russian neutral anti-shame copy with no customer brand in employee UI;
+- avoid real employee/customer/personal/financial data, exact personal sums, photos, documents and bank screenshots;
+- do not restore `cohort`, `cohortId` or `cohorts`;
+- require component/unit tests plus browser/mobile screenshot evidence;
+- do not close `MVP-03`, full `MVP-04`, full `MVP-06`, `MVP-07`, the MVP stage or human gates.
+- fresh verifier returned `PASS` for this sprint only. Full `MVP-06`, MVP stage and human gates remain open.

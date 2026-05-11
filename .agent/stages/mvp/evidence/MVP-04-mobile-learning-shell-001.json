@@ -1,0 +1,251 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-04-mobile-learning-shell-001",
+  "parent_stage_unit": "MVP-04.04",
+  "status": "PASS",
+  "verification_status": "PASS",
+  "updated_at": "2026-05-11",
+  "latest_alias": ".agent/stages/mvp/evidence.json",
+  "immutable_refs": {
+    "markdown": ".agent/stages/mvp/evidence/MVP-04-mobile-learning-shell-001.md",
+    "json": ".agent/stages/mvp/evidence/MVP-04-mobile-learning-shell-001.json"
+  },
+  "implemented_scope": [
+    "Minimal Next.js + React apps/web mobile-first learning shell.",
+    "Direct / and /learning demo routes into the learning entry.",
+    "Russian neutral employee-facing copy with ready/loading/empty/error states.",
+    "Novice N1-N7 track entry and one N1 lesson preview from synthetic fixtures only.",
+    "Focused unit/component tests and mobile browser smoke screenshots.",
+    "Root wrapper updates so make verify, make test-unit and make build include apps/web checks.",
+    "Narrow canonical docs sync for repo layout, setup and root wrapper behavior."
+  ],
+  "out_of_scope_preserved": [
+    "No onboarding/privacy/consent implementation or completion claim.",
+    "No diagnostics/scoring/routing implementation or completion claim.",
+    "No CMS/admin content CRUD, production lesson renderer, quiz engine, practice submission, progress persistence, points or wallet.",
+    "No backend/API/schema/OpenAPI/generated-client behavior change.",
+    "No real employee/customer/personal/financial data.",
+    "No customer brand in employee-facing UI.",
+    "No cohort/cohortId/cohorts restoration in active web source."
+  ],
+  "acceptance_mapping": [
+    {
+      "id": "AC-1",
+      "status": "BUILDER_PASS",
+      "criterion": "apps/web has a runnable mobile-first shell for the learning entry.",
+      "evidence_refs": [
+        "apps/web/package.json",
+        "apps/web/app/page.tsx",
+        "apps/web/app/learning/page.tsx",
+        "apps/web/components/learning-shell.ts",
+        ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-typecheck-20260511.txt",
+        ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-build-20260511.txt"
+      ]
+    },
+    {
+      "id": "AC-2",
+      "status": "BUILDER_PASS",
+      "criterion": "A direct dev/demo route reaches learning without onboarding, consent, diagnostics or routing.",
+      "evidence_refs": [
+        "apps/web/lib/learning-state.ts",
+        ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-browser-smoke-20260511.txt",
+        ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-browser-iab-20260511.json"
+      ]
+    },
+    {
+      "id": "AC-3",
+      "status": "BUILDER_PASS",
+      "criterion": "The learning entry presents the Novice track and one lesson preview from synthetic fixtures only.",
+      "evidence_refs": [
+        "apps/web/lib/learning-fixtures.ts",
+        ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-test-20260511.txt",
+        ".agent/stages/mvp/raw/mvp-04-mobile-learning-shell-001-screenshots-20260511/mvp-04-mobile-learning-shell-001-mobile-ready.png"
+      ]
+    },
+    {
+      "id": "AC-4-AC-8",
+      "status": "BUILDER_PASS",
+      "criterion": "Russian neutral copy, no customer brand, no real data, no forbidden promises and no active cohort terms.",
+      "evidence_refs": [
+        ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-customer-brand-scan-20260511.txt",
+        ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-forbidden-copy-scan-20260511.txt",
+        ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-no-real-data-scan-20260511.txt",
+        ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-no-cohort-scan-20260511.txt"
+      ]
+    },
+    {
+      "id": "AC-9",
+      "status": "BUILDER_PASS",
+      "criterion": "Component/unit tests cover the introduced surface and states.",
+      "evidence_refs": [
+        "apps/web/tests/learning-shell.test.mjs",
+        ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-test-20260511.txt"
+      ]
+    },
+    {
+      "id": "AC-10",
+      "status": "BUILDER_PASS",
+      "criterion": "Browser/mobile evidence is captured and referenced.",
+      "evidence_refs": [
+        ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-browser-smoke-20260511.txt",
+        ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-browser-iab-20260511.json",
+        ".agent/stages/mvp/raw/mvp-04-mobile-learning-shell-001-screenshots-20260511/"
+      ]
+    },
+    {
+      "id": "AC-11-AC-12",
+      "status": "BUILDER_PASS",
+      "criterion": "Changed JSON artifacts validate and git diff --check passes after final artifact updates.",
+      "evidence_refs": [
+        ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-json-validation-20260511.txt",
+        ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-git-diff-check-20260511.txt"
+      ]
+    },
+    {
+      "id": "AC-13",
+      "status": "PASS",
+      "criterion": "Fresh verifier verdict is scoped only to MVP-04-mobile-learning-shell-001.",
+      "evidence_refs": [
+        ".agent/stages/mvp/verdicts/MVP-04-mobile-learning-shell-001.json",
+        ".agent/stages/mvp/problems/MVP-04-mobile-learning-shell-001.md",
+        ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-status-invariants-20260511T233952.txt"
+      ]
+    }
+  ],
+  "docs_sync": {
+    "status": "UPDATED",
+    "refs": [
+      "README.md",
+      "docs/setup/codex-setup.md",
+      "docs/architecture/repo-layout.md",
+      "docs/architecture/init-and-dev-contract.md"
+    ],
+    "reason": "apps/web is now runnable and root make wrappers include web checks/builds."
+  },
+  "screenshots": [
+    ".agent/stages/mvp/raw/mvp-04-mobile-learning-shell-001-screenshots-20260511/mvp-04-mobile-learning-shell-001-mobile-ready.png",
+    ".agent/stages/mvp/raw/mvp-04-mobile-learning-shell-001-screenshots-20260511/mvp-04-mobile-learning-shell-001-mobile-empty.png",
+    ".agent/stages/mvp/raw/mvp-04-mobile-learning-shell-001-screenshots-20260511/mvp-04-mobile-learning-shell-001-mobile-error.png",
+    ".agent/stages/mvp/raw/mvp-04-mobile-learning-shell-001-screenshots-20260511/mvp-04-mobile-learning-shell-001-mobile-loading.png"
+  ],
+  "commands_summary": {
+    "web_typecheck": "PASS",
+    "web_test": "PASS",
+    "web_build": "PASS",
+    "web_browser_smoke": "PASS",
+    "browser_iab_smoke": "PASS",
+    "customer_brand_scan": "PASS",
+    "forbidden_copy_scan": "PASS",
+    "no_real_data_scan": "PASS",
+    "no_cohort_scan": "PASS",
+    "make_verify": "PASS",
+    "make_test_unit": "PASS",
+    "make_build": "PASS",
+    "json_validation": "PASS",
+    "git_diff_check": "PASS",
+    "verify_harness": "PASS",
+    "fresh_verifier": "PASS",
+    "nested_app_agent_cleanup": "PASS"
+  },
+  "raw_refs": [
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-file-list-before-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-file-list-after-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-typecheck-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-test-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-build-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-start-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-browser-smoke-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-browser-iab-20260511.json",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-customer-brand-scan-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-forbidden-copy-scan-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-no-real-data-scan-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-no-cohort-scan-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-make-verify-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-make-test-unit-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-make-build-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-json-validation-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-git-diff-check-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-changed-files-scope-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-verify-harness-20260511.json",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-verify-harness-pre-verdict-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-web-typecheck-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-web-test-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-web-build-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-browser-smoke-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-browser-smoke-absolute-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-make-verify-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-make-test-unit-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-make-build-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-customer-brand-scan-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-forbidden-copy-scan-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-no-real-data-scan-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-no-cohort-scan-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-nested-app-agent-scan-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-status-invariants-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-deferred-scope-scan-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-russian-ui-copy-review-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-json-validation-pre-verdict-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-git-diff-check-pre-verdict-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-screenshots-absolute-20260511T233952/",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-nested-app-agent-cleanup-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-no-cohort-cleanup-scan-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-json-validation-final-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-verify-harness-final-20260511.json",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-git-diff-check-final-20260511.txt"
+  ],
+  "human_gates": [
+    {
+      "gate": "legal/privacy wording and consent copy",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "real employee/customer data processing",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "customer-specific HR/reporting boundaries",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "final financial correctness of lessons, diagnostics, quizzes and explanations",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "legal/tax review for tax wording",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "HR/privacy wording review for diagnostics, self-assessment and reports",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "reward economy, stock, prices and fulfillment",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "support answer policy for sensitive topics",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "production_ready content approval",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "admin auth/role/audit policy for production use",
+      "status": "WAITING_HUMAN"
+    }
+  ],
+  "fresh_verifier": {
+    "status": "PASS",
+    "verdict_ref": ".agent/stages/mvp/verdicts/MVP-04-mobile-learning-shell-001.json",
+    "problems_ref": ".agent/stages/mvp/problems/MVP-04-mobile-learning-shell-001.md",
+    "raw_prefix": ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-*",
+    "note": "Fresh verifier raw proof passed. Parent synchronized durable verdict aliases after stopping a leftover local Next server process."
+  },
+  "blocker": null,
+  "verdict": {
+    "status": "PASS",
+    "raw": ".agent/stages/mvp/verdicts/MVP-04-mobile-learning-shell-001.json",
+    "problems": ".agent/stages/mvp/problems/MVP-04-mobile-learning-shell-001.md"
+  }
+}

@@ -1,0 +1,8 @@
+Manual acceptance review refs
+AC1/3/4: fixture + renderer block order, examples, route inspected in apps/web/lib/learning-types.ts, apps/web/lib/learning-fixtures.ts, apps/web/components/lesson-renderer.ts, apps/web/app/learning/lessons/[lessonId]/page.tsx
+AC5/6/7/8/9/10/11/12: guardrail copy, fixture booleans, negative persistence/progress/points statements and scans inspected.
+AC13: apps/web/tests/learning-shell.test.mjs covers shell, direct entry, fixture block order and guardrails.
+AC14: browser smoke will be rerun separately with screenshots.
+No concrete acceptance gap found during source/evidence review before command reruns.
+
+exit_code=0

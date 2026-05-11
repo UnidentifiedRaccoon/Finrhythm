@@ -1,0 +1,3 @@
+# forbidden financial/shame claim scan: active employee web source
+Command: rg -n -i selected forbidden tokens apps/web/app apps/web/components apps/web/lib apps/web/tests
+PASS: no forbidden income/gain/guaranteed-result/shame tokens found.

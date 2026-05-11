@@ -1,0 +1,264 @@
+{
+  "status": "PASS",
+  "verdict": "PASS",
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-04-mobile-learning-shell-001",
+  "parent_stage_unit": "MVP-04.04",
+  "verifier_role": "fresh_stage_verifier_with_parent_alias_sync",
+  "last_verified_at": "2026-05-11T20:47:57Z",
+  "alias_of": ".agent/stages/mvp/verdicts/MVP-04-mobile-learning-shell-001.json",
+  "summary": "PASS for current sprint MVP-04-mobile-learning-shell-001 only. The slice adds a minimal mobile-first apps/web learning shell with direct demo entry, Russian neutral copy, Novice N1-N7 synthetic fixture metadata and one lesson preview. It does not close onboarding/privacy/consent, diagnostics/routing, MVP-04, MVP-06, MVP-07, the MVP stage or any human gate.",
+  "proof_gaps": [],
+  "failed_criteria": [],
+  "decision": {
+    "current_sprint": "PASS",
+    "mvp_04_mobile_learning_shell_001": "PASS",
+    "mvp_03_onboarding_consent": "DEFERRED_NOT_DONE",
+    "mvp_07_diagnostics_routing": "DEFERRED_NOT_DONE",
+    "mvp_04": "OPEN",
+    "mvp_06": "OPEN",
+    "mvp_stage": "OPEN",
+    "human_gates": "OPEN"
+  },
+  "acceptance_criteria": [
+    {
+      "id": "AC-1",
+      "status": "PASS",
+      "detail": "apps/web has a runnable mobile-first shell for the learning entry."
+    },
+    {
+      "id": "AC-2",
+      "status": "PASS",
+      "detail": "Direct dev/demo routes / and /learning reach learning without onboarding, consent, diagnostics or routing."
+    },
+    {
+      "id": "AC-3",
+      "status": "PASS",
+      "detail": "The learning entry presents Новичок N1-N7 track metadata and one lesson preview from synthetic fixtures only."
+    },
+    {
+      "id": "AC-4",
+      "status": "PASS",
+      "detail": "Visible copy is Russian, neutral, calm and anti-shame."
+    },
+    {
+      "id": "AC-5",
+      "status": "PASS",
+      "detail": "Employee-facing UI contains no customer brand."
+    },
+    {
+      "id": "AC-6",
+      "status": "PASS",
+      "detail": "Fixtures/tests/screenshots/evidence contain no real employee/customer/personal/financial data."
+    },
+    {
+      "id": "AC-7",
+      "status": "PASS",
+      "detail": "UI copy makes no income, fast-gain, guaranteed-result or risk-free promise."
+    },
+    {
+      "id": "AC-8",
+      "status": "PASS",
+      "detail": "Active changed web source does not restore cohort/cohortId/cohorts."
+    },
+    {
+      "id": "AC-9",
+      "status": "PASS",
+      "detail": "Component/unit tests cover the introduced shell, track, preview and states."
+    },
+    {
+      "id": "AC-10",
+      "status": "PASS",
+      "detail": "Browser/mobile evidence is captured for representative mobile viewport states."
+    },
+    {
+      "id": "AC-11",
+      "status": "PASS",
+      "detail": "Changed JSON artifacts validate."
+    },
+    {
+      "id": "AC-12",
+      "status": "PASS",
+      "detail": "git diff --check passes."
+    },
+    {
+      "id": "AC-13",
+      "status": "PASS",
+      "detail": "Fresh verifier evidence and durable verdict are scoped only to MVP-04-mobile-learning-shell-001."
+    }
+  ],
+  "checks": [
+    {
+      "id": "verify-harness-pre-verdict",
+      "status": "FAIL_EXPECTED_PRE_VERDICT_ALIAS_MISMATCH",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-verify-harness-pre-verdict-20260511T233952.txt"
+    },
+    {
+      "id": "web-typecheck",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-web-typecheck-20260511T233952.txt"
+    },
+    {
+      "id": "web-test",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-web-test-20260511T233952.txt"
+    },
+    {
+      "id": "web-build",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-web-build-20260511T233952.txt"
+    },
+    {
+      "id": "browser-smoke",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-browser-smoke-absolute-20260511T233952.txt"
+    },
+    {
+      "id": "make-verify",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-make-verify-20260511T233952.txt"
+    },
+    {
+      "id": "make-test-unit",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-make-test-unit-20260511T233952.txt"
+    },
+    {
+      "id": "make-build",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-make-build-20260511T233952.txt"
+    },
+    {
+      "id": "customer-brand-scan",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-customer-brand-scan-20260511T233952.txt"
+    },
+    {
+      "id": "forbidden-copy-scan",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-forbidden-copy-scan-20260511T233952.txt"
+    },
+    {
+      "id": "no-real-data-scan",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-no-real-data-scan-20260511T233952.txt"
+    },
+    {
+      "id": "no-cohort-scan",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-no-cohort-scan-20260511T233952.txt"
+    },
+    {
+      "id": "nested-app-agent-scan",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-nested-app-agent-scan-20260511T233952.txt",
+      "detail": "Duplicate misplaced app-local stage artifacts were removed; root .agent raw evidence remains."
+    },
+    {
+      "id": "deferred-scope-scan",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-deferred-scope-scan-20260511T233952.txt"
+    },
+    {
+      "id": "status-invariants",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-status-invariants-20260511T233952.txt"
+    },
+    {
+      "id": "json-validation-pre-verdict",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-json-validation-pre-verdict-20260511T233952.txt"
+    },
+    {
+      "id": "git-diff-check-pre-verdict",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-git-diff-check-pre-verdict-20260511T233952.txt"
+    },
+    {
+      "id": "json-validation-final",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-json-validation-final-20260511.txt"
+    },
+    {
+      "id": "verify-harness-final",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-verify-harness-final-20260511.json"
+    },
+    {
+      "id": "git-diff-check-final",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-git-diff-check-final-20260511.txt"
+    }
+  ],
+  "human_gates": [
+    {
+      "gate": "legal/privacy wording and consent copy",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "real employee/customer data processing",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "customer-specific HR/reporting boundaries",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "final financial correctness of lessons, diagnostics, quizzes and explanations",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "legal/tax review for tax wording",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "HR/privacy wording review for diagnostics, self-assessment and reports",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "reward economy, stock, prices and fulfillment",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "support answer policy for sensitive topics",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "production_ready content approval",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "admin auth/role/audit policy for production use",
+      "status": "WAITING_HUMAN"
+    }
+  ],
+  "raw_refs": [
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-verify-harness-pre-verdict-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-web-typecheck-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-web-test-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-web-build-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-browser-smoke-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-browser-smoke-absolute-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-make-verify-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-make-test-unit-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-make-build-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-customer-brand-scan-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-forbidden-copy-scan-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-no-real-data-scan-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-no-cohort-scan-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-nested-app-agent-scan-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-status-invariants-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-deferred-scope-scan-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-russian-ui-copy-review-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-json-validation-pre-verdict-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-git-diff-check-pre-verdict-20260511T233952.txt",
+    ".agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-screenshots-absolute-20260511T233952/",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-nested-app-agent-cleanup-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-no-cohort-cleanup-scan-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-json-validation-final-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-verify-harness-final-20260511.json",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-git-diff-check-final-20260511.txt"
+  ],
+  "scope_statement": "This verdict covers only MVP-04-mobile-learning-shell-001. It does not close onboarding/consent, diagnostics/routing, MVP-04, MVP-06, MVP-07, the MVP stage or any human gate.",
+  "verifier_note": "Fresh verifier attempts wrote PASS raw proof. The second verifier was shut down after leaving a Next server process running; parent accepted the raw proof and synchronized durable stage aliases."
+}

@@ -1,0 +1,1 @@
+PASS: no active cohort terms in apps/web source

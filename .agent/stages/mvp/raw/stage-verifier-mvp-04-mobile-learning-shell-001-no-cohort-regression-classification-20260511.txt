@@ -1,0 +1,12 @@
+No-cohort regression classification
+
+-- active apps/web source/tests --
+PASS: no active web cohort token found
+
+-- active app/package source excluding migrations, build outputs and stage history --
+PASS: no active app/package cohort token found outside allowed migration/stage history
+
+-- canonical docs current wording --
+PASS: no current canonical/setup/stage doc cohort token found
+
+[exit_code=0]

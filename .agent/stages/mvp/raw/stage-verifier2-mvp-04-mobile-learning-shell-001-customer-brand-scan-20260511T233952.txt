@@ -1,0 +1,3 @@
+# customer brand scan: active employee UI/fixtures
+Command: rg -n -i "Лемана|Lemana|Leroy|Леруа" apps/web/app apps/web/components apps/web/lib apps/web/tests
+PASS: no named customer brand hits in active apps/web source/tests.

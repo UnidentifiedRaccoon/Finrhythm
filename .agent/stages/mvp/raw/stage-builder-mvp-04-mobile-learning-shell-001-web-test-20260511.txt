@@ -1,0 +1,19 @@
+
+> @finrhythm/web@0.0.0 test /Users/elena/cursor/FinPulse/apps/web
+> node --test tests/learning-shell.test.mjs
+
+▶ mobile learning shell
+  ✔ resolves the ready state with synthetic N1-N7 metadata and one preview (0.909917ms)
+  ✔ renders the shell, track entry and lesson preview (6.303916ms)
+  ✔ renders loading, empty and error states from query-like params (0.815541ms)
+  ✔ keeps managed web source free of customer brand, active old access terms and forbidden claims (5.744875ms)
+  ✔ uses synthetic fixtures without required personal finance artifacts (0.183125ms)
+✔ mobile learning shell (14.657209ms)
+ℹ tests 5
+ℹ suites 1
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 134.897916

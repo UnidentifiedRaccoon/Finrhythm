@@ -1,17 +1,20 @@
-# MVP-02 closure audit spec freeze
+# MVP-06 fixture lesson renderer spec freeze
 
 Stage ID: `mvp`
-Active slice: `MVP-02-closure-audit-001`
-Parent stage unit: `MVP-02`
-Status: `FROZEN`
+Active slice: `MVP-06-learning-renderer-fixture-001`
+Parent stage unit: `MVP-06.03`
+Status: `PASS`
 Frozen at: 2026-05-11
+Builder updated: 2026-05-11
+Verifier updated: 2026-05-11
+Parent accepted: 2026-05-11
 Freezer role: `stage_spec_freezer`
 
 ## Objective
 
-Freeze the smallest honest next sprint contract after the verified MVP-02 access-model refactor: a closure/audit-only pass for full `MVP-02`.
+Freeze the smallest honest next sprint contract after `MVP-04-mobile-learning-shell-001` PASS.
 
-This freeze does not implement code, change public contracts, update canonical docs, edit raw evidence, close human gates, or write a final verifier verdict. It only defines the next audit slice that must decide whether full `MVP-02` can be recorded as technically complete with human gates still pending, or whether a concrete non-human proof gap remains.
+The next slice should turn the verified mobile learning shell into a fixture-backed lesson rendering surface for one synthetic `N1` lesson. It must stay mobile-first, synthetic-only and narrow. It does not implement CMS/admin publishing, progress persistence, quiz submission, practice submission, points, diagnostics, onboarding, consent or production content approval.
 
 ## Source Baseline
 
@@ -21,7 +24,12 @@ Read set used for this freeze:
 - `docs/architecture/source-of-truth.md`;
 - `docs/architecture/documentation-workflow.md`;
 - `.agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md`;
+- `.agents/skills/stage-launch-proof-loop/profiles/CONTENT_PROFILE.md`;
 - `docs/stages/MVP.md`;
+- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`;
+- `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`;
+- `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md`;
+- `docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png`;
 - `.agent/stages/mvp/status.json`;
 - `.agent/stages/mvp/backlog.md`;
 - `.agent/stages/mvp/progress.md`;
@@ -29,107 +37,141 @@ Read set used for this freeze:
 - `.agent/stages/mvp/problems.md`;
 - `.agent/stages/mvp/verdict.json`;
 - current target stage artifacts needed to avoid overwriting: `.agent/stages/mvp/stage_spec.md`, `.agent/stages/mvp/sprint_contract.md`, `.agent/stages/mvp/feature_list.json`;
-- prior `MVP-02.04` closure/audit task and immutable verdict/evidence refs, only to understand the already verified sub-unit closure decision.
+- `apps/web/AGENTS.md`;
+- relevant `apps/web` files: `package.json`, `app/page.tsx`, `app/learning/page.tsx`, `components/learning-shell.ts`, `lib/learning-types.ts`, `lib/learning-fixtures.ts`, `lib/learning-state.ts`, `tests/learning-shell.test.mjs`, `tests/browser-smoke.mjs`, `app/globals.css`.
 
-No production source, canonical docs beyond the requested read set, or raw evidence files were read for this freeze.
+No raw evidence files were read for this freeze. No production code was changed.
 
 ## Current Verified State To Preserve
 
-- Stage state is `SPRINT_PASSED`.
-- No active sprint contract is currently recorded in `status.json`.
-- Latest verified sprint in `status.json` is the MVP-02 access-model refactor and it has fresh verifier `PASS`.
-- `MVP-02.01`, `MVP-02.02` and `MVP-02.03` are recorded as `PASS`.
-- `MVP-02.04` is recorded as `DONE_WITH_HUMAN_PENDING`.
-- The prior `MVP-02.04` closure/audit slice has fresh verifier `PASS`.
-- Full `MVP-02` is still open in stage artifacts.
-- The MVP stage is still open.
-- Human gates remain open and must not be closed by this audit.
+- Latest verified sprint is `MVP-04-mobile-learning-shell-001` with fresh verifier `PASS`.
+- `apps/web` has a minimal mobile-first learning shell, direct `/` and `/learning` demo entry, Russian neutral copy, loading/empty/error/ready states, `Новичок` N1-N7 synthetic fixture metadata and one `N1` lesson preview.
+- Full `MVP-04` is still open.
+- `MVP-06` is still open; no production lesson renderer, CMS publishing, progress persistence, quizzes, practice submission, points or wallet are proven.
+- `MVP-03` onboarding/privacy/consent and `MVP-07` diagnostics/routing remain deferred and not complete.
+- Full `MVP-02` remains `DONE_WITH_HUMAN_PENDING`, not unconditional `DONE`.
+- MVP stage remains open.
+- Human gates remain open/non-DONE.
+- `cohort`, `cohortId` and `cohorts` must not be restored as active MVP domain, API, UI or fixture concepts.
 
 ## Decision Rule Application
 
-The read artifacts show no concrete non-human proof gap after the verified access-model refactor. The remaining blockers are human-gated production/admin/legal/privacy/reporting approvals and broader MVP units outside `MVP-02`.
+The preferred rule applies:
 
-Because full `MVP-02` is not yet closed, the next honest slice is not feature implementation and not the next stage unit. The frozen task is:
+`MVP-06-learning-renderer-fixture-001`
 
-`MVP-02-closure-audit-001`
+Reason: the current `apps/web` shell is sufficient for the next learning slice. The content/methodology docs already define enough draft lesson structure for a synthetic renderer:
+
+- lesson fields and review flags are defined in `content-mvp-spec-v0.1.md`;
+- the mobile lesson structure is defined as situation, why, rule, example, mini-test, practice and reward;
+- `N1_RESERVE_START` has a draft outline, examples, quiz intents, practice task and sensitive-data policy.
+
+No separate `MVP-06-content-fixture-contract-001` is needed before a fixture-backed renderer. CMS/PostgreSQL schema and production publish validation remain future `MVP-06` scope.
 
 ## Scope Decision
 
-Freeze one closure/audit-only sprint for full `MVP-02`.
+Freeze one small `apps/web` implementation sprint for a fixture-backed lesson renderer:
 
-The future executor must reconcile current stage evidence for `MVP-02.01` through `MVP-02.04`, the latest verified access-model refactor, and the open human gates. It must choose exactly one outcome:
+- add a typed synthetic lesson fixture shape aligned to the content spec draft;
+- render one full synthetic `N1` lesson surface from fixture data;
+- keep the existing direct learning demo entry;
+- add a direct demo lesson route or equivalent direct entry for the synthetic `N1` renderer;
+- show the required lesson sections without saving completion;
+- keep copy Russian, neutral, calm and anti-shame.
 
-1. record full `MVP-02` as `DONE_WITH_HUMAN_PENDING` if no non-human proof gap remains; or
-2. keep full `MVP-02` open and freeze/report the smallest concrete non-human gap-fix slice.
+This is a learning delivery slice under `MVP-06.03`. It may prepare a renderer contract for future CMS-backed content, but it does not implement CMS/admin, publish validation, diagnostics routing, progress tracking, quizzes as scored submissions, practice submission or points.
 
-The audit must not mark the MVP stage complete and must not mark any human gate as `DONE`.
+## In Scope For The Future Build Sprint
 
-## In Scope For The Closure/Audit Sprint
-
-- Reconcile `status.json`, `backlog.md`, `progress.md`, `evidence.json`, `problems.md` and `verdict.json` against `docs/stages/MVP.md` `MVP-02` acceptance criteria.
-- Cite immutable PASS verdicts for the completed MVP-02 slices and the latest verified access-model refactor.
-- Confirm that the proven technical scope covers:
-  - pilot tenant, pilot launch and access pool modeling;
-  - individual invite-code issuance and one-user activation;
-  - employee registration by name, email, phone and invite code;
-  - privacy-safe read-only admin status/funnel visibility;
-  - duplicate, expired and invalid invite-code paths;
-  - no corporate SSO requirement.
-- Record a full `MVP-02` status decision or a concrete non-human gap.
-- Keep all human-gated statuses open.
-- Produce closure/audit evidence and require a fresh verifier scoped only to `MVP-02-closure-audit-001`.
+- `apps/web` mobile-first lesson renderer for one synthetic fixture-backed `N1` lesson.
+- A direct dev/demo path to the lesson renderer from the existing learning shell.
+- A typed local fixture contract covering:
+  - lesson identity and title;
+  - level and competency metadata;
+  - educational disclaimer type;
+  - estimated time;
+  - mobile blocks: situation, why, rule, example, mini-test, practice and reward;
+  - office and store/shift example variants;
+  - quiz prompts/options/feedback as display-only or local preview UI;
+  - practice prompt with no-photo/no-doc/no-exact-sum guardrails;
+  - reward copy without monetary equivalence;
+  - human-review flags/status notes.
+- Russian neutral UI copy with no customer brand.
+- Use the draft design-system baseline for tokens, component patterns, screen states and visual consistency checks.
+- Component/unit tests for renderer state, fixture shape, block ordering, guardrails and direct lesson entry.
+- Browser/mobile evidence for the lesson renderer on a representative smartphone viewport.
+- Guardrail scans for synthetic-only data, no customer brand, no forbidden claims and no active old access terms in changed web source.
+- Docs-sync decision recorded in future evidence; canonical docs should remain unchanged unless implementation discovers a concrete contradiction.
 
 ## Out Of Scope
 
-- Production code, tests, schemas, API contracts, generated clients, package manifests, lockfiles, app config or UI edits.
-- Canonical doc edits.
-- Raw evidence rewrites.
-- New feature implementation.
-- Access/admin model redesign beyond auditing the already verified scope.
-- Admin auth/session/role/audit production policy implementation.
-- Real employee/customer data processing.
-- Legal/privacy/consent approval.
-- Customer-specific reporting approval.
-- Financial correctness, rewards, fulfillment, HR wording or production content approval.
-- MVP stage closure.
-- Human approval.
+- Onboarding, legal/privacy screen, consent version logging or legal text approval.
+- Diagnostics engine, diagnostic completion, scoring, route assignment, route explanation or `MVP-07` closure.
+- CMS/admin CRUD, content state workflow, publish validation, production lesson source of truth or production-ready content approval.
+- Backend/API/schema/OpenAPI/generated-client changes.
+- Progress persistence, lesson completion state, scored quiz submission, practice submission, points, wallet, challenge, store, support or HR reports.
+- Real employee, customer, personal, diagnostic or financial data.
+- Customer brand in employee-facing UI.
+- Financial advice, income/gain promises, guaranteed results, guaranteed debt relief or risk-free claims.
+- `cohort`, `cohortId` or `cohorts` active-domain restoration.
+- Closing `MVP-03`, full `MVP-04`, full `MVP-06`, `MVP-07`, the MVP stage or any human gate.
 
 ## Acceptance Criteria
 
-1. Prior completed MVP-02 slices and the latest verified access-model refactor are reconciled against the `MVP-02` acceptance criteria in `docs/stages/MVP.md`.
-2. The audit records whether any concrete non-human proof gap remains for full `MVP-02`.
-3. If no such gap remains, full `MVP-02` is recorded only as `DONE_WITH_HUMAN_PENDING`, not as unconditional `DONE`.
-4. If a gap remains, the audit names the smallest next gap-fix contract and keeps full `MVP-02` open.
-5. Human gates remain non-DONE.
-6. The MVP stage remains open.
-7. No production code, canonical docs, raw evidence or prior immutable verdict/evidence artifacts are edited.
-8. Changed JSON artifacts validate.
-9. `git diff --check` is clean for changed artifacts.
-10. Fresh verifier verdict is scoped only to `MVP-02-closure-audit-001` and is not written by this freezer.
+1. `apps/web` renders a mobile-first synthetic `N1` lesson through a fixture-backed renderer.
+2. Existing `/learning` demo entry remains working and links to or otherwise reaches the synthetic lesson renderer directly.
+3. The fixture contract covers the content-spec lesson sections: situation, why, rule, example, mini-test, practice and reward.
+4. The rendered lesson includes office and store/shift example variants.
+5. The mini-test is clearly preview/local-only and does not claim scored quiz submission or completion.
+6. The practice block requires no exact personal income, debt, balance, bank data, photos, documents or screenshots.
+7. Reward copy does not imply money, salary, guaranteed merch or guaranteed outcome.
+8. UI copy is Russian, neutral, calm and anti-shame.
+9. Employee-facing UI contains no customer brand.
+10. Fixtures/tests/screenshots/evidence use synthetic data only and no real employee/customer/personal/financial data.
+11. No onboarding/consent/diagnostics/routing completion is claimed.
+12. `cohort`, `cohortId` and `cohorts` are not restored in active web UI/fixture/API assumptions.
+13. Component/unit tests cover the renderer, fixture shape, block ordering, direct entry and guardrails.
+14. Browser/mobile evidence is recorded for a representative smartphone viewport.
+15. Changed JSON artifacts validate.
+16. `git diff --check` is clean.
+17. Fresh verifier verdict is scoped only to `MVP-06-learning-renderer-fixture-001`.
 
 ## Verification Minimum For The Future Executor
 
-The closure/audit sprint must record:
+The build sprint must record:
 
-- prior-verdict summary for completed MVP-02 slices;
-- acceptance mapping from `docs/stages/MVP.md` `MVP-02` to immutable evidence/verdict refs;
-- explicit human-gate status check;
-- explicit full-MVP-stage-open check;
-- changed-files scope check proving no production/canonical/raw evidence edits;
-- JSON validation for edited machine artifacts;
+- changed-files scope;
+- exact `apps/web` package/root commands used for typecheck, test and build, or honest unavailable-command notes;
+- component/unit test output;
+- browser smoke output;
+- mobile screenshot(s) for the learning entry and lesson renderer;
+- synthetic-fixture guardrail scan;
+- customer-brand scan;
+- forbidden-copy scan for shame, income/gain, guaranteed-result and risk-free language;
+- active-source scan for `cohort`, `cohortId` and `cohorts` in changed web code/fixtures;
+- docs-sync decision;
+- JSON validation for changed machine artifacts;
 - `git diff --check`;
 - harness validation when possible;
-- fresh verifier verdict scoped only to `MVP-02-closure-audit-001`.
+- fresh verifier verdict scoped only to `MVP-06-learning-renderer-fixture-001`.
 
 ## Human Gates
 
-No human gate is closed by this freeze or by the future closure/audit contract.
+No human gate is closed by this freeze or by the future build contract.
 
 Keep these open:
 
 - legal/privacy wording and consent copy;
 - real employee/customer data processing;
 - customer-specific HR/reporting boundaries;
-- admin auth/role/audit policy for production use;
-- personal employee contact/financial/diagnostic disclosure requests;
-- financial correctness, rewards, fulfillment, HR wording and production content approval outside `MVP-02`.
+- final financial correctness of lessons, diagnostics, quizzes and explanations;
+- legal/tax review for tax wording;
+- HR/privacy wording review for diagnostics, self-assessment and reports;
+- reward economy, stock, prices and fulfillment;
+- support answer policy for sensitive topics;
+- `production_ready` content approval;
+- admin auth/role/audit policy for production use.
+
+## Builder Update
+
+`MVP-06-learning-renderer-fixture-001` has fresh verifier `PASS` for a typed synthetic N1 fixture renderer in `apps/web`.

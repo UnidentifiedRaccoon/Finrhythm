@@ -33,6 +33,14 @@
 - versioned bootstrap manifest `scripts/init/version.json`;
 - synthetic demo fixture `content/fixtures/demo-bootstrap.json`.
 
+## Canonical product baselines
+
+- product foundation: `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`;
+- learning methodology: `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`;
+- content/CMS spec draft: `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`;
+- product-design style baseline: `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md`;
+- design companion artifact: `docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png`.
+
 ## Root-команды
 
 Из корня репозитория доступны стабильные wrapper-команды:
@@ -87,14 +95,25 @@ pnpm getcourse:download-assets -- --headless
 
 Если GetCourse попросит авторизацию, запустите нужную команду без `--headless`, войдите вручную в открывшемся Playwright-браузере, затем повторите headless-запуск.
 
-Текущий baseline после первого MVP-02 backend slice and минимального admin UI slice:
+Текущий baseline после первого MVP-02 backend slice, минимального admin UI slice and минимального MVP-04 web learning shell slice:
 
 - `make install` запускает `pnpm install --frozen-lockfile`;
-- `make verify` выполняет harness/bootstrap self-checks, `apps/admin` typecheck/test и backend unit checks через `apps/api/mvnw`;
-- `make test-unit` выполняет bootstrap verification, focused `apps/admin` tests и backend unit checks без browser layer;
-- `make build` выполняет production-readiness checks, собирает `apps/admin` and `apps/api` без повторного запуска backend tests;
+- `make verify` выполняет harness/bootstrap self-checks, `apps/web` typecheck/test, `apps/admin` typecheck/test и backend unit checks через `apps/api/mvnw`;
+- `make test-unit` выполняет bootstrap verification, focused `apps/web` tests, focused `apps/admin` tests и backend unit checks без browser layer;
+- `make build` выполняет production-readiness checks, собирает `apps/web`, `apps/admin` and `apps/api` без повторного запуска backend tests;
 - `make test-e2e` пока фиксирует отсутствие browser target для MVP-01;
 - `make init` and `make dev` требуют запущенный Docker daemon and local PostgreSQL compose.
+
+Минимальная employee-facing web-поверхность запускается отдельно:
+
+```bash
+pnpm --filter @finrhythm/web dev -- --port 3400
+pnpm --filter @finrhythm/web typecheck
+pnpm --filter @finrhythm/web test
+pnpm --filter @finrhythm/web build
+```
+
+Первый web route `/learning` использует только synthetic fixtures для direct demo learning entry, `Новичок` N1-N7 track and one lesson preview. Этот route не закрывает onboarding/privacy/consent, diagnostics/routing, progress persistence, points or production content approval.
 
 Минимальная admin-поверхность запускается отдельно:
 

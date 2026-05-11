@@ -1,0 +1,8 @@
+# no real PII/financial data scan: active web fixtures/tests/source
+Email/phone-like hits:
+Sensitive artifact/exact-value token hits for classification:
+apps/web/lib/learning-fixtures.ts:82:      "Выберите стартовую категорию резерва и правило пополнения. Точные суммы, фото, документы и банковские скриншоты не нужны.",
+apps/web/lib/learning-fixtures.ts:91:      "Личные точные суммы и документы не требуются для этого шага.",
+apps/web/tests/learning-shell.test.mjs:80:      "остаток на счете",
+apps/web/tests/learning-shell.test.mjs:81:      "фото обязательно"
+PASS: no email/phone-like real data hits. Any screenshot/document/sum wording in source is explicit negative/safety copy, not required personal data.

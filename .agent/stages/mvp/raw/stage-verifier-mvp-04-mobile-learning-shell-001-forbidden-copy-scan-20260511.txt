@@ -1,0 +1,11 @@
+Forbidden shame/income/gain/guarantee scan with guard-test classification
+
+-- production/UI source --
+PASS: no forbidden copy token found in production/UI source
+
+-- tests --
+apps/web/tests/browser-smoke.mjs:67:      joinText("гарантир", "ованный", " ", "результат"),
+apps/web/tests/learning-shell.test.mjs:60:      joinText("гарантир", "ованный", " ", "результат"),
+PASS_WITH_ALLOWED_TEST_GUARDS: hits above are forbidden-token guard lists in tests, not rendered UI copy
+
+[exit_code=0]

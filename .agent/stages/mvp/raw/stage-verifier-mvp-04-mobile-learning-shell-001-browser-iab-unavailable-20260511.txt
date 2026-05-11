@@ -1,0 +1,1 @@
+Browser/IAB invocation failed before navigation: no Codex IAB backends were discovered. Fallback to project Playwright smoke is allowed by the sprint verifier request: browser smoke if feasible or validate existing screenshot refs.

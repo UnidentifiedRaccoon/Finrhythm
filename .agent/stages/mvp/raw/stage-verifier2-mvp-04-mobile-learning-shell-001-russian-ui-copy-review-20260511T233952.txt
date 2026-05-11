@@ -1,0 +1,4 @@
+# Russian UI copy review
+Reviewed apps/web/components/learning-shell.ts and apps/web/lib/learning-fixtures.ts plus mobile-ready screenshot.
+PASS: visible UI copy is Russian, neutral employee-facing, and direct demo entry is explicit without claiming onboarding/consent/diagnostics/routing completion.
+PASS: screenshot shows no overlapping text at 390x844 mobile viewport for ready state; Playwright smoke also covered empty/error/loading states.

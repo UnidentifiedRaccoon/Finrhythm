@@ -1,254 +1,157 @@
 {
   "stage_id": "mvp",
-  "sprint_contract_id": "MVP-02-closure-audit-001",
-  "parent_stage_unit": "MVP-02",
-  "status": "DONE_WITH_HUMAN_PENDING",
-  "verification_status": "FRESH_VERIFIER_PASS_ACCEPTED_BY_PARENT",
-  "updated_at": "2026-05-11",
+  "sprint_contract_id": "MVP-04-design-system-tokenization-001",
+  "parent_stage_unit": "MVP-04.04",
+  "status": "PASS",
+  "verification_status": "FRESH_VERIFIER_PASS",
+  "updated_at": "2026-05-12",
   "latest_alias": ".agent/stages/mvp/evidence.json",
   "immutable_refs": {
-    "markdown": ".agent/stages/mvp/evidence/MVP-02-closure-audit-001.md",
-    "json": ".agent/stages/mvp/evidence/MVP-02-closure-audit-001.json"
+    "markdown": ".agent/stages/mvp/evidence/MVP-04-design-system-tokenization-001.md",
+    "json": ".agent/stages/mvp/evidence/MVP-04-design-system-tokenization-001.json"
   },
-  "closure_decision": {
-    "decision": "DONE_WITH_HUMAN_PENDING",
-    "non_human_proof_gap_found": false,
-    "next_gap_fix_contract": null,
-    "rationale": "Full MVP-02 technical acceptance is covered by completed MVP-02 PASS refs plus the latest MVP-02-remove-cohort-domain-001 fresh verifier PASS. Remaining blockers are human-gated production/admin/legal/privacy/reporting approvals, so MVP-02 is recorded as DONE_WITH_HUMAN_PENDING rather than DONE."
+  "parent_sync": {
+    "status": "ACCEPTED",
+    "accepted_at": "2026-05-12",
+    "accepted_scope": "MVP-04.04",
+    "previous_latest_sprint_contract_id": "MVP-06-learning-renderer-fixture-001",
+    "preserved_previous_immutable_refs": {
+      "markdown": ".agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.md",
+      "json": ".agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.json",
+      "verdict": ".agent/stages/mvp/verdicts/MVP-06-learning-renderer-fixture-001.json",
+      "problems": ".agent/stages/mvp/problems/MVP-06-learning-renderer-fixture-001.md"
+    },
+    "does_not_close": [
+      "full MVP-04",
+      "full MVP-06",
+      "MVP stage",
+      "human gates"
+    ]
   },
-  "prior_pass_summary": [
-    {
-      "stage_unit": "MVP-02.01",
-      "sprint_contract_id": "MVP-02-tenant-domain-001",
-      "status": "PASS",
-      "proof_basis": "Legacy PASS recorded in status/progress with fresh verifier raw outputs; the active model is superseded by MVP-02-remove-cohort-domain-001.",
-      "refs": [
-        ".agent/stages/mvp/status.json",
-        ".agent/stages/mvp/progress.md",
-        ".agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-api-mvn-verify-20260504-current.txt",
-        ".agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-make-verify-20260504-current.txt",
-        ".agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-migration-inspection-20260504-current.txt"
-      ]
-    },
-    {
-      "stage_unit": "MVP-02.02",
-      "sprint_contract_id": "MVP-02-invite-issuance-activation-001",
-      "status": "PASS",
-      "proof_basis": "Legacy PASS recorded in status/progress with fresh verifier raw outputs; current access-pool behavior is re-proven by the later refactor PASS.",
-      "refs": [
-        ".agent/stages/mvp/status.json",
-        ".agent/stages/mvp/progress.md",
-        ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-api-mvn-verify-20260504-fresh.txt",
-        ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-make-verify-20260504-fresh.txt",
-        ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-raw-code-persistence-scan-20260504-fresh.txt"
-      ]
-    },
-    {
-      "stage_unit": "MVP-02.03",
-      "sprint_contract_id": "MVP-02-employee-registration-001",
-      "status": "PASS",
-      "proof_basis": "Immutable fresh verifier PASS for backend/API registration by fullName, email, phone and inviteCode.",
-      "refs": [
-        ".agent/stages/mvp/evidence/MVP-02-employee-registration-001.md",
-        ".agent/stages/mvp/evidence/MVP-02-employee-registration-001.json",
-        ".agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json",
-        ".agent/stages/mvp/problems/MVP-02-employee-registration-001.md"
-      ]
-    },
-    {
-      "stage_unit": "MVP-02.04 backend/admin API",
-      "sprint_contract_id": "MVP-02-admin-code-status-view-001",
-      "status": "PASS",
-      "proof_basis": "Immutable fresh verifier PASS for privacy-safe read-only admin status/funnel API.",
-      "refs": [
-        ".agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md",
-        ".agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.json",
-        ".agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json",
-        ".agent/stages/mvp/problems/MVP-02-admin-code-status-view-001.md"
-      ]
-    },
-    {
-      "stage_unit": "MVP-02.04 admin UI/status view",
-      "sprint_contract_id": "MVP-02-admin-ui-status-view-001",
-      "status": "PASS",
-      "proof_basis": "Immutable fresh verifier PASS for minimal read-only apps/admin status view with browser/screenshot evidence.",
-      "refs": [
-        ".agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.md",
-        ".agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.json",
-        ".agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json",
-        ".agent/stages/mvp/problems/MVP-02-admin-ui-status-view-001.md"
-      ]
-    },
-    {
-      "stage_unit": "MVP-02.04 closure decision",
-      "sprint_contract_id": "MVP-02-04-closure-audit-001",
-      "status": "PASS / DONE_WITH_HUMAN_PENDING",
-      "proof_basis": "Immutable fresh verifier PASS for MVP-02.04 closure/audit decision; full MVP-02 intentionally remained open at that time.",
-      "refs": [
-        ".agent/stages/mvp/evidence/MVP-02-04-closure-audit-001.md",
-        ".agent/stages/mvp/evidence/MVP-02-04-closure-audit-001.json",
-        ".agent/stages/mvp/verdicts/MVP-02-04-closure-audit-001.json",
-        ".agent/stages/mvp/problems/MVP-02-04-closure-audit-001.md"
-      ]
-    },
-    {
-      "stage_unit": "MVP-02 access-model refactor",
-      "sprint_contract_id": "MVP-02-remove-cohort-domain-001",
-      "status": "PASS",
-      "proof_basis": "Immutable fresh verifier PASS for replacing the active access model with tenant, pilotLaunch and accessPool and preserving MVP-02 behavior.",
-      "refs": [
-        ".agent/stages/mvp/evidence/MVP-02-remove-cohort-domain-001.md",
-        ".agent/stages/mvp/evidence/MVP-02-remove-cohort-domain-001.json",
-        ".agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json",
-        ".agent/stages/mvp/problems/MVP-02-remove-cohort-domain-001.md"
-      ]
-    }
+  "implemented_scope": [
+    "Mapped design-system-v0.1.md token baseline into apps/web/app/globals.css.",
+    "Aligned apps/web learning shell and fixture-backed lesson renderer to Calm Progress Fintech component patterns.",
+    "Added focused token guardrail test coverage.",
+    "Captured Browser/IAB review and mobile browser smoke screenshots."
   ],
-  "acceptance_mapping": [
-    {
-      "criterion": "Admin can generate and track 500 main pilot access-pool codes.",
-      "status": "PASS",
-      "rationale": "500-code issuance is proven by invite issuance tests and re-proven after the access-pool refactor; tracking is proven by the privacy-safe admin status API/UI over the access-pool code rows.",
-      "evidence_refs": [
-        ".agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json",
-        ".agent/stages/mvp/evidence/MVP-02-remove-cohort-domain-001.json",
-        ".agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json",
-        ".agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json",
-        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-api-focused-tests-20260511.txt",
-        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-browser-smoke-20260511.txt"
-      ]
-    },
-    {
-      "criterion": "Code activation is one-time and linked to user/access pool.",
-      "status": "PASS",
-      "rationale": "Invite activation has one-subject binding and idempotent same-subject retry; registration persists the invite/user-contact registration and current responses/records use pilotLaunchId/accessPoolId.",
-      "evidence_refs": [
-        ".agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json",
-        ".agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json",
-        ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-api-mvn-verify-20260504-fresh.txt",
-        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-api-focused-tests-20260511.txt"
-      ]
-    },
-    {
-      "criterion": "Registration does not require corporate SSO.",
-      "status": "PASS",
-      "rationale": "The proven registration path is POST /api/v1/employee-registrations with name, email, phone and invite code; corporate SSO/SCIM remains explicitly out of scope.",
-      "evidence_refs": [
-        ".agent/stages/mvp/evidence/MVP-02-employee-registration-001.md",
-        ".agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json",
-        ".agent/stages/mvp/task-files/MVP-02-employee-registration-001.md",
-        "docs/stages/MVP.md"
-      ]
-    },
-    {
-      "criterion": "Duplicate/expired/invalid code paths are tested and understandable.",
-      "status": "PASS",
-      "rationale": "Invite service and registration API tests cover invalid, expired, revoked, unissued and duplicate/different-subject activation paths; API errors are structured and user-understandable.",
-      "evidence_refs": [
-        ".agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json",
-        ".agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json",
-        ".agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-api-mvn-verify-20260504-fresh.txt",
-        ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-api-focused-tests-20260511.txt"
-      ]
-    }
+  "out_of_scope_preserved": [
+    "No packages/ui component library scaffold.",
+    "No backend/API/schema/OpenAPI/generated-client change.",
+    "No onboarding, diagnostics, progress persistence, points, wallet or CMS publishing.",
+    "No customer brand in employee-facing UI.",
+    "No full MVP-04, MVP-06, MVP stage or human gate closure."
   ],
-  "stage_closure": {
-    "mvp_02": "DONE_WITH_HUMAN_PENDING",
-    "mvp_stage": "OPEN",
-    "human_gates": "OPEN"
+  "screenshots": [
+    ".agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-ready.png",
+    ".agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-lesson-n1.png",
+    ".agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-empty.png",
+    ".agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-error.png",
+    ".agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-loading.png",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/"
+  ],
+  "commands_summary": {
+    "web_typecheck": "PASS",
+    "web_test": "PASS",
+    "web_build": "PASS",
+    "browser_iab": "PASS",
+    "web_browser_smoke": "PASS",
+    "validate_bootstrap": "PASS",
+    "build_docs": "PASS",
+    "customer_brand_scan": "PASS",
+    "forbidden_copy_scan": "PASS",
+    "no_real_data_scan": "PASS",
+    "no_cohort_scan": "PASS",
+    "token_mapping_final": "PASS",
+    "guardrail_scan_final": "PASS",
+    "amber_scope_final": "PASS",
+    "favicon": "PASS",
+    "json_validation_final": "PASS",
+    "git_diff_check_final": "PASS",
+    "whitespace_scan_final": "PASS",
+    "java_version": "BLOCKED_UNQUALIFIED_JAVA_RUNTIME_MISSING",
+    "make_verify": "NOT_RUN_JAVA_RUNTIME_MISSING"
+  },
+  "raw_refs": [
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-token-mapping-20260512.md",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-web-typecheck-20260512.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-web-test-20260512.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-web-build-20260512.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-browser-iab-20260512.json",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-browser-smoke-20260512.txt",
+    ".agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-customer-brand-scan-20260512.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-forbidden-copy-scan-20260512.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-no-real-data-scan-20260512.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-no-cohort-scan-20260512.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-validate-bootstrap-20260512.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-build-docs-20260512.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-java-version-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-web-typecheck-final-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-web-test-final-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-web-build-final-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-browser-iab-final-20260512.json",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-browser-smoke-final-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-token-mapping-final-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-guardrail-scan-final-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-amber-scope-final-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-favicon-final-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-json-validation-final-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-git-diff-check-final-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-whitespace-scan-final-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-validate-bootstrap-final-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-build-docs-final-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-java-version-final-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-json-validation-final-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-git-diff-check-final-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-alias-invariants-final-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-verify-harness-final-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-java-version-final-20260512.txt"
+  ],
+  "docs_sync": {
+    "status": "NO_CANONICAL_DOC_CHANGE",
+    "refs": [
+      "docs/stages/MVP.md",
+      "docs/product/b2b-mvp/lemanapro/design-system-v0.1.md"
+    ],
+    "reason": "The slice follows the existing draft design-system baseline and records parent acceptance in stage artifacts only."
   },
   "human_gates": [
     {
-      "gate": "legal/privacy wording and consent copy",
+      "gate": "brand naming approval",
       "status": "WAITING_HUMAN"
     },
     {
-      "gate": "real employee/customer data processing",
+      "gate": "accessibility contrast audit",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "final legal/privacy wording review",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "design QA on real mobile screens",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "reward economy/fulfillment approval",
       "status": "WAITING_HUMAN"
     },
     {
       "gate": "customer-specific HR/reporting boundaries",
       "status": "WAITING_HUMAN"
-    },
-    {
-      "gate": "admin auth/role/audit policy for production use",
-      "status": "WAITING_HUMAN"
-    },
-    {
-      "gate": "personal employee contact/financial/diagnostic disclosure requests",
-      "status": "WAITING_HUMAN"
-    },
-    {
-      "gate": "financial correctness, rewards, fulfillment, HR wording and production content approval outside MVP-02",
-      "status": "WAITING_HUMAN"
     }
   ],
-  "docs_sync": {
-    "status": "NOOP",
-    "reason": "This closure/audit records a status decision only; no behavior, public contract, setup/runtime expectation or canonical stage scope changed."
-  },
-  "guardrails": {
-    "production_code_edited_by_this_task": false,
-    "tests_edited_by_this_task": false,
-    "schemas_or_api_contracts_edited_by_this_task": false,
-    "ui_or_package_config_edited_by_this_task": false,
-    "canonical_docs_edited_by_this_task": false,
-    "prior_raw_evidence_rewritten": false,
-    "prior_immutable_evidence_or_verdict_rewritten": false,
-    "human_gates_closed": false,
-    "mvp_stage_closed": false,
-    "full_mvp_02_unconditional_done": false
-  },
-  "commands_summary": {
-    "prior_verdict_summary": "RECORDED",
-    "no_cohort_regression_scan": "PASS_WITH_ALLOWED_MIGRATION_HISTORY",
-    "pii_raw_code_guardrail_scan": "PASS_ADMIN_STATUS_NO_HITS_WITH_ALLOWED_REGISTRATION_SCOPE",
-    "verify_harness": "PASS_AFTER_PARENT_ALIAS_SYNC",
-    "make_verify": "PASS",
-    "make_test_unit": "PASS",
-    "make_build": "PASS",
-    "git_diff_check": "PASS",
-    "json_validation": "PASS",
-    "changed_files_scope": "PASS_WITH_PREEXISTING_DIRTY_WORKTREE"
-  },
+  "human_gates_closed": false,
   "fresh_verifier": {
     "status": "PASS",
-    "scope": "MVP-02-closure-audit-001",
-    "builder_did_not_write_pass_verdict": true,
-    "verdict_ref": ".agent/stages/mvp/verdicts/MVP-02-closure-audit-001.json",
-    "problems_ref": ".agent/stages/mvp/problems/MVP-02-closure-audit-001.md",
-    "note": "Fresh verifier returned PASS; parent accepted the PASS and synchronized latest verified aliases."
+    "verdict_ref": ".agent/stages/mvp/verdicts/MVP-04-design-system-tokenization-001.json",
+    "problems_ref": ".agent/stages/mvp/problems/MVP-04-design-system-tokenization-001.md"
   },
-  "raw_refs": [
-    ".agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-git-status-pre-edit-20260511.txt",
-    ".agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-diff-name-only-pre-edit-20260511.txt",
-    ".agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-prior-verdict-summary-20260511.json",
-    ".agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-no-cohort-regression-scan-20260511.txt",
-    ".agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-pii-raw-code-guardrail-scan-20260511.txt",
-    ".agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-make-verify-20260511.txt",
-    ".agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-make-test-unit-20260511.txt",
-    ".agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-make-build-20260511.txt",
-    ".agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-git-diff-check-20260511.txt",
-    ".agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-json-validation-20260511.txt",
-    ".agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-verify-harness-20260511.json",
-    ".agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-changed-files-scope-20260511.txt",
-    ".agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-git-status-final-20260511.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-02-closure-audit-001-make-verify-20260511.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-02-closure-audit-001-make-test-unit-20260511.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-02-closure-audit-001-make-build-20260511.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-02-closure-audit-001-git-diff-check-post-verdict-20260511.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-02-closure-audit-001-json-validation-post-verdict-20260511.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-02-closure-audit-001-no-cohort-classification-20260511.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-02-closure-audit-001-sensitive-admin-boundary-scan-20260511.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-02-closure-audit-001-closure-guardrails-20260511.txt",
-    ".agent/stages/mvp/raw/orchestrator-mvp-02-closure-audit-001-verify-harness-final-20260511.json",
-    ".agent/stages/mvp/raw/orchestrator-mvp-02-closure-audit-001-json-validation-final-20260511.txt",
-    ".agent/stages/mvp/raw/orchestrator-mvp-02-closure-audit-001-git-diff-check-final-20260511.txt"
-  ],
-  "blocker": null,
-  "known_limitations": [
-    "MVP stage remains open.",
-    "All human gates remain non-DONE.",
-    "Legacy MVP-02.01 and MVP-02.02 slices do not have per-contract immutable verdict JSON files in the current tree; their PASS status is preserved in status/progress and raw verifier outputs, and current access-pool behavior is re-proven by MVP-02-remove-cohort-domain-001."
-  ]
+  "blocker": "Unqualified java -version cannot locate a Java runtime in the current shell; make verify was not run for this frontend slice.",
+  "verdict": {
+    "status": "PASS",
+    "raw": ".agent/stages/mvp/verdicts/MVP-04-design-system-tokenization-001.json",
+    "problems": ".agent/stages/mvp/problems/MVP-04-design-system-tokenization-001.md"
+  }
 }

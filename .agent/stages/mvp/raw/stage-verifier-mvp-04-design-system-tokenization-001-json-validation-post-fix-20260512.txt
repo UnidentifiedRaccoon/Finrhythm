@@ -1,0 +1,5 @@
+.agent/stages/mvp/evidence/MVP-04-design-system-tokenization-001.json: JSON PASS
+.agent/stages/mvp/feature_list.json: JSON PASS
+.agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-browser-smoke.json: JSON PASS
+.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-browser-iab-20260512.json: JSON PASS
+.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-20260512/stage-verifier-mvp-04-design-system-tokenization-001-browser-smoke.json: JSON PASS

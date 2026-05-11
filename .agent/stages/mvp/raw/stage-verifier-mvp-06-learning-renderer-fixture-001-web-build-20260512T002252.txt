@@ -1,0 +1,31 @@
+$ pnpm --filter @finrhythm/web build
+
+> @finrhythm/web@0.0.0 build /Users/elena/cursor/FinPulse/apps/web
+> next build
+
+▲ Next.js 16.2.6 (Turbopack)
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1240ms
+  Running TypeScript ...
+  Finished TypeScript in 1207ms ...
+  Collecting page data using 6 workers ...
+  Generating static pages using 6 workers (0/4) ...
+  Generating static pages using 6 workers (1/4)
+  Generating static pages using 6 workers (2/4)
+  Generating static pages using 6 workers (3/4)
+✓ Generating static pages using 6 workers (4/4) in 205ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ƒ /
+├ ○ /_not-found
+├ ƒ /learning
+└ ƒ /learning/lessons/[lessonId]
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+
+exit_code=0

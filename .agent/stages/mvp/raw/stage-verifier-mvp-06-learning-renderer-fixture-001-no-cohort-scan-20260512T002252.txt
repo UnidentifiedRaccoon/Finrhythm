@@ -1,0 +1,4 @@
+$ rg old access terms in apps/web active source/tests
+PASS: no cohort/cohortId/cohorts terms found in apps/web active source/tests
+
+exit_code=0

@@ -1,0 +1,40 @@
+apps/web/tests/learning-shell.test.mjs:77:      "--color-bg-primary: #f6fafe",
+apps/web/tests/learning-shell.test.mjs:78:      "--color-primary: #1677f2",
+apps/web/tests/learning-shell.test.mjs:79:      "--color-cyan: #2cc6d3",
+apps/web/tests/learning-shell.test.mjs:80:      "--color-teal: #2bbfa5",
+apps/web/tests/learning-shell.test.mjs:81:      "--color-mint: #e5f8f3",
+apps/web/tests/learning-shell.test.mjs:82:      "--color-amber: #f5b942",
+apps/web/tests/learning-shell.test.mjs:83:      "--color-text-primary: #102a43",
+apps/web/tests/learning-shell.test.mjs:84:      "--color-border: #ddeaf5",
+apps/web/app/globals.css:2:  --color-bg-primary: #f6fafe;
+apps/web/app/globals.css:3:  --color-bg-soft: #eef7ff;
+apps/web/app/globals.css:4:  --color-surface-primary: #ffffff;
+apps/web/app/globals.css:5:  --color-surface-blue: #eaf5ff;
+apps/web/app/globals.css:6:  --color-primary: #1677f2;
+apps/web/app/globals.css:7:  --color-primary-hover: #0f63d8;
+apps/web/app/globals.css:8:  --color-primary-soft: #d8ecff;
+apps/web/app/globals.css:9:  --color-cyan: #2cc6d3;
+apps/web/app/globals.css:10:  --color-teal: #2bbfa5;
+apps/web/app/globals.css:11:  --color-mint: #e5f8f3;
+apps/web/app/globals.css:12:  --color-success: #22b573;
+apps/web/app/globals.css:13:  --color-amber: #f5b942;
+apps/web/app/globals.css:14:  --color-purple-soft: #f0ecff;
+apps/web/app/globals.css:15:  --color-error-soft: #ffeaea;
+apps/web/app/globals.css:16:  --color-error: #e84d4f;
+apps/web/app/globals.css:17:  --color-warning-soft: #fff4de;
+apps/web/app/globals.css:18:  --color-warning: #d98a00;
+apps/web/app/globals.css:19:  --color-text-on-primary: #ffffff;
+apps/web/app/globals.css:20:  --color-mint-border: #bdede0;
+apps/web/app/globals.css:21:  --color-reward-border: #f5d79a;
+apps/web/app/globals.css:22:  --color-text-primary: #102a43;
+apps/web/app/globals.css:23:  --color-text-secondary: #5d7186;
+apps/web/app/globals.css:24:  --color-text-muted: #8ea4b8;
+apps/web/app/globals.css:25:  --color-border: #ddeaf5;
+apps/web/app/globals.css:26:  --color-divider: #eaf0f6;
+apps/web/app/globals.css:27:  --color-icon-default: #294b68;
+apps/web/app/globals.css:28:  --color-disabled-bg: #f1f4f7;
+apps/web/app/globals.css:29:  --color-disabled-text: #9aaabd;
+apps/web/app/globals.css:30:  --gradient-brand: linear-gradient(135deg, #1677f2 0%, #2cc6d3 100%);
+apps/web/app/globals.css:31:  --gradient-calm: linear-gradient(180deg, #f6fafe 0%, #eef7ff 100%);
+apps/web/app/globals.css:32:  --gradient-success-soft: linear-gradient(135deg, #e5f8f3 0%, #eaf5ff 100%);
+apps/web/app/globals.css:33:  --gradient-reward-soft: linear-gradient(135deg, #fff4de 0%, #eaf5ff 100%);
