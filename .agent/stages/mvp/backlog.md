@@ -38,7 +38,9 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 
 `MVP-04-design-system-tokenization-001` has fresh verifier `PASS` for applying the draft design-system tokens to the existing `apps/web` employee learning shell and lesson renderer. Parent orchestrator accepted the scoped PASS for narrow `MVP-04.04` acceptance and synchronized root latest aliases on 2026-05-12. It does not close full `MVP-04`, full `MVP-06`, the MVP stage or any human gate.
 
-`MVP-06-learning-renderer-fixture-001` is now frozen as the next small sprint contract. The current mobile shell is sufficient, and the content spec already defines enough draft lesson fields and mobile lesson blocks for a synthetic fixture-backed renderer. This contract does not implement code and does not close full `MVP-06`, CMS/admin publishing, progress, quizzes, practice submission, points, onboarding/consent, diagnostics/routing, the MVP stage or any human gate.
+`MVP-06-learning-renderer-fixture-001` has fresh verifier `PASS` for the fixture renderer only and remains immutable/discoverable. Full `MVP-06` remains open.
+
+`MVP-06-learning-n2-fixture-001` has scoped fresh verifier `PASS` after the active sprint contract freeze. It adds one more synthetic N2 savings-challenge fixture, `/learning/lessons/N2` route coverage and a `/learning` link/CTA in the existing fixture renderer. Latest verified evidence remains `MVP-04-design-system-tokenization-001`; a separate parent alias-sync decision is still required before latest aliases can move.
 
 ## MVP-02. Corporate tenant and invite access
 
@@ -181,6 +183,7 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 | ID | Mode | Status | Goal | Evidence |
 |----|------|--------|------|----------|
 | MVP-06-learning-renderer-fixture-001 | agent | PASS | Build a tiny mobile-first `apps/web` fixture-backed renderer for one synthetic `N1` lesson, reachable from the verified learning shell. | `.agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.md`; `.agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.json`; `.agent/stages/mvp/verdicts/MVP-06-learning-renderer-fixture-001.json`; `.agent/stages/mvp/raw/mvp-06-learning-renderer-fixture-001-screenshots-20260511/` |
+| MVP-06-learning-n2-fixture-001 | agent | PASS_PENDING_PARENT_ALIAS_SYNC | Add one additional synthetic `N2` savings-challenge lesson fixture to the existing `apps/web` fixture-backed renderer and link it from `/learning`. | `.agent/stages/mvp/evidence/MVP-06-learning-n2-fixture-001.md`; `.agent/stages/mvp/evidence/MVP-06-learning-n2-fixture-001.json`; `.agent/stages/mvp/verdicts/MVP-06-learning-n2-fixture-001.json`; `.agent/stages/mvp/problems/MVP-06-learning-n2-fixture-001.md`; `.agent/stages/mvp/raw/mvp-06-learning-n2-fixture-001-screenshots-20260512/` |
 | MVP-06 | agent | OPEN | Full learning delivery, CMS/admin, content states, publish validation, progress tracking and analytics hooks remain open. | Future builder evidence and human-gated content approvals required. |
 
 ### Frozen fixture-backed renderer slice
@@ -199,3 +202,18 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 - require component/unit tests plus browser/mobile screenshot evidence;
 - do not close `MVP-03`, full `MVP-04`, full `MVP-06`, `MVP-07`, the MVP stage or human gates.
 - fresh verifier returned `PASS` for this sprint only. Full `MVP-06`, MVP stage and human gates remain open.
+
+### Verified N2 fixture extension slice
+
+`MVP-06-learning-n2-fixture-001` is intentionally scoped to a second synthetic fixture for the existing renderer:
+
+- add synthetic `N2_SAVINGS_CHALLENGE_START` content for the 6-week savings challenge start;
+- provide direct route coverage for `N2`, expected as `/learning/lessons/N2`;
+- link `/learning` to the N2 lesson with a visible CTA while preserving N1;
+- include office and store/shift examples;
+- keep the mini-test display-only and practice non-persistent/category-only;
+- require amber/warning-soft reward guardrails and no money/cash-equivalence/guaranteed-result claims;
+- avoid exact personal sums, photos, documents and bank screenshots;
+- exclude CMS/admin publishing, progress persistence, scored quiz submission, practice submission, points/wallet, diagnostics/routing, onboarding/consent, backend/API/schema/OpenAPI/generated-client and `packages/ui`;
+- do not close full `MVP-04`, full `MVP-06`, the MVP stage or human gates.
+- fresh scoped verifier returned `PASS` for this sprint only. Parent latest-alias sync remains pending as a separate decision.

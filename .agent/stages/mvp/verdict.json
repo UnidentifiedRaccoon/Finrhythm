@@ -124,5 +124,17 @@
     "reward economy/fulfillment approval",
     "customer-specific HR/reporting boundaries"
   ],
+  "post_verifier_followup": {
+    "status": "PASS",
+    "reason": "Follow-up UI smoke found and fixed remaining blue-tinted reward border/badge styling on /learning/lessons/N1.",
+    "raw": ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-ui-smoke-fixer-20260512.txt",
+    "checks": [
+      "pnpm --filter @finrhythm/web typecheck",
+      "pnpm --filter @finrhythm/web test",
+      "pnpm --filter @finrhythm/web build",
+      "FINPULSE_SMOKE_BASE_URL=http://127.0.0.1:3210 pnpm --dir apps/web exec node /tmp/finpulse-ui-smoke.mjs",
+      "CHROMIUM_EXECUTABLE_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' WEB_SMOKE_BASE_URL=http://127.0.0.1:3211 WEB_SMOKE_OUTPUT_DIR=.agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-screenshots-followup-20260512 WEB_SMOKE_SCREENSHOT_PREFIX=orchestrator-mvp-04-design-system-tokenization-001-followup pnpm --filter @finrhythm/web smoke:browser"
+    ]
+  },
   "alias_of": ".agent/stages/mvp/verdicts/MVP-04-design-system-tokenization-001.json"
 }

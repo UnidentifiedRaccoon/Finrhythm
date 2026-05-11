@@ -1,0 +1,125 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-06-learning-n2-fixture-001",
+  "parent_stage_unit": "MVP-06.03",
+  "verdict": "PASS",
+  "status": "PASS",
+  "updated_at": "2026-05-12",
+  "scope_statement": "This verdict covers only MVP-06-learning-n2-fixture-001: one synthetic N2 savings-challenge fixture, the /learning/lessons/N2 renderer route, and the /learning CTA/link into N2. It does not close full MVP-06, full MVP-04, the MVP stage, parent alias sync, production content approval or any human gate.",
+  "parent_alias_sync": {
+    "status": "PENDING_PARENT_DECISION",
+    "latest_root_aliases_remain_on": "MVP-04-design-system-tokenization-001",
+    "latest_verified_sprint_contract_id": "MVP-04-design-system-tokenization-001",
+    "active_sprint_contract_id": "MVP-06-learning-n2-fixture-001"
+  },
+  "acceptance": {
+    "n2_fixture_exists": "PASS",
+    "synthetic_editorial_draft_human_review_required": "PASS",
+    "required_blocks_present_in_order": "PASS",
+    "office_and_store_shift_examples_present": "PASS",
+    "learning_direct_route_n2": "PASS",
+    "learning_cta_to_n2_with_n1_still_available": "PASS",
+    "mini_test_display_only": "PASS",
+    "practice_non_persistent_category_only": "PASS",
+    "no_required_exact_personal_sums_photos_docs_bank_screenshots": "PASS",
+    "reward_copy_no_money_cash_equivalence_guarantee_random_mechanics": "PASS",
+    "reward_surface_amber_warning_soft_only": "PASS",
+    "no_backend_api_schema_openapi_generated_client_packages_ui_scope": "PASS"
+  },
+  "commands": {
+    "web_typecheck": {
+      "status": "PASS",
+      "command": "pnpm --filter @finrhythm/web typecheck"
+    },
+    "web_test": {
+      "status": "PASS",
+      "command": "pnpm --filter @finrhythm/web test",
+      "observed": "11 tests passed across 2 suites."
+    },
+    "web_build": {
+      "status": "PASS",
+      "command": "pnpm --filter @finrhythm/web build"
+    },
+    "json_validation": {
+      "status": "PASS",
+      "command": "jq empty .agent/stages/mvp/status.json .agent/stages/mvp/feature_list.json .agent/stages/mvp/evidence/MVP-06-learning-n2-fixture-001.json .agent/stages/mvp/evidence.json .agent/stages/mvp/verdict.json"
+    },
+    "git_diff_check": {
+      "status": "PASS",
+      "command": "git diff --check"
+    },
+    "java_version": {
+      "status": "BLOCKED_UNQUALIFIED_JAVA_RUNTIME_MISSING",
+      "command": "java -version",
+      "observed": "Unable to locate a Java Runtime."
+    },
+    "make_verify": {
+      "status": "NOT_RUN_JAVA_RUNTIME_MISSING"
+    },
+    "browser_iab": {
+      "status": "BLOCKED_NO_IAB_BACKEND_DISCOVERED",
+      "command": "node_repl browser-client setupAtlasRuntime({ backend: \"iab\" })",
+      "observed": "No Codex IAB backends were discovered."
+    },
+    "browser_fallback_playwright": {
+      "status": "PASS",
+      "command": "pnpm --dir apps/web exec node --input-type=module -",
+      "base_url": "http://127.0.0.1:3212",
+      "routes": [
+        "/learning",
+        "/learning/lessons/N2"
+      ],
+      "observed": {
+        "learning_title": "FinPulse learning title rendered as localized app title.",
+        "n1_cta_count": 2,
+        "n2_cta_count": 1,
+        "n2_click_url": "http://127.0.0.1:3212/learning/lessons/N2",
+        "n2_reward_block_background": "rgb(255, 244, 222)",
+        "n2_reward_block_border": "rgb(245, 215, 154)",
+        "n2_reward_badge_background": "rgb(255, 244, 222)",
+        "n2_reward_badge_border": "rgb(245, 215, 154)",
+        "n2_reward_badge_color": "rgb(217, 138, 0)",
+        "n2_reward_points_color": "rgb(245, 185, 66)",
+        "console_warnings_or_errors": []
+      }
+    },
+    "guardrail_scan": {
+      "status": "PASS_WITH_REVIEWED_NEGATIVE_CONTEXT",
+      "command": "rg -n \"Lemana|Лемана|cohort|cohortId|cohorts|wave|leaderboard|рейтинг сотрудников|лучшие сотрудники|худшие сотрудники|казино|лотерея|случай|random|raffle|cash equivalent|денежн(ый|ого) эквивалент|гарантированный результат|быстрый доход|без риска|паспорт|загрузите скриншот|отправьте документ|банковский скриншот требуется\" apps/web/components apps/web/lib apps/web/app apps/web/tests || true",
+      "observed": "Matches were test assertions or negative no-money-equivalence copy, not unsafe customer-facing claims."
+    },
+    "forbidden_scope_scan": {
+      "status": "PASS",
+      "command": "git diff --name-only | rg '(^apps/api/|^api/|^backend/|^schema/|^openapi/|^packages/ui/|generated|openapi|schema)' || true",
+      "observed": "No backend/API/schema/OpenAPI/generated-client/packages/ui paths in the working diff."
+    },
+    "alias_gate_invariants": {
+      "status": "PASS",
+      "command": "jq -r '[.latest_verified_sprint_contract_id, .active_sprint_contract_id, .state, (.exit_gate_summary.mvp_04_complete|tostring), (.exit_gate_summary.mvp_06_complete|tostring), (.exit_gate_summary.mvp_stage_complete|tostring), (.exit_gate_summary.human_gates_open|tostring), (.exit_gate_summary.current_mvp_06_learning_n2_fixture_fresh_verifier_pass|tostring)] | @tsv' .agent/stages/mvp/status.json",
+      "observed": "latest_verified=MVP-04-design-system-tokenization-001; active=MVP-06-learning-n2-fixture-001; full MVP-04=false; full MVP-06=false; MVP stage=false; human_gates_open=true."
+    }
+  },
+  "existing_evidence_refs_reviewed": [
+    ".agent/stages/mvp/evidence/MVP-06-learning-n2-fixture-001.md",
+    ".agent/stages/mvp/evidence/MVP-06-learning-n2-fixture-001.json",
+    ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-n2-fixture-001-summary-20260512.txt",
+    ".agent/stages/mvp/raw/mvp-06-learning-n2-fixture-001-screenshots-20260512/"
+  ],
+  "artifacts_written": {
+    "verdict": ".agent/stages/mvp/verdicts/MVP-06-learning-n2-fixture-001.json",
+    "problems": ".agent/stages/mvp/problems/MVP-06-learning-n2-fixture-001.md"
+  },
+  "dirty_worktree_note": "The worktree contains unrelated dirty files outside this verifier scope. They were not reverted. The scoped forbidden-path scan found no backend/API/schema/OpenAPI/generated-client/packages/ui diff.",
+  "human_gates_closed": false,
+  "remaining_human_gates": [
+    "Legal/privacy wording and consent copy.",
+    "Real employee/customer data processing.",
+    "Customer-specific HR/reporting boundaries.",
+    "Final financial correctness of lessons, diagnostics, quizzes and explanations.",
+    "HR/privacy wording review for diagnostics, self-assessment and reports.",
+    "Reward economy, stock, prices and fulfillment.",
+    "production_ready content approval.",
+    "Admin auth/role/audit policy for production use."
+  ],
+  "problems_ref": ".agent/stages/mvp/problems/MVP-06-learning-n2-fixture-001.md"
+}

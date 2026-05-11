@@ -1,5 +1,6 @@
 package com.finrhythm.api.registration.web;
 
+import com.finrhythm.api.common.web.ApiErrorResponse;
 import com.finrhythm.api.registration.service.EmployeeRegistrationCommand;
 import com.finrhythm.api.registration.service.EmployeeRegistrationResult;
 import com.finrhythm.api.registration.service.EmployeeRegistrationService;
@@ -9,7 +10,9 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,14 +20,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(
+        name = "Employee registrations",
+        description = "Invite-code based employee registration without raw invite-code or PII echoes in errors."
+)
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/employee-registrations")
 public class EmployeeRegistrationController {
     private final EmployeeRegistrationService employeeRegistrationService;
-
-    public EmployeeRegistrationController(EmployeeRegistrationService employeeRegistrationService) {
-        this.employeeRegistrationService = employeeRegistrationService;
-    }
 
     @Operation(
             summary = "Register an employee with an invite code",

@@ -182,7 +182,14 @@ function LessonRow({ lesson }: { lesson: NoviceLesson }) {
         { className: "lesson-meta", "aria-label": `Метаданные ${lesson.id}` },
         h("span", null, lesson.time),
         h("span", null, lesson.competencyCodes.join(" / "))
-      )
+      ),
+      lesson.status === "available" || lesson.status === "next"
+        ? h(
+            "a",
+            { className: "lesson-row-link", href: `/learning/lessons/${lesson.id}` },
+            lesson.status === "available" ? "Открыть урок" : `Открыть ${lesson.id}`
+          )
+        : null
     )
   );
 }

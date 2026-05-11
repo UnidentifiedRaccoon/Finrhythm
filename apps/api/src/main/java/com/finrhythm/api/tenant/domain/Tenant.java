@@ -1,5 +1,6 @@
 package com.finrhythm.api.tenant.domain;
 
+import com.finrhythm.api.common.persistence.AuditedEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -10,16 +11,23 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.time.Instant;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
+/**
+ * Tenant account that scopes pilot launches, access pools and invite-code lifecycle data.
+ */
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "tenants")
-public class Tenant {
+public class Tenant extends AuditedEntity {
     private static final Pattern SLUG = Pattern.compile("^[a-z0-9][a-z0-9-]{1,62}[a-z0-9]$");
 
     @Id
@@ -37,15 +45,6 @@ public class Tenant {
     @Column(nullable = false, length = 32)
     private TenantStatus status;
 
-    @Column(nullable = false)
-    private Instant createdAt;
-
-    @Column(nullable = false)
-    private Instant updatedAt;
-
-    protected Tenant() {
-    }
-
     private Tenant(String slug, String displayName) {
         this.slug = normalizeSlug(slug);
         this.displayName = requireText(displayName, "displayName");
@@ -56,41 +55,13 @@ public class Tenant {
         return new Tenant(slug, displayName);
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public TenantStatus getStatus() {
-        return status;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
     @PrePersist
     void prePersist() {
-        Instant now = Instant.now();
-        createdAt = now;
-        updatedAt = now;
         validate();
     }
 
     @PreUpdate
     void preUpdate() {
-        updatedAt = Instant.now();
         validate();
     }
 

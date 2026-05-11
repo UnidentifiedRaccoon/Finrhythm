@@ -80,6 +80,37 @@ Machine-readable proof index. Suggested keys: `stage_id`, `sprint_contract_id`, 
 
 For content/CMS/adaptation slices, also include the evidence required by `profiles/CONTENT_PROFILE.md`.
 
+### `publish_manifest.json` (optional)
+
+Short publish-ready index for commit/PR/merge agents. Use this only after implementation evidence exists; it does not replace `evidence.json`.
+
+Purpose:
+- let publish-only agents avoid reading raw logs or full stage history;
+- summarize the branch, PR title/body, validation commands and exact proof refs;
+- mark whether the current slice is ready to publish.
+
+Suggested shape:
+
+```json
+{
+  "ready_for_pr": false,
+  "base_branch": "main",
+  "branch": null,
+  "commit_title": null,
+  "pr_title": null,
+  "pr_body_summary": [],
+  "validation": [],
+  "proof_refs": [],
+  "raw_read_policy": "do_not_read_raw_by_default",
+  "updated_at": "{{TIMESTAMP}}"
+}
+```
+
+Rules:
+- keep it short enough to read in full;
+- store only refs and summaries, not command transcripts;
+- do not set `ready_for_pr=true` unless verifier evidence or an explicit blocker/limitation is recorded.
+
 ### `verdict.json`
 
 Verifier-owned:

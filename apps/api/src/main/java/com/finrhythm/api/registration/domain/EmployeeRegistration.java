@@ -1,5 +1,6 @@
 package com.finrhythm.api.registration.domain;
 
+import com.finrhythm.api.common.persistence.AuditedEntity;
 import com.finrhythm.api.tenant.domain.ActivationSubjectRef;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,14 +10,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Employee registration produced after a successful invite-code activation.
+ */
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "employee_registrations")
-public class EmployeeRegistration {
+public class EmployeeRegistration extends AuditedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false, updatable = false)
@@ -48,15 +57,6 @@ public class EmployeeRegistration {
 
     @Column(nullable = false, updatable = false)
     private Instant registeredAt;
-
-    @Column(nullable = false)
-    private Instant createdAt;
-
-    @Column(nullable = false)
-    private Instant updatedAt;
-
-    protected EmployeeRegistration() {
-    }
 
     private EmployeeRegistration(
             UUID tenantId,
@@ -96,61 +96,17 @@ public class EmployeeRegistration {
         );
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public UUID getTenantId() {
-        return tenantId;
-    }
-
-    public UUID getPilotLaunchId() {
-        return pilotLaunchId;
-    }
-
-    public UUID getAccessPoolId() {
-        return accessPoolId;
-    }
-
-    public UUID getInviteCodeId() {
-        return inviteCodeId;
-    }
-
-    public String getActivationSubjectRef() {
-        return activationSubjectRef;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public Instant getRegisteredAt() {
-        return registeredAt;
-    }
-
     public boolean matchesContact(RegistrationContact contact) {
         return new RegistrationContact(fullName, email, phone).sameContact(contact);
     }
 
     @PrePersist
     void prePersist() {
-        Instant now = Instant.now();
-        createdAt = now;
-        updatedAt = now;
         validate();
     }
 
     @PreUpdate
     void preUpdate() {
-        updatedAt = Instant.now();
         validate();
     }
 

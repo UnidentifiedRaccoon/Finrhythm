@@ -20,7 +20,8 @@
     "references/SUBAGENTS.md",
     "references/COMMANDS.md",
     "references/DELEGATION.md",
-    "profiles/CONTENT_PROFILE.md"
+    "profiles/CONTENT_PROFILE.md",
+    "assets/templates/publish_manifest.template.json"
   ],
   "required_stage_files": [
     "source.md",

@@ -1,5 +1,6 @@
 package com.finrhythm.api.tenant.domain;
 
+import com.finrhythm.api.common.persistence.AuditedEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,14 +14,22 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Persisted invite-code state that stores only hashed lookup data, never the raw invite code.
+ */
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "invite_codes")
-public class InviteCode {
+public class InviteCode extends AuditedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false, updatable = false)
@@ -49,15 +58,6 @@ public class InviteCode {
 
     @Column(length = 64)
     private String activationSubjectRef;
-
-    @Column(nullable = false)
-    private Instant createdAt;
-
-    @Column(nullable = false)
-    private Instant updatedAt;
-
-    protected InviteCode() {
-    }
 
     private InviteCode(
             Tenant tenant,
@@ -114,42 +114,6 @@ public class InviteCode {
         );
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public Tenant getTenant() {
-        return tenant;
-    }
-
-    public AccessPool getAccessPool() {
-        return accessPool;
-    }
-
-    public String getLookupHash() {
-        return lookupHash;
-    }
-
-    public InviteCodeStatus getStatus() {
-        return status;
-    }
-
-    public Instant getIssuedAt() {
-        return issuedAt;
-    }
-
-    public Instant getExpiresAt() {
-        return expiresAt;
-    }
-
-    public Instant getActivatedAt() {
-        return activatedAt;
-    }
-
-    public String getActivationSubjectRef() {
-        return activationSubjectRef;
-    }
-
     public boolean isActivatedFor(ActivationSubjectRef subjectRef) {
         return status == InviteCodeStatus.ACTIVATED
                 && activationSubjectRef != null
@@ -158,15 +122,11 @@ public class InviteCode {
 
     @PrePersist
     void prePersist() {
-        Instant now = Instant.now();
-        createdAt = now;
-        updatedAt = now;
         validate();
     }
 
     @PreUpdate
     void preUpdate() {
-        updatedAt = Instant.now();
         validate();
     }
 

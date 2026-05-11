@@ -1,5 +1,6 @@
 package com.finrhythm.api.tenant.domain;
 
+import com.finrhythm.api.common.persistence.AuditedEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,14 +14,22 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Capacity-limited access pool within a pilot launch where invite codes are issued and tracked.
+ */
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "access_pools")
-public class AccessPool {
+public class AccessPool extends AuditedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false, updatable = false)
@@ -51,15 +60,6 @@ public class AccessPool {
 
     private Instant endsAt;
 
-    @Column(nullable = false)
-    private Instant createdAt;
-
-    @Column(nullable = false)
-    private Instant updatedAt;
-
-    protected AccessPool() {
-    }
-
     private AccessPool(Tenant tenant, PilotLaunch pilotLaunch, String key, String name, int capacity) {
         this.tenant = Objects.requireNonNull(tenant, "tenant");
         this.pilotLaunch = Objects.requireNonNull(pilotLaunch, "pilotLaunch");
@@ -77,34 +77,6 @@ public class AccessPool {
         return new AccessPool(tenant, pilotLaunch, key, name, capacity);
     }
 
-    public UUID getId() {
-        return id;
-    }
-
-    public Tenant getTenant() {
-        return tenant;
-    }
-
-    public PilotLaunch getPilotLaunch() {
-        return pilotLaunch;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public AccessPoolStatus getStatus() {
-        return status;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
     public boolean isOwnedBy(Tenant candidate) {
         if (tenant == candidate) {
             return true;
@@ -117,15 +89,11 @@ public class AccessPool {
 
     @PrePersist
     void prePersist() {
-        Instant now = Instant.now();
-        createdAt = now;
-        updatedAt = now;
         validate();
     }
 
     @PreUpdate
     void preUpdate() {
-        updatedAt = Instant.now();
         validate();
     }
 

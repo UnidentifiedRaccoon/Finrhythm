@@ -1,5 +1,6 @@
 package com.finrhythm.api.tenant.domain;
 
+import com.finrhythm.api.common.persistence.AuditedEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,14 +14,22 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * Planned pilot rollout for a tenant, used to group related access pools and capacity goals.
+ */
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "pilot_launches")
-public class PilotLaunch {
+public class PilotLaunch extends AuditedEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false, updatable = false)
@@ -47,15 +56,6 @@ public class PilotLaunch {
 
     private Instant endsAt;
 
-    @Column(nullable = false)
-    private Instant createdAt;
-
-    @Column(nullable = false)
-    private Instant updatedAt;
-
-    protected PilotLaunch() {
-    }
-
     private PilotLaunch(Tenant tenant, String key, String name, int targetSize) {
         this.tenant = Objects.requireNonNull(tenant, "tenant");
         this.key = Tenant.normalizeSlug(key);
@@ -67,30 +67,6 @@ public class PilotLaunch {
 
     public static PilotLaunch create(Tenant tenant, String key, String name, int targetSize) {
         return new PilotLaunch(tenant, key, name, targetSize);
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public Tenant getTenant() {
-        return tenant;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public PilotLaunchStatus getStatus() {
-        return status;
-    }
-
-    public int getTargetSize() {
-        return targetSize;
     }
 
     public boolean isOwnedBy(Tenant candidate) {
@@ -105,15 +81,11 @@ public class PilotLaunch {
 
     @PrePersist
     void prePersist() {
-        Instant now = Instant.now();
-        createdAt = now;
-        updatedAt = now;
         validate();
     }
 
     @PreUpdate
     void preUpdate() {
-        updatedAt = Instant.now();
         validate();
     }
 
