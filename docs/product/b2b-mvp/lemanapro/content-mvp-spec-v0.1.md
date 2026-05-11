@@ -16,6 +16,7 @@ stage_alignment:
     - MVP-09
 product_foundation: docs/product/b2b-mvp/lemanapro/product-foundation-v1.md
 learning_methodology: docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
+product_design_system: docs/product/b2b-mvp/lemanapro/design-system-v0.1.md
 raw_content_baseline:
   - content/getcourse-finstrategy/README.md
   - content/getcourse-finstrategy/CONTENT_BRIEF.md
@@ -40,6 +41,7 @@ human_gates:
 - `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`
 - `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`
 - `docs/stages/MVP.md`
+- UI/rendering style baseline, not educational content source: `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md`
 - raw baseline: `content/getcourse-finstrategy/README.md`, `content/getcourse-finstrategy/CONTENT_BRIEF.md`, отдельные exported lessons.
 
 ---

@@ -1,0 +1,33 @@
+{
+  "backend": "iab",
+  "baseUrl": "http://127.0.0.1:3401",
+  "checks": [
+    {
+      "route": "/learning",
+      "url": "http://127.0.0.1:3401/learning",
+      "title": "Финпульс — обучение",
+      "hasPrivacyCard": true,
+      "hasRouteProgress": true,
+      "hasLessonLink": true,
+      "consoleErrorsAndWarnings": 0
+    },
+    {
+      "interaction": "click /learning lesson link",
+      "url": "http://127.0.0.1:3401/learning/lessons/N1",
+      "title": "Финпульс — обучение",
+      "hasLessonProgressCard": true,
+      "hasPolicyPanel": true,
+      "hasSensitivePracticeLabel": true,
+      "consoleErrorsAndWarnings": 0
+    },
+    {
+      "route": "/learning after bottom-nav selector fix",
+      "hasPrivacyCard": true,
+      "consoleErrorsAndWarnings": 0
+    }
+  ],
+  "notes": [
+    "In-app Browser was used before Playwright screenshot fallback.",
+    "A visual issue in the bottom nav nested icon selector was found during Browser screenshot review and fixed before final screenshot capture."
+  ]
+}

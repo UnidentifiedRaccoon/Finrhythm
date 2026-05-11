@@ -8,19 +8,21 @@ default_reasoning_effort: xhigh
 task_execution_mode: stage-launch-proof-loop
 product_foundation: docs/product/b2b-mvp/lemanapro/product-foundation-v1.md
 product_methodology: docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
-last_updated: 2026-05-11
+product_design_system: docs/product/b2b-mvp/lemanapro/design-system-v0.1.md
+last_updated: 2026-05-12
 language: ru
 ---
 
 # MVP — stage source of truth
 
-Этот файл задаёт исполняемый scope MVP для stage-агента. Канонический продуктовый baseline: `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`; канонический baseline методологии обучения, диагностики and route rules: `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`.
+Этот файл задаёт исполняемый scope MVP для stage-агента. Канонический продуктовый baseline: `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`; канонический baseline методологии обучения, диагностики and route rules: `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`; канонический product-design style baseline for UI/token/component/screen work: `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md`.
 
 Stage artifacts, progress, evidence, verdicts and audits must live in `.agent/stages/mvp/`. Этот файл не является журналом прогресса.
 
 ## Как агент должен использовать этот файл
 
 - До spec freeze читать `AGENTS.md`, `docs/architecture/source-of-truth.md`, `docs/architecture/documentation-workflow.md`, этот файл, `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md` and `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` for learning/content/diagnostic/support/reporting slices.
+- Для UX/UI, design tokens, component QA, visual consistency, mobile screen generation and employee-facing layout slices читать `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md`; PNG board `docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png` is a companion reference, not a replacement for the markdown baseline.
 - Для account, organization, access, invitation, code, subscription or seat slices читать `docs/architecture/access-and-subscriptions.md` and `docs/architecture/organization-access-subscription-model.md`.
 - Исполнять MVP как B2B-first corporate pilot, not as B2C/public-launch product.
 - Не расширять scope за пределы `In scope`; disputed product intent возвращать в product foundation/stage docs before implementation.
@@ -60,6 +62,7 @@ Stage artifacts, progress, evidence, verdicts and audits must live in `.agent/st
 - Data collected in MVP: name, email, phone, invite code, learning events, diagnostics, points, merch orders, support/feedback.
 - Product tone: calm mentor / financial trainer, no shame, no promises of fast income, no employer surveillance framing.
 - Learning methodology v0.2 fixes the MVP route: diagnostics -> personalized route -> 7 short `Новичок` lessons -> mini-test -> practice -> points -> challenge/streak return.
+- Design system v0.1 fixes the draft Calm Progress Fintech style baseline for neutral employee-facing UI, privacy-first screens, non-competitive progress, design tokens, components, screen patterns and visual QA. It remains human-gated for brand naming approval, accessibility contrast audit, legal/privacy wording review and design QA on real mobile screens.
 
 ## Architecture baseline
 
@@ -323,6 +326,7 @@ Allowed parallelism:
 
 **Dependencies:** MVP-01, MVP-02
 **Parallelism:** medium
+**Design source:** `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md`; companion board: `docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png`
 
 ### Execution units
 
@@ -339,10 +343,12 @@ Allowed parallelism:
 - Diagnostic, lesson and practice UX supports no-photo/no-doc/no-exact-sum completion and has office/store example variants.
 - HR-facing and mass-communication wording uses "опора", "уверенность", "спокойствие" and avoids stigmatizing debt/stress/control framing.
 - Common UI states support future feature work without ad hoc layout.
+- Design tokens, component patterns and visual QA use the draft design-system baseline without treating it as production-approved.
 
 ### Evidence required
 
 - Screenshots or markdown UI specs.
+- Design-system baseline references for tokens/components/screen patterns.
 - Copy principles.
 - Browser/mobile smoke evidence.
 

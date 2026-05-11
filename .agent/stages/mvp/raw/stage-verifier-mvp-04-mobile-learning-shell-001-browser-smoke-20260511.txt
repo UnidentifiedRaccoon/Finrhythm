@@ -1,0 +1,27 @@
+
+> @finrhythm/web@0.0.0 smoke:browser /Users/elena/cursor/FinPulse/apps/web
+> node tests/browser-smoke.mjs
+
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+browserType.launch: Executable doesn't exist at /Users/elena/Library/Caches/ms-playwright/chromium_headless_shell-1217/chrome-headless-shell-mac-arm64/chrome-headless-shell
+╔════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just installed or updated.       ║
+║ Please run the following command to download new browsers: ║
+║                                                            ║
+║     pnpm exec playwright install                           ║
+║                                                            ║
+║ <3 Playwright Team                                         ║
+╚════════════════════════════════════════════════════════════╝
+    at /Users/elena/cursor/FinPulse/apps/web/tests/browser-smoke.mjs:39:32 {
+  name: 'Error'
+}
+
+Node.js v24.11.0
+/Users/elena/cursor/FinPulse/apps/web:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @finrhythm/web@0.0.0 smoke:browser: `node tests/browser-smoke.mjs`
+Exit status 1
+
+[exit_code=1]

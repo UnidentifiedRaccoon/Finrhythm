@@ -1,96 +1,98 @@
-# Evidence: MVP-02-closure-audit-001
+# Evidence: MVP-04-design-system-tokenization-001
 
-Status: `DONE_WITH_HUMAN_PENDING`
-Updated: 2026-05-11
-Parent unit: `MVP-02`
-Verification status: `FRESH_VERIFIER_PASS_ACCEPTED_BY_PARENT`
+Status: `PASS`
+Updated: 2026-05-12
+Stage: `mvp`
+Parent unit: `MVP-04.04`
 
-This closure/audit records the full `MVP-02` status decision after the verified `MVP-02-remove-cohort-domain-001` refactor. It is stage-artifact-only: no production code, tests, schemas, API/OpenAPI/generated client, UI, package/config files, canonical docs, prior raw evidence or prior immutable evidence/verdict refs were edited.
+## Implemented
 
-## Decision
-
-Full `MVP-02` is recorded as `DONE_WITH_HUMAN_PENDING`.
-
-No concrete non-human proof gap remains for the `MVP-02` technical acceptance criteria in `docs/stages/MVP.md` after the latest access-model refactor PASS. The remaining blockers are human-gated production/admin/legal/privacy/reporting approvals, so this is not unconditional `DONE`.
-
-The MVP stage remains open.
-
-## Prior Verdict Summary
-
-| Unit | Current status | Proof refs |
-|---|---:|---|
-| `MVP-02.01` / `MVP-02-tenant-domain-001` | PASS | `.agent/stages/mvp/status.json`; `.agent/stages/mvp/progress.md`; `.agent/stages/mvp/raw/stage-verifier-mvp-02-tenant-domain-001-api-mvn-verify-20260504-current.txt`; superseded by `.agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json` |
-| `MVP-02.02` / `MVP-02-invite-issuance-activation-001` | PASS | `.agent/stages/mvp/status.json`; `.agent/stages/mvp/progress.md`; `.agent/stages/mvp/raw/stage-verifier-mvp-02-invite-issuance-activation-001-api-mvn-verify-20260504-fresh.txt`; re-proven by `.agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json` |
-| `MVP-02.03` / `MVP-02-employee-registration-001` | PASS | `.agent/stages/mvp/evidence/MVP-02-employee-registration-001.json`; `.agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json` |
-| `MVP-02.04` backend/admin API | PASS | `.agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md`; `.agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json` |
-| `MVP-02.04` admin UI/status view | PASS | `.agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.json`; `.agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json` |
-| `MVP-02.04` closure | DONE_WITH_HUMAN_PENDING / PASS | `.agent/stages/mvp/evidence/MVP-02-04-closure-audit-001.json`; `.agent/stages/mvp/verdicts/MVP-02-04-closure-audit-001.json` |
-| `MVP-02-remove-cohort-domain-001` | PASS | `.agent/stages/mvp/evidence/MVP-02-remove-cohort-domain-001.json`; `.agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json` |
-
-Legacy note: the first two MVP-02 slices do not have per-contract immutable verdict JSON files in the current tree. Their PASS status is recorded in `status.json` and `progress.md` with raw fresh-verifier outputs, and the latest access-pool refactor PASS re-proves the current active tenant/pilot-launch/access-pool behavior.
+- Added a minimal code token layer in `apps/web/app/globals.css` using the canonical design-system token names from `design-system-v0.1.md`.
+- Kept `packages/ui` untouched because it currently has no package scaffold or local shared component pattern.
+- Replaced the old active local CSS variable layer (`--bg`, `--ink`, `--green`, `--blue`, `--line`, `--surface`) with design-system color, typography, spacing, radius, shadow and control tokens.
+- Aligned the learning shell with a privacy card, route progress/stepper, tokenized cards, chips, primary CTA and bottom navigation.
+- Aligned the lesson renderer with a lesson progress panel, tokenized lesson blocks, privacy/sensitive practice panel, reward panel and policy card.
+- Added a focused test assertion that guards the token baseline and verifies the old local palette does not return.
+- Used Browser/IAB for rendered review; fixed a bottom-nav nested span selector issue found during screenshot inspection.
+- Captured refreshed mobile screenshots for `/learning`, `/learning/lessons/N1`, loading, empty and error states.
 
 ## Acceptance Mapping
 
-| MVP-02 acceptance criterion | Status | Evidence / rationale |
-|---|---:|---|
-| Admin can generate and track 500 main pilot access-pool codes. | PASS | 500-code issuance is covered by invite issuance tests and re-proven in `MVP-02-remove-cohort-domain-001`; tracking is covered by the admin status API/UI PASS refs. See `.agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json`, `.agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json`, `.agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json`. |
-| Code activation is one-time and linked to user/access pool. | PASS | One-subject binding, idempotent same-subject retry and duplicate rejection are covered by invite activation tests; registration links name/email/phone/code to tenant/pilotLaunch/accessPool. See `.agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json` and `.agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json`. |
-| Registration does not require corporate SSO. | PASS | The proven path is `POST /api/v1/employee-registrations` with name, email, phone and invite code; corporate SSO/SCIM remains out of scope. See `.agent/stages/mvp/evidence/MVP-02-employee-registration-001.md` and `docs/stages/MVP.md`. |
-| Duplicate/expired/invalid code paths are tested and understandable. | PASS | Invite service and registration API tests cover invalid, expired, revoked, unissued and duplicate/different-subject paths with structured errors. See `.agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json` and `.agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json`. |
+| AC | Builder status | Evidence |
+|---|---|---|
+| Token layer | BUILDER_PASS | `apps/web/app/globals.css`, token mapping raw ref |
+| App surfaces aligned | BUILDER_PASS | `apps/web/components/learning-shell.ts`, `apps/web/components/lesson-renderer.ts`, screenshots |
+| Behavior preserved | BUILDER_PASS | web typecheck/test/build and browser smoke |
+| Guardrails preserved | BUILDER_PASS | customer-brand, forbidden-copy, no-real-data and no-cohort scans |
+| Browser evidence | BUILDER_PASS | Browser/IAB raw ref and Playwright screenshots |
+| Full MVP/human gates | OPEN | this evidence does not close full `MVP-04`, `MVP-06`, MVP or human gates |
+| Fresh verifier | PASS | `.agent/stages/mvp/verdicts/MVP-04-design-system-tokenization-001.json`, `.agent/stages/mvp/problems/MVP-04-design-system-tokenization-001.md` |
 
-## Human Gates Still Open
+## Parent Alias Sync
 
-| Gate | Status |
-|---|---:|
-| Legal/privacy wording and consent copy | WAITING_HUMAN |
-| Real employee/customer data processing | WAITING_HUMAN |
-| Customer-specific HR/reporting boundaries | WAITING_HUMAN |
-| Admin auth/role/audit policy for production use | WAITING_HUMAN |
-| Personal employee contact/financial/diagnostic disclosure requests | WAITING_HUMAN |
-| Financial correctness, rewards, fulfillment, HR wording and production content approval outside MVP-02 | WAITING_HUMAN |
+Parent orchestrator accepted the scoped fresh verifier `PASS` for `MVP-04.04` on 2026-05-12 and synchronized the root latest aliases to `MVP-04-design-system-tokenization-001`.
 
-## Stage Closure Guardrail
+The prior `MVP-06-learning-renderer-fixture-001` evidence remains available through immutable refs under `.agent/stages/mvp/evidence/`, `.agent/stages/mvp/verdicts/`, `.agent/stages/mvp/problems/` and `.agent/stages/mvp/raw/`.
 
-- Full `MVP-02`: `DONE_WITH_HUMAN_PENDING`.
-- MVP stage: `OPEN`.
-- Human gates: `OPEN` / non-DONE.
-- Fresh verifier for this closure audit: `PASS`.
+Parent-sync validation passed:
+
+- JSON validation: `.agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-json-validation-final-20260512.txt`
+- `git diff --check`: `.agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-git-diff-check-final-20260512.txt`
+- Alias/open-gate invariants: `.agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-alias-invariants-final-20260512.txt`
+- Harness validation: `.agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-verify-harness-final-20260512.txt`
+- Java runtime probe: `.agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-java-version-final-20260512.txt`
+
+## Raw Evidence
+
+- Token mapping: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-token-mapping-20260512.md`
+- Git status: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-git-status-20260512.txt`
+- Web file list: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-web-file-list-20260512.txt`
+- Web typecheck: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-web-typecheck-20260512.txt`
+- Web test: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-web-test-20260512.txt`
+- Web build: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-web-build-20260512.txt`
+- Browser/IAB review: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-browser-iab-20260512.json`
+- Browser smoke: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-browser-smoke-20260512.txt`
+- Screenshots: `.agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/`
+- Design doc reference scan: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-design-doc-ref-scan-20260512.txt`
+- Design board reference scan: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-design-board-ref-scan-20260512.txt`
+- Token hard-coded scan: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-token-hardcoded-scan-20260512.txt`
+- Customer-brand scan: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-customer-brand-scan-20260512.txt`
+- Forbidden-copy scan: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-forbidden-copy-scan-20260512.txt`
+- No-real-data scan: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-no-real-data-scan-20260512.txt`
+- No-cohort scan: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-no-cohort-scan-20260512.txt`
+- Java runtime check: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-java-version-20260512.txt`
+- Bootstrap validation: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-validate-bootstrap-20260512.txt`
+- Docs build: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-build-docs-20260512.txt`
+
+## Screenshots
+
+- `.agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-ready.png`
+- `.agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-lesson-n1.png`
+- `.agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-empty.png`
+- `.agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-error.png`
+- `.agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-loading.png`
+- `.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/stage-verifier-mvp-04-design-system-tokenization-001-final-mobile-ready.png`
+- `.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/stage-verifier-mvp-04-design-system-tokenization-001-final-mobile-lesson-n1.png`
+- `.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/stage-verifier-mvp-04-design-system-tokenization-001-final-mobile-empty.png`
+- `.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/stage-verifier-mvp-04-design-system-tokenization-001-final-mobile-error.png`
+- `.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/stage-verifier-mvp-04-design-system-tokenization-001-final-mobile-loading.png`
+
+## Validation Summary
+
+- `pnpm --filter @finrhythm/web typecheck`: PASS
+- `pnpm --filter @finrhythm/web test`: PASS
+- `pnpm --filter @finrhythm/web build`: PASS
+- Browser/IAB route and interaction review: PASS
+- `pnpm --filter @finrhythm/web smoke:browser` on `http://127.0.0.1:3401`: PASS
+- `./scripts/validate-bootstrap.sh`: PASS
+- `pnpm -s run build:docs`: PASS
+- `java -version`: BLOCKED in the current shell; unqualified Java runtime cannot be located, so `make verify` is not claimed for this slice.
+- Fresh verifier final PASS: `.agent/stages/mvp/verdicts/MVP-04-design-system-tokenization-001.json`
 
 ## Docs Sync
 
-NOOP. This slice records a status decision only and does not change behavior, public contracts, setup/runtime expectations or canonical stage scope.
+No canonical product/stage docs were changed. The implementation follows the existing draft design-system baseline and records discoverability through this task/evidence file. Brand naming, accessibility contrast, legal/privacy wording and real-device design QA remain human-gated.
 
-## Raw Refs
+## Limits
 
-- `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-git-status-pre-edit-20260511.txt`
-- `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-diff-name-only-pre-edit-20260511.txt`
-- `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-prior-verdict-summary-20260511.json`
-- `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-no-cohort-regression-scan-20260511.txt`
-- `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-pii-raw-code-guardrail-scan-20260511.txt`
-- `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-make-verify-20260511.txt`
-- `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-make-test-unit-20260511.txt`
-- `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-make-build-20260511.txt`
-- `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-git-diff-check-20260511.txt`
-- `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-json-validation-20260511.txt`
-- `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-verify-harness-20260511.json`
-- `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-changed-files-scope-20260511.txt`
-- `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-git-status-final-20260511.txt`
-
-## Checks
-
-| Check | Status | Raw ref |
-|---|---:|---|
-| Prior-verdict summary | RECORDED | `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-prior-verdict-summary-20260511.json` |
-| No-cohort regression scan/classification | PASS_WITH_ALLOWED_MIGRATION_HISTORY | `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-no-cohort-regression-scan-20260511.txt` |
-| PII/raw-code guardrail scan | PASS_ADMIN_STATUS_NO_HITS_WITH_ALLOWED_REGISTRATION_SCOPE | `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-pii-raw-code-guardrail-scan-20260511.txt` |
-| `python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp` | PASS_AFTER_PARENT_ALIAS_SYNC | `.agent/stages/mvp/raw/orchestrator-mvp-02-closure-audit-001-verify-harness-final-20260511.json` |
-| `make verify` | PASS | `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-make-verify-20260511.txt` |
-| `make test-unit` | PASS | `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-make-test-unit-20260511.txt` |
-| `make build` | PASS | `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-make-build-20260511.txt` |
-| `git diff --check` | PASS | `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-git-diff-check-20260511.txt` |
-| JSON validation for changed machine artifacts | PASS | `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-json-validation-20260511.txt` |
-| Changed-files scope check | PASS_WITH_PREEXISTING_DIRTY_WORKTREE | `.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-changed-files-scope-20260511.txt` |
-
-## Fresh Verifier
-
-Fresh verifier returned `PASS` for `MVP-02-closure-audit-001` only. Parent accepted the PASS and synchronized `status.json.latest_verified_sprint_contract_id` to this sprint. Full `MVP-02` is `DONE_WITH_HUMAN_PENDING`; MVP stage and all human gates remain open.
+This sprint does not close `MVP-03`, full `MVP-04`, full `MVP-06`, `MVP-07`, the MVP stage or any human gate. It does not implement CMS/admin, production content publishing, diagnostics/routing, progress persistence, scored quiz submission, practice submission, points, wallet or backend/API/schema changes.

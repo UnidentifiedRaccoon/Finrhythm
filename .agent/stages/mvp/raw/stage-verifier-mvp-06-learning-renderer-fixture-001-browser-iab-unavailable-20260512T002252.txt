@@ -1,0 +1,4 @@
+Browser plugin path attempted before Playwright fallback.
+Result: Failed to connect to browser-use backend "iab"; no Codex IAB backends were discovered.
+Fallback: user explicitly allowed equivalent system Chrome smoke for /learning and /learning/lessons/N1.
+exit_code=0

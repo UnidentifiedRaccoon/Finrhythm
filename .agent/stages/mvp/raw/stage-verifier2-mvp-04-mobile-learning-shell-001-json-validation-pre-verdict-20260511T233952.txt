@@ -1,0 +1,4 @@
+# JSON validation pre-verdict
+PASS: JSON artifacts parse before current verifier verdict write.
+
+exit_code=0

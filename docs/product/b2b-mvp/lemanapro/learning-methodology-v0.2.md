@@ -13,6 +13,7 @@ stage_alignment:
     - docs/stages/v1.md
     - docs/stages/v2.md
 product_foundation: docs/product/b2b-mvp/lemanapro/product-foundation-v1.md
+product_design_system: docs/product/b2b-mvp/lemanapro/design-system-v0.1.md
 raw_content_baseline:
   - content/getcourse-finstrategy/README.md
   - content/getcourse-finstrategy/CONTENT_BRIEF.md

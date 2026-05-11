@@ -1,6 +1,58 @@
 # MVP progress
 
-Updated: 2026-05-11
+Updated: 2026-05-12
+
+## Current session: MVP-04-design-system-tokenization-001 parent alias sync
+
+- Parent orchestrator accepted the scoped fresh verifier `PASS` for `MVP-04-design-system-tokenization-001` as sufficient for the narrow `MVP-04.04` design-token/app-shell/common-state acceptance surface.
+- Root latest aliases were synchronized from `MVP-06-learning-renderer-fixture-001` to `MVP-04-design-system-tokenization-001`: `.agent/stages/mvp/evidence.json`, `.agent/stages/mvp/evidence.md`, `.agent/stages/mvp/verdict.json`, `.agent/stages/mvp/problems.md`, `.agent/stages/mvp/status.json`, `.agent/stages/mvp/progress.md`, `.agent/stages/mvp/backlog.md`, `.agent/stages/mvp/feature_list.json` and `.agent/stages/mvp/sprint_contract.md`.
+- Immutable `MVP-06-learning-renderer-fixture-001` artifacts were preserved under `.agent/stages/mvp/evidence/`, `.agent/stages/mvp/verdicts/`, `.agent/stages/mvp/problems/` and `.agent/stages/mvp/raw/`.
+- Full `MVP-04`, full `MVP-06`, the MVP stage and all human gates remain open.
+- `java -version` remains unavailable in the current shell, so `make verify` is not run or claimed for this parent sync.
+
+## Current session: MVP-04-design-system-tokenization-001 builder evidence
+
+- Implemented a narrow design-system tokenization slice for the existing `apps/web` learning shell and fixture-backed lesson renderer.
+- Mapped the draft Calm Progress Fintech design baseline from `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md` into `apps/web/app/globals.css` using canonical CSS custom property names for colors, typography, spacing, radius, shadows and controls.
+- Left `packages/ui` untouched because it currently has no scaffold or established shared component pattern.
+- Reworked the employee UI styling around primary `#1677F2`, cyan/teal/mint privacy/progress surfaces, neutral text/borders, tokenized chips/cards/buttons, route progress and sensitive/privacy panels.
+- Added focused test coverage asserting the design-system tokens are present and the old local variables (`--bg`, `--ink`, `--green`, `--blue`, `--line`, `--surface`) do not return as the active layer.
+- Used Browser/IAB for rendered review; fixed a bottom-nav selector bug found in screenshot inspection, then reran mobile browser smoke with screenshots for `/learning`, `/learning/lessons/N1`, loading, empty and error states.
+- Builder checks passed: web typecheck/test/build, browser smoke, Browser/IAB route and interaction review, customer-brand scan, forbidden-copy scan, no-real-data scan, no-cohort scan, `./scripts/validate-bootstrap.sh` and `pnpm -s run build:docs`.
+- `java -version` fails in the current shell because no unqualified Java runtime is on PATH, so `make verify` was not run or claimed for this frontend slice.
+- Immutable task/evidence refs were added for `MVP-04-design-system-tokenization-001`; root latest aliases were later synchronized by parent orchestrator after accepting the scoped fresh verifier `PASS`.
+- Full `MVP-04`, full `MVP-06`, the MVP stage and all human gates remain open.
+
+## Current session: MVP-06-learning-renderer-fixture-001 builder evidence
+
+- Ran `stage_spec_freezer` and froze `MVP-06-learning-renderer-fixture-001` for parent unit `MVP-06.03` after `MVP-04-mobile-learning-shell-001` PASS.
+- Decision rule selected the preferred fixture-backed renderer path because the current `apps/web` mobile learning shell is sufficient and the content spec draft already defines enough lesson/block/quiz/practice structure for one synthetic N1 renderer.
+- Implemented a typed local synthetic lesson fixture contract in `apps/web/lib/learning-types.ts` and `apps/web/lib/learning-fixtures.ts`.
+- Added `N1_RESERVE_START` synthetic fixture with required sections: situation, why, rule, office/store examples, display-only mini-test preview, non-persistent practice guardrails, reward copy and review notes.
+- Added the mobile lesson renderer and direct route `/learning/lessons/N1`; updated `/learning` to reach it from the existing preview CTA.
+- Added tests for fixture shape, block order, direct entry, renderer output and guardrails; web tests now pass 9 assertions across the shell and renderer suites.
+- Extended browser smoke to cover `/learning/lessons/N1`; captured five mobile screenshots under `.agent/stages/mvp/raw/mvp-06-learning-renderer-fixture-001-screenshots-20260511/`.
+- Builder checks passed: web typecheck/test/build, browser smoke, root `make verify`, `make test-unit`, `make build`, customer-brand scan, forbidden-copy scan, no-real-data scan, no-cohort scan and nested app-local `.agent` scan.
+- Removed an accidental generated `apps/web/.agent` screenshot output after the first smoke run and kept final generated evidence under the root `.agent/stages/mvp/raw` tree.
+- Canonical docs were not changed because the implementation follows already frozen MVP/content docs and found no behavior, architecture, API, setup or workflow contradiction.
+- Fresh verifier returned `PASS` for `MVP-06-learning-renderer-fixture-001` only after rerunning web/root checks, browser/mobile smoke, guardrail scans, JSON validation and `git diff --check`.
+- Parent synchronized latest verified aliases to `MVP-06-learning-renderer-fixture-001`.
+- `MVP-03`, full `MVP-04`, full `MVP-06`, `MVP-07`, MVP stage and all human gates remain open.
+
+## Current session: MVP-04-mobile-learning-shell-001 verifier PASS and parent sync
+
+- Froze and implemented the preferred next bridge slice for mobile learning because `apps/web` had no production-ready employee shell.
+- Added a minimal Next.js + React `apps/web` scaffold with `/` and `/learning` direct demo entry routes.
+- Rendered a mobile-first Russian learning shell with neutral `Финпульс` product brand, bottom navigation, ready/loading/empty/error states, `Новичок` N1-N7 track entry and one `N1` lesson preview from synthetic fixtures only.
+- Kept onboarding/privacy/consent and diagnostics/routing explicitly deferred; no completion claim was made for `MVP-03`, `MVP-07`, `MVP-04`, `MVP-06`, the MVP stage or human gates.
+- Added focused web tests for state resolution, shell rendering, synthetic fixture metadata and guardrails.
+- Added Playwright browser smoke over a representative mobile viewport with four screenshots, and ran Browser/IAB smoke for URL/title/DOM/console health.
+- Updated root wrappers so `make verify`, `make test-unit` and `make build` include available `apps/web` checks.
+- Synchronized canonical docs for the new web baseline and root wrapper behavior: `README.md`, `docs/setup/codex-setup.md`, `docs/architecture/repo-layout.md`, `docs/architecture/init-and-dev-contract.md`.
+- Checks passed with Homebrew JDK 21 and system Chrome: web typecheck/test/build, browser smoke, Browser/IAB smoke, customer-brand scan, forbidden-copy scan, no-real-data scan, no-cohort scan, `make verify`, `make test-unit`, `make build`.
+- Builder evidence is recorded in `.agent/stages/mvp/evidence/MVP-04-mobile-learning-shell-001.*`; fresh verifier raw proof passed and durable verdict/problems refs are recorded for `MVP-04-mobile-learning-shell-001` only.
+- Removed misplaced duplicate generated app-local stage artifacts under `apps/admin/.agent` / `apps/web/.agent` after verifier scan risk; canonical root `.agent/stages/mvp/raw` evidence remains.
+- Final parent alias sync records `MVP-04-mobile-learning-shell-001` as the latest verified sprint while keeping `MVP-03`, `MVP-07`, full `MVP-04`, full MVP and all human gates open.
 
 ## Current session: MVP-02-closure-audit-001 verifier PASS
 

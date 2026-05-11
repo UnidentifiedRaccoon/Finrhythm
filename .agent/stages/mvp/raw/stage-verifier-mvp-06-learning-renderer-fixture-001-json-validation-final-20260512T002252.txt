@@ -1,0 +1,10 @@
+$ python3 -m json.tool final verifier json artifacts
+## .agent/stages/mvp/status.json
+## .agent/stages/mvp/evidence.json
+## .agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.json
+## .agent/stages/mvp/verdicts/MVP-06-learning-renderer-fixture-001.json
+## .agent/stages/mvp/verdict.json
+## apps/web/package.json
+## apps/web/tsconfig.json
+
+exit_code=0

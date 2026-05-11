@@ -1,0 +1,1 @@
+Token mapping PASS after fix: doc-declared palette, neutral, typography, card and motion tokens verified

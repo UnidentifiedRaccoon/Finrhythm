@@ -1,0 +1,3 @@
+# no cohort/cohortId/cohorts scan: active changed web source/tests
+Command: rg -n "cohort|cohortId|cohorts" apps/web/app apps/web/components apps/web/lib apps/web/tests
+PASS: no literal cohort/cohortId/cohorts hits in active apps/web source/tests.

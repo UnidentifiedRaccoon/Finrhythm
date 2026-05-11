@@ -81,7 +81,18 @@ make test-e2e
 make build
 ```
 
-После первого MVP-02 backend slice `make verify` and `make test-unit` also run backend unit checks through `apps/api/mvnw`. После минимального `apps/admin` UI slice `make verify` runs admin typecheck/test, `make test-unit` runs focused admin tests, and `make build` builds the admin app before packaging `apps/api` with tests skipped after the explicit verification steps.
+После первого MVP-02 backend slice `make verify` and `make test-unit` also run backend unit checks through `apps/api/mvnw`. После минимального `apps/admin` UI slice `make verify` runs admin typecheck/test, `make test-unit` runs focused admin tests, and `make build` builds the admin app before packaging `apps/api` with tests skipped after the explicit verification steps. После минимального MVP-04 web learning shell slice root wrappers also include `apps/web`: `make verify` runs web typecheck/test, `make test-unit` runs focused web tests, and `make build` builds the web app before admin/backend build steps.
+
+Employee web local commands:
+
+```bash
+pnpm --filter @finrhythm/web dev -- --port 3400
+pnpm --filter @finrhythm/web typecheck
+pnpm --filter @finrhythm/web test
+pnpm --filter @finrhythm/web build
+```
+
+The first `/learning` route is a direct demo learning entry backed by synthetic fixtures only. It does not complete onboarding/privacy/consent, diagnostics/routing, progress persistence, points or production content approval.
 
 Admin UI local commands:
 

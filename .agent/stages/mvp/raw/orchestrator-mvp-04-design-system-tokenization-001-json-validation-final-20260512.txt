@@ -1,0 +1,1 @@
+JSON validation PASS for changed stage JSON artifacts

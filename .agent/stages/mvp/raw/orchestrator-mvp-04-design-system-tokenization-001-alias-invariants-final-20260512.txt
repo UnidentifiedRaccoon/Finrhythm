@@ -1,0 +1,19 @@
+PASS evidence.json latest id: MVP-04-design-system-tokenization-001
+PASS evidence.md latest heading: # Evidence: MVP-04-design-system-tokenization-001
+PASS verdict.json latest id: MVP-04-design-system-tokenization-001
+PASS problems.md latest heading: # Problems: MVP-04-design-system-tokenization-001
+PASS status latest verified id: MVP-04-design-system-tokenization-001
+PASS status latest decision id: MVP-04-design-system-tokenization-001
+PASS sprint_contract latest heading: # Sprint contract: MVP-04-design-system-tokenization-001
+PASS completed ids include task: ["MVP-02-remove-cohort-domain-001","MVP-02-closure-audit-001","MVP-04-mobile-learning-shell-001","MVP-06-learning-renderer-fixture-001","MVP-04-design-system-tokenization-001","MVP-04.04"]
+PASS completed ids include parent unit: ["MVP-02-remove-cohort-domain-001","MVP-02-closure-audit-001","MVP-04-mobile-learning-shell-001","MVP-06-learning-renderer-fixture-001","MVP-04-design-system-tokenization-001","MVP-04.04"]
+PASS full MVP-04 remains open: false
+PASS full MVP-06 remains open: false
+PASS MVP stage remains open: false
+PASS human gates remain open: true
+PASS feature parent sync entry present: feature_list entry
+PASS preserved .agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.json: .agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.json
+PASS preserved .agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.md: .agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.md
+PASS preserved .agent/stages/mvp/verdicts/MVP-06-learning-renderer-fixture-001.json: .agent/stages/mvp/verdicts/MVP-06-learning-renderer-fixture-001.json
+PASS preserved .agent/stages/mvp/problems/MVP-06-learning-renderer-fixture-001.md: .agent/stages/mvp/problems/MVP-06-learning-renderer-fixture-001.md
+Alias invariant PASS: root latest aliases point to MVP-04-design-system-tokenization-001; MVP-06-learning-renderer-fixture-001 immutable refs are preserved; full MVP-04/full MVP-06/MVP stage/human gates remain open.

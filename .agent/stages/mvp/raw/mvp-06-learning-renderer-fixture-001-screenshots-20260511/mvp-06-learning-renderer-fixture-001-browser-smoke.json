@@ -1,0 +1,17 @@
+{
+  "baseUrl": "http://127.0.0.1:3401",
+  "screenshots": [
+    "/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/mvp-06-learning-renderer-fixture-001-screenshots-20260511/mvp-06-learning-renderer-fixture-001-mobile-ready.png",
+    "/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/mvp-06-learning-renderer-fixture-001-screenshots-20260511/mvp-06-learning-renderer-fixture-001-mobile-lesson-n1.png",
+    "/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/mvp-06-learning-renderer-fixture-001-screenshots-20260511/mvp-06-learning-renderer-fixture-001-mobile-empty.png",
+    "/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/mvp-06-learning-renderer-fixture-001-screenshots-20260511/mvp-06-learning-renderer-fixture-001-mobile-error.png",
+    "/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/mvp-06-learning-renderer-fixture-001-screenshots-20260511/mvp-06-learning-renderer-fixture-001-mobile-loading.png"
+  ],
+  "scenarios": [
+    "mobile-ready",
+    "mobile-lesson-n1",
+    "mobile-empty",
+    "mobile-error",
+    "mobile-loading"
+  ]
+}

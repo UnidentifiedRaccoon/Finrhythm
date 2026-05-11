@@ -1,0 +1,5 @@
+$ find apps -path */.agent/*
+PASS: no nested app-local .agent artifacts present under apps/ after verifier smoke cleanup
+
+match_count=0
+exit_code=0

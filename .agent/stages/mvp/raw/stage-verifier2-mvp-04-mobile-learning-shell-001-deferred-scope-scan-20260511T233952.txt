@@ -1,0 +1,8 @@
+# deferred onboarding/diagnostics/routing scope scan
+Implementation source hits for onboarding/consent/diagnostic/routing terms:
+apps/web/tests/browser-smoke.mjs:33:    expected: ["Загружаем учебный маршрут", "без персональных данных"]
+apps/web/lib/learning-state.ts:17:      message: "Синтетическая ошибка: демо-экран не смог открыть учебный маршрут."
+apps/web/tests/learning-shell.test.mjs:46:    assert.match(loading, /Загружаем учебный маршрут/);
+apps/web/components/learning-shell.ts:29:    title: "Загружаем учебный маршрут",
+apps/web/components/learning-shell.ts:68:        h("p", { className: "section-label" }, "Учебный маршрут"),
+PASS: hits are demo-entry/safety language or state text; no onboarding/consent/diagnostics/routing implementation or completion claim is present.

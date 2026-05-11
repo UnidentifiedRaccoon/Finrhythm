@@ -1,0 +1,10 @@
+AGENTS.md:150:- Current MVP product-design style baseline is `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md`; use it for UI implementation, design tokens, component QA, screen generation and visual consistency checks, with `docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png` as companion artifact only.
+README.md:42:- design companion artifact: `docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png`.
+docs/architecture/source-of-truth.md:95:- Canonical MVP product-design style baseline for UI implementation, design tokens, component QA and screen generation lives in `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md`; the companion style board lives in `docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png` and does not replace the markdown baseline.
+docs/product/b2b-mvp/lemanapro/design-system-v0.1.md:16:  - docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png
+docs/product/b2b-mvp/lemanapro/design-system-v0.1.md:37:![FinRhythm design system style board](references/design-system-style-board-v0.1.png)
+docs/product/b2b-mvp/lemanapro/product-foundation-v1.md:19:  - docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png
+docs/product/b2b-mvp/lemanapro/product-foundation-v1.md:39:> Related product-design baseline: `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md`; companion style board: `docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png`.
+docs/product/b2b-mvp/lemanapro/README.md:16:- `references/design-system-style-board-v0.1.png`
+docs/stages/MVP.md:25:- Для UX/UI, design tokens, component QA, visual consistency, mobile screen generation and employee-facing layout slices читать `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md`; PNG board `docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png` is a companion reference, not a replacement for the markdown baseline.
+docs/stages/MVP.md:329:**Design source:** `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md`; companion board: `docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png`

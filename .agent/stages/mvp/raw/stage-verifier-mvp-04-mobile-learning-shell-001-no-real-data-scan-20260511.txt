@@ -1,0 +1,12 @@
+No real employee/customer/personal/financial data scan in active web source/tests
+
+-- email-like values --
+PASS: no email-like values
+
+-- Russian phone-like values --
+PASS: no phone-like values
+
+-- sensitive identity/customer/finance labels in fixtures/UI --
+PASS: no sensitive real-data marker found in UI/fixtures
+
+[exit_code=0]

@@ -1,0 +1,2 @@
+Customer brand direct-token scan in active apps/web source/tests
+PASS: no direct customer brand token found

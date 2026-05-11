@@ -1,0 +1,90 @@
+Russian UI copy focused review for MVP-04 learning shell
+Reviewed source: apps/web/app apps/web/components apps/web/lib and mobile screenshots.
+PASS: visible shell labels, states, navigation, track and preview copy are Russian and neutral.
+NOTE: English-like domain token check-in appears in learning fixture copy; it is already used in canonical methodology/content docs and is not a customer brand, PII, diagnostic completion claim or forbidden financial promise.
+
+-- visible Russian copy refs --
+apps/web/app/error.tsx:11:  return <LearningErrorView message={error.message || "Не удалось открыть обучение."} />;
+apps/web/app/layout.tsx:5:  title: "Финпульс — обучение",
+apps/web/app/layout.tsx:6:  description: "Демо-вход в мобильное обучение"
+apps/web/lib/learning-state.ts:17:      message: "Синтетическая ошибка: демо-экран не смог открыть учебный маршрут."
+apps/web/lib/learning-state.ts:24:      message: "Для демо-режима пока не добавлены уроки. Вернитесь к учебному входу позже."
+apps/web/components/learning-shell.ts:8:const navItems = ["Обучение", "Челленджи", "Магазин", "Профиль"];
+apps/web/components/learning-shell.ts:28:    eyebrow: "Обучение",
+apps/web/components/learning-shell.ts:29:    title: "Загружаем учебный маршрут",
+apps/web/components/learning-shell.ts:30:    body: "Собираем демо-экран без персональных данных.",
+apps/web/components/learning-shell.ts:38:    eyebrow: "Пока пусто",
+apps/web/components/learning-shell.ts:39:    title: "Уроки не найдены",
+apps/web/components/learning-shell.ts:41:    action: h("a", { className: "state-link", href: "/learning" }, "Открыть обучение")
+apps/web/components/learning-shell.ts:47:    eyebrow: "Ошибка",
+apps/web/components/learning-shell.ts:48:    title: "Не удалось открыть обучение",
+apps/web/components/learning-shell.ts:50:    action: h("a", { className: "state-link", href: "/learning" }, "Повторить")
+apps/web/components/learning-shell.ts:68:        h("p", { className: "section-label" }, "Учебный маршрут"),
+apps/web/components/learning-shell.ts:69:        h("h1", { id: "learning-title" }, "Начните с короткого трека"),
+apps/web/components/learning-shell.ts:73:          "Демо-вход ведет сразу к обучению: короткий трек, список уроков и безопасное превью без личных данных."
+apps/web/components/learning-shell.ts:89:      { className: "brand-lockup", href: "/learning", "aria-label": "Финпульс: обучение" },
+apps/web/components/learning-shell.ts:90:      h("span", { className: "brand-mark", "aria-hidden": "true" }, "Ф"),
+apps/web/components/learning-shell.ts:91:      h("span", null, "Финпульс")
+apps/web/components/learning-shell.ts:93:    h("span", { className: "demo-pill" }, "Демо")
+apps/web/components/learning-shell.ts:104:      h("p", { className: "section-label" }, "Трек"),
+apps/web/components/learning-shell.ts:110:      { className: "track-facts", "aria-label": "Параметры трека" },
+apps/web/components/learning-shell.ts:111:      h("div", null, h("dt", null, "Уроков"), h("dd", null, fixture.lessons.length)),
+apps/web/components/learning-shell.ts:112:      h("div", null, h("dt", null, "Темп"), h("dd", null, "1-2 в неделю")),
+apps/web/components/learning-shell.ts:113:      h("div", null, h("dt", null, "Формат"), h("dd", null, "демо"))
+apps/web/components/learning-shell.ts:122:    h("h2", { id: "lesson-list-title" }, "План N1-N7"),
+apps/web/components/learning-shell.ts:152:        { className: "lesson-meta", "aria-label": `Метаданные ${lesson.id}` },
+apps/web/components/learning-shell.ts:162:    available: "превью",
+apps/web/components/learning-shell.ts:163:    next: "следующий",
+apps/web/components/learning-shell.ts:164:    later: "позже"
+apps/web/components/learning-shell.ts:180:    h("p", { className: "section-label" }, `Урок-превью ${preview.lessonId}`),
+apps/web/components/learning-shell.ts:189:    h(PreviewBlock, { title: "Ситуация", body: preview.situation }),
+apps/web/components/learning-shell.ts:190:    h(PreviewBlock, { title: "Правило", body: preview.rule }),
+apps/web/components/learning-shell.ts:191:    h(PreviewBlock, { title: "Практика", body: preview.practice }),
+apps/web/components/learning-shell.ts:195:      h(PreviewBlock, { title: "Пример: офис", body: preview.examples.office }),
+apps/web/components/learning-shell.ts:196:      h(PreviewBlock, { title: "Пример: сменный график", body: preview.examples.store })
+apps/web/components/learning-shell.ts:200:      { className: "safety-list", "aria-label": "Границы демо-урока" },
+apps/web/components/learning-shell.ts:203:    h("a", { className: "primary-action", href: "/learning" }, "Открыть превью")
+apps/web/components/learning-shell.ts:214:    { className: "bottom-nav", "aria-label": "Разделы приложения" },
+apps/web/lib/learning-fixtures.ts:5:  trackTitle: "Новичок",
+apps/web/lib/learning-fixtures.ts:6:  trackSubtitle: "Семь коротких шагов, чтобы собрать финансовую опору без давления и сравнения.",
+apps/web/lib/learning-fixtures.ts:10:      title: "Финансовая опора",
+apps/web/lib/learning-fixtures.ts:11:      shortTitle: "Резерв",
+apps/web/lib/learning-fixtures.ts:12:      focus: "Выбрать стартовую категорию резерва и правило пополнения.",
+apps/web/lib/learning-fixtures.ts:13:      time: "7-9 мин",
+apps/web/lib/learning-fixtures.ts:19:      title: "Челлендж накоплений",
+apps/web/lib/learning-fixtures.ts:20:      shortTitle: "Регулярность",
+apps/web/lib/learning-fixtures.ts:21:      focus: "Выбрать мягкий ритм накоплений на 6 недель.",
+apps/web/lib/learning-fixtures.ts:22:      time: "6-8 мин",
+apps/web/lib/learning-fixtures.ts:28:      title: "Расхламление и безопасная продажа",
+apps/web/lib/learning-fixtures.ts:29:      shortTitle: "Ресурсы",
+apps/web/lib/learning-fixtures.ts:30:      focus: "Составить короткий список вещей без фото и адресов.",
+apps/web/lib/learning-fixtures.ts:31:      time: "6-8 мин",
+apps/web/lib/learning-fixtures.ts:37:      title: "Одна финансовая цель",
+apps/web/lib/learning-fixtures.ts:38:      shortTitle: "Цель",
+apps/web/lib/learning-fixtures.ts:39:      focus: "Сформулировать одну цель через тип, срок и первый шаг.",
+apps/web/lib/learning-fixtures.ts:40:      time: "8-10 мин",
+apps/web/lib/learning-fixtures.ts:46:      title: "Налоговые возможности",
+apps/web/lib/learning-fixtures.ts:47:      shortTitle: "Чек-лист",
+apps/web/lib/learning-fixtures.ts:48:      focus: "Отметить направления, которые стоит проверить на официальных ресурсах.",
+apps/web/lib/learning-fixtures.ts:49:      time: "7-9 мин",
+apps/web/lib/learning-fixtures.ts:55:      title: "Психология денег",
+apps/web/lib/learning-fixtures.ts:56:      shortTitle: "Спокойное правило",
+apps/web/lib/learning-fixtures.ts:57:      focus: "Выбрать один триггер и поддерживающее правило поведения.",
+apps/web/lib/learning-fixtures.ts:58:      time: "7-9 мин",
+apps/web/lib/learning-fixtures.ts:64:      title: "План финансовых привычек",
+apps/web/lib/learning-fixtures.ts:65:      shortTitle: "30 дней",
+apps/web/lib/learning-fixtures.ts:66:      focus: "Выбрать 1-2 привычки и первую дату check-in.",
+apps/web/lib/learning-fixtures.ts:67:      time: "8-10 мин",
+apps/web/lib/learning-fixtures.ts:74:    title: "Финансовая опора: первый резерв",
+apps/web/lib/learning-fixtures.ts:75:    time: "7-9 мин",
+apps/web/lib/learning-fixtures.ts:76:    promise: "После превью вы увидите, как выбрать маленький первый шаг без точных личных сумм.",
+apps/web/lib/learning-fixtures.ts:78:      "Непредвиденный расход появляется не по расписанию. Резерв нужен не для идеальной жизни, а чтобы спокойно выбрать следующий шаг.",
+apps/web/lib/learning-fixtures.ts:80:      "Начать можно с категории и правила: где будет лежать запас, когда вы вернетесь к нему и как поймете, что шаг посилен.",
+apps/web/lib/learning-fixtures.ts:82:      "Выберите стартовую категорию резерва и правило пополнения. Точные суммы, фото, документы и банковские скриншоты не нужны.",
+apps/web/lib/learning-fixtures.ts:85:        "Офис: после выплаты я проверяю, какую небольшую часть могу отложить без давления, и отмечаю правило.",
+apps/web/lib/learning-fixtures.ts:87:        "Сменный график: выбираю не дату, а событие - после выплаты или после ближайшей спокойной смены."
+apps/web/lib/learning-fixtures.ts:90:      "Это образовательный демо-материал, а не индивидуальная финансовая рекомендация.",
+apps/web/lib/learning-fixtures.ts:91:      "Личные точные суммы и документы не требуются для этого шага.",
+apps/web/lib/learning-fixtures.ts:92:      "Прогресс не сравнивается с другими участниками."
+
+[exit_code=0]

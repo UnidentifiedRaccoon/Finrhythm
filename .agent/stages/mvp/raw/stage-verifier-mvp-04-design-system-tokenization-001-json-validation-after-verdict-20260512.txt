@@ -1,0 +1,3 @@
+.agent/stages/mvp/evidence/MVP-04-design-system-tokenization-001.json: JSON PASS
+.agent/stages/mvp/verdicts/MVP-04-design-system-tokenization-001.json: JSON PASS
+.agent/stages/mvp/feature_list.json: JSON PASS

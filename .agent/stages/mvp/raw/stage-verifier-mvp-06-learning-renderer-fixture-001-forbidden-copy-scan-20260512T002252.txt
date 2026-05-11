@@ -1,0 +1,4 @@
+$ rg forbidden promise/shame/ranking/risk-free phrases in apps/web active source/tests
+PASS: no forbidden promise/shame/ranking/risk-free phrases found in apps/web active source/tests
+
+exit_code=0

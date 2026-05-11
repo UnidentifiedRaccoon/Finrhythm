@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "checks": {
+    "url": "http://127.0.0.1:3400/learning",
+    "title": "Финпульс — обучение",
+    "hasNovice": true,
+    "hasPreview": true,
+    "hasCustomerBrand": false,
+    "hasForbiddenClaim": false
+  },
+  "relevantLogCount": 0,
+  "logs": []
+}

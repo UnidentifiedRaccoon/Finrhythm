@@ -2,8 +2,8 @@
 
 Stage ID: `mvp`  
 Stage file: `docs/stages/MVP.md`  
-Command: `resume-stage mvp` / doc-only content spec ingestion  
-Last synced: 2026-05-06
+Command: `resume-stage mvp` / doc-only design-system baseline ingestion
+Last synced: 2026-05-12
 
 ## Canonical sources read
 
@@ -13,6 +13,8 @@ Last synced: 2026-05-06
 - `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`
 - `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`
 - `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`
+- `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md`
+- `docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png`
 - `content/getcourse-finstrategy/CONTENT_BRIEF.md`
 - `docs/architecture/init-and-dev-contract.md`
 - `docs/stages/MVP.md`
@@ -32,6 +34,12 @@ Last synced: 2026-05-06
 - `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` was added from raw source `https://raw.githubusercontent.com/UnidentifiedRaccoon/Finrhythm/main/docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`.
 - `content/getcourse-finstrategy/CONTENT_BRIEF.md` was added from raw source `https://raw.githubusercontent.com/UnidentifiedRaccoon/Finrhythm/main/content/getcourse-finstrategy/CONTENT_BRIEF.md`.
 - The content spec is a draft with human gates and does not close final financial/legal/privacy/reward approval.
+
+## Design-system source notes
+
+- `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md` is the draft product-design style baseline for UI implementation, design tokens, component QA, screen generation and visual consistency checks.
+- `docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png` is the companion visual reference artifact and does not replace the markdown baseline.
+- The design system is not educational content and does not close brand naming, accessibility contrast, legal/privacy wording or real-screen design QA human gates.
 
 ## Supporting evidence re-synced
 

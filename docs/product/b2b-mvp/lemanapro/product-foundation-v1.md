@@ -16,9 +16,11 @@ product_methodology: docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
 reference_artifacts:
   - docs/product/b2b-mvp/lemanapro/references/product-foundation-v1.docx
   - docs/product/b2b-mvp/lemanapro/references/lemanapro-comprehensive-program.pptx
+  - docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png
 related_canonical_docs:
   - docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
   - docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md
+  - docs/product/b2b-mvp/lemanapro/design-system-v0.1.md
 human_gates:
   - legal/privacy/consent wording
   - final financial correctness of lessons and quizzes
@@ -33,6 +35,8 @@ human_gates:
 > **Canonical note**
 >
 > Этот markdown-файл является читаемым canonical product-intent baseline для B2B-first MVP. `.docx` и `.pptx` в `references/` сохраняют исходные материалы и презентационный контекст, но не заменяют markdown-нормализацию и stage source-of-truth.
+>
+> Related product-design baseline: `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md`; companion style board: `docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png`.
 
 | **Параметр**            | **Решение**                                                              |
 |-------------------------|--------------------------------------------------------------------------|

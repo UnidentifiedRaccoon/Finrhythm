@@ -29,17 +29,17 @@
 
 ## Current implementation
 
-The bootstrap slice and first MVP-02 backend slice provide these root wrappers:
+The bootstrap, MVP-02 backend/admin and MVP-04 web shell slices provide these root wrappers:
 
 | Target | Current behavior |
 |--------|------------------|
 | `make install` | Runs `pnpm install --frozen-lockfile` for the root workspace. |
 | `make dev` | Starts local PostgreSQL from `infra/local/compose.yaml`; does not apply migrations or seed. |
 | `make init` | Starts PostgreSQL, applies `V001__dev_bootstrap_runs.sql`, reads `scripts/init/version.json` and records the bootstrap run in `dev_bootstrap_runs`. |
-| `make verify` | Runs harness self-check, `scripts/verify-bootstrap.mjs` and `apps/api` backend unit tests. |
-| `make test-unit` | Runs current non-browser bootstrap verification and `apps/api` backend unit tests. |
+| `make verify` | Runs harness self-check, `scripts/verify-bootstrap.mjs`, `apps/web` typecheck/test, `apps/admin` typecheck/test and `apps/api` backend unit tests. |
+| `make test-unit` | Runs current non-browser bootstrap verification, focused `apps/web` tests, focused `apps/admin` tests and `apps/api` backend unit tests. |
 | `make test-e2e` | Records that browser e2e has no runnable target in MVP-01. |
-| `make build` | Runs production-readiness checks and packages `apps/api` after explicit test commands. |
+| `make build` | Runs production-readiness checks, builds `apps/web`, builds `apps/admin` and packages `apps/api` after explicit test commands. |
 
 `make init` and `make dev` require a running Docker daemon. If Docker is unavailable, they fail fast with an explicit message and do not mutate local data.
 

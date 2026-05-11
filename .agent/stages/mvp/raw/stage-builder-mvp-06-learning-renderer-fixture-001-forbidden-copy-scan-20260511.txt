@@ -1,0 +1,1 @@
+PASS: no forbidden shame/gain/guaranteed-result claims in apps/web renderer scope

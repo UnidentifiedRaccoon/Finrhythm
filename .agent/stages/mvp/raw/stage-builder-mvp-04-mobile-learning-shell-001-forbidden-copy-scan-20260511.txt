@@ -1,0 +1,2 @@
+Forbidden shame/income/gain/guarantee claim scan in active apps/web source/tests
+PASS: no forbidden claim token found

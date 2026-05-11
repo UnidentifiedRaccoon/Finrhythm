@@ -1,0 +1,7 @@
+
+> @finrhythm/web@0.0.0 smoke:browser /Users/elena/cursor/FinPulse/apps/web
+> node tests/browser-smoke.mjs
+
+web browser smoke passed: 4 screenshots
+
+[exit_code=0]

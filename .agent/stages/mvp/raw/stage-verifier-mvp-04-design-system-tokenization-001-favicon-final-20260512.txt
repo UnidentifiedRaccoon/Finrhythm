@@ -1,0 +1,11 @@
+HTTP/1.1 200 OK
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Mon, 11 May 2026 21:55:46 GMT
+ETag: W/"43e-19e1909ff73"
+Content-Type: image/x-icon
+Content-Length: 1086
+Vary: Accept-Encoding
+Date: Mon, 11 May 2026 21:56:26 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5

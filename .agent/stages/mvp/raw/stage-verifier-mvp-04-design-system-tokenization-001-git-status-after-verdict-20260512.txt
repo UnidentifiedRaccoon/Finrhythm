@@ -1,0 +1,249 @@
+ M .agent/stages/mvp/backlog.md
+ M .agent/stages/mvp/evidence.json
+ M .agent/stages/mvp/evidence.md
+ M .agent/stages/mvp/feature_list.json
+ M .agent/stages/mvp/problems.md
+ M .agent/stages/mvp/progress.md
+ M .agent/stages/mvp/source.md
+ M .agent/stages/mvp/sprint_contract.md
+ M .agent/stages/mvp/stage_spec.md
+ M .agent/stages/mvp/status.json
+ M .agent/stages/mvp/verdict.json
+ M AGENTS.md
+ M Makefile
+ M README.md
+ D apps/admin/.agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-browser-smoke.json
+ D apps/admin/.agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-desktop-empty.png
+ D apps/admin/.agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-desktop-error.png
+ D apps/admin/.agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-desktop-loading.png
+ D apps/admin/.agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-desktop-success.png
+ D apps/admin/.agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-mobile-success.png
+ M docs/architecture/init-and-dev-contract.md
+ M docs/architecture/repo-layout.md
+ M docs/architecture/source-of-truth.md
+ M docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md
+ M docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
+ M docs/product/b2b-mvp/lemanapro/product-foundation-v1.md
+ M docs/setup/codex-setup.md
+ M docs/stages/MVP.md
+ M pnpm-lock.yaml
+?? .agent/stages/mvp/evidence/MVP-04-design-system-tokenization-001.json
+?? .agent/stages/mvp/evidence/MVP-04-design-system-tokenization-001.md
+?? .agent/stages/mvp/evidence/MVP-04-mobile-learning-shell-001.json
+?? .agent/stages/mvp/evidence/MVP-04-mobile-learning-shell-001.md
+?? .agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.json
+?? .agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.md
+?? .agent/stages/mvp/problems/MVP-04-design-system-tokenization-001.md
+?? .agent/stages/mvp/problems/MVP-04-mobile-learning-shell-001.md
+?? .agent/stages/mvp/problems/MVP-06-learning-renderer-fixture-001.md
+?? .agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/
+?? .agent/stages/mvp/raw/mvp-04-mobile-learning-shell-001-screenshots-20260511/
+?? .agent/stages/mvp/raw/mvp-06-learning-renderer-fixture-001-screenshots-20260511/
+?? .agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-git-diff-check-final-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-git-diff-check-post-final-status-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-json-validation-final-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-json-validation-post-final-status-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-nested-app-agent-cleanup-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-no-cohort-cleanup-scan-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-verify-harness-final-20260511.json
+?? .agent/stages/mvp/raw/orchestrator-mvp-04-mobile-learning-shell-001-verify-harness-post-final-status-20260511.json
+?? .agent/stages/mvp/raw/orchestrator-mvp-06-learning-renderer-fixture-001-git-diff-check-final-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-06-learning-renderer-fixture-001-json-validation-final-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-06-learning-renderer-fixture-001-nested-app-agent-final-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-06-learning-renderer-fixture-001-verify-harness-final-20260511.json
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-browser-iab-20260512.json
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-browser-smoke-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-build-docs-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-build-docs-final-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-customer-brand-scan-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-design-board-ref-scan-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-design-doc-ref-scan-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-forbidden-copy-scan-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-git-diff-check-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-git-status-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-git-status-final-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-java-version-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-json-validation-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-no-cohort-scan-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-no-real-data-scan-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-token-hardcoded-scan-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-token-mapping-20260512.md
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-validate-bootstrap-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-web-build-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-web-file-list-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-web-test-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-web-typecheck-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-whitespace-scan-20260512.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-browser-iab-20260511.json
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-browser-smoke-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-changed-files-scope-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-customer-brand-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-diff-name-only-pre-edit-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-forbidden-copy-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-git-diff-check-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-git-status-pre-edit-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-json-validation-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-make-build-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-make-test-unit-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-make-verify-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-no-cohort-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-no-real-data-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-verify-harness-20260511.json
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-build-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-file-list-after-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-file-list-before-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-start-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-test-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-04-mobile-learning-shell-001-web-typecheck-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-browser-smoke-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-changed-files-scope-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-customer-brand-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-forbidden-copy-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-git-diff-check-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-json-validation-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-make-build-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-make-test-unit-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-make-verify-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-nested-app-agent-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-no-cohort-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-no-real-data-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-verify-harness-20260511.json
+?? .agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-verify-harness-after-evidence-20260511.json
+?? .agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-web-build-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-web-file-list-after-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-web-file-list-before-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-web-test-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-web-typecheck-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-amber-scope-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-amber-scope-final-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-amber-scope-post-fix-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-browser-iab-20260512.json
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-browser-iab-final-20260512.json
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-browser-smoke-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-browser-smoke-final-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-build-docs-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-build-docs-final-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-build-docs-post-fix-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-favicon-final-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-git-diff-check-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-git-diff-check-after-verdict-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-git-diff-check-final-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-git-diff-check-post-fix-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-git-status-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-git-status-after-verdict-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-git-status-final-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-guardrail-scan-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-guardrail-scan-final-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-guardrail-scan-post-fix-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-java-version-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-java-version-final-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-java-version-post-fix-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-json-validation-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-json-validation-after-verdict-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-json-validation-final-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-json-validation-post-fix-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-20260512/
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-token-mapping-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-token-mapping-final-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-token-mapping-post-fix-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-validate-bootstrap-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-validate-bootstrap-final-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-validate-bootstrap-post-fix-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-web-build-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-web-build-final-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-web-build-post-fix-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-web-test-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-web-test-final-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-web-test-post-fix-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-web-typecheck-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-web-typecheck-final-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-web-typecheck-post-fix-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-whitespace-scan-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-whitespace-scan-after-verdict-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-whitespace-scan-final-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-whitespace-scan-post-fix-20260512.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-browser-iab-unavailable-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-browser-smoke-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-browser-smoke-chrome-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-customer-brand-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-forbidden-copy-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-git-diff-check-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-json-validation-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-make-build-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-make-test-unit-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-make-verify-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-no-cohort-regression-classification-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-no-cohort-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-no-real-data-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-russian-ui-copy-review-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-screenshots-20260511/
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-status-invariants-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-verify-harness-pre-verdict-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-web-build-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-web-start-browser-smoke-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-web-test-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-04-mobile-learning-shell-001-web-typecheck-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-acceptance-manual-review-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-browser-iab-unavailable-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-browser-smoke-chrome-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-customer-brand-scan-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-forbidden-copy-scan-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-git-diff-check-final-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-git-diff-check-pre-verdict-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-json-validation-final-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-json-validation-pre-verdict-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-make-build-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-make-test-unit-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-make-verify-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-nested-app-agent-scan-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-no-cohort-scan-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-no-real-data-scan-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-screenshots-20260512T002252/
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-verify-harness-post-verdict-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-verify-harness-pre-verdict-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-web-build-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-web-start-browser-smoke-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-web-test-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-web-typecheck-20260512T002252.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-browser-smoke-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-browser-smoke-absolute-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-customer-brand-scan-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-deferred-scope-scan-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-forbidden-copy-scan-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-git-diff-check-pre-verdict-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-json-validation-pre-verdict-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-make-build-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-make-test-unit-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-make-verify-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-nested-app-agent-cleanup-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-nested-app-agent-scan-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-no-cohort-scan-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-no-real-data-scan-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-russian-ui-copy-review-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-screenshots-20260511T233952/
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-screenshots-absolute-20260511T233952/
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-status-invariants-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-verify-harness-pre-verdict-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-web-build-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-web-start-browser-smoke-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-web-test-20260511T233952.txt
+?? .agent/stages/mvp/raw/stage-verifier2-mvp-04-mobile-learning-shell-001-web-typecheck-20260511T233952.txt
+?? .agent/stages/mvp/task-files/MVP-04-design-system-tokenization-001.md
+?? .agent/stages/mvp/task-files/MVP-04-mobile-learning-shell-001.md
+?? .agent/stages/mvp/task-files/MVP-06-learning-renderer-fixture-001.md
+?? .agent/stages/mvp/verdicts/MVP-04-design-system-tokenization-001.json
+?? .agent/stages/mvp/verdicts/MVP-04-mobile-learning-shell-001.json
+?? .agent/stages/mvp/verdicts/MVP-06-learning-renderer-fixture-001.json
+?? apps/web/app/
+?? apps/web/components/
+?? apps/web/lib/
+?? apps/web/next-env.d.ts
+?? apps/web/next.config.mjs
+?? apps/web/package.json
+?? apps/web/public/
+?? apps/web/tests/
+?? apps/web/tsconfig.json
+?? docs/product/b2b-mvp/lemanapro/README.md
+?? docs/product/b2b-mvp/lemanapro/design-system-v0.1.md
+?? docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png

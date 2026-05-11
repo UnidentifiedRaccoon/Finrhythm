@@ -1,0 +1,1 @@
+PASS: no customer brand in apps/web active renderer scope

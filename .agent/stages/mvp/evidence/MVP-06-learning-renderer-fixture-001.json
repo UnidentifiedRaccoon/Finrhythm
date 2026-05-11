@@ -1,0 +1,34 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-06-learning-renderer-fixture-001",
+  "parent_stage_unit": "MVP-06.03",
+  "status": "PASS",
+  "verification_status": "PASS",
+  "updated_at": "2026-05-11",
+  "implemented_scope": [
+    "Typed synthetic N1 lesson fixture contract in apps/web.",
+    "Mobile-first fixture-backed lesson renderer at /learning/lessons/N1.",
+    "Existing /learning demo entry reaches the lesson renderer.",
+    "Display-only mini-test, non-persistent practice and no points/progress persistence."
+  ],
+  "raw_refs": [
+    ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-web-typecheck-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-web-test-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-web-build-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-browser-smoke-20260511.txt",
+    ".agent/stages/mvp/raw/mvp-06-learning-renderer-fixture-001-screenshots-20260511/",
+    ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-make-verify-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-make-test-unit-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-make-build-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-json-validation-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-renderer-fixture-001-git-diff-check-20260511.txt",
+    ".agent/stages/mvp/verdicts/MVP-06-learning-renderer-fixture-001.json",
+    ".agent/stages/mvp/problems/MVP-06-learning-renderer-fixture-001.md"
+  ],
+  "fresh_verifier": {
+    "status": "PASS",
+    "verdict_ref": ".agent/stages/mvp/verdicts/MVP-06-learning-renderer-fixture-001.json",
+    "problems_ref": ".agent/stages/mvp/problems/MVP-06-learning-renderer-fixture-001.md"
+  },
+  "human_gates_closed": false
+}

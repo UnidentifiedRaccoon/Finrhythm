@@ -1,0 +1,5 @@
+apps/web/app/globals.css:13:--color-amber: #f5b942;
+apps/web/app/globals.css:33:--gradient-reward-soft: linear-gradient(135deg, #fff4de 0%, #eaf5ff 100%);
+apps/web/app/globals.css:796:background: var(--gradient-reward-soft);
+apps/web/app/globals.css:804:color: var(--color-amber);
+Amber usage PASS: only token definition, reward gradient, reward block background, reward points color

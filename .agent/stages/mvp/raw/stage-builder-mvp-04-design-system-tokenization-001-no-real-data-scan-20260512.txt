@@ -1,0 +1,1 @@
+PASS: no exact personal finance artifact requirements in active apps/web app/components/lib source

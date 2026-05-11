@@ -1,0 +1,10 @@
+Synthetic fixture / no real data scan
+-- direct sensitive labels --
+PASS: no direct sensitive identity/customer labels
+-- email-like values --
+PASS: no email-like values
+-- Russian phone-like values --
+PASS: no phone-like values
+-- exact money-like values --
+PASS: no exact money-like values
+PASS: no real employee/customer/contact/exact-money data markers found

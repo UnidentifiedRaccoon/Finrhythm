@@ -1,0 +1,17 @@
+{
+  "baseUrl": "http://127.0.0.1:3421",
+  "screenshots": [
+    "/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/stage-verifier-mvp-04-design-system-tokenization-001-final-mobile-ready.png",
+    "/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/stage-verifier-mvp-04-design-system-tokenization-001-final-mobile-lesson-n1.png",
+    "/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/stage-verifier-mvp-04-design-system-tokenization-001-final-mobile-empty.png",
+    "/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/stage-verifier-mvp-04-design-system-tokenization-001-final-mobile-error.png",
+    "/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/stage-verifier-mvp-04-design-system-tokenization-001-final-mobile-loading.png"
+  ],
+  "scenarios": [
+    "mobile-ready",
+    "mobile-lesson-n1",
+    "mobile-empty",
+    "mobile-error",
+    "mobile-loading"
+  ]
+}

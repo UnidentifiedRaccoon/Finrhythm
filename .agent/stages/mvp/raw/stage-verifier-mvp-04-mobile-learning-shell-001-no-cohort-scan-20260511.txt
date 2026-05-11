@@ -1,0 +1,4 @@
+No-cohort regression scan in active web source/tests
+PASS: no active cohort token found in apps/web
+
+[exit_code=0]

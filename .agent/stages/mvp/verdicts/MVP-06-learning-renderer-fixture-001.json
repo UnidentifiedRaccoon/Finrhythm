@@ -1,0 +1,283 @@
+{
+  "status": "PASS",
+  "verdict": "PASS",
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-06-learning-renderer-fixture-001",
+  "parent_stage_unit": "MVP-06.03",
+  "verifier_role": "fresh_stage_verifier",
+  "last_verified_at": "2026-05-11T21:30:00Z",
+  "alias_of": ".agent/stages/mvp/verdicts/MVP-06-learning-renderer-fixture-001.json",
+  "summary": "PASS for current sprint MVP-06-learning-renderer-fixture-001 only. The slice adds a typed synthetic N1 fixture contract, a fixture-backed mobile lesson renderer at /learning/lessons/N1, and a /learning demo entry that reaches the renderer. It does not close CMS publishing, production content approval, progress persistence, scored quiz submission, practice submission, points/wallet, onboarding/consent, diagnostics/routing, full MVP-06, full MVP or any human gate.",
+  "proof_gaps": [],
+  "failed_criteria": [],
+  "decision": {
+    "current_sprint": "PASS",
+    "mvp_06_learning_renderer_fixture_001": "PASS",
+    "mvp_03_onboarding_consent": "DEFERRED_NOT_DONE",
+    "mvp_04": "OPEN",
+    "mvp_06": "OPEN",
+    "mvp_07_diagnostics_routing": "DEFERRED_NOT_DONE",
+    "mvp_stage": "OPEN",
+    "human_gates": "OPEN"
+  },
+  "acceptance_criteria": [
+    {
+      "id": "AC-1",
+      "status": "PASS",
+      "detail": "apps/web renders a mobile-first synthetic N1 lesson through a typed fixture-backed renderer at /learning/lessons/N1."
+    },
+    {
+      "id": "AC-2",
+      "status": "PASS",
+      "detail": "The existing /learning demo entry remains working and links to /learning/lessons/N1."
+    },
+    {
+      "id": "AC-3",
+      "status": "PASS",
+      "detail": "The fixture contract covers situation, why, rule, example, mini-test, practice and reward sections."
+    },
+    {
+      "id": "AC-4",
+      "status": "PASS",
+      "detail": "The rendered lesson includes office and store/shift example variants."
+    },
+    {
+      "id": "AC-5",
+      "status": "PASS",
+      "detail": "Mini-test rendering is display-only and does not claim persistent scored quiz submission or lesson completion."
+    },
+    {
+      "id": "AC-6",
+      "status": "PASS",
+      "detail": "Practice rendering requires no exact personal income, debt, balance, bank data, photos, documents or screenshots."
+    },
+    {
+      "id": "AC-7",
+      "status": "PASS",
+      "detail": "Reward copy states there is no money equivalent and does not imply salary, guaranteed merch or guaranteed outcome."
+    },
+    {
+      "id": "AC-8",
+      "status": "PASS",
+      "detail": "Visible UI copy is Russian, neutral and anti-shame."
+    },
+    {
+      "id": "AC-9",
+      "status": "PASS",
+      "detail": "No customer brand appears in employee-facing apps/web source or rendered smoke output."
+    },
+    {
+      "id": "AC-10",
+      "status": "PASS",
+      "detail": "Fixtures, tests, screenshots and evidence use synthetic data and contain no real-looking contact, document or payment identifiers."
+    },
+    {
+      "id": "AC-11",
+      "status": "PASS",
+      "detail": "The sprint does not claim onboarding, consent, diagnostics or routing completion."
+    },
+    {
+      "id": "AC-12",
+      "status": "PASS",
+      "detail": "Changed active web source does not restore cohort, cohortId or cohorts."
+    },
+    {
+      "id": "AC-13",
+      "status": "PASS",
+      "detail": "Component/unit tests cover renderer structure, fixture shape, block order, direct entry and guardrails."
+    },
+    {
+      "id": "AC-14",
+      "status": "PASS",
+      "detail": "Browser/mobile evidence is captured for /learning and /learning/lessons/N1, including a 390x844 mobile lesson screenshot."
+    },
+    {
+      "id": "AC-15",
+      "status": "PASS",
+      "detail": "Changed JSON artifacts validate."
+    },
+    {
+      "id": "AC-16",
+      "status": "PASS",
+      "detail": "git diff --check passes."
+    },
+    {
+      "id": "AC-17",
+      "status": "PASS",
+      "detail": "Fresh verifier verdict and problems artifacts are scoped only to MVP-06-learning-renderer-fixture-001."
+    }
+  ],
+  "checks": [
+    {
+      "id": "verify-harness-pre-verdict",
+      "status": "FAIL_EXPECTED_PRE_VERDICT_ALIAS_MISMATCH",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-verify-harness-pre-verdict-20260512T002252.txt"
+    },
+    {
+      "id": "verify-harness-post-verdict",
+      "status": "FAIL_PARENT_STATUS_ALIAS_SYNC_PENDING",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-verify-harness-post-verdict-20260512T002252.txt",
+      "detail": "Post-verdict harness sees scoped verdict/problems aliases on MVP-06 but still reports status.json.latest_verified_sprint_contract_id as MVP-04. This leaf verifier intentionally did not update that parent-owned alias."
+    },
+    {
+      "id": "web-typecheck",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-web-typecheck-20260512T002252.txt"
+    },
+    {
+      "id": "web-test",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-web-test-20260512T002252.txt"
+    },
+    {
+      "id": "web-build",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-web-build-20260512T002252.txt"
+    },
+    {
+      "id": "browser-iab",
+      "status": "UNAVAILABLE_FALLBACK_USED",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-browser-iab-unavailable-20260512T002252.txt"
+    },
+    {
+      "id": "browser-mobile-smoke-chrome",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-browser-smoke-chrome-20260512T002252.txt"
+    },
+    {
+      "id": "make-verify",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-make-verify-20260512T002252.txt"
+    },
+    {
+      "id": "make-test-unit",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-make-test-unit-20260512T002252.txt"
+    },
+    {
+      "id": "make-build",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-make-build-20260512T002252.txt"
+    },
+    {
+      "id": "customer-brand-scan",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-customer-brand-scan-20260512T002252.txt"
+    },
+    {
+      "id": "forbidden-copy-scan",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-forbidden-copy-scan-20260512T002252.txt"
+    },
+    {
+      "id": "no-real-data-scan",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-no-real-data-scan-20260512T002252.txt"
+    },
+    {
+      "id": "no-cohort-scan",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-no-cohort-scan-20260512T002252.txt"
+    },
+    {
+      "id": "nested-app-agent-scan",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-nested-app-agent-scan-20260512T002252.txt"
+    },
+    {
+      "id": "json-validation-pre-verdict",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-json-validation-pre-verdict-20260512T002252.txt"
+    },
+    {
+      "id": "git-diff-check-pre-verdict",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-git-diff-check-pre-verdict-20260512T002252.txt"
+    },
+    {
+      "id": "json-validation-final",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-json-validation-final-20260512T002252.txt"
+    },
+    {
+      "id": "git-diff-check-final",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-git-diff-check-final-20260512T002252.txt"
+    }
+  ],
+  "screenshots": [
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-screenshots-20260512T002252/stage-verifier-mvp-06-learning-renderer-fixture-001-mobile-ready.png",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-screenshots-20260512T002252/stage-verifier-mvp-06-learning-renderer-fixture-001-mobile-lesson-n1.png",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-screenshots-20260512T002252/stage-verifier-mvp-06-learning-renderer-fixture-001-mobile-empty.png",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-screenshots-20260512T002252/stage-verifier-mvp-06-learning-renderer-fixture-001-mobile-error.png",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-screenshots-20260512T002252/stage-verifier-mvp-06-learning-renderer-fixture-001-mobile-loading.png"
+  ],
+  "human_gates": [
+    {
+      "gate": "legal/privacy wording and consent copy",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "real employee/customer data processing",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "customer-specific HR/reporting boundaries",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "final financial correctness of lessons, diagnostics, quizzes and explanations",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "legal/tax review for tax wording",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "HR/privacy wording review for diagnostics, self-assessment and reports",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "reward economy, stock, prices and fulfillment",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "support answer policy for sensitive topics",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "production_ready content approval",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "admin auth/role/audit policy for production use",
+      "status": "WAITING_HUMAN"
+    }
+  ],
+  "raw_refs": [
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-verify-harness-pre-verdict-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-verify-harness-post-verdict-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-web-typecheck-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-web-test-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-web-build-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-browser-iab-unavailable-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-web-start-browser-smoke-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-browser-smoke-chrome-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-screenshots-20260512T002252/",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-make-verify-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-make-test-unit-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-make-build-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-customer-brand-scan-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-forbidden-copy-scan-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-no-real-data-scan-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-no-cohort-scan-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-nested-app-agent-scan-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-json-validation-pre-verdict-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-git-diff-check-pre-verdict-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-json-validation-final-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-git-diff-check-final-20260512T002252.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-renderer-fixture-001-acceptance-manual-review-20260512T002252.txt"
+  ],
+  "scope_statement": "This verdict covers only MVP-06-learning-renderer-fixture-001. It does not close CMS publishing, production content approval, progress persistence, scored quiz submission, practice submission, points/wallet, onboarding/consent, diagnostics/routing, full MVP-06, full MVP or any human gate.",
+  "verifier_note": "status.json latest_verified_sprint_contract_id was intentionally not updated; parent stage owner will sync that alias after reviewing this scoped verdict."
+}

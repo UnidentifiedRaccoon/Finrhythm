@@ -1,0 +1,56 @@
+{
+  "backend": "iab",
+  "baseUrl": "http://127.0.0.1:3401",
+  "checkedRoutes": [
+    {
+      "name": "ready",
+      "url": "http://127.0.0.1:3401/learning",
+      "title": "Финпульс — обучение",
+      "mainCount": 1,
+      "expectedMissing": [],
+      "forbiddenHits": [],
+      "overlayHits": [],
+      "consoleIssues": []
+    },
+    {
+      "name": "lesson-n1",
+      "url": "http://127.0.0.1:3401/learning/lessons/N1",
+      "title": "Финпульс — обучение",
+      "mainCount": 1,
+      "expectedMissing": [],
+      "forbiddenHits": [],
+      "overlayHits": [],
+      "consoleIssues": []
+    },
+    {
+      "name": "loading",
+      "url": "http://127.0.0.1:3401/learning?state=loading",
+      "title": "Финпульс — обучение",
+      "mainCount": 1,
+      "expectedMissing": [],
+      "forbiddenHits": [],
+      "overlayHits": [],
+      "consoleIssues": []
+    },
+    {
+      "name": "empty",
+      "url": "http://127.0.0.1:3401/learning?state=empty",
+      "title": "Финпульс — обучение",
+      "mainCount": 1,
+      "expectedMissing": [],
+      "forbiddenHits": [],
+      "overlayHits": [],
+      "consoleIssues": []
+    },
+    {
+      "name": "error",
+      "url": "http://127.0.0.1:3401/learning?state=error",
+      "title": "Финпульс — обучение",
+      "mainCount": 1,
+      "expectedMissing": [],
+      "forbiddenHits": [],
+      "overlayHits": [],
+      "consoleIssues": []
+    }
+  ]
+}

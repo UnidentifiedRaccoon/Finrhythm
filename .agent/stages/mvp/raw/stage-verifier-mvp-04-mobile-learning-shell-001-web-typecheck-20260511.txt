@@ -1,0 +1,6 @@
+
+> @finrhythm/web@0.0.0 typecheck /Users/elena/cursor/FinPulse/apps/web
+> tsc --noEmit
+
+
+[exit_code=0]

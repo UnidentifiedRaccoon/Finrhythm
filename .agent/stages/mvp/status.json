@@ -2,8 +2,8 @@
   "stage_id": "mvp",
   "state": "SPRINT_PASSED",
   "active_sprint_contract_id": null,
-  "latest_verified_sprint_contract_id": "MVP-02-closure-audit-001",
-  "latest_status_decision_sprint_contract_id": "MVP-02-closure-audit-001",
+  "latest_verified_sprint_contract_id": "MVP-04-design-system-tokenization-001",
+  "latest_status_decision_sprint_contract_id": "MVP-04-design-system-tokenization-001",
   "completed_ids": [
     "MVP-01.01",
     "MVP-01.02",
@@ -24,7 +24,11 @@
     "MVP-02-admin-ui-status-view-001",
     "MVP-02-04-closure-audit-001",
     "MVP-02-remove-cohort-domain-001",
-    "MVP-02-closure-audit-001"
+    "MVP-02-closure-audit-001",
+    "MVP-04-mobile-learning-shell-001",
+    "MVP-06-learning-renderer-fixture-001",
+    "MVP-04-design-system-tokenization-001",
+    "MVP-04.04"
   ],
   "done_with_human_pending_ids": [
     "MVP-02.04",
@@ -45,12 +49,12 @@
     "admin-auth-role-audit-policy-for-production-use"
   ],
   "next_recommended_ids": [
-    "freeze-next-MVP-slice-by-stage-order",
-    "keep-MVP-stage-open-after-MVP-02-human-pending-decision",
-    "keep-admin-auth-role-audit-policy-and-real-data-processing-human-gated",
-    "do-not-close-MVP-stage-while-human-gates-remain-open"
+    "freeze-next-small-learning-or-content-slice-after-MVP-04-design-system-tokenization-001",
+    "preserve-MVP-06-learning-renderer-fixture-001-immutable-artifacts",
+    "keep-onboarding-consent-and-diagnostics-routing-deferred",
+    "do-not-close-MVP-stage-or-human-gates"
   ],
-  "last_updated": "2026-05-11",
+  "last_updated": "2026-05-12",
   "exit_gate_summary": {
     "mvp_01_scope_frozen": true,
     "root_wrappers_added": true,
@@ -114,7 +118,32 @@
     "current_mvp_02_closure_audit_fresh_verifier_pass": true,
     "mvp_stage_complete": false,
     "human_gates_open": true,
-    "current_mvp_02_closure_audit_parent_alias_sync_done": true
+    "current_mvp_02_closure_audit_parent_alias_sync_done": true,
+    "current_mvp_04_mobile_learning_shell_contract_frozen": true,
+    "current_mvp_04_mobile_learning_shell_builder_complete": true,
+    "current_mvp_04_mobile_learning_shell_evidence_exists": true,
+    "current_mvp_04_mobile_learning_shell_builder_checks_pass": true,
+    "current_mvp_04_mobile_learning_shell_browser_screenshots_exist": true,
+    "current_mvp_04_mobile_learning_shell_fresh_verifier_pass": true,
+    "mvp_03_onboarding_consent_complete": false,
+    "mvp_07_diagnostics_routing_complete": false,
+    "current_mvp_04_mobile_learning_shell_parent_alias_sync_done": true,
+    "mvp_04_complete": false,
+    "current_mvp_06_learning_renderer_fixture_contract_frozen": true,
+    "current_mvp_06_learning_renderer_fixture_builder_complete": true,
+    "current_mvp_06_learning_renderer_fixture_evidence_exists": true,
+    "current_mvp_06_learning_renderer_fixture_builder_checks_pass": true,
+    "current_mvp_06_learning_renderer_fixture_browser_screenshots_exist": true,
+    "current_mvp_06_learning_renderer_fixture_fresh_verifier_pass": true,
+    "current_mvp_06_learning_renderer_fixture_parent_alias_sync_done": true,
+    "current_mvp_04_design_system_tokenization_contract_frozen": true,
+    "current_mvp_04_design_system_tokenization_builder_complete": true,
+    "current_mvp_04_design_system_tokenization_evidence_exists": true,
+    "current_mvp_04_design_system_tokenization_builder_checks_pass": true,
+    "current_mvp_04_design_system_tokenization_browser_screenshots_exist": true,
+    "current_mvp_04_design_system_tokenization_fresh_verifier_pass": true,
+    "current_mvp_04_design_system_tokenization_parent_alias_sync_done": true,
+    "mvp_04_04_complete": true
   },
   "runtime_guardrails": {
     "project_config_approval_policy_expected": "on-request",
@@ -123,26 +152,27 @@
     "java_runtime_available_in_current_shell": false,
     "java_runtime_available_with_explicit_homebrew_jdk21": true,
     "java_version_recorded": "21.0.11",
-    "current_java_blocker": "unqualified java is not on PATH in this verifier shell; Homebrew OpenJDK 21.0.11 works with explicit JAVA_HOME/PATH and all Maven/root checks passed that way",
+    "current_java_blocker": "unqualified java is not on PATH in this verifier/orchestrator shell; java -version cannot locate a Java runtime, so make verify is not run or claimed for MVP-04-design-system-tokenization-001",
     "docker_29_testcontainers_compatibility": "apps/api/pom.xml pins Testcontainers 1.21.4 because Docker 29 rejects older Docker API versions used by the inherited Testcontainers stack.",
     "pnpm_available_through_corepack": true,
     "maven_wrapper_present": true,
     "backend_baseline": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway, OpenAPI/springdoc required for public/admin API slices",
     "docs_only_latest_verified_sprint": false,
     "public_api_scope_for_latest_verified_sprint": false,
-    "schema_scope_for_latest_verified_sprint": "MVP-02-remove-cohort-domain-001 adds append-only V005 to migrate active runtime schema from cohorts/cohort_id to pilot_launches/access_pools and drops old active table/columns after backfill.",
+    "schema_scope_for_latest_verified_sprint": "No backend schema or migration change in MVP-04-design-system-tokenization-001.",
     "ui_scope_for_latest_verified_sprint": true,
-    "admin_scope_for_latest_verified_sprint": "MVP-02-remove-cohort-domain-001 verified the read-only apps/admin status view with access-pool wording and DTOs; production auth/role/audit and real data use remain human-gated",
-    "generated_client_scope_for_latest_verified_sprint": "explicit no-op because packages/api-client has no generator/artifacts; generated-client implementation requires separate freeze",
+    "admin_scope_for_latest_verified_sprint": "No admin scope in MVP-04-design-system-tokenization-001.",
+    "generated_client_scope_for_latest_verified_sprint": "No backend/API/schema/OpenAPI/generated-client change in MVP-04-design-system-tokenization-001.",
     "content_spec_status": "draft_with_human_gates",
-    "content_runtime_source_of_truth": "CMS/PostgreSQL after implementation; docs are canonical planning sources only",
+    "content_runtime_source_of_truth": "No production content source change; existing synthetic apps/web fixtures remain demo-only.",
     "pii_guardrails_for_latest_verified_sprint": [
-      "no raw invite-code persistence or response display",
-      "do not expose lookup_hash or activation_subject_ref",
-      "do not expose employee fullName/email/phone in this status response",
-      "no personal financial answers, diagnostics weak zones or exact financial data",
-      "no real employee/customer data in tests/fixtures/evidence",
-      "admin auth/role/audit policy and production real-data use remain human-gated"
+      "synthetic lesson fixtures only",
+      "no real employee/customer/personal/financial data",
+      "no exact income, debt, balance, bank, document, photo or screenshot data required",
+      "no customer brand in employee-facing UI",
+      "no onboarding/privacy/consent completion claim",
+      "no diagnostics/scoring/routing completion claim",
+      "no casino/random reward mechanics or public leaderboard claim"
     ]
   },
   "handoff": {
@@ -156,7 +186,11 @@
       "Fresh stage_verifier PASS is recorded for MVP-05-content-spec-ingestion-001.",
       "MVP-02-admin-ui-status-view-001 has fresh verifier PASS for the minimal apps/admin scaffold and read-only code-status view.",
       "MVP-02-remove-cohort-domain-001 has fresh verifier PASS for replacing the active MVP cohort/wave domain/API/UI wording with tenant/pilot launch/access pool.",
-      "MVP-02 closure audit builder evidence maps all docs/stages/MVP.md MVP-02 acceptance criteria to existing proof refs and records no concrete non-human proof gap."
+      "MVP-02 closure audit builder evidence maps all docs/stages/MVP.md MVP-02 acceptance criteria to existing proof refs and records no concrete non-human proof gap.",
+      "MVP-04-mobile-learning-shell-001 builder evidence exists for a minimal apps/web mobile-first learning shell with direct demo route, Novice N1-N7 synthetic fixture, one lesson preview, web/root checks and mobile/browser screenshots.",
+      "MVP-04-mobile-learning-shell-001 has fresh verifier raw proof and parent-synced PASS for a minimal apps/web mobile-first learning shell with direct demo route, Novice N1-N7 synthetic fixture metadata, one lesson preview, web/root checks and mobile/browser screenshots.",
+      "MVP-06-learning-renderer-fixture-001 has fresh verifier PASS for a typed synthetic N1 fixture-backed mobile lesson renderer at /learning/lessons/N1, reachable from /learning, with web/root checks, browser/mobile screenshots and guardrail scans.",
+      "MVP-04-design-system-tokenization-001 has fresh verifier PASS and parent-synced latest aliases for the scoped MVP-04.04 design tokens, current app shell/nav/common states and mobile/browser guardrails."
     ],
     "what_is_closed_now": [
       "MVP-02-admin-code-status-view-001 is PASS for the backend/admin API-only data contract.",
@@ -164,7 +198,10 @@
       "MVP-02.04 is recorded as DONE_WITH_HUMAN_PENDING for the technical admin cohort/code status view scope: backend/admin API status data contract plus minimal read-only admin UI/status view.",
       "MVP-02-04-closure-audit-001 has fresh verifier PASS for the closure/audit decision.",
       "MVP-02-remove-cohort-domain-001 is PASS for the active domain/API/admin UI/docs refactor away from cohort/wave terminology.",
-      "MVP-02-closure-audit-001 has fresh verifier PASS and records full MVP-02 as DONE_WITH_HUMAN_PENDING."
+      "MVP-02-closure-audit-001 has fresh verifier PASS and records full MVP-02 as DONE_WITH_HUMAN_PENDING.",
+      "MVP-04-mobile-learning-shell-001 is PASS for the minimal employee-facing mobile learning shell only.",
+      "MVP-06-learning-renderer-fixture-001 is PASS for the fixture-backed synthetic N1 mobile lesson renderer only.",
+      "MVP-04-design-system-tokenization-001 is PASS; narrow MVP-04.04 is accepted for the currently implemented design-token/app-shell/common-state surface."
     ],
     "what_is_not_proven": [
       "MVP-02.04 is not closed as DONE because admin auth/role/audit policy, production real-data use and customer-specific reporting boundaries remain human-gated.",
@@ -176,8 +213,13 @@
       "Reward economy and real fulfillment approval.",
       "Production_ready publish approval for content.",
       "Full MVP-02 is not unconditional DONE because human gates remain open.",
-      "MVP stage is not complete."
+      "MVP stage is not complete.",
+      "MVP-03 onboarding/privacy/consent and MVP-07 diagnostics/routing remain deferred and not complete.",
+      "Full MVP-04 UX/UI foundation is not closed by the bridge shell slice.",
+      "Full MVP-06 learning delivery, CMS publishing, production content approval, progress persistence, scored quiz submission, practice submission, points and wallet are not implemented by this slice.",
+      "Full MVP-04 remains open: MVP-04.01, MVP-04.02, MVP-04.03 and MVP-04.05 are not closed by design-system tokenization, and brand/accessibility/privacy/design QA human gates remain open.",
+      "Full MVP-06 remains open despite preserved MVP-06-learning-renderer-fixture-001 PASS artifacts: CMS/admin publishing, production content approval, progress persistence, scored quiz submission, practice submission, points and wallet remain unimplemented."
     ],
-    "next_slice": "Freeze the next MVP slice by stage order while keeping MVP stage and all human gates open."
+    "next_slice": "Freeze the next small learning/content slice after MVP-04-design-system-tokenization-001 parent alias sync. Keep MVP-03 onboarding/consent and MVP-07 diagnostics/routing deferred unless separately refrozen."
   }
 }
