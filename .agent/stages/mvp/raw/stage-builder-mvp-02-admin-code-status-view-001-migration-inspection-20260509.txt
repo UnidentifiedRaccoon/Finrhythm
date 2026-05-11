@@ -1,0 +1,12 @@
+Migration files:
+apps/api/src/main/resources/db/migration/V001__dev_bootstrap_runs.sql
+apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql
+apps/api/src/main/resources/db/migration/V003__invite_issuance_activation_binding.sql
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql
+
+V005 files for this slice:
+
+Migration git status:
+?? apps/api/src/main/resources/db/migration/V004__employee_registration.sql
+
+Conclusion: no V005 migration was added for MVP-02-admin-code-status-view-001; read support uses existing V002-V004 schema and repository projections.

@@ -1,0 +1,16 @@
+$ cd apps/api && ./mvnw -v
+The operation couldn’t be completed. Unable to locate a Java Runtime.
+Please visit http://www.java.com for information on installing Java.
+
+
+TERMINATED_BY_VERIFIER=java_runtime_stub_hung_after_error
+EXIT_CODE=124
+
+$ export JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home; export PATH="$JAVA_HOME/bin:$PATH"; cd apps/api && ./mvnw -v
+Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)
+Maven home: /Users/elena/.m2/wrapper/dists/apache-maven-3.9.9-bin/33b4b2b4/apache-maven-3.9.9
+Java version: 21.0.11, vendor: Homebrew, runtime: /opt/homebrew/Cellar/openjdk@21/21.0.11/libexec/openjdk.jdk/Contents/Home
+Default locale: en_US, platform encoding: UTF-8
+OS name: "mac os x", version: "14.8.1", arch: "aarch64", family: "mac"
+
+RETRY_WITH_HOMEbrew_JDK21_EXIT_CODE=0

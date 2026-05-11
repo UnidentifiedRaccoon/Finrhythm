@@ -1,0 +1,6 @@
+$ git status --short apps/admin; rg --files apps/admin
+
+--- apps/admin files ---
+apps/admin/AGENTS.md
+
+EXIT_CODE=0

@@ -1,0 +1,68 @@
+$ source OpenAPI annotation inspection and runtime test evidence refs
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminApiErrorResponse.java:9:        @Schema(example = "VALIDATION_FAILED")
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusException.java:27:                "COHORT_STATUS_VIEW_NOT_FOUND",
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusException.java:40:                "VALIDATION_FAILED",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:83:                        "/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:127:                        "/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:151:                        "/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:171:                        "/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:176:                .andExpect(jsonPath("$.code").value("COHORT_STATUS_VIEW_NOT_FOUND"))
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:186:                        "/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:192:                .andExpect(jsonPath("$.code").value("VALIDATION_FAILED"))
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:201:                        "/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:210:                        "/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:219:                        "/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:224:                .andExpect(jsonPath("$.code").value("VALIDATION_FAILED"))
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:241:                .contains("/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:242:                .contains("AdminCodeStatusResponse")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:243:                .contains("AdminCodeStatusSummary")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:244:                .contains("AdminCodeStatusRow")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:246:                .contains("COHORT_STATUS_VIEW_NOT_FOUND")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:247:                .contains("VALIDATION_FAILED")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:248:                .doesNotContain("lookupHash")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:249:                .doesNotContain("activationSubjectRef");
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:267:                    activationSubjectRef(subjectBase, index),
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:276:                    activationSubjectRef(subjectBase, index),
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:331:                    email,
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:332:                    phone,
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:380:                .doesNotContain("lookupHash")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:381:                .doesNotContain("activationSubjectRef")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:382:                .doesNotContain("fullName")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:383:                .doesNotContain("email")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:384:                .doesNotContain("phone")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:391:    private static String activationSubjectRef(int subjectBase, int index) {
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusSummary.java:5:@Schema(name = "AdminCodeStatusSummary")
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusSummary.java:6:public record AdminCodeStatusSummary(
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:6:import com.finrhythm.api.admin.readmodel.AdminCodeStatusResponse;
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:7:import com.finrhythm.api.admin.readmodel.AdminCodeStatusRow;
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:8:import com.finrhythm.api.admin.readmodel.AdminCodeStatusSummary;
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:49:    public AdminCodeStatusResponse getCodeStatus(
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:71:        return new AdminCodeStatusResponse(
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:134:    private static AdminCodeStatusSummary summary(
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:141:        return new AdminCodeStatusSummary(
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:170:    private static AdminCodeStatusRow row(InviteCodeStatusRowProjection projection) {
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:171:        return new AdminCodeStatusRow(
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusExceptionHandler.java:30:                "VALIDATION_FAILED",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:4:import com.finrhythm.api.admin.readmodel.AdminCodeStatusResponse;
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:23:@RequestMapping("/api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status")
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:42:                    description = "Cohort code-status view.",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:44:                            schema = @Schema(implementation = AdminCodeStatusResponse.class),
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:104:                                              "code": "VALIDATION_FAILED",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:127:                                              "code": "COHORT_STATUS_VIEW_NOT_FOUND",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:137:    public ResponseEntity<AdminCodeStatusResponse> getCodeStatus(
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusPage.java:21:        List<AdminCodeStatusRow> items
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusRow.java:9:@Schema(name = "AdminCodeStatusRow")
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusRow.java:10:public record AdminCodeStatusRow(
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java:10:@Schema(name = "AdminCodeStatusResponse")
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java:11:public record AdminCodeStatusResponse(
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java:33:        AdminCodeStatusSummary summary,
+
+--- runtime /v3/api-docs test assertion location ---
+233:    void openApiExposesAdminCodeStatusEndpointSchemasAndSafeErrors() throws Exception {
+234:        String spec = mockMvc.perform(get("/v3/api-docs"))
+248:                .doesNotContain("lookupHash")
+249:                .doesNotContain("activationSubjectRef");
+380:                .doesNotContain("lookupHash")
+381:                .doesNotContain("activationSubjectRef")
+
+EXIT_CODE=0

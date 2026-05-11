@@ -1,123 +1,88 @@
-# MVP stage evidence
+# Evidence: MVP-02-admin-code-status-view-001
 
-Updated: 2026-05-06
+Status: `BUILT_AWAITING_VERIFIER`
+Updated: 2026-05-09
 
-## Current sprint: MVP-05-content-spec-ingestion-001
+Latest evidence alias for the active sprint. Immutable refs:
 
-Status: `PASS`
+- `.agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md`
+- `.agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.json`
 
-This docs-only slice places the Content MVP draft into canonical product documentation and synchronizes product, stage and Harness artifacts. It builds on `MVP-05-learning-methodology-doc-sync-001`, does not implement runtime code and does not close `MVP-05.01` through `MVP-05.05`.
+Backend/admin API-only slice implemented:
 
-### Changed canonical docs and sources
+- `GET /api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status`;
+- cohort metadata, invite-code status counts, activation/registration funnel counts;
+- paginated privacy-safe per-code operational rows;
+- no `apps/admin` UI/scaffold and no screenshots required for this slice;
+- no `V005` migration; existing `V002`-`V004` schema is sufficient;
+- generated client no-op because `packages/api-client` contains only `.gitkeep` and no generator config/script exists.
 
-- `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md`
-- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`
-- `content/getcourse-finstrategy/CONTENT_BRIEF.md`
-- `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`
-- `docs/architecture/source-of-truth.md`
-- `docs/stages/MVP.md`
-- `.agent/stages/mvp/*` artifacts for `MVP-05-content-spec-ingestion-001`
+Fresh `stage_verifier` is still required. This evidence does not close `MVP-02.04`, full `MVP-02` or any human gate.
 
-### Command and scan evidence
+Harness note: `verify_harness.py --stage-id mvp` is recorded as `FAIL_EXPECTED_ALIAS_MISMATCH_WAITING_VERIFIER`. The failure is limited to latest artifact id mismatch because builder evidence is for the active sprint, while `verdict.json`/`problems.md` and `latest_verified_sprint_contract_id` still point to the prior verified sprint. Builder did not write verifier verdict aliases.
 
-| Command/artifact | Result | Raw output |
-|------------------|--------|------------|
-| root/path/reference checks | PASS | `.agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-root-path-reference-checks-20260506.txt` |
-| changed-files scope check | PASS | `.agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-changed-files-scope-20260506.txt` |
-| stage artifacts JSON checks | PASS | `.agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-stage-artifacts-json-checks-20260506.txt` |
-| Harness verification | PASS | `.agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-verify-harness-20260506.json` |
-| `make verify` | PASS | `.agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-make-verify-20260506.txt` |
-| post-merge final Harness verification | PASS | `.agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-verify-harness-20260506.json` |
-| post-merge final `make verify` | PASS | `.agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-make-verify-20260506.txt` |
-| fresh `stage_verifier` | PASS | `.agent/stages/mvp/verdicts/MVP-05-content-spec-ingestion-001.json`, `.agent/stages/mvp/problems/MVP-05-content-spec-ingestion-001.md` |
+## Flow
 
-### Acceptance mapping
+```mermaid
+sequenceDiagram
+    participant AdminClient
+    participant Controller
+    participant Service
+    participant Repositories
+    participant DB
 
-| Criterion | Status | Evidence |
-|-----------|--------|----------|
-| 1. Root content draft removed | PASS | verifier root/path checks |
-| 2. Content spec exists with `draft_with_human_gates` metadata | PASS | content spec frontmatter and verifier checks |
-| 3. Methodology and `CONTENT_BRIEF.md` exist locally | PASS | verifier root/path checks |
-| 4. Canonical docs point to methodology/content spec and preserve human gates | PASS | product foundation, MVP stage, source-of-truth and reference scans |
-| 5. Stage artifacts record doc-only ingestion | PASS | stage artifacts and task file |
-| 6. Only ingestion/proof criteria pass; content approval remains not passed | PASS | `feature_list.json` and `status.json` |
-| 7. `MVP-05.01` through `MVP-05.05` remain open | PASS | `backlog.md`, `status.json`, immutable problems artifact |
-| 8. No runtime code/schema/API/UI/generated-client changes | PASS | changed-files scope check |
-| 9. Required verification recorded | PASS | Harness and `make verify` raw outputs |
-| 10. Fresh verifier PASS recorded | PASS | immutable verdict/problems artifacts and latest aliases |
+    AdminClient->>Controller: GET /api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status
+    Controller->>Service: tenantId, cohortId, status/page/size
+    Service->>Service: validate filter and pagination
+    Service->>Repositories: load cohort scoped by tenant
+    alt scoped cohort exists
+        Repositories->>DB: aggregate statuses and registration count
+        Repositories->>DB: read paginated code rows
+        Service->>Service: filter to operational fields only
+        Controller-->>AdminClient: 200 metadata, summary, statusCounts, codes
+    else missing or mismatch
+        Controller-->>AdminClient: 404 safe not-found
+    end
+    alt invalid request
+        Controller-->>AdminClient: 400 safe validation error
+    end
+```
 
-### API/OpenAPI, schema and screenshots
+## Required Raw Refs
 
-Not applicable. This slice changed documentation and stage artifacts only. No runtime API/controller/OpenAPI/generated-client surface, DB schema, migrations, UI or user-visible screen changed.
+- `.agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-git-status-20260509.txt`
+- `.agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-java-version-20260509.txt`
+- `.agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-mvnw-version-20260509.txt`
+- `.agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-api-admin-it-20260509.txt`
+- `.agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-api-test-report-summary-20260509.txt`
+- `.agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-api-mvn-test-20260509.txt`
+- `.agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-api-mvn-verify-20260509.txt`
+- `.agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-make-verify-20260509.txt`
+- `.agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-make-test-unit-20260509.txt`
+- `.agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-make-build-20260509.txt`
+- `.agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-git-diff-check-20260509.txt`
+- `.agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-migration-inspection-20260509.txt`
+- `.agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-openapi-source-inspection-20260509.txt`
+- `.agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-generated-client-noop-20260509.txt`
+- `.agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-guardrail-scan-20260509.txt`
+- `.agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-verify-harness-20260509.json`
 
-### Human gates
+## Acceptance Status
 
-No human-gated item was closed. The content spec is `draft_with_human_gates`; final financial correctness, legal/tax wording, HR/privacy wording, reward stock/prices/fulfillment, sensitive support answer policy and final `production_ready` publish approval remain pending.
+Builder evidence is ready for all frozen acceptance criteria, except fresh verifier verdict is intentionally pending:
 
-## Current sprint: MVP-05-learning-methodology-doc-sync-001
+- Criteria 1-11: `PASS` or `PASS_NOOP/PASS_NO_MIGRATION` in immutable evidence.
+- Criterion 12: `BUILDER_EVIDENCE_READY_WAITING_VERIFIER`.
+- Criterion 13: `WAITING_HUMAN`.
 
-Status: `PASS_WITH_ENV_LIMITATION`
+## Human Gates
 
-This docs-only slice moves the user-provided learning methodology file into canonical product documentation and synchronizes product, stage and Harness docs. It does not implement runtime code and does not close `MVP-05`, `MVP-06`, `MVP-07`, `MVP-09`, `MVP-10`, `MVP-11`, `MVP-12` or full MVP.
+- Legal/privacy wording: `WAITING_HUMAN`
+- Consent copy: `WAITING_HUMAN`
+- Real employee/customer data processing: `WAITING_HUMAN`
+- Customer-specific reporting boundaries: `WAITING_HUMAN`
+- Admin auth/role/audit policy for production use: `WAITING_HUMAN`
 
-### Changed canonical docs
+## Handoff
 
-- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`
-- `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`
-- `docs/architecture/source-of-truth.md`
-- `docs/stages/MVP.md`
-- `docs/stages/v1.md`
-- `docs/stages/v2.md`
-- `.agents/skills/stage-launch-proof-loop/SKILL.md`
-- `.agents/skills/stage-launch-proof-loop/references/PROTOCOL.md`
-- `.agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md`
-
-### Command and scan evidence
-
-| Command/artifact | Result | Raw output |
-|------------------|--------|------------|
-| `git status --short` | INFO: docs/stage artifact changes only | `.agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-git-status-20260505.txt` |
-| methodology path uniqueness check excluding `.agent` | PASS: only `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` | `.agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-path-check-20260505.txt` |
-| methodology link/path scan | PASS: product, stage and Harness docs reference methodology and key IDs | `.agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-link-scan-20260505.txt` |
-| contradiction scan | PASS: no stale root filename, `4–6`, `52-week`, `52-недель`, old pre/post P1 wording or future-methodology wording in canonical docs/Harness | `.agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-contradiction-scan-20260505.txt` |
-| expected-token scan | PASS: methodology/status/ID/stock/status markers found | `.agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-expected-token-scan-20260505.txt` |
-| Harness self-check | PASS | `.agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-verify-harness-20260505.json` |
-| `make verify` | BLOCKED/TIMEOUT: bootstrap checks passed; backend Maven step reported missing Java runtime and the duplicate long-running checks were terminated | `.agent/stages/mvp/raw/mvp-05-learning-methodology-doc-sync-make-verify-20260505.txt` |
-| fresh `stage_verifier` | PASS | `.agent/stages/mvp/verdicts/MVP-05-learning-methodology-doc-sync-001.json`, `.agent/stages/mvp/problems/MVP-05-learning-methodology-doc-sync-001.md`, `.agent/stages/mvp/raw/stage-verifier-mvp-05-learning-methodology-doc-sync-001-verify-harness-20260505-fresh.json` |
-
-### Acceptance mapping
-
-| Criterion | Status | Evidence |
-|-----------|--------|----------|
-| 1. Root file removed | PASS | path uniqueness raw output |
-| 2. Methodology doc exists at canonical product path | PASS | path uniqueness raw output |
-| 3. Frontmatter and `accepted_with_human_gates` recorded | PASS | methodology doc and expected-token scan |
-| 4. Stray leading `ё` removed | PASS | methodology doc heading starts with `# Этап 2...` after frontmatter |
-| 5. Methodology source references are real repo paths | PASS | methodology doc source list |
-| 6. Source-of-truth order includes methodology baseline | PASS | `docs/architecture/source-of-truth.md` |
-| 7. Product foundation links methodology and removes stale wording | PASS | product foundation and contradiction scan |
-| 8. MVP stage has `product_methodology` and read-before-freeze rules | PASS | `docs/stages/MVP.md` |
-| 9. MVP stage carries v0.2 decisions without closing downstream units | PASS | `docs/stages/MVP.md`, `status.json` |
-| 10. v1/v2 inherit baseline and no-advice/privacy guardrails | PASS | `docs/stages/v1.md`, `docs/stages/v2.md` |
-| 11. Harness docs require methodology-aware evidence | PASS | skill/protocol/artifacts docs |
-| 12. Stage artifacts are docs-only and preserve MVP-02 PASS proofs | PASS | `progress.md`, `status.json`, `feature_list.json` |
-| 13. Link/path and contradiction scans recorded | PASS | raw scan outputs |
-| 14. Harness verification recorded | PASS | verify_harness raw output |
-| 15. `make verify` run or blocker recorded | BLOCKED_ENV | make verify raw output |
-| 16. Fresh verifier reviews this slice | PASS | `.agent/stages/mvp/verdicts/MVP-05-learning-methodology-doc-sync-001.json`, `.agent/stages/mvp/problems/MVP-05-learning-methodology-doc-sync-001.md` |
-
-### API/OpenAPI, schema and screenshots
-
-Not applicable. This slice changed documentation and stage artifacts only. No runtime API/controller/OpenAPI/generated-client surface, DB schema, migrations, UI or user-visible screen changed.
-
-### Human gates
-
-No human-gated item was closed. The methodology doc is `accepted_with_human_gates`; final financial correctness, legal/tax wording, HR wording, reward stock/prices/fulfillment and sensitive support answer policy remain pending.
-
-## Prior verified sprints retained
-
-- `MVP-01-bootstrap-001`: prior fresh verifier `PASS`.
-- `MVP-02-tenant-domain-001`: prior fresh verifier `PASS`; closes only `MVP-02.01`.
-- `MVP-02-invite-issuance-activation-001`: prior fresh verifier `PASS`; closes only `MVP-02.02`.
-
-`MVP-02.03`, `MVP-02.04` and full MVP-02 remain open.
+Run a fresh `stage_verifier` scoped only to `MVP-02-admin-code-status-view-001`. Do not mark `MVP-02.04` or full `MVP-02` complete from this backend-only evidence; the `apps/admin` UI/status screen remains a separate future slice.

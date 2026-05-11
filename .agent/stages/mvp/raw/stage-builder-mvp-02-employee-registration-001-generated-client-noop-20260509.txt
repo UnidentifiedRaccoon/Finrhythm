@@ -1,0 +1,6 @@
+Generated-client workflow inspection
+packages/api-client/.gitkeep
+
+No generator, package script, OpenAPI output, or generated TypeScript artifacts are present; packages/api-client contains only .gitkeep. No generated-client artifacts were invented or edited.
+
+EXIT:0

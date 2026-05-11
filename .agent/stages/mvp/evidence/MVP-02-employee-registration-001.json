@@ -1,0 +1,34 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-02-employee-registration-001",
+  "status": "PASS",
+  "updated_at": "2026-05-09",
+  "latest_alias": ".agent/stages/mvp/evidence.json",
+  "raw_refs": [
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-git-status-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-java-version-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-mvnw-version-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-api-mvn-test-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-api-mvn-verify-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-make-verify-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-make-test-unit-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-make-build-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-migration-inspection-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-openapi-source-inspection-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-generated-client-noop-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-guardrail-scan-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-registration-field-scan-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-git-diff-check-20260509.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-verify-harness-20260509.json"
+  ],
+  "human_gates": [
+    "legal/privacy wording",
+    "consent copy",
+    "real employee/customer data processing",
+    "customer-specific HR/reporting boundaries"
+  ],
+  "environment_note": "Java 21 is available through Homebrew OpenJDK 21. Docker 29 compatibility required Testcontainers 1.21.4. pnpm is available through Corepack.",
+  "verdict": ".agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json",
+  "problems": ".agent/stages/mvp/problems/MVP-02-employee-registration-001.md",
+  "blocker": null
+}

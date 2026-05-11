@@ -1,0 +1,19 @@
+check_id: mvnw-version
+command: cd apps/api && ./mvnw -v
+cwd: /Users/elena/cursor/FinRhythm
+JAVA_HOME: /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home
+DOCKER_HOST: unix:///Users/elena/.docker/run/docker.sock
+timeout_seconds: 60
+started_at_utc: 2026-05-09T11:30:45.430903+00:00
+finished_at_utc: 2026-05-09T11:30:46.239414+00:00
+exit_code: 0
+timed_out: false
+--- STDOUT ---
+Apache Maven 3.9.9 (8e8579a9e76f7d015ee5ec7bfcdc97d260186937)
+Maven home: /Users/elena/.m2/wrapper/dists/apache-maven-3.9.9-bin/33b4b2b4/apache-maven-3.9.9
+Java version: 21.0.11, vendor: Homebrew, runtime: /opt/homebrew/Cellar/openjdk@21/21.0.11/libexec/openjdk.jdk/Contents/Home
+Default locale: en_US, platform encoding: UTF-8
+OS name: "mac os x", version: "14.8.1", arch: "aarch64", family: "mac"
+
+--- STDERR ---
+

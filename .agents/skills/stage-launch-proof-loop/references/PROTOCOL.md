@@ -94,6 +94,14 @@ Do not expand beyond stage source. For FinLit, especially avoid:
 - promises of financial gain;
 - unreviewed legal or financial advice wording;
 - treating points as money;
+- modeling subscriptions, pro-seats or premium access as RBAC roles;
+- adding `user.organization_id` instead of an organization membership model when account/organization membership is in scope;
+- creating organization membership, roles or seats before invitation/code acceptance and identity verification/authentication;
+- using invitation links as password setup links for an unverified login channel;
+- storing Organization join codes as plain fields/tokens instead of separate revocable hashed entities;
+- letting B2B pro-seat access leak across another organization of the same user;
+- letting personal Pro expand corporate Organization context, or Organization subscription expand a user's personal context;
+- starting B2C billing, pricing, paywall or paid-tier reward rules without explicit human-approved commercial scope;
 - real partner/reward operations without human approval;
 - employee-facing publication of raw customer-specific labels;
 - speculative AI tutor work before relevant stage scope.

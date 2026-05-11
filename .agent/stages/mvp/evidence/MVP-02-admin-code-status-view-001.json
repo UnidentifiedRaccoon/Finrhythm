@@ -1,0 +1,283 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-02-admin-code-status-view-001",
+  "parent_stage_unit": "MVP-02.04",
+  "updated_at": "2026-05-09",
+  "status": "BUILT_AWAITING_VERIFIER",
+  "summary": "Read-only backend/admin code-status API is implemented with privacy-safe aggregation, 500-code Wave 1 Testcontainers coverage, OpenAPI/springdoc source and generated-client no-op evidence. Fresh stage_verifier is still required before this task can be marked PASS.",
+  "commands": [
+    {
+      "command": "git status --short",
+      "status": "RECORDED",
+      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-git-status-20260509.txt"
+    },
+    {
+      "command": "java -version",
+      "status": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-java-version-20260509.txt"
+    },
+    {
+      "command": "cd apps/api && ./mvnw -v",
+      "status": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-mvnw-version-20260509.txt"
+    },
+    {
+      "command": "cd apps/api && ./mvnw -q -Dtest=AdminCodeStatusControllerIT test",
+      "status": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-api-admin-it-20260509.txt"
+    },
+    {
+      "command": "API test report summary",
+      "status": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-api-test-report-summary-20260509.txt"
+    },
+    {
+      "command": "cd apps/api && ./mvnw -q test",
+      "status": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-api-mvn-test-20260509.txt"
+    },
+    {
+      "command": "cd apps/api && ./mvnw -q verify",
+      "status": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-api-mvn-verify-20260509.txt"
+    },
+    {
+      "command": "make verify",
+      "status": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-make-verify-20260509.txt"
+    },
+    {
+      "command": "make test-unit",
+      "status": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-make-test-unit-20260509.txt"
+    },
+    {
+      "command": "make build",
+      "status": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-make-build-20260509.txt"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-git-diff-check-20260509.txt"
+    },
+    {
+      "command": "migration/no-migration inspection",
+      "status": "PASS_NO_MIGRATION",
+      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-migration-inspection-20260509.txt"
+    },
+    {
+      "command": "OpenAPI/springdoc endpoint/schema inspection",
+      "status": "PASS_SOURCE_AND_RUNTIME_TEST",
+      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-openapi-source-inspection-20260509.txt"
+    },
+    {
+      "command": "generated-client regeneration output or no-op note",
+      "status": "NOOP_NO_GENERATOR",
+      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-generated-client-noop-20260509.txt"
+    },
+    {
+      "command": "privacy/raw invite-code/PII/customer-brand guardrail scan",
+      "status": "PASS_SOURCE_AND_TEST",
+      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-guardrail-scan-20260509.txt"
+    },
+    {
+      "command": "python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp",
+      "status": "FAIL_EXPECTED_ALIAS_MISMATCH_WAITING_VERIFIER",
+      "raw": ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-verify-harness-20260509.json"
+    }
+  ],
+  "artifacts": [
+    "apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusCount.java",
+    "apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusPage.java",
+    "apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusQuery.java",
+    "apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java",
+    "apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusRow.java",
+    "apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusSummary.java",
+    "apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusException.java",
+    "apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusFieldViolation.java",
+    "apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java",
+    "apps/api/src/main/java/com/finrhythm/api/admin/web/AdminApiErrorResponse.java",
+    "apps/api/src/main/java/com/finrhythm/api/admin/web/AdminApiFieldError.java",
+    "apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java",
+    "apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusExceptionHandler.java",
+    "apps/api/src/main/java/com/finrhythm/api/tenant/persistence/CohortRepository.java",
+    "apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java",
+    "apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeStatusCountProjection.java",
+    "apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeStatusRowProjection.java",
+    "apps/api/src/main/java/com/finrhythm/api/registration/persistence/EmployeeRegistrationRepository.java",
+    "apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java",
+    ".agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md",
+    ".agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.json"
+  ],
+  "documentation_updates": [
+    "OpenAPI/springdoc source is the canonical API contract update for this backend/admin API slice.",
+    "No canonical product, architecture or stage source doc change was needed; behavior stays within the frozen sprint contract.",
+    "Evidence includes a Mermaid admin request/read aggregation/privacy filtering/response flow.",
+    "apps/admin UI screenshots are NOT_APPLICABLE because this slice intentionally does not change apps/admin UI/scaffold."
+  ],
+  "diagram_refs": [
+    ".agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md#flow",
+    ".agent/stages/mvp/evidence.md#flow"
+  ],
+  "api_openapi_notes": "AdminCodeStatusController and read-model records carry springdoc/OpenAPI annotations; AdminCodeStatusControllerIT verifies /v3/api-docs exposes the admin code-status path and schemas with safe error codes.",
+  "generated_client_notes": "No generated-client workflow exists: packages/api-client contains only .gitkeep and no generator config/script was found. No generated artifacts were invented or edited.",
+  "migration_notes": "No V005 migration was added; existing V002 tenant/cohort/invite and V004 employee_registrations schema support read aggregation.",
+  "screenshots": [
+    {
+      "status": "NOT_APPLICABLE",
+      "reason": "Backend/API-only slice; apps/admin UI/scaffold is explicitly out of scope."
+    }
+  ],
+  "human_gates": [
+    {
+      "gate": "legal/privacy wording",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "consent copy",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "real employee/customer data processing",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "customer-specific reporting boundaries",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "admin auth/role/audit policy for production use",
+      "status": "WAITING_HUMAN"
+    }
+  ],
+  "acceptance_criteria": [
+    {
+      "id": 1,
+      "status": "PASS",
+      "evidence": [
+        "Java/Maven/root command raw refs",
+        "apps/api/pom.xml existing Spring/Flyway/PostgreSQL baseline"
+      ]
+    },
+    {
+      "id": 2,
+      "status": "PASS",
+      "evidence": [
+        "No apps/admin UI/scaffold files changed",
+        "implementation files are under apps/api"
+      ]
+    },
+    {
+      "id": 3,
+      "status": "PASS",
+      "evidence": [
+        "AdminCodeStatusController",
+        "AdminCodeStatusService",
+        "InviteCodeRepository read projections",
+        "AdminCodeStatusControllerIT"
+      ]
+    },
+    {
+      "id": 4,
+      "status": "PASS",
+      "evidence": [
+        "AdminCodeStatusControllerIT seeds 500 synthetic Wave 1 invite codes",
+        ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-api-admin-it-20260509.txt",
+        ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-api-test-report-summary-20260509.txt"
+      ]
+    },
+    {
+      "id": 5,
+      "status": "PASS",
+      "evidence": [
+        "status filter and page/size tests",
+        "safe validation error tests"
+      ]
+    },
+    {
+      "id": 6,
+      "status": "PASS",
+      "evidence": [
+        "assertPrivacySafeResponse in AdminCodeStatusControllerIT",
+        "guardrail scan raw ref"
+      ]
+    },
+    {
+      "id": 7,
+      "status": "PASS",
+      "evidence": [
+        "synthetic test seed strings only",
+        "customer-brand guardrail assertions"
+      ]
+    },
+    {
+      "id": 8,
+      "status": "PASS",
+      "evidence": [
+        "AdminCodeStatusController delegates to service",
+        "AdminCodeStatusService handles validation/aggregation/pagination/filtering"
+      ]
+    },
+    {
+      "id": 9,
+      "status": "PASS_NO_MIGRATION",
+      "evidence": [
+        "migration inspection raw ref"
+      ]
+    },
+    {
+      "id": 10,
+      "status": "PASS",
+      "evidence": [
+        "springdoc annotations in admin controller/read-model records",
+        "runtime /v3/api-docs test"
+      ]
+    },
+    {
+      "id": 11,
+      "status": "PASS_NOOP",
+      "evidence": [
+        "generated-client no-op raw ref"
+      ]
+    },
+    {
+      "id": 12,
+      "status": "BUILDER_EVIDENCE_READY_WAITING_VERIFIER",
+      "evidence": [
+        "all required builder raw refs recorded",
+        "fresh verifier verdict intentionally pending"
+      ]
+    },
+    {
+      "id": 13,
+      "status": "WAITING_HUMAN",
+      "evidence": [
+        "human gate list in this evidence"
+      ]
+    }
+  ],
+  "verdict": {
+    "status": "WAITING_VERIFIER",
+    "raw": null,
+    "problems": null
+  },
+  "known_limitations": [
+    "Fresh stage_verifier has not run yet; do not mark this task PASS.",
+    "MVP-02.04 admin UI remains unimplemented by design.",
+    "No admin auth/session/role/audit model exists in this slice.",
+    "Harness validation fails on latest artifact id mismatch until a fresh verifier writes the current task verdict/problem aliases."
+  ],
+  "handoff": {
+    "next_role": "stage_verifier",
+    "scope": "MVP-02-admin-code-status-view-001 only",
+    "verify_focus": [
+      "Endpoint contract and OpenAPI source",
+      "500-code Wave 1 mixed status/read-model tests",
+      "Privacy-safe response fields",
+      "No V005 migration and no generated-client artifacts",
+      "No apps/admin UI/scaffold or scope creep",
+      "Human gates remain open"
+    ]
+  }
+}

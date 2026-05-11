@@ -42,6 +42,7 @@ Do not blanket-read `.agent/stages/**/raw/**`. Raw artifacts are read by exact r
 - Web employee UI slices: read `apps/web/AGENTS.md`, relevant app routes/components, API client contract notes and screenshot requirements.
 - Admin/CMS/operator slices: read `apps/admin/AGENTS.md`, admin surface, CMS/content status model and audit requirements.
 - Content/CMS/learning/diagnostic/reporting slices: load `profiles/CONTENT_PROFILE.md`, then read only the profile-listed sources needed for the slice.
+- Access, roles, organization membership, invitations, organization codes, B2B seats/pro-seats, B2C subscription or billing-discovery slices: read `docs/architecture/access-and-subscriptions.md` and `docs/architecture/organization-access-subscription-model.md`; pricing, paywall, billing provider, refunds, B2B contract quantities and paid-tier reward rules remain human-gated.
 - Harness-only slices: read harness skill docs, templates, verifier scripts and affected stage/task artifacts; do not load product/content docs unless the verifier check being changed owns those facts.
 
 ## Proof refs

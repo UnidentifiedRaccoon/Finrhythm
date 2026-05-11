@@ -1,0 +1,35 @@
+check_id: maven-test-report-summary
+started_at_utc: 2026-05-09T11:33:22.092852+00:00
+cwd: /Users/elena/cursor/FinRhythm
+JAVA_HOME: /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home
+DOCKER_HOST: unix:///Users/elena/.docker/run/docker.sock
+
+--- apps/api/target/surefire-reports/com.finrhythm.api.tenant.TenantDomainTest.txt ---
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.tenant.TenantDomainTest
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.051 s -- in com.finrhythm.api.tenant.TenantDomainTest
+
+--- apps/api/target/surefire-reports/com.finrhythm.api.tenant.service.InviteCodeGeneratorTest.txt ---
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.tenant.service.InviteCodeGeneratorTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.020 s -- in com.finrhythm.api.tenant.service.InviteCodeGeneratorTest
+
+--- apps/api/target/failsafe-reports/com.finrhythm.api.registration.EmployeeRegistrationControllerIT.txt ---
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.registration.EmployeeRegistrationControllerIT
+-------------------------------------------------------------------------------
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.887 s -- in com.finrhythm.api.registration.EmployeeRegistrationControllerIT
+
+--- apps/api/target/failsafe-reports/com.finrhythm.api.tenant.persistence.TenantPersistenceIT.txt ---
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.tenant.persistence.TenantPersistenceIT
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.645 s -- in com.finrhythm.api.tenant.persistence.TenantPersistenceIT
+
+--- apps/api/target/failsafe-reports/com.finrhythm.api.tenant.service.InviteCodeAccessServiceIT.txt ---
+-------------------------------------------------------------------------------
+Test set: com.finrhythm.api.tenant.service.InviteCodeAccessServiceIT
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.812 s -- in com.finrhythm.api.tenant.service.InviteCodeAccessServiceIT

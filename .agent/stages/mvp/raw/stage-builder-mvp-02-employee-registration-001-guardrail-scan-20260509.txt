@@ -1,0 +1,3 @@
+PASS: no matches for customer brand, raw/plain invite-code columns, or direct logging in the registration slice.
+
+EXIT:0

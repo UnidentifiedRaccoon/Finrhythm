@@ -1,0 +1,293 @@
+{
+  "status": "PASS",
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-02-admin-code-status-view-001",
+  "parent_stage_unit": "MVP-02.04 backend API slice only",
+  "verifier_role": "fresh_stage_verifier",
+  "last_verified_at": "2026-05-09T13:31:12Z",
+  "summary": "Read-only backend/admin code-status API is verified for this sprint slice. The endpoint GET /api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status returns privacy-safe cohort metadata, status counts, activation/registration funnel counts and paginated code rows. The slice has 500-code Wave 1 Testcontainers/MockMvc coverage, OpenAPI/springdoc source and runtime /v3/api-docs test coverage, no V005 migration, no generated-client artifacts, no apps/admin UI/scaffold change and no closed human gates.",
+  "failed_criteria": [],
+  "proof_gaps": [],
+  "acceptance_criteria": [
+    {
+      "id": 1,
+      "status": "PASS_WITH_ENV_NOTE",
+      "evidence": [
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-java-version-20260509.txt",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-mvnw-version-20260509.txt",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-api-mvn-verify-20260509.txt",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-make-build-20260509.txt"
+      ],
+      "notes": "Unqualified java is not on PATH in this verifier shell, but Homebrew OpenJDK 21.0.11 is installed and all Maven/root checks passed with explicit JAVA_HOME/PATH."
+    },
+    {
+      "id": 2,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-admin-ui-noop-20260509.txt",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-git-status-20260509.txt"
+      ]
+    },
+    {
+      "id": 3,
+      "status": "PASS",
+      "evidence": [
+        "apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java",
+        "apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java",
+        "apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-api-admin-it-20260509.txt"
+      ]
+    },
+    {
+      "id": 4,
+      "status": "PASS",
+      "evidence": [
+        "apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-api-test-report-summary-20260509.txt"
+      ]
+    },
+    {
+      "id": 5,
+      "status": "PASS",
+      "evidence": [
+        "apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-api-admin-it-20260509.txt"
+      ]
+    },
+    {
+      "id": 6,
+      "status": "PASS",
+      "evidence": [
+        "apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusRow.java",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-guardrail-scan-20260509.txt",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-openapi-source-inspection-20260509.txt"
+      ]
+    },
+    {
+      "id": 7,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-guardrail-scan-20260509.txt",
+        "apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java"
+      ]
+    },
+    {
+      "id": 8,
+      "status": "PASS",
+      "evidence": [
+        "apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java",
+        "apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java",
+        "apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java"
+      ]
+    },
+    {
+      "id": 9,
+      "status": "PASS_NO_MIGRATION",
+      "evidence": [
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-migration-inspection-20260509.txt",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-api-admin-it-20260509.txt"
+      ]
+    },
+    {
+      "id": 10,
+      "status": "PASS",
+      "evidence": [
+        "apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-openapi-source-inspection-20260509.txt",
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-api-admin-it-20260509.txt"
+      ]
+    },
+    {
+      "id": 11,
+      "status": "PASS_NOOP_NO_GENERATOR",
+      "evidence": [
+        ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-generated-client-noop-20260509.txt"
+      ]
+    },
+    {
+      "id": 12,
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.json",
+        ".agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md",
+        ".agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json",
+        ".agent/stages/mvp/problems/MVP-02-admin-code-status-view-001.md"
+      ]
+    },
+    {
+      "id": 13,
+      "status": "PASS_HUMAN_GATES_OPEN",
+      "evidence": [
+        ".agent/stages/mvp/problems/MVP-02-admin-code-status-view-001.md",
+        ".agent/stages/mvp/status.json"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "id": "git-status",
+      "status": "RECORDED",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-git-status-20260509.txt"
+    },
+    {
+      "id": "java-version",
+      "status": "PASS_WITH_ENV_NOTE",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-java-version-20260509.txt"
+    },
+    {
+      "id": "maven-wrapper-version",
+      "status": "PASS_WITH_ENV_NOTE",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-mvnw-version-20260509.txt"
+    },
+    {
+      "id": "api-admin-it",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-api-admin-it-20260509.txt"
+    },
+    {
+      "id": "maven-test-report-summary",
+      "status": "PASS",
+      "detail": "AdminCodeStatusControllerIT ran 4 tests with 0 failures, 0 errors and 0 skipped.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-api-test-report-summary-20260509.txt"
+    },
+    {
+      "id": "api-mvn-test",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-api-mvn-test-20260509.txt"
+    },
+    {
+      "id": "api-mvn-verify",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-api-mvn-verify-20260509.txt"
+    },
+    {
+      "id": "make-verify",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-make-verify-20260509.txt"
+    },
+    {
+      "id": "make-test-unit",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-make-test-unit-20260509.txt"
+    },
+    {
+      "id": "make-build",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-make-build-20260509.txt"
+    },
+    {
+      "id": "git-diff-check",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-git-diff-check-20260509.txt"
+    },
+    {
+      "id": "migration-inspection",
+      "status": "PASS_NO_MIGRATION",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-migration-inspection-20260509.txt"
+    },
+    {
+      "id": "openapi-source-runtime",
+      "status": "PASS",
+      "detail": "Springdoc source annotations are present and AdminCodeStatusControllerIT verifies /v3/api-docs contains the path, schemas and safe errors while excluding lookupHash and activationSubjectRef.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-openapi-source-inspection-20260509.txt"
+    },
+    {
+      "id": "generated-client",
+      "status": "PASS_NOOP_NO_GENERATOR",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-generated-client-noop-20260509.txt"
+    },
+    {
+      "id": "privacy-guardrail-scan",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-guardrail-scan-20260509.txt"
+    },
+    {
+      "id": "admin-ui-noop",
+      "status": "PASS_NOT_APPLICABLE",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-admin-ui-noop-20260509.txt"
+    },
+    {
+      "id": "verify-harness-after-verdict",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-code-status-view-001-verify-harness-after-verdict-20260509.json"
+    }
+  ],
+  "ui_screenshot_evidence": {
+    "status": "NOT_APPLICABLE",
+    "reason": "This sprint is backend/admin API-only and apps/admin contains only AGENTS.md; no UI/scaffold/browser surface changed."
+  },
+  "docs_sync": {
+    "status": "PASS",
+    "notes": [
+      "No canonical product/stage/architecture doc change is required because implemented behavior stays inside the frozen sprint contract.",
+      "OpenAPI/springdoc source is the canonical API contract update for this backend/admin API slice.",
+      "Evidence records the generated-client no-op because packages/api-client has no generator/artifacts.",
+      "Evidence includes a Mermaid request/read aggregation/privacy filtering flow."
+    ]
+  },
+  "migration_schema": {
+    "status": "PASS_NO_MIGRATION",
+    "notes": "No V005 migration was added; Testcontainers/Flyway evidence applies V001-V004 and endpoint tests pass on that schema."
+  },
+  "generated_client": {
+    "status": "PASS_NOOP_NO_GENERATOR",
+    "notes": "packages/api-client contains only .gitkeep; no generator config or generated artifacts exist."
+  },
+  "privacy_guardrails": {
+    "status": "PASS",
+    "notes": [
+      "Response DTO exposes inviteCodeId, status, issuedAt, expiresAt, activatedAt, registeredAt and registered only.",
+      "Raw invite code, lookup hash, activation subject ref and employee contact fields are not response fields.",
+      "Tests use synthetic tenant/learner/example.test data and assert these values are not leaked in responses."
+    ]
+  },
+  "environment_notes": [
+    {
+      "status": "NON_BLOCKING",
+      "detail": "In this verifier shell, unqualified java -version fails via the macOS Java stub. Homebrew OpenJDK 21.0.11 is installed at /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home; all Maven and root verification commands passed with explicit JAVA_HOME/PATH."
+    }
+  ],
+  "dirty_worktree_notes": [
+    "git status contains unrelated dirty files outside this sprint, including stage artifacts and non-current stage docs. They were not reverted or used to expand this sprint scope.",
+    "apps/api/pom.xml is dirty outside the current sprint-owned file list and appears in raw status; this verdict does not claim ownership of that change for MVP-02-admin-code-status-view-001."
+  ],
+  "human_gates": [
+    {
+      "gate": "legal/privacy wording",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "consent copy",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "real employee/customer data processing",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "customer-specific reporting boundaries",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "admin auth/role/audit policy for production use",
+      "status": "WAITING_HUMAN"
+    }
+  ],
+  "scope_not_closed": [
+    "apps/admin UI/status view",
+    "full MVP-02.04",
+    "full MVP-02",
+    "full MVP stage",
+    "legal/privacy/consent human gates",
+    "real employee/customer data processing",
+    "customer-specific reporting boundaries",
+    "admin auth/role/audit policy"
+  ],
+  "handoff": {
+    "what_is_passed_now": [
+      "MVP-02-admin-code-status-view-001 backend/admin API data contract",
+      "Backend API portion of MVP-02.04 only"
+    ],
+    "next_step": "Freeze a separate apps/admin UI/scaffold slice if the operator code-status view must be implemented. Keep human gates open."
+  }
+}

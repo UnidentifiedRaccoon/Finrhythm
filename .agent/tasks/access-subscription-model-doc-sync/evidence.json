@@ -1,0 +1,88 @@
+{
+  "task_id": "access-subscription-model-doc-sync",
+  "status": "DOC_SYNC_VERIFIED",
+  "updated_at": "2026-05-11",
+  "scope": "documentation-and-harness-guardrails-only",
+  "production_code_changed": false,
+  "schema_changed": false,
+  "api_changed": false,
+  "ui_changed": false,
+  "canonical_docs_updated": [
+    "docs/architecture/organization-access-subscription-model.md",
+    "docs/architecture/access-and-subscriptions.md",
+    "docs/architecture/source-of-truth.md",
+    "docs/architecture/documentation-workflow.md",
+    "docs/engineering/contributing.md",
+    "AGENTS.md",
+    "docs/stages/MVP.md",
+    "docs/stages/v1.md",
+    "docs/stages/v2.md"
+  ],
+  "harness_files_updated": [
+    ".agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md",
+    ".agents/skills/stage-launch-proof-loop/references/PROTOCOL.md",
+    ".agents/skills/stage-launch-proof-loop/harness.manifest.json",
+    ".agents/skills/stage-launch-proof-loop/scripts/verify_harness.py"
+  ],
+  "decisions": [
+    "Organization is the canonical term; Company is not a model term.",
+    "The user-authored Member concept is normalized to the existing FinLit OrgMembership/org_memberships naming.",
+    "Invitation/code acceptance creates OrgMembership, roles and seats only after identity verification or authentication.",
+    "Invitation links and password setup/login verification are separate flows.",
+    "Organization codes are separate revocable hashed entities, not plain fields on Organization.",
+    "UserSubscription and OrgSubscription are separate context-specific access sources.",
+    "Personal Pro does not expand Organization context; Organization subscription does not expand personal context.",
+    "Subscriptions, seats and Pro access are not RBAC roles.",
+    "Optional entitlement_grant is a resolver/projection layer only when a later slice introduces it from canonical source records."
+  ],
+  "checks": [
+    {
+      "command": "python3 -m json.tool .agents/skills/stage-launch-proof-loop/harness.manifest.json",
+      "status": "PASS",
+      "raw": ".agent/tasks/access-subscription-model-doc-sync/raw/harness-manifest-json-check-20260511.json"
+    },
+    {
+      "command": "python3 -m py_compile .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py",
+      "status": "PASS",
+      "raw": ".agent/tasks/access-subscription-model-doc-sync/raw/py-compile-verify-harness-20260511.txt"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "raw": ".agent/tasks/access-subscription-model-doc-sync/raw/git-diff-check-20260511.txt"
+    },
+    {
+      "command": "python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --bootstrap-only",
+      "status": "PASS",
+      "raw": ".agent/tasks/access-subscription-model-doc-sync/raw/verify-harness-bootstrap-only-20260511.json"
+    },
+    {
+      "command": "python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id harness-optimization",
+      "status": "PASS",
+      "raw": ".agent/tasks/access-subscription-model-doc-sync/raw/verify-harness-stage-harness-optimization-20260511.json"
+    },
+    {
+      "command": "python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp",
+      "status": "PASS",
+      "raw": ".agent/tasks/access-subscription-model-doc-sync/raw/verify-harness-stage-mvp-20260511.json"
+    },
+    {
+      "command": "rg stale model shortcuts scan",
+      "status": "PASS_NO_MATCHES",
+      "raw": ".agent/tasks/access-subscription-model-doc-sync/raw/model-reference-scan-20260511.txt"
+    }
+  ],
+  "human_gates": [
+    "pricing/paywall/refund policy",
+    "B2B contract quantities and commercial model",
+    "B2C billing provider and legal payment copy",
+    "paid-tier reward/store rules",
+    "B2C subscription visibility for support/admin",
+    "customer-specific reporting boundaries and real employee data processing"
+  ],
+  "latest_verification": {
+    "status": "PASS",
+    "type": "local-harness-and-doc-self-check",
+    "note": "No production code was changed; harness bootstrap and stage-artifact checks pass."
+  }
+}

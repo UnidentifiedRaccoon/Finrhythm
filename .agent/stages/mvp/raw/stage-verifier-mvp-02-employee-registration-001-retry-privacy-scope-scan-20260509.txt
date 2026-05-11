@@ -1,0 +1,228 @@
+check_id: privacy-scope-scan
+started_at_utc: 2026-05-09T11:33:22.091353+00:00
+cwd: /Users/elena/cursor/FinRhythm
+JAVA_HOME: /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home
+DOCKER_HOST: unix:///Users/elena/.docker/run/docker.sock
+
+--- git status ---
+command: git status --short
+exit=0
+ M .agent/stages/mvp/backlog.md
+ M .agent/stages/mvp/decisions.md
+ M .agent/stages/mvp/evidence.json
+ M .agent/stages/mvp/evidence.md
+ M .agent/stages/mvp/feature_list.json
+ M .agent/stages/mvp/problems.md
+ M .agent/stages/mvp/progress.md
+ M .agent/stages/mvp/risks.md
+ M .agent/stages/mvp/sprint_contract.md
+ M .agent/stages/mvp/stage_spec.md
+ M .agent/stages/mvp/status.json
+ M .agent/stages/mvp/verdict.json
+ M apps/api/pom.xml
+?? .agent/stages/mvp/evidence/MVP-02-employee-registration-001.json
+?? .agent/stages/mvp/evidence/MVP-02-employee-registration-001.md
+?? .agent/stages/mvp/problems/MVP-02-employee-registration-001.md
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-corepack-enable-pnpm-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-api-version-probe-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-context-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-curl-info-cli-sock-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-curl-info-run-sock-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-curl-ping-run-sock-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-env-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-info-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-info-explicit-host-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-ps-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-socket-check-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-pnpm-path-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-api-mvn-test-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-api-mvn-verify-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-generated-client-noop-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-git-diff-check-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-git-status-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-guardrail-scan-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-java-version-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-make-build-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-make-test-unit-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-make-verify-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-migration-inspection-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-mvnw-version-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-openapi-source-inspection-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-registration-field-scan-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-verify-harness-20260509.json
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-api-mvn-test-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-api-mvn-verify-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-generated-client-verification-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-git-diff-check-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-git-status-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-java-version-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-make-build-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-make-test-unit-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-make-verify-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-maven-test-report-summary-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-migration-inspection-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-mvnw-version-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-openapi-source-runtime-inspection-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-privacy-scope-scan-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-retry-api-mvn-test-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-retry-api-mvn-verify-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-retry-generated-client-verification-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-retry-git-diff-check-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-retry-git-status-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-retry-java-version-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-retry-make-build-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-retry-make-test-unit-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-retry-make-verify-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-retry-migration-inspection-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-retry-mvnw-version-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-retry-openapi-source-runtime-inspection-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-verify-harness-after-verdict-20260509.json
+?? .agent/stages/mvp/task-files/MVP-02-employee-registration-001.md
+?? .agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json
+?? apps/api/src/main/java/com/finrhythm/api/registration/
+?? apps/api/src/main/resources/db/migration/V004__employee_registration.sql
+?? apps/api/src/test/java/com/finrhythm/api/registration/
+
+--- production changed paths ---
+apps/api/pom.xml
+apps/api/src/main/java/com/finrhythm/api/registration/
+apps/api/src/main/resources/db/migration/V004__employee_registration.sql
+apps/api/src/test/java/com/finrhythm/api/registration/
+
+--- scope checks ---
+no_apps_web_change: True
+no_apps_admin_change: True
+no_generated_client_change: True
+only_api_registration_pom_migration_prod_changes: True
+
+--- customer brand scan in changed API surface ---
+command: rg -n -i 'lemana|лемана|lemanapro|леруа|leroy' apps/api/pom.xml apps/api/src/main/java/com/finrhythm/api/registration apps/api/src/test/java/com/finrhythm/api/registration apps/api/src/main/resources/db/migration/V004__employee_registration.sql
+exit=1
+
+--- raw invite code persistence scan ---
+command: rg -n -i 'raw_invite|invite_code\s+(varchar|text|char)|submitted_code|submittedCode|inviteCode' apps/api/src/main/resources/db/migration/V004__employee_registration.sql apps/api/src/main/java/com/finrhythm/api/registration apps/api/src/test/java/com/finrhythm/api/registration
+exit=0
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:32:    private UUID inviteCodeId;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:61:            UUID inviteCodeId,
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:68:        this.inviteCodeId = Objects.requireNonNull(inviteCodeId, "inviteCodeId");
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:77:            UUID inviteCodeId,
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:82:        return new EmployeeRegistration(tenantId, cohortId, inviteCodeId, activationSubjectRef, contact, registeredAt);
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:97:    public UUID getInviteCodeId() {
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:98:        return inviteCodeId;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:142:        inviteCodeId = Objects.requireNonNull(inviteCodeId, "inviteCodeId");
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:9:import com.finrhythm.api.tenant.domain.InviteCode;
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:10:import com.finrhythm.api.tenant.domain.InviteCodeHash;
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:13:import com.finrhythm.api.tenant.persistence.InviteCodeRepository;
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:15:import com.finrhythm.api.tenant.service.InviteCodeAccessService;
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:16:import com.finrhythm.api.tenant.service.InviteCodeGenerator;
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:17:import com.finrhythm.api.tenant.service.IssuedInviteCode;
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:74:    InviteCodeAccessService inviteCodeAccessService;
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:83:    InviteCodeRepository inviteCodeRepository;
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:101:        IssuedInviteCode issuedCode = issueOne(tenant, cohort, NON_EXPIRED_AT);
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:108:                  "inviteCode": "%s"
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:114:                .andExpect(jsonPath("$.inviteCodeId").value(issuedCode.inviteCodeId().toString()))
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:120:        assertThat(countRegistrationsForInvite(issuedCode.inviteCodeId())).isEqualTo(1);
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:126:        assertInviteActivated(issuedCode.inviteCodeId());
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:133:                  "inviteCode": "%s"
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:142:        assertThat(countRegistrationsForInvite(issuedCode.inviteCodeId())).isEqualTo(1);
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:146:    void returnsStructuredErrorsForInvalidExpiredRevokedAndUnissuedCodesWithoutEchoingSubmittedCode() throws Exception {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:152:        IssuedInviteCode expiredCode = issueOne(tenant, cohort, ISSUED_AT.plusSeconds(60));
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:155:        IssuedInviteCode revokedCode = issueOne(tenant, cohort, NON_EXPIRED_AT);
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:156:        updateInviteStatus(revokedCode.inviteCodeId(), "REVOKED");
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:159:        String unissuedRawCode = new InviteCodeGenerator().generate();
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:160:        inviteCodeRepository.saveAndFlush(InviteCode.created(
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:163:                InviteCodeHash.fromEnteredCode(unissuedRawCode)
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:172:        IssuedInviteCode issuedCode = issueOne(tenant, cohort, NON_EXPIRED_AT);
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:179:                  "inviteCode": "%s"
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:189:                  "inviteCode": "%s"
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:203:        assertThat(countRegistrationsForInvite(issuedCode.inviteCodeId())).isEqualTo(1);
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:207:    void validationErrorsDoNotEchoSubmittedPiiOrInviteCode() throws Exception {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:213:                  "inviteCode": "SYNTH-RAW-CODE"
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:234:        IssuedInviteCode firstCode = issueOne(tenant, cohort, NON_EXPIRED_AT);
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:235:        IssuedInviteCode secondCode = issueOne(tenant, cohort, NON_EXPIRED_AT);
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:244:                  "inviteCode": "%s"
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:254:                  "inviteCode": "%s"
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:260:        assertThat(countRegistrationsForInvite(secondCode.inviteCodeId())).isZero();
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:265:                """, String.class, secondCode.inviteCodeId())).isEqualTo("ISSUED");
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:293:    private void assertInviteError(String inviteCode, String expectedCode, String forbiddenEcho) throws Exception {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:299:                  "inviteCode": "%s"
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:301:                """.formatted(inviteCode))
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:328:    private IssuedInviteCode issueOne(Tenant tenant, Cohort cohort, Instant expiresAt) {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:329:        return inviteCodeAccessService.issueBatch(tenant.getId(), cohort.getId(), 1, ISSUED_AT, expiresAt).get(0);
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:332:    private void updateInviteStatus(UUID inviteCodeId, String status) {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:338:                """, status, Timestamp.from(Instant.now()), inviteCodeId);
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:341:    private int countRegistrationsForInvite(UUID inviteCodeId) {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:346:                """, Integer.class, inviteCodeId);
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:349:    private void assertInviteActivated(UUID inviteCodeId) {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:354:                """, inviteCodeId);
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationResult.java:10:        UUID inviteCodeId,
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationResponse.java:13:        UUID inviteCodeId,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationCommand.java:7:        String inviteCode
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:29:        String inviteCode
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:46:                                              "inviteCodeId": "44444444-4444-4444-8444-444444444444",
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:113:                request.inviteCode()
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:120:                result.inviteCodeId(),
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:7:import com.finrhythm.api.tenant.domain.InviteCodeHash;
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:10:import com.finrhythm.api.tenant.service.InviteCodeAccessService;
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:11:import com.finrhythm.api.tenant.service.InviteCodeActivationException;
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:23:    private final InviteCodeAccessService inviteCodeAccessService;
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:30:            InviteCodeAccessService inviteCodeAccessService,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:33:        this(employeeRegistrationRepository, inviteCodeAccessService, subjectRefGenerator, Clock.systemUTC());
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:38:            InviteCodeAccessService inviteCodeAccessService,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:43:        this.inviteCodeAccessService = inviteCodeAccessService;
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:51:        String inviteLookupHash = inviteLookupHash(command.inviteCode());
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:58:                        command.inviteCode(),
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:61:                .orElseGet(() -> createRegistration(command.inviteCode(), contact, registeredAt));
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:67:            String inviteCode,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:71:            throw duplicateInviteCode();
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:74:            inviteCodeAccessService.activate(
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:75:                    inviteCode,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:79:        } catch (InviteCodeActivationException exception) {
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:86:            String inviteCode,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:91:        InviteActivationResult activation = activateInvite(inviteCode, subjectRef, registeredAt);
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:95:                activation.inviteCodeId(),
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:111:    private InviteActivationResult activateInvite(String inviteCode, ActivationSubjectRef subjectRef, Instant activatedAt) {
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:113:            return inviteCodeAccessService.activate(inviteCode, subjectRef, activatedAt);
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:114:        } catch (InviteCodeActivationException exception) {
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:131:    private static String inviteLookupHash(String inviteCode) {
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:133:            return InviteCodeHash.fromEnteredCode(inviteCode).value();
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:143:    private static EmployeeRegistrationException mapInviteFailure(InviteCodeActivationException exception) {
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:165:            case ALREADY_ACTIVATED_BY_ANOTHER_SUBJECT -> duplicateInviteCode();
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:169:    private static EmployeeRegistrationException duplicateInviteCode() {
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:184:                registration.getInviteCodeId(),
+apps/api/src/main/java/com/finrhythm/api/registration/persistence/EmployeeRegistrationRepository.java:12:    Optional<EmployeeRegistration> findByInviteCodeId(UUID inviteCodeId);
+
+--- real-looking personal/customer data scan ---
+command: rg -n -i 'gmail\.com|yandex\.|mail\.ru|@example\.(com|ru)|ivan|petr|sergey|maria|елена|иван|петр|сергей|мария|passport|snils|inn|salary|income|debt|bank|card' apps/api/pom.xml apps/api/src/main/java/com/finrhythm/api/registration apps/api/src/test/java/com/finrhythm/api/registration apps/api/src/main/resources/db/migration/V004__employee_registration.sql
+exit=1
+
+--- out-of-scope domain term scan ---
+command: rg -n -i 'diagnostic|points|wallet|reward|merch|hr|report|dashboard|auth|session|sso|scim|consent|legal|privacy|support|feedback' apps/api/pom.xml apps/api/src/main/java/com/finrhythm/api/registration apps/api/src/test/java/com/finrhythm/api/registration apps/api/src/main/resources/db/migration/V004__employee_registration.sql
+exit=0
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:28:            throw new IllegalArgumentException("fullName is too long.");
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:36:            throw new IllegalArgumentException("email is invalid.");
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:49:            throw new IllegalArgumentException("phone is invalid.");
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:56:            throw new IllegalArgumentException(fieldName + " is required.");
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:98:    void registersEmployeeAndTreatsSameContactRetryAsIdempotent() throws Exception {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:146:    void returnsStructuredErrorsForInvalidExpiredRevokedAndUnissuedCodesWithoutEchoingSubmittedCode() throws Exception {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:169:    void rejectsDifferentContactForActivatedCodeWithoutRevealingExistingEmployeeData() throws Exception {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:207:    void validationErrorsDoNotEchoSubmittedPiiOrInviteCode() throws Exception {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:231:    void rollsBackInviteActivationWhenRegistrationPersistenceFails() throws Exception {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:269:    void openApiExposesRegistrationEndpointSchemasAndSafeErrorExamples() throws Exception {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:287:    private RegistrationResultActions postRegistration(String json) throws Exception {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:293:    private void assertInviteError(String inviteCode, String expectedCode, String forbiddenEcho) throws Exception {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:373:        RegistrationResultActions andExpect(org.springframework.test.web.servlet.ResultMatcher matcher) throws Exception {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:378:        org.springframework.test.web.servlet.MvcResult andReturn() throws Exception {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:382:        JsonNode andReturnJson() throws Exception {
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationException.java:11:    public EmployeeRegistrationException(EmployeeRegistrationFailureReason reason, String message, Throwable cause) {
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:71:            throw duplicateInviteCode();
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:80:            throw mapInviteFailure(exception);
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:103:            throw new EmployeeRegistrationException(
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:115:            throw mapInviteFailure(exception);
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:122:        } catch (IllegalArgumentException exception) {
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:123:            throw new EmployeeRegistrationException(
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:134:        } catch (IllegalArgumentException exception) {
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:135:            throw new EmployeeRegistrationException(
+
+--- conclusion ---
+PASS: no apps/web or apps/admin UI changes, no generated-client changes, changed API examples use synthetic data, no customer brand appears in the changed employee-facing API surface, V004 persists invite_code_id and opaque activation_subject_ref rather than raw invite code, and changed production scope does not introduce HR/reporting, diagnostics, auth/session, points/rewards, support, legal/consent, web or admin surfaces. Human gates remain open for legal/privacy wording, consent, real data processing and customer-specific reporting.

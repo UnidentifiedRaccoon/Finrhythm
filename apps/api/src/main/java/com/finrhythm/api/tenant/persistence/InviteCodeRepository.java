@@ -2,12 +2,15 @@ package com.finrhythm.api.tenant.persistence;
 
 import com.finrhythm.api.tenant.domain.InviteCode;
 import com.finrhythm.api.tenant.domain.InviteCodeStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,6 +20,62 @@ public interface InviteCodeRepository extends JpaRepository<InviteCode, UUID> {
     boolean existsByLookupHash(String lookupHash);
 
     long countByTenantIdAndCohortId(UUID tenantId, UUID cohortId);
+
+    @Query("""
+            select inviteCode.status as status,
+                   count(inviteCode) as count
+            from InviteCode inviteCode
+            where inviteCode.tenant.id = :tenantId
+              and inviteCode.cohort.id = :cohortId
+            group by inviteCode.status
+            """)
+    List<InviteCodeStatusCountProjection> countStatusesByTenantIdAndCohortId(
+            @Param("tenantId") UUID tenantId,
+            @Param("cohortId") UUID cohortId
+    );
+
+    @Query("""
+            select count(inviteCode)
+            from InviteCode inviteCode
+            where inviteCode.tenant.id = :tenantId
+              and inviteCode.cohort.id = :cohortId
+              and inviteCode.issuedAt is not null
+            """)
+    long countIssuedByTenantIdAndCohortId(
+            @Param("tenantId") UUID tenantId,
+            @Param("cohortId") UUID cohortId
+    );
+
+    @Query(
+            value = """
+                    select inviteCode.id as inviteCodeId,
+                           inviteCode.status as status,
+                           inviteCode.issuedAt as issuedAt,
+                           inviteCode.expiresAt as expiresAt,
+                           inviteCode.activatedAt as activatedAt,
+                           registration.registeredAt as registeredAt
+                    from InviteCode inviteCode
+                    left join EmployeeRegistration registration
+                      on registration.inviteCodeId = inviteCode.id
+                    where inviteCode.tenant.id = :tenantId
+                      and inviteCode.cohort.id = :cohortId
+                      and (:status is null or inviteCode.status = :status)
+                    order by inviteCode.createdAt asc, inviteCode.id asc
+                    """,
+            countQuery = """
+                    select count(inviteCode)
+                    from InviteCode inviteCode
+                    where inviteCode.tenant.id = :tenantId
+                      and inviteCode.cohort.id = :cohortId
+                      and (:status is null or inviteCode.status = :status)
+                    """
+    )
+    Page<InviteCodeStatusRowProjection> findCodeStatusRows(
+            @Param("tenantId") UUID tenantId,
+            @Param("cohortId") UUID cohortId,
+            @Param("status") InviteCodeStatus status,
+            Pageable pageable
+    );
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query("""

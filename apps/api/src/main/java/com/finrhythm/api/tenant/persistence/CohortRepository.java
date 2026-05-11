@@ -8,4 +8,6 @@ import java.util.UUID;
 
 public interface CohortRepository extends JpaRepository<Cohort, UUID> {
     Optional<Cohort> findByTenantIdAndKey(UUID tenantId, String key);
+
+    Optional<Cohort> findByTenantIdAndId(UUID tenantId, UUID id);
 }

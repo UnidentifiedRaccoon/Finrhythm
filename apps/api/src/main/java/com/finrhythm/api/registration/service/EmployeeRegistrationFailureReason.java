@@ -1,0 +1,10 @@
+package com.finrhythm.api.registration.service;
+
+public enum EmployeeRegistrationFailureReason {
+    VALIDATION_FAILED,
+    INVALID_INVITE_CODE,
+    EXPIRED_INVITE_CODE,
+    REVOKED_INVITE_CODE,
+    UNISSUED_INVITE_CODE,
+    DUPLICATE_INVITE_CODE
+}

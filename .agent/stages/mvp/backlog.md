@@ -1,7 +1,7 @@
 # MVP backlog
 
-Stage ID: `mvp`  
-Updated: 2026-05-06
+Stage ID: `mvp`
+Updated: 2026-05-09
 
 ## MVP-01. Product/stage foundation and repo baseline
 
@@ -16,9 +16,13 @@ Updated: 2026-05-06
 
 MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has fresh verifier `PASS` and closes only `MVP-02.01`.
 
-`MVP-02-invite-issuance-activation-001` has fresh verifier `PASS` and closes only `MVP-02.02`. The next sprint should freeze `MVP-02.03` employee registration before implementation.
+`MVP-02-invite-issuance-activation-001` has fresh verifier `PASS` and closes only `MVP-02.02`.
 
-`MVP-05-content-spec-ingestion-001` is a doc-only interruption to place the prepared Content MVP draft into canonical docs and harness artifacts. It does not close `MVP-05.01` through `MVP-05.05`; after verification, the next implementation recommendation remains `MVP-02.03` employee registration.
+`MVP-05-content-spec-ingestion-001` is a doc-only interruption to place the prepared Content MVP draft into canonical docs and harness artifacts. It does not close `MVP-05.01` through `MVP-05.05`.
+
+`MVP-02-employee-registration-001` has fresh verifier `PASS` and closes only `MVP-02.03`.
+
+`MVP-02-admin-code-status-view-001` has fresh verifier `PASS` for the backend/admin API-only slice. It does not implement `apps/admin` UI and does not close full `MVP-02.04` or full `MVP-02`.
 
 ## MVP-02. Corporate tenant, cohorts and invite access
 
@@ -26,8 +30,8 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 |----|------|--------|------|----------|
 | MVP-02.01 | agent | PASS | Model tenant, cohorts/waves and invite codes. | `.agent/stages/mvp/evidence.md`, `.agent/stages/mvp/verdict.json`, `.agent/stages/mvp/task-files/MVP-02-tenant-domain-001.md` |
 | MVP-02.02 | agent | PASS | Implement invite code issuance, activation and one-user binding. | `.agent/stages/mvp/evidence.md`, `.agent/stages/mvp/verdict.json`, `.agent/stages/mvp/task-files/MVP-02-invite-issuance-activation-001.md` |
-| MVP-02.03 | agent | PENDING | Implement employee registration by name/email/phone/code. | Depends on MVP-02.02. |
-| MVP-02.04 | agent | PENDING | Implement admin view for cohorts, code statuses and activation funnel. | Depends on MVP-02.02 and API contract decisions. |
+| MVP-02.03 | agent | PASS | Implement employee registration by name/email/phone/code. | `.agent/stages/mvp/task-files/MVP-02-employee-registration-001.md`, `.agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json` |
+| MVP-02.04 | agent | BACKEND_API_PASS_UI_PENDING | Implement admin view for cohorts, code statuses and activation funnel. | `.agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json`; UI remains pending. |
 
 ### Completed first slice
 
@@ -47,6 +51,28 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 - prove idempotent same-subject retry and rejection for different-subject duplicate activation;
 - preserve no-raw-code persistence guardrails;
 - do not implement employee registration/contact fields, REST/OpenAPI/controller surface, admin UI or HR reporting.
+
+### Completed third slice
+
+`MVP-02-employee-registration-001` was intentionally scoped to backend/API employee registration:
+
+- expose one public registration endpoint for name, email, phone and invite code;
+- add minimal employee-registration persistence through an append-only Flyway migration after `V003`;
+- use the existing invite activation core for one-time activation and idempotent same-registration retry;
+- add OpenAPI/springdoc source and generated-client notes or an explicit no-op if no generator exists;
+- prove tests, migration inspection, API contract evidence and PII/raw-code guardrails before PASS;
+- do not implement admin UI, employee UI, HR reporting, diagnostics, points, consent/legal docs, SSO, real data or full auth/session.
+
+### Completed fourth backend/API slice
+
+`MVP-02-admin-code-status-view-001` is intentionally scoped to the backend/admin API data contract for a future admin status view:
+
+- expose a read-only admin endpoint for one tenant/cohort code-status and activation/registration funnel data;
+- return cohort metadata, status counts, Wave 1-scale pagination and privacy-safe per-code operational rows;
+- prove 500 synthetic invite-code rows and mixed issued/activated/registered states through backend tests;
+- preserve OpenAPI/generated-client notes and no-real-data/PII/raw-code guardrails;
+- do not implement `apps/admin` UI/scaffold, admin mutations, auth/session, HR reporting, exports, diagnostics, points, rewards, support, real data or full MVP-02 closure.
+- fresh `stage_verifier` returned `PASS` for this backend/API slice only; `apps/admin` UI/status view remains a separate future slice.
 
 ## MVP-05. Pedagogy, diagnostics and content factory
 

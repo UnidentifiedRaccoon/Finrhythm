@@ -1,0 +1,77 @@
+check_id: git-status
+command: git status --short
+cwd: /Users/elena/cursor/FinRhythm
+JAVA_HOME: /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home
+DOCKER_HOST: unix:///Users/elena/.docker/run/docker.sock
+timeout_seconds: 30
+started_at_utc: 2026-05-09T11:30:45.305381+00:00
+finished_at_utc: 2026-05-09T11:30:45.330349+00:00
+exit_code: 0
+timed_out: false
+--- STDOUT ---
+ M .agent/stages/mvp/backlog.md
+ M .agent/stages/mvp/decisions.md
+ M .agent/stages/mvp/evidence.json
+ M .agent/stages/mvp/evidence.md
+ M .agent/stages/mvp/feature_list.json
+ M .agent/stages/mvp/problems.md
+ M .agent/stages/mvp/progress.md
+ M .agent/stages/mvp/risks.md
+ M .agent/stages/mvp/sprint_contract.md
+ M .agent/stages/mvp/stage_spec.md
+ M .agent/stages/mvp/status.json
+ M .agent/stages/mvp/verdict.json
+ M apps/api/pom.xml
+?? .agent/stages/mvp/evidence/MVP-02-employee-registration-001.json
+?? .agent/stages/mvp/evidence/MVP-02-employee-registration-001.md
+?? .agent/stages/mvp/problems/MVP-02-employee-registration-001.md
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-corepack-enable-pnpm-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-api-version-probe-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-context-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-curl-info-cli-sock-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-curl-info-run-sock-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-curl-ping-run-sock-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-env-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-info-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-info-explicit-host-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-ps-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-docker-socket-check-20260509.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-employee-registration-pnpm-path-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-api-mvn-test-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-api-mvn-verify-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-generated-client-noop-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-git-diff-check-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-git-status-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-guardrail-scan-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-java-version-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-make-build-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-make-test-unit-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-make-verify-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-migration-inspection-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-mvnw-version-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-openapi-source-inspection-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-registration-field-scan-20260509.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-employee-registration-001-verify-harness-20260509.json
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-api-mvn-test-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-api-mvn-verify-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-generated-client-verification-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-git-diff-check-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-git-status-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-java-version-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-make-build-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-make-test-unit-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-make-verify-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-maven-test-report-summary-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-migration-inspection-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-mvnw-version-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-openapi-source-runtime-inspection-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-privacy-scope-scan-20260509.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-employee-registration-001-verify-harness-after-verdict-20260509.json
+?? .agent/stages/mvp/task-files/MVP-02-employee-registration-001.md
+?? .agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json
+?? apps/api/src/main/java/com/finrhythm/api/registration/
+?? apps/api/src/main/resources/db/migration/V004__employee_registration.sql
+?? apps/api/src/test/java/com/finrhythm/api/registration/
+
+--- STDERR ---
+

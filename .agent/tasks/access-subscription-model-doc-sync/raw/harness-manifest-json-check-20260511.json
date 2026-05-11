@@ -1,0 +1,118 @@
+{
+    "required_agent_files": [
+        "stage-orchestrator.toml",
+        "task-explorer.toml",
+        "stage-spec-freezer.toml",
+        "stage-builder.toml",
+        "stage-verifier.toml",
+        "stage-fixer.toml",
+        "api-worker.toml",
+        "web-worker.toml",
+        "admin-worker.toml",
+        "content-worker.toml"
+    ],
+    "required_skill_files": [
+        "SKILL.md",
+        "harness.manifest.json",
+        "references/ARTIFACTS.md",
+        "references/READ_MATRIX.md",
+        "references/PROTOCOL.md",
+        "references/SUBAGENTS.md",
+        "references/COMMANDS.md",
+        "references/DELEGATION.md",
+        "profiles/CONTENT_PROFILE.md"
+    ],
+    "required_stage_files": [
+        "source.md",
+        "stage_spec.md",
+        "backlog.md",
+        "feature_list.json",
+        "sprint_contract.md",
+        "progress.md",
+        "decisions.md",
+        "risks.md",
+        "status.json",
+        "evidence.md",
+        "evidence.json",
+        "evidence",
+        "verdict.json",
+        "verdicts",
+        "problems.md",
+        "problems",
+        "raw",
+        "task-files",
+        "audits"
+    ],
+    "valid_verdict_statuses": [
+        "PENDING",
+        "FAIL",
+        "PASS",
+        "INSUFFICIENT_EVIDENCE"
+    ],
+    "pass_states": [
+        "SPRINT_PASSED",
+        "PASS",
+        "DONE",
+        "DONE_WITH_HUMAN_PENDING"
+    ],
+    "legacy_scan": {
+        "ignored_dirs": [
+            ".agent",
+            ".git",
+            ".local",
+            ".pnpm-store",
+            ".next",
+            ".turbo",
+            "coverage",
+            "dist",
+            "node_modules",
+            "out",
+            "raw",
+            "target"
+        ],
+        "ignored_files": [
+            ".agents/skills/stage-launch-proof-loop/harness.manifest.json"
+        ],
+        "patterns": [
+            "gpt-5.4",
+            "approval_policy = \"never\"",
+            "Gradle",
+            "gradle",
+            "repo-task-proof-loop",
+            "posgres",
+            "Postgres"
+        ]
+    },
+    "bootstrap_required_files": [
+        "AGENTS.md",
+        ".codex/config.toml",
+        ".codex/agents/stage-orchestrator.toml",
+        ".codex/agents/task-explorer.toml",
+        ".codex/agents/stage-spec-freezer.toml",
+        ".codex/agents/stage-builder.toml",
+        ".codex/agents/stage-verifier.toml",
+        ".codex/agents/stage-fixer.toml",
+        ".codex/agents/api-worker.toml",
+        ".agents/skills/stage-launch-proof-loop/SKILL.md",
+        ".agents/skills/stage-launch-proof-loop/harness.manifest.json",
+        ".agents/skills/stage-launch-proof-loop/references/PROTOCOL.md",
+        ".agents/skills/stage-launch-proof-loop/references/ARTIFACTS.md",
+        ".agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md",
+        ".agents/skills/stage-launch-proof-loop/references/SUBAGENTS.md",
+        ".agents/skills/stage-launch-proof-loop/profiles/CONTENT_PROFILE.md",
+        ".agents/skills/stage-launch-proof-loop/scripts/verify_harness.py",
+        "content/getcourse-finstrategy/content-baseline.manifest.json",
+        "docs/architecture/source-of-truth.md",
+        "docs/architecture/documentation-workflow.md",
+        "docs/architecture/access-and-subscriptions.md",
+        "docs/architecture/organization-access-subscription-model.md",
+        "docs/architecture/init-and-dev-contract.md",
+        "docs/engineering/definition-of-done.md",
+        "docs/engineering/human-gates.md",
+        "docs/setup/codex-setup.md",
+        "prompts/run-mvp.prompt.md",
+        "prompts/run-v1.prompt.md",
+        "prompts/run-v2.prompt.md"
+    ],
+    "content_baseline_manifest": "content/getcourse-finstrategy/content-baseline.manifest.json"
+}

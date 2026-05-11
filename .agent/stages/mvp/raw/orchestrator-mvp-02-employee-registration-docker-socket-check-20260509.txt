@@ -1,0 +1,2 @@
+srwxr-xr-x@ 1 elena  staff  0 Apr 24 22:04 /Users/elena/.docker/run/docker.sock
+srwxr-xr-x@ 1 elena  staff  0 Apr 24 22:04 /Users/elena/Library/Containers/com.docker.docker/Data/docker-cli.sock

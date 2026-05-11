@@ -1,69 +1,7 @@
 {
   "status": "PASS",
   "stage_id": "mvp",
-  "sprint_contract_id": "MVP-05-content-spec-ingestion-001",
-  "verifier_role": "fresh_stage_verifier",
-  "last_verified_at": "2026-05-06T12:58:07Z",
-  "summary": "Content spec ingestion is proven as a docs-only source placement slice. The content MVP draft is in canonical product docs, required methodology/content references exist, stage artifacts keep MVP-05 implementation and human approval gates open, and verifier raw outputs plus post-merge checks passed. This verdict does not approve financial/legal/privacy/reward content or close MVP-05.01 through MVP-05.05.",
-  "failed_criteria": [],
-  "proof_gaps": [],
-  "checks": [
-    {
-      "id": "root-path-reference-checks",
-      "status": "PASS",
-      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-root-path-reference-checks-20260506.txt"
-    },
-    {
-      "id": "changed-files-scope",
-      "status": "PASS",
-      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-changed-files-scope-20260506.txt"
-    },
-    {
-      "id": "stage-artifacts-json",
-      "status": "PASS",
-      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-stage-artifacts-json-checks-20260506.txt"
-    },
-    {
-      "id": "harness-verification",
-      "status": "PASS",
-      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-verify-harness-after-verdict-20260506.json"
-    },
-    {
-      "id": "make-verify",
-      "status": "PASS",
-      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-05-content-spec-ingestion-001-make-verify-20260506.txt"
-    },
-    {
-      "id": "post-merge-harness-verification",
-      "status": "PASS",
-      "raw_ref": ".agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-verify-harness-20260506.json"
-    },
-    {
-      "id": "post-merge-make-verify",
-      "status": "PASS",
-      "raw_ref": ".agent/stages/mvp/raw/post-merge-mvp-05-content-spec-ingestion-001-make-verify-20260506.txt"
-    }
-  ],
-  "human_gates": [
-    {
-      "gate": "final financial correctness of lessons/diagnostics/quizzes/explanations",
-      "status": "WAITING_HUMAN"
-    },
-    {
-      "gate": "legal/tax wording and official-source links",
-      "status": "WAITING_HUMAN"
-    },
-    {
-      "gate": "HR/privacy wording for diagnostics, self-assessment and reporting",
-      "status": "WAITING_HUMAN"
-    },
-    {
-      "gate": "reward economy, stock, points prices and fulfillment operations",
-      "status": "WAITING_HUMAN"
-    },
-    {
-      "gate": "final production_ready publish approval",
-      "status": "WAITING_HUMAN"
-    }
-  ]
+  "sprint_contract_id": "MVP-02-admin-code-status-view-001",
+  "alias_of": ".agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json",
+  "updated_at": "2026-05-09T13:31:12Z"
 }
