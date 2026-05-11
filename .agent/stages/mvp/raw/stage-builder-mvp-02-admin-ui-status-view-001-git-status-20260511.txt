@@ -1,0 +1,23 @@
+ M .agent/stages/mvp/backlog.md
+ M .agent/stages/mvp/decisions.md
+ M .agent/stages/mvp/feature_list.json
+ M .agent/stages/mvp/progress.md
+ M .agent/stages/mvp/risks.md
+ M .agent/stages/mvp/sprint_contract.md
+ M .agent/stages/mvp/stage_spec.md
+ M .agent/stages/mvp/status.json
+ M Makefile
+ M README.md
+ M docs/architecture/repo-layout.md
+ M docs/setup/codex-setup.md
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-admin-ui-status-view-001-git-status-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-admin-ui-status-view-001-java-version-20260511.txt
+?? .agent/stages/mvp/task-files/MVP-02-admin-ui-status-view-001.md
+?? apps/admin/app/
+?? apps/admin/components/
+?? apps/admin/lib/
+?? apps/admin/next-env.d.ts
+?? apps/admin/next.config.mjs
+?? apps/admin/package.json
+?? apps/admin/tests/
+?? apps/admin/tsconfig.json

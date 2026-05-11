@@ -1,0 +1,135 @@
+PII/raw-code guardrail scan for MVP-02-closure-audit-001
+Date: 2026-05-11
+
+1) Admin status API/UI exposure scan
+
+Classification: PASS if no hits above. Admin status must not expose raw invite codes, lookup hashes, activation subject refs or employee contact fields.
+
+2) Registration/contact scope reminder
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:7:public record RegistrationContact(String fullName, String email, String phone) {
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:14:        fullName = normalizeFullName(fullName);
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:15:        email = normalizeEmail(email);
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:16:        phone = normalizePhone(phone);
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:20:        return Objects.equals(fullName, other.fullName)
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:21:                && Objects.equals(email, other.email)
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:22:                && Objects.equals(phone, other.phone);
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:26:        String normalized = requireText(value, "fullName").replaceAll("\\s+", " ");
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:28:            throw new IllegalArgumentException("fullName is too long.");
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:34:        String normalized = requireText(value, "email").toLowerCase(Locale.ROOT);
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:36:            throw new IllegalArgumentException("email is invalid.");
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:42:        String normalized = requireText(value, "phone").replaceAll("[\\s().-]", "");
+apps/api/src/main/java/com/finrhythm/api/registration/domain/RegistrationContact.java:49:            throw new IllegalArgumentException("phone is invalid.");
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:75:    InviteCodeAccessService inviteCodeAccessService;
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:87:    InviteCodeRepository inviteCodeRepository;
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:109:                  "fullName": "  Alex   Pilot  ",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:110:                  "email": "ALEX.PILOT@EXAMPLE.TEST",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:111:                  "phone": "+7 (000) 000-00-01",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:112:                  "inviteCode": "%s"
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:119:                .andExpect(jsonPath("$.inviteCodeId").value(issuedCode.inviteCodeId().toString()))
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:125:        assertThat(countRegistrationsForInvite(issuedCode.inviteCodeId())).isEqualTo(1);
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:127:                select full_name || '|' || email || '|' || phone
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:131:        assertInviteActivated(issuedCode.inviteCodeId());
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:135:                  "fullName": "Alex Pilot",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:136:                  "email": "alex.pilot@example.test",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:137:                  "phone": "+70000000001",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:138:                  "inviteCode": "%s"
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:147:        assertThat(countRegistrationsForInvite(issuedCode.inviteCodeId())).isEqualTo(1);
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:161:        updateInviteStatus(revokedCode.inviteCodeId(), "REVOKED");
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:165:        inviteCodeRepository.saveAndFlush(InviteCode.created(
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:181:                  "fullName": "First Synthetic",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:182:                  "email": "first.synthetic@example.test",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:183:                  "phone": "+70000000002",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:184:                  "inviteCode": "%s"
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:191:                  "fullName": "Second Synthetic",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:192:                  "email": "second.synthetic@example.test",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:193:                  "phone": "+70000000003",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:194:                  "inviteCode": "%s"
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:208:        assertThat(countRegistrationsForInvite(issuedCode.inviteCodeId())).isEqualTo(1);
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:215:                  "fullName": " ",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:216:                  "email": "not-an-email",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:217:                  "phone": "12",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:218:                  "inviteCode": "SYNTH-RAW-CODE"
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:223:                .andExpect(jsonPath("$.fieldErrors[?(@.field == 'fullName')]").exists())
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:224:                .andExpect(jsonPath("$.fieldErrors[?(@.field == 'email')]").exists())
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:230:                .doesNotContain("not-an-email")
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:246:                  "fullName": "Rollback First",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:247:                  "email": "rollback.first@example.test",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:248:                  "phone": "+70000000004",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:249:                  "inviteCode": "%s"
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:256:                  "fullName": "Rollback Second",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:257:                  "email": "rollback.second@example.test",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:258:                  "phone": "+70000000005",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:259:                  "inviteCode": "%s"
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:265:        assertThat(countRegistrationsForInvite(secondCode.inviteCodeId())).isZero();
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:270:                """, String.class, secondCode.inviteCodeId())).isEqualTo("ISSUED");
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:298:    private void assertInviteError(String inviteCode, String expectedCode, String forbiddenEcho) throws Exception {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:301:                  "fullName": "Error Path",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:302:                  "email": "error.path@example.test",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:303:                  "phone": "+70000000006",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:304:                  "inviteCode": "%s"
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:306:                """.formatted(inviteCode))
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:340:        return inviteCodeAccessService.issueBatch(tenant.getId(), accessPool.getId(), 1, ISSUED_AT, expiresAt).get(0);
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:343:    private void updateInviteStatus(UUID inviteCodeId, String status) {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:349:                """, status, Timestamp.from(Instant.now()), inviteCodeId);
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:352:    private int countRegistrationsForInvite(UUID inviteCodeId) {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:357:                """, Integer.class, inviteCodeId);
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:360:    private void assertInviteActivated(UUID inviteCodeId) {
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:365:                """, inviteCodeId);
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:35:    private UUID inviteCodeId;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:41:    private String fullName;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:44:    private String email;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:47:    private String phone;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:65:            UUID inviteCodeId,
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:73:        this.inviteCodeId = Objects.requireNonNull(inviteCodeId, "inviteCodeId");
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:83:            UUID inviteCodeId,
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:92:                inviteCodeId,
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:116:        return inviteCodeId;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:124:        return fullName;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:128:        return email;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:132:        return phone;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:140:        return new RegistrationContact(fullName, email, phone).sameContact(contact);
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:161:        inviteCodeId = Objects.requireNonNull(inviteCodeId, "inviteCodeId");
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:163:        applyContact(new RegistrationContact(fullName, email, phone));
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:169:        fullName = normalized.fullName();
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:170:        email = normalized.email();
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:171:        phone = normalized.phone();
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationResult.java:11:        UUID inviteCodeId,
+apps/api/src/main/java/com/finrhythm/api/registration/persistence/EmployeeRegistrationRepository.java:12:    Optional<EmployeeRegistration> findByInviteCodeId(UUID inviteCodeId);
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationCommand.java:4:        String fullName,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationCommand.java:5:        String email,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationCommand.java:6:        String phone,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationCommand.java:7:        String inviteCode
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationResponse.java:14:        UUID inviteCodeId,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:23:    private final InviteCodeAccessService inviteCodeAccessService;
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:30:            InviteCodeAccessService inviteCodeAccessService,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:33:        this(employeeRegistrationRepository, inviteCodeAccessService, subjectRefGenerator, Clock.systemUTC());
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:38:            InviteCodeAccessService inviteCodeAccessService,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:43:        this.inviteCodeAccessService = inviteCodeAccessService;
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:51:        String inviteLookupHash = inviteLookupHash(command.inviteCode());
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:58:                        command.inviteCode(),
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:61:                .orElseGet(() -> createRegistration(command.inviteCode(), contact, registeredAt));
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:67:            String inviteCode,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:74:            inviteCodeAccessService.activate(
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:75:                    inviteCode,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:86:            String inviteCode,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:91:        InviteActivationResult activation = activateInvite(inviteCode, subjectRef, registeredAt);
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:96:                activation.inviteCodeId(),
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:112:    private InviteActivationResult activateInvite(String inviteCode, ActivationSubjectRef subjectRef, Instant activatedAt) {
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:114:            return inviteCodeAccessService.activate(inviteCode, subjectRef, activatedAt);
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:122:            return new RegistrationContact(command.fullName(), command.email(), command.phone());
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:132:    private static String inviteLookupHash(String inviteCode) {
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:134:            return InviteCodeHash.fromEnteredCode(inviteCode).value();
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:13:        String fullName,
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:19:        String email,
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:24:        String phone,
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationRequest.java:29:        String inviteCode
+apps/api/src/main/java/com/finrhythm/api/registration/web/ApiFieldError.java:7:        @Schema(example = "email")
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:47:                                              "inviteCodeId": "44444444-4444-4444-8444-444444444444",
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:94:                                                          "field": "email",
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:111:                request.fullName(),
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:112:                request.email(),
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:113:                request.phone(),
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:114:                request.inviteCode()
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:122:                result.inviteCodeId(),
+
+Classification: ALLOWED_REGISTRATION_SCOPE for registration request/persistence/tests; not an admin status exposure.

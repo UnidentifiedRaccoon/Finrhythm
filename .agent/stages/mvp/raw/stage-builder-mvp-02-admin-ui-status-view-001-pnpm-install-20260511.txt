@@ -1,0 +1,176 @@
+Scope: all 2 workspace projects
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Progress: resolved 1, reused 0, downloaded 1, added 0
+ WARN  Request took 10094ms: https://registry.npmjs.org/@types%2Freact
+Progress: resolved 2, reused 0, downloaded 1, added 0
+ WARN  Tarball download average speed 28 KiB/s (size 76 KiB) is below 50 KiB/s: https://registry.npmjs.org/@types/react/-/react-19.2.14.tgz (GET)
+Progress: resolved 2, reused 0, downloaded 2, added 0
+ WARN  Request took 15643ms: https://registry.npmjs.org/pnpm
+
+   ╭──────────────────────────────────────────────╮
+   │                                              │
+   │     Update available! 10.27.0 → 11.0.9.      │
+   │     Changelog: https://pnpm.io/v/11.0.9      │
+   │   To update, run: corepack use pnpm@11.0.9   │
+   │                                              │
+   ╰──────────────────────────────────────────────╯
+
+ WARN  Tarball download average speed 37 KiB/s (size 746 KiB) is below 50 KiB/s: https://registry.npmjs.org/playwright/-/playwright-1.59.1.tgz (GET)
+Progress: resolved 2, reused 0, downloaded 3, added 0
+Progress: resolved 3, reused 0, downloaded 3, added 0
+ WARN  Request took 23435ms: https://registry.npmjs.org/@types%2Fnode
+Progress: resolved 4, reused 0, downloaded 3, added 0
+ WARN  Request took 24097ms: https://registry.npmjs.org/react
+Progress: resolved 5, reused 0, downloaded 3, added 0
+Progress: resolved 5, reused 0, downloaded 4, added 0
+ WARN  Request took 26087ms: https://registry.npmjs.org/react-dom
+Progress: resolved 6, reused 0, downloaded 4, added 0
+Progress: resolved 6, reused 0, downloaded 5, added 0
+ WARN  Request took 34191ms: https://registry.npmjs.org/typescript
+Progress: resolved 7, reused 0, downloaded 5, added 0
+ WARN  Request took 47432ms: https://registry.npmjs.org/next
+Progress: resolved 8, reused 0, downloaded 5, added 0
+Progress: resolved 8, reused 0, downloaded 6, added 0
+ WARN  Request took 50753ms: https://registry.npmjs.org/playwright
+Progress: resolved 9, reused 0, downloaded 6, added 0
+Progress: resolved 11, reused 0, downloaded 7, added 0
+Progress: resolved 14, reused 0, downloaded 8, added 0
+ WARN  Tarball download average speed 33 KiB/s (size 51 KiB) is below 50 KiB/s: https://registry.npmjs.org/baseline-browser-mapping/-/baseline-browser-mapping-2.10.29.tgz (GET)
+Progress: resolved 14, reused 0, downloaded 9, added 0
+ WARN  Tarball download average speed 36 KiB/s (size 52 KiB) is below 50 KiB/s: https://registry.npmjs.org/@swc/helpers/-/helpers-0.5.15.tgz (GET)
+Progress: resolved 16, reused 0, downloaded 10, added 0
+ WARN  Tarball download average speed 38 KiB/s (size 44 KiB) is below 50 KiB/s: https://registry.npmjs.org/postcss/-/postcss-8.4.31.tgz (GET)
+Progress: resolved 16, reused 0, downloaded 11, added 0
+ WARN  Tarball download average speed 40 KiB/s (size 135 KiB) is below 50 KiB/s: https://registry.npmjs.org/csstype/-/csstype-3.2.3.tgz (GET)
+Progress: resolved 16, reused 0, downloaded 12, added 0
+ WARN  Tarball download average speed 34 KiB/s (size 152 KiB) is below 50 KiB/s: https://registry.npmjs.org/styled-jsx/-/styled-jsx-5.1.6.tgz (GET)
+Progress: resolved 16, reused 0, downloaded 13, added 0
+ WARN  Tarball download average speed 37 KiB/s (size 116 KiB) is below 50 KiB/s: https://registry.npmjs.org/sharp/-/sharp-0.34.5.tgz (GET)
+Progress: resolved 16, reused 0, downloaded 14, added 0
+ WARN  Request took 13352ms: https://registry.npmjs.org/caniuse-lite
+Progress: resolved 17, reused 0, downloaded 14, added 0
+ WARN  Request took 21400ms: https://registry.npmjs.org/@next%2Fswc-linux-arm64-musl
+Progress: resolved 18, reused 0, downloaded 14, added 0
+ WARN  Request took 21591ms: https://registry.npmjs.org/@next%2Fswc-linux-x64-musl
+ WARN  Request took 21606ms: https://registry.npmjs.org/@next%2Fswc-linux-arm64-gnu
+ WARN  Request took 21863ms: https://registry.npmjs.org/@next%2Fswc-win32-arm64-msvc
+ WARN  Tarball download average speed 39 KiB/s (size 323 KiB) is below 50 KiB/s: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001792.tgz (GET)
+ WARN  Request took 22237ms: https://registry.npmjs.org/@next%2Fswc-win32-x64-msvc
+Progress: resolved 22, reused 0, downloaded 15, added 0
+ WARN  Request took 22483ms: https://registry.npmjs.org/@next%2Fswc-linux-x64-gnu
+ WARN  Request took 22588ms: https://registry.npmjs.org/@next%2Fswc-darwin-x64
+ WARN  Request took 22866ms: https://registry.npmjs.org/@next%2Fswc-darwin-arm64
+Progress: resolved 25, reused 0, downloaded 15, added 0
+ WARN  Request took 25647ms: https://registry.npmjs.org/@next%2Fenv
+Progress: resolved 26, reused 0, downloaded 15, added 0
+Progress: resolved 45, reused 0, downloaded 17, added 0
+ WARN  Request took 27055ms: https://registry.npmjs.org/scheduler
+Progress: resolved 57, reused 0, downloaded 23, added 0
+Progress: resolved 59, reused 0, downloaded 25, added 0
+ WARN  Tarball download average speed 38 KiB/s (size 103 KiB) is below 50 KiB/s: https://registry.npmjs.org/@img/sharp-darwin-arm64/-/sharp-darwin-arm64-0.34.5.tgz (GET)
+Progress: resolved 60, reused 0, downloaded 26, added 0
+Progress: resolved 60, reused 0, downloaded 27, added 0
+ WARN  Tarball download average speed 48 KiB/s (size 2400 KiB) is below 50 KiB/s: https://registry.npmjs.org/playwright-core/-/playwright-core-1.59.1.tgz (GET)
+Progress: resolved 60, reused 0, downloaded 28, added 0
+Packages: +31
++++++++++++++++++++++++++++++++
+Progress: resolved 61, reused 0, downloaded 28, added 27
+Progress: resolved 61, reused 0, downloaded 29, added 27
+Progress: resolved 61, reused 0, downloaded 29, added 28
+Progress: resolved 61, reused 0, downloaded 30, added 28
+Progress: resolved 61, reused 0, downloaded 30, added 29
+
+--- install interrupted after stalled registry connections; retrying with prefer-offline ---
+ ERROR  Unknown option: 'network-timeout'
+Did you mean 'fetch-timeout'? Use "--config.unknown=value" to force an unknown option.
+For help, run: pnpm help add
+ ERROR  Unknown option: 'network-timeout'
+Did you mean 'fetch-timeout'? Use "--config.unknown=value" to force an unknown option.
+For help, run: pnpm help add
+
+--- retrying with prefer-offline and fetch-timeout ---
+Scope: all 2 workspace projects
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +31
++++++++++++++++++++++++++++++++
+Progress: resolved 61, reused 30, downloaded 0, added 0
+
+--- retrying offline after cached packages; expected to fail if cache incomplete ---
+Scope: all 2 workspace projects
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +31
++++++++++++++++++++++++++++++++
+/Users/elena/cursor/FinRhythm/apps/admin:
+ ERR_PNPM_NO_OFFLINE_TARBALL  A package is missing from the store but cannot download it in offline mode. The missing package may be downloaded from https://registry.npmjs.org/next/-/next-16.2.6.tgz.
+
+This error happened while installing a direct dependency of /Users/elena/cursor/FinRhythm/apps/admin
+
+--- retrying with registry.npmmirror.com because npmjs next tarball stalled ---
+Scope: all 2 workspace projects
+Progress: resolved 0, reused 1, downloaded 0, added 0
+Progress: resolved 1, reused 1, downloaded 0, added 0
+Progress: resolved 2, reused 1, downloaded 0, added 0
+Progress: resolved 2, reused 2, downloaded 0, added 0
+ WARN  Request took 10684ms: https://registry.npmmirror.com/@types%2Freact
+Progress: resolved 3, reused 2, downloaded 0, added 0
+Progress: resolved 3, reused 3, downloaded 0, added 0
+ WARN  Request took 23968ms: https://registry.npmmirror.com/@types%2Fnode
+Progress: resolved 4, reused 3, downloaded 0, added 0
+Progress: resolved 4, reused 4, downloaded 0, added 0
+ WARN  Request took 33112ms: https://registry.npmmirror.com/react
+Progress: resolved 5, reused 4, downloaded 0, added 0
+ WARN  Request took 33912ms: https://registry.npmmirror.com/react-dom
+Progress: resolved 6, reused 6, downloaded 0, added 0
+ WARN  Request took 36414ms: https://registry.npmmirror.com/typescript
+Progress: resolved 7, reused 6, downloaded 0, added 0
+Progress: resolved 7, reused 7, downloaded 0, added 0
+ WARN  Request took 45619ms: https://registry.npmmirror.com/playwright
+ WARN  Request took 58270ms: https://registry.npmmirror.com/next
+Progress: resolved 8, reused 7, downloaded 0, added 0
+Progress: resolved 10, reused 9, downloaded 0, added 0
+Progress: resolved 12, reused 11, downloaded 0, added 0
+Progress: resolved 16, reused 15, downloaded 0, added 0
+Progress: resolved 17, reused 16, downloaded 0, added 0
+Progress: resolved 18, reused 16, downloaded 0, added 0
+Progress: resolved 18, reused 17, downloaded 0, added 0
+ WARN  Request took 23239ms: https://registry.npmmirror.com/@next%2Fswc-linux-x64-musl
+Progress: resolved 19, reused 17, downloaded 0, added 0
+ WARN  Request took 23803ms: https://registry.npmmirror.com/@next%2Fswc-win32-arm64-msvc
+ WARN  Request took 23885ms: https://registry.npmmirror.com/@next%2Fswc-linux-arm64-musl
+ WARN  Request took 23956ms: https://registry.npmmirror.com/@next%2Fswc-linux-x64-gnu
+Progress: resolved 22, reused 17, downloaded 0, added 0
+ WARN  Request took 24351ms: https://registry.npmmirror.com/@next%2Fswc-darwin-x64
+ WARN  Request took 24400ms: https://registry.npmmirror.com/@next%2Fswc-win32-x64-msvc
+ WARN  Request took 24625ms: https://registry.npmmirror.com/scheduler
+ WARN  Request took 24657ms: https://registry.npmmirror.com/@next%2Fswc-darwin-arm64
+ WARN  Request took 24696ms: https://registry.npmmirror.com/@next%2Fenv
+Progress: resolved 27, reused 19, downloaded 0, added 0
+ WARN  Request took 26753ms: https://registry.npmmirror.com/@next%2Fswc-linux-arm64-gnu
+Progress: resolved 28, reused 19, downloaded 0, added 0
+Progress: resolved 39, reused 23, downloaded 0, added 0
+Progress: resolved 57, reused 29, downloaded 0, added 0
+Progress: resolved 60, reused 29, downloaded 0, added 0
+Packages: +31
++++++++++++++++++++++++++++++++
+Progress: resolved 61, reused 30, downloaded 0, added 0
+
+--- retrying with ignore-scripts after package import stalled ---
+Scope: all 2 workspace projects
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +31
++++++++++++++++++++++++++++++++
+Progress: resolved 61, reused 30, downloaded 0, added 0
+
+--- retrying lockfile-only offline after store contains required packages ---
+Scope: all 2 workspace projects
+Progress: resolved 1, reused 0, downloaded 0, added 0
+ ERR_PNPM_NO_OFFLINE_META  Failed to resolve playwright-core@1.59.1 in package mirror /Users/elena/Library/Caches/pnpm/metadata-v1.3/registry.npmjs.org/playwright-core.json
+
+This error happened while installing the dependencies of playwright@1.59.1
+
+--- retrying after removing duplicate admin playwright devDependency ---
+Scope: all 2 workspace projects
+Progress: resolved 1, reused 0, downloaded 0, added 0
+ ERR_PNPM_NO_OFFLINE_META  Failed to resolve playwright-core@1.59.1 in package mirror /Users/elena/Library/Caches/pnpm/metadata-v1.3/registry.npmjs.org/playwright-core.json
+
+This error happened while installing the dependencies of playwright@1.59.1

@@ -5,7 +5,8 @@ import java.util.UUID;
 public record InviteActivationResult(
         UUID inviteCodeId,
         UUID tenantId,
-        UUID cohortId,
+        UUID pilotLaunchId,
+        UUID accessPoolId,
         String activationSubjectRef,
         boolean idempotentRetry
 ) {

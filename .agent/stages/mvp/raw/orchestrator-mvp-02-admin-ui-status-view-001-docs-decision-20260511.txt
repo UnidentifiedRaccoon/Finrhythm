@@ -1,0 +1,6 @@
+Docs updated for admin app/root wrapper setup:
+- README.md
+- docs/setup/codex-setup.md
+- docs/architecture/repo-layout.md
+
+No product/stage canonical scope changes made by implementation. Note: docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md has pre-existing repo rename edits outside this UI slice.

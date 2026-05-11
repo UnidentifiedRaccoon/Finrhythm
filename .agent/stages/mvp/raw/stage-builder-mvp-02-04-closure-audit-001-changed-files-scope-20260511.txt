@@ -1,0 +1,25 @@
+Closure/audit owned write-set status:
+ M .agent/stages/mvp/backlog.md
+ M .agent/stages/mvp/evidence.json
+ M .agent/stages/mvp/evidence.md
+ M .agent/stages/mvp/feature_list.json
+ M .agent/stages/mvp/progress.md
+ M .agent/stages/mvp/status.json
+?? .agent/stages/mvp/evidence/MVP-02-04-closure-audit-001.json
+?? .agent/stages/mvp/evidence/MVP-02-04-closure-audit-001.md
+?? .agent/stages/mvp/task-files/MVP-02-04-closure-audit-001.md
+
+New closure/audit raw refs:
+.agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-changed-files-scope-20260511.txt
+.agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-docs-noop-20260511.txt
+.agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-git-diff-check-20260511.txt
+.agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-git-status-final-20260511.txt
+.agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-json-validation-20260511.txt
+.agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-make-build-20260511.txt
+.agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-make-test-unit-20260511.txt
+.agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-make-verify-20260511.txt
+.agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-prior-verdict-summary-20260511.json
+.agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-verify-harness-20260511.json
+
+Forbidden closure/audit writes intentionally absent: verdict.json, verdicts/MVP-02-04-closure-audit-001.json, problems.md, problems/MVP-02-04-closure-audit-001.md, production code/tests/config/docs.
+Current worktree also contains pre-existing unrelated changes from prior slices; they are not closure/audit-owned.

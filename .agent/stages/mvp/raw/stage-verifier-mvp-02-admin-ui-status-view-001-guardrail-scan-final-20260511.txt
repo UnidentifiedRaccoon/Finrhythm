@@ -1,0 +1,5 @@
+forbidden privacy/source fields scan in apps/admin managed source
+plain invite-code value pattern scan in fixture
+backend diff follows (expected empty for this UI slice):
+api-client files:
+packages/api-client/.gitkeep

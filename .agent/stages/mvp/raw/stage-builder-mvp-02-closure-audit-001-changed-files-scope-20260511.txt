@@ -1,0 +1,381 @@
+Changed-files scope check for MVP-02-closure-audit-001
+Date: 2026-05-11
+
+Allowed current-task write scope:
+.agent/stages/mvp/evidence.md
+.agent/stages/mvp/evidence.json
+.agent/stages/mvp/evidence/MVP-02-closure-audit-001.md
+.agent/stages/mvp/evidence/MVP-02-closure-audit-001.json
+.agent/stages/mvp/status.json
+.agent/stages/mvp/backlog.md
+.agent/stages/mvp/progress.md
+.agent/stages/mvp/feature_list.json
+.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-*
+
+Pre-edit status raw refs:
+.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-git-status-pre-edit-20260511.txt
+.agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-diff-name-only-pre-edit-20260511.txt
+
+Current git status:
+ M .agent/stages/mvp/backlog.md
+ M .agent/stages/mvp/decisions.md
+ M .agent/stages/mvp/evidence.json
+ M .agent/stages/mvp/evidence.md
+ M .agent/stages/mvp/feature_list.json
+ M .agent/stages/mvp/problems.md
+ M .agent/stages/mvp/progress.md
+ M .agent/stages/mvp/risks.md
+ M .agent/stages/mvp/sprint_contract.md
+ M .agent/stages/mvp/stage_spec.md
+ M .agent/stages/mvp/status.json
+ M .agent/stages/mvp/verdict.json
+ M .gitignore
+ M AGENTS.md
+ M Makefile
+ M README.md
+ M apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java
+ M apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusException.java
+ M apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java
+ M apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java
+ M apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java
+ M apps/api/src/main/java/com/finrhythm/api/registration/persistence/EmployeeRegistrationRepository.java
+ M apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationResult.java
+ M apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java
+ M apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java
+ M apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationResponse.java
+ D apps/api/src/main/java/com/finrhythm/api/tenant/domain/Cohort.java
+ D apps/api/src/main/java/com/finrhythm/api/tenant/domain/CohortKind.java
+ D apps/api/src/main/java/com/finrhythm/api/tenant/domain/CohortStatus.java
+ M apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java
+ D apps/api/src/main/java/com/finrhythm/api/tenant/persistence/CohortRepository.java
+ M apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java
+ M apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteActivationResult.java
+ M apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeAccessService.java
+ M apps/api/src/main/java/com/finrhythm/api/tenant/service/IssuedInviteCode.java
+ M apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java
+ M apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java
+ M apps/api/src/test/java/com/finrhythm/api/tenant/TenantDomainTest.java
+ M apps/api/src/test/java/com/finrhythm/api/tenant/persistence/TenantPersistenceIT.java
+ M apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeAccessServiceIT.java
+ M docs/architecture/access-and-subscriptions.md
+ M docs/architecture/init-and-dev-contract.md
+ M docs/architecture/repo-layout.md
+ M docs/architecture/source-of-truth.md
+ M docs/engineering/definition-of-done.md
+ M docs/engineering/human-gates.md
+ M docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md
+ M docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
+ M docs/product/b2b-mvp/lemanapro/product-foundation-v1.md
+ M docs/setup/codex-setup.md
+ M docs/stages/MVP.md
+ M docs/stages/v1.md
+ M pnpm-lock.yaml
+?? .agent/stages/mvp/evidence/MVP-02-04-closure-audit-001.json
+?? .agent/stages/mvp/evidence/MVP-02-04-closure-audit-001.md
+?? .agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.json
+?? .agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.md
+?? .agent/stages/mvp/evidence/MVP-02-closure-audit-001.json
+?? .agent/stages/mvp/evidence/MVP-02-closure-audit-001.md
+?? .agent/stages/mvp/evidence/MVP-02-remove-cohort-domain-001.json
+?? .agent/stages/mvp/evidence/MVP-02-remove-cohort-domain-001.md
+?? .agent/stages/mvp/problems/MVP-02-04-closure-audit-001.md
+?? .agent/stages/mvp/problems/MVP-02-admin-ui-status-view-001.md
+?? .agent/stages/mvp/problems/MVP-02-remove-cohort-domain-001.md
+?? .agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-04-closure-audit-001-git-diff-check-final-2-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-04-closure-audit-001-git-diff-check-final-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-04-closure-audit-001-json-validation-final-2-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-04-closure-audit-001-json-validation-final-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-04-closure-audit-001-verify-harness-final-2-20260511.json
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-04-closure-audit-001-verify-harness-final-20260511.json
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-build-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-build-final-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-dev-server-20260511-rerun.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-dev-server-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-dev-server-final-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-test-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-test-final-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-typecheck-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-typecheck-final-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-browser-smoke-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-browser-smoke-system-chrome-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-browser-smoke-system-chrome-final-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-docs-decision-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-generated-client-noop-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-git-diff-check-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-git-status-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-guardrail-scan-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-java-version-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-json-validation-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-make-build-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-make-build-final-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-make-test-unit-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-make-test-unit-final-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-make-verify-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-make-verify-final-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-mvnw-version-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-playwright-install-chromium-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-pnpm-frozen-install-after-lock-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-pnpm-frozen-install-finpulse-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-pnpm-install-clean-retry-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-pnpm-install-corepack-node22-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-pnpm-install-local-store-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-pnpm-install-node22-retry-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-pnpm-install-retry-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-pnpm-resolution-only-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-verify-harness-20260511.json
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-verify-harness-final-20260511.json
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-admin-build-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-admin-start-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-admin-start-rerun-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-admin-test-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-admin-typecheck-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-api-focused-tests-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-api-mvn-verify-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-browser-smoke-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-generated-client-noop-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-git-diff-check-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-git-diff-check-final-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-guardrail-scan-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-json-validation-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-json-validation-final-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-make-build-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-make-test-unit-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-make-verify-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-migration-inspection-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-openapi-contract-inspection-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshot-refs-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshots-20260511/
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-term-scan-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-verify-harness-20260511.json
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-verify-harness-final-20260511.json
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-changed-files-scope-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-docs-noop-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-git-diff-check-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-git-status-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-json-validation-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-make-build-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-make-test-unit-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-make-verify-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-prior-verdict-summary-20260511.json
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-verify-harness-20260511.json
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-admin-ui-status-view-001-git-status-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-admin-ui-status-view-001-java-version-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-admin-ui-status-view-001-mvnw-version-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-admin-ui-status-view-001-pnpm-install-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-admin-ui-status-view-001-pnpm-next-view-20260511.json
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-changed-files-scope-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-diff-name-only-pre-edit-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-git-diff-check-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-git-status-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-git-status-pre-edit-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-json-validation-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-make-build-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-make-test-unit-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-make-verify-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-no-cohort-regression-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-pii-raw-code-guardrail-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-prior-verdict-summary-20260511.json
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-verify-harness-20260511.json
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-admin-build-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-admin-start-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-admin-start-curl-20260511.html
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-admin-start-rerun-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-admin-test-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-admin-typecheck-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-api-focused-tests-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-api-mvn-verify-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-browser-smoke-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-generated-client-noop-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-guardrail-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-make-build-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-make-test-unit-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-make-verify-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-migration-inspection-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-openapi-contract-inspection-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-screenshot-refs-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-screenshots-20260511/
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-remove-cohort-domain-001-term-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-admin-build-20260511.txt
+?? .agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-admin-start-20260511.txt
+?? .agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-admin-start-curl-20260511.html
+?? .agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-admin-start-rerun-20260511.txt
+?? .agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-admin-test-20260511.txt
+?? .agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-admin-typecheck-20260511.txt
+?? .agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-browser-smoke-system-chrome-20260511.txt
+?? .agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-codex-exec-20260511.log
+?? .agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-evidence-json-20260511.txt
+?? .agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-git-diff-check-20260511.txt
+?? .agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-guardrail-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-last-message-20260511.txt
+?? .agent/stages/mvp/raw/stage-fixer-mvp-02-remove-cohort-domain-001-doc-sync-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-fixer-mvp-02-remove-cohort-domain-001-git-diff-check-20260511.txt
+?? .agent/stages/mvp/raw/stage-fixer-mvp-02-remove-cohort-domain-001-json-validation-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-04-closure-audit-001-closure-guardrails-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-04-closure-audit-001-git-diff-check-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-04-closure-audit-001-json-validation-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-04-closure-audit-001-make-build-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-04-closure-audit-001-make-test-unit-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-04-closure-audit-001-make-verify-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-04-closure-audit-001-verify-harness-post-verdict-20260511.json
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-04-closure-audit-001-verify-harness-pre-verdict-20260511.json
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-admin-start-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-admin-start-rerun-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-admin-test-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-admin-typecheck-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-browser-smoke-prod-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-codex-exec-20260511.log
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-git-diff-check-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-guardrail-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-guardrail-scan-exact-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-guardrail-scan-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-java-version-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-last-message-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-make-build-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-make-test-unit-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-make-verify-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-mobile-chrome-direct-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-mvnw-version-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-mvnw-version-rerun-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-admin-test-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-admin-typecheck-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-codex-exec-20260511.log
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-final-git-diff-check-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-final-verify-harness-20260511.json
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-git-diff-check-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-guardrail-scan-exact-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-last-message-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-rendered-label-proof-exact-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-rendered-raw-enum-scan-exact-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-verify-harness-after-verdict-20260511.json
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-verify-harness-after-verdict-20260511.json
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-admin-screenshots-generated-client-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-git-diff-check-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-git-diff-check-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-git-diff-check-post-artifacts-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-git-diff-check-post-verdict-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-git-diff-check-post-verdict-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-json-validation-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-json-validation-post-artifacts-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-json-validation-post-verdict-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-make-build-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-make-build-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-make-test-unit-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-make-test-unit-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-make-verify-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-make-verify-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-git-diff-check-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-git-diff-check-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-git-diff-check-post-verdict-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-json-validation-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-json-validation-post-verdict-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-make-build-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-make-test-unit-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-make-verify-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-route-openapi-client-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-route-openapi-client-scan-clean-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-sensitive-guardrail-dto-fields-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-sensitive-guardrail-scan-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-active-code-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-canonical-docs-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-term-scan-migrations-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-verify-harness-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-post-fixer-verify-harness-post-verdict-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-term-scan-active-code-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-term-scan-active-code-expanded-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-term-scan-active-code-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-term-scan-canonical-docs-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-term-scan-canonical-docs-expanded-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-term-scan-canonical-docs-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-term-scan-migrations-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-term-scan-migrations-expanded-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-term-scan-migrations-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-term-scan-stage-refs-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-term-scan-stage-refs-expanded-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-term-scan-stage-refs-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-verify-harness-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-verify-harness-final-20260511.txt
+?? .agent/stages/mvp/raw/stage-verifier-mvp-02-remove-cohort-domain-001-verify-harness-post-verdict-20260511.txt
+?? .agent/stages/mvp/task-files/MVP-02-04-closure-audit-001.md
+?? .agent/stages/mvp/task-files/MVP-02-admin-ui-status-view-001.md
+?? .agent/stages/mvp/task-files/MVP-02-closure-audit-001.md
+?? .agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md
+?? .agent/stages/mvp/verdicts/MVP-02-04-closure-audit-001.json
+?? .agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json
+?? .agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json
+?? .agent/tasks/repo-rename-finpulse/
+?? apps/admin/.agent/
+?? apps/admin/app/
+?? apps/admin/components/
+?? apps/admin/lib/
+?? apps/admin/next-env.d.ts
+?? apps/admin/next.config.mjs
+?? apps/admin/package.json
+?? apps/admin/tests/
+?? apps/admin/tsconfig.json
+?? apps/api/src/main/java/com/finrhythm/api/tenant/domain/AccessPool.java
+?? apps/api/src/main/java/com/finrhythm/api/tenant/domain/AccessPoolStatus.java
+?? apps/api/src/main/java/com/finrhythm/api/tenant/domain/PilotLaunch.java
+?? apps/api/src/main/java/com/finrhythm/api/tenant/domain/PilotLaunchStatus.java
+?? apps/api/src/main/java/com/finrhythm/api/tenant/persistence/AccessPoolRepository.java
+?? apps/api/src/main/java/com/finrhythm/api/tenant/persistence/PilotLaunchRepository.java
+?? apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql
+
+Current diff name-only:
+.agent/stages/mvp/backlog.md
+.agent/stages/mvp/decisions.md
+.agent/stages/mvp/evidence.json
+.agent/stages/mvp/evidence.md
+.agent/stages/mvp/feature_list.json
+.agent/stages/mvp/problems.md
+.agent/stages/mvp/progress.md
+.agent/stages/mvp/risks.md
+.agent/stages/mvp/sprint_contract.md
+.agent/stages/mvp/stage_spec.md
+.agent/stages/mvp/status.json
+.agent/stages/mvp/verdict.json
+.gitignore
+AGENTS.md
+Makefile
+README.md
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusException.java
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java
+apps/api/src/main/java/com/finrhythm/api/registration/persistence/EmployeeRegistrationRepository.java
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationResult.java
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationResponse.java
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/Cohort.java
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/CohortKind.java
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/CohortStatus.java
+apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/CohortRepository.java
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java
+apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteActivationResult.java
+apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeAccessService.java
+apps/api/src/main/java/com/finrhythm/api/tenant/service/IssuedInviteCode.java
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java
+apps/api/src/test/java/com/finrhythm/api/tenant/TenantDomainTest.java
+apps/api/src/test/java/com/finrhythm/api/tenant/persistence/TenantPersistenceIT.java
+apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeAccessServiceIT.java
+docs/architecture/access-and-subscriptions.md
+docs/architecture/init-and-dev-contract.md
+docs/architecture/repo-layout.md
+docs/architecture/source-of-truth.md
+docs/engineering/definition-of-done.md
+docs/engineering/human-gates.md
+docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md
+docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
+docs/product/b2b-mvp/lemanapro/product-foundation-v1.md
+docs/setup/codex-setup.md
+docs/stages/MVP.md
+docs/stages/v1.md
+pnpm-lock.yaml
+
+Classification:
+PASS_FOR_TASK_SCOPE: this task intentionally edited only current sprint stage artifacts and raw outputs listed above.
+NOTE: production/canonical/package changes visible in git status were already present in the pre-edit status raw and belong to earlier MVP-02 slices; they were not edited by this closure/audit pass.

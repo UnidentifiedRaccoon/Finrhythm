@@ -1,6 +1,6 @@
 # MVP risks
 
-Updated: 2026-05-09
+Updated: 2026-05-11
 
 | ID | Risk | Status | Mitigation |
 |----|------|--------|------------|
@@ -34,4 +34,10 @@ Updated: 2026-05-09
 | R-028 | Admin status API could expose raw invite codes, lookup hashes, activation subject refs or employee contact data. | Mitigated in builder evidence; awaiting verifier | Response DTOs omit sensitive fields; `AdminCodeStatusControllerIT` and guardrail scan prove synthetic contact data is not exposed. |
 | R-029 | Read-only admin status endpoint could be mistaken for production-ready admin access without auth/roles/audit. | Active until future auth/admin slice | Contract keeps auth/session/role/audit and production real-data use out of scope and human-gated. |
 | R-030 | Backend admin API evidence could be mistaken for full MVP-02.04 or MVP-02 completion. | Active until fresh verifier and future UI slice | Status/backlog/task artifacts state this slice does not include admin UI and cannot close `MVP-02.04` or full `MVP-02` without separate evidence and fresh verification. |
-| R-031 | Builder evidence could be mistaken for fresh verifier PASS. | Active until verifier runs | Current task status is `BUILT_AWAITING_VERIFIER`; builder did not write `verdict.json` or `verdicts/MVP-02-admin-code-status-view-001.json`. |
+| R-031 | Builder evidence could be mistaken for fresh verifier PASS. | Resolved for backend/admin API slice | Fresh verifier PASS is recorded for `MVP-02-admin-code-status-view-001`; the new UI slice starts separately as `FROZEN` and has no implementation PASS. |
+| R-032 | Admin UI scaffold could expand into full admin/CMS, auth, mutations or HR reporting. | Mitigated in builder evidence; awaiting verifier | Implementation stayed limited to a minimal Next.js scaffold plus read-only status view and excludes admin mutations, auth/session/roles/audit policy, HR dashboard and customer-specific reporting. |
+| R-033 | Local UI DTO or fixture could drift from the proven backend response. | Mitigated in builder evidence; awaiting verifier | DTO/fixture boundary tests pass and generated-client remains an explicit no-op until a real generator is separately frozen. |
+| R-034 | Adding `apps/admin` could leave root verification wrappers stale. | Mitigated in builder evidence; awaiting verifier | Root `make verify`, `make test-unit` and `make build` now include relevant admin checks; setup/runtime docs were updated. |
+| R-035 | Admin UI could expose raw invite codes, lookup hashes, activation subject refs or employee contact data. | Mitigated in builder evidence; awaiting verifier | UI renders only privacy-safe status rows from the verified DTO; PII/raw-code/customer-brand scans and screenshots are recorded. |
+| R-036 | Fixture/browser evidence could accidentally use real customer or employee data. | Mitigated in builder evidence; awaiting verifier | Screenshots and fixtures use synthetic IDs and no customer brand; real employee/customer data and customer-specific reporting remain human-gated and out of scope. |
+| R-037 | Stage path could drift because the active checkout is now `FinPulse` while the user requested `FinRhythm`. | Active environment note | Evidence records that `/Users/elena/cursor/FinPulse` is the active Git checkout with stage artifacts and `/Users/elena/cursor/FinRhythm` is stale/empty in this filesystem. |

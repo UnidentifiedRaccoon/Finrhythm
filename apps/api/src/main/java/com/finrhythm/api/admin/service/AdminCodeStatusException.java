@@ -24,8 +24,8 @@ public class AdminCodeStatusException extends RuntimeException {
     public static AdminCodeStatusException notFound() {
         return new AdminCodeStatusException(
                 HttpStatus.NOT_FOUND,
-                "COHORT_STATUS_VIEW_NOT_FOUND",
-                "Cohort status view was not found.",
+                "ACCESS_POOL_STATUS_VIEW_NOT_FOUND",
+                "Access-pool status view was not found.",
                 List.of()
         );
     }

@@ -53,6 +53,8 @@ User-facing scenarios: onboarding, diagnostic, learning path, lessons/quizzes, c
 
 Operator scenarios: content, challenge/marathon, rewards/store, moderation/support, publish/unpublish, import/export, audit views.
 
+Current MVP-02 admin baseline: a minimal Next.js app renders a read-only access-pool/code status view from the verified backend DTO. It uses synthetic fixture mode by default; generated API client integration remains a no-op until `packages/api-client` has a generator/artifacts.
+
 ### `apps/api`
 
 Backend: auth/session, diagnostics scoring, learning progress, points ledger, store/redemption, support tickets, content/CMS APIs, jobs/integrations. Baseline stack is Spring Boot + Java + Maven + PostgreSQL.
@@ -84,4 +86,8 @@ Local PostgreSQL bootstrap is defined in `infra/local/compose.yaml` and `apps/ap
 
 ## MVP-02 API baseline
 
-`apps/api` now contains a minimal Spring Boot + Maven Wrapper backend baseline. The first append-only domain migration after `V001` introduces tenant, cohort/wave and invite-code tables for the corporate pilot access model. There is no public API/controller surface in this slice; frontend/admin contract generation remains unchanged until an explicit API slice.
+`apps/api` now contains a minimal Spring Boot + Maven Wrapper backend baseline. The active Flyway-managed access model uses tenant, pilot launch, access pool and invite-code tables for the corporate pilot access model. Historical migrations may still show superseded terminology, but runtime code and the final migrated schema use `pilotLaunch`/`accessPool`.
+
+## MVP-02 admin UI baseline
+
+`apps/admin` now contains a minimal Next.js + React scaffold for the read-only access-pool/code status view. Root `make verify`, `make test-unit` and `make build` include the available admin checks. The admin UI must keep using privacy-safe DTO fields only and must not expose raw invite codes or employee contact data.

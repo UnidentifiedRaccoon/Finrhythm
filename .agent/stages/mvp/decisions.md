@@ -1,6 +1,12 @@
 # MVP decisions
 
-Updated: 2026-05-09
+Updated: 2026-05-11
+
+## D-2026-05-11-001: Replace MVP cohort domain with pilot launch/access pool
+
+Decision: `MVP-02-remove-cohort-domain-001` uses `tenant` + `pilotLaunch` + `accessPool` as the active MVP access model and removes `cohort/wave` from runtime domain/API/admin UI terminology.
+Why: product decision changed the MVP from tenant/cohort waves to one corporate pilot tenant with one launch/access pool of invite codes.
+Impact: V005 is append-only and may reference old table/column names only as a backfill/drop migration bridge; active Java/API/admin UI/docs use replacement terminology. Full `MVP-02`, MVP stage and human gates remain open pending fresh verification and any separate closure audit.
 
 ## D-2026-05-04-001: Freeze only MVP-01 bootstrap
 
@@ -169,3 +175,33 @@ Impact: verifier should expect no new migration for this slice and should review
 Decision: builder evidence for `MVP-02-admin-code-status-view-001` is recorded as `BUILT_AWAITING_VERIFIER`, not `PASS`.
 Why: the stage harness requires a fresh `stage_verifier` for completion, and the builder must not write `verdict.json` for its own implementation.
 Impact: `MVP-02.04`, full `MVP-02` and current-task verdict aliases remain open until a separate verifier produces a verdict.
+
+## D-2026-05-11-001: Freeze MVP-02.04 admin UI as a separate minimal apps/admin slice
+
+Decision: the next sprint contract is `MVP-02-admin-ui-status-view-001`, scoped to the smallest `apps/admin` Next.js scaffold and read-only code-status view that can be browser-smoked and screenshotted.
+Why: the backend/admin API-only slice is already verified, but `apps/admin` has no screenshotable UI; combining this with full admin/CMS, auth, mutations or HR reporting would be too broad.
+Impact: the next builder may add minimal admin app/package/config/route/UI files and necessary root wrapper/package/lock updates, but must not change backend/API/schema behavior or claim full `MVP-02.04` / `MVP-02` completion before fresh verification.
+
+## D-2026-05-11-002: Use local typed DTO/fixture boundary until generated client exists
+
+Decision: `MVP-02-admin-ui-status-view-001` may use a narrow local typed DTO/fetch boundary or synthetic fixture in `apps/admin` that matches the proven backend DTO.
+Why: `packages/api-client` currently contains no generator or generated artifacts; manually inventing generated client files would create a second source of truth and expand the slice.
+Impact: generated-client implementation is out of scope for this contract. Builder evidence must record an explicit generated-client no-op unless a separate freeze introduces generation.
+
+## D-2026-05-11-003: Wire root wrappers honestly if the admin app is introduced
+
+Decision: once `apps/admin` has a buildable Next.js app, root `make verify`, `make test-unit` and `make build` should include relevant admin checks or record exact honest substitutes.
+Why: the repo root commands are the durable verification interface, and adding a frontend app without wrapper coverage would make future proof weaker.
+Impact: root `package.json`, `pnpm-lock.yaml` and `Makefile` updates are allowed only as needed for install/build/typecheck/test coverage of this admin app slice; setup/runtime docs must be synchronized if workflow changes materially.
+
+## D-2026-05-11-004: Use system Chrome for admin UI browser evidence
+
+Decision: `MVP-02-admin-ui-status-view-001` records browser smoke through installed system Google Chrome via `CHROMIUM_EXECUTABLE_PATH`, not a Playwright-managed Chromium download.
+Why: the Playwright browser download was slow in the current network environment, while `/Applications/Google Chrome.app` is already available and works with the repo-pinned Playwright API.
+Impact: `apps/admin/tests/browser-smoke.mjs` accepts `CHROMIUM_EXECUTABLE_PATH`; future agents can still use Playwright-managed browsers when available.
+
+## D-2026-05-11-005: Treat FinPulse path as the active checkout for this run
+
+Decision: continue implementation and evidence in `/Users/elena/cursor/FinPulse` after discovering `/Users/elena/cursor/FinRhythm` is a stale/empty path in the current desktop filesystem.
+Why: the actual Git checkout, stage artifacts and working diff are under `FinPulse`; continuing in the stale path would lose the stage state.
+Impact: evidence records the path anomaly. This does not rename product scope or close the unrelated repo-rename task.

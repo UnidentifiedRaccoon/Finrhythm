@@ -1,0 +1,128 @@
+# Admin status DTO/UI exposed field names
+## Java readmodel records
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusPage.java:8:public record AdminCodeStatusPage(
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusPage.java:10:        int page,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusPage.java:13:        int size,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusPage.java:16:        long totalItems,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusPage.java:19:        int totalPages,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusPage.java:21:        List<AdminCodeStatusRow> items
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusRow.java:10:public record AdminCodeStatusRow(
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusRow.java:12:        UUID inviteCodeId,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusRow.java:18:        Instant issuedAt,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusRow.java:21:        Instant expiresAt,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusRow.java:24:        Instant activatedAt,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusRow.java:27:        Instant registeredAt,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusRow.java:30:        boolean registered
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusSummary.java:6:public record AdminCodeStatusSummary(
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusSummary.java:8:        long issuedCount,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusSummary.java:11:        long activatedCount,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusSummary.java:14:        long registeredCount,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusSummary.java:17:        long revokedCount,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusSummary.java:20:        long expiredCount,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusSummary.java:23:        long totalCodeCount,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusSummary.java:26:        long remainingCapacity
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusQuery.java:3:public record AdminCodeStatusQuery(
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusQuery.java:4:        String status,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusCount.java:7:public record AdminCodeStatusCount(
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusCount.java:12:        long count
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java:11:public record AdminCodeStatusResponse(
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java:13:        UUID tenantId,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java:16:        UUID pilotLaunchId,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java:19:        String pilotLaunchKey,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java:22:        String pilotLaunchName,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java:28:        UUID accessPoolId,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java:31:        String accessPoolKey,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java:34:        String accessPoolName,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java:40:        int poolCapacity,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java:44:        List<AdminCodeStatusCount> statusCounts,
+## TS response types
+export const CODE_STATUSES = [
+  "CREATED",
+  "ISSUED",
+  "RESERVED",
+  "ACTIVATED",
+  "REVOKED",
+  "EXPIRED"
+] as const;
+
+export type CodeStatus = (typeof CODE_STATUSES)[number];
+
+export type AdminCodeStatusSummary = {
+  issuedCount: number;
+  activatedCount: number;
+  registeredCount: number;
+  revokedCount: number;
+  expiredCount: number;
+  totalCodeCount: number;
+  remainingCapacity: number;
+};
+
+export type AdminCodeStatusCount = {
+  status: CodeStatus;
+  count: number;
+};
+
+export type AdminCodeStatusRow = {
+  inviteCodeId: string;
+  status: CodeStatus;
+  issuedAt: string | null;
+  expiresAt: string | null;
+  activatedAt: string | null;
+  registeredAt: string | null;
+  registered: boolean;
+};
+
+export type AdminCodeStatusPage = {
+  page: number;
+  size: number;
+  totalItems: number;
+  totalPages: number;
+  items: AdminCodeStatusRow[];
+};
+
+export type AdminCodeStatusResponse = {
+  tenantId: string;
+  pilotLaunchId: string;
+  pilotLaunchKey: string;
+  pilotLaunchName: string;
+  pilotLaunchStatus: "PLANNED" | "ACTIVE" | "CLOSED";
+  accessPoolId: string;
+  accessPoolKey: string;
+  accessPoolName: string;
+  accessPoolStatus: "PLANNED" | "ACTIVE" | "CLOSED";
+  poolCapacity: number;
+  summary: AdminCodeStatusSummary;
+  statusCounts: AdminCodeStatusCount[];
+  codes: AdminCodeStatusPage;
+};
+
+export type AdminStatusSource = "fixture" | "live";
+
+export type AdminCodeStatusResult =
+  | {
+      state: "success";
+      source: AdminStatusSource;
+      statusFilter: CodeStatus | null;
+      data: AdminCodeStatusResponse;
+    }
+  | {
+      state: "empty";
+      source: AdminStatusSource;
+      statusFilter: CodeStatus | null;
+      data: AdminCodeStatusResponse;
+      message: string;
+    }
+  | {
+      state: "loading";
+      source: AdminStatusSource;
+      statusFilter: CodeStatus | null;
+    }
+  | {
+      state: "error";
+      source: AdminStatusSource;
+      statusFilter: CodeStatus | null;
+      message: string;
+    };
+## Forbidden sensitive field scan in exposed DTO/type/fixture files
+NO_FORBIDDEN_EXPOSED_FIELDS
+[scan_status]=0

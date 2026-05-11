@@ -1,0 +1,139 @@
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://127.0.0.1:3300
+- Network:       http://127.0.0.1:3300
+✓ Ready in 354ms
+
+ GET / 200 in 1281ms (next.js: 1005ms, application-code: 276ms)
+ GET / 200 in 71ms (next.js: 2ms, application-code: 68ms)
+ GET /?state=empty&status=ACTIVATED 200 in 32ms (next.js: 1479µs, application-code: 31ms)
+ GET /?state=error 200 in 25ms (next.js: 1354µs, application-code: 24ms)
+ GET /?state=loading 200 in 25ms (next.js: 1535µs, application-code: 24ms)
+Persisting failed: Unable to write SST file 00000026.sst
+
+Caused by:
+    No such file or directory (os error 2)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+✓ Compiled in 32ms
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+⨯ Error: ENOENT: no such file or directory, open '/Users/elena/cursor/FinPulse/apps/admin/.next/dev/server/app/page/build-manifest.json'
+    at ignore-listed frames {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/elena/cursor/FinPulse/apps/admin/.next/dev/server/app/page/build-manifest.json'
+}
+⨯ Error: ENOENT: no such file or directory, open '/Users/elena/cursor/FinPulse/apps/admin/.next/dev/static/development/_buildManifest.js.tmp.zsnhg3zts4d'
+    at ignore-listed frames {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/elena/cursor/FinPulse/apps/admin/.next/dev/static/development/_buildManifest.js.tmp.zsnhg3zts4d'
+}
+Error: ENOENT: no such file or directory, open '/Users/elena/cursor/FinPulse/apps/admin/.next/dev/server/app/page/build-manifest.json'
+    at ignore-listed frames {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/elena/cursor/FinPulse/apps/admin/.next/dev/server/app/page/build-manifest.json'
+}
+⨯ Error: Cannot find module '../chunks/ssr/[turbopack]_runtime.js'
+Require stack:
+- /Users/elena/cursor/FinPulse/apps/admin/.next/dev/server/pages/_document.js
+- /Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/require.js
+- /Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/load-components.js
+- /Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/build/utils.js
+- /Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/lib/router-server.js
+- /Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/lib/start-server.js
+    at Object.<anonymous> (.next/dev/server/pages/_document.js:1:7) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/Users/elena/cursor/FinPulse/apps/admin/.next/dev/server/pages/_document.js',
+    '/Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/require.js',
+    '/Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/load-components.js',
+    '/Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/build/utils.js',
+    '/Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js',
+    '/Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/lib/router-server.js',
+    '/Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/lib/start-server.js'
+  ]
+}
+Error: ENOENT: no such file or directory, open '/Users/elena/cursor/FinPulse/apps/admin/.next/dev/routes-manifest.json'
+    at ignore-listed frames {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/elena/cursor/FinPulse/apps/admin/.next/dev/routes-manifest.json'
+}
+ GET / 500 in 735ms (next.js: 717ms, application-code: 18ms)
+ GET / 500 in 736ms (next.js: 717ms, application-code: 18ms)
+⨯ Error: ENOENT: no such file or directory, open '/Users/elena/cursor/FinPulse/apps/admin/.next/dev/server/app/page/build-manifest.json'
+    at ignore-listed frames {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/elena/cursor/FinPulse/apps/admin/.next/dev/server/app/page/build-manifest.json'
+}
+⨯ Error: Cannot find module '../chunks/ssr/[turbopack]_runtime.js'
+Require stack:
+- /Users/elena/cursor/FinPulse/apps/admin/.next/dev/server/pages/_document.js
+- /Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/require.js
+- /Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/load-components.js
+- /Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/build/utils.js
+- /Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/lib/router-server.js
+- /Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/lib/start-server.js
+    at Object.<anonymous> (.next/dev/server/pages/_document.js:1:7) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/Users/elena/cursor/FinPulse/apps/admin/.next/dev/server/pages/_document.js',
+    '/Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/require.js',
+    '/Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/load-components.js',
+    '/Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/build/utils.js',
+    '/Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js',
+    '/Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/lib/router-server.js',
+    '/Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/lib/start-server.js'
+  ]
+}
+Error: ENOENT: no such file or directory, open '/Users/elena/cursor/FinPulse/apps/admin/.next/dev/server/app/page/build-manifest.json'
+    at ignore-listed frames {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/elena/cursor/FinPulse/apps/admin/.next/dev/server/app/page/build-manifest.json'
+}
+⨯ Error: Cannot find module '../chunks/ssr/[turbopack]_runtime.js'
+Require stack:
+- /Users/elena/cursor/FinPulse/apps/admin/.next/dev/server/pages/_document.js
+- /Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/require.js
+- /Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/load-components.js
+- /Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/build/utils.js
+- /Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/lib/router-server.js
+- /Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/lib/start-server.js
+    at Object.<anonymous> (.next/dev/server/pages/_document.js:1:7) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [
+    '/Users/elena/cursor/FinPulse/apps/admin/.next/dev/server/pages/_document.js',
+    '/Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/require.js',
+    '/Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/load-components.js',
+    '/Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/build/utils.js',
+    '/Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js',
+    '/Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/lib/router-server.js',
+    '/Users/elena/cursor/FinPulse/node_modules/.pnpm/next@16.2.6_react-dom@19.2.6_react@19.2.6__react@19.2.6/node_modules/next/dist/server/lib/start-server.js'
+  ]
+}
+Error: ENOENT: no such file or directory, open '/Users/elena/cursor/FinPulse/apps/admin/.next/dev/routes-manifest.json'
+    at ignore-listed frames {
+  errno: -2,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: '/Users/elena/cursor/FinPulse/apps/admin/.next/dev/routes-manifest.json'
+}
+ GET / 500 in 101ms (next.js: 89ms, application-code: 12ms)
+ GET / 500 in 101ms (next.js: 89ms, application-code: 12ms)
+Persisting failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+Compaction failed: Another write batch or compaction is already active (Only a single write operations is allowed at a time)
+[?25h

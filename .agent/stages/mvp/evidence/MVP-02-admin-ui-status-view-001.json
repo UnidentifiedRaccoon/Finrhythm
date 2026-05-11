@@ -1,0 +1,133 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-02-admin-ui-status-view-001",
+  "status": "PASS",
+  "updated_at": "2026-05-11",
+  "latest_alias": ".agent/stages/mvp/evidence.json",
+  "immutable_refs": {
+    "markdown": ".agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.md",
+    "json": ".agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.json"
+  },
+  "raw_refs": [
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-git-status-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-java-version-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-mvnw-version-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-pnpm-resolution-only-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-pnpm-frozen-install-finpulse-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-typecheck-final-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-test-final-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-build-final-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-dev-server-final-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-browser-smoke-system-chrome-final-20260511.txt",
+    ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-browser-smoke.json",
+    ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-desktop-success.png",
+    ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-mobile-success.png",
+    ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-desktop-empty.png",
+    ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-desktop-error.png",
+    ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-desktop-loading.png",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-guardrail-scan-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-generated-client-noop-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-docs-decision-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-git-diff-check-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-make-verify-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-make-test-unit-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-make-build-20260511.txt",
+    ".agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-admin-typecheck-20260511.txt",
+    ".agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-admin-test-20260511.txt",
+    ".agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-admin-build-20260511.txt",
+    ".agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-admin-start-20260511.txt",
+    ".agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-admin-start-rerun-20260511.txt",
+    ".agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-admin-start-curl-20260511.html",
+    ".agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-browser-smoke-system-chrome-20260511.txt",
+    ".agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-guardrail-scan-20260511.txt",
+    ".agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-git-diff-check-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-admin-typecheck-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-admin-test-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-git-diff-check-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-rendered-label-proof-exact-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-rendered-raw-enum-scan-exact-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-guardrail-scan-exact-20260511.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-verify-harness-after-verdict-20260511.json",
+    ".agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json",
+    ".agent/stages/mvp/problems/MVP-02-admin-ui-status-view-001.md",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-verify-harness-final-20260511.json",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-make-verify-final-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-make-test-unit-final-20260511.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-make-build-final-20260511.txt"
+  ],
+  "commands_summary": {
+    "java_version": "PASS",
+    "mvnw_version": "PASS",
+    "pnpm_resolution_only": "PASS",
+    "pnpm_frozen_install": "PASS",
+    "admin_typecheck": "PASS",
+    "admin_test": "PASS",
+    "admin_build": "PASS",
+    "browser_smoke_system_chrome": "PASS",
+    "make_verify": "PASS_FINAL_AFTER_FIX",
+    "make_test_unit": "PASS_FINAL_AFTER_FIX",
+    "make_build": "PASS_FINAL_AFTER_FIX",
+    "git_diff_check": "PASS",
+    "guardrail_scan": "PASS_NO_HITS",
+    "fixer_admin_typecheck": "PASS",
+    "fixer_admin_test": "PASS",
+    "fixer_admin_build": "PASS",
+    "fixer_browser_smoke_system_chrome": "ATTEMPTED_CHROME_ABORTED_BEFORE_NAVIGATION_NO_DOWNLOAD",
+    "fixer_rendered_html_label_proof": "PASS",
+    "fixer_guardrail_scan": "PASS_NO_HITS",
+    "fixer_git_diff_check": "PASS",
+    "generated_client": "NOOP_NO_GENERATOR",
+    "docs_sync": "PASS_SETUP_RUNTIME_DOCS_UPDATED",
+    "verify_harness": "PASS_AFTER_ORCHESTRATOR_ALIAS_SYNC",
+    "post_fix_verifier": "PASS",
+    "post_fix_admin_typecheck": "PASS",
+    "post_fix_admin_test": "PASS",
+    "post_fix_git_diff_check": "PASS",
+    "post_fix_rendered_label_proof": "PASS",
+    "post_fix_guardrail_scan": "PASS_NO_HITS"
+  },
+  "screenshots": [
+    {
+      "scenario": "desktop-success",
+      "path": ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-desktop-success.png"
+    },
+    {
+      "scenario": "mobile-success",
+      "path": ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-mobile-success.png"
+    },
+    {
+      "scenario": "desktop-empty",
+      "path": ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-desktop-empty.png"
+    },
+    {
+      "scenario": "desktop-error",
+      "path": ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-desktop-error.png"
+    },
+    {
+      "scenario": "desktop-loading",
+      "path": ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-desktop-loading.png"
+    }
+  ],
+  "human_gates": [
+    "legal/privacy wording",
+    "consent copy",
+    "real employee/customer data processing",
+    "customer-specific reporting boundaries",
+    "admin auth/role/audit policy for production use"
+  ],
+  "verdict": {
+    "status": "PASS",
+    "raw": ".agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json",
+    "problems": ".agent/stages/mvp/problems/MVP-02-admin-ui-status-view-001.md"
+  },
+  "blocker": null,
+  "known_limitations": [
+    "Full MVP-02.04 and full MVP-02 remain open until explicit closure decision and human-gate statuses.",
+    "Admin auth/role/audit policy and production real-data use remain human-gated.",
+    "Generated client remains a no-op because packages/api-client has no generator/artifacts.",
+    "Builder screenshots are valid for layout/states but predate the cohort label fix; post-fix production HTML proves the Russian label and absence of PLANNED.",
+    "Fixer browser smoke via installed Google Chrome was attempted, but Chrome aborted before navigation; screenshots were not refreshed and no browser download was attempted.",
+    "The actual implementation checkout is /Users/elena/cursor/FinPulse; /Users/elena/cursor/FinRhythm was observed as a stale empty path during dependency troubleshooting.",
+    "Unrelated repo-rename edits exist under docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md and .agent/tasks/repo-rename-finpulse/."
+  ]
+}

@@ -1,0 +1,31 @@
+COMMAND: verifier admin screenshot/generated-client refs check
+PWD: /Users/elena/cursor/FinPulse
+START: 2026-05-11T17:59:22Z
+
+Screenshot refs file:
+.agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-browser-smoke.json
+.agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-desktop-empty.png
+.agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-desktop-error.png
+.agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-desktop-loading.png
+.agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-desktop-success.png
+.agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-mobile-success.png
+
+Screenshot files and sizes:
+-rw-r--r--@ 1 elena  staff    1039 May 11 20:45 .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-browser-smoke.json
+-rw-r--r--@ 1 elena  staff   94079 May 11 20:45 .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-desktop-empty.png
+-rw-r--r--@ 1 elena  staff   29981 May 11 20:45 .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-desktop-error.png
+-rw-r--r--@ 1 elena  staff   31239 May 11 20:45 .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-desktop-loading.png
+-rw-r--r--@ 1 elena  staff  183369 May 11 20:45 .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-desktop-success.png
+-rw-r--r--@ 1 elena  staff  137603 May 11 20:45 .agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-screenshots-20260511/mvp-02-access-pool-status-mobile-success.png
+
+Browser smoke output:
+
+> @finrhythm/admin@0.0.0 smoke:browser /Users/elena/cursor/FinPulse/apps/admin
+> node tests/browser-smoke.mjs
+
+browser smoke passed: 5 screenshots
+
+packages/api-client files:
+packages/api-client/.gitkeep
+END: 2026-05-11T17:59:22Z
+EXIT_CODE: 0

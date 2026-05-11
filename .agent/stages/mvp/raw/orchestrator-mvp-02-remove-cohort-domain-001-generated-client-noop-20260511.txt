@@ -1,0 +1,8 @@
+Generated client state:
+packages/api-client/.gitkeep
+
+Package tree:
+packages/api-client
+packages/api-client/.gitkeep
+
+No generator/artifact files detected; generated-client update remains explicit no-op.

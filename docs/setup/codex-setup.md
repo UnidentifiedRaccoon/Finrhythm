@@ -81,7 +81,20 @@ make test-e2e
 make build
 ```
 
-После первого MVP-02 backend slice `make verify` and `make test-unit` also run backend unit checks through `apps/api/mvnw`. `make build` additionally packages `apps/api` with tests skipped after the explicit verification steps.
+После первого MVP-02 backend slice `make verify` and `make test-unit` also run backend unit checks through `apps/api/mvnw`. После минимального `apps/admin` UI slice `make verify` runs admin typecheck/test, `make test-unit` runs focused admin tests, and `make build` builds the admin app before packaging `apps/api` with tests skipped after the explicit verification steps.
+
+Admin UI local commands:
+
+Команды ниже намеренно используют текущий technical package/env namespace. Имя репозитория — `FinPulse`; `@finrhythm/*` and `FINRHYTHM_*` остаются code identifiers до отдельной namespace migration.
+
+```bash
+pnpm --filter @finrhythm/admin dev -- --port 3300
+pnpm --filter @finrhythm/admin typecheck
+pnpm --filter @finrhythm/admin test
+pnpm --filter @finrhythm/admin build
+```
+
+The default admin route uses synthetic fixture data. Optional live read-only mode requires synthetic `FINRHYTHM_ADMIN_API_BASE_URL`, `FINRHYTHM_ADMIN_SYNTHETIC_TENANT_ID`, `FINRHYTHM_ADMIN_SYNTHETIC_PILOT_LAUNCH_ID` and `FINRHYTHM_ADMIN_SYNTHETIC_ACCESS_POOL_ID`.
 
 Local init/dev require Docker daemon:
 

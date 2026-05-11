@@ -6,7 +6,8 @@ import java.util.UUID;
 public record EmployeeRegistrationResult(
         UUID employeeRegistrationId,
         UUID tenantId,
-        UUID cohortId,
+        UUID pilotLaunchId,
+        UUID accessPoolId,
         UUID inviteCodeId,
         Instant registeredAt,
         boolean idempotentRetry

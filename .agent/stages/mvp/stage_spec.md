@@ -1,223 +1,135 @@
-# MVP-02.04 admin cohort/code status view spec freeze
+# MVP-02 closure audit spec freeze
 
 Stage ID: `mvp`
-Active slice: `MVP-02-admin-code-status-view-001`
-Parent stage unit: `MVP-02.04`
+Active slice: `MVP-02-closure-audit-001`
+Parent stage unit: `MVP-02`
 Status: `FROZEN`
-Frozen at: 2026-05-09
+Frozen at: 2026-05-11
 Freezer role: `stage_spec_freezer`
 
 ## Objective
 
-Freeze the next narrow implementation slice for the admin-facing cohort/code status surface.
+Freeze the smallest honest next sprint contract after the verified MVP-02 access-model refactor: a closure/audit-only pass for full `MVP-02`.
 
-The smallest verifiable slice in the current repo is backend/admin API only. `apps/admin` currently contains only `apps/admin/AGENTS.md` and no Next.js app baseline, while `apps/api` already has the Spring Boot/Flyway/OpenAPI registration and invite-code model needed to power the view. Building the admin UI and scaffolding the admin app in the same contract would mix an app-bootstrap slice with the cohort/code status contract.
+This freeze does not implement code, change public contracts, update canonical docs, edit raw evidence, close human gates, or write a final verifier verdict. It only defines the next audit slice that must decide whether full `MVP-02` can be recorded as technically complete with human gates still pending, or whether a concrete non-human proof gap remains.
 
-This freeze therefore owns a read-only admin API contract that returns the data needed for a future admin cohort/code status view and activation funnel. It does not implement `apps/admin` UI, screenshots, browser evidence, admin auth/session, HR reporting exports or full MVP-02 closure.
+## Source Baseline
 
-## Source baseline
+Read set used for this freeze:
 
-This freeze reconciles:
-
-- current repo state on 2026-05-09;
 - `AGENTS.md`;
-- `.agents/skills/stage-launch-proof-loop/SKILL.md`;
-- `.agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md`;
 - `docs/architecture/source-of-truth.md`;
 - `docs/architecture/documentation-workflow.md`;
-- `docs/engineering/definition-of-done.md`;
-- `docs/engineering/human-gates.md`;
-- `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`;
-- `docs/stages/MVP.md` only for stage docs;
-- `apps/admin/AGENTS.md`;
-- `apps/api/AGENTS.md`;
-- prior MVP-02 task files:
-  - `.agent/stages/mvp/task-files/MVP-02-tenant-domain-001.md`;
-  - `.agent/stages/mvp/task-files/MVP-02-invite-issuance-activation-001.md`;
-  - `.agent/stages/mvp/task-files/MVP-02-employee-registration-001.md`;
-- current `MVP-02-employee-registration-001` fresh verifier PASS in `.agent/stages/mvp/verdict.json` and `.agent/stages/mvp/problems.md`;
-- current backend baseline in `apps/api`:
-  - Spring Boot 3.3 / Java 21 / Maven Wrapper;
-  - PostgreSQL/Flyway migrations `V001` through `V004`;
-  - tenant, cohort/wave, invite code and employee registration JPA/domain model;
-  - invite issuance/activation service with opaque non-PII `activation_subject_ref`;
-  - public employee registration OpenAPI/springdoc source;
-  - `packages/api-client` still has no generated client pipeline;
-- current `apps/admin` baseline:
-  - local operator-surface rules exist;
-  - no Next.js app, route, package or screenshotable admin UI exists yet.
+- `.agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md`;
+- `docs/stages/MVP.md`;
+- `.agent/stages/mvp/status.json`;
+- `.agent/stages/mvp/backlog.md`;
+- `.agent/stages/mvp/progress.md`;
+- `.agent/stages/mvp/evidence.json`;
+- `.agent/stages/mvp/problems.md`;
+- `.agent/stages/mvp/verdict.json`;
+- current target stage artifacts needed to avoid overwriting: `.agent/stages/mvp/stage_spec.md`, `.agent/stages/mvp/sprint_contract.md`, `.agent/stages/mvp/feature_list.json`;
+- prior `MVP-02.04` closure/audit task and immutable verdict/evidence refs, only to understand the already verified sub-unit closure decision.
 
-## Scope decision
+No production source, canonical docs beyond the requested read set, or raw evidence files were read for this freeze.
 
-Freeze backend/admin API-only first.
+## Current Verified State To Preserve
 
-Rationale:
+- Stage state is `SPRINT_PASSED`.
+- No active sprint contract is currently recorded in `status.json`.
+- Latest verified sprint in `status.json` is the MVP-02 access-model refactor and it has fresh verifier `PASS`.
+- `MVP-02.01`, `MVP-02.02` and `MVP-02.03` are recorded as `PASS`.
+- `MVP-02.04` is recorded as `DONE_WITH_HUMAN_PENDING`.
+- The prior `MVP-02.04` closure/audit slice has fresh verifier `PASS`.
+- Full `MVP-02` is still open in stage artifacts.
+- The MVP stage is still open.
+- Human gates remain open and must not be closed by this audit.
 
-- `MVP-02.04` needs cohort/code status data before a useful admin UI can be built.
-- A real admin UI slice would first require introducing the `apps/admin` Next.js app baseline, package scripts and browser evidence. That is a larger app-bootstrap slice and should be frozen separately.
-- The current API has enough domain data to prove the admin status/funnel contract without introducing UI risk or real data.
+## Decision Rule Application
 
-This task can support the future admin view but does not itself close the UI part of `MVP-02.04`.
+The read artifacts show no concrete non-human proof gap after the verified access-model refactor. The remaining blockers are human-gated production/admin/legal/privacy/reporting approvals and broader MVP units outside `MVP-02`.
 
-## In scope
+Because full `MVP-02` is not yet closed, the next honest slice is not feature implementation and not the next stage unit. The frozen task is:
 
-- Read-only backend admin API surface for one tenant/cohort.
-- A single status/funnel endpoint, unless implementation proves a second small list endpoint is materially simpler:
-  - preferred path: `GET /api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status`.
-- Response data required for the future admin view:
-  - tenant and cohort identifiers;
-  - cohort key, name, kind, status and target size;
-  - status counts for invite codes;
-  - funnel counts: target size, issued codes, activated codes, registered employees, revoked/expired/unissued-style operational counts when available;
-  - paginated code rows with `inviteCodeId`, status, issued/expiry/activation timestamps and registration presence/timestamp;
-  - no raw invite-code value.
-- Optional query parameters if implemented as one endpoint:
-  - `status`;
-  - `page`;
-  - `size` with a bounded maximum suitable for Wave 1 pagination.
-- Service/repository read model or projection for aggregation and pagination.
-- OpenAPI/springdoc source for the admin endpoint and response schema.
-- Tests proving Wave 1 scale with 500 synthetic invite records and mixed activation/registration states.
-- Generated-client handoff note:
-  - regenerate only if a generator exists or is introduced by the builder;
-  - otherwise record an explicit no-op because `packages/api-client` has no generation pipeline yet.
-- Stage evidence plan and future raw refs for commands, OpenAPI inspection, privacy scans, and fresh verification.
+`MVP-02-closure-audit-001`
 
-## Out of scope
+## Scope Decision
 
-- `apps/admin` Next.js app scaffold, pages, components, browser screenshots or UI implementation.
-- Admin operator copy; a later UI slice must use Russian copy and screenshot/browser evidence.
-- Admin actions to create tenants/cohorts, issue/generate invite batches, revoke codes or mutate statuses.
-- Employee-facing UI, onboarding, privacy screen, consent version logging or legal document approval.
-- Full auth/session, passwords, SSO, SCIM, role/permission model or admin audit logs.
-- HR/sponsor dashboard, exports, reporting thresholds, diagnostic insights, learning analytics or pilot outcome report.
-- Raw invite-code display, lookup hashes, activation subject refs, full employee name/email/phone in the status response.
-- Diagnostics answers, weak zones, exact financial data, points, rewards, merch, support and feedback.
-- Real customer brand in employee-facing surfaces or real employee/customer/personal/financial data in code, tests, fixtures, logs or evidence.
-- Final human approval for customer-specific reporting, privacy/legal wording, real data processing or production admin access.
+Freeze one closure/audit-only sprint for full `MVP-02`.
 
-## Frozen API shape
+The future executor must reconcile current stage evidence for `MVP-02.01` through `MVP-02.04`, the latest verified access-model refactor, and the open human gates. It must choose exactly one outcome:
 
-Preferred endpoint:
+1. record full `MVP-02` as `DONE_WITH_HUMAN_PENDING` if no non-human proof gap remains; or
+2. keep full `MVP-02` open and freeze/report the smallest concrete non-human gap-fix slice.
 
-- `GET /api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status`
+The audit must not mark the MVP stage complete and must not mark any human gate as `DONE`.
 
-Request:
+## In Scope For The Closure/Audit Sprint
 
-- `tenantId`: required UUID path parameter;
-- `cohortId`: required UUID path parameter;
-- `status`: optional invite-code status filter using the backend enum values;
-- `page`: optional non-negative page number;
-- `size`: optional page size with a bounded maximum.
+- Reconcile `status.json`, `backlog.md`, `progress.md`, `evidence.json`, `problems.md` and `verdict.json` against `docs/stages/MVP.md` `MVP-02` acceptance criteria.
+- Cite immutable PASS verdicts for the completed MVP-02 slices and the latest verified access-model refactor.
+- Confirm that the proven technical scope covers:
+  - pilot tenant, pilot launch and access pool modeling;
+  - individual invite-code issuance and one-user activation;
+  - employee registration by name, email, phone and invite code;
+  - privacy-safe read-only admin status/funnel visibility;
+  - duplicate, expired and invalid invite-code paths;
+  - no corporate SSO requirement.
+- Record a full `MVP-02` status decision or a concrete non-human gap.
+- Keep all human-gated statuses open.
+- Produce closure/audit evidence and require a fresh verifier scoped only to `MVP-02-closure-audit-001`.
 
-Success response:
+## Out Of Scope
 
-- `tenantId`;
-- `cohortId`;
-- `cohortKey`;
-- `cohortName`;
-- `cohortKind`;
-- `cohortStatus`;
-- `targetSize`;
-- `summary`:
-  - `issuedCount`;
-  - `activatedCount`;
-  - `registeredCount`;
-  - `revokedCount`;
-  - `expiredCount`;
-  - `totalCodeCount`;
-  - `remainingCapacity`;
-- `statusCounts`: list of `{ status, count }`;
-- `codes`: page object with rows:
-  - `inviteCodeId`;
-  - `status`;
-  - `issuedAt`;
-  - `expiresAt`;
-  - `activatedAt`;
-  - `registeredAt`;
-  - `registered`.
+- Production code, tests, schemas, API contracts, generated clients, package manifests, lockfiles, app config or UI edits.
+- Canonical doc edits.
+- Raw evidence rewrites.
+- New feature implementation.
+- Access/admin model redesign beyond auditing the already verified scope.
+- Admin auth/session/role/audit production policy implementation.
+- Real employee/customer data processing.
+- Legal/privacy/consent approval.
+- Customer-specific reporting approval.
+- Financial correctness, rewards, fulfillment, HR wording or production content approval.
+- MVP stage closure.
+- Human approval.
 
-Error behavior:
+## Acceptance Criteria
 
-- tenant/cohort not found returns a structured 404 without leaking unrelated tenant/cohort existence;
-- tenant/cohort mismatch returns the same safe not-found style response;
-- invalid query parameters return structured 400;
-- responses never echo raw invite codes, lookup hashes, activation subject refs, fullName, email, phone, diagnostic answers or financial data.
+1. Prior completed MVP-02 slices and the latest verified access-model refactor are reconciled against the `MVP-02` acceptance criteria in `docs/stages/MVP.md`.
+2. The audit records whether any concrete non-human proof gap remains for full `MVP-02`.
+3. If no such gap remains, full `MVP-02` is recorded only as `DONE_WITH_HUMAN_PENDING`, not as unconditional `DONE`.
+4. If a gap remains, the audit names the smallest next gap-fix contract and keeps full `MVP-02` open.
+5. Human gates remain non-DONE.
+6. The MVP stage remains open.
+7. No production code, canonical docs, raw evidence or prior immutable verdict/evidence artifacts are edited.
+8. Changed JSON artifacts validate.
+9. `git diff --check` is clean for changed artifacts.
+10. Fresh verifier verdict is scoped only to `MVP-02-closure-audit-001` and is not written by this freezer.
 
-## Acceptance criteria
+## Verification Minimum For The Future Executor
 
-1. Backend baseline remains Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
-2. The slice is backend/admin API-only; `apps/admin` UI remains untouched except for reading `apps/admin/AGENTS.md`.
-3. Endpoint returns cohort metadata, invite-code status counts, activation/registration funnel counts and paginated per-code operational rows for one tenant/cohort.
-4. Wave 1 scale is proven with 500 synthetic invite codes and mixed `ISSUED` / `ACTIVATED` / registered states.
-5. Status filtering and pagination are deterministic and bounded; unbounded 500-row payloads are not the only way to inspect a Wave 1 cohort.
-6. Privacy guardrails hold: response and logs do not include raw invite codes, lookup hashes, activation subject refs, employee fullName/email/phone, diagnostic answers, weak zones or financial data.
-7. No real employee/customer data, real customer brand or production invite values are used in tests, fixtures, logs or raw evidence.
-8. Controllers remain thin; aggregation and privacy filtering live in service/read-model code or repository projections.
-9. DB changes are avoided unless necessary; any DB change must be append-only after `V004` and limited to safe read indexes or view-supporting constraints.
-10. OpenAPI/springdoc source represents the admin endpoint, query parameters, response schema, safe errors and privacy-safe examples.
-11. Generated-client status is handled honestly: regenerate if a generator exists, or record explicit no-op if `packages/api-client` still has no generator/artifacts.
-12. Evidence maps every criterion to raw refs for git status, Java/Maven/root commands, API tests, OpenAPI inspection, generated-client/no-op note, privacy/PII/raw-code scans, harness validation and fresh verifier verdict.
-13. Human gates remain open: legal/privacy wording, real employee/customer data processing, customer-specific HR/reporting boundaries, admin auth/role policy and production use of real admin data are not marked DONE.
+The closure/audit sprint must record:
 
-## Verification plan
+- prior-verdict summary for completed MVP-02 slices;
+- acceptance mapping from `docs/stages/MVP.md` `MVP-02` to immutable evidence/verdict refs;
+- explicit human-gate status check;
+- explicit full-MVP-stage-open check;
+- changed-files scope check proving no production/canonical/raw evidence edits;
+- JSON validation for edited machine artifacts;
+- `git diff --check`;
+- harness validation when possible;
+- fresh verifier verdict scoped only to `MVP-02-closure-audit-001`.
 
-Builder must run and record raw outputs:
+## Human Gates
 
-- `git status --short`;
-- `java -version`;
-- `cd apps/api && ./mvnw -v`;
-- `cd apps/api && ./mvnw -q test`;
-- `cd apps/api && ./mvnw -q verify`;
-- `make verify`;
-- `make test-unit`;
-- `make build`;
-- API/read-model tests for 500-code Wave 1 cohort, mixed status counts, activated/registered funnel counts, status filter, pagination, not-found/mismatch and validation errors;
-- migration inspection proving no DB migration or only append-only post-`V004` index migration if needed;
-- OpenAPI/springdoc endpoint/schema inspection for the admin status endpoint;
-- generated-client regeneration output or explicit no-op note;
-- privacy scan proving no raw invite code, lookup hash, activation subject ref, employee contact fields, diagnostic/financial data, real customer brand or real data in response examples/tests/evidence;
-- `python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp`;
-- fresh `stage_verifier` scoped only to `MVP-02-admin-code-status-view-001`.
+No human gate is closed by this freeze or by the future closure/audit contract.
 
-Expected future raw refs should be stored under `.agent/stages/mvp/raw/` with the `stage-builder-mvp-02-admin-code-status-view-001-*` and `stage-verifier-mvp-02-admin-code-status-view-001-*` prefixes or an equally specific immutable naming pattern.
-
-## Docs targets
-
-- API contract source in `apps/api` through Spring/springdoc annotations/configuration.
-- Generated-client notes in the slice evidence/task handoff; generated artifacts may only be updated from source.
-- Stage artifacts:
-  - `.agent/stages/mvp/stage_spec.md`;
-  - `.agent/stages/mvp/sprint_contract.md`;
-  - `.agent/stages/mvp/task-files/MVP-02-admin-code-status-view-001.md`;
-  - `.agent/stages/mvp/backlog.md`;
-  - `.agent/stages/mvp/feature_list.json`;
-  - `.agent/stages/mvp/progress.md`;
-  - `.agent/stages/mvp/status.json`;
-  - `.agent/stages/mvp/decisions.md`;
-  - `.agent/stages/mvp/risks.md`;
-  - future `.agent/stages/mvp/evidence.*`;
-  - future `.agent/stages/mvp/verdict.*`;
-  - future `.agent/stages/mvp/problems.*`.
-- No canonical product/stage doc change is expected unless builder discovers a contradiction or expands accepted behavior.
-- `apps/admin` documentation or setup docs are not targets in this backend-only slice.
-
-## Diagram expectations
-
-Builder must add a small Mermaid sequence or flow diagram in the task/evidence handoff for:
-
-`Admin status request -> controller -> admin read service -> cohort/invite/registration read model -> privacy-safe aggregation -> OpenAPI response`.
-
-No browser/UI diagram is required because this freeze intentionally excludes `apps/admin` UI. If builder adds UI anyway, that is scope drift and requires re-freeze before implementation.
-
-## Human gates
-
-No human gate is closed by this freeze.
-
-The following remain `WAITING_HUMAN` or out of scope:
+Keep these open:
 
 - legal/privacy wording and consent copy;
 - real employee/customer data processing;
 - customer-specific HR/reporting boundaries;
-- admin auth/role/audit policy for production;
-- any request to expose personal employee contact fields, financial answers or diagnostic weak zones in sponsor/admin reports.
+- admin auth/role/audit policy for production use;
+- personal employee contact/financial/diagnostic disclosure requests;
+- financial correctness, rewards, fulfillment, HR wording and production content approval outside `MVP-02`.

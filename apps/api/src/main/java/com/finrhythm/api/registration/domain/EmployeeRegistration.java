@@ -26,7 +26,10 @@ public class EmployeeRegistration {
     private UUID tenantId;
 
     @Column(nullable = false, updatable = false)
-    private UUID cohortId;
+    private UUID pilotLaunchId;
+
+    @Column(nullable = false, updatable = false)
+    private UUID accessPoolId;
 
     @Column(nullable = false, updatable = false)
     private UUID inviteCodeId;
@@ -57,14 +60,16 @@ public class EmployeeRegistration {
 
     private EmployeeRegistration(
             UUID tenantId,
-            UUID cohortId,
+            UUID pilotLaunchId,
+            UUID accessPoolId,
             UUID inviteCodeId,
             ActivationSubjectRef activationSubjectRef,
             RegistrationContact contact,
             Instant registeredAt
     ) {
         this.tenantId = Objects.requireNonNull(tenantId, "tenantId");
-        this.cohortId = Objects.requireNonNull(cohortId, "cohortId");
+        this.pilotLaunchId = Objects.requireNonNull(pilotLaunchId, "pilotLaunchId");
+        this.accessPoolId = Objects.requireNonNull(accessPoolId, "accessPoolId");
         this.inviteCodeId = Objects.requireNonNull(inviteCodeId, "inviteCodeId");
         this.activationSubjectRef = Objects.requireNonNull(activationSubjectRef, "activationSubjectRef").value();
         applyContact(contact);
@@ -73,13 +78,22 @@ public class EmployeeRegistration {
 
     public static EmployeeRegistration register(
             UUID tenantId,
-            UUID cohortId,
+            UUID pilotLaunchId,
+            UUID accessPoolId,
             UUID inviteCodeId,
             ActivationSubjectRef activationSubjectRef,
             RegistrationContact contact,
             Instant registeredAt
     ) {
-        return new EmployeeRegistration(tenantId, cohortId, inviteCodeId, activationSubjectRef, contact, registeredAt);
+        return new EmployeeRegistration(
+                tenantId,
+                pilotLaunchId,
+                accessPoolId,
+                inviteCodeId,
+                activationSubjectRef,
+                contact,
+                registeredAt
+        );
     }
 
     public UUID getId() {
@@ -90,8 +104,12 @@ public class EmployeeRegistration {
         return tenantId;
     }
 
-    public UUID getCohortId() {
-        return cohortId;
+    public UUID getPilotLaunchId() {
+        return pilotLaunchId;
+    }
+
+    public UUID getAccessPoolId() {
+        return accessPoolId;
     }
 
     public UUID getInviteCodeId() {
@@ -138,7 +156,8 @@ public class EmployeeRegistration {
 
     void validate() {
         tenantId = Objects.requireNonNull(tenantId, "tenantId");
-        cohortId = Objects.requireNonNull(cohortId, "cohortId");
+        pilotLaunchId = Objects.requireNonNull(pilotLaunchId, "pilotLaunchId");
+        accessPoolId = Objects.requireNonNull(accessPoolId, "accessPoolId");
         inviteCodeId = Objects.requireNonNull(inviteCodeId, "inviteCodeId");
         activationSubjectRef = ActivationSubjectRef.fromSha256Hex(activationSubjectRef).value();
         applyContact(new RegistrationContact(fullName, email, phone));

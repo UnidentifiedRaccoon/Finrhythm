@@ -1,13 +1,14 @@
 package com.finrhythm.api.tenant.service;
 
 import com.finrhythm.api.tenant.domain.ActivationSubjectRef;
-import com.finrhythm.api.tenant.domain.Cohort;
-import com.finrhythm.api.tenant.domain.CohortKind;
+import com.finrhythm.api.tenant.domain.AccessPool;
 import com.finrhythm.api.tenant.domain.InviteCode;
 import com.finrhythm.api.tenant.domain.InviteCodeHash;
+import com.finrhythm.api.tenant.domain.PilotLaunch;
 import com.finrhythm.api.tenant.domain.Tenant;
-import com.finrhythm.api.tenant.persistence.CohortRepository;
+import com.finrhythm.api.tenant.persistence.AccessPoolRepository;
 import com.finrhythm.api.tenant.persistence.InviteCodeRepository;
+import com.finrhythm.api.tenant.persistence.PilotLaunchRepository;
 import com.finrhythm.api.tenant.persistence.TenantRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,7 +71,10 @@ class InviteCodeAccessServiceIT {
     TenantRepository tenantRepository;
 
     @Autowired
-    CohortRepository cohortRepository;
+    PilotLaunchRepository pilotLaunchRepository;
+
+    @Autowired
+    AccessPoolRepository accessPoolRepository;
 
     @Autowired
     InviteCodeRepository inviteCodeRepository;
@@ -79,13 +83,13 @@ class InviteCodeAccessServiceIT {
     JdbcTemplate jdbcTemplate;
 
     @Test
-    void issuesRequestedWaveOneBatchWithUniqueHashesAndNoRawPersistence() {
+    void issuesRequestedPilotAccessPoolBatchWithUniqueHashesAndNoRawPersistence() {
         Tenant tenant = seedTenant();
-        Cohort cohort = seedWaveOne(tenant, 500);
+        AccessPool accessPool = seedAccessPool(tenant, 500);
 
         List<IssuedInviteCode> issuedCodes = inviteCodeAccessService.issueBatch(
                 tenant.getId(),
-                cohort.getId(),
+                accessPool.getId(),
                 500,
                 ISSUED_AT,
                 ISSUED_AT.plusSeconds(86_400)
@@ -99,10 +103,10 @@ class InviteCodeAccessServiceIT {
                 select lookup_hash
                 from invite_codes
                 where tenant_id = ?
-                  and cohort_id = ?
-                """, String.class, tenant.getId(), cohort.getId()));
+                  and access_pool_id = ?
+                """, String.class, tenant.getId(), accessPool.getId()));
 
-        assertThat(inviteCodeRepository.countByTenantIdAndCohortId(tenant.getId(), cohort.getId())).isEqualTo(500);
+        assertThat(inviteCodeRepository.countByTenantIdAndAccessPoolId(tenant.getId(), accessPool.getId())).isEqualTo(500);
         assertThat(lookupHashes).hasSize(500);
         assertThat(lookupHashes).allSatisfy(hash -> assertThat(hash).matches("^[a-f0-9]{64}$"));
         assertReturnedCodesAreOnlyOneTimeOutputs(issuedCodes, lookupHashes);
@@ -112,8 +116,8 @@ class InviteCodeAccessServiceIT {
     @Test
     void activatesIssuedNonExpiredCodeAndRetriesSameSubjectIdempotently() {
         Tenant tenant = seedTenant();
-        Cohort cohort = seedWaveOne(tenant, 5);
-        IssuedInviteCode issuedCode = issueOne(tenant, cohort, ISSUED_AT.plusSeconds(86_400));
+        AccessPool accessPool = seedAccessPool(tenant, 5);
+        IssuedInviteCode issuedCode = issueOne(tenant, accessPool, ISSUED_AT.plusSeconds(86_400));
         ActivationSubjectRef subjectRef = subjectRef('1');
         String enteredVariant = issuedCode.code().toLowerCase(Locale.ROOT).replace("-", " ");
 
@@ -126,7 +130,8 @@ class InviteCodeAccessServiceIT {
 
         assertThat(result.inviteCodeId()).isEqualTo(issuedCode.inviteCodeId());
         assertThat(result.tenantId()).isEqualTo(tenant.getId());
-        assertThat(result.cohortId()).isEqualTo(cohort.getId());
+        assertThat(result.pilotLaunchId()).isEqualTo(accessPool.getPilotLaunch().getId());
+        assertThat(result.accessPoolId()).isEqualTo(accessPool.getId());
         assertThat(result.activationSubjectRef()).isEqualTo(subjectRef.value());
         assertThat(result.idempotentRetry()).isFalse();
         assertThat(retry.inviteCodeId()).isEqualTo(issuedCode.inviteCodeId());
@@ -137,11 +142,11 @@ class InviteCodeAccessServiceIT {
     @Test
     void rejectsInvalidExpiredRevokedAndUnissuedActivationPaths() {
         Tenant tenant = seedTenant();
-        Cohort cohort = seedWaveOne(tenant, 10);
+        AccessPool accessPool = seedAccessPool(tenant, 10);
 
         assertActivationFailure("   ", subjectRef('1'), ACTIVATED_AT, InviteActivationFailureReason.INVALID_CODE);
 
-        IssuedInviteCode expiredCode = issueOne(tenant, cohort, ISSUED_AT.plusSeconds(60));
+        IssuedInviteCode expiredCode = issueOne(tenant, accessPool, ISSUED_AT.plusSeconds(60));
         assertActivationFailure(
                 expiredCode.code(),
                 subjectRef('1'),
@@ -149,7 +154,7 @@ class InviteCodeAccessServiceIT {
                 InviteActivationFailureReason.EXPIRED_CODE
         );
 
-        IssuedInviteCode revokedCode = issueOne(tenant, cohort, ISSUED_AT.plusSeconds(86_400));
+        IssuedInviteCode revokedCode = issueOne(tenant, accessPool, ISSUED_AT.plusSeconds(86_400));
         updateInviteStatus(revokedCode.inviteCodeId(), "REVOKED");
         assertActivationFailure(
                 revokedCode.code(),
@@ -161,7 +166,7 @@ class InviteCodeAccessServiceIT {
         String unissuedCode = new InviteCodeGenerator().generate();
         inviteCodeRepository.saveAndFlush(InviteCode.created(
                 tenant,
-                cohort,
+                accessPool,
                 InviteCodeHash.fromEnteredCode(unissuedCode)
         ));
         assertActivationFailure(
@@ -175,8 +180,8 @@ class InviteCodeAccessServiceIT {
     @Test
     void rejectsDifferentSubjectAfterActivation() {
         Tenant tenant = seedTenant();
-        Cohort cohort = seedWaveOne(tenant, 5);
-        IssuedInviteCode issuedCode = issueOne(tenant, cohort, ISSUED_AT.plusSeconds(86_400));
+        AccessPool accessPool = seedAccessPool(tenant, 5);
+        IssuedInviteCode issuedCode = issueOne(tenant, accessPool, ISSUED_AT.plusSeconds(86_400));
 
         inviteCodeAccessService.activate(issuedCode.code(), subjectRef('1'), ACTIVATED_AT);
 
@@ -191,8 +196,8 @@ class InviteCodeAccessServiceIT {
     @Test
     void concurrentDifferentSubjectActivationAllowsOnlyOneBinding() throws Exception {
         Tenant tenant = seedTenant();
-        Cohort cohort = seedWaveOne(tenant, 5);
-        IssuedInviteCode issuedCode = issueOne(tenant, cohort, ISSUED_AT.plusSeconds(86_400));
+        AccessPool accessPool = seedAccessPool(tenant, 5);
+        IssuedInviteCode issuedCode = issueOne(tenant, accessPool, ISSUED_AT.plusSeconds(86_400));
         ActivationSubjectRef firstSubject = subjectRef('1');
         ActivationSubjectRef secondSubject = subjectRef('2');
         CountDownLatch ready = new CountDownLatch(2);
@@ -256,19 +261,25 @@ class InviteCodeAccessServiceIT {
         return tenantRepository.saveAndFlush(Tenant.create("pilot-" + UUID.randomUUID(), "Pilot tenant"));
     }
 
-    private Cohort seedWaveOne(Tenant tenant, int targetSize) {
+    private AccessPool seedAccessPool(Tenant tenant, int capacity) {
         String suffix = UUID.randomUUID().toString().substring(0, 8);
-        return cohortRepository.saveAndFlush(Cohort.createWave(
+        PilotLaunch pilotLaunch = pilotLaunchRepository.saveAndFlush(PilotLaunch.create(
                 tenant,
-                "wave-" + suffix,
-                "Wave 1",
-                CohortKind.WAVE_1,
-                targetSize
+                "pilot-launch-" + suffix,
+                "Pilot launch main",
+                capacity
+        ));
+        return accessPoolRepository.saveAndFlush(AccessPool.create(
+                tenant,
+                pilotLaunch,
+                "access-pool-" + suffix,
+                "Access pool main",
+                capacity
         ));
     }
 
-    private IssuedInviteCode issueOne(Tenant tenant, Cohort cohort, Instant expiresAt) {
-        return inviteCodeAccessService.issueBatch(tenant.getId(), cohort.getId(), 1, ISSUED_AT, expiresAt).get(0);
+    private IssuedInviteCode issueOne(Tenant tenant, AccessPool accessPool, Instant expiresAt) {
+        return inviteCodeAccessService.issueBatch(tenant.getId(), accessPool.getId(), 1, ISSUED_AT, expiresAt).get(0);
     }
 
     private void updateInviteStatus(UUID inviteCodeId, String status) {

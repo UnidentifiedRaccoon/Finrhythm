@@ -1,0 +1,51 @@
+ M .agent/stages/mvp/backlog.md
+ M .agent/stages/mvp/decisions.md
+ M .agent/stages/mvp/feature_list.json
+ M .agent/stages/mvp/progress.md
+ M .agent/stages/mvp/risks.md
+ M .agent/stages/mvp/sprint_contract.md
+ M .agent/stages/mvp/stage_spec.md
+ M .agent/stages/mvp/status.json
+ M Makefile
+ M README.md
+ M docs/architecture/repo-layout.md
+ M docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md
+ M docs/setup/codex-setup.md
+ M pnpm-lock.yaml
+?? .agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots/
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-build-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-dev-server-20260511-rerun.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-dev-server-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-test-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-typecheck-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-browser-smoke-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-browser-smoke-system-chrome-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-docs-decision-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-generated-client-noop-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-git-status-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-java-version-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-mvnw-version-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-playwright-install-chromium-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-pnpm-frozen-install-after-lock-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-pnpm-frozen-install-finpulse-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-pnpm-install-clean-retry-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-pnpm-install-corepack-node22-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-pnpm-install-local-store-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-pnpm-install-node22-retry-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-pnpm-install-retry-20260511.txt
+?? .agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-pnpm-resolution-only-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-admin-ui-status-view-001-git-status-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-admin-ui-status-view-001-java-version-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-admin-ui-status-view-001-mvnw-version-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-admin-ui-status-view-001-pnpm-install-20260511.txt
+?? .agent/stages/mvp/raw/stage-builder-mvp-02-admin-ui-status-view-001-pnpm-next-view-20260511.json
+?? .agent/stages/mvp/task-files/MVP-02-admin-ui-status-view-001.md
+?? .agent/tasks/repo-rename-finpulse/
+?? apps/admin/app/
+?? apps/admin/components/
+?? apps/admin/lib/
+?? apps/admin/next-env.d.ts
+?? apps/admin/next.config.mjs
+?? apps/admin/package.json
+?? apps/admin/tests/
+?? apps/admin/tsconfig.json

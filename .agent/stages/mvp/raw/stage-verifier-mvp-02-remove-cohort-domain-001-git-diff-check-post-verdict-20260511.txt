@@ -1,0 +1,9 @@
+COMMAND: git diff --check
+PWD: /Users/elena/cursor/FinPulse
+START: 2026-05-11T18:07:54Z
+.agent/stages/mvp/problems.md:3: trailing whitespace.
++Verifier status: `FAIL`  
+.agent/stages/mvp/problems.md:4: trailing whitespace.
++Updated: 2026-05-11  
+END: 2026-05-11T18:07:54Z
+EXIT_CODE: 2

@@ -1,0 +1,3 @@
+COMMAND: final json validation after evidence sync
+Mon May 11 16:26:39 UTC 2026
+EXIT_CODE=0

@@ -1,0 +1,103 @@
+API/OpenAPI source scan:
+
+New admin route/source refs:
+apps/admin/lib/code-status-fixture.json:3:  "pilotLaunchId": "33333333-3333-4333-8333-333333333333",
+apps/admin/lib/code-status-fixture.json:7:  "accessPoolId": "55555555-5555-4555-8555-555555555555",
+apps/admin/lib/code-status-fixture.json:11:  "poolCapacity": 500,
+apps/admin/lib/code-status-types.ts:47:  pilotLaunchId: string;
+apps/admin/lib/code-status-types.ts:51:  accessPoolId: string;
+apps/admin/lib/code-status-types.ts:55:  poolCapacity: number;
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:87:                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:96:                .andExpect(jsonPath("$.pilotLaunchId").value(seededAccessPool.accessPool().getPilotLaunch().getId().toString()))
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:99:                .andExpect(jsonPath("$.accessPoolId").value(seededAccessPool.accessPool().getId().toString()))
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:103:                .andExpect(jsonPath("$.poolCapacity").value(500))
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:135:                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:160:                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:181:                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:187:                .andExpect(jsonPath("$.code").value("ACCESS_POOL_STATUS_VIEW_NOT_FOUND"))
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:197:                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:213:                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:223:                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:233:                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:256:                .contains("/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status")
+apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java:261:                .contains("ACCESS_POOL_STATUS_VIEW_NOT_FOUND")
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:51:            UUID pilotLaunchId,
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:52:            UUID accessPoolId,
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:60:                pilotLaunchId,
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:61:                accessPoolId
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:65:        Map<InviteCodeStatus, Long> statusCounts = statusCounts(tenantId, accessPoolId);
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:66:        long totalCodeCount = inviteCodeRepository.countByTenantIdAndAccessPoolId(tenantId, accessPoolId);
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:67:        long issuedCount = inviteCodeRepository.countIssuedByTenantIdAndAccessPoolId(tenantId, accessPoolId);
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:68:        long registeredCount = employeeRegistrationRepository.countByTenantIdAndAccessPoolId(tenantId, accessPoolId);
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:71:                accessPoolId,
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:82:                accessPoolId,
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:132:    private Map<InviteCodeStatus, Long> statusCounts(UUID tenantId, UUID accessPoolId) {
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java:136:                : inviteCodeRepository.countStatusesByTenantIdAndAccessPoolId(tenantId, accessPoolId)) {
+apps/admin/lib/code-status-client.ts:78:  const pilotLaunchId = process.env.FINRHYTHM_ADMIN_SYNTHETIC_PILOT_LAUNCH_ID;
+apps/admin/lib/code-status-client.ts:79:  const accessPoolId = process.env.FINRHYTHM_ADMIN_SYNTHETIC_ACCESS_POOL_ID;
+apps/admin/lib/code-status-client.ts:81:  if (!baseUrl || !tenantId || !pilotLaunchId || !accessPoolId) {
+apps/admin/lib/code-status-client.ts:90:    `/api/v1/admin/tenants/${tenantId}/pilot-launches/${pilotLaunchId}/access-pools/${accessPoolId}/code-status`,
+apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusException.java:27:                "ACCESS_POOL_STATUS_VIEW_NOT_FOUND",
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:117:                .andExpect(jsonPath("$.pilotLaunchId").value(accessPool.getPilotLaunch().getId().toString()))
+apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java:118:                .andExpect(jsonPath("$.accessPoolId").value(accessPool.getId().toString()))
+apps/admin/components/admin-code-status-screen.tsx:42:          <MetaCell label="ID запуска" value={shortId(data.pilotLaunchId)} mono />
+apps/admin/components/admin-code-status-screen.tsx:44:          <MetaCell label="План / статус" value={`${data.poolCapacity} · ${ACCESS_POOL_STATUS_LABELS[data.accessPoolStatus]}`} />
+apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeAccessServiceIT.java:133:        assertThat(result.pilotLaunchId()).isEqualTo(accessPool.getPilotLaunch().getId());
+apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeAccessServiceIT.java:134:        assertThat(result.accessPoolId()).isEqualTo(accessPool.getId());
+apps/admin/tests/status-boundary.test.mjs:16:    assert.equal(typeof body.pilotLaunchId, "string");
+apps/admin/tests/status-boundary.test.mjs:19:    assert.equal(typeof body.accessPoolId, "string");
+apps/admin/tests/status-boundary.test.mjs:22:    assert.equal(typeof body.poolCapacity, "number");
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java:16:        UUID pilotLaunchId,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java:28:        UUID accessPoolId,
+apps/api/src/main/java/com/finrhythm/api/admin/readmodel/AdminCodeStatusResponse.java:40:        int poolCapacity,
+apps/api/src/test/java/com/finrhythm/api/tenant/persistence/TenantPersistenceIT.java:190:            UUID accessPoolId,
+apps/api/src/test/java/com/finrhythm/api/tenant/persistence/TenantPersistenceIT.java:213:                accessPoolId,
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:23:@RequestMapping("/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status")
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:51:                                              "pilotLaunchId": "33333333-3333-4333-8333-333333333333",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:55:                                              "accessPoolId": "55555555-5555-4555-8555-555555555555",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:59:                                              "poolCapacity": 500,
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:131:                                              "code": "ACCESS_POOL_STATUS_VIEW_NOT_FOUND",
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:146:            @PathVariable UUID pilotLaunchId,
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:149:            @PathVariable UUID accessPoolId,
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:173:                pilotLaunchId,
+apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java:174:                accessPoolId,
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:29:    private UUID pilotLaunchId;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:32:    private UUID accessPoolId;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:63:            UUID pilotLaunchId,
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:64:            UUID accessPoolId,
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:71:        this.pilotLaunchId = Objects.requireNonNull(pilotLaunchId, "pilotLaunchId");
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:72:        this.accessPoolId = Objects.requireNonNull(accessPoolId, "accessPoolId");
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:81:            UUID pilotLaunchId,
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:82:            UUID accessPoolId,
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:90:                pilotLaunchId,
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:91:                accessPoolId,
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:108:        return pilotLaunchId;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:112:        return accessPoolId;
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:159:        pilotLaunchId = Objects.requireNonNull(pilotLaunchId, "pilotLaunchId");
+apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java:160:        accessPoolId = Objects.requireNonNull(accessPoolId, "accessPoolId");
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/AccessPoolRepository.java:14:    Optional<AccessPool> findByTenantIdAndPilotLaunchIdAndId(UUID tenantId, UUID pilotLaunchId, UUID id);
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationResult.java:9:        UUID pilotLaunchId,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationResult.java:10:        UUID accessPoolId,
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:22:    long countByTenantIdAndAccessPoolId(UUID tenantId, UUID accessPoolId);
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:29:              and inviteCode.accessPool.id = :accessPoolId
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:34:            @Param("accessPoolId") UUID accessPoolId
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:41:              and inviteCode.accessPool.id = :accessPoolId
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:46:            @Param("accessPoolId") UUID accessPoolId
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:61:                      and inviteCode.accessPool.id = :accessPoolId
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:69:                      and inviteCode.accessPool.id = :accessPoolId
+apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java:75:            @Param("accessPoolId") UUID accessPoolId,
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:94:                activation.pilotLaunchId(),
+apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java:95:                activation.accessPoolId(),
+apps/api/src/main/java/com/finrhythm/api/tenant/service/IssuedInviteCode.java:9:        UUID pilotLaunchId,
+apps/api/src/main/java/com/finrhythm/api/tenant/service/IssuedInviteCode.java:10:        UUID accessPoolId,
+apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteActivationResult.java:8:        UUID pilotLaunchId,
+apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteActivationResult.java:9:        UUID accessPoolId,
+apps/api/src/main/java/com/finrhythm/api/registration/persistence/EmployeeRegistrationRepository.java:14:    long countByTenantIdAndAccessPoolId(UUID tenantId, UUID accessPoolId);
+apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeAccessService.java:47:            UUID accessPoolId,
+apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeAccessService.java:61:        AccessPool accessPool = accessPoolRepository.findById(Objects.requireNonNull(accessPoolId, "accessPoolId"))
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationResponse.java:12:        UUID pilotLaunchId,
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationResponse.java:13:        UUID accessPoolId,
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:45:                                              "pilotLaunchId": "33333333-3333-4333-8333-333333333333",
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:46:                                              "accessPoolId": "55555555-5555-4555-8555-555555555555",
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:120:                result.pilotLaunchId(),
+apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java:121:                result.accessPoolId(),

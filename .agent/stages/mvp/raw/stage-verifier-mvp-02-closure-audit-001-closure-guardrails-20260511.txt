@@ -1,0 +1,114 @@
+$ jq closure/status guardrails
+
+## status selected fields
+{
+  "state": "SPRINT_BUILT_AWAITING_VERIFIER",
+  "active_sprint_contract_id": "MVP-02-closure-audit-001",
+  "latest_verified_sprint_contract_id": "MVP-02-remove-cohort-domain-001",
+  "done_with_human_pending_ids": [
+    "MVP-02.04",
+    "MVP-02"
+  ],
+  "completed_ids": [
+    "MVP-01.01",
+    "MVP-01.02",
+    "MVP-01.03",
+    "MVP-01.04",
+    "mvp-01-live-init-dev",
+    "mvp-01-fresh-verifier",
+    "MVP-01-bootstrap-001",
+    "MVP-02.01",
+    "MVP-02-tenant-domain-001",
+    "MVP-02.02",
+    "MVP-02-invite-issuance-activation-001",
+    "MVP-05-learning-methodology-doc-sync-001",
+    "MVP-05-content-spec-ingestion-001",
+    "MVP-02.03",
+    "MVP-02-employee-registration-001",
+    "MVP-02-admin-code-status-view-001",
+    "MVP-02-admin-ui-status-view-001",
+    "MVP-02-04-closure-audit-001",
+    "MVP-02-remove-cohort-domain-001"
+  ],
+  "waiting_human_ids": [
+    "legal-privacy-consent-wording-and-real-pii-processing",
+    "real-employee-customer-data-processing-approval",
+    "customer-specific-hr-reporting-boundaries",
+    "financial-correctness-lessons-diagnostics-quizzes",
+    "legal-tax-review-tax-deduction-wording",
+    "hr-privacy-wording-review-diagnostics-self-assessment-reports",
+    "reward-economy-stock-prices-fulfillment",
+    "support-answer-policy-sensitive-topics",
+    "MVP-05-production-ready-publish-approval",
+    "admin-auth-role-audit-policy-for-production-use"
+  ],
+  "exit_gate_summary": {
+    "mvp_02_complete": false,
+    "mvp_02_done_with_human_pending": true,
+    "mvp_stage_complete": false,
+    "human_gates_open": true,
+    "current_mvp_02_closure_audit_fresh_verifier_pass": false
+  }
+}
+
+## closure evidence guardrails
+{
+  "sprint_contract_id": "MVP-02-closure-audit-001",
+  "status": "DONE_WITH_HUMAN_PENDING",
+  "verification_status": "AWAITING_FRESH_VERIFIER",
+  "closure_decision": {
+    "decision": "DONE_WITH_HUMAN_PENDING",
+    "non_human_proof_gap_found": false,
+    "next_gap_fix_contract": null,
+    "rationale": "Full MVP-02 technical acceptance is covered by completed MVP-02 PASS refs plus the latest MVP-02-remove-cohort-domain-001 fresh verifier PASS. Remaining blockers are human-gated production/admin/legal/privacy/reporting approvals, so MVP-02 is recorded as DONE_WITH_HUMAN_PENDING rather than DONE."
+  },
+  "stage_closure": {
+    "mvp_02": "DONE_WITH_HUMAN_PENDING",
+    "mvp_stage": "OPEN",
+    "human_gates": "OPEN"
+  },
+  "human_gates": [
+    {
+      "gate": "legal/privacy wording and consent copy",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "real employee/customer data processing",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "customer-specific HR/reporting boundaries",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "admin auth/role/audit policy for production use",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "personal employee contact/financial/diagnostic disclosure requests",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "financial correctness, rewards, fulfillment, HR wording and production content approval outside MVP-02",
+      "status": "WAITING_HUMAN"
+    }
+  ],
+  "guardrails": {
+    "production_code_edited_by_this_task": false,
+    "tests_edited_by_this_task": false,
+    "schemas_or_api_contracts_edited_by_this_task": false,
+    "ui_or_package_config_edited_by_this_task": false,
+    "canonical_docs_edited_by_this_task": false,
+    "prior_raw_evidence_rewritten": false,
+    "prior_immutable_evidence_or_verdict_rewritten": false,
+    "human_gates_closed": false,
+    "mvp_stage_closed": false,
+    "full_mvp_02_unconditional_done": false
+  },
+  "docs_sync": {
+    "status": "NOOP",
+    "reason": "This closure/audit records a status decision only; no behavior, public contract, setup/runtime expectation or canonical stage scope changed."
+  }
+}
+
+exit_code=0

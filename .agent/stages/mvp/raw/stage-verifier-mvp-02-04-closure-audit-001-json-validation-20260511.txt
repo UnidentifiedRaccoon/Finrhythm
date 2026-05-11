@@ -1,0 +1,12 @@
+COMMAND: JSON validation for closure-relevant machine artifacts
+Mon May 11 16:20:23 UTC 2026
+PASS .agent/stages/mvp/status.json
+PASS .agent/stages/mvp/feature_list.json
+PASS .agent/stages/mvp/evidence.json
+PASS .agent/stages/mvp/evidence/MVP-02-04-closure-audit-001.json
+PASS .agent/stages/mvp/verdict.json
+PASS .agent/stages/mvp/verdicts/MVP-02-04-closure-audit-001.json
+PASS .agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json
+PASS .agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json
+
+EXIT_CODE=0

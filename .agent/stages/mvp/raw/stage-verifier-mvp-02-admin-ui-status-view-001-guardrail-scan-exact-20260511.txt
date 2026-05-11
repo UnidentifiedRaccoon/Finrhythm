@@ -1,0 +1,11 @@
+exact forbidden-token scan in apps/admin managed source
+apps/admin/lib/code-status-types.ts:1:export const CODE_STATUSES = [
+apps/admin/lib/code-status-types.ts:10:export type CodeStatus = (typeof CODE_STATUSES)[number];
+apps/admin/components/admin-code-status-screen.tsx:2:import { CODE_STATUSES, type AdminCodeStatusResult, type CodeStatus } from "../lib/code-status-types";
+apps/admin/components/admin-code-status-screen.tsx:66:            {CODE_STATUSES.map((status) => (
+apps/admin/lib/code-status-client.ts:3:  CODE_STATUSES,
+apps/admin/lib/code-status-client.ts:154:  return CODE_STATUSES.includes(normalized as CodeStatus)
+allowed operational IDs: inviteCodeId only, no raw code values
+backend diff follows (expected empty for this UI slice):
+api-client files:
+packages/api-client/.gitkeep

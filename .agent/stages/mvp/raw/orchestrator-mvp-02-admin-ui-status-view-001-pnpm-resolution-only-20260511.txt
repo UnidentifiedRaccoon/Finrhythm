@@ -1,0 +1,26 @@
+Scope: all 2 workspace projects
+ WARN  Request took 35130ms: https://registry.npmjs.org/playwright
+Progress: resolved 1, reused 0, downloaded 0, added 0
+ WARN  Request took 11460ms: https://registry.npmjs.org/@types%2Fnode
+Progress: resolved 2, reused 0, downloaded 0, added 0
+Progress: resolved 3, reused 0, downloaded 0, added 0
+Progress: resolved 4, reused 0, downloaded 0, added 0
+ WARN  Request took 25835ms: https://registry.npmjs.org/typescript
+Progress: resolved 5, reused 0, downloaded 0, added 0
+ WARN  Request took 24787ms: https://registry.npmjs.org/next
+Progress: resolved 6, reused 0, downloaded 0, added 0
+ WARN  Request took 13499ms: https://registry.npmjs.org/react
+Progress: resolved 7, reused 0, downloaded 0, added 0
+Progress: resolved 8, reused 0, downloaded 0, added 0
+Progress: resolved 9, reused 0, downloaded 0, added 0
+ WARN  Request took 17058ms: https://registry.npmjs.org/playwright-core
+Progress: resolved 10, reused 0, downloaded 0, added 0
+Progress: resolved 12, reused 0, downloaded 0, added 0
+Progress: resolved 25, reused 0, downloaded 0, added 0
+Progress: resolved 26, reused 0, downloaded 0, added 0
+Progress: resolved 27, reused 0, downloaded 0, added 0
+Progress: resolved 28, reused 0, downloaded 0, added 0
+Progress: resolved 55, reused 0, downloaded 0, added 0
+Progress: resolved 61, reused 0, downloaded 0, added 0, done
+
+Done in 2m 32.9s using pnpm v10.27.0

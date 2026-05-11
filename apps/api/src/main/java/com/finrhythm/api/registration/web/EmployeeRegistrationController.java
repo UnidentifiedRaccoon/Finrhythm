@@ -42,7 +42,8 @@ public class EmployeeRegistrationController {
                                             {
                                               "employeeRegistrationId": "11111111-1111-4111-8111-111111111111",
                                               "tenantId": "22222222-2222-4222-8222-222222222222",
-                                              "cohortId": "33333333-3333-4333-8333-333333333333",
+                                              "pilotLaunchId": "33333333-3333-4333-8333-333333333333",
+                                              "accessPoolId": "55555555-5555-4555-8555-555555555555",
                                               "inviteCodeId": "44444444-4444-4444-8444-444444444444",
                                               "registeredAt": "2026-05-09T09:00:00Z",
                                               "idempotentRetry": false
@@ -116,7 +117,8 @@ public class EmployeeRegistrationController {
         return ResponseEntity.status(status).body(new EmployeeRegistrationResponse(
                 result.employeeRegistrationId(),
                 result.tenantId(),
-                result.cohortId(),
+                result.pilotLaunchId(),
+                result.accessPoolId(),
                 result.inviteCodeId(),
                 result.registeredAt(),
                 result.idempotentRetry()

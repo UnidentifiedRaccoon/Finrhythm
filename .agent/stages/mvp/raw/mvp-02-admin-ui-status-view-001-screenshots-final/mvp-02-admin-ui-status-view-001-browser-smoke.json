@@ -1,0 +1,17 @@
+{
+  "baseUrl": "http://127.0.0.1:3300",
+  "screenshots": [
+    ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-desktop-success.png",
+    ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-mobile-success.png",
+    ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-desktop-empty.png",
+    ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-desktop-error.png",
+    ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-desktop-loading.png"
+  ],
+  "scenarios": [
+    "desktop-success",
+    "mobile-success",
+    "desktop-empty",
+    "desktop-error",
+    "desktop-loading"
+  ]
+}

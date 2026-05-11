@@ -1,0 +1,21 @@
+Fixed the two reported gaps without expanding scope.
+
+Changed files:
+- [status-labels.ts](/Users/elena/cursor/FinPulse/apps/admin/components/status-labels.ts:21): added Russian cohort status labels for `PLANNED`, `ACTIVE`, `CLOSED`.
+- [admin-code-status-screen.tsx](/Users/elena/cursor/FinPulse/apps/admin/components/admin-code-status-screen.tsx:44): now renders `500 · Запланирована` instead of raw `500 · PLANNED`.
+- [browser-smoke.mjs](/Users/elena/cursor/FinPulse/apps/admin/tests/browser-smoke.mjs:15): added smoke assertion for Russian label and forbidden raw enum text.
+- Updated fixer evidence/status refs in `.agent/stages/mvp/evidence.md`, `.agent/stages/mvp/evidence.json`, and immutable `MVP-02-admin-ui-status-view-001` evidence files.
+- Added raw fixer logs under `.agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-*`.
+
+Validations:
+- `pnpm --filter @finrhythm/admin typecheck`: PASS
+- `pnpm --filter @finrhythm/admin test`: PASS
+- `pnpm --filter @finrhythm/admin build`: PASS
+- targeted guardrail scan: PASS, no raw invite-code-like values, PII/contact fields, diagnostic, financial, customer-brand tokens, or rendered `500 · PLANNED`
+- `git diff --check`: PASS
+- evidence JSON parse check: PASS
+
+Remaining blocker/limitation:
+- Browser smoke with `CHROMIUM_EXECUTABLE_PATH=/Applications/Google Chrome.app/Contents/MacOS/Google Chrome` was attempted, but Chrome aborted before navigation, so screenshots were not refreshed. No browser download was attempted.
+- Fresh verifier is still required; I did not mark the sprint/stage done.
+- The `next start` process is still listening on `127.0.0.1:3300`; sandbox denied `kill` with `EPERM`, so I could not stop it from here.

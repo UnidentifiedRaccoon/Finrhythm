@@ -1,0 +1,7 @@
+COMMAND: python3 -m json.tool .agent/stages/mvp/verdict.json .agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json
+PWD: /Users/elena/cursor/FinPulse
+START: 2026-05-11T18:07:54Z
+verdict_json_status=0
+immutable_verdict_json_status=0
+END: 2026-05-11T18:07:54Z
+EXIT_CODE: 0

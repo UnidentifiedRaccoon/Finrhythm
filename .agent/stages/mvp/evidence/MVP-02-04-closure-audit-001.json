@@ -1,0 +1,90 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-02-04-closure-audit-001",
+  "parent_stage_unit": "MVP-02.04",
+  "status": "DONE_WITH_HUMAN_PENDING",
+  "verification_status": "AWAITING_FRESH_VERIFIER",
+  "updated_at": "2026-05-11",
+  "closure_decision": {
+    "decision": "DONE_WITH_HUMAN_PENDING",
+    "non_human_proof_gap_found": false,
+    "rationale": "Prior fresh verifier PASS refs for MVP-02-admin-code-status-view-001 and MVP-02-admin-ui-status-view-001 cover the non-human technical scope of MVP-02.04."
+  },
+  "prior_pass_verdicts": [
+    {
+      "sprint_contract_id": "MVP-02-admin-code-status-view-001",
+      "status": "PASS",
+      "proof_gaps": [],
+      "verdict_ref": ".agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json"
+    },
+    {
+      "sprint_contract_id": "MVP-02-admin-ui-status-view-001",
+      "status": "PASS",
+      "proof_gaps": [],
+      "verdict_ref": ".agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json"
+    }
+  ],
+  "stage_closure": {
+    "mvp_02_04": "DONE_WITH_HUMAN_PENDING",
+    "mvp_02": "OPEN",
+    "mvp_stage": "OPEN"
+  },
+  "human_gates": [
+    {
+      "gate": "legal/privacy wording",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "consent copy",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "real employee/customer data processing",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "customer-specific reporting boundaries",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "admin auth/role/audit policy for production use",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "financial correctness, rewards, fulfillment, HR wording and production content approval outside MVP-02.04",
+      "status": "WAITING_HUMAN"
+    }
+  ],
+  "docs_sync": {
+    "status": "NOOP",
+    "reason": "No behavior, public contract, setup/runtime expectation or canonical stage scope changed."
+  },
+  "commands_summary": {
+    "prior_verdict_summary": "PASS",
+    "docs_noop": "PASS_NOOP",
+    "json_validation": "PASS",
+    "git_diff_check": "PASS",
+    "make_verify": "PASS",
+    "make_test_unit": "PASS",
+    "make_build": "PASS",
+    "verify_harness": "FAIL_EXPECTED_AWAITING_FRESH_VERIFIER",
+    "changed_files_scope": "PASS"
+  },
+  "fresh_verifier": {
+    "status": "REQUIRED_NEXT",
+    "scope": "MVP-02-04-closure-audit-001",
+    "harness_note": "verify_harness currently fails only because fresh verifier-owned verdict/problems aliases still point to MVP-02-admin-ui-status-view-001."
+  },
+  "raw_refs": [
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-prior-verdict-summary-20260511.json",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-docs-noop-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-json-validation-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-git-diff-check-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-make-verify-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-make-test-unit-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-make-build-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-verify-harness-20260511.json",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-changed-files-scope-20260511.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-git-status-final-20260511.txt"
+  ]
+}

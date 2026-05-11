@@ -50,9 +50,9 @@ Stage artifacts, progress, evidence, verdicts and audits must live in `.agent/st
 
 - MVP is B2B-first mobile web for Russia.
 - Первый корпоративный контур: Лемана ПРО as internal/customer context; customer brand is not used in employee-facing UI.
-- MVP supports one pilot tenant and launch waves; architecture must not block later multi-tenant scaling.
-- Волна 0: 30-50 users for UX/content/reward/report validation.
-- Волна 1: 500 employees, 6 active weeks; later expansion can reach 5000 after pilot decision.
+- MVP supports one pilot tenant, one pilot launch and one access pool of invite codes; architecture must not block later repeat launches.
+- Закрытая проверка: 30-50 users for UX/content/reward/report validation.
+- Основной запуск пилота: 500 employees, 6 active weeks; later expansion can reach 5000 after pilot decision.
 - Target users: employees 23-30, office and store staff.
 - Commercial model: corporate access by contract outside the app; no in-app subscription or payment in MVP.
 - Access model: individual invite code; corporate SSO is out of MVP.
@@ -81,8 +81,9 @@ Use these product/domain concepts consistently during implementation:
 
 - `tenant`: one corporate pilot contour in MVP; self-service multi-tenant enterprise platform is later scope.
 - `org_membership`: future-ready link between user and organization; MVP may defer full implementation but must not add single-organization shortcuts that block multi-org membership.
-- `cohort/wave`: launch group linked to invite codes and reporting.
-- `invite code`: individual code activated once and linked to one user and cohort.
+- `pilotLaunch`: approved corporate pilot launch window used for access and reporting context.
+- `accessPool`: invite-code pool linked to one `tenant` and `pilotLaunch`; technical issuance batches may exist only as internal details.
+- `invite code`: individual code activated once and linked to one user and access pool.
 - `diagnostic`: answers and scoring used for routing; HR sees only aggregated insights by default.
 - `learning path`: rule-based route after diagnostics.
 - `points`: non-monetary reward unit; no cash equivalent.
@@ -90,7 +91,7 @@ Use these product/domain concepts consistently during implementation:
 - `reward catalog`: merch and internal bonuses.
 - `merch order`: `new -> approved -> issued / cancelled`; cancellation refunds points.
 - `HR report`: sponsor-facing aggregated analytics with anonymity threshold.
-- `pilot outcome report`: final report for Wave 1 scale/no-scale decision.
+- `pilot outcome report`: final report for the main pilot scale/no-scale decision.
 - `subscription/access source`: future product access source for B2B seats/pro-seats or B2C Pro; not an RBAC role. Full subscription/billing implementation is out of MVP, and optional `entitlement_grant` is a resolver/projection layer only if a later slice introduces it.
 
 ## Learning methodology baseline
@@ -111,7 +112,7 @@ For MVP learning/content/diagnostic implementation, use `docs/product/b2b-mvp/le
 - HR dashboard defaults to aggregated analytics, not personal financial answers.
 - Diagnostics, weak zones and quiz results are HR-visible only in aggregate.
 - Pre/post self-assessment (`SA1–SA3`) is HR-visible only as aggregated group dynamics and never gates rewards or personal comparison.
-- Detailed cohort slices require anonymity threshold of at least 20 users.
+- Detailed launch/access-pool report slices require anonymity threshold of at least 20 users.
 - MVP practice tasks store ranges/categories/checklists/check-ins by default; exact sums, documents, photos and bank screenshots are not required for completion or reporting.
 - Personal data is allowed for access, communications, merch fulfillment and support.
 - Merch reports may be personal because fulfillment requires it.
@@ -122,24 +123,24 @@ For MVP learning/content/diagnostic implementation, use `docs/product/b2b-mvp/le
 
 - Mobile web MVP and WebView-ready responsive constraints.
 - Neutral employee-facing product brand.
-- Single corporate pilot tenant and Wave 0/Wave 1 cohort model.
+- Single corporate pilot tenant, one pilot launch and one access pool of invite codes.
 - Invite code issuance, activation and registration by name/email/phone.
 - Onboarding, trust/privacy screen and consent/legal document acceptance.
 - Entry diagnostics, rule-based scoring and personalized route.
 - First 7-step `Новичок` track from learning methodology v0.2, with optional `Знаток` mini-lessons `Z1`, `Z4`, `Z9`.
 - Lesson template: situation/theory/example/mini-test/practical step/reward.
-- Daily challenge and 6-week startup savings challenge for Wave 1.
+- Daily challenge and 6-week startup savings challenge for the main pilot launch.
 - Points accrual rules v1, wallet and transaction history.
 - Store with mug, tote bag, scarf and internal bonuses; methodology v0.2 working stock hypothesis is 80 mugs, 40 tote bags and 20 scarves until human ops approval.
 - Merch order lifecycle and operator/admin fulfillment surface.
 - Admin/CMS for content, diagnostics, challenges, rewards, orders and support.
 - Methodologist approve-flow for educational content.
-- HR dashboard and reports: executive, funnel, cohort, learning, diagnostic insights, engagement, rewards, support, pilot outcome.
+- HR dashboard and reports: executive, funnel, launch/access-pool, learning, diagnostic insights, engagement, rewards, support, pilot outcome.
 - Support/feedback forms and admin handling.
 - Event taxonomy for core loop and reports.
 - Legal drafts: privacy, terms, consent, financial disclaimer, cookie/consent if used.
 - Pilot communication kit placeholders: email/post/QR/FAQ drafts.
-- QA, smoke/e2e and Wave 0/Wave 1 readiness package.
+- QA, smoke/e2e and pilot-launch readiness package.
 
 ## Out of scope
 
@@ -174,7 +175,7 @@ Human-gated work may be `WAITING_HUMAN` or `DONE_WITH_HUMAN_PENDING`, but not fu
 
 MVP is complete only when all are true:
 
-- Admin can create one pilot tenant, Wave 0/Wave 1 cohorts and generate at least 500 individual invite codes.
+- Admin can create one pilot tenant, one pilot launch, one access pool and generate at least 500 individual invite codes.
 - Employee can register with invite code, name, email and phone.
 - Mobile web core path works on representative smartphones.
 - Employee sees onboarding, privacy screen, legal consent and neutral brand.
@@ -254,24 +255,24 @@ Allowed parallelism:
 
 ---
 
-## MVP-02. Corporate tenant, cohorts and invite access
+## MVP-02. Corporate tenant, pilot launch and invite access
 
-**Goal:** создать controlled access path for Wave 0/Wave 1 without corporate SSO.
+**Goal:** создать controlled access path for one pilot launch/access pool without corporate SSO.
 
 **Dependencies:** MVP-01
 **Parallelism:** low
 
 ### Execution units
 
-- MVP-02.01 [agent] Model tenant, cohorts/waves and invite codes.
+- MVP-02.01 [agent] Model tenant, pilot launch, access pool and invite codes.
 - MVP-02.02 [agent] Implement invite code issuance, activation and one-user binding.
 - MVP-02.03 [agent] Implement employee registration by name/email/phone/code.
-- MVP-02.04 [agent] Implement admin view for cohorts, code statuses and activation funnel.
+- MVP-02.04 [agent] Implement admin view for access-pool code statuses and activation funnel.
 
 ### Acceptance criteria
 
-- Admin can generate and track 500 Wave 1 codes.
-- Code activation is one-time and linked to user/cohort.
+- Admin can generate and track 500 main pilot access-pool codes.
+- Code activation is one-time and linked to user/access pool.
 - Registration does not require corporate SSO.
 - Duplicate/expired/invalid code paths are tested and understandable.
 
@@ -499,7 +500,7 @@ The content spec is a draft with explicit human gates. It can guide CMS/template
 ### Acceptance criteria
 
 - User can complete daily challenge and savings challenge actions.
-- Challenge pacing respects Wave 1: no more than 2 mandatory lessons per week; week 6 is catch-up, post-assessment, store and feedback.
+- Challenge pacing respects the main pilot launch: no more than 2 mandatory lessons per week; week 6 is catch-up, post-assessment, store and feedback.
 - Rewards are idempotent and limited.
 - Missed days invite return without punitive copy.
 - Engagement is visible in reports.
@@ -532,7 +533,7 @@ The content spec is a draft with explicit human gates. It can guide CMS/template
 ### Acceptance criteria
 
 - Store includes mug, tote bag, scarf and internal bonuses.
-- Working Wave 1 stock hypothesis is recorded as 80 mugs, 40 tote bags and 20 scarves until reward operations human approval.
+- Working main-pilot stock hypothesis is recorded as 80 mugs, 40 tote bags and 20 scarves until reward operations human approval.
 - Redeem flow prevents double-spend.
 - Cancellation returns points.
 - Operator can see personal fulfillment data only for orders.
@@ -558,7 +559,7 @@ The content spec is a draft with explicit human gates. It can guide CMS/template
 - MVP-11.01 [agent+human] Freeze event taxonomy and KPI definitions.
 - MVP-11.02 [agent] Implement event tracking for access, onboarding, diagnostics, learning, points, store, retention, support and reports.
 - MVP-11.03 [agent] Implement executive dashboard and funnel report.
-- MVP-11.04 [agent] Implement cohort, learning, diagnostic, engagement, rewards and support reports.
+- MVP-11.04 [agent] Implement launch/access-pool, learning, diagnostic, engagement, rewards and support reports.
 - MVP-11.05 [agent] Implement anonymity threshold and role access rules.
 - MVP-11.06 [agent] Implement pilot outcome report template.
 
@@ -580,9 +581,9 @@ The content spec is a draft with explicit human gates. It can guide CMS/template
 
 ---
 
-## MVP-12. Support, QA and Wave readiness
+## MVP-12. Support, QA and pilot readiness
 
-**Goal:** prepare controlled Wave 0/Wave 1 launch package.
+**Goal:** prepare controlled pilot-launch package.
 
 **Dependencies:** MVP-01 through MVP-11
 **Parallelism:** low
@@ -592,7 +593,7 @@ The content spec is a draft with explicit human gates. It can guide CMS/template
 - MVP-12.01 [agent] Implement support form, feedback capture and admin handling.
 - MVP-12.02 [agent+human] Prepare HR communication kit drafts: email, post, QR poster, FAQ.
 - MVP-12.03 [agent] Prepare scripted smoke/e2e scenarios and demo data.
-- MVP-12.04 [agent] Run Wave 0 readiness checklist and record blockers.
+- MVP-12.04 [agent] Run closed-check readiness checklist and record blockers.
 - MVP-12.05 [agent+human] Prepare go/no-go checklist and operational runbook.
 - MVP-12.06 [agent+human] Close stage audit with evidence and human-gate statuses.
 
@@ -601,9 +602,9 @@ The content spec is a draft with explicit human gates. It can guide CMS/template
 - Support and feedback are operational.
 - Support form can be linked to a lesson/question category and must not promise personal tax, investment, credit or legal consultation.
 - Communication kit explains voluntary participation and privacy boundary.
-- Wave readiness includes 6-week calendar, HR wording review, email/in-app reminder checks and post-assessment timing.
+- Pilot readiness includes 6-week calendar, HR wording review, email/in-app reminder checks and post-assessment timing.
 - Critical employee/admin/HR journeys have smoke/e2e evidence.
-- Wave 1 can launch without manual support for every user.
+- The main pilot launch can start without manual support for every user.
 
 ### Evidence required
 

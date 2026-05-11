@@ -1,6 +1,90 @@
 # MVP progress
 
-Updated: 2026-05-09
+Updated: 2026-05-11
+
+## Current session: MVP-02-closure-audit-001 verifier PASS
+
+- Executed the closure/audit-only slice for full `MVP-02` after the verified `MVP-02-remove-cohort-domain-001` PASS.
+- Reconciled `docs/stages/MVP.md` `MVP-02` acceptance criteria against current stage status, prior PASS records, immutable verdict/evidence refs and the latest access-model refactor proof.
+- Decision: full `MVP-02` is recorded as `DONE_WITH_HUMAN_PENDING` because no concrete non-human proof gap remains for the technical MVP-02 acceptance criteria.
+- Acceptance mapping now covers 500-code access-pool issuance/tracking, one-time activation linked to user/access pool, registration by name/email/phone/code without corporate SSO and duplicate/expired/invalid paths.
+- Kept the MVP stage open and all human gates non-DONE: legal/privacy/consent, real employee/customer data processing, customer-specific reporting boundaries, admin auth/role/audit policy, disclosure requests and broader financial/reward/fulfillment/HR/content approvals.
+- Did not edit production code, tests, schemas, API/OpenAPI/generated clients, UI, package/lock/config files, canonical docs, raw prior evidence or prior immutable evidence/verdict refs.
+- Recorded builder evidence under `.agent/stages/mvp/evidence/MVP-02-closure-audit-001.*` and updated latest evidence aliases, `status.json`, `backlog.md`, `progress.md` and `feature_list.json`.
+- Fresh verifier returned `PASS` for `MVP-02-closure-audit-001` only.
+- Orchestrator accepted the verifier PASS and synchronized `status.json.latest_verified_sprint_contract_id` to `MVP-02-closure-audit-001`.
+- Final orchestrator checks after alias sync are recorded under final raw refs. Full `MVP-02` is `DONE_WITH_HUMAN_PENDING`; the MVP stage and all human gates remain open.
+
+## Current session: MVP-02-remove-cohort-domain-001 verifier PASS
+
+- Froze and implemented the minimal honest refactor for the new product decision: MVP no longer treats `cohort`/`wave` as an active domain/API/UI/operator concept.
+- Added append-only `V005__pilot_launch_access_pool_model.sql`: creates `pilot_launches` and `access_pools`, backfills previous dev rows, moves `invite_codes` and `employee_registrations` to access-pool/pilot-launch references, then drops old active table/columns.
+- Removed active Java `Cohort`, `CohortKind`, `CohortStatus` and `CohortRepository`; active runtime code now uses `PilotLaunch`, `AccessPool`, `pilotLaunchId` and `accessPoolId`.
+- Replaced the admin status API with `GET /api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status`; registration responses now return replacement identifiers instead of `cohortId`.
+- Updated the admin UI DTO/client/fixture/copy/tests/browser smoke to the access-pool status model with Russian operator copy and five refreshed screenshots.
+- Synchronized canonical docs for the changed MVP access model and recorded remaining old-term matches as historical migrations, prior immutable stage artifacts, current cleanup contract text or the V005 transition bridge.
+- Checks passed with Homebrew JDK 21 and system Chrome: focused backend tests, `cd apps/api && ./mvnw -q verify`, admin typecheck/test/build, browser smoke, `make verify`, `make test-unit`, `make build`, JSON validation and `git diff --check`.
+- Generated-client remains explicit no-op because `packages/api-client` has no generator/artifacts.
+- First fresh verifier returned `FAIL` only for setup-doc drift in `AGENTS.md`, `README.md` and `docs/setup/codex-setup.md`.
+- Ran exactly one fixer pass for that concrete docs gap; no production code or human-gate state changed.
+- Fresh post-fixer verifier returned `PASS` for `MVP-02-remove-cohort-domain-001` only.
+- Orchestrator accepted the verifier PASS and synchronized `status.json.latest_verified_sprint_contract_id` to `MVP-02-remove-cohort-domain-001`.
+- Final orchestrator checks after alias sync are recorded under final raw refs. Full `MVP-02`, MVP stage and all human gates remain open.
+
+## Current session: MVP-02-04-closure-audit-001 closure decision
+
+- Executed the stage-artifact-only closure/audit slice for `MVP-02.04` after reading the frozen sprint contract and task file.
+- Reconciled prior immutable verifier refs:
+  - `MVP-02-admin-code-status-view-001` fresh verifier `PASS` for the backend/admin API-only status data contract;
+  - `MVP-02-admin-ui-status-view-001` fresh verifier `PASS` for the minimal `apps/admin` read-only status view.
+- Found no remaining non-human proof gap for the `MVP-02.04` technical scope: together the verified slices cover cohort/code status backend data, activation/registration funnel counts, Russian read-only operator UI, privacy-safe rendering and screenshot/browser evidence limitations.
+- Recorded `MVP-02.04` as `DONE_WITH_HUMAN_PENDING`, not `DONE`.
+- Kept full `MVP-02`, the MVP stage and human gates open: legal/privacy wording, consent copy, real employee/customer data processing, customer-specific reporting boundaries and admin auth/role/audit policy for production use.
+- Did not change production code, tests, schemas, API contracts, generated clients, package manifests, lockfiles, app config, UI files, canonical docs, verdict/problems aliases or prior raw evidence.
+- Canonical docs are a no-op for this slice because behavior, public contracts and operating workflow did not change; stage artifacts carry only the closure/audit handoff.
+- Fresh verifier returned `PASS` for `MVP-02-04-closure-audit-001`; blocking proof gaps: none.
+- Orchestrator accepted the verifier PASS and synchronized `status.json.latest_verified_sprint_contract_id` to `MVP-02-04-closure-audit-001`.
+- Final orchestrator checks after alias sync passed: `verify_harness.py --stage-id mvp`, JSON validation and `git diff --check`.
+- Next honest step is a separately frozen `MVP-02` closure audit or the next MVP slice. Do not mark full `MVP-02` complete from the `MVP-02.04` decision alone.
+
+## Current session: MVP-02-admin-ui-status-view-001 post-fix verifier PASS
+
+- Fresh verifier first returned `FAIL` for two concrete proof gaps: the success UI rendered raw backend enum `PLANNED`, and `git diff --check` failed on trailing whitespace in `.agent/stages/mvp/evidence.md`.
+- Ran one fixer pass scoped only to those gaps.
+- Fixed cohort status rendering with `COHORT_STATUS_LABELS` so the operator UI shows `500 · Запланирована` instead of `500 · PLANNED`.
+- Updated browser smoke assertions to expect the Russian label and reject rendered `500 · PLANNED`.
+- Removed the trailing whitespace from the active evidence alias.
+- Fixer checks passed: admin typecheck, admin test, admin build, rendered HTML label proof, guardrail scan and `git diff --check`.
+- Fixer attempted browser smoke with installed system Google Chrome through `CHROMIUM_EXECUTABLE_PATH`, but Chrome aborted before navigation; no browser download was attempted. Existing builder screenshots remain state/layout evidence, and post-fix production HTML proves the corrected label.
+- Fresh post-fix verifier returned `PASS` for `MVP-02-admin-ui-status-view-001` only.
+- `MVP-02.04`, full `MVP-02`, MVP stage and human gates remain open. Admin auth/role/audit policy, real employee/customer data processing and customer-specific reporting boundaries are not closed.
+
+## Current session: MVP-02-admin-ui-status-view-001 builder evidence
+
+- Implemented the minimal `apps/admin` Next.js scaffold and read-only operator status view for the verified backend code-status DTO.
+- Added a typed local DTO/client/fixture boundary, synthetic fixture mode, optional read-only live mode with explicit synthetic tenant/cohort env vars, and Russian operator copy.
+- Added success, loading, error and empty states; browser smoke with installed system Google Chrome captured desktop/mobile success plus desktop empty/error/loading screenshots.
+- Wired root wrappers to include admin checks: `make verify`, `make test-unit` and `make build` now run relevant admin type/test/build coverage.
+- Updated setup/runtime docs for the new admin app and root wrapper behavior: `README.md`, `docs/setup/codex-setup.md`, `docs/architecture/repo-layout.md`; added generated frontend output ignores to `.gitignore`.
+- Required checks passed with Homebrew JDK 21: `pnpm install --frozen-lockfile`, admin typecheck/test/build, browser smoke, PII/raw-code/customer-brand scan, `git diff --check`, `make verify`, `make test-unit`, `make build`.
+- Generated-client remains an explicit no-op because `packages/api-client` still has no generator or artifacts.
+- No backend/API/schema behavior, generated client, admin mutations, HR dashboard, auth/session/roles/audit policy, real data, diagnostics, rewards, merch, content/CMS, support or employee UI was added.
+- Implementation checkout anomaly: active Git repo is `/Users/elena/cursor/FinPulse`; `/Users/elena/cursor/FinRhythm` was observed as a stale/empty path with generated `node_modules` during dependency troubleshooting.
+- Builder evidence was later checked by fresh verifier. Post-fix verifier PASS is recorded for `MVP-02-admin-ui-status-view-001` only; `MVP-02.04`, full `MVP-02`, MVP stage and human gates remain open.
+
+## Current session: MVP-02-admin-ui-status-view-001 spec freeze
+
+- Re-synced the required read set for a leaf `stage_spec_freezer`: repo `AGENTS.md`, source-of-truth, documentation workflow, read matrix, `docs/stages/MVP.md`, product foundation, access/subscription architecture, DoD, human gates, `apps/admin/AGENTS.md`, current MVP status/evidence/problems/backlog/progress/decisions/risks/feature list and the verified backend admin endpoint/read-model paths.
+- Preserved current verified state: `MVP-02-admin-code-status-view-001` remains latest verified sprint, `MVP-02.01` through `MVP-02.03` remain `PASS`, backend/API-only part of `MVP-02.04` remains `PASS`, and full `MVP-02.04` / `MVP-02` / MVP remain open.
+- Confirmed current repo constraints for scope: `apps/admin` contains only `apps/admin/AGENTS.md`; root JS workspace has `pnpm@10.27.0` with no Next/React/TypeScript/Turbo dependencies yet; `packages/ui`, `packages/config` and `packages/api-client` are placeholders; `packages/api-client` has no generator/artifacts; root `Makefile` currently verifies backend/bootstrap only.
+- Confirmed the proven backend endpoint shape for `GET /api/v1/admin/tenants/{tenantId}/cohorts/{cohortId}/code-status`: optional `status/page/size`, status enum `CREATED|ISSUED|RESERVED|ACTIVATED|REVOKED|EXPIRED`, size max `100`, privacy-safe metadata/summary/statusCounts/code rows and no raw invite codes or employee contact fields.
+- Frozen next sprint contract: `MVP-02-admin-ui-status-view-001` for parent unit `MVP-02.04`.
+- Scope is the minimal `apps/admin` Next.js scaffold plus read-only operator status view, using a local typed DTO/fetch boundary or synthetic fixture that matches the proven backend DTO.
+- Required future builder evidence covers root/admin package commands, browser smoke, desktop/mobile screenshots, loading/error/empty/success states, Russian operator copy, PII/raw-code scan, generated-client no-op, docs target decision, harness validation and fresh verification.
+- Explicitly excluded backend/API/schema changes, generated API client implementation, admin auth/session/roles/audit production policy, real data, customer-specific reporting, HR dashboard, admin mutations and full `MVP-02.04` / `MVP-02` closure.
+- No production code, tests, package manifests, lockfiles, configs or canonical docs were changed by this freezer.
+- No implementation, evidence or fresh verifier PASS is claimed for `MVP-02-admin-ui-status-view-001`; feature entries remain `passes=false` until builder evidence and fresh verifier exist.
+- JSON validation passed for edited JSON artifacts. Harness validation currently returns `FAIL` on latest-alias ID mismatch because `sprint_contract.md` and `status.json.active_sprint_contract_id` now point to frozen `MVP-02-admin-ui-status-view-001`, while `evidence.json`, `verdict.json` and `problems.md` correctly remain on latest verified `MVP-02-admin-code-status-view-001`. Evidence/verdict aliases were not rewritten for an unimplemented UI slice.
 
 ## Current session: MVP-02-admin-code-status-view-001 fresh verifier
 
@@ -170,6 +254,12 @@ Passing:
 - fresh `stage_verifier` verdict `PASS` for `MVP-02-tenant-domain-001`
 - fresh `stage_verifier` verdict `PASS` for `MVP-02-invite-issuance-activation-001`
 - fresh `stage_verifier` verdict `PASS` for `MVP-02-employee-registration-001`
+- fresh `stage_verifier` verdict `PASS` for `MVP-02-admin-code-status-view-001`
+
+Open:
+
+- `MVP-02-admin-ui-status-view-001` has fresh verifier `PASS`.
+- Full `MVP-02.04`, full `MVP-02` and MVP stage are not complete because explicit human-gated production statuses remain open.
 
 ## Previous summaries
 

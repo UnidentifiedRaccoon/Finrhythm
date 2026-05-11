@@ -1,0 +1,163 @@
+{
+  "tenantId": "22222222-2222-4222-8222-222222222222",
+  "pilotLaunchId": "33333333-3333-4333-8333-333333333333",
+  "pilotLaunchKey": "pilot-launch-main",
+  "pilotLaunchName": "Основной запуск пилота",
+  "pilotLaunchStatus": "PLANNED",
+  "accessPoolId": "55555555-5555-4555-8555-555555555555",
+  "accessPoolKey": "access-pool-main",
+  "accessPoolName": "Основной пул доступа",
+  "accessPoolStatus": "PLANNED",
+  "poolCapacity": 500,
+  "summary": {
+    "issuedCount": 500,
+    "activatedCount": 120,
+    "registeredCount": 60,
+    "revokedCount": 20,
+    "expiredCount": 10,
+    "totalCodeCount": 500,
+    "remainingCapacity": 0
+  },
+  "statusCounts": [
+    {
+      "status": "CREATED",
+      "count": 0
+    },
+    {
+      "status": "ISSUED",
+      "count": 350
+    },
+    {
+      "status": "RESERVED",
+      "count": 0
+    },
+    {
+      "status": "ACTIVATED",
+      "count": 120
+    },
+    {
+      "status": "REVOKED",
+      "count": 20
+    },
+    {
+      "status": "EXPIRED",
+      "count": 10
+    }
+  ],
+  "codes": {
+    "page": 0,
+    "size": 25,
+    "totalItems": 500,
+    "totalPages": 20,
+    "items": [
+      {
+        "inviteCodeId": "44444444-4444-4444-8444-444444444400",
+        "status": "ACTIVATED",
+        "issuedAt": "2026-05-09T09:00:00Z",
+        "expiresAt": "2026-06-09T09:00:00Z",
+        "activatedAt": "2026-05-09T10:00:00Z",
+        "registeredAt": "2026-05-09T10:01:00Z",
+        "registered": true
+      },
+      {
+        "inviteCodeId": "44444444-4444-4444-8444-444444444401",
+        "status": "ACTIVATED",
+        "issuedAt": "2026-05-09T09:00:01Z",
+        "expiresAt": "2026-06-09T09:00:01Z",
+        "activatedAt": "2026-05-09T10:03:00Z",
+        "registeredAt": null,
+        "registered": false
+      },
+      {
+        "inviteCodeId": "44444444-4444-4444-8444-444444444402",
+        "status": "ISSUED",
+        "issuedAt": "2026-05-09T09:00:02Z",
+        "expiresAt": "2026-06-09T09:00:02Z",
+        "activatedAt": null,
+        "registeredAt": null,
+        "registered": false
+      },
+      {
+        "inviteCodeId": "44444444-4444-4444-8444-444444444403",
+        "status": "ISSUED",
+        "issuedAt": "2026-05-09T09:00:03Z",
+        "expiresAt": "2026-06-09T09:00:03Z",
+        "activatedAt": null,
+        "registeredAt": null,
+        "registered": false
+      },
+      {
+        "inviteCodeId": "44444444-4444-4444-8444-444444444404",
+        "status": "REVOKED",
+        "issuedAt": "2026-05-09T09:00:04Z",
+        "expiresAt": "2026-06-09T09:00:04Z",
+        "activatedAt": null,
+        "registeredAt": null,
+        "registered": false
+      },
+      {
+        "inviteCodeId": "44444444-4444-4444-8444-444444444405",
+        "status": "EXPIRED",
+        "issuedAt": "2026-05-09T09:00:05Z",
+        "expiresAt": "2026-05-10T09:00:05Z",
+        "activatedAt": null,
+        "registeredAt": null,
+        "registered": false
+      },
+      {
+        "inviteCodeId": "44444444-4444-4444-8444-444444444406",
+        "status": "ACTIVATED",
+        "issuedAt": "2026-05-09T09:00:06Z",
+        "expiresAt": "2026-06-09T09:00:06Z",
+        "activatedAt": "2026-05-09T10:08:00Z",
+        "registeredAt": "2026-05-09T10:09:00Z",
+        "registered": true
+      },
+      {
+        "inviteCodeId": "44444444-4444-4444-8444-444444444407",
+        "status": "RESERVED",
+        "issuedAt": null,
+        "expiresAt": null,
+        "activatedAt": null,
+        "registeredAt": null,
+        "registered": false
+      },
+      {
+        "inviteCodeId": "44444444-4444-4444-8444-444444444408",
+        "status": "ISSUED",
+        "issuedAt": "2026-05-09T09:00:08Z",
+        "expiresAt": "2026-06-09T09:00:08Z",
+        "activatedAt": null,
+        "registeredAt": null,
+        "registered": false
+      },
+      {
+        "inviteCodeId": "44444444-4444-4444-8444-444444444409",
+        "status": "ISSUED",
+        "issuedAt": "2026-05-09T09:00:09Z",
+        "expiresAt": "2026-06-09T09:00:09Z",
+        "activatedAt": null,
+        "registeredAt": null,
+        "registered": false
+      },
+      {
+        "inviteCodeId": "44444444-4444-4444-8444-444444444410",
+        "status": "ACTIVATED",
+        "issuedAt": "2026-05-09T09:00:10Z",
+        "expiresAt": "2026-06-09T09:00:10Z",
+        "activatedAt": "2026-05-09T10:14:00Z",
+        "registeredAt": null,
+        "registered": false
+      },
+      {
+        "inviteCodeId": "44444444-4444-4444-8444-444444444411",
+        "status": "ISSUED",
+        "issuedAt": "2026-05-09T09:00:11Z",
+        "expiresAt": "2026-06-09T09:00:11Z",
+        "activatedAt": null,
+        "registeredAt": null,
+        "registered": false
+      }
+    ]
+  }
+}

@@ -1,0 +1,2 @@
+.agent/stages/mvp/evidence.md:3: trailing whitespace.
++Status: `BUILT_AWAITING_VERIFIER`  

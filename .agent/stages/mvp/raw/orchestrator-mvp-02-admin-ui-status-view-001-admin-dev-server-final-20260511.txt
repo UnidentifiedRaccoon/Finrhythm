@@ -1,0 +1,11 @@
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://127.0.0.1:3300
+- Network:       http://127.0.0.1:3300
+✓ Ready in 359ms
+
+ GET / 200 in 1190ms (next.js: 968ms, application-code: 222ms)
+ GET / 200 in 49ms (next.js: 2ms, application-code: 47ms)
+ GET /?state=empty&status=ACTIVATED 200 in 39ms (next.js: 1493µs, application-code: 37ms)
+ GET /?state=error 200 in 32ms (next.js: 3ms, application-code: 29ms)
+ GET /?state=loading 200 in 21ms (next.js: 1544µs, application-code: 20ms)
+[?25h

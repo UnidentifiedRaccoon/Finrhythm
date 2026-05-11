@@ -1,0 +1,17 @@
+
+> @finrhythm/admin@0.0.0 test /Users/elena/cursor/FinPulse/apps/admin
+> node --test tests/status-boundary.test.mjs
+
+▶ admin code-status local boundary
+  ✔ matches the proven backend DTO shape used by the UI fixture (3.491917ms)
+  ✔ keeps managed admin source and fixture free of forbidden response fields (2.933583ms)
+  ✔ does not put plain code-like values into the fixture rows (0.580042ms)
+✔ admin code-status local boundary (7.612833ms)
+ℹ tests 3
+ℹ suites 1
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 51.367417

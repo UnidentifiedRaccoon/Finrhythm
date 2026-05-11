@@ -6,7 +6,8 @@ import java.util.UUID;
 public record IssuedInviteCode(
         UUID inviteCodeId,
         UUID tenantId,
-        UUID cohortId,
+        UUID pilotLaunchId,
+        UUID accessPoolId,
         String code,
         Instant expiresAt
 ) {

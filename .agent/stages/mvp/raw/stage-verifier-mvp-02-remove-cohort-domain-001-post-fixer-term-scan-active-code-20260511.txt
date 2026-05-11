@@ -1,0 +1,5 @@
+# Active production/test/admin/package scan
+# paths: apps/api/src/main/java apps/api/src/test/java apps/admin apps/web packages
+# pattern: cohort|Cohort|COHORT|cohortId|/cohorts|wave|Wave|WAVE|когорт|волна
+NO_MATCHES
+[scan_status]=0

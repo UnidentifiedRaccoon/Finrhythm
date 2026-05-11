@@ -1,0 +1,4 @@
+COMMAND: git diff --check
+PWD: /Users/elena/cursor/FinPulse
+START: 2026-05-11T17:54:52Z
+zsh:7: read-only variable: status

@@ -63,7 +63,7 @@ If the repository does not yet have wrappers, record exact available package/Mav
 
 Expected minimum for B2B-first MVP and later corporate rollout slices:
 
-- tenant/cohort/invite-code assumptions and edge cases recorded;
+- tenant/pilot-launch/access-pool/invite-code assumptions and edge cases recorded;
 - HR/sponsor reporting visibility mapped to privacy model;
 - anonymity thresholds, role access and admin audit implications tested or explicitly limited;
 - merch/order/operator export flows include points ledger and refund/idempotency notes;

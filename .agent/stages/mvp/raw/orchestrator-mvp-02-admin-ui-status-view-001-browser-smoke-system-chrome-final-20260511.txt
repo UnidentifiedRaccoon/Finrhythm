@@ -1,0 +1,5 @@
+
+> @finrhythm/admin@0.0.0 smoke:browser /Users/elena/cursor/FinPulse/apps/admin
+> node tests/browser-smoke.mjs
+
+browser smoke passed: 5 screenshots

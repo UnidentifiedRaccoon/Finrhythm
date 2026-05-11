@@ -91,7 +91,8 @@ public class EmployeeRegistrationService {
         InviteActivationResult activation = activateInvite(inviteCode, subjectRef, registeredAt);
         EmployeeRegistration registration = EmployeeRegistration.register(
                 activation.tenantId(),
-                activation.cohortId(),
+                activation.pilotLaunchId(),
+                activation.accessPoolId(),
                 activation.inviteCodeId(),
                 subjectRef,
                 contact,
@@ -180,7 +181,8 @@ public class EmployeeRegistrationService {
         return new EmployeeRegistrationResult(
                 registration.getId(),
                 registration.getTenantId(),
-                registration.getCohortId(),
+                registration.getPilotLaunchId(),
+                registration.getAccessPoolId(),
                 registration.getInviteCodeId(),
                 registration.getRegisteredAt(),
                 idempotentRetry

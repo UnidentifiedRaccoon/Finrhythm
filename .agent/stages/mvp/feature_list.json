@@ -184,7 +184,7 @@
   {
     "id": "mvp-02-tenant-cohort-invite-schema",
     "category": "domain",
-    "description": "Tenant, cohort/wave and invite code schema/model exists with required constraints.",
+    "description": "Tenant, pilot launch/access pool and invite code schema/model exists with required constraints.",
     "steps": [
       "Add append-only Flyway migration",
       "Model domain invariants",
@@ -193,8 +193,10 @@
     "passes": true,
     "evidence_refs": [
       "apps/api/src/main/resources/db/migration/V002__tenant_cohort_invite_model.sql",
+      "apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql",
       "apps/api/src/main/java/com/finrhythm/api/tenant/domain/Tenant.java",
-      "apps/api/src/main/java/com/finrhythm/api/tenant/domain/Cohort.java",
+      "apps/api/src/main/java/com/finrhythm/api/tenant/domain/PilotLaunch.java",
+      "apps/api/src/main/java/com/finrhythm/api/tenant/domain/AccessPool.java",
       "apps/api/src/main/java/com/finrhythm/api/tenant/domain/InviteCode.java",
       ".agent/stages/mvp/raw/stage-builder-mvp-02-tenant-domain-001-api-mvn-verify-pass-20260504.txt",
       ".agent/stages/mvp/evidence.md"
@@ -526,9 +528,8 @@
     ],
     "passes": true,
     "evidence_refs": [
-      ".agent/stages/mvp/stage_spec.md",
-      ".agent/stages/mvp/sprint_contract.md",
       ".agent/stages/mvp/task-files/MVP-02-admin-code-status-view-001.md",
+      ".agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md",
       ".agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json"
     ]
   },
@@ -544,7 +545,6 @@
     ],
     "passes": true,
     "evidence_refs": [
-      ".agent/stages/mvp/sprint_contract.md",
       ".agent/stages/mvp/task-files/MVP-02-admin-code-status-view-001.md",
       "apps/api/src/main/java/com/finrhythm/api/admin/",
       "apps/api/src/test/java/com/finrhythm/api/admin/",
@@ -572,7 +572,6 @@
     ],
     "passes": true,
     "evidence_refs": [
-      ".agent/stages/mvp/sprint_contract.md",
       ".agent/stages/mvp/task-files/MVP-02-admin-code-status-view-001.md",
       ".agent/stages/mvp/risks.md",
       ".agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md",
@@ -592,10 +591,63 @@
       "Implement admin UI using backend contract",
       "Run browser smoke and capture screenshots"
     ],
-    "passes": false,
+    "passes": true,
     "evidence_refs": [
+      ".agent/stages/mvp/stage_spec.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-02-admin-ui-status-view-001.md",
+      ".agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.md",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-typecheck-final-20260511.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-test-final-20260511.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-admin-build-final-20260511.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-browser-smoke-system-chrome-final-20260511.txt",
+      ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-desktop-success.png",
+      ".agent/stages/mvp/raw/mvp-02-admin-ui-status-view-001-screenshots-final/mvp-02-admin-ui-status-view-001-mobile-success.png",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-admin-ui-status-view-001-guardrail-scan-20260511.txt",
       ".agent/stages/mvp/backlog.md",
-      ".agent/stages/mvp/status.json"
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-admin-typecheck-20260511.txt",
+      ".agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-admin-test-20260511.txt",
+      ".agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-admin-build-20260511.txt",
+      ".agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-admin-start-curl-20260511.html",
+      ".agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-guardrail-scan-20260511.txt",
+      ".agent/stages/mvp/raw/stage-fixer-mvp-02-admin-ui-status-view-001-git-diff-check-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-admin-typecheck-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-admin-test-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-git-diff-check-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-rendered-label-proof-exact-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-rendered-raw-enum-scan-exact-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-guardrail-scan-exact-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-verify-harness-after-verdict-20260511.json",
+      ".agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json",
+      ".agent/stages/mvp/problems/MVP-02-admin-ui-status-view-001.md"
+    ]
+  },
+  {
+    "id": "mvp-02-04-admin-ui-fresh-verification",
+    "category": "verification",
+    "description": "Fresh verifier reviews apps/admin UI/status view evidence for MVP-02-admin-ui-status-view-001.",
+    "steps": [
+      "Run root and admin package verification commands",
+      "Record browser smoke and desktop/mobile screenshots",
+      "Record DTO/generated-client/no-op and PII/raw-code scans",
+      "Run fresh stage_verifier"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-02-admin-ui-status-view-001.md",
+      ".agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.md",
+      ".agent/stages/mvp/evidence/MVP-02-admin-ui-status-view-001.json",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-admin-typecheck-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-admin-test-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-git-diff-check-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-rendered-label-proof-exact-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-rendered-raw-enum-scan-exact-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-guardrail-scan-exact-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-admin-ui-status-view-001-post-fix-verify-harness-after-verdict-20260511.json",
+      ".agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json",
+      ".agent/stages/mvp/problems/MVP-02-admin-ui-status-view-001.md"
     ]
   },
   {
@@ -610,7 +662,6 @@
     ],
     "passes": true,
     "evidence_refs": [
-      ".agent/stages/mvp/sprint_contract.md",
       ".agent/stages/mvp/task-files/MVP-02-admin-code-status-view-001.md",
       ".agent/stages/mvp/evidence/MVP-02-admin-code-status-view-001.md",
       ".agent/stages/mvp/raw/stage-builder-mvp-02-admin-code-status-view-001-java-version-20260509.txt",
@@ -635,5 +686,164 @@
       ".agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json",
       ".agent/stages/mvp/problems/MVP-02-admin-code-status-view-001.md"
     ]
+  },
+  {
+    "id": "mvp-02-04-closure-audit",
+    "category": "harness",
+    "description": "MVP-02.04 closure/audit decision is recorded after backend/API and admin UI PASS without closing human gates.",
+    "steps": [
+      "Reconcile MVP-02-admin-code-status-view-001 PASS",
+      "Reconcile MVP-02-admin-ui-status-view-001 PASS",
+      "Record MVP-02.04 as DONE_WITH_HUMAN_PENDING because no concrete non-human proof gap remains",
+      "Keep full MVP-02, MVP stage and human gates open"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/stage_spec.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-02-04-closure-audit-001.md",
+      ".agent/stages/mvp/evidence/MVP-02-04-closure-audit-001.md",
+      ".agent/stages/mvp/evidence/MVP-02-04-closure-audit-001.json",
+      ".agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json",
+      ".agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-prior-verdict-summary-20260511.json",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-docs-noop-20260511.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-json-validation-20260511.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-git-diff-check-20260511.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-04-closure-audit-001-verify-harness-20260511.json",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-04-closure-audit-001-make-verify-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-04-closure-audit-001-make-test-unit-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-04-closure-audit-001-make-build-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-04-closure-audit-001-json-validation-20260511.txt",
+      ".agent/stages/mvp/verdicts/MVP-02-04-closure-audit-001.json",
+      ".agent/stages/mvp/problems/MVP-02-04-closure-audit-001.md",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-04-closure-audit-001-verify-harness-final-20260511.json",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-04-closure-audit-001-json-validation-final-20260511.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-04-closure-audit-001-git-diff-check-final-20260511.txt"
+    ]
+  },
+  {
+    "id": "mvp-02-remove-cohort-domain-contract-freeze",
+    "category": "harness",
+    "description": "Minimal refactor sprint contract is frozen to remove cohort/wave from the MVP domain without implementing code or closing MVP-02.",
+    "steps": [
+      "Read required MVP, access and stage sources",
+      "Inspect backend/admin cohort references",
+      "List affected DB, Java, API, admin UI, docs and stage-artifact surfaces",
+      "Freeze hidden-compatibility ban and verification minimum",
+      "Keep human gates and full MVP-02 open"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/stage_spec.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/task-files/MVP-02-remove-cohort-domain-001.md"
+    ]
+  },
+  {
+    "id": "mvp-02-remove-cohort-domain-builder",
+    "category": "domain",
+    "description": "Active MVP access model uses tenant, pilot launch and access pool instead of cohort/wave terminology.",
+    "steps": [
+      "Add append-only Flyway migration to pilot_launches/access_pools",
+      "Update backend domain, repositories, services and OpenAPI source",
+      "Update registration and admin status API tests",
+      "Update admin UI types, fixture, copy, tests and screenshots",
+      "Synchronize canonical docs and evidence"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-02-remove-cohort-domain-001.md",
+      ".agent/stages/mvp/evidence/MVP-02-remove-cohort-domain-001.json",
+      "apps/api/src/main/resources/db/migration/V005__pilot_launch_access_pool_model.sql",
+      "apps/api/src/main/java/com/finrhythm/api/tenant/domain/PilotLaunch.java",
+      "apps/api/src/main/java/com/finrhythm/api/tenant/domain/AccessPool.java",
+      "apps/api/src/main/java/com/finrhythm/api/admin/web/AdminCodeStatusController.java",
+      "apps/admin/components/admin-code-status-screen.tsx",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-api-focused-tests-20260511.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-api-mvn-verify-20260511.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-make-verify-20260511.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-make-test-unit-20260511.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-make-build-20260511.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-admin-typecheck-20260511.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-admin-test-20260511.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-admin-build-20260511.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-browser-smoke-20260511.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-term-scan-20260511.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-remove-cohort-domain-001-git-diff-check-20260511.txt",
+      ".agent/stages/mvp/raw/stage-fixer-mvp-02-remove-cohort-domain-001-doc-sync-scan-20260511.txt",
+      ".agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json"
+    ],
+    "note": "Fresh post-fixer verifier returned PASS for this sprint only. Full MVP-02, the MVP stage and human gates remain open."
+  },
+  {
+    "id": "mvp-02-closure-audit-contract-freeze",
+    "category": "harness",
+    "description": "Full MVP-02 closure/audit-only sprint contract is frozen after the verified access-model refactor.",
+    "steps": [
+      "Reconcile current MVP-02 stage artifacts and latest verified PASS state",
+      "Select closure/audit instead of feature implementation because no concrete non-human proof gap is present in the read artifacts",
+      "Write closure/audit-only sprint contract and task file",
+      "Keep human gates open and avoid writing a final verifier verdict"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/stage_spec.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/task-files/MVP-02-closure-audit-001.md",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/verdict.json"
+    ],
+    "note": "This freezer records only the next contract. It does not close full MVP-02, the MVP stage or any human gate."
+  },
+  {
+    "id": "mvp-02-full-closure-audit-decision",
+    "category": "harness",
+    "description": "Full MVP-02 closure/audit decision is recorded after the verified access-model refactor without closing human gates.",
+    "steps": [
+      "Reconcile MVP-02.01 through MVP-02.04 and latest access-model refactor PASS refs",
+      "Map docs/stages/MVP.md MVP-02 acceptance criteria to evidence/verdict refs",
+      "Record full MVP-02 as DONE_WITH_HUMAN_PENDING because no concrete non-human proof gap remains",
+      "Keep the MVP stage and all human gates open"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-02-closure-audit-001.md",
+      ".agent/stages/mvp/evidence/MVP-02-closure-audit-001.json",
+      ".agent/stages/mvp/raw/stage-builder-mvp-02-closure-audit-001-prior-verdict-summary-20260511.json",
+      ".agent/stages/mvp/verdicts/MVP-02-remove-cohort-domain-001.json",
+      ".agent/stages/mvp/verdicts/MVP-02-employee-registration-001.json",
+      ".agent/stages/mvp/verdicts/MVP-02-admin-code-status-view-001.json",
+      ".agent/stages/mvp/verdicts/MVP-02-admin-ui-status-view-001.json",
+      ".agent/stages/mvp/verdicts/MVP-02-04-closure-audit-001.json",
+      ".agent/stages/mvp/status.json"
+    ],
+    "note": "Fresh verifier PASS is recorded for MVP-02-closure-audit-001; MVP-02 is DONE_WITH_HUMAN_PENDING, while MVP stage and human gates remain open."
+  },
+  {
+    "id": "mvp-02-full-closure-audit-fresh-verification",
+    "category": "verification",
+    "description": "Fresh stage_verifier reviews only MVP-02-closure-audit-001 after builder evidence.",
+    "steps": [
+      "Run fresh verifier scoped to MVP-02-closure-audit-001",
+      "Write verifier-owned verdict/problems aliases and immutable refs",
+      "Synchronize latest verified sprint only if verifier returns PASS"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-02-closure-audit-001.md",
+      ".agent/stages/mvp/evidence/MVP-02-closure-audit-001.json",
+      ".agent/stages/mvp/verdicts/MVP-02-closure-audit-001.json",
+      ".agent/stages/mvp/problems/MVP-02-closure-audit-001.md",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-closure-audit-001-make-verify-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-closure-audit-001-make-test-unit-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-closure-audit-001-make-build-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-closure-audit-001-no-cohort-classification-20260511.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-02-closure-audit-001-sensitive-admin-boundary-scan-20260511.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-02-closure-audit-001-verify-harness-final-20260511.json"
+    ],
+    "note": "Fresh verifier PASS accepted by parent; latest verified alias synchronized."
   }
 ]

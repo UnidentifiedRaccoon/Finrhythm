@@ -24,7 +24,7 @@
 - API contracts;
 - points/redemption rules;
 - admin flows, влияющие на публикацию или выдачу наград;
-- B2B tenant/cohort/reporting/privacy flows;
+- B2B tenant/pilot-launch/access-pool/reporting/privacy flows;
 - merch fulfillment, operator exports and pilot outcome reporting.
 
 ## 3. B2B/privacy/reward operations
@@ -32,7 +32,7 @@
 Для B2B-first MVP агент может подготовить docs, schemas, UI and draft logic, but final approval remains human-gated for:
 
 - расширение HR/sponsor reporting beyond aggregated default;
-- снижение anonymity threshold or showing smaller cohort slices;
+- снижение anonymity threshold or showing smaller launch/access-pool slices;
 - customer-specific reporting, exports or operational fields;
 - use of real employee/customer data in any environment;
 - real merch catalog, points prices, fulfillment rules and operator procedures;

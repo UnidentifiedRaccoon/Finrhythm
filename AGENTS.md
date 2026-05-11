@@ -146,7 +146,7 @@ Read-gating: не читать все stage docs, product docs или `.agent/st
 ### B2B MVP baseline
 
 - Current MVP product-intent baseline is `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`.
-- MVP — single corporate pilot contour with `tenant`, `cohort/wave`, invite codes, HR/sponsor reporting, privacy aggregation and merch operations.
+- MVP — single corporate pilot contour with `tenant`, pilot launch, access pool of invite codes, HR/sponsor reporting, privacy aggregation and merch operations.
 - MVP не является in-app subscription product; коммерческий доступ продаётся по корпоративному договору вне приложения.
 - Employee-facing reports for HR по умолчанию агрегируют диагностику/прогресс; персональные финансовые ответы не раскрываются.
 - Self-service multi-tenant enterprise platform, SSO/SCIM and customer white-label UI — later-stage work, если stage doc явно не вводит узкий approved slice.

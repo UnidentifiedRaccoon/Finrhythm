@@ -1,8 +1,9 @@
 {
   "stage_id": "mvp",
-  "state": "VERIFIED_BACKEND_API_PASS_UI_OPEN",
+  "state": "SPRINT_PASSED",
   "active_sprint_contract_id": null,
-  "latest_verified_sprint_contract_id": "MVP-02-admin-code-status-view-001",
+  "latest_verified_sprint_contract_id": "MVP-02-closure-audit-001",
+  "latest_status_decision_sprint_contract_id": "MVP-02-closure-audit-001",
   "completed_ids": [
     "MVP-01.01",
     "MVP-01.02",
@@ -19,11 +20,17 @@
     "MVP-05-content-spec-ingestion-001",
     "MVP-02.03",
     "MVP-02-employee-registration-001",
-    "MVP-02-admin-code-status-view-001"
+    "MVP-02-admin-code-status-view-001",
+    "MVP-02-admin-ui-status-view-001",
+    "MVP-02-04-closure-audit-001",
+    "MVP-02-remove-cohort-domain-001",
+    "MVP-02-closure-audit-001"
   ],
-  "active_ids": [
-    "MVP-02.04"
+  "done_with_human_pending_ids": [
+    "MVP-02.04",
+    "MVP-02"
   ],
+  "active_ids": [],
   "blocked_ids": [],
   "waiting_human_ids": [
     "legal-privacy-consent-wording-and-real-pii-processing",
@@ -38,12 +45,12 @@
     "admin-auth-role-audit-policy-for-production-use"
   ],
   "next_recommended_ids": [
-    "freeze-separate-apps-admin-UI-slice-if-MVP-02.04-screen-is-needed",
-    "do-not-mark-MVP-02.04-complete-without-admin-UI-screenshot-browser-evidence",
-    "do-not-mark-full-MVP-02-complete-without-MVP-02.04-UI-and-fresh-verification",
-    "keep-admin-auth-role-audit-policy-and-real-data-processing-human-gated"
+    "freeze-next-MVP-slice-by-stage-order",
+    "keep-MVP-stage-open-after-MVP-02-human-pending-decision",
+    "keep-admin-auth-role-audit-policy-and-real-data-processing-human-gated",
+    "do-not-close-MVP-stage-while-human-gates-remain-open"
   ],
-  "last_updated": "2026-05-09",
+  "last_updated": "2026-05-11",
   "exit_gate_summary": {
     "mvp_01_scope_frozen": true,
     "root_wrappers_added": true,
@@ -57,8 +64,11 @@
     "mvp_02_04_allowed": true,
     "mvp_02_04_frozen": true,
     "mvp_02_04_backend_admin_api_only_frozen": true,
-    "mvp_02_04_admin_ui_implemented": false,
-    "mvp_02_04_complete": false,
+    "mvp_02_04_admin_ui_implemented": true,
+    "mvp_02_04_complete": true,
+    "mvp_02_04_done_with_human_pending": true,
+    "mvp_02_04_closure_audit_decision_recorded": true,
+    "mvp_02_04_closure_audit_fresh_verifier_pass": true,
     "mvp_02_complete": false,
     "learning_methodology_doc_sync_pass": true,
     "mvp_05_content_spec_ingestion_pass": true,
@@ -84,7 +94,27 @@
     "current_admin_code_status_view_builder_checks_pass": true,
     "current_admin_code_status_view_fresh_verifier_pass": true,
     "current_admin_code_status_view_backend_api_pass": true,
-    "current_admin_code_status_view_ui_screenshots_required": false
+    "current_admin_code_status_view_ui_screenshots_required": false,
+    "current_admin_ui_status_view_contract_frozen": true,
+    "current_admin_ui_status_view_implemented": true,
+    "current_admin_ui_status_view_evidence_exists": true,
+    "current_admin_ui_status_view_builder_checks_pass": true,
+    "current_admin_ui_status_view_fresh_verifier_pass": true,
+    "current_admin_ui_status_view_browser_screenshots_exist": true,
+    "current_remove_cohort_domain_contract_frozen": true,
+    "current_remove_cohort_domain_builder_complete": true,
+    "current_remove_cohort_domain_fresh_verifier_pass": true,
+    "mvp_02_complete_after_remove_cohort_refactor": false,
+    "mvp_02_done_with_human_pending": true,
+    "mvp_02_closure_audit_decision_recorded": true,
+    "mvp_02_non_human_proof_gap_exists": false,
+    "current_mvp_02_closure_audit_contract_frozen": true,
+    "current_mvp_02_closure_audit_evidence_exists": true,
+    "current_mvp_02_closure_audit_builder_checks_pass": true,
+    "current_mvp_02_closure_audit_fresh_verifier_pass": true,
+    "mvp_stage_complete": false,
+    "human_gates_open": true,
+    "current_mvp_02_closure_audit_parent_alias_sync_done": true
   },
   "runtime_guardrails": {
     "project_config_approval_policy_expected": "on-request",
@@ -98,15 +128,15 @@
     "pnpm_available_through_corepack": true,
     "maven_wrapper_present": true,
     "backend_baseline": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway, OpenAPI/springdoc required for public/admin API slices",
-    "docs_only_current_sprint": false,
-    "public_api_scope_for_active_sprint": true,
-    "schema_scope_for_active_sprint": "avoid; only append-only post-V004 read index migration if necessary",
-    "ui_scope_for_active_sprint": false,
-    "admin_scope_for_active_sprint": "backend admin API only; apps/admin UI/scaffold is out of scope for this contract",
-    "generated_client_scope_for_active_sprint": "required note; update artifacts only if generation exists or is introduced by builder",
+    "docs_only_latest_verified_sprint": false,
+    "public_api_scope_for_latest_verified_sprint": false,
+    "schema_scope_for_latest_verified_sprint": "MVP-02-remove-cohort-domain-001 adds append-only V005 to migrate active runtime schema from cohorts/cohort_id to pilot_launches/access_pools and drops old active table/columns after backfill.",
+    "ui_scope_for_latest_verified_sprint": true,
+    "admin_scope_for_latest_verified_sprint": "MVP-02-remove-cohort-domain-001 verified the read-only apps/admin status view with access-pool wording and DTOs; production auth/role/audit and real data use remain human-gated",
+    "generated_client_scope_for_latest_verified_sprint": "explicit no-op because packages/api-client has no generator/artifacts; generated-client implementation requires separate freeze",
     "content_spec_status": "draft_with_human_gates",
     "content_runtime_source_of_truth": "CMS/PostgreSQL after implementation; docs are canonical planning sources only",
-    "pii_guardrails_for_active_sprint": [
+    "pii_guardrails_for_latest_verified_sprint": [
       "no raw invite-code persistence or response display",
       "do not expose lookup_hash or activation_subject_ref",
       "do not expose employee fullName/email/phone in this status response",
@@ -123,25 +153,31 @@
       "MVP-02-admin-code-status-view-001 has fresh verifier PASS for backend/admin API-only code-status view.",
       "MVP learning methodology v0.2 is canonical and verified by MVP-05-learning-methodology-doc-sync-001.",
       "Content MVP draft is placed at docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md with draft_with_human_gates metadata.",
-      "Fresh stage_verifier PASS is recorded for MVP-05-content-spec-ingestion-001."
+      "Fresh stage_verifier PASS is recorded for MVP-05-content-spec-ingestion-001.",
+      "MVP-02-admin-ui-status-view-001 has fresh verifier PASS for the minimal apps/admin scaffold and read-only code-status view.",
+      "MVP-02-remove-cohort-domain-001 has fresh verifier PASS for replacing the active MVP cohort/wave domain/API/UI wording with tenant/pilot launch/access pool.",
+      "MVP-02 closure audit builder evidence maps all docs/stages/MVP.md MVP-02 acceptance criteria to existing proof refs and records no concrete non-human proof gap."
     ],
     "what_is_closed_now": [
       "MVP-02-admin-code-status-view-001 is PASS for the backend/admin API-only data contract.",
-      "The backend API portion of MVP-02.04 is proven by fresh verifier evidence.",
-      "The implementation is backend/admin API-only because apps/admin has no Next.js app baseline.",
-      "No apps/admin UI/scaffold, schema migration or generated client artifact was changed."
+      "MVP-02-admin-ui-status-view-001 is PASS for the minimal apps/admin read-only status view.",
+      "MVP-02.04 is recorded as DONE_WITH_HUMAN_PENDING for the technical admin cohort/code status view scope: backend/admin API status data contract plus minimal read-only admin UI/status view.",
+      "MVP-02-04-closure-audit-001 has fresh verifier PASS for the closure/audit decision.",
+      "MVP-02-remove-cohort-domain-001 is PASS for the active domain/API/admin UI/docs refactor away from cohort/wave terminology.",
+      "MVP-02-closure-audit-001 has fresh verifier PASS and records full MVP-02 as DONE_WITH_HUMAN_PENDING."
     ],
     "what_is_not_proven": [
-      "MVP-02.04 admin UI/status view is not complete.",
-      "Full MVP-02 is not complete.",
+      "MVP-02.04 is not closed as DONE because admin auth/role/audit policy, production real-data use and customer-specific reporting boundaries remain human-gated.",
       "Admin auth/role/audit policy and production use of real admin data.",
       "MVP-05.01 through MVP-05.05 are not complete.",
       "Final financial correctness of lessons, diagnostics, quizzes and explanations.",
       "Legal/privacy/consent wording and real employee/customer data processing.",
       "HR/privacy wording and customer-specific reporting boundaries.",
       "Reward economy and real fulfillment approval.",
-      "Production_ready publish approval for content."
+      "Production_ready publish approval for content.",
+      "Full MVP-02 is not unconditional DONE because human gates remain open.",
+      "MVP stage is not complete."
     ],
-    "next_slice": "Freeze a separate apps/admin UI/scaffold slice if the operator status view is still needed. Do not mark MVP-02.04 or full MVP-02 complete without UI/browser/screenshot evidence and a fresh verifier."
+    "next_slice": "Freeze the next MVP slice by stage order while keeping MVP stage and all human gates open."
   }
 }

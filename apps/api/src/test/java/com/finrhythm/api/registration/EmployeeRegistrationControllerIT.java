@@ -4,13 +4,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finrhythm.api.registration.service.RegistrationSubjectRefGenerator;
 import com.finrhythm.api.tenant.domain.ActivationSubjectRef;
-import com.finrhythm.api.tenant.domain.Cohort;
-import com.finrhythm.api.tenant.domain.CohortKind;
+import com.finrhythm.api.tenant.domain.AccessPool;
 import com.finrhythm.api.tenant.domain.InviteCode;
 import com.finrhythm.api.tenant.domain.InviteCodeHash;
+import com.finrhythm.api.tenant.domain.PilotLaunch;
 import com.finrhythm.api.tenant.domain.Tenant;
-import com.finrhythm.api.tenant.persistence.CohortRepository;
+import com.finrhythm.api.tenant.persistence.AccessPoolRepository;
 import com.finrhythm.api.tenant.persistence.InviteCodeRepository;
+import com.finrhythm.api.tenant.persistence.PilotLaunchRepository;
 import com.finrhythm.api.tenant.persistence.TenantRepository;
 import com.finrhythm.api.tenant.service.InviteCodeAccessService;
 import com.finrhythm.api.tenant.service.InviteCodeGenerator;
@@ -77,7 +78,10 @@ class EmployeeRegistrationControllerIT {
     TenantRepository tenantRepository;
 
     @Autowired
-    CohortRepository cohortRepository;
+    PilotLaunchRepository pilotLaunchRepository;
+
+    @Autowired
+    AccessPoolRepository accessPoolRepository;
 
     @Autowired
     InviteCodeRepository inviteCodeRepository;
@@ -97,8 +101,8 @@ class EmployeeRegistrationControllerIT {
     @Test
     void registersEmployeeAndTreatsSameContactRetryAsIdempotent() throws Exception {
         Tenant tenant = seedTenant();
-        Cohort cohort = seedWaveOne(tenant, 5);
-        IssuedInviteCode issuedCode = issueOne(tenant, cohort, NON_EXPIRED_AT);
+        AccessPool accessPool = seedAccessPool(tenant, 5);
+        IssuedInviteCode issuedCode = issueOne(tenant, accessPool, NON_EXPIRED_AT);
 
         JsonNode created = postRegistration("""
                 {
@@ -110,7 +114,8 @@ class EmployeeRegistrationControllerIT {
                 """.formatted(issuedCode.code()))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.tenantId").value(tenant.getId().toString()))
-                .andExpect(jsonPath("$.cohortId").value(cohort.getId().toString()))
+                .andExpect(jsonPath("$.pilotLaunchId").value(accessPool.getPilotLaunch().getId().toString()))
+                .andExpect(jsonPath("$.accessPoolId").value(accessPool.getId().toString()))
                 .andExpect(jsonPath("$.inviteCodeId").value(issuedCode.inviteCodeId().toString()))
                 .andExpect(jsonPath("$.idempotentRetry").value(false))
                 .andReturnJson();
@@ -145,21 +150,21 @@ class EmployeeRegistrationControllerIT {
     @Test
     void returnsStructuredErrorsForInvalidExpiredRevokedAndUnissuedCodesWithoutEchoingSubmittedCode() throws Exception {
         Tenant tenant = seedTenant();
-        Cohort cohort = seedWaveOne(tenant, 10);
+        AccessPool accessPool = seedAccessPool(tenant, 10);
 
         assertInviteError("NOT-A-REAL-CODE", "INVALID_INVITE_CODE", "NOT-A-REAL-CODE");
 
-        IssuedInviteCode expiredCode = issueOne(tenant, cohort, ISSUED_AT.plusSeconds(60));
+        IssuedInviteCode expiredCode = issueOne(tenant, accessPool, ISSUED_AT.plusSeconds(60));
         assertInviteError(expiredCode.code(), "EXPIRED_INVITE_CODE", expiredCode.code());
 
-        IssuedInviteCode revokedCode = issueOne(tenant, cohort, NON_EXPIRED_AT);
+        IssuedInviteCode revokedCode = issueOne(tenant, accessPool, NON_EXPIRED_AT);
         updateInviteStatus(revokedCode.inviteCodeId(), "REVOKED");
         assertInviteError(revokedCode.code(), "REVOKED_INVITE_CODE", revokedCode.code());
 
         String unissuedRawCode = new InviteCodeGenerator().generate();
         inviteCodeRepository.saveAndFlush(InviteCode.created(
                 tenant,
-                cohort,
+                accessPool,
                 InviteCodeHash.fromEnteredCode(unissuedRawCode)
         ));
         assertInviteError(unissuedRawCode, "UNISSUED_INVITE_CODE", unissuedRawCode);
@@ -168,8 +173,8 @@ class EmployeeRegistrationControllerIT {
     @Test
     void rejectsDifferentContactForActivatedCodeWithoutRevealingExistingEmployeeData() throws Exception {
         Tenant tenant = seedTenant();
-        Cohort cohort = seedWaveOne(tenant, 5);
-        IssuedInviteCode issuedCode = issueOne(tenant, cohort, NON_EXPIRED_AT);
+        AccessPool accessPool = seedAccessPool(tenant, 5);
+        IssuedInviteCode issuedCode = issueOne(tenant, accessPool, NON_EXPIRED_AT);
 
         postRegistration("""
                 {
@@ -230,9 +235,9 @@ class EmployeeRegistrationControllerIT {
     @Test
     void rollsBackInviteActivationWhenRegistrationPersistenceFails() throws Exception {
         Tenant tenant = seedTenant();
-        Cohort cohort = seedWaveOne(tenant, 5);
-        IssuedInviteCode firstCode = issueOne(tenant, cohort, NON_EXPIRED_AT);
-        IssuedInviteCode secondCode = issueOne(tenant, cohort, NON_EXPIRED_AT);
+        AccessPool accessPool = seedAccessPool(tenant, 5);
+        IssuedInviteCode firstCode = issueOne(tenant, accessPool, NON_EXPIRED_AT);
+        IssuedInviteCode secondCode = issueOne(tenant, accessPool, NON_EXPIRED_AT);
         ActivationSubjectRef reusedSubjectRef = subjectRef(SUBJECT_SEQUENCE.getAndIncrement());
         given(subjectRefGenerator.generate()).willReturn(reusedSubjectRef, reusedSubjectRef);
 
@@ -314,19 +319,25 @@ class EmployeeRegistrationControllerIT {
         return tenantRepository.saveAndFlush(Tenant.create("pilot-" + suffix, "Pilot tenant"));
     }
 
-    private Cohort seedWaveOne(Tenant tenant, int targetSize) {
+    private AccessPool seedAccessPool(Tenant tenant, int capacity) {
         String suffix = UUID.randomUUID().toString().substring(0, 8);
-        return cohortRepository.saveAndFlush(Cohort.createWave(
+        PilotLaunch pilotLaunch = pilotLaunchRepository.saveAndFlush(PilotLaunch.create(
                 tenant,
-                "wave-" + suffix,
-                "Wave 1",
-                CohortKind.WAVE_1,
-                targetSize
+                "pilot-launch-" + suffix,
+                "Pilot launch main",
+                capacity
+        ));
+        return accessPoolRepository.saveAndFlush(AccessPool.create(
+                tenant,
+                pilotLaunch,
+                "access-pool-" + suffix,
+                "Access pool main",
+                capacity
         ));
     }
 
-    private IssuedInviteCode issueOne(Tenant tenant, Cohort cohort, Instant expiresAt) {
-        return inviteCodeAccessService.issueBatch(tenant.getId(), cohort.getId(), 1, ISSUED_AT, expiresAt).get(0);
+    private IssuedInviteCode issueOne(Tenant tenant, AccessPool accessPool, Instant expiresAt) {
+        return inviteCodeAccessService.issueBatch(tenant.getId(), accessPool.getId(), 1, ISSUED_AT, expiresAt).get(0);
     }
 
     private void updateInviteStatus(UUID inviteCodeId, String status) {

@@ -1,0 +1,78 @@
+forbidden-token scan in apps/admin app/components/lib/tests
+apps/admin/components/status-labels.ts:1:import type { CodeStatus } from "../lib/code-status-types";
+apps/admin/components/status-labels.ts:3:export const STATUS_LABELS: Record<CodeStatus, string> = {
+apps/admin/components/status-labels.ts:12:export const STATUS_HINTS: Record<CodeStatus, string> = {
+apps/admin/app/page.tsx:1:import { AdminCodeStatusScreen } from "../components/admin-code-status-screen";
+apps/admin/app/page.tsx:2:import { getAdminCodeStatus } from "../lib/code-status-client";
+apps/admin/app/page.tsx:13:  const result = await getAdminCodeStatus(resolvedSearchParams);
+apps/admin/app/page.tsx:15:  return <AdminCodeStatusScreen result={result} />;
+apps/admin/lib/code-status-fixture.json:51:        "inviteCodeId": "44444444-4444-4444-8444-444444444400",
+apps/admin/lib/code-status-fixture.json:60:        "inviteCodeId": "44444444-4444-4444-8444-444444444401",
+apps/admin/lib/code-status-fixture.json:69:        "inviteCodeId": "44444444-4444-4444-8444-444444444402",
+apps/admin/lib/code-status-fixture.json:78:        "inviteCodeId": "44444444-4444-4444-8444-444444444403",
+apps/admin/lib/code-status-fixture.json:87:        "inviteCodeId": "44444444-4444-4444-8444-444444444404",
+apps/admin/lib/code-status-fixture.json:96:        "inviteCodeId": "44444444-4444-4444-8444-444444444405",
+apps/admin/lib/code-status-fixture.json:105:        "inviteCodeId": "44444444-4444-4444-8444-444444444406",
+apps/admin/lib/code-status-fixture.json:114:        "inviteCodeId": "44444444-4444-4444-8444-444444444407",
+apps/admin/lib/code-status-fixture.json:123:        "inviteCodeId": "44444444-4444-4444-8444-444444444408",
+apps/admin/lib/code-status-fixture.json:132:        "inviteCodeId": "44444444-4444-4444-8444-444444444409",
+apps/admin/lib/code-status-fixture.json:141:        "inviteCodeId": "44444444-4444-4444-8444-444444444410",
+apps/admin/lib/code-status-fixture.json:150:        "inviteCodeId": "44444444-4444-4444-8444-444444444411",
+apps/admin/lib/code-status-types.ts:1:export const CODE_STATUSES = [
+apps/admin/lib/code-status-types.ts:10:export type CodeStatus = (typeof CODE_STATUSES)[number];
+apps/admin/lib/code-status-types.ts:12:export type AdminCodeStatusSummary = {
+apps/admin/lib/code-status-types.ts:22:export type AdminCodeStatusCount = {
+apps/admin/lib/code-status-types.ts:23:  status: CodeStatus;
+apps/admin/lib/code-status-types.ts:27:export type AdminCodeStatusRow = {
+apps/admin/lib/code-status-types.ts:28:  inviteCodeId: string;
+apps/admin/lib/code-status-types.ts:29:  status: CodeStatus;
+apps/admin/lib/code-status-types.ts:37:export type AdminCodeStatusPage = {
+apps/admin/lib/code-status-types.ts:42:  items: AdminCodeStatusRow[];
+apps/admin/lib/code-status-types.ts:45:export type AdminCodeStatusResponse = {
+apps/admin/lib/code-status-types.ts:53:  summary: AdminCodeStatusSummary;
+apps/admin/lib/code-status-types.ts:54:  statusCounts: AdminCodeStatusCount[];
+apps/admin/lib/code-status-types.ts:55:  codes: AdminCodeStatusPage;
+apps/admin/lib/code-status-types.ts:60:export type AdminCodeStatusResult =
+apps/admin/lib/code-status-types.ts:64:      statusFilter: CodeStatus | null;
+apps/admin/lib/code-status-types.ts:65:      data: AdminCodeStatusResponse;
+apps/admin/lib/code-status-types.ts:70:      statusFilter: CodeStatus | null;
+apps/admin/lib/code-status-types.ts:71:      data: AdminCodeStatusResponse;
+apps/admin/lib/code-status-types.ts:77:      statusFilter: CodeStatus | null;
+apps/admin/lib/code-status-types.ts:82:      statusFilter: CodeStatus | null;
+apps/admin/tests/status-boundary.test.mjs:7:const fixturePath = join(appRoot, "lib", "code-status-fixture.json");
+apps/admin/tests/status-boundary.test.mjs:11:describe("admin code-status local boundary", () => {
+apps/admin/tests/status-boundary.test.mjs:32:      assert.equal(typeof item.inviteCodeId, "string");
+apps/admin/lib/code-status-client.ts:1:import fixture from "./code-status-fixture.json";
+apps/admin/lib/code-status-client.ts:3:  CODE_STATUSES,
+apps/admin/lib/code-status-client.ts:4:  type AdminCodeStatusResponse,
+apps/admin/lib/code-status-client.ts:5:  type AdminCodeStatusResult,
+apps/admin/lib/code-status-client.ts:7:  type CodeStatus
+apps/admin/lib/code-status-client.ts:8:} from "./code-status-types";
+apps/admin/lib/code-status-client.ts:17:export async function getAdminCodeStatus(
+apps/admin/lib/code-status-client.ts:19:): Promise<AdminCodeStatusResult> {
+apps/admin/lib/code-status-client.ts:38:      ? await fetchLiveCodeStatus(params, statusFilter)
+apps/admin/lib/code-status-client.ts:72:async function fetchLiveCodeStatus(
+apps/admin/lib/code-status-client.ts:74:  statusFilter: CodeStatus | null
+apps/admin/lib/code-status-client.ts:75:): Promise<AdminCodeStatusResponse> {
+apps/admin/lib/code-status-client.ts:89:    `/api/v1/admin/tenants/${tenantId}/cohorts/${cohortId}/code-status`,
+apps/admin/lib/code-status-client.ts:107:  return (await response.json()) as AdminCodeStatusResponse;
+apps/admin/lib/code-status-client.ts:112:  statusFilter: CodeStatus | null
+apps/admin/lib/code-status-client.ts:113:): AdminCodeStatusResponse {
+apps/admin/lib/code-status-client.ts:114:  const base = structuredClone(fixture) as AdminCodeStatusResponse;
+apps/admin/lib/code-status-client.ts:137:function emptyResponse(data: AdminCodeStatusResponse): AdminCodeStatusResponse {
+apps/admin/lib/code-status-client.ts:149:function normalizeStatus(value: string | undefined): CodeStatus | null {
+apps/admin/lib/code-status-client.ts:154:  return CODE_STATUSES.includes(normalized as CodeStatus)
+apps/admin/lib/code-status-client.ts:155:    ? (normalized as CodeStatus)
+apps/admin/components/admin-code-status-screen.tsx:2:import { CODE_STATUSES, type AdminCodeStatusResult, type CodeStatus } from "../lib/code-status-types";
+apps/admin/components/admin-code-status-screen.tsx:7:  result: AdminCodeStatusResult;
+apps/admin/components/admin-code-status-screen.tsx:10:export function AdminCodeStatusScreen({ result }: ScreenProps) {
+apps/admin/components/admin-code-status-screen.tsx:66:            {CODE_STATUSES.map((status) => (
+apps/admin/components/admin-code-status-screen.tsx:104:function CodeRows({ result }: { result: Extract<AdminCodeStatusResult, { state: "success" }> }) {
+apps/admin/components/admin-code-status-screen.tsx:121:            <tr key={row.inviteCodeId}>
+apps/admin/components/admin-code-status-screen.tsx:122:              <td className="row-id mono">{shortId(row.inviteCodeId)}</td>
+apps/admin/components/admin-code-status-screen.tsx:159:function FilterLink({ status, active }: { status: CodeStatus | null; active: boolean }) {
+apps/admin/components/admin-code-status-screen.tsx:178:  status: CodeStatus | null;
+apps/admin/components/admin-code-status-screen.tsx:204:function pageHref(page: number, status: CodeStatus | null, size: number) {
+backend diff
+api-client files
+packages/api-client/.gitkeep

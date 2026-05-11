@@ -19,31 +19,31 @@ public interface InviteCodeRepository extends JpaRepository<InviteCode, UUID> {
 
     boolean existsByLookupHash(String lookupHash);
 
-    long countByTenantIdAndCohortId(UUID tenantId, UUID cohortId);
+    long countByTenantIdAndAccessPoolId(UUID tenantId, UUID accessPoolId);
 
     @Query("""
             select inviteCode.status as status,
                    count(inviteCode) as count
             from InviteCode inviteCode
             where inviteCode.tenant.id = :tenantId
-              and inviteCode.cohort.id = :cohortId
+              and inviteCode.accessPool.id = :accessPoolId
             group by inviteCode.status
             """)
-    List<InviteCodeStatusCountProjection> countStatusesByTenantIdAndCohortId(
+    List<InviteCodeStatusCountProjection> countStatusesByTenantIdAndAccessPoolId(
             @Param("tenantId") UUID tenantId,
-            @Param("cohortId") UUID cohortId
+            @Param("accessPoolId") UUID accessPoolId
     );
 
     @Query("""
             select count(inviteCode)
             from InviteCode inviteCode
             where inviteCode.tenant.id = :tenantId
-              and inviteCode.cohort.id = :cohortId
+              and inviteCode.accessPool.id = :accessPoolId
               and inviteCode.issuedAt is not null
             """)
-    long countIssuedByTenantIdAndCohortId(
+    long countIssuedByTenantIdAndAccessPoolId(
             @Param("tenantId") UUID tenantId,
-            @Param("cohortId") UUID cohortId
+            @Param("accessPoolId") UUID accessPoolId
     );
 
     @Query(
@@ -58,7 +58,7 @@ public interface InviteCodeRepository extends JpaRepository<InviteCode, UUID> {
                     left join EmployeeRegistration registration
                       on registration.inviteCodeId = inviteCode.id
                     where inviteCode.tenant.id = :tenantId
-                      and inviteCode.cohort.id = :cohortId
+                      and inviteCode.accessPool.id = :accessPoolId
                       and (:status is null or inviteCode.status = :status)
                     order by inviteCode.createdAt asc, inviteCode.id asc
                     """,
@@ -66,13 +66,13 @@ public interface InviteCodeRepository extends JpaRepository<InviteCode, UUID> {
                     select count(inviteCode)
                     from InviteCode inviteCode
                     where inviteCode.tenant.id = :tenantId
-                      and inviteCode.cohort.id = :cohortId
+                      and inviteCode.accessPool.id = :accessPoolId
                       and (:status is null or inviteCode.status = :status)
                     """
     )
     Page<InviteCodeStatusRowProjection> findCodeStatusRows(
             @Param("tenantId") UUID tenantId,
-            @Param("cohortId") UUID cohortId,
+            @Param("accessPoolId") UUID accessPoolId,
             @Param("status") InviteCodeStatus status,
             Pageable pageable
     );

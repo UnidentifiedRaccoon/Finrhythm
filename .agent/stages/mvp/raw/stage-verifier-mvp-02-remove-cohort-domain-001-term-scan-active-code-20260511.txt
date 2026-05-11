@@ -1,0 +1,4 @@
+COMMAND: rg -n "cohort|Cohort|cohortId|/cohorts|wave|Wave|WAVE|когорт|волна" apps/api/src/main/java apps/api/src/test/java apps/admin apps/web packages
+PWD: /Users/elena/cursor/FinPulse
+START: 2026-05-11T17:55:26Z
+zsh:7: read-only variable: status
