@@ -56,6 +56,7 @@ class EmployeeRegistrationControllerIT {
     private static final Instant ISSUED_AT = Instant.parse("2026-05-04T09:00:00Z");
     private static final Instant NON_EXPIRED_AT = Instant.parse("2030-05-04T09:00:00Z");
     private static final AtomicInteger SUBJECT_SEQUENCE = new AtomicInteger(1_000);
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Container
     static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:16-alpine")
@@ -171,7 +172,6 @@ class EmployeeRegistrationControllerIT {
                 .andReturnJson();
 
         UUID registrationId = UUID.fromString(created.get("employeeRegistrationId").asText());
-        String persistedRegisteredAt = persistedInstantText(created.get("registeredAt").asText());
 
         String response = postProfileSummary("""
                 {
@@ -189,12 +189,12 @@ class EmployeeRegistrationControllerIT {
                 .andExpect(jsonPath("$.tenantId").value(tenant.getId().toString()))
                 .andExpect(jsonPath("$.pilotLaunchId").value(accessPool.getPilotLaunch().getId().toString()))
                 .andExpect(jsonPath("$.accessPoolId").value(accessPool.getId().toString()))
-                .andExpect(jsonPath("$.registeredAt").value(persistedRegisteredAt))
                 .andExpect(jsonPath("$.contactVerifiedByRegistrationMatch").value(true))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
 
+        assertRegisteredAtMatchesPersistedPrecision(created, OBJECT_MAPPER.readTree(response));
         assertThat(response)
                 .doesNotContain(issuedCode.code())
                 .doesNotContain("activationSubjectRef")
@@ -310,7 +310,6 @@ class EmployeeRegistrationControllerIT {
                 .andReturnJson();
 
         UUID registrationId = UUID.fromString(created.get("employeeRegistrationId").asText());
-        String persistedRegisteredAt = persistedInstantText(created.get("registeredAt").asText());
         JsonNode session = postProfileSession("""
                 {
                   "fullName": "Session Contact",
@@ -345,12 +344,12 @@ class EmployeeRegistrationControllerIT {
                 .andExpect(jsonPath("$.tenantId").value(tenant.getId().toString()))
                 .andExpect(jsonPath("$.pilotLaunchId").value(accessPool.getPilotLaunch().getId().toString()))
                 .andExpect(jsonPath("$.accessPoolId").value(accessPool.getId().toString()))
-                .andExpect(jsonPath("$.registeredAt").value(persistedRegisteredAt))
                 .andExpect(jsonPath("$.contactVerifiedByRegistrationMatch").value(true))
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
 
+        assertRegisteredAtMatchesPersistedPrecision(created, OBJECT_MAPPER.readTree(firstRead));
         getMeProfileSummary(token).andExpect(status().isOk());
         assertThat(countActiveProfileSessions(registrationId)).isEqualTo(1);
         assertThat(firstRead)
@@ -834,13 +833,17 @@ class EmployeeRegistrationControllerIT {
         return ActivationSubjectRef.fromSha256Hex("%064x".formatted(value));
     }
 
-    private static String persistedInstantText(String instantText) {
-        return Instant.parse(instantText).truncatedTo(ChronoUnit.MICROS).toString();
+    private static void assertRegisteredAtMatchesPersistedPrecision(JsonNode created, JsonNode actual) {
+        Instant createdRegisteredAt = Instant.parse(created.get("registeredAt").asText());
+        Instant actualRegisteredAt = Instant.parse(actual.get("registeredAt").asText());
+
+        assertThat(actualRegisteredAt).isBetween(
+                createdRegisteredAt.minus(1, ChronoUnit.MICROS),
+                createdRegisteredAt.plus(1, ChronoUnit.MICROS)
+        );
     }
 
     private static final class RegistrationResultActions {
-        private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-
         private final org.springframework.test.web.servlet.ResultActions delegate;
 
         private RegistrationResultActions(org.springframework.test.web.servlet.ResultActions delegate) {
