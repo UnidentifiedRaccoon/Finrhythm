@@ -48,6 +48,12 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 
 `MVP-03-consent-version-logging-001` now has scoped fresh verifier `PASS` for parent unit `MVP-03.03`. It adds backend/API/Flyway/OpenAPI/generated-client consent version logging, while final legal approval, auth/session and full `MVP-03` remain open.
 
+`MVP-03-admin-sensitive-access-audit-001` now has scoped fresh verifier `PASS` for parent unit `MVP-03.05`. It is backend-only: append-only audit logging for the existing protected admin code-status access path and default-denied admin attempts. It does not implement `MVP-03.04`, admin RBAC/users/sessions, admin UI audit views, real-data production policy or full `MVP-03`.
+
+`MVP-03-profile-contact-summary-001` now has scoped fresh verifier `PASS` for parent unit `MVP-03.04`. It is backend/API-only and read-only: support-ready profile/contact summary lookup for an existing registration by raw invite code plus matching normalized contact fields. It explicitly does not implement contact update, employee auth/session, profile UI, support tickets, HR reporting, real-data processing or full `MVP-03`.
+
+`MVP-03-employee-profile-session-001` now has scoped fresh verifier `PASS` for parent unit `MVP-03.04`. It is the backend/API prerequisite for later safe contact update: create a short-lived profile session only after the existing invite+contact proof and allow read-only authenticated `me/profile-summary`. It explicitly does not implement contact update, employee UI, support tickets, HR reporting, real-data processing or full `MVP-03`.
+
 ## MVP-02. Corporate tenant and invite access
 
 | ID | Mode | Status | Goal | Evidence |
@@ -159,8 +165,11 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 | MVP-03-onboarding-privacy-screen-001 | agent | PASS | Add the smallest employee-facing `apps/web` privacy route, preferred `/onboarding/privacy`, explaining what HR/employer sees and does not see before future diagnostics. | `.agent/stages/mvp/evidence/MVP-03-onboarding-privacy-screen-001.md`; `.agent/stages/mvp/evidence/MVP-03-onboarding-privacy-screen-001.json`; `.agent/stages/mvp/verdicts/MVP-03-onboarding-privacy-screen-001.json`; `.agent/stages/mvp/problems/MVP-03-onboarding-privacy-screen-001.md`. |
 | MVP-03.03 | agent | SCOPED_PASS | Implement consent version logging. | Scoped PASS via `MVP-03-consent-version-logging-001`; full MVP-03 remains open. |
 | MVP-03-consent-version-logging-001 | agent | PASS | Add append-only draft legal/consent document version acceptance logging for an existing employee registration, with idempotent same-version retry and safe rejection of unsupported inputs. | `.agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.md`; `.agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.json`; `.agent/stages/mvp/verdicts/MVP-03-consent-version-logging-001.json`; `.agent/stages/mvp/problems/MVP-03-consent-version-logging-001.md`. |
-| MVP-03.04 | agent | PENDING | Implement profile, contact update and support-ready identity basics. | Future task evidence required. |
-| MVP-03.05 | agent | PENDING | Implement admin audit logs for sensitive access. | Future task evidence and human-gated production policy required. |
+| MVP-03.04 | agent | SCOPED_PASS | Implement profile, contact update and support-ready identity basics. | Narrow read-only backend/API slice has scoped PASS via `MVP-03-profile-contact-summary-001`; contact update remains deferred until trustworthy employee identity/session exists. |
+| MVP-03-profile-contact-summary-001 | agent | PASS | Add backend/API read-only support-ready profile/contact summary lookup requiring invite code plus matching normalized contact. | `.agent/stages/mvp/evidence/MVP-03-profile-contact-summary-001.md`; `.agent/stages/mvp/evidence/MVP-03-profile-contact-summary-001.json`; `.agent/stages/mvp/verdicts/MVP-03-profile-contact-summary-001.json`; `.agent/stages/mvp/problems/MVP-03-profile-contact-summary-001.md`. |
+| MVP-03-employee-profile-session-001 | agent | PASS | Add backend/API short-lived employee profile session after invite+contact proof and read-only authenticated `me/profile-summary`. | `.agent/stages/mvp/evidence/MVP-03-employee-profile-session-001.md`; `.agent/stages/mvp/evidence/MVP-03-employee-profile-session-001.json`; `.agent/stages/mvp/verdicts/MVP-03-employee-profile-session-001.json`; `.agent/stages/mvp/problems/MVP-03-employee-profile-session-001.md`. |
+| MVP-03.05 | agent | SCOPED_PASS | Implement admin audit logs for sensitive access. | Scoped PASS via `MVP-03-admin-sensitive-access-audit-001`; human-gated production policy and full MVP-03 remain open. |
+| MVP-03-admin-sensitive-access-audit-001 | agent | PASS | Add backend-only append-only audit logging for the existing protected admin code-status access path and denied admin attempts. | `.agent/stages/mvp/evidence/MVP-03-admin-sensitive-access-audit-001.md`; `.agent/stages/mvp/evidence/MVP-03-admin-sensitive-access-audit-001.json`; `.agent/stages/mvp/verdicts/MVP-03-admin-sensitive-access-audit-001.json`; `.agent/stages/mvp/problems/MVP-03-admin-sensitive-access-audit-001.md`. |
 | MVP-03 | agent+human | OPEN | Full trust/legal consent/profile base remains open. | Legal/privacy/consent wording and real-data processing remain human-gated. |
 
 ### Verified onboarding/privacy screen slice
@@ -203,6 +212,73 @@ Builder evidence is now recorded:
 - `/onboarding/privacy` was not changed because there is no trustworthy employee auth/session or registration identity bridge;
 - backend/root checks passed with explicit Homebrew JDK 21 proof;
 - fresh verifier returned `PASS`, and latest verified aliases now point to `MVP-03-consent-version-logging-001`.
+
+### Frozen admin sensitive access audit slice
+
+`MVP-03-admin-sensitive-access-audit-001` is intentionally scoped to the smallest auditable admin access foundation:
+
+- use `apps/api` baseline: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc;
+- log covered attempts against the existing protected admin code-status route and default-denied `/api/v1/admin/**` paths;
+- store only safe technical audit metadata: timestamp, method, action, permission, normalized route/path, parsed UUID scope, status code, outcome and non-secret principal ref;
+- prove no raw bearer token, raw invite code, activation subject ref, employee contact PII, request/response body, full query string or real data is stored;
+- preserve existing admin code-status auth behavior and privacy-safe response contract;
+- record OpenAPI/generated-client no-op unless a real API contract change is introduced;
+- require docs-sync decision, Mermaid audit-flow evidence, Java runtime proof/blocker, backend tests and fresh verifier before PASS;
+- exclude `MVP-03.04` profile/contact basics, employee UI, admin audit viewer UI, persisted admin users/sessions/RBAC, `User`, `OrgMembership`, SSO/SCIM, subscriptions/seats, HR reporting, support tickets, real-data operations, production admin policy approval and full `MVP-03` closure.
+
+Builder evidence is now recorded:
+
+- append-only `V008__admin_access_audit_log.sql`;
+- new `apps/api/src/main/java/com/finrhythm/api/admin/audit/**` package;
+- `AdminBearerTokenAuthenticationFilter` records one safe audit row for covered admin attempts after Spring Security/controller handling;
+- focused `AdminCodeStatusControllerIT` coverage proves success, missing/invalid token, known-route validation/not-found and default-denied admin-path audit rows;
+- `docs/architecture/access-and-subscriptions.md` documents the audited current bearer-token boundary and diagram;
+- backend/root checks passed with explicit Homebrew JDK 21 proof;
+- fresh verifier returned `PASS`, and latest verified aliases now point to `MVP-03-admin-sensitive-access-audit-001`.
+
+### Frozen profile/contact summary slice
+
+`MVP-03-profile-contact-summary-001` is intentionally narrower than full `MVP-03.04`:
+
+- expose a read-only backend/API profile/contact summary lookup for an already registered employee;
+- require raw invite code plus the same normalized full name, email and phone used at registration;
+- return only support-ready identity/scope summary on a contact match;
+- reject unknown invite/registration, mismatched contact and invalid input with safe structured errors;
+- update OpenAPI and generated `packages/api-client` artifacts from source;
+- do not add contact update, UUID-only profile lookup, employee auth/session/login/password setup, `User`, `OrgMembership`, subscriptions/seats, employee profile UI, support tickets, HR reporting, real data or full `MVP-03` closure.
+
+Builder evidence is now recorded:
+
+- new service/web DTOs and thin controller route under `apps/api/src/main/java/com/finrhythm/api/registration/**`;
+- focused `EmployeeRegistrationControllerIT` coverage for success, mismatch, unknown invite, validation, no mutation and runtime OpenAPI;
+- `packages/api-client` OpenAPI snapshot, generator/drift checks and generated client helper now cover the profile summary endpoint;
+- backend/root/api-client checks and guardrail scans passed with explicit Homebrew JDK 21 proof;
+- fresh verifier returned `PASS`, and latest verified aliases now point to `MVP-03-profile-contact-summary-001`.
+
+### Frozen employee profile session slice
+
+`MVP-03-employee-profile-session-001` is intentionally narrower than full `MVP-03.04` and does not implement contact update:
+
+- create a short-lived employee profile session only after raw invite code plus normalized full name, email and phone match the existing registration;
+- return an opaque high-entropy raw token only once and store only a server-side token hash;
+- define explicit lifecycle: short TTL, previous active profile sessions for the same registration revoked on new creation, read-only `me/profile-summary` does not consume the session, expired/revoked sessions fail;
+- add read-only authenticated `GET /api/v1/employee-registrations/me/profile-summary` using the profile-session bearer token;
+- return safe `400`/`401`/`404` errors without raw token, raw invite code, contact values, lookup hash, activation subject ref or stored PII echoes;
+- use the backend baseline: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc;
+- update OpenAPI/generated `packages/api-client` artifacts, add Flyway migration if sessions are persisted and sync canonical docs in `docs/architecture/access-and-subscriptions.md` with a small Mermaid flow;
+- require backend/Testcontainers evidence, guardrail scans and fresh verifier before any PASS claim;
+- exclude contact update, employee UI, login/password setup, `User`, `OrgMembership`, subscriptions/seats, `pro_user`, `premium`, SSO/SCIM, support tickets, HR reporting, diagnostics, points, CMS, rewards, real data and human-gate closure.
+
+Builder evidence is now recorded:
+
+- append-only `V009__employee_profile_session.sql`;
+- new `EmployeeProfileSession` domain/repository/token service plus thin controller routes under `apps/api/src/main/java/com/finrhythm/api/registration/**`;
+- focused `EmployeeRegistrationControllerIT` coverage for proof-gated creation, hash-only token persistence, previous-session revocation, non-consuming read-only `me/profile-summary`, expired/revoked/missing/malformed/unknown token rejection, safe error echoes and runtime OpenAPI;
+- OpenAPI snapshot and generated `packages/api-client` helper now cover profile-session creation and authenticated me/profile-summary;
+- `docs/architecture/access-and-subscriptions.md` documents the current MVP employee profile-session boundary and Mermaid flow;
+- backend/root/api-client checks passed with explicit Homebrew JDK 21 proof;
+- fresh verifier returned `PASS`, and latest verified aliases now point to `MVP-03-employee-profile-session-001`;
+- full `MVP-03`, contact update and human gates remain open.
 
 ## MVP-04. UX/UI foundation and neutral brand
 

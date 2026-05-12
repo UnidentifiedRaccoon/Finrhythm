@@ -1,87 +1,48 @@
-# MVP-03 consent version logging spec freeze
+# MVP-03 employee profile session spec freeze
 
 Stage ID: `mvp`
-Active slice: `MVP-03-consent-version-logging-001`
-Parent stage unit: `MVP-03.03`
+Active slice: `MVP-03-employee-profile-session-001`
+Parent stage unit: `MVP-03.04`
 Status: `FROZEN`
 Frozen at: 2026-05-12
 Freezer role: `stage_spec_freezer`
 
 ## Objective
 
-Freeze one narrow implementation slice after scoped PASS for `MVP-03-onboarding-privacy-screen-001`: add a backend/API technical foundation that records draft legal/consent document version acceptance for an employee registration.
+Freeze one narrow backend/API prerequisite for future safe contact update: create a trustworthy short-lived employee profile session only after the existing raw invite code plus normalized full name/email/phone proof succeeds, then allow a read-only authenticated `me/profile-summary` lookup from that session.
 
-This freeze does not implement production code, approve legal wording, close full `MVP-03`, close the MVP stage or close any human gate.
+This freeze does not implement production code, contact update, employee UI, login/password setup, `User`, `OrgMembership`, subscriptions/seats, support tickets, HR reporting, diagnostics, points, CMS, rewards, real-data use, full `MVP-03`, the MVP stage or any human gate.
 
-## Source Baseline
+## Current Verified State
 
-Read set used for this freeze:
+- Latest verified scoped slice remains `MVP-03-profile-contact-summary-001` with fresh verifier `PASS`.
+- Immutable PASS refs for `MVP-03-profile-contact-summary-001` and `MVP-03-admin-sensitive-access-audit-001` must be preserved.
+- Existing backend has `POST /api/v1/employee-registrations/profile-summary`, requiring raw invite code plus matching normalized fullName/email/phone, read-only, no UUID-only public lookup, no contact update and no auth/session bridge.
+- `apps/web` remains non-mutating for consent/profile/contact flows because there is no trustworthy employeeRegistrationId/session bridge.
 
-- `AGENTS.md`;
-- `.agents/skills/stage-launch-proof-loop/SKILL.md`;
-- `.agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md`;
-- `docs/architecture/source-of-truth.md`;
-- `docs/architecture/documentation-workflow.md`;
-- `docs/stages/MVP.md`, focused on `MVP-03.03`;
-- `docs/engineering/definition-of-done.md`;
-- `docs/engineering/human-gates.md`;
-- `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`, focused on privacy/legal minimum and version logging;
-- `docs/architecture/access-and-subscriptions.md` and `docs/architecture/organization-access-subscription-model.md`, only for current identity/access guardrails;
-- `apps/api/AGENTS.md`;
-- `apps/web/AGENTS.md`;
-- current `.agent/stages/mvp/status.json`, `evidence.json`, `verdict.json`, `sprint_contract.md`, `backlog.md`, `progress.md` and `feature_list.json`;
-- current backend registration/API/security files and migrations;
-- current web `/onboarding/privacy` route/component/tests.
+## Decision
 
-No `.agent/**/raw/**` files were read.
+The safe next implementation slice is an employee-registration-scoped profile session, not contact update. The session is a narrow MVP registration/profile boundary:
 
-## Current Verified State To Preserve
+- it is created only after the same invite+contact proof already verified by the profile-summary endpoint;
+- it is not a product login, not a password setup flow, not a `User` session and not an `OrgMembership`/subscription/seat entitlement;
+- it returns an opaque high-entropy raw token only once and stores only a server-side token hash;
+- it is short-lived, revocable and valid only for read-only profile-summary lookup.
 
-- Latest verified sprint is `MVP-03-onboarding-privacy-screen-001` with scoped fresh verifier `PASS`.
-- That PASS covers only the employee-facing `/onboarding/privacy` privacy screen and `/learning` handoff.
-- It explicitly does not implement consent acceptance, consent version logging, backend/API/schema/OpenAPI/generated-client changes, diagnostics or routing.
-- Existing backend registration API returns `employeeRegistrationId`, `tenantId`, `pilotLaunchId`, `accessPoolId`, `inviteCodeId`, `registeredAt` and `idempotentRetry`.
-- There is no employee auth/session implementation. Admin bearer auth exists only for `/api/v1/admin/**`.
-- `packages/api-client` has no generator/artifacts.
-- Full `MVP-03`, `MVP-04`, `MVP-06`, `MVP-07`, the MVP stage and all human gates remain open.
-
-## Scope Decision
-
-Freeze `MVP-03-consent-version-logging-001` as a backend/API-first slice:
-
-- append-only Flyway persistence for legal document acceptance log;
-- service/domain allowlist for current draft privacy/consent/terms/disclaimer versions;
-- thin Spring controller to record acceptance for an existing `employeeRegistrationId`;
-- idempotent same-version retry;
-- structured rejection for unknown document/version/registration inputs;
-- OpenAPI/springdoc and generated-client decision evidence;
-- minimal web handoff only if current identity flow is safe.
-
-## Out Of Scope
-
-- Final legal approval or production legal text approval.
-- Cookie consent.
-- Auth/session overhaul, `User`, `OrgMembership`, SSO/SCIM, subscription or seat model.
-- Diagnostics/routing, profile/contact update, HR reporting, admin audit policy beyond the narrow append-only log.
-- Real employee/customer/personal/financial data beyond synthetic registration fixtures.
-- CMS/admin publishing, progress persistence, scored submissions, practice submission, points/wallet, rewards or merch.
-- Closing full `MVP-03`, the MVP stage or any human gate.
+Contact update remains out of scope until a later slice explicitly freezes update semantics, auditability and identity proof requirements.
 
 ## Acceptance Summary
 
-The future builder must prove:
+The builder must prove:
 
-- append-only migration and persistence;
-- `employee_registrations.id` anchoring with tenant/pilot/access-pool scope;
-- allowlisted draft legal document types/versions;
-- idempotent same-version retry without duplicate rows;
-- rejection of unknown/unsupported inputs;
-- safe API responses with no raw invite code, activation subject ref, full contact PII or legal body echoes;
-- OpenAPI/runtime `/v3/api-docs` coverage;
-- generated-client regeneration or explicit no-op;
-- safe/non-mutating web handoff if no trustworthy identity bridge exists;
-- docs-sync decision, Mermaid flow evidence, Java proof/blocker and fresh verifier PASS.
-
-## Human Gates
-
-No human gate is closed by this freeze or by the future implementation without separate approval. Legal/privacy wording, consent copy, real-data processing and customer-specific HR/reporting boundaries remain open.
+- `POST /api/v1/employee-registrations/profile-sessions` creates a short-lived profile session only when raw invite code plus normalized fullName/email/phone match the existing registration.
+- The raw profile-session token is opaque, high-entropy, non-JWT and stored only as a server-side hash.
+- Expiry and revocation/consumption policy is explicit: recommended 15-minute TTL, previous active profile sessions for the same registration revoked on successful new creation, read-only `me/profile-summary` does not consume the session, expired/revoked sessions fail.
+- `GET /api/v1/employee-registrations/me/profile-summary` works only with a valid unexpired profile-session bearer token and returns the same support-safe summary fields as the verified read-only profile-summary contract.
+- Invalid input, failed proof, missing/malformed token, expired/revoked token and unknown session fail with safe `400`/`401`/`404` responses without echoing raw token, raw invite code, contact values, lookup hash, activation subject ref or stored PII.
+- Backend baseline stays Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
+- If sessions are persisted, an append-only Flyway migration adds the session table/indexes; schema evidence and Testcontainers/Flyway proof are required.
+- OpenAPI and generated `packages/api-client` artifacts are updated from backend source.
+- Canonical docs sync targets are declared before build; `docs/architecture/access-and-subscriptions.md` likely needs a new MVP employee profile-session boundary with a small Mermaid flow.
+- No contact update, employee UI, login/password setup, `User`, `OrgMembership`, subscription/seat, `pro_user`, `premium`, SSO, support ticket, HR report, diagnostics, points, CMS, rewards, real data or human-gate closure is introduced.
+- Fresh stage verifier PASS is required before any new `passes=true` or scoped PASS claim.

@@ -1,0 +1,173 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-03-admin-sensitive-access-audit-001",
+  "parent_stage_unit": "MVP-03.05",
+  "status": "SCOPED_PASS",
+  "verification_status": "PASS",
+  "updated_at": "2026-05-12",
+  "latest_alias": ".agent/stages/mvp/evidence.json",
+  "immutable_refs": {
+    "markdown": ".agent/stages/mvp/evidence/MVP-03-admin-sensitive-access-audit-001.md",
+    "json": ".agent/stages/mvp/evidence/MVP-03-admin-sensitive-access-audit-001.json"
+  },
+  "verdict": {
+    "raw": ".agent/stages/mvp/verdicts/MVP-03-admin-sensitive-access-audit-001.json",
+    "problems": ".agent/stages/mvp/problems/MVP-03-admin-sensitive-access-audit-001.md",
+    "alias": ".agent/stages/mvp/verdict.json",
+    "status": "PASS"
+  },
+  "affected_ids": [
+    "MVP-03.05",
+    "MVP-03-admin-sensitive-access-audit-001"
+  ],
+  "implemented_scope": [
+    "Added append-only Flyway migration V008__admin_access_audit_log.sql.",
+    "Added narrow apps/api admin audit route/principal/outcome/service package.",
+    "Hooked existing admin bearer-token security filter to append one safe audit row for covered admin attempts.",
+    "Logged successful code-status reads, missing/invalid-token known-route attempts, known-route validation/not-found outcomes and default-denied admin paths.",
+    "Stored only safe technical audit metadata without raw bearer tokens, raw invite codes, activation subject refs, employee contact PII, bodies or full query strings.",
+    "Preserved existing code-status auth and privacy-safe response contract.",
+    "Updated docs/architecture/access-and-subscriptions.md for the current audited bearer-token admin boundary and diagram.",
+    "Kept OpenAPI/packages/api-client as no-op because no endpoint or DTO changed."
+  ],
+  "changed_files": [
+    "apps/api/src/main/resources/db/migration/V008__admin_access_audit_log.sql",
+    "apps/api/src/main/java/com/finrhythm/api/admin/audit/AdminAccessAuditOutcome.java",
+    "apps/api/src/main/java/com/finrhythm/api/admin/audit/AdminAccessAuditPrincipal.java",
+    "apps/api/src/main/java/com/finrhythm/api/admin/audit/AdminAccessAuditRoute.java",
+    "apps/api/src/main/java/com/finrhythm/api/admin/audit/AdminAccessAuditService.java",
+    "apps/api/src/main/java/com/finrhythm/api/admin/security/AdminBearerTokenAuthenticationFilter.java",
+    "apps/api/src/main/java/com/finrhythm/api/common/config/SecurityConfig.java",
+    "apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java",
+    "docs/architecture/access-and-subscriptions.md",
+    ".agent/stages/mvp/evidence.md",
+    ".agent/stages/mvp/evidence.json",
+    ".agent/stages/mvp/evidence/MVP-03-admin-sensitive-access-audit-001.md",
+    ".agent/stages/mvp/evidence/MVP-03-admin-sensitive-access-audit-001.json",
+    ".agent/stages/mvp/status.json",
+    ".agent/stages/mvp/backlog.md",
+    ".agent/stages/mvp/progress.md",
+    ".agent/stages/mvp/feature_list.json",
+    ".agent/stages/mvp/sprint_contract.md",
+    ".agent/stages/mvp/stage_spec.md",
+    ".agent/stages/mvp/task-files/MVP-03-admin-sensitive-access-audit-001.md"
+  ],
+  "generated_tooling_churn": [
+    {
+      "file": "apps/admin/next-env.d.ts",
+      "reason": "Next production build rewrote the generated route-types reference from .next/dev/types to .next/types; no admin product/UI source changed."
+    }
+  ],
+  "acceptance_mapping": [
+    {
+      "item": "Append-only Flyway migration creates admin access audit log",
+      "status": "BUILT",
+      "evidence": "V008__admin_access_audit_log.sql; flywayCreatesAdminAccessAuditLogWithSafeMetadataShape"
+    },
+    {
+      "item": "Successful code-status read logs method/action/permission/scope/status/principal",
+      "status": "BUILT",
+      "evidence": "logsSuccessfulCodeStatusReadWithScopeAndSafePrincipal"
+    },
+    {
+      "item": "Missing and invalid token attempts log safe unauthenticated outcomes",
+      "status": "BUILT",
+      "evidence": "logsMissingAndInvalidTokenAttemptsWithoutTokenMaterialOrQueryString"
+    },
+    {
+      "item": "Default-denied admin paths log coarse denied outcome",
+      "status": "BUILT",
+      "evidence": "logsDefaultDeniedAdminPathWithCoarseRouteOnly"
+    },
+    {
+      "item": "Known-route validation and not-found outcomes are logged",
+      "status": "BUILT",
+      "evidence": "logsKnownRouteNotFoundAndValidationFailures"
+    },
+    {
+      "item": "Existing code-status auth and response contract are preserved",
+      "status": "BUILT",
+      "evidence": "Existing AdminCodeStatusControllerIT assertions plus full Maven/root checks pass"
+    },
+    {
+      "item": "No secrets, PII, bodies or full query strings are stored",
+      "status": "BUILT",
+      "evidence": "Migration column assertions, row safety assertions and production guardrail scan"
+    },
+    {
+      "item": "No access-model shortcuts introduced",
+      "status": "BUILT",
+      "evidence": "Production guardrail scan; no User/OrgMembership/subscription/seat/pro_user/premium implementation"
+    },
+    {
+      "item": "Fresh verifier PASS",
+      "status": "PASS",
+      "evidence": ".agent/stages/mvp/verdicts/MVP-03-admin-sensitive-access-audit-001.json"
+    }
+  ],
+  "commands_summary": {
+    "java_version_explicit_homebrew_jdk21": "PASS",
+    "api_admin_it": "PASS",
+    "api_mvn_test": "PASS",
+    "api_mvn_verify": "PASS",
+    "make_verify": "PASS",
+    "make_test_unit": "PASS",
+    "make_build": "PASS",
+    "json_validation": "PASS",
+    "git_diff_check": "PASS",
+    "production_guardrail_scan": "PASS",
+    "guardrail_scan": "PASS_WITH_EXPECTED_ASSERTION_MATCHES",
+    "verify_harness_before_fresh_verifier": "EXPECTED_FAIL_ACTIVE_LATEST_MISMATCH",
+    "fresh_verifier": "PASS",
+    "parent_sync_json_validation": "PASS",
+    "parent_sync_git_diff_check": "PASS",
+    "parent_sync_verify_harness": "PASS",
+    "parent_sync_status_check": "PASS"
+  },
+  "raw_refs": [
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-java-version-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-api-admin-it-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-api-mvn-test-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-api-mvn-verify-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-make-verify-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-make-test-unit-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-make-build-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-json-validation-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-git-diff-check-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-production-guardrail-scan-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-guardrail-scan-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-safe-comment-scan-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-generated-client-ui-noop-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-verify-harness-20260512.txt"
+  ],
+  "docs_sync": {
+    "status": "CANONICAL_DOC_UPDATED",
+    "refs": [
+      "docs/architecture/access-and-subscriptions.md"
+    ],
+    "reason": "The current MVP admin bearer-token boundary now records append-only audit rows, so the narrow access architecture doc was updated with behavior and Mermaid flow. Product/stage scope, OpenAPI and packages/api-client did not change."
+  },
+  "openapi_generated_client": {
+    "status": "NO_CONTRACT_CHANGE",
+    "reason": "No endpoint, DTO or public/admin response contract was added or changed; packages/api-client has no diff."
+  },
+  "human_gates_closed": false,
+  "human_gates_remaining_open": [
+    "admin-auth-role-audit-policy-for-production-use",
+    "legal-privacy-consent-wording-and-real-pii-processing",
+    "real-employee-customer-data-processing-approval",
+    "customer-specific-hr-reporting-boundaries",
+    "financial-correctness-lessons-diagnostics-quizzes",
+    "legal-tax-review-tax-deduction-wording",
+    "hr-privacy-wording-review-diagnostics-self-assessment-reports",
+    "reward-economy-stock-prices-fulfillment",
+    "support-answer-policy-sensitive-topics",
+    "MVP-05-production-ready-publish-approval"
+  ],
+  "fresh_verifier": {
+    "status": "PASS",
+    "verdict_ref": ".agent/stages/mvp/verdicts/MVP-03-admin-sensitive-access-audit-001.json",
+    "problems_ref": ".agent/stages/mvp/problems/MVP-03-admin-sensitive-access-audit-001.md",
+    "note": "Fresh stage_verifier PASS recorded; parent aliases synchronized while full MVP-03 and human gates remain open."
+  }
+}

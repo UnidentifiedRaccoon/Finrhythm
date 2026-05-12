@@ -54,6 +54,145 @@
         }
       }
     },
+    "/api/v1/employee-registrations/profile-summary": {
+      "post": {
+        "operationId": "profileSummary",
+        "summary": "Read a support-safe employee profile summary",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeProfileSummaryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile summary found for the matching invite/contact.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeProfileSummaryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Submitted contact or invite-code fields are invalid. Submitted PII and raw invite code are not echoed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No registration matched the submitted invite/contact proof.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employee-registrations/profile-sessions": {
+      "post": {
+        "operationId": "createProfileSession",
+        "summary": "Create a short-lived employee profile session",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeProfileSessionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Profile session created. The opaque token is returned only once.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeProfileSessionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Submitted contact or invite-code fields are invalid. Submitted PII and raw invite code are not echoed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No registration matched the submitted invite/contact proof.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employee-registrations/me/profile-summary": {
+      "get": {
+        "operationId": "profileSummaryForSession",
+        "summary": "Read the current employee profile summary",
+        "security": [
+          {
+            "employeeProfileSessionBearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Profile summary for the valid profile session.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeProfileSummaryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Profile session token is missing, malformed, expired, revoked or unknown. Raw token is not echoed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Registration referenced by the session was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/employee-registrations/{employeeRegistrationId}/legal-acceptances": {
       "post": {
         "operationId": "acceptLegalDocuments",
@@ -254,6 +393,12 @@
         "scheme": "bearer",
         "bearerFormat": "opaque-admin-token",
         "description": "Deploy-configured admin bearer token for operational API calls."
+      },
+      "employeeProfileSessionBearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "opaque-profile-session",
+        "description": "Short-lived employee profile-session bearer token."
       }
     },
     "schemas": {
@@ -401,6 +546,150 @@
             "format": "date-time"
           },
           "idempotentRetry": {
+            "type": "boolean"
+          }
+        }
+      },
+      "EmployeeProfileSummaryRequest": {
+        "type": "object",
+        "required": [
+          "fullName",
+          "email",
+          "phone",
+          "inviteCode"
+        ],
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 254
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "inviteCode": {
+            "type": "string",
+            "maxLength": 64
+          }
+        }
+      },
+      "EmployeeProfileSummaryResponse": {
+        "type": "object",
+        "required": [
+          "employeeRegistrationId",
+          "fullName",
+          "email",
+          "phone",
+          "tenantId",
+          "pilotLaunchId",
+          "accessPoolId",
+          "registeredAt",
+          "contactVerifiedByRegistrationMatch"
+        ],
+        "properties": {
+          "employeeRegistrationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pilotLaunchId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "accessPoolId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "registeredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "contactVerifiedByRegistrationMatch": {
+            "type": "boolean"
+          }
+        }
+      },
+      "EmployeeProfileSessionRequest": {
+        "type": "object",
+        "required": [
+          "fullName",
+          "email",
+          "phone",
+          "inviteCode"
+        ],
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 254
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "inviteCode": {
+            "type": "string",
+            "maxLength": 64
+          }
+        }
+      },
+      "EmployeeProfileSessionResponse": {
+        "type": "object",
+        "required": [
+          "profileSessionToken",
+          "expiresAt",
+          "employeeRegistrationId",
+          "tenantId",
+          "pilotLaunchId",
+          "accessPoolId",
+          "contactVerifiedByRegistrationMatch"
+        ],
+        "properties": {
+          "profileSessionToken": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "employeeRegistrationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pilotLaunchId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "accessPoolId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contactVerifiedByRegistrationMatch": {
             "type": "boolean"
           }
         }

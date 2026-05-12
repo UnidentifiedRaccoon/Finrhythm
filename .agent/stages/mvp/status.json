@@ -1,9 +1,9 @@
 {
   "stage_id": "mvp",
   "state": "SCOPED_PASS",
-  "active_sprint_contract_id": "MVP-03-consent-version-logging-001",
-  "latest_verified_sprint_contract_id": "MVP-03-consent-version-logging-001",
-  "latest_status_decision_sprint_contract_id": "MVP-03-consent-version-logging-001",
+  "active_sprint_contract_id": "MVP-03-employee-profile-session-001",
+  "latest_verified_sprint_contract_id": "MVP-03-employee-profile-session-001",
+  "latest_status_decision_sprint_contract_id": "MVP-03-employee-profile-session-001",
   "completed_ids": [
     "MVP-01.01",
     "MVP-01.02",
@@ -33,15 +33,19 @@
     "MVP-06-learning-n3-fixture-001",
     "MVP-03-onboarding-privacy-screen-001",
     "MVP-03.03",
-    "MVP-03-consent-version-logging-001"
+    "MVP-03-consent-version-logging-001",
+    "MVP-03.05",
+    "MVP-03-admin-sensitive-access-audit-001",
+    "MVP-03-profile-contact-summary-001",
+    "MVP-03-employee-profile-session-001"
   ],
   "done_with_human_pending_ids": [
     "MVP-02.04",
     "MVP-02"
   ],
   "active_ids": [
-    "MVP-03.03",
-    "MVP-03-consent-version-logging-001"
+    "MVP-03.04",
+    "MVP-03-employee-profile-session-001"
   ],
   "blocked_ids": [],
   "waiting_human_ids": [
@@ -57,9 +61,12 @@
     "admin-auth-role-audit-policy-for-production-use"
   ],
   "next_recommended_ids": [
-    "preserve-MVP-03-consent-version-logging-001-immutable-artifacts",
-    "freeze-next-MVP-03-profile-or-audit-slice",
-    "keep-final-legal-approval-auth-session-diagnostics-profile-admin-audit-and-full-MVP-03-deferred",
+    "preserve-MVP-03-admin-sensitive-access-audit-001-immutable-artifacts",
+    "preserve-MVP-03-profile-contact-summary-001-immutable-artifacts",
+    "preserve-MVP-03-employee-profile-session-001-immutable-artifacts",
+    "freeze-next-MVP-03-contact-update-or-closure-audit-slice",
+    "do-not-add-contact-update-without-using-profile-session-proof-and-update-audit",
+    "do-not-add-contact-update-before-profile-session-proof",
     "do-not-close-full-MVP-03-MVP-stage-or-human-gates-without-separate-audit"
   ],
   "last_updated": "2026-05-12",
@@ -148,6 +155,27 @@
     "current_mvp_03_consent_version_logging_fresh_verifier_pass": true,
     "current_mvp_03_consent_version_logging_parent_alias_sync_done": true,
     "mvp_03_consent_version_logging_complete": true,
+    "current_mvp_03_admin_sensitive_access_audit_contract_frozen": true,
+    "current_mvp_03_admin_sensitive_access_audit_builder_complete": true,
+    "current_mvp_03_admin_sensitive_access_audit_evidence_exists": true,
+    "current_mvp_03_admin_sensitive_access_audit_builder_checks_pass": true,
+    "current_mvp_03_admin_sensitive_access_audit_fresh_verifier_pass": true,
+    "current_mvp_03_admin_sensitive_access_audit_parent_alias_sync_done": true,
+    "mvp_03_admin_sensitive_access_audit_complete": true,
+    "current_mvp_03_profile_contact_summary_contract_frozen": true,
+    "current_mvp_03_profile_contact_summary_builder_complete": true,
+    "current_mvp_03_profile_contact_summary_evidence_exists": true,
+    "current_mvp_03_profile_contact_summary_builder_checks_pass": true,
+    "current_mvp_03_profile_contact_summary_fresh_verifier_pass": true,
+    "current_mvp_03_profile_contact_summary_parent_alias_sync_done": true,
+    "mvp_03_profile_contact_summary_complete": true,
+    "current_mvp_03_employee_profile_session_contract_frozen": true,
+    "current_mvp_03_employee_profile_session_builder_complete": true,
+    "current_mvp_03_employee_profile_session_evidence_exists": true,
+    "current_mvp_03_employee_profile_session_builder_checks_pass": true,
+    "current_mvp_03_employee_profile_session_fresh_verifier_pass": true,
+    "current_mvp_03_employee_profile_session_parent_alias_sync_done": true,
+    "mvp_03_profile_contact_basics_complete": false,
     "mvp_03_complete": false,
     "mvp_07_diagnostics_routing_complete": false,
     "current_mvp_04_mobile_learning_shell_parent_alias_sync_done": true,
@@ -194,20 +222,20 @@
     "pnpm_available_through_corepack": true,
     "maven_wrapper_present": true,
     "backend_baseline": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway, OpenAPI/springdoc required for public/admin API slices",
-    "freeze_harness_validation": "Active sprint MVP-03-consent-version-logging-001 now has builder evidence and fresh verifier PASS aliases synchronized by the parent orchestrator.",
+    "freeze_harness_validation": "Active sprint MVP-03-employee-profile-session-001 now has builder evidence and fresh verifier PASS aliases synchronized by the parent orchestrator.",
     "docs_only_latest_verified_sprint": false,
     "public_api_scope_for_latest_verified_sprint": false,
-    "schema_scope_for_latest_verified_sprint": "Latest verified sprint MVP-03-consent-version-logging-001 added append-only V007 legal document acceptance log.",
-    "ui_scope_for_latest_verified_sprint": "No apps/web mutation in MVP-03-consent-version-logging-001; prior /onboarding/privacy route remains non-mutating because no trustworthy employee identity bridge exists.",
-    "admin_scope_for_latest_verified_sprint": "No admin UI/API scope in MVP-03-consent-version-logging-001.",
-    "generated_client_scope_for_latest_verified_sprint": "packages/api-client OpenAPI snapshot, generator, drift check and generated contract/client helper now cover the legal acceptance endpoint.",
-    "active_sprint_scope": "MVP-03-consent-version-logging-001 built backend/API/Flyway/OpenAPI technical foundation for draft consent/legal document acceptance logging; apps/web remains non-mutating because there is no trustworthy employee auth/session bridge.",
+    "schema_scope_for_latest_verified_sprint": "Latest verified sprint MVP-03-employee-profile-session-001 adds append-only V009 employee_profile_sessions for short-lived hash-only profile sessions.",
+    "ui_scope_for_latest_verified_sprint": "No apps/web or product UI source change in MVP-03-employee-profile-session-001; verifier no-employee-ui diff check found no apps/web changes.",
+    "admin_scope_for_latest_verified_sprint": "No admin behavior change in MVP-03-employee-profile-session-001; previous admin audit PASS remains preserved.",
+    "generated_client_scope_for_latest_verified_sprint": "OpenAPI/packages/api-client updated for profile-session creation and authenticated me/profile-summary helpers.",
+    "active_sprint_scope": "MVP-03-employee-profile-session-001 has scoped fresh verifier PASS: backend/API short-lived employee profile session after raw invite code plus matching normalized contact proof, followed by read-only authenticated me/profile-summary. No contact update, employee UI, User/OrgMembership/subscription shortcut or human-gate closure.",
     "content_spec_status": "draft_with_human_gates",
     "content_runtime_source_of_truth": "No production content source change; existing synthetic apps/web fixtures include demo-only N1, N2 and N3 lessons.",
     "pii_guardrails_for_latest_verified_sprint": [
-      "draft backend legal acceptance logging only",
+      "latest verified backend/API short-lived employee profile session and read-only me/profile-summary only",
       "no real employee/customer/personal/financial data",
-      "no raw invite code, activation subject ref, full contact PII or legal text body echoed",
+      "no raw invite code, raw profile-session token persistence, lookup hash, activation subject ref, diagnostics, points, HR/reporting data or legal text body returned by profile-session endpoints",
       "no customer brand in employee-facing UI",
       "no final legal wording or legal approval claim",
       "no diagnostics/scoring/routing completion claim",
@@ -233,7 +261,10 @@
       "MVP-06-learning-n2-fixture-001 has scoped fresh verifier PASS and parent-synced latest aliases for the synthetic N2 fixture, /learning CTA, /learning/lessons/N2 route, display-only mini-test, non-persistent practice, amber/warning-soft reward guardrails, web checks and browser/mobile smoke.",
       "MVP-06-learning-n3-fixture-001 has scoped fresh verifier PASS and parent-synced latest aliases for the synthetic N3 decluttering/safe-sale fixture, /learning CTA, /learning/lessons/N3 route, full lesson-id alias, display-only Q10/Q11/Q12 mini-test, non-persistent checklist+choice practice, reward guardrails, web checks and browser/mobile smoke.",
       "MVP-03-onboarding-privacy-screen-001 has scoped fresh verifier PASS and parent-synced latest aliases for the employee-facing /onboarding/privacy route, draft/legal-human-gated privacy copy, aggregate-by-default HR visibility boundary, no consent logging, no diagnostics/routing and preserved /learning handoff.",
-      "MVP-03-consent-version-logging-001 has scoped fresh verifier PASS and parent-synced latest aliases for append-only backend legal document acceptance log, thin API, OpenAPI source/runtime test, idempotent same-version retry, safe rejection paths, generated api-client coverage and explicit Java 21 root checks."
+      "MVP-03-consent-version-logging-001 has scoped fresh verifier PASS and parent-synced latest aliases for append-only backend legal document acceptance log, thin API, OpenAPI source/runtime test, idempotent same-version retry, safe rejection paths, generated api-client coverage and explicit Java 21 root checks.",
+      "MVP-03-admin-sensitive-access-audit-001 has scoped fresh verifier PASS and parent-synced latest aliases for append-only backend admin access audit logging on the existing protected code-status route and default-denied admin attempts, with safe audit metadata, docs-sync and explicit Java 21 backend/root checks.",
+      "MVP-03-profile-contact-summary-001 has scoped fresh verifier PASS and parent-synced latest aliases for backend/API-only read-only support-ready employee profile/contact summary lookup by raw invite code plus matching normalized contact, with OpenAPI/generated client coverage and explicit Java 21 backend/root checks.",
+      "MVP-03-employee-profile-session-001 has scoped fresh verifier PASS and parent-synced latest aliases for backend/API short-lived employee profile sessions, hash-only token persistence, revocation/expiry, read-only authenticated me/profile-summary, V009 Flyway migration, OpenAPI/generated-client sync, docs sync and explicit Java 21 backend/root checks."
     ],
     "what_is_closed_now": [
       "MVP-02-admin-code-status-view-001 is PASS for the backend/admin API-only data contract.",
@@ -248,7 +279,10 @@
       "MVP-06-learning-n2-fixture-001 is scoped PASS for the synthetic N2 fixture extension only; root latest aliases were later synchronized.",
       "MVP-06-learning-n3-fixture-001 is scoped PASS for the synthetic N3 fixture extension only; root latest aliases have now been synchronized.",
       "MVP-03-onboarding-privacy-screen-001 is scoped PASS for the employee-facing onboarding/privacy screen only; root latest aliases have now been synchronized.",
-      "MVP-03-consent-version-logging-001 is scoped PASS for the backend/API consent version logging foundation only; root latest aliases have now been synchronized."
+      "MVP-03-consent-version-logging-001 is scoped PASS for the backend/API consent version logging foundation only; root latest aliases have now been synchronized.",
+      "MVP-03-admin-sensitive-access-audit-001 is scoped PASS for the backend-only admin sensitive access audit foundation only; root latest aliases have now been synchronized.",
+      "MVP-03-profile-contact-summary-001 is scoped PASS for the backend/API-only read-only profile/contact summary foundation only; root latest aliases have now been synchronized.",
+      "MVP-03-employee-profile-session-001 is scoped PASS for the backend/API-only short-lived employee profile-session foundation only; root latest aliases have now been synchronized."
     ],
     "what_is_not_proven": [
       "MVP-02.04 is not closed as DONE because admin auth/role/audit policy, production real-data use and customer-specific reporting boundaries remain human-gated.",
@@ -261,7 +295,7 @@
       "Production_ready publish approval for content.",
       "Full MVP-02 is not unconditional DONE because human gates remain open.",
       "MVP stage is not complete.",
-      "Full MVP-03 onboarding/privacy/consent remains open: the current PASS covers only a draft privacy screen, while final legal approval, consent acceptance/version logging, profile basics and admin audit logs are not implemented.",
+      "Full MVP-03 onboarding/privacy/consent/profile remains open: current PASS refs cover a draft privacy screen, backend consent version logging foundation, backend admin audit logging and read-only profile/contact summary only; contact update and final legal/real-data approvals are not complete.",
       "Full MVP-04 UX/UI foundation is not closed by the bridge shell slice.",
       "Full MVP-06 learning delivery, CMS publishing, production content approval, progress persistence, scored quiz submission, practice submission, points and wallet are not implemented by this slice.",
       "Full MVP-04 remains open: MVP-04.01, MVP-04.02, MVP-04.03 and MVP-04.05 are not closed by design-system tokenization, and brand/accessibility/privacy/design QA human gates remain open.",
@@ -269,8 +303,11 @@
       "MVP-06-learning-n2-fixture-001 does not implement production CMS/admin publishing, content approval, progress persistence, scored quiz submission, practice submission, challenge persistence, reminders, points, wallet, diagnostics/routing, onboarding/consent, backend/API/schema/OpenAPI/generated-client changes or packages/ui.",
       "MVP-06-learning-n3-fixture-001 does not implement production CMS/admin publishing, content states, production content approval, progress persistence, scored quiz submission, practice submission, saved listing/challenge/daily challenge, points/wallet, diagnostics/routing, onboarding/consent, backend/API/schema/OpenAPI/generated-client, packages/ui, admin/HR analytics/event tracking, real data or customer brand.",
       "MVP-03-onboarding-privacy-screen-001 does not implement final legal approval, consent logging, backend/API/schema/OpenAPI/generated-client, diagnostics/routing, progress persistence, scored quiz/practice submission, points/wallet, CMS/admin publishing, HR reporting or real data.",
-      "MVP-03-consent-version-logging-001 does not implement final legal approval, auth/session, diagnostics/routing, HR reporting, real data, profile basics, broader admin audit policy or full MVP-03 closure."
+      "MVP-03-consent-version-logging-001 does not implement final legal approval, auth/session, diagnostics/routing, HR reporting, real data, profile basics, broader admin audit policy or full MVP-03 closure.",
+      "MVP-03-admin-sensitive-access-audit-001 does not implement MVP-03.04 profile/contact basics, persisted admin users/sessions/RBAC, admin audit viewer UI, real-data production policy approval or full MVP-03 closure.",
+      "MVP-03-profile-contact-summary-001 does not implement contact update, employee auth/session/login/password setup, User/OrgMembership/subscription shortcuts, apps/web profile UI, support tickets, HR reporting, real data or full MVP-03 closure.",
+      "MVP-03-employee-profile-session-001 does not implement contact update, employee UI, login/password setup, User/OrgMembership/subscription shortcuts, support tickets, HR reporting, real data or full MVP-03 closure."
     ],
-    "next_slice": "Freeze the next narrow MVP-03 slice, likely profile/contact basics or admin audit policy, without closing full MVP-03 or human gates."
+    "next_slice": "Freeze one narrow follow-up: either contact update using the verified profile-session boundary plus update audit semantics, or an MVP-03 closure audit; full MVP-03 and human gates remain open."
   }
 }

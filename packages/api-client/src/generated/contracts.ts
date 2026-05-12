@@ -44,6 +44,42 @@ export type EmployeeRegistrationResponse = {
   idempotentRetry: boolean;
 };
 
+export type EmployeeProfileSummaryRequest = {
+  fullName: string;
+  email: string;
+  phone: string;
+  inviteCode: string;
+};
+
+export type EmployeeProfileSummaryResponse = {
+  employeeRegistrationId: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  tenantId: string;
+  pilotLaunchId: string;
+  accessPoolId: string;
+  registeredAt: string;
+  contactVerifiedByRegistrationMatch: boolean;
+};
+
+export type EmployeeProfileSessionRequest = {
+  fullName: string;
+  email: string;
+  phone: string;
+  inviteCode: string;
+};
+
+export type EmployeeProfileSessionResponse = {
+  profileSessionToken: string;
+  expiresAt: string;
+  employeeRegistrationId: string;
+  tenantId: string;
+  pilotLaunchId: string;
+  accessPoolId: string;
+  contactVerifiedByRegistrationMatch: boolean;
+};
+
 export type LegalDocumentVersionRequest = {
   documentType: string;
   documentVersion: string;
@@ -221,4 +257,97 @@ export async function fetchLegalDocumentAcceptance(
     throw new Error(`POST ${url.pathname} failed with HTTP ${response.status}.`);
   }
   return (await response.json()) as LegalDocumentAcceptanceResponse;
+}
+
+export type EmployeeProfileSummaryClientRequest = {
+  body: EmployeeProfileSummaryRequest;
+};
+
+export const EMPLOYEE_PROFILE_SUMMARY_PATH = "/api/v1/employee-registrations/profile-summary";
+
+export function buildEmployeeProfileSummaryUrl(baseUrl: string | URL): URL {
+  return new URL(EMPLOYEE_PROFILE_SUMMARY_PATH, baseUrl);
+}
+
+export async function fetchEmployeeProfileSummary(
+  baseUrl: string | URL,
+  params: EmployeeProfileSummaryClientRequest,
+  init: ApiJsonClientRequestInit = {}
+): Promise<EmployeeProfileSummaryResponse> {
+  const url = buildEmployeeProfileSummaryUrl(baseUrl);
+  const headers = new Headers(init.headers);
+  if (!headers.has("content-type")) {
+    headers.set("content-type", "application/json");
+  }
+  const response = await fetch(url, {
+    ...init,
+    method: "POST",
+    headers,
+    body: JSON.stringify(params.body)
+  });
+  if (!response.ok) {
+    throw new Error(`POST ${url.pathname} failed with HTTP ${response.status}.`);
+  }
+  return (await response.json()) as EmployeeProfileSummaryResponse;
+}
+
+export type EmployeeProfileSessionClientRequest = {
+  body: EmployeeProfileSessionRequest;
+};
+
+export const EMPLOYEE_PROFILE_SESSIONS_PATH = "/api/v1/employee-registrations/profile-sessions";
+
+export function buildEmployeeProfileSessionsUrl(baseUrl: string | URL): URL {
+  return new URL(EMPLOYEE_PROFILE_SESSIONS_PATH, baseUrl);
+}
+
+export async function fetchEmployeeProfileSession(
+  baseUrl: string | URL,
+  params: EmployeeProfileSessionClientRequest,
+  init: ApiJsonClientRequestInit = {}
+): Promise<EmployeeProfileSessionResponse> {
+  const url = buildEmployeeProfileSessionsUrl(baseUrl);
+  const headers = new Headers(init.headers);
+  if (!headers.has("content-type")) {
+    headers.set("content-type", "application/json");
+  }
+  const response = await fetch(url, {
+    ...init,
+    method: "POST",
+    headers,
+    body: JSON.stringify(params.body)
+  });
+  if (!response.ok) {
+    throw new Error(`POST ${url.pathname} failed with HTTP ${response.status}.`);
+  }
+  return (await response.json()) as EmployeeProfileSessionResponse;
+}
+
+export type EmployeeMeProfileSummaryClientRequest = {
+  profileSessionToken: string;
+};
+
+export const EMPLOYEE_ME_PROFILE_SUMMARY_PATH = "/api/v1/employee-registrations/me/profile-summary";
+
+export function buildEmployeeMeProfileSummaryUrl(baseUrl: string | URL): URL {
+  return new URL(EMPLOYEE_ME_PROFILE_SUMMARY_PATH, baseUrl);
+}
+
+export async function fetchEmployeeMeProfileSummary(
+  baseUrl: string | URL,
+  params: EmployeeMeProfileSummaryClientRequest,
+  init: ApiClientRequestInit = {}
+): Promise<EmployeeProfileSummaryResponse> {
+  const url = buildEmployeeMeProfileSummaryUrl(baseUrl);
+  const headers = new Headers(init.headers);
+  headers.set("authorization", `Bearer ${params.profileSessionToken}`);
+  const response = await fetch(url, {
+    ...init,
+    method: "GET",
+    headers
+  });
+  if (!response.ok) {
+    throw new Error(`GET ${url.pathname} failed with HTTP ${response.status}.`);
+  }
+  return (await response.json()) as EmployeeProfileSummaryResponse;
 }

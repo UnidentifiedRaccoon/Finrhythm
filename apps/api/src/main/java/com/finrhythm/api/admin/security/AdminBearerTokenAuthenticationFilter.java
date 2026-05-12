@@ -1,5 +1,8 @@
 package com.finrhythm.api.admin.security;
 
+import com.finrhythm.api.admin.audit.AdminAccessAuditPrincipal;
+import com.finrhythm.api.admin.audit.AdminAccessAuditRoute;
+import com.finrhythm.api.admin.audit.AdminAccessAuditService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +24,7 @@ public class AdminBearerTokenAuthenticationFilter extends OncePerRequestFilter {
     private static final String BEARER_PREFIX = "Bearer ";
 
     private final AdminSecurityProperties adminSecurityProperties;
+    private final AdminAccessAuditService adminAccessAuditService;
 
     @Override
     protected void doFilterInternal(
@@ -33,6 +37,8 @@ public class AdminBearerTokenAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
+        AdminAccessAuditRoute auditRoute = AdminAccessAuditRoute.from(request);
+        AdminAccessAuditPrincipal auditPrincipal = AdminAccessAuditPrincipal.anonymous();
         String bearerToken = bearerToken(request.getHeader(HttpHeaders.AUTHORIZATION));
         if (adminSecurityProperties.matchesBearerToken(bearerToken)) {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
@@ -41,9 +47,14 @@ public class AdminBearerTokenAuthenticationFilter extends OncePerRequestFilter {
                     List.of(new SimpleGrantedAuthority(AdminPermissions.CODE_STATUS_READ))
             );
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            auditPrincipal = AdminAccessAuditPrincipal.adminApiToken();
         }
 
-        filterChain.doFilter(request, response);
+        try {
+            filterChain.doFilter(request, response);
+        } finally {
+            adminAccessAuditService.record(request.getMethod(), auditRoute, response.getStatus(), auditPrincipal);
+        }
     }
 
     private static boolean isAdminApiRequest(HttpServletRequest request) {

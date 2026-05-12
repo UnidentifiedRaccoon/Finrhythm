@@ -1525,5 +1525,267 @@
       ".agent/stages/mvp/task-files/MVP-03-consent-version-logging-001.md"
     ],
     "note": "Fresh stage_verifier PASS recorded for the scoped consent version logging sprint; full MVP-03 and human gates remain open."
+  },
+  {
+    "id": "mvp-03-admin-sensitive-access-audit-contract-freeze",
+    "category": "harness",
+    "description": "Active MVP sprint contract is frozen for backend-only admin sensitive access audit logging.",
+    "steps": [
+      "Keep latest verified PASS refs on MVP-03-consent-version-logging-001",
+      "Freeze one MVP-03.05 implementation slice",
+      "Record out-of-scope and human gates",
+      "Do not implement production code during freeze"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/stage_spec.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-03-admin-sensitive-access-audit-001.md",
+      ".agent/stages/mvp/status.json"
+    ],
+    "note": "Spec-freeze only. Latest verified PASS refs stayed on MVP-03-consent-version-logging-001 until builder evidence was recorded."
+  },
+  {
+    "id": "mvp-03-admin-sensitive-access-audit-backend",
+    "category": "backend",
+    "description": "apps/api records safe append-only audit rows for the existing protected admin code-status access path and denied admin attempts.",
+    "steps": [
+      "Add append-only Flyway migration",
+      "Add admin audit service/persistence hook",
+      "Log success, authentication-required and denied outcomes",
+      "Preserve existing admin code-status response contract"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-admin-sensitive-access-audit-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-admin-sensitive-access-audit-001.json",
+      "apps/api/src/main/resources/db/migration/V008__admin_access_audit_log.sql",
+      "apps/api/src/main/java/com/finrhythm/api/admin/audit/",
+      "apps/api/src/main/java/com/finrhythm/api/admin/security/AdminBearerTokenAuthenticationFilter.java",
+      "apps/api/src/main/java/com/finrhythm/api/common/config/SecurityConfig.java",
+      "apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-api-admin-it-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-api-mvn-test-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-api-mvn-verify-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-make-verify-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-make-test-unit-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-make-build-20260512.txt"
+    ]
+  },
+  {
+    "id": "mvp-03-admin-sensitive-access-audit-guardrails",
+    "category": "privacy-security",
+    "description": "Admin audit rows avoid secrets, raw invite identifiers, employee contact PII, bodies, full query strings and access-model shortcuts.",
+    "steps": [
+      "Scan audit persistence and tests for raw tokens",
+      "Scan for raw invite code and activation subject ref logging",
+      "Scan for employee contact PII and request/response body persistence",
+      "Scan for User/OrgMembership/pro_user/premium shortcuts"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-admin-sensitive-access-audit-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-admin-sensitive-access-audit-001.json",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-production-guardrail-scan-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-admin-sensitive-access-audit-001-guardrail-scan-20260512.txt",
+      "docs/architecture/access-and-subscriptions.md"
+    ],
+    "note": "Production audit source/migration scan passed; broader scan has expected matches in docs guardrails and test assertions/probes only."
+  },
+  {
+    "id": "mvp-03-admin-sensitive-access-audit-fresh-verification",
+    "category": "verification",
+    "description": "Fresh verifier reviews only MVP-03-admin-sensitive-access-audit-001 after builder evidence.",
+    "steps": [
+      "Review backend/schema/security evidence",
+      "Review docs-sync and Mermaid audit-flow evidence",
+      "Verify human gates remain open",
+      "Write scoped verdict and problems artifacts"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-admin-sensitive-access-audit-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-admin-sensitive-access-audit-001.json",
+      ".agent/stages/mvp/verdicts/MVP-03-admin-sensitive-access-audit-001.json",
+      ".agent/stages/mvp/problems/MVP-03-admin-sensitive-access-audit-001.md"
+    ],
+    "note": "Fresh stage_verifier PASS recorded for the scoped backend-only admin audit sprint; full MVP-03 and human gates remain open."
+  },
+  {
+    "id": "mvp-03-profile-contact-summary-contract-freeze",
+    "category": "harness",
+    "description": "MVP-03.04 profile/contact summary sprint contract is frozen without production implementation.",
+    "steps": [
+      "Freeze one safe MVP-03.04 implementation slice",
+      "Record contact-update/auth-session deferral",
+      "Keep latest verified PASS aliases on the prior admin audit slice until build and fresh verification"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/stage_spec.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-03-profile-contact-summary-001.md",
+      ".agent/stages/mvp/status.json"
+    ],
+    "note": "Spec-freeze only. The frozen slice is read-only backend/API profile/contact summary lookup by invite code plus matching normalized contact; contact update remains deferred."
+  },
+  {
+    "id": "mvp-03-profile-contact-summary-backend-api",
+    "category": "backend",
+    "description": "apps/api exposes a read-only profile/contact summary lookup for existing employee registrations.",
+    "steps": [
+      "Add thin profile-summary controller route",
+      "Reuse registration contact normalization and invite-code lookup hash",
+      "Return support-ready summary only on contact match",
+      "Keep contact update, auth/session and UUID-only lookup out of scope"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-profile-contact-summary-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-profile-contact-summary-001.json",
+      "apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java",
+      "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java",
+      "apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-api-registration-it-first-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-api-mvn-test-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-api-mvn-verify-20260512.txt"
+    ]
+  },
+  {
+    "id": "mvp-03-profile-contact-summary-openapi-client",
+    "category": "api-client",
+    "description": "OpenAPI snapshot and generated TypeScript client cover the profile summary endpoint and DTOs.",
+    "steps": [
+      "Update OpenAPI snapshot",
+      "Extend generator helper and drift checks",
+      "Regenerate contracts/dist",
+      "Run api-client build/checks/typecheck"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      "packages/api-client/openapi/finrhythm-api.openapi.json",
+      "packages/api-client/scripts/generate-contracts.mjs",
+      "packages/api-client/scripts/check-openapi-drift.mjs",
+      "packages/api-client/src/generated/contracts.ts",
+      "packages/api-client/dist/generated/contracts.js",
+      "packages/api-client/dist/generated/contracts.d.ts",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-api-client-build-first-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-api-client-check-generated-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-api-client-check-openapi-drift-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-api-client-typecheck-20260512.txt"
+    ]
+  },
+  {
+    "id": "mvp-03-profile-contact-summary-guardrails",
+    "category": "privacy-security",
+    "description": "Profile summary avoids raw invite-code echo, lookup-hash exposure, activation subject refs, mutation, auth/session shortcuts and real data.",
+    "steps": [
+      "Assert safe response fields",
+      "Scan for mutation/auth/session/access-model shortcuts",
+      "Scan tests/OpenAPI for real personal data",
+      "Keep human gates open"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-profile-contact-summary-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-profile-contact-summary-001.json",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-response-guardrail-scan-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-shortcut-mutation-guardrail-scan-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-real-data-guardrail-scan-20260512.txt"
+    ],
+    "note": "Guardrail scans passed; fresh verifier later returned PASS and latest aliases now point to MVP-03-profile-contact-summary-001."
+  },
+  {
+    "id": "mvp-03-profile-contact-summary-fresh-verification",
+    "category": "verification",
+    "description": "Fresh verifier reviews only MVP-03-profile-contact-summary-001 after builder evidence.",
+    "steps": [
+      "Review backend/API profile-summary implementation",
+      "Review OpenAPI/generated-client sync",
+      "Verify no mutation/auth-session/access-model shortcuts",
+      "Verify human gates remain open",
+      "Write scoped verdict and problems artifacts"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-profile-contact-summary-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-profile-contact-summary-001.json",
+      ".agent/stages/mvp/verdicts/MVP-03-profile-contact-summary-001.json",
+      ".agent/stages/mvp/problems/MVP-03-profile-contact-summary-001.md"
+    ],
+    "note": "Fresh stage_verifier PASS recorded for the scoped backend/API-only profile summary sprint; full MVP-03, contact update and human gates remain open."
+  },
+  {
+    "id": "mvp-03-employee-profile-session-backend-api",
+    "category": "backend",
+    "description": "apps/api exposes short-lived employee profile sessions and read-only authenticated me/profile-summary.",
+    "steps": [
+      "Add V009 employee_profile_sessions migration",
+      "Create profile sessions only after invite+contact proof",
+      "Store token hash only and return raw token once",
+      "Revoke previous active sessions on new creation",
+      "Read me/profile-summary with a valid profile-session bearer token"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-employee-profile-session-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-employee-profile-session-001.json",
+      "apps/api/src/main/resources/db/migration/V009__employee_profile_session.sql",
+      "apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeProfileSession.java",
+      "apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java",
+      "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java",
+      "apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-employee-profile-session-001-api-registration-it-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-employee-profile-session-001-api-mvn-verify-20260512.txt"
+    ],
+    "note": "Fresh stage_verifier PASS recorded for the scoped backend/API-only employee profile-session sprint; full MVP-03, contact update and human gates remain open."
+  },
+  {
+    "id": "mvp-03-employee-profile-session-openapi-client-docs",
+    "category": "api-client-documentation",
+    "description": "OpenAPI/generated client and access docs cover the current MVP employee profile-session boundary.",
+    "steps": [
+      "Update OpenAPI snapshot",
+      "Extend generated contracts/client helpers",
+      "Extend generated-client drift checks",
+      "Document MVP profile-session boundary and Mermaid flow"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-employee-profile-session-001.md",
+      "packages/api-client/openapi/finrhythm-api.openapi.json",
+      "packages/api-client/scripts/generate-contracts.mjs",
+      "packages/api-client/scripts/check-openapi-drift.mjs",
+      "packages/api-client/src/generated/contracts.ts",
+      "packages/api-client/dist/generated/contracts.js",
+      "packages/api-client/dist/generated/contracts.d.ts",
+      "docs/architecture/access-and-subscriptions.md",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-employee-profile-session-001-api-client-build-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-employee-profile-session-001-api-client-check-generated-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-employee-profile-session-001-api-client-check-openapi-drift-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-employee-profile-session-001-api-client-typecheck-20260512.txt"
+    ],
+    "note": "Fresh stage_verifier PASS recorded for the scoped backend/API-only employee profile-session sprint; full MVP-03, contact update and human gates remain open."
+  },
+  {
+    "id": "mvp-03-employee-profile-session-fresh-verification",
+    "category": "verification",
+    "description": "Fresh verifier reviews only MVP-03-employee-profile-session-001 after builder evidence.",
+    "steps": [
+      "Review backend/API profile-session implementation",
+      "Review V009 Flyway migration and Testcontainers proof",
+      "Review OpenAPI/generated-client sync",
+      "Verify no contact update, employee UI or access-model shortcuts",
+      "Verify human gates remain open",
+      "Write scoped verdict and problems artifacts"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-employee-profile-session-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-employee-profile-session-001.json",
+      ".agent/stages/mvp/verdicts/MVP-03-employee-profile-session-001.json",
+      ".agent/stages/mvp/problems/MVP-03-employee-profile-session-001.md"
+    ],
+    "note": "Fresh stage_verifier PASS recorded for the scoped backend/API-only employee profile-session sprint; full MVP-03, contact update and human gates remain open."
   }
 ]

@@ -33,6 +33,8 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -99,6 +101,183 @@ class AdminCodeStatusControllerIT {
         Clock fixedClock() {
             return Clock.fixed(ADMIN_READ_AT, ZoneOffset.UTC);
         }
+    }
+
+    @Test
+    void flywayCreatesAdminAccessAuditLogWithSafeMetadataShape() {
+        Set<String> columns = Set.copyOf(jdbcTemplate.queryForList("""
+                select column_name
+                from information_schema.columns
+                where table_name = 'admin_access_audit_log'
+                """, String.class));
+
+        assertThat(columns).contains(
+                "id",
+                "occurred_at",
+                "http_method",
+                "route",
+                "action",
+                "permission",
+                "tenant_id",
+                "pilot_launch_id",
+                "access_pool_id",
+                "status_code",
+                "outcome",
+                "principal_type",
+                "principal_ref",
+                "created_at"
+        );
+        assertThat(columns).doesNotContain(
+                "authorization_header",
+                "bearer_token",
+                "invite_code",
+                "raw_invite_code",
+                "activation_subject_ref",
+                "full_name",
+                "email",
+                "phone",
+                "request_body",
+                "response_body",
+                "query_string",
+                "legal_text"
+        );
+    }
+
+    @Test
+    void logsSuccessfulCodeStatusReadWithScopeAndSafePrincipal() throws Exception {
+        SeededAccessPool seededAccessPool = seedMixedAccessPool();
+        long before = auditCount();
+
+        mockMvc.perform(adminCodeStatusRequest(
+                        seededAccessPool.tenant().getId(),
+                        seededAccessPool.accessPool().getPilotLaunch().getId(),
+                        seededAccessPool.accessPool().getId()
+                )
+                        .param("page", "0")
+                        .param("size", "10"))
+                .andExpect(status().isOk());
+
+        assertThat(auditCount()).isEqualTo(before + 1);
+        List<Map<String, Object>> rows = auditRowsByScope(
+                seededAccessPool.tenant().getId(),
+                seededAccessPool.accessPool().getPilotLaunch().getId(),
+                seededAccessPool.accessPool().getId()
+        );
+        assertThat(rows).hasSize(1);
+
+        Map<String, Object> row = rows.get(0);
+        assertThat(row)
+                .containsEntry("http_method", "GET")
+                .containsEntry("route", CODE_STATUS_PATH)
+                .containsEntry("action", "admin.code_status.read")
+                .containsEntry("permission", "admin.code-status.read")
+                .containsEntry("tenant_id", seededAccessPool.tenant().getId())
+                .containsEntry("pilot_launch_id", seededAccessPool.accessPool().getPilotLaunch().getId())
+                .containsEntry("access_pool_id", seededAccessPool.accessPool().getId())
+                .containsEntry("status_code", 200)
+                .containsEntry("outcome", "SUCCESS")
+                .containsEntry("principal_type", "ADMIN_API_TOKEN")
+                .containsEntry("principal_ref", "admin-api-token");
+        assertAuditRowSafe(row, ADMIN_TOKEN, seededAccessPool.issuedCodes().get(0).code());
+    }
+
+    @Test
+    void logsMissingAndInvalidTokenAttemptsWithoutTokenMaterialOrQueryString() throws Exception {
+        UUID tenantId = UUID.randomUUID();
+        UUID pilotLaunchId = UUID.randomUUID();
+        UUID accessPoolId = UUID.randomUUID();
+        long before = auditCount();
+
+        mockMvc.perform(get(CODE_STATUS_PATH, tenantId, pilotLaunchId, accessPoolId)
+                        .param("inviteCode", "RAW-CODE-123456"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("ADMIN_AUTHENTICATION_REQUIRED"));
+
+        mockMvc.perform(get(CODE_STATUS_PATH, tenantId, pilotLaunchId, accessPoolId)
+                        .param("email", "synthetic.learner@example.test")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer wrong-admin-token"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("ADMIN_AUTHENTICATION_REQUIRED"));
+
+        assertThat(auditCount()).isEqualTo(before + 2);
+        List<Map<String, Object>> rows = auditRowsByScope(tenantId, pilotLaunchId, accessPoolId);
+        assertThat(rows).hasSize(2);
+        assertThat(rows).allSatisfy(row -> {
+            assertThat(row)
+                    .containsEntry("http_method", "GET")
+                    .containsEntry("route", CODE_STATUS_PATH)
+                    .containsEntry("action", "admin.code_status.read")
+                    .containsEntry("permission", "admin.code-status.read")
+                    .containsEntry("status_code", 401)
+                    .containsEntry("outcome", "AUTHENTICATION_REQUIRED")
+                    .containsEntry("principal_type", "ANONYMOUS");
+            assertThat(row.get("principal_ref")).isNull();
+            assertAuditRowSafe(
+                    row,
+                    "wrong-admin-token",
+                    "RAW-CODE-123456",
+                    "synthetic.learner@example.test",
+                    "?"
+            );
+        });
+    }
+
+    @Test
+    void logsKnownRouteNotFoundAndValidationFailures() throws Exception {
+        UUID tenantId = UUID.randomUUID();
+        UUID pilotLaunchId = UUID.randomUUID();
+        UUID accessPoolId = UUID.randomUUID();
+        long before = auditCount();
+
+        mockMvc.perform(adminCodeStatusRequest(tenantId, pilotLaunchId, accessPoolId)
+                        .param("status", "REGISTERED"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("VALIDATION_FAILED"));
+
+        mockMvc.perform(adminCodeStatusRequest(tenantId, pilotLaunchId, accessPoolId))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.code").value("ACCESS_POOL_STATUS_VIEW_NOT_FOUND"));
+
+        assertThat(auditCount()).isEqualTo(before + 2);
+        assertThat(auditRowsByScope(tenantId, pilotLaunchId, accessPoolId))
+                .anySatisfy(row -> assertThat(row)
+                        .containsEntry("status_code", 400)
+                        .containsEntry("outcome", "VALIDATION_FAILED"))
+                .anySatisfy(row -> assertThat(row)
+                        .containsEntry("status_code", 404)
+                        .containsEntry("outcome", "NOT_FOUND"));
+    }
+
+    @Test
+    void logsDefaultDeniedAdminPathWithCoarseRouteOnly() throws Exception {
+        long before = auditCount();
+
+        mockMvc.perform(get("/api/v1/admin/export/raw-token-like-value")
+                        .param("inviteCode", "RAW-CODE-XYZ")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + ADMIN_TOKEN))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.code").value("ADMIN_PERMISSION_DENIED"));
+
+        assertThat(auditCount()).isEqualTo(before + 1);
+        List<Map<String, Object>> rows = jdbcTemplate.queryForList("""
+                select *
+                from admin_access_audit_log
+                where action = 'admin.default_denied'
+                  and status_code = 403
+                  and principal_type = 'ADMIN_API_TOKEN'
+                """);
+        assertThat(rows).anySatisfy(row -> {
+            assertThat(row)
+                    .containsEntry("http_method", "GET")
+                    .containsEntry("route", "/api/v1/admin/**")
+                    .containsEntry("permission", null)
+                    .containsEntry("outcome", "PERMISSION_DENIED")
+                    .containsEntry("principal_ref", "admin-api-token");
+            assertThat(row.get("tenant_id")).isNull();
+            assertThat(row.get("pilot_launch_id")).isNull();
+            assertThat(row.get("access_pool_id")).isNull();
+            assertAuditRowSafe(row, ADMIN_TOKEN, "raw-token-like-value", "RAW-CODE-XYZ", "?");
+        });
     }
 
     @Test
@@ -580,6 +759,24 @@ class AdminCodeStatusControllerIT {
                 """, String.class, inviteCodeId);
     }
 
+    private long auditCount() {
+        return jdbcTemplate.queryForObject("""
+                select count(*)
+                from admin_access_audit_log
+                """, Long.class);
+    }
+
+    private List<Map<String, Object>> auditRowsByScope(UUID tenantId, UUID pilotLaunchId, UUID accessPoolId) {
+        return jdbcTemplate.queryForList("""
+                select *
+                from admin_access_audit_log
+                where tenant_id = ?
+                  and pilot_launch_id = ?
+                  and access_pool_id = ?
+                order by created_at, id
+                """, tenantId, pilotLaunchId, accessPoolId);
+    }
+
     private void assertStatusCount(JsonNode body, String status, long count) {
         JsonNode statusCounts = body.path("statusCounts");
         assertThat(statusCounts)
@@ -601,6 +798,22 @@ class AdminCodeStatusControllerIT {
                 .doesNotContain("example.test")
                 .doesNotContain("Лемана")
                 .doesNotContain("Lemana");
+    }
+
+    private static void assertAuditRowSafe(Map<String, Object> row, String... forbiddenValues) {
+        String rowText = row.values().toString();
+        assertThat(rowText)
+                .doesNotContain("Bearer ")
+                .doesNotContain("activationSubjectRef")
+                .doesNotContain("fullName")
+                .doesNotContain("email")
+                .doesNotContain("phone")
+                .doesNotContain("request_body")
+                .doesNotContain("response_body")
+                .doesNotContain("query_string");
+        for (String forbiddenValue : forbiddenValues) {
+            assertThat(rowText).doesNotContain(forbiddenValue);
+        }
     }
 
     private static String activationSubjectRef(int subjectBase, int index) {

@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class OpenApiConfig {
     public static final String ADMIN_BEARER_AUTH = "adminBearerAuth";
+    public static final String PROFILE_SESSION_BEARER_AUTH = "employeeProfileSessionBearerAuth";
 
     @Bean
     OpenAPI finrhythmOpenApi() {
@@ -26,6 +27,11 @@ public class OpenApiConfig {
                                 .type(SecurityScheme.Type.HTTP)
                                 .scheme("bearer")
                                 .bearerFormat("opaque-admin-token")
-                                .description("Deploy-configured admin bearer token for operational API calls.")));
+                                .description("Deploy-configured admin bearer token for operational API calls."))
+                        .addSecuritySchemes(PROFILE_SESSION_BEARER_AUTH, new SecurityScheme()
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .bearerFormat("opaque-profile-session")
+                                .description("Short-lived employee profile-session bearer token.")));
     }
 }

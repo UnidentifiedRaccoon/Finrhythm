@@ -1,0 +1,187 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-03-admin-sensitive-access-audit-001",
+  "parent_stage_unit": "MVP-03.05",
+  "verdict": "PASS",
+  "checked_at": "2026-05-12T14:31:25+03:00",
+  "fresh_verifier": true,
+  "summary": "Scoped backend-only admin sensitive access audit slice satisfies the frozen sprint contract. V008 creates a safe append-only audit table, the current admin bearer-token boundary records covered code-status and default-denied admin attempts, focused and full backend Maven checks pass with explicit JDK 21, docs are synchronized, OpenAPI/generated-client no-op is justified, and human gates remain open.",
+  "sources_read": [
+    "AGENTS.md",
+    "docs/architecture/source-of-truth.md",
+    "docs/architecture/documentation-workflow.md",
+    ".agents/skills/stage-launch-proof-loop/SKILL.md",
+    ".agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md",
+    "docs/stages/MVP.md focused on MVP-03",
+    "docs/engineering/definition-of-done.md",
+    "docs/engineering/human-gates.md",
+    "docs/architecture/access-and-subscriptions.md",
+    "docs/architecture/organization-access-subscription-model.md",
+    "apps/api/AGENTS.md",
+    "apps/admin/AGENTS.md",
+    ".agent/stages/mvp/status.json",
+    ".agent/stages/mvp/sprint_contract.md",
+    ".agent/stages/mvp/task-files/MVP-03-admin-sensitive-access-audit-001.md",
+    ".agent/stages/mvp/evidence.json",
+    ".agent/stages/mvp/evidence.md",
+    ".agent/stages/mvp/evidence/MVP-03-admin-sensitive-access-audit-001.json",
+    ".agent/stages/mvp/evidence/MVP-03-admin-sensitive-access-audit-001.md"
+  ],
+  "acceptance": [
+    {
+      "criterion": "Append-only Flyway migration creates admin access audit log without editing prior migrations.",
+      "status": "PASS",
+      "evidence": "apps/api/src/main/resources/db/migration/V008__admin_access_audit_log.sql and Testcontainers Flyway run in focused/full Maven checks."
+    },
+    {
+      "criterion": "Covered admin access attempts create one safe audit row each.",
+      "status": "PASS",
+      "evidence": "AdminBearerTokenAuthenticationFilter records after Spring Security/controller handling; AdminCodeStatusControllerIT covers success, missing/invalid token, validation/not-found and default-denied paths."
+    },
+    {
+      "criterion": "Successful code-status read logs method, action, permission, UUID scope, status 200, SUCCESS and non-secret admin principal ref.",
+      "status": "PASS",
+      "evidence": "logsSuccessfulCodeStatusReadWithScopeAndSafePrincipal."
+    },
+    {
+      "criterion": "Missing/invalid token attempts log unauthenticated safe outcomes without token material.",
+      "status": "PASS",
+      "evidence": "logsMissingAndInvalidTokenAttemptsWithoutTokenMaterialOrQueryString."
+    },
+    {
+      "criterion": "Default-denied admin paths log coarse denied outcomes without request/response bodies.",
+      "status": "PASS",
+      "evidence": "logsDefaultDeniedAdminPathWithCoarseRouteOnly and route classifier stores /api/v1/admin/** for unknown admin paths."
+    },
+    {
+      "criterion": "Known-route validation and not-found outcomes are logged when covered.",
+      "status": "PASS",
+      "evidence": "logsKnownRouteNotFoundAndValidationFailures."
+    },
+    {
+      "criterion": "Existing code-status auth and privacy-safe response contract are preserved.",
+      "status": "PASS",
+      "evidence": "Existing AdminCodeStatusControllerIT response/auth assertions still pass; no controller/DTO diff found."
+    },
+    {
+      "criterion": "Audit rows do not persist raw bearer token, raw invite code, activation subject ref, employee contact PII, request/response body, legal body or full query string.",
+      "status": "PASS",
+      "evidence": "V008 safe columns only, AdminAccessAuditService inserts only method/route/action/permission/scope/status/outcome/principal metadata, route check rejects query strings, and guardrail tests/scans pass."
+    },
+    {
+      "criterion": "No User, OrgMembership, subscription, seat, pro_user or premium shortcut is introduced.",
+      "status": "PASS",
+      "evidence": "Changed production backend files are limited to admin audit/security/config and contain no access-model shortcuts."
+    },
+    {
+      "criterion": "OpenAPI/generated-client decision is recorded honestly.",
+      "status": "PASS",
+      "evidence": "No endpoint or DTO changed; packages/api-client has no diff."
+    },
+    {
+      "criterion": "Docs-sync and Mermaid audit flow are present.",
+      "status": "PASS",
+      "evidence": "docs/architecture/access-and-subscriptions.md documents the audited bearer-token boundary and includes the audit log in the Mermaid flow; evidence.md also includes a sequence diagram."
+    },
+    {
+      "criterion": "Human gates remain open and full MVP-03/MVP stage are not closed.",
+      "status": "PASS",
+      "evidence": "status.json keeps human_gates_open=true, active sprint awaiting verifier before this artifact, MVP-03 complete=false and production admin policy gate open."
+    }
+  ],
+  "checks_run": [
+    {
+      "command": "JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home java -version",
+      "status": "PASS",
+      "raw": ".agent/stages/mvp/raw/verifier-MVP-03-admin-sensitive-access-audit-001-java-version-20260512.txt",
+      "notes": "OpenJDK 21.0.11."
+    },
+    {
+      "command": "cd apps/api && JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home ./mvnw -q -Dtest=AdminCodeStatusControllerIT test",
+      "status": "PASS",
+      "raw": ".agent/stages/mvp/raw/verifier-MVP-03-admin-sensitive-access-audit-001-focused-admin-it-20260512.txt",
+      "notes": "Focused admin IT passed; Flyway validated and applied 8 migrations through V008."
+    },
+    {
+      "command": "cd apps/api && JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home ./mvnw -q verify",
+      "status": "PASS",
+      "raw": ".agent/stages/mvp/raw/verifier-MVP-03-admin-sensitive-access-audit-001-api-mvn-verify-20260512.txt",
+      "notes": "Full backend Maven verification passed with Testcontainers and Flyway V008."
+    },
+    {
+      "command": "jq empty .agent/stages/mvp/status.json .agent/stages/mvp/feature_list.json .agent/stages/mvp/evidence.json .agent/stages/mvp/evidence/MVP-03-admin-sensitive-access-audit-001.json .agent/stages/mvp/verdict.json",
+      "status": "PASS",
+      "raw": ".agent/stages/mvp/raw/verifier-MVP-03-admin-sensitive-access-audit-001-json-validation-20260512.txt"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "raw": ".agent/stages/mvp/raw/verifier-MVP-03-admin-sensitive-access-audit-001-git-diff-check-20260512.txt"
+    },
+    {
+      "command": "production guardrail scan over V008 and changed backend audit/security/config files",
+      "status": "PASS",
+      "raw": ".agent/stages/mvp/raw/verifier-MVP-03-admin-sensitive-access-audit-001-production-guardrail-scan-20260512.txt"
+    },
+    {
+      "command": "OpenAPI/generated-client no-op diff check",
+      "status": "PASS",
+      "raw": ".agent/stages/mvp/raw/verifier-MVP-03-admin-sensitive-access-audit-001-openapi-client-noop-20260512.txt",
+      "notes": "packages/api-client has no diff; no controller/DTO source changed."
+    }
+  ],
+  "checks_reviewed_not_rerun": [
+    {
+      "command": "make verify",
+      "builder_status": "PASS",
+      "reason": "Root command evidence is recorded in sprint evidence; fresh verifier reran focused AdminCodeStatusControllerIT and full apps/api Maven verify, which is sufficient for this backend/schema/API slice."
+    },
+    {
+      "command": "make test-unit",
+      "builder_status": "PASS",
+      "reason": "Reviewed from evidence; not rerun to avoid overrun after independent backend Maven verify passed."
+    },
+    {
+      "command": "make build",
+      "builder_status": "PASS",
+      "reason": "Reviewed from evidence; generated Next churn is assessed separately below."
+    }
+  ],
+  "ui_or_browser_evidence": {
+    "required": false,
+    "reason": "This sprint is backend-only and does not change employee/admin UI behavior or source. No browser screenshot is required."
+  },
+  "generated_tooling_churn": {
+    "file": "apps/admin/next-env.d.ts",
+    "decision": "ACCEPTED_NON_BLOCKING",
+    "reason": "The tracked file flipped from .next/dev/types/routes.d.ts to .next/types/routes.d.ts during the recorded Next production build. This is disclosed in evidence, has no admin UI/source behavior impact, and does not affect the backend audit acceptance criteria."
+  },
+  "openapi_generated_client": {
+    "status": "PASS_NO_CONTRACT_CHANGE",
+    "reason": "No endpoint, DTO or response contract changed; packages/api-client has no diff."
+  },
+  "docs_sync": {
+    "status": "PASS",
+    "canonical_docs_updated": [
+      "docs/architecture/access-and-subscriptions.md"
+    ],
+    "notes": "The canonical access doc now records the current audited bearer-token admin boundary and keeps future admin identity/RBAC human-gated."
+  },
+  "human_gates": {
+    "status": "PASS_REMAIN_OPEN",
+    "remaining_open": [
+      "admin-auth-role-audit-policy-for-production-use",
+      "legal-privacy-consent-wording-and-real-pii-processing",
+      "real-employee-customer-data-processing-approval",
+      "customer-specific-hr-reporting-boundaries",
+      "financial-correctness-lessons-diagnostics-quizzes",
+      "legal-tax-review-tax-deduction-wording",
+      "hr-privacy-wording-review-diagnostics-self-assessment-reports",
+      "reward-economy-stock-prices-fulfillment",
+      "support-answer-policy-sensitive-topics",
+      "MVP-05-production-ready-publish-approval"
+    ]
+  },
+  "problems_ref": ".agent/stages/mvp/problems/MVP-03-admin-sensitive-access-audit-001.md",
+  "blocking_problems": []
+}

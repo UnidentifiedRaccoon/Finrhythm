@@ -193,6 +193,8 @@ RBAC отвечает за административные действия:
 
 Live-режим `apps/admin` выбирается только server-side env (`FINRHYTHM_ADMIN_CODE_STATUS_SOURCE=live`), а не query-параметром. Fixture остаётся дефолтным режимом для локальной разработки.
 
+Текущая MVP admin boundary пишет append-only audit rows для успешного чтения code-status, missing/invalid bearer-token attempts на известном code-status route и default-denied попыток под `/api/v1/admin/**`. В audit log допускаются только безопасные технические metadata: timestamp, method, route template or coarse normalized admin path without query string, action, permission, parsed tenant/pilotLaunch/accessPool UUID scope when safely available, status code, outcome and non-secret principal type/ref. Raw bearer token, raw invite code, activation subject ref, employee contact PII, request/response bodies, full query strings and legal text bodies must not be persisted. Это не вводит persisted admin users, sessions, full RBAC, `User`, `OrgMembership`, subscriptions or seat shortcuts; production admin auth/role/audit policy remains human-gated.
+
 ```mermaid
 flowchart LR
     ENV["Deploy env: FINRHYTHM_ADMIN_CODE_STATUS_SOURCE=live"] --> UI["apps/admin server render"]
@@ -200,9 +202,30 @@ flowchart LR
     UI -->|Authorization: Bearer token| API["/api/v1/admin/**"]
     API --> PERM["admin.code-status.read"]
     PERM --> STATUS["privacy-safe code-status DTO"]
+    API --> AUDIT["append-only admin_access_audit_log"]
+    PERM --> AUDIT
 ```
 
 Когда в отдельном slice появятся admin users, sessions or persisted RBAC, этот boundary должен быть заменён или подключён к canonical `OrgMembership`/`Role`/`Permission` модели без shortcut-ролей вроде `pro_user`.
+
+### 7.2 Current MVP employee profile-session boundary
+
+До появления полноценной модели `User`, employee login/password setup и `OrgMembership` текущая MVP employee boundary для профиля остаётся привязанной к `employee_registrations`. Короткоживущая profile session создаётся только после повторной проверки raw invite code plus normalized `fullName`/`email`/`phone` against the existing registration. Это не является общим логином, password setup, account recovery, entitlement, subscription, seat or RBAC role.
+
+Profile-session token is opaque, high-entropy and non-JWT. Backend returns the raw token only once in `POST /api/v1/employee-registrations/profile-sessions`, stores only a SHA-256 token hash in `employee_profile_sessions`, applies a short TTL and revokes previous active sessions for the same registration when a new one is created. `GET /api/v1/employee-registrations/me/profile-summary` uses this bearer token only for read-only support-safe profile summary. Contact update remains a separate later slice that must freeze mutation semantics, auditability and identity proof before implementation.
+
+Profile-session storage must not persist raw invite code, raw profile token, lookup hash, activation subject ref, employee contact values beyond the existing registration record, request/response bodies, diagnostics, points, HR/reporting data or legal text bodies. This boundary does not add `users.organization_id`, `User`, `OrgMembership`, subscription, seat, `pro_user` or `premium` shortcuts.
+
+```mermaid
+flowchart LR
+    PROOF["Raw invite code + normalized contact proof"] --> MATCH["Existing employee_registration match"]
+    MATCH --> CREATE["Create profile session"]
+    CREATE --> HASH["Store token hash + expiry/revocation only"]
+    CREATE --> RAW["Return raw token once"]
+    RAW --> ME["GET /employee-registrations/me/profile-summary"]
+    HASH --> ME
+    ME --> SUMMARY["support-safe read-only profile summary"]
+```
 
 ## 8. MVP boundary
 
