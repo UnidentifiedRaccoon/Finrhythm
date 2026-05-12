@@ -48,7 +48,7 @@ public class InviteCodeAccessService {
         }
         Tenant tenant = tenantRepository.findById(Objects.requireNonNull(tenantId, "tenantId"))
                 .orElseThrow(() -> new IllegalArgumentException("Tenant does not exist."));
-        AccessPool accessPool = accessPoolRepository.findById(Objects.requireNonNull(accessPoolId, "accessPoolId"))
+        AccessPool accessPool = accessPoolRepository.lockById(Objects.requireNonNull(accessPoolId, "accessPoolId"))
                 .orElseThrow(() -> new IllegalArgumentException("Access pool does not exist."));
         if (!accessPool.isOwnedBy(tenant)) {
             throw new IllegalArgumentException("Access pool must belong to the same tenant.");

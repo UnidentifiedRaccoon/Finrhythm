@@ -1,0 +1,59 @@
+{
+  "task_id": "audit-20260512-ci",
+  "status": "DONE_WITH_EXTERNAL_REPO_FAILURE",
+  "scope": [
+    ".github/workflows/ci.yml",
+    "README.md",
+    ".agent/tasks/audit-20260512-ci/*"
+  ],
+  "acceptance": [
+    {
+      "criterion": "Basic CI workflow exists under .github/workflows",
+      "evidence": [
+        ".github/workflows/ci.yml"
+      ],
+      "status": "implemented"
+    },
+    {
+      "criterion": "CI uses root wrappers for install, verify and build",
+      "evidence": [
+        ".github/workflows/ci.yml"
+      ],
+      "status": "implemented"
+    },
+    {
+      "criterion": "CI runs backend Maven verify with Java 21",
+      "evidence": [
+        ".github/workflows/ci.yml"
+      ],
+      "status": "implemented"
+    },
+    {
+      "criterion": "Developer workflow docs are synchronized narrowly",
+      "evidence": [
+        "README.md"
+      ],
+      "status": "implemented"
+    },
+    {
+      "criterion": "Local syntax/self-checks are recorded",
+      "evidence": [
+        ".agent/tasks/audit-20260512-ci/verification.md"
+      ],
+      "status": "done"
+    }
+  ],
+  "verification_summary": {
+    "scope_verdict": "PASS",
+    "repo_wrapper_verdict": "BLOCKED_OUT_OF_SCOPE",
+    "out_of_scope_failure": "make verify and make build currently fail in scripts/verify-bootstrap.mjs at fixture-privacy-threshold before reaching app/backend checks. Fixture/root wrapper fixes are outside this task write scope."
+  },
+  "docs": {
+    "updated": [
+      "README.md"
+    ],
+    "note": "README records the new CI developer workflow. No canonical product, API, schema or stage docs changed."
+  },
+  "human_gates": [],
+  "raw_evidence_read": false
+}

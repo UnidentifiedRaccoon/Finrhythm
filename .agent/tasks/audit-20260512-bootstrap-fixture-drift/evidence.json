@@ -1,0 +1,67 @@
+{
+  "task_id": "audit-20260512-bootstrap-fixture-drift",
+  "issue": "P2 Bootstrap fixture drift",
+  "status": "PASS",
+  "checked_at": "2026-05-12T06:42:46.028Z",
+  "scope": {
+    "included": [
+      "content/fixtures/demo-bootstrap.json",
+      "scripts/verify-bootstrap.mjs",
+      "scripts/init/version.json",
+      "docs/architecture/init-and-dev-contract.md"
+    ],
+    "excluded": [
+      ".agent/stages/**/raw/**",
+      "stage aliases",
+      "Makefile",
+      "production CMS/PostgreSQL import implementation"
+    ]
+  },
+  "changes": [
+    {
+      "file": "content/fixtures/demo-bootstrap.json",
+      "summary": "Migrated synthetic access fixture from cohorts/wave shape to pilotLaunches/accessPools with inviteCodes linked by accessPoolKey."
+    },
+    {
+      "file": "scripts/verify-bootstrap.mjs",
+      "summary": "Added focused bootstrap checks for active pilotLaunch/accessPool shape, referential links and absence of legacy cohort/wave keys or string values."
+    },
+    {
+      "file": "scripts/init/version.json",
+      "summary": "Bumped local_init bootstrap version/checksum for the seed-contract shape change."
+    },
+    {
+      "file": "docs/architecture/init-and-dev-contract.md",
+      "summary": "Documented that demo bootstrap fixture follows active tenant/pilotLaunch/accessPool/invite terminology and is guarded against legacy cohort/wave drift."
+    }
+  ],
+  "checks": [
+    {
+      "command": "node scripts/verify-bootstrap.mjs",
+      "status": "PASS",
+      "evidence": [
+        "fixture-active-access-shape PASS",
+        "fixture-no-legacy-access-terms PASS",
+        "fixture-access-pool-launch-links PASS",
+        "fixture-invite-access-pool-links PASS",
+        "overall status PASS"
+      ]
+    },
+    {
+      "command": "rg -n \"cohort|wave\" content/fixtures/demo-bootstrap.json scripts/verify-bootstrap.mjs docs/architecture/init-and-dev-contract.md scripts/init/version.json",
+      "status": "PASS",
+      "evidence": "No matches in content/fixtures/demo-bootstrap.json; remaining matches are the intentional guard and doc wording."
+    },
+    {
+      "command": "git diff --check -- content/fixtures/demo-bootstrap.json scripts/verify-bootstrap.mjs scripts/init/version.json docs/architecture/init-and-dev-contract.md",
+      "status": "PASS",
+      "evidence": "No whitespace errors reported."
+    }
+  ],
+  "content_review": {
+    "fixture_data": "Synthetic demo fixture only; no real employee, customer, personal or financial data introduced.",
+    "financial_wording": "No new financial advice wording or monetary reward modeling introduced; rewards still use non-monetary pointsPrice.",
+    "human_gate": "No final approval is claimed for production/public copy, legal text, financial correctness or real reward operations."
+  },
+  "blockers": []
+}

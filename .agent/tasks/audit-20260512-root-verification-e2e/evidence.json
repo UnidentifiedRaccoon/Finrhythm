@@ -1,0 +1,84 @@
+{
+  "task_id": "audit-20260512-root-verification-e2e",
+  "status": "DONE_WITH_OUT_OF_SCOPE_BLOCKERS",
+  "scope": [
+    "Makefile",
+    "package.json",
+    "tests/e2e/browser-smoke.mjs",
+    "tests/e2e/smoke-placeholder.mjs",
+    "README.md",
+    "docs/architecture/init-and-dev-contract.md",
+    ".agent/tasks/audit-20260512-root-verification-e2e/*"
+  ],
+  "acceptance": [
+    {
+      "criterion": "make verify includes backend Maven verify",
+      "evidence": [
+        "Makefile",
+        "make -n verify test-unit test-e2e build"
+      ],
+      "status": "implemented"
+    },
+    {
+      "criterion": "make test-unit includes backend Maven verify",
+      "evidence": [
+        "Makefile",
+        "make -n verify test-unit test-e2e build",
+        "make test-unit reached Maven Failsafe/Testcontainers"
+      ],
+      "status": "implemented"
+    },
+    {
+      "criterion": "make test-e2e runs real available browser smoke scripts",
+      "evidence": [
+        "tests/e2e/browser-smoke.mjs",
+        "E2E_OUTPUT_DIR=... WEB_SMOKE_BASE_URL=http://127.0.0.1:3404 CHROMIUM_EXECUTABLE_PATH=... make test-e2e"
+      ],
+      "status": "implemented"
+    },
+    {
+      "criterion": "Root package test:e2e uses the same wrapper",
+      "evidence": [
+        "package.json",
+        "node -e root wrapper contract check"
+      ],
+      "status": "implemented"
+    },
+    {
+      "criterion": "Developer workflow docs are synchronized narrowly",
+      "evidence": [
+        "README.md",
+        "docs/architecture/init-and-dev-contract.md"
+      ],
+      "status": "implemented"
+    },
+    {
+      "criterion": "Fresh verification and limitations are recorded",
+      "evidence": [
+        ".agent/tasks/audit-20260512-root-verification-e2e/evidence.md",
+        ".agent/tasks/audit-20260512-root-verification-e2e/verdict.json"
+      ],
+      "status": "done"
+    }
+  ],
+  "verification_summary": {
+    "wrapper_scope_verdict": "PASS",
+    "full_root_backend_verdict": "FAIL_OUT_OF_SCOPE_BACKEND_QUERY",
+    "root_e2e_verdict": "PASS_WITH_LOCAL_ENV_OVERRIDES",
+    "out_of_scope_backend_failure": "AdminCodeStatusControllerIT fails under Maven Failsafe with PostgreSQL GROUP BY error in effective invite status count query.",
+    "local_e2e_overrides": [
+      "WEB_SMOKE_BASE_URL=http://127.0.0.1:3404 because another apps/web Next dev server was already running",
+      "CHROMIUM_EXECUTABLE_PATH=/Applications/Google Chrome.app/Contents/MacOS/Google Chrome because Playwright-managed Chromium is not installed"
+    ]
+  },
+  "docs": {
+    "updated": [
+      "README.md",
+      "docs/architecture/init-and-dev-contract.md"
+    ],
+    "note": "Only setup/developer workflow notes were changed. No product, API, schema, generated client or stage docs were changed."
+  },
+  "human_gates": [],
+  "raw_evidence_read": false,
+  "child_agents_launched": false
+}

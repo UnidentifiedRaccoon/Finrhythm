@@ -10,3 +10,9 @@ course-export/debug/
 course-export/**/debug/
 course-export/.auth/
 apps/api/target/
+
+# Stage proof transcripts are local audit material by default.
+# Track compact evidence indexes/verdicts instead of every command log/screenshot.
+.agent/stages/**/raw/**
+.agent/tasks/**/raw/**
+apps/*/.agent/**

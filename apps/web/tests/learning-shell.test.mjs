@@ -6,7 +6,16 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { LessonRendererScreen } from "../components/lesson-renderer.ts";
 import { getLessonRendererState } from "../lib/lesson-state.ts";
 import { LearningShellScreen } from "../components/learning-shell.ts";
-import { noviceLearningFixture, syntheticN1LessonFixture, syntheticN2LessonFixture } from "../lib/learning-fixtures.ts";
+import { OnboardingPrivacyScreen } from "../components/onboarding-privacy-screen.ts";
+import {
+  learningFixtureSourceBoundary,
+  learningFixtureSourceProvenance,
+  learningFixtureSourceReview,
+  noviceLearningFixture,
+  syntheticN1LessonFixture,
+  syntheticN2LessonFixture,
+  syntheticN3LessonFixture
+} from "../lib/learning-fixtures.ts";
 import { getLearningShellState } from "../lib/learning-state.ts";
 
 const appRoot = new URL("..", import.meta.url).pathname;
@@ -37,6 +46,10 @@ describe("mobile learning shell", () => {
     assert.match(html, /Урок-превью N1/);
     assert.match(html, /href="\/learning\/lessons\/N2"/);
     assert.match(html, /Открыть N2/);
+    assert.match(html, /href="\/learning\/lessons\/N3"/);
+    assert.match(html, /Открыть N3/);
+    assert.match(html, /href="\/onboarding\/privacy"/);
+    assert.match(html, /Подробнее о приватности/);
     assert.match(html, /Пример: офис/);
     assert.match(html, /Пример: сменный график/);
     assert.match(html, /href="\/learning\/lessons\/N1"/);
@@ -50,6 +63,30 @@ describe("mobile learning shell", () => {
     assert.match(loading, /Загружаем учебный маршрут/);
     assert.match(empty, /Уроки не найдены/);
     assert.match(error, /Не удалось открыть обучение/);
+  });
+
+  it("renders the onboarding privacy screen as draft copy without consent or diagnostics behavior", () => {
+    const html = renderToStaticMarkup(OnboardingPrivacyScreen());
+
+    assert.match(html, /Какие данные видит работодатель/);
+    assert.match(html, /Что HR видит по умолчанию/);
+    assert.match(html, /Агрегированную аналитику по группе/);
+    assert.match(html, /Операционные данные/);
+    assert.match(html, /Что HR не видит по умолчанию/);
+    assert.match(html, /персональные ответы диагностики/);
+    assert.match(html, /Индивидуальные слабые зоны/);
+    assert.match(html, /Точные суммы/);
+    assert.match(html, /reflection-заданий/);
+    assert.match(html, /личные налоговые, долговые/);
+    assert.match(html, /Старт проходит без фото, документов и банковских скриншотов/);
+    assert.match(html, /Текст требует юридической проверки/);
+    assert.match(html, /не является принятием согласия/);
+    assert.match(html, /не записывает версию согласия/);
+    assert.match(html, /Диагностика будет отдельным шагом/);
+    assert.match(html, /href="\/learning"/);
+    assert.doesNotMatch(html, /href="\/diagnostics"/);
+    assert.doesNotMatch(html, /type="checkbox"/);
+    assert.doesNotMatch(html, /финально утвержд/);
   });
 
   it("keeps managed web source free of customer brand, active old access terms and forbidden claims", async () => {
@@ -119,12 +156,62 @@ describe("mobile learning shell", () => {
       assert.equal(fixtureText.includes(token), false, `fixture contains forbidden personal-data token: ${token}`);
     }
   });
+
+  it("keeps imported lesson payload under content fixtures with draft review status", async () => {
+    const adapterSource = await readFile(join(appRoot, "lib", "learning-fixtures.ts"), "utf8");
+    const contentFixturePath = join(
+      appRoot,
+      "..",
+      "..",
+      "content",
+      "fixtures",
+      "learning",
+      "novice-demo-lessons.v0.1.json"
+    );
+    const contentFixture = JSON.parse(await readFile(contentFixturePath, "utf8"));
+
+    assert.match(adapterSource, /content\/fixtures\/learning\/novice-demo-lessons\.v0\.1\.json/);
+    assert.doesNotMatch(adapterSource, /blocks:\s*\[/);
+    assert.doesNotMatch(adapterSource, /quizItems:\s*\[/);
+    assert.doesNotMatch(adapterSource, /Расхламление дома: пополняйте копилки/);
+
+    assert.equal(learningFixtureSourceBoundary.productionContentSourceOfTruth, "CMS/PostgreSQL");
+    assert.equal(learningFixtureSourceBoundary.webRuntimeRole, "renderer_adapter_consumer");
+    assert.equal(learningFixtureSourceBoundary.uiCodeOwnsLessonPayload, false);
+    assert.equal(learningFixtureSourceBoundary.publishableFromFixture, false);
+    assert.equal(learningFixtureSourceReview.reviewStatus, "method_adapted");
+    assert.equal(learningFixtureSourceReview.productionReady, false);
+    assert.equal(learningFixtureSourceReview.humanReviewRequired, true);
+    assert.equal(learningFixtureSourceReview.wordingReviewStatus, "DONE_WITH_HUMAN_PENDING");
+    assert.equal(learningFixtureSourceProvenance.activeSourceRoot, "content/getcourse-finstrategy/");
+    assert.equal(learningFixtureSourceProvenance.sourceInventory.humanReviewRequiredLessons, 73);
+    assert.equal(learningFixtureSourceProvenance.inactiveSourcesNotUsed.includes("content/getcourse-path-to-money"), true);
+
+    const reviewStatuses = [
+      contentFixture.review.reviewStatus,
+      ...contentFixture.provenance.lessonSources.map((source) => source.adaptationStatus),
+      ...contentFixture.lessons.map((lesson) => lesson.review.reviewStatus)
+    ];
+
+    assert.equal(contentFixture.runtimeBoundary.productionContentSourceOfTruth, "CMS/PostgreSQL");
+    assert.equal(contentFixture.runtimeBoundary.webRuntimeRole, "renderer_adapter_consumer");
+    assert.equal(contentFixture.runtimeBoundary.uiCodeOwnsLessonPayload, false);
+    assert.equal(contentFixture.review.productionReady, false);
+    assert.equal(contentFixture.review.humanReviewRequired, true);
+    assert.equal(reviewStatuses.includes("production_ready"), false);
+    assert.equal(
+      contentFixture.provenance.lessonSources.every((source) => source.sourceHumanReview === "required"),
+      true
+    );
+  });
 });
 
 describe("fixture-backed lesson renderer", () => {
-  it("resolves direct N1 and N2 lesson entries from the fixture set", () => {
+  it("resolves direct N1, N2 and N3 lesson entries from the fixture set", () => {
     const result = getLessonRendererState("N1");
     const n2 = getLessonRendererState("N2");
+    const n3 = getLessonRendererState("N3");
+    const n3Alias = getLessonRendererState("N3_DECLUTTER_TO_GOAL");
 
     assert.equal(result.state, "ready");
     assert.equal(result.lesson.source, "synthetic");
@@ -134,10 +221,16 @@ describe("fixture-backed lesson renderer", () => {
     assert.equal(n2.lesson.source, "synthetic");
     assert.equal(n2.lesson.routeId, "N2");
     assert.equal(n2.lesson.lessonId, "N2_SAVINGS_CHALLENGE_START");
+    assert.equal(n3.state, "ready");
+    assert.equal(n3.lesson.source, "synthetic");
+    assert.equal(n3.lesson.routeId, "N3");
+    assert.equal(n3.lesson.lessonId, "N3_DECLUTTER_TO_GOAL");
+    assert.equal(n3Alias.state, "ready");
+    assert.equal(n3Alias.lesson.routeId, "N3");
   });
 
   it("keeps the fixture contract aligned to required lesson block order", () => {
-    for (const lesson of [syntheticN1LessonFixture, syntheticN2LessonFixture]) {
+    for (const lesson of [syntheticN1LessonFixture, syntheticN2LessonFixture, syntheticN3LessonFixture]) {
       assert.deepEqual(
         lesson.blocks.map((block) => block.blockType),
         ["situation", "why", "rule", "example", "mini_test", "practice", "reward"],
@@ -154,6 +247,56 @@ describe("fixture-backed lesson renderer", () => {
       assert.equal(lesson.practiceTask.requiresBankScreenshot, false);
       assert.equal(lesson.review.humanReviewRequired, true);
     }
+  });
+
+  it("keeps the synthetic N3 decluttering fixture display-only and non-persistent", () => {
+    assert.equal(syntheticN3LessonFixture.routeId, "N3");
+    assert.equal(syntheticN3LessonFixture.lessonId, "N3_DECLUTTER_TO_GOAL");
+    assert.equal(syntheticN3LessonFixture.primaryCompetency, "C4");
+    assert.deepEqual(syntheticN3LessonFixture.secondaryCompetencies, ["C3", "C9"]);
+    assert.deepEqual(
+      syntheticN3LessonFixture.quizItems.map((item) => item.quizId),
+      ["Q10", "Q11", "Q12"]
+    );
+    assert.equal(
+      syntheticN3LessonFixture.quizItems.every((item) => item.displayOnly === true),
+      true
+    );
+    assert.equal(syntheticN3LessonFixture.practiceTask.taskType, "checklist");
+    assert.match(syntheticN3LessonFixture.practiceTask.allowedInputs.join(" "), /диапазон вещей/);
+    assert.match(syntheticN3LessonFixture.practiceTask.allowedInputs.join(" "), /чек-лист безопасности/);
+    assert.match(syntheticN3LessonFixture.practiceTask.allowedInputs.join(" "), /категория направления/);
+    assert.equal(syntheticN3LessonFixture.practiceTask.storesExactSum, false);
+    assert.equal(syntheticN3LessonFixture.practiceTask.requiresPhoto, false);
+    assert.equal(syntheticN3LessonFixture.practiceTask.requiresDocument, false);
+    assert.equal(syntheticN3LessonFixture.practiceTask.requiresBankScreenshot, false);
+    assert.equal(syntheticN3LessonFixture.review.humanReviewRequired, true);
+
+    const fixtureText = JSON.stringify(syntheticN3LessonFixture);
+    const forbiddenRequestPatterns = [
+      "загрузите фото",
+      "приложите фото",
+      "укажите адрес",
+      "укажите ссылку на объявление",
+      "укажите сумму сделки",
+      "отправьте переписку с покупателем",
+      "загрузите скриншот оплаты",
+      "банковский скриншот требуется",
+      "точные личные суммы обязательны",
+      "обязательный мерч",
+      "гарантированный результат",
+      "случайный приз"
+    ];
+
+    for (const token of forbiddenRequestPatterns) {
+      assert.equal(fixtureText.includes(token), false, `N3 fixture requests forbidden data or claim: ${token}`);
+    }
+
+    assert.match(syntheticN3LessonFixture.reward.noMoneyEquivalentCopy, /не являются деньгами/);
+    assert.match(syntheticN3LessonFixture.reward.noMoneyEquivalentCopy, /зарплатой/);
+    assert.match(syntheticN3LessonFixture.reward.noMoneyEquivalentCopy, /гарантией результата/);
+    assert.match(syntheticN3LessonFixture.reward.noMoneyEquivalentCopy, /случайной наградой/);
+    assert.match(syntheticN3LessonFixture.reward.noMoneyEquivalentCopy, /денежным эквивалентом/);
   });
 
   it("renders the full synthetic N1 lesson without persistence or points claims", () => {
@@ -194,6 +337,29 @@ describe("fixture-backed lesson renderer", () => {
     assert.doesNotMatch(html, /запуск challenge зафиксирован/);
     assert.doesNotMatch(html, /ответ отправлен/);
     assert.doesNotMatch(html, /банковский скриншот требуется/);
+  });
+
+  it("renders the synthetic N3 decluttering lesson without sale proof, persistence or unsafe rewards", () => {
+    const html = renderToStaticMarkup(LessonRendererScreen({ lesson: syntheticN3LessonFixture }));
+
+    assert.match(html, /Синтетический урок/);
+    assert.match(html, /Расхламление дома/);
+    assert.match(html, /N3: пополняйте копилки/);
+    assert.match(html, /Пример: офис/);
+    assert.match(html, /Пример: сменный график/);
+    assert.match(html, /Мини-тест/);
+    assert.match(html, /Локальное превью/);
+    assert.match(html, /Практика/);
+    assert.match(html, /Выбрать план без сохранения/);
+    assert.match(html, /Что безопаснее при продаже вещи/);
+    assert.match(html, /не являются деньгами/);
+    assert.match(html, /гарантией результата/);
+    assert.match(html, /случайной наградой/);
+    assert.doesNotMatch(html, /продажа зафиксирована/);
+    assert.doesNotMatch(html, /ответ отправлен/);
+    assert.doesNotMatch(html, /загрузите фото/);
+    assert.doesNotMatch(html, /укажите адрес/);
+    assert.doesNotMatch(html, /загрузите скриншот оплаты/);
   });
 
   it("keeps the renderer source free of customer brand, old access terms and unsafe claims", async () => {

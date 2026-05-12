@@ -1,0 +1,89 @@
+{
+  "task_id": "audit-20260512-shared-ui-config",
+  "status": "DONE",
+  "date": "2026-05-12",
+  "acceptance": [
+    {
+      "criterion": "packages/config contains reusable TS presets",
+      "evidence": [
+        "packages/config/tsconfig/base.json",
+        "packages/config/tsconfig/next.json",
+        "packages/config/tsconfig/react-library.json"
+      ],
+      "status": "PASS"
+    },
+    {
+      "criterion": "packages/ui contains typed tokens and a small primitive export",
+      "evidence": [
+        "packages/ui/src/tokens.ts",
+        "packages/ui/src/tokens.css",
+        "packages/ui/src/surface.ts",
+        "pnpm --filter @finrhythm/ui typecheck"
+      ],
+      "status": "PASS"
+    },
+    {
+      "criterion": "web/admin consume shared TS preset without breaking checks",
+      "evidence": [
+        "apps/web/tsconfig.json",
+        "apps/admin/tsconfig.json",
+        "pnpm --filter @finrhythm/web typecheck",
+        "pnpm --filter @finrhythm/admin typecheck",
+        "pnpm --filter @finrhythm/web test",
+        "pnpm --filter @finrhythm/admin test",
+        "pnpm --filter @finrhythm/web build",
+        "pnpm --filter @finrhythm/admin build"
+      ],
+      "status": "PASS"
+    }
+  ],
+  "commands": [
+    {
+      "command": "pnpm install --lockfile-only",
+      "status": "PASS"
+    },
+    {
+      "command": "pnpm install --offline",
+      "status": "PASS",
+      "notes": "Lockfile was already up to date; workspace package links refreshed."
+    },
+    {
+      "command": "pnpm --filter @finrhythm/web typecheck",
+      "status": "PASS"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/admin typecheck",
+      "status": "PASS"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/ui typecheck",
+      "status": "PASS"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/web test",
+      "status": "PASS",
+      "notes": "15 tests passed."
+    },
+    {
+      "command": "pnpm --filter @finrhythm/admin test",
+      "status": "PASS",
+      "notes": "4 tests passed."
+    },
+    {
+      "command": "pnpm --filter @finrhythm/web build",
+      "status": "PASS"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/admin build",
+      "status": "PASS"
+    }
+  ],
+  "docs": {
+    "canonical_docs_updated": false,
+    "reason": "Existing source-of-truth already defines shared frontend packages and packages/ui. This slice materializes the minimal baseline without changing product behavior, API, setup commands or stage scope."
+  },
+  "limitations": [
+    "Root lint/format/turbo orchestration remains outside the requested write scope.",
+    "No screenshot evidence: no user-visible app UI changed."
+  ]
+}

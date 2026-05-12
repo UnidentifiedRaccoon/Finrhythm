@@ -56,6 +56,20 @@
     "DONE",
     "DONE_WITH_HUMAN_PENDING"
   ],
+  "artifact_churn_policy": {
+    "required_gitignore_patterns": [
+      ".agent/stages/**/raw/**",
+      ".agent/tasks/**/raw/**",
+      "apps/*/.agent/**"
+    ],
+    "required_rgignore_patterns": [
+      ".agent/stages/**/raw/**",
+      ".agent/tasks/**/raw/**",
+      "apps/*/.agent/**"
+    ],
+    "tracked_slice_budget_files": 18,
+    "raw_default": "local_untracked"
+  },
   "legacy_scan": {
     "ignored_dirs": [
       ".agent",

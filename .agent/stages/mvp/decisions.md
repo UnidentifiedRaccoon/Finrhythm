@@ -1,6 +1,12 @@
 # MVP decisions
 
-Updated: 2026-05-11
+Updated: 2026-05-12
+
+## D-2026-05-12-003: Build MVP-03 privacy screen as route-only employee UI
+
+Decision: `MVP-03-onboarding-privacy-screen-001` implements only `/onboarding/privacy` in `apps/web` plus a `/learning` navigation link to the privacy explanation.
+Why: the smallest honest MVP-03.02 slice can explain the employer/HR visibility boundary before diagnostics without introducing diagnostics, consent logging, backend APIs or legal approval claims.
+Impact: full `MVP-03` remains open. Consent version logging, final legal review, diagnostics/routing, backend/API/schema/generated-client, HR reporting and all human gates remain deferred.
 
 ## D-2026-05-11-001: Replace MVP cohort domain with pilot launch/access pool
 
@@ -205,3 +211,15 @@ Impact: `apps/admin/tests/browser-smoke.mjs` accepts `CHROMIUM_EXECUTABLE_PATH`;
 Decision: continue implementation and evidence in `/Users/elena/cursor/FinPulse` after discovering `/Users/elena/cursor/FinRhythm` is a stale/empty path in the current desktop filesystem.
 Why: the actual Git checkout, stage artifacts and working diff are under `FinPulse`; continuing in the stale path would lose the stage state.
 Impact: evidence records the path anomaly. This does not rename product scope or close the unrelated repo-rename task.
+
+## D-2026-05-12-001: Continue MVP-06 with an N3 renderer-only fixture slice
+
+Decision: freeze and build `MVP-06-learning-n3-fixture-001` as a synthetic `N3_DECLUTTER_TO_GOAL` fixture in the existing `apps/web` renderer, with `/learning/lessons/N3`, the existing full lesson-id alias and a visible `/learning` CTA.
+Why: after verified N1/N2 renderer slices, N3 is the next smallest mandatory `Новичок` lesson increment and can be proven without CMS/admin publishing, persistence, scored submissions, points/wallet, diagnostics or onboarding.
+Impact: N3 remains synthetic, `editorial_draft` and human-review-required. It does not close full `MVP-06`, production content approval or any human gate.
+
+## D-2026-05-12-002: Accept scoped N3 verifier PASS only for MVP-06.03 fixture surface
+
+Decision: parent orchestrator accepts the fresh scoped verifier `PASS` for `MVP-06-learning-n3-fixture-001` and synchronizes latest status aliases to that task.
+Why: independent verifier reran web checks, browser smoke, alias route smoke, guardrail scans and diff checks, and found no blocking scoped problem for the N3 renderer/fixture contract.
+Impact: latest verified sprint becomes `MVP-06-learning-n3-fixture-001`. Full `MVP-04`, full `MVP-06`, the MVP stage, onboarding/consent, diagnostics/routing, progress persistence, scored quiz submission, practice submission, points/wallet, CMS/admin publishing, production content approval and all human gates remain open.

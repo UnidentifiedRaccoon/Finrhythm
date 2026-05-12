@@ -1,0 +1,43 @@
+{
+  "task_id": "audit-20260512-invite-capacity",
+  "status": "DONE",
+  "issue": "P1 Invite issuance capacity",
+  "scope": {
+    "production_files": [
+      "apps/api/src/main/java/com/finrhythm/api/tenant/persistence/AccessPoolRepository.java",
+      "apps/api/src/main/java/com/finrhythm/api/tenant/service/InviteCodeAccessService.java"
+    ],
+    "test_files": [
+      "apps/api/src/test/java/com/finrhythm/api/tenant/service/InviteCodeAccessServiceIT.java"
+    ],
+    "evidence_files": [
+      ".agent/tasks/audit-20260512-invite-capacity/spec_freeze.md",
+      ".agent/tasks/audit-20260512-invite-capacity/evidence.md",
+      ".agent/tasks/audit-20260512-invite-capacity/evidence.json",
+      ".agent/tasks/audit-20260512-invite-capacity/self_verification.md"
+    ]
+  },
+  "implementation": {
+    "capacity_guard": "PESSIMISTIC_WRITE row-level lock on access_pools before count and insert in issueBatch",
+    "schema_change": false,
+    "api_contract_change": false,
+    "raw_code_persistence_change": false
+  },
+  "verification": [
+    {
+      "command": "cd apps/api && JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home PATH=\"/opt/homebrew/opt/openjdk@21/bin:$PATH\" ./mvnw -q -Dit.test=InviteCodeAccessServiceIT verify",
+      "result": "PASS",
+      "evidence": "InviteCodeAccessServiceIT: 6 tests, 0 failures, 0 errors"
+    },
+    {
+      "command": "cd apps/api && JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home PATH=\"/opt/homebrew/opt/openjdk@21/bin:$PATH\" ./mvnw -q verify",
+      "result": "PASS"
+    }
+  ],
+  "blockers": [],
+  "notes": [
+    "Initial Maven attempt without explicit JAVA_HOME failed because the shell could not locate a Java runtime.",
+    "No raw evidence was read.",
+    "AdminCodeStatusService and expired counts were not touched."
+  ]
+}

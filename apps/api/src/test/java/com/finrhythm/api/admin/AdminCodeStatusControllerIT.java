@@ -14,17 +14,24 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpHeaders;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.sql.Timestamp;
+import java.time.Clock;
 import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -40,10 +47,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 class AdminCodeStatusControllerIT {
     private static final Instant ISSUED_AT = Instant.parse("2026-05-09T09:00:00Z");
+    private static final Instant ADMIN_READ_AT = Instant.parse("2026-05-12T09:00:00Z");
     private static final Instant EXPIRES_AT = Instant.parse("2026-06-09T09:00:00Z");
+    private static final Instant STALE_EXPIRES_AT = Instant.parse("2026-05-10T09:00:00Z");
     private static final Instant ACTIVATED_AT = Instant.parse("2026-05-09T10:00:00Z");
     private static final Instant REGISTERED_AT = Instant.parse("2026-05-09T10:01:00Z");
     private static final AtomicInteger SUBJECT_SEQUENCE = new AtomicInteger(10_000);
+    private static final String ADMIN_TOKEN = "test-admin-token";
+    private static final String CODE_STATUS_PATH =
+            "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status";
 
     @Container
     static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:16-alpine")
@@ -56,6 +68,7 @@ class AdminCodeStatusControllerIT {
         registry.add("spring.datasource.url", POSTGRES::getJdbcUrl);
         registry.add("spring.datasource.username", POSTGRES::getUsername);
         registry.add("spring.datasource.password", POSTGRES::getPassword);
+        registry.add("finrhythm.admin.security.token", () -> ADMIN_TOKEN);
     }
 
     @Autowired
@@ -79,12 +92,68 @@ class AdminCodeStatusControllerIT {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    @TestConfiguration
+    static class FixedClockConfig {
+        @Bean
+        @Primary
+        Clock fixedClock() {
+            return Clock.fixed(ADMIN_READ_AT, ZoneOffset.UTC);
+        }
+    }
+
+    @Test
+    void rejectsAdminCodeStatusWithoutValidAdminBearerToken() throws Exception {
+        UUID tenantId = UUID.randomUUID();
+        UUID pilotLaunchId = UUID.randomUUID();
+        UUID accessPoolId = UUID.randomUUID();
+
+        String unauthenticated = mockMvc.perform(get(
+                        CODE_STATUS_PATH,
+                        tenantId,
+                        pilotLaunchId,
+                        accessPoolId
+                ))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("ADMIN_AUTHENTICATION_REQUIRED"))
+                .andExpect(jsonPath("$.fieldErrors.length()").value(0))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertThat(unauthenticated)
+                .doesNotContain(tenantId.toString())
+                .doesNotContain(pilotLaunchId.toString())
+                .doesNotContain(accessPoolId.toString());
+
+        String invalidToken = mockMvc.perform(get(
+                        CODE_STATUS_PATH,
+                        tenantId,
+                        pilotLaunchId,
+                        accessPoolId
+                )
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer wrong-admin-token"))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("ADMIN_AUTHENTICATION_REQUIRED"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertThat(invalidToken).doesNotContain("wrong-admin-token");
+    }
+
+    @Test
+    void deniesOtherAdminApiPathsByDefaultEvenWithCodeStatusToken() throws Exception {
+        mockMvc.perform(get("/api/v1/admin/unknown")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + ADMIN_TOKEN))
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.code").value("ADMIN_PERMISSION_DENIED"));
+    }
+
     @Test
     void returnsPilotAccessPoolScaleCountsFunnelPaginationAndPrivacySafeRows() throws Exception {
         SeededAccessPool seededAccessPool = seedMixedAccessPool();
 
-        String response = mockMvc.perform(get(
-                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+        String response = mockMvc.perform(adminCodeStatusRequest(
                         seededAccessPool.tenant().getId(),
                         seededAccessPool.accessPool().getPilotLaunch().getId(),
                         seededAccessPool.accessPool().getId()
@@ -128,11 +197,105 @@ class AdminCodeStatusControllerIT {
     }
 
     @Test
+    void computesExpiredIssuedCodesForAdminReadModelWithoutMutatingInviteLifecycle() throws Exception {
+        Tenant tenant = seedTenant();
+        AccessPool accessPool = seedAccessPool(tenant, 4);
+        List<IssuedInviteCode> issuedCodes = inviteCodeAccessService.issueBatch(
+                tenant.getId(),
+                accessPool.getId(),
+                4,
+                ISSUED_AT,
+                EXPIRES_AT
+        );
+        expireIssuedCodeByTime(issuedCodes.get(0).inviteCodeId(), STALE_EXPIRES_AT);
+        setTerminalStatus(issuedCodes.get(1).inviteCodeId(), "EXPIRED");
+        activate(
+                issuedCodes.get(2).inviteCodeId(),
+                activationSubjectRef(SUBJECT_SEQUENCE.getAndIncrement(), 0),
+                ACTIVATED_AT
+        );
+
+        String response = mockMvc.perform(adminCodeStatusRequest(
+                        tenant.getId(),
+                        accessPool.getPilotLaunch().getId(),
+                        accessPool.getId()
+                )
+                        .param("page", "0")
+                        .param("size", "10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.summary.issuedCount").value(4))
+                .andExpect(jsonPath("$.summary.activatedCount").value(1))
+                .andExpect(jsonPath("$.summary.registeredCount").value(0))
+                .andExpect(jsonPath("$.summary.revokedCount").value(0))
+                .andExpect(jsonPath("$.summary.expiredCount").value(2))
+                .andExpect(jsonPath("$.summary.totalCodeCount").value(4))
+                .andExpect(jsonPath("$.summary.remainingCapacity").value(0))
+                .andExpect(jsonPath("$.codes.totalItems").value(4))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        JsonNode body = objectMapper.readTree(response);
+        assertStatusCount(body, "ISSUED", 1);
+        assertStatusCount(body, "ACTIVATED", 1);
+        assertStatusCount(body, "EXPIRED", 2);
+        assertThat(body.path("codes").path("items"))
+                .anySatisfy(row -> {
+                    assertThat(row.path("inviteCodeId").asText())
+                            .isEqualTo(issuedCodes.get(0).inviteCodeId().toString());
+                    assertThat(row.path("status").asText()).isEqualTo("EXPIRED");
+                });
+
+        String expiredFilter = mockMvc.perform(adminCodeStatusRequest(
+                        tenant.getId(),
+                        accessPool.getPilotLaunch().getId(),
+                        accessPool.getId()
+                )
+                        .param("status", "EXPIRED")
+                        .param("page", "0")
+                        .param("size", "10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.codes.totalItems").value(2))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        JsonNode expiredItems = objectMapper.readTree(expiredFilter).path("codes").path("items");
+        assertThat(expiredItems).allSatisfy(row -> assertThat(row.path("status").asText()).isEqualTo("EXPIRED"));
+        assertThat(expiredItems)
+                .anySatisfy(row -> assertThat(row.path("inviteCodeId").asText())
+                        .isEqualTo(issuedCodes.get(0).inviteCodeId().toString()))
+                .anySatisfy(row -> assertThat(row.path("inviteCodeId").asText())
+                        .isEqualTo(issuedCodes.get(1).inviteCodeId().toString()));
+
+        String issuedFilter = mockMvc.perform(adminCodeStatusRequest(
+                        tenant.getId(),
+                        accessPool.getPilotLaunch().getId(),
+                        accessPool.getId()
+                )
+                        .param("status", "ISSUED")
+                        .param("page", "0")
+                        .param("size", "10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.codes.totalItems").value(1))
+                .andExpect(jsonPath("$.codes.items[0].inviteCodeId").value(issuedCodes.get(3).inviteCodeId().toString()))
+                .andExpect(jsonPath("$.codes.items[0].status").value("ISSUED"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertPrivacySafeResponse(response, issuedCodes.get(0).code());
+        assertPrivacySafeResponse(expiredFilter, issuedCodes.get(0).code());
+        assertPrivacySafeResponse(issuedFilter, issuedCodes.get(3).code());
+        assertThat(inviteStatus(issuedCodes.get(0).inviteCodeId())).isEqualTo("ISSUED");
+        assertThat(inviteStatus(issuedCodes.get(1).inviteCodeId())).isEqualTo("EXPIRED");
+    }
+
+    @Test
     void filtersByStatusAndPaginatesDeterministicallyWithMixedRegistrationRows() throws Exception {
         SeededAccessPool seededAccessPool = seedMixedAccessPool();
 
-        String firstPage = mockMvc.perform(get(
-                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+        String firstPage = mockMvc.perform(adminCodeStatusRequest(
                         seededAccessPool.tenant().getId(),
                         seededAccessPool.accessPool().getPilotLaunch().getId(),
                         seededAccessPool.accessPool().getId()
@@ -156,8 +319,7 @@ class AdminCodeStatusControllerIT {
         assertThat(items).anySatisfy(row -> assertThat(row.path("registered").asBoolean()).isFalse());
         assertPrivacySafeResponse(firstPage, seededAccessPool.issuedCodes().get(0).code());
 
-        mockMvc.perform(get(
-                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+        mockMvc.perform(adminCodeStatusRequest(
                         seededAccessPool.tenant().getId(),
                         seededAccessPool.accessPool().getPilotLaunch().getId(),
                         seededAccessPool.accessPool().getId()
@@ -177,8 +339,7 @@ class AdminCodeStatusControllerIT {
         Tenant otherTenant = seedTenant();
         AccessPool otherAccessPool = seedAccessPool(otherTenant, 5);
 
-        String mismatch = mockMvc.perform(get(
-                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+        String mismatch = mockMvc.perform(adminCodeStatusRequest(
                         tenant.getId(),
                         otherAccessPool.getPilotLaunch().getId(),
                         otherAccessPool.getId()
@@ -193,8 +354,7 @@ class AdminCodeStatusControllerIT {
                 .doesNotContain(otherTenant.getId().toString())
                 .doesNotContain(otherAccessPool.getId().toString());
 
-        String invalidStatus = mockMvc.perform(get(
-                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+        String invalidStatus = mockMvc.perform(adminCodeStatusRequest(
                         tenant.getId(),
                         otherAccessPool.getPilotLaunch().getId(),
                         otherAccessPool.getId()
@@ -209,8 +369,7 @@ class AdminCodeStatusControllerIT {
 
         assertThat(invalidStatus).doesNotContain("REGISTERED");
 
-        mockMvc.perform(get(
-                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+        mockMvc.perform(adminCodeStatusRequest(
                         tenant.getId(),
                         otherAccessPool.getPilotLaunch().getId(),
                         otherAccessPool.getId()
@@ -219,8 +378,7 @@ class AdminCodeStatusControllerIT {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.fieldErrors[0].field").value("page"));
 
-        mockMvc.perform(get(
-                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+        mockMvc.perform(adminCodeStatusRequest(
                         tenant.getId(),
                         otherAccessPool.getPilotLaunch().getId(),
                         otherAccessPool.getId()
@@ -229,8 +387,7 @@ class AdminCodeStatusControllerIT {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.fieldErrors[0].field").value("size"));
 
-        String invalidUuid = mockMvc.perform(get(
-                        "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status",
+        String invalidUuid = mockMvc.perform(adminCodeStatusRequest(
                         "not-a-uuid",
                         otherAccessPool.getPilotLaunch().getId(),
                         otherAccessPool.getId()
@@ -258,12 +415,24 @@ class AdminCodeStatusControllerIT {
                 .contains("AdminCodeStatusSummary")
                 .contains("AdminCodeStatusRow")
                 .contains("ApiErrorResponse")
+                .contains("adminBearerAuth")
+                .contains("ADMIN_AUTHENTICATION_REQUIRED")
+                .contains("ADMIN_PERMISSION_DENIED")
                 .contains("ACCESS_POOL_STATUS_VIEW_NOT_FOUND")
                 .contains("VALIDATION_FAILED")
                 .doesNotContain("lookupHash")
                 .doesNotContain("activationSubjectRef")
                 .doesNotContain("co" + "hortId")
                 .doesNotContain("/co" + "horts/");
+    }
+
+    private static MockHttpServletRequestBuilder adminCodeStatusRequest(
+            Object tenantId,
+            Object pilotLaunchId,
+            Object accessPoolId
+    ) {
+        return get(CODE_STATUS_PATH, tenantId, pilotLaunchId, accessPoolId)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + ADMIN_TOKEN);
     }
 
     private SeededAccessPool seedMixedAccessPool() {
@@ -388,6 +557,27 @@ class AdminCodeStatusControllerIT {
                 Timestamp.from(ACTIVATED_AT),
                 inviteCodeId
         );
+    }
+
+    private void expireIssuedCodeByTime(UUID inviteCodeId, Instant expiresAt) {
+        jdbcTemplate.update("""
+                update invite_codes
+                set expires_at = ?,
+                    updated_at = ?
+                where id = ?
+                """,
+                Timestamp.from(expiresAt),
+                Timestamp.from(expiresAt),
+                inviteCodeId
+        );
+    }
+
+    private String inviteStatus(UUID inviteCodeId) {
+        return jdbcTemplate.queryForObject("""
+                select status
+                from invite_codes
+                where id = ?
+                """, String.class, inviteCodeId);
     }
 
     private void assertStatusCount(JsonNode body, String status, long count) {

@@ -5,23 +5,35 @@
     "employeeBrand": "FinRhythm",
     "customerBrandVisibleToEmployees": false
   },
-  "cohorts": [
+  "pilotLaunches": [
     {
-      "code": "wave-0-demo",
-      "title": "Волна 0",
-      "sizeLimit": 50
+      "key": "pilot-launch-demo",
+      "name": "Демо-запуск пилота",
+      "status": "PLANNED",
+      "targetSize": 550
+    }
+  ],
+  "accessPools": [
+    {
+      "key": "access-pool-demo-early",
+      "pilotLaunchKey": "pilot-launch-demo",
+      "name": "Ранний доступ",
+      "status": "PLANNED",
+      "capacity": 50
     },
     {
-      "code": "wave-1-demo",
-      "title": "Волна 1",
-      "sizeLimit": 500
+      "key": "access-pool-demo-main",
+      "pilotLaunchKey": "pilot-launch-demo",
+      "name": "Основной пул доступа",
+      "status": "PLANNED",
+      "capacity": 500
     }
   ],
   "inviteCodes": [
     {
-      "code": "DEMO-WAVE0-0001",
-      "cohortCode": "wave-0-demo",
-      "status": "available"
+      "code": "DEMO-POOL-0001",
+      "accessPoolKey": "access-pool-demo-early",
+      "status": "CREATED"
     }
   ],
   "rewardCatalog": [
@@ -52,7 +64,7 @@
   ],
   "privacy": {
     "hrReporting": "aggregate_only",
-    "minimumCohortSize": 20,
+    "minimumReportingGroupSize": 20,
     "personalFinancialAnswersVisibleToHr": false
   },
   "notes": [

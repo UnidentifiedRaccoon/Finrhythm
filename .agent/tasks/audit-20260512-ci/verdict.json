@@ -1,0 +1,40 @@
+{
+  "task_id": "audit-20260512-ci",
+  "verdict": "PASS_FOR_SCOPE",
+  "checked_at": "2026-05-12T09:44:00+03:00",
+  "scope_files": [
+    ".github/workflows/ci.yml",
+    "README.md",
+    ".agent/tasks/audit-20260512-ci/spec_freeze.md",
+    ".agent/tasks/audit-20260512-ci/evidence.json",
+    ".agent/tasks/audit-20260512-ci/verification.md"
+  ],
+  "checks": [
+    {
+      "id": "workflow-exists",
+      "status": "PASS",
+      "detail": ".github/workflows/ci.yml exists and defines pull_request, push to main and workflow_dispatch triggers."
+    },
+    {
+      "id": "root-wrappers",
+      "status": "PASS",
+      "detail": "Workflow runs make install, make verify and make build."
+    },
+    {
+      "id": "backend-verify",
+      "status": "PASS",
+      "detail": "Workflow sets Java 21 and runs apps/api ./mvnw -q verify."
+    },
+    {
+      "id": "local-yaml",
+      "status": "PASS",
+      "detail": "Ruby YAML parser loaded .github/workflows/ci.yml."
+    },
+    {
+      "id": "repo-wrappers",
+      "status": "BLOCKED_OUT_OF_SCOPE",
+      "detail": "make verify and make build fail in scripts/verify-bootstrap.mjs at fixture-privacy-threshold before CI-related commands can be exercised end to end."
+    }
+  ],
+  "raw_evidence_read": false
+}

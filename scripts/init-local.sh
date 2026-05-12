@@ -3,9 +3,67 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 COMPOSE_FILE="$ROOT/infra/local/compose.yaml"
-MIGRATION_FILE="$ROOT/apps/api/src/main/resources/db/migration/V001__dev_bootstrap_runs.sql"
+API_DIR="$ROOT/apps/api"
+FLYWAY_MAVEN_PLUGIN_VERSION="10.10.0"
+
+postgres_port="${FINRHYTHM_POSTGRES_PORT:-54329}"
+default_database_url="jdbc:postgresql://localhost:${postgres_port}/finrhythm"
+database_url="${FINRHYTHM_DATABASE_URL:-$default_database_url}"
+database_username="${FINRHYTHM_DATABASE_USERNAME:-finlit}"
+database_password="${FINRHYTHM_DATABASE_PASSWORD:-finlit_local}"
+force="${FORCE:-0}"
+
+if [[ "${1:-}" == "--force" ]]; then
+  force=1
+elif [[ "$#" -gt 0 ]]; then
+  echo "make init: usage is make init, FORCE=1 make init or ./scripts/init-local.sh --force." >&2
+  exit 64
+fi
+
+if [[ "$database_url" != "$default_database_url" && "$database_url" != "jdbc:postgresql://127.0.0.1:${postgres_port}/finrhythm" ]]; then
+  echo "make init: refusing non-compose FINRHYTHM_DATABASE_URL '$database_url'." >&2
+  echo "make init: local init only targets localhost:${postgres_port}/finrhythm from infra/local/compose.yaml." >&2
+  exit 5
+fi
+
+if [[ "$database_username" != "finlit" || "$database_password" != "finlit_local" ]]; then
+  echo "make init: refusing custom database credentials for local compose bootstrap." >&2
+  exit 5
+fi
 
 node "$ROOT/scripts/verify-bootstrap.mjs" --quiet
+
+if [[ -z "${JAVA_HOME:-}" ]]; then
+  for java_home_candidate in /opt/homebrew/opt/openjdk@21 /usr/local/opt/openjdk@21; do
+    if [[ -d "$java_home_candidate" ]]; then
+      export JAVA_HOME="$java_home_candidate"
+      export PATH="$JAVA_HOME/bin:$PATH"
+      break
+    fi
+  done
+fi
+
+if ! command -v java >/dev/null 2>&1; then
+  echo "make init: Java 21 is required for backend Flyway migrations. Run make install or set JAVA_HOME." >&2
+  exit 4
+fi
+
+run_flyway_migrations() {
+  echo "make init: applying backend Flyway migrations from apps/api/src/main/resources/db/migration."
+  (
+    cd "$API_DIR"
+    ./mvnw -q "org.flywaydb:flyway-maven-plugin:${FLYWAY_MAVEN_PLUGIN_VERSION}:migrate" \
+      "-Dflyway.url=$database_url" \
+      "-Dflyway.user=$database_username" \
+      "-Dflyway.password=$database_password" \
+      "-Dflyway.locations=filesystem:$API_DIR/src/main/resources/db/migration" \
+      "-Dflyway.baselineOnMigrate=true" \
+      "-Dflyway.baselineVersion=1" \
+      "-Dflyway.baselineDescription=local init baseline for legacy V001-only databases" \
+      "-Dflyway.connectRetries=10" \
+      "-Dflyway.cleanDisabled=true"
+  )
+}
 
 if ! docker info >/dev/null 2>&1; then
   echo "make init: Docker daemon is not running. Start Docker and rerun make init." >&2
@@ -28,13 +86,13 @@ if [[ "$ready" -ne 1 ]]; then
   exit 3
 fi
 
-docker compose -f "$COMPOSE_FILE" exec -T postgres psql -U finlit -d finrhythm -v ON_ERROR_STOP=1 < "$MIGRATION_FILE"
+run_flyway_migrations
 
-bootstrap_key="$(node -e "const v=require('./scripts/init/version.json'); process.stdout.write(v.bootstrapKey)")"
-bootstrap_version="$(node -e "const v=require('./scripts/init/version.json'); process.stdout.write(v.version)")"
-bootstrap_checksum="$(node -e "const v=require('./scripts/init/version.json'); process.stdout.write(v.checksum)")"
+bootstrap_key="$(node -e "const v=require(process.argv[1]); process.stdout.write(v.bootstrapKey)" "$ROOT/scripts/init/version.json")"
+bootstrap_version="$(node -e "const v=require(process.argv[1]); process.stdout.write(v.version)" "$ROOT/scripts/init/version.json")"
+bootstrap_checksum="$(node -e "const v=require(process.argv[1]); process.stdout.write(v.checksum)" "$ROOT/scripts/init/version.json")"
 
-if [[ "${FORCE:-0}" == "1" ]]; then
+if [[ "$force" == "1" ]]; then
   docker compose -f "$COMPOSE_FILE" exec -T postgres psql -U finlit -d finrhythm -v ON_ERROR_STOP=1 \
     -v bootstrap_key="$bootstrap_key" \
     -v bootstrap_version="$bootstrap_version" \
@@ -61,4 +119,5 @@ where bootstrap_key = :'bootstrap_key'
 order by applied_at desc;
 SQL
 
+echo "make init: domain seed import is out of scope until a seed importer exists; no demo domain rows were inserted."
 echo "make init: PASS"

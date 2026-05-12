@@ -1,0 +1,10 @@
+package com.finrhythm.api.consent.service;
+
+public enum LegalAcceptanceFailureReason {
+    EMPLOYEE_REGISTRATION_NOT_FOUND,
+    VALIDATION_FAILED,
+    UNKNOWN_DOCUMENT_TYPE,
+    UNSUPPORTED_DOCUMENT_VERSION,
+    DUPLICATE_DOCUMENT_TYPE,
+    MISSING_REQUIRED_DOCUMENT
+}

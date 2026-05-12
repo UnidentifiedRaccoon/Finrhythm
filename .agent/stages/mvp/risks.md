@@ -1,6 +1,6 @@
 # MVP risks
 
-Updated: 2026-05-11
+Updated: 2026-05-12
 
 | ID | Risk | Status | Mitigation |
 |----|------|--------|------------|
@@ -41,3 +41,7 @@ Updated: 2026-05-11
 | R-035 | Admin UI could expose raw invite codes, lookup hashes, activation subject refs or employee contact data. | Mitigated in builder evidence; awaiting verifier | UI renders only privacy-safe status rows from the verified DTO; PII/raw-code/customer-brand scans and screenshots are recorded. |
 | R-036 | Fixture/browser evidence could accidentally use real customer or employee data. | Mitigated in builder evidence; awaiting verifier | Screenshots and fixtures use synthetic IDs and no customer brand; real employee/customer data and customer-specific reporting remain human-gated and out of scope. |
 | R-037 | Stage path could drift because the active checkout is now `FinPulse` while the user requested `FinRhythm`. | Active environment note | Evidence records that `/Users/elena/cursor/FinPulse` is the active Git checkout with stage artifacts and `/Users/elena/cursor/FinRhythm` is stale/empty in this filesystem. |
+| R-038 | Synthetic N3 content could be mistaken for production-approved lesson content. | Active until human review | N3 is recorded as `editorial_draft`, source `humanReview: required`, and the slice does not close final financial correctness, HR/privacy wording, reward operations or `production_ready` approval. |
+| R-039 | N3 renderer fixture could be mistaken for CMS/admin publishing, progress, submissions or points implementation. | Mitigated for current slice | Fresh verifier PASS is scoped only to fixture rendering, route/alias, CTA, display-only quiz, non-persistent practice and guardrails; full MVP-06 and related implementation areas remain open. |
+| R-040 | Current shell cannot run Java-backed root verification for frontend-only N3 proof. | Active environment note | Builder and verifier recorded unqualified `java -version` blocker and did not run or claim Java-backed `make verify`; web typecheck/test/build and browser smoke are the scoped proof. |
+| R-041 | Draft privacy screen could be mistaken for legal consent acceptance or final legal approval. | Active until human legal review | `/onboarding/privacy` visibly states the text requires legal review and does not accept/log consent; full `MVP-03`, consent version logging and legal/privacy human gates remain open. |

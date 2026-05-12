@@ -55,6 +55,11 @@ make test-e2e
 make build
 ```
 
+## CI
+
+Базовый GitHub Actions workflow `.github/workflows/ci.yml` запускается для Pull Request, push в `main` and manual `workflow_dispatch`.
+CI использует pnpm `10.27.0`, Node.js `24`, Temurin Java `21` and выполняет `make install`, `make verify`, `make build`. Root `make verify` уже включает backend Maven `verify` через `cd apps/api && ./mvnw -q verify`.
+
 ## Контентный baseline
 
 Активный source baseline для образовательного контента — основной GetCourse-курс `Курс «ФинCтратегия»` внутри программы ФинЗдоровье (`stream id 546010026`). Короткая 8-урочная выгрузка `Путь к деньгам` удалена из активного baseline и не должна использоваться как источник для content/CMS/adaptation slices.
@@ -97,12 +102,14 @@ pnpm getcourse:download-assets -- --headless
 
 Текущий baseline после первого MVP-02 backend slice, минимального admin UI slice and минимального MVP-04 web learning shell slice:
 
-- `make install` запускает `pnpm install --frozen-lockfile`;
-- `make verify` выполняет harness/bootstrap self-checks, `apps/web` typecheck/test, `apps/admin` typecheck/test и backend unit checks через `apps/api/mvnw`;
-- `make test-unit` выполняет bootstrap verification, focused `apps/web` tests, focused `apps/admin` tests и backend unit checks без browser layer;
+- `make install` сначала запускает `scripts/check-toolchain.sh` для Node.js/Corepack/`pnpm@10.27.0`/Java 21/API Maven Wrapper readiness, затем выполняет `pnpm install --frozen-lockfile`;
+- `make verify` выполняет harness/bootstrap self-checks, `apps/web` typecheck/test, `apps/admin` typecheck/test и backend Maven `verify` через `apps/api/mvnw`, включая Failsafe/Testcontainers checks;
+- `make test-unit` выполняет bootstrap verification, focused `apps/web` tests, focused `apps/admin` tests и backend Maven `verify` без browser layer;
 - `make build` выполняет production-readiness checks, собирает `apps/web`, `apps/admin` and `apps/api` без повторного запуска backend tests;
-- `make test-e2e` пока фиксирует отсутствие browser target для MVP-01;
+- `make test-e2e` запускает root wrapper `tests/e2e/browser-smoke.mjs`, поднимает локальные `apps/web`/`apps/admin` dev-серверы и выполняет доступные browser smoke scripts;
 - `make init` and `make dev` требуют запущенный Docker daemon and local PostgreSQL compose.
+
+По умолчанию root e2e использует `http://127.0.0.1:3400` для `apps/web`, `http://127.0.0.1:3300` для `apps/admin` and writes local browser artifacts under `.local/e2e/browser-smoke`. Для уже запущенных серверов используйте `E2E_REUSE_SERVERS=1 make test-e2e`; для внешних targets задайте `WEB_SMOKE_BASE_URL` и/или `ADMIN_SMOKE_BASE_URL`.
 
 Минимальная employee-facing web-поверхность запускается отдельно:
 
@@ -126,7 +133,7 @@ pnpm --filter @finrhythm/admin build
 
 Первый admin route использует локальный typed fixture boundary for the verified backend code-status DTO. Live mode is read-only and requires synthetic `FINRHYTHM_ADMIN_API_BASE_URL`, `FINRHYTHM_ADMIN_SYNTHETIC_TENANT_ID`, `FINRHYTHM_ADMIN_SYNTHETIC_PILOT_LAUNCH_ID` and `FINRHYTHM_ADMIN_SYNTHETIC_ACCESS_POOL_ID`.
 
-Полная backend schema verification для tenant/pilot-launch/access-pool/invite модели запускается отдельно:
+Полная backend schema verification для tenant/pilot-launch/access-pool/invite модели входит в `make verify` and `make test-unit`; отдельно ее можно запустить так:
 
 ```bash
 cd apps/api
@@ -136,6 +143,8 @@ cd apps/api
 Этот backend verify использует PostgreSQL/Testcontainers для Flyway/JPA constraint checks.
 
 `make init` применяет migration `dev_bootstrap_runs` and records `scripts/init/version.json` in PostgreSQL. Повторный запуск не должен дублировать bootstrap version; explicit override uses `FORCE=1 make init`.
+
+`scripts/check-toolchain.sh` — только fail-fast readiness check: он не включает Corepack глобально, не устанавливает Java и не запускает Maven downloads. Для локального запуска используйте Node.js 24 как в CI, pinned `pnpm@10.27.0` через Corepack, Java 21 и исполняемый `apps/api/mvnw`.
 
 ## Как использовать
 

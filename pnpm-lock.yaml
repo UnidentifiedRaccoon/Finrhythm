@@ -14,6 +14,9 @@ importers:
 
   apps/admin:
     dependencies:
+      '@finrhythm/api-client':
+        specifier: workspace:*
+        version: link:../../packages/api-client
       next:
         specifier: ^16.0.7
         version: 16.2.6(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -58,6 +61,30 @@ importers:
       '@types/react-dom':
         specifier: ^19.2.3
         version: 19.2.3(@types/react@19.2.14)
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
+  packages/api-client:
+    devDependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
+  packages/config: {}
+
+  packages/ui:
+    dependencies:
+      react:
+        specifier: '>=19.0.0'
+        version: 19.2.6
+    devDependencies:
+      '@finrhythm/config':
+        specifier: workspace:*
+        version: link:../config
+      '@types/react':
+        specifier: ^19.2.7
+        version: 19.2.14
       typescript:
         specifier: ^5.9.3
         version: 5.9.3

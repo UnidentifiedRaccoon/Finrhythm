@@ -1,0 +1,59 @@
+{
+  "task_id": "audit-20260512-api-client",
+  "status": "PASS",
+  "verified_at": "2026-05-12T10:03:44+0300",
+  "scope": [
+    "packages/api-client/**",
+    "apps/admin code-status imports/types/client",
+    "apps/admin/package.json",
+    "pnpm-lock.yaml",
+    ".agent/tasks/audit-20260512-api-client/*"
+  ],
+  "checks": [
+    {
+      "command": "pnpm --filter @finrhythm/api-client build",
+      "result": "PASS"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/api-client check:generated",
+      "result": "PASS"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/api-client check:openapi-drift",
+      "result": "PASS"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/api-client typecheck",
+      "result": "PASS"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/admin test",
+      "result": "PASS",
+      "details": "4 tests"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/admin typecheck",
+      "result": "PASS"
+    },
+    {
+      "command": "git diff --check -- packages/api-client apps/admin/package.json apps/admin/lib/code-status-types.ts apps/admin/lib/code-status-client.ts apps/admin/components/status-labels.ts apps/admin/tests/status-boundary.test.mjs pnpm-lock.yaml .agent/tasks/audit-20260512-api-client",
+      "result": "PASS"
+    },
+    {
+      "command": "if rg -n \"[ \\\\t]+$\" packages/api-client .agent/tasks/audit-20260512-api-client apps/admin/package.json apps/admin/lib/code-status-types.ts apps/admin/lib/code-status-client.ts apps/admin/components/status-labels.ts apps/admin/tests/status-boundary.test.mjs pnpm-lock.yaml; then exit 1; fi",
+      "result": "PASS"
+    }
+  ],
+  "docs": {
+    "updated": [
+      "packages/api-client/README.md"
+    ],
+    "canonical_docs_changed": [],
+    "note": "docs/architecture/source-of-truth.md already defines backend OpenAPI -> packages/api-client generated flow."
+  },
+  "limitations": [
+    "No browser/screenshot evidence collected; current fixture-rendered admin workflow is unchanged and ARCHIVED is covered by generated enum typing.",
+    "Unrelated concurrent worktree changes were left untouched."
+  ],
+  "human_gates": []
+}

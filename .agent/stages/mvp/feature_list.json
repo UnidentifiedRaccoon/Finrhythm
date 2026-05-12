@@ -1025,7 +1025,12 @@
       ".agent/stages/mvp/evidence.md",
       ".agent/stages/mvp/verdict.json",
       ".agent/stages/mvp/problems.md",
-      ".agent/stages/mvp/status.json"
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n3-fixture-001-json-validation-final-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n3-fixture-001-verify-harness-final-20260512.json",
+      ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n3-fixture-001-git-diff-check-final-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n3-fixture-001-alias-invariants-final-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n3-fixture-001-java-version-final-20260512.txt"
     ],
     "note": "Fresh verifier returned PASS for this sprint only after one minimal fixer pass. Parent orchestrator accepted the scoped PASS for MVP-04.04 and synchronized root latest aliases; full MVP-04, full MVP-06, MVP stage and human gates remain open."
   },
@@ -1102,9 +1107,12 @@
       "apps/web/components/lesson-renderer.ts",
       "apps/web/app/globals.css",
       "apps/web/tests/learning-shell.test.mjs",
-      "apps/web/tests/browser-smoke.mjs"
+      "apps/web/tests/browser-smoke.mjs",
+      ".agent/stages/mvp/evidence.json",
+      ".agent/stages/mvp/verdict.json",
+      ".agent/stages/mvp/problems.md"
     ],
-    "note": "Builder evidence is complete and scoped fresh verifier PASS is recorded. A separate parent alias-sync decision remains pending; latest aliases still point to MVP-04-design-system-tokenization-001. Full MVP-04, full MVP-06, MVP stage and human gates remain open."
+    "note": "Builder evidence is complete and scoped fresh verifier PASS is recorded. Parent alias sync has now been accepted; latest aliases point to MVP-06-learning-n2-fixture-001. Full MVP-04, full MVP-06, MVP stage and human gates remain open."
   },
   {
     "id": "mvp-06-learning-n2-fixture-fresh-verification",
@@ -1125,6 +1133,397 @@
       ".agent/stages/mvp/problems/MVP-06-learning-n2-fixture-001.md",
       ".agent/stages/mvp/raw/mvp-06-learning-n2-fixture-001-screenshots-20260512/"
     ],
-    "note": "PASS for this sprint only. Parent latest-alias sync remains pending; full MVP-04, full MVP-06, MVP stage and human gates remain open."
+    "note": "PASS for this sprint only. Parent latest-alias sync has been accepted separately; full MVP-04, full MVP-06, MVP stage and human gates remain open."
+  },
+  {
+    "id": "mvp-06-learning-n2-fixture-parent-sync",
+    "category": "harness",
+    "description": "Parent orchestrator accepted scoped MVP-06-learning-n2-fixture-001 PASS and synchronized latest aliases.",
+    "steps": [
+      "Review scoped evidence, verdict and problems artifacts",
+      "Accept scoped PASS for narrow MVP-06.03 synthetic N2 fixture extension",
+      "Synchronize root latest aliases without overwriting immutable MVP-04 or prior MVP-06 artifacts",
+      "Validate JSON, git diff whitespace, alias target and open-gate invariants"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-06-learning-n2-fixture-001.md",
+      ".agent/stages/mvp/evidence/MVP-06-learning-n2-fixture-001.json",
+      ".agent/stages/mvp/verdicts/MVP-06-learning-n2-fixture-001.json",
+      ".agent/stages/mvp/problems/MVP-06-learning-n2-fixture-001.md",
+      ".agent/stages/mvp/evidence.json",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/verdict.json",
+      ".agent/stages/mvp/problems.md",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n2-fixture-001-json-validation-final-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n2-fixture-001-git-diff-check-final-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n2-fixture-001-alias-invariants-final-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n2-fixture-001-verify-harness-final-20260512.json",
+      ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n2-fixture-001-java-version-final-20260512.txt"
+    ],
+    "note": "Latest aliases now point to MVP-06-learning-n2-fixture-001. Immutable MVP-04 and prior MVP-06 artifacts remain preserved; full MVP-04, full MVP-06, MVP stage and human gates remain open."
+  },
+  {
+    "id": "mvp-06-learning-n3-fixture-contract-freeze",
+    "category": "harness",
+    "description": "Active MVP sprint contract is frozen for one synthetic N3 decluttering/safe-sale fixture in the existing apps/web fixture-backed lesson renderer.",
+    "steps": [
+      "Read MVP/product learning, content and design-system baselines plus the raw source humanReview status",
+      "Freeze N3 fixture-only scope after verified MVP-06-learning-n2-fixture-001",
+      "Require direct N3 route, optional lesson-id alias through the existing resolver and /learning CTA acceptance",
+      "Require Q10/Q11/Q12 display-only safe-sale mini-test, checklist+choice non-persistent practice and reward guardrails",
+      "Exclude CMS/admin publishing, content states, production approval, persistence, scored submissions, points/wallet, diagnostics/routing, onboarding/consent, backend/API/schema/OpenAPI/generated-client, packages/ui, admin/HR analytics/event tracking, real data and customer brand",
+      "Keep latest verified sprint at MVP-06-learning-n2-fixture-001 and keep full MVP-04, full MVP-06, MVP stage and human gates open"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-06-learning-n3-fixture-001.md",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/progress.md",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/feature_list.json",
+      "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md",
+      "docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md",
+      "content/getcourse-finstrategy/12-lesson-235010153.md",
+      "docs/product/b2b-mvp/lemanapro/design-system-v0.1.md",
+      "apps/web/lib/learning-fixtures.ts",
+      "apps/web/lib/learning-types.ts",
+      "apps/web/lib/lesson-state.ts",
+      "apps/web/components/learning-shell.ts",
+      "apps/web/components/lesson-renderer.ts",
+      "apps/web/app/learning/page.tsx",
+      "apps/web/app/learning/lessons/[lessonId]/page.tsx",
+      "apps/web/tests/learning-shell.test.mjs",
+      "apps/web/tests/browser-smoke.mjs"
+    ],
+    "note": "Spec-freeze only. No production code, latest evidence/verdict/problems aliases, immutable proof refs, backend/API/schema/OpenAPI/generated-client or packages/ui files were changed. Latest verified sprint remains MVP-06-learning-n2-fixture-001."
+  },
+  {
+    "id": "mvp-06-learning-n3-fixture-builder-evidence",
+    "category": "web",
+    "description": "Synthetic N3 decluttering/safe-sale fixture is built in the existing apps/web fixture-backed lesson renderer.",
+    "steps": [
+      "Add synthetic N3_DECLUTTER_TO_GOAL fixture with seven lesson blocks",
+      "Resolve /learning/lessons/N3 and existing full lesson-id alias through the current resolver",
+      "Add visible /learning CTA for N3 while preserving N1 and N2 CTAs",
+      "Cover Q10/Q11/Q12 display-only safe-sale mini-test",
+      "Keep practice non-persistent as checklist+choice with item range, safety checklist and destination category",
+      "Keep reward guardrails and humanReviewRequired review status",
+      "Run web typecheck, test, build, browser smoke, guardrail scans and Java blocker proof"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-06-learning-n3-fixture-001.md",
+      ".agent/stages/mvp/evidence/MVP-06-learning-n3-fixture-001.json",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/evidence.json",
+      "apps/web/lib/learning-fixtures.ts",
+      "apps/web/components/learning-shell.ts",
+      "apps/web/tests/learning-shell.test.mjs",
+      "apps/web/tests/browser-smoke.mjs",
+      ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-n3-fixture-001-web-typecheck-20260512.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-n3-fixture-001-web-test-20260512.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-n3-fixture-001-web-build-20260512.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-n3-fixture-001-browser-smoke-20260512.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-n3-fixture-001-guardrail-scan-20260512.txt",
+      ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-n3-fixture-001-java-version-20260512.txt",
+      ".agent/stages/mvp/raw/mvp-06-learning-n3-fixture-001-screenshots-20260512/"
+    ],
+    "note": "Builder evidence is paired with a separate fresh verifier PASS. This does not close full MVP-04, full MVP-06, MVP stage or human gates."
+  },
+  {
+    "id": "mvp-06-learning-n3-fixture-fresh-verification",
+    "category": "verification",
+    "description": "Fresh verifier reviewed only MVP-06-learning-n3-fixture-001 after builder evidence.",
+    "steps": [
+      "Run web typecheck, test and build",
+      "Review N3 fixture, route, alias, CTA, display-only quiz, non-persistent practice and reward guardrails",
+      "Run browser smoke with system Chrome after default Playwright Chromium was missing",
+      "Verify no backend/API/schema/OpenAPI/generated-client/packages/ui or CMS/admin/progress/points/diagnostics/onboarding scope",
+      "Write scoped verdict and problems artifacts"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-06-learning-n3-fixture-001.md",
+      ".agent/stages/mvp/evidence/MVP-06-learning-n3-fixture-001.json",
+      ".agent/stages/mvp/verdicts/MVP-06-learning-n3-fixture-001.json",
+      ".agent/stages/mvp/problems/MVP-06-learning-n3-fixture-001.md",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-web-typecheck-20260512.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-web-test-20260512.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-web-build-20260512.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-browser-smoke-chrome-20260512.txt",
+      ".agent/stages/mvp/raw/mvp-06-learning-n3-fixture-001-verifier-screenshots-20260512/"
+    ],
+    "note": "PASS for this sprint only. Parent latest-alias sync has been accepted; full MVP-04, full MVP-06, MVP stage and human gates remain open."
+  },
+  {
+    "id": "mvp-06-learning-n3-fixture-parent-sync",
+    "category": "harness",
+    "description": "Parent orchestrator accepted scoped MVP-06-learning-n3-fixture-001 PASS and synchronized latest status aliases.",
+    "steps": [
+      "Review scoped evidence, verdict and problems artifacts",
+      "Accept scoped PASS for narrow MVP-06.03 synthetic N3 fixture extension",
+      "Synchronize latest verified status without overwriting immutable N1/N2 artifacts",
+      "Validate JSON, git diff whitespace, harness target and open-gate invariants"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-06-learning-n3-fixture-001.md",
+      ".agent/stages/mvp/evidence/MVP-06-learning-n3-fixture-001.json",
+      ".agent/stages/mvp/verdicts/MVP-06-learning-n3-fixture-001.json",
+      ".agent/stages/mvp/problems/MVP-06-learning-n3-fixture-001.md",
+      ".agent/stages/mvp/evidence.json",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/verdict.json",
+      ".agent/stages/mvp/problems.md",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n3-fixture-001-json-validation-final-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n3-fixture-001-verify-harness-final-20260512.json",
+      ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n3-fixture-001-git-diff-check-final-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n3-fixture-001-alias-invariants-final-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n3-fixture-001-java-version-final-20260512.txt"
+    ],
+    "note": "Latest verified sprint now points to MVP-06-learning-n3-fixture-001. Full MVP-04, full MVP-06, MVP stage and human gates remain open."
+  },
+  {
+    "id": "mvp-03-onboarding-privacy-screen-contract-freeze",
+    "category": "harness",
+    "description": "Active MVP sprint contract is frozen for the smallest employee-facing onboarding/privacy screen before future diagnostics.",
+    "steps": [
+      "Read MVP/product privacy, methodology Q0 and design-system privacy-card baselines",
+      "Freeze route/screen scope for /onboarding/privacy or equivalent apps/web privacy surface",
+      "Require Russian calm mentor copy, no customer brand, draft/legal-human-gated marker and aggregate-by-default HR visibility boundaries",
+      "Exclude final legal approval, consent logging, diagnostics/routing, backend/API/schema/OpenAPI/generated-client, persistence, points/wallet, CMS/admin publishing, HR reporting, real data and production content approval",
+      "Keep latest verified sprint at MVP-06-learning-n3-fixture-001 and keep full MVP-03, full MVP-04, full MVP-06, MVP stage and human gates open"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-03-onboarding-privacy-screen-001.md",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/progress.md",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/feature_list.json",
+      "docs/stages/MVP.md",
+      "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md",
+      "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md",
+      "docs/product/b2b-mvp/lemanapro/design-system-v0.1.md",
+      "docs/engineering/human-gates.md"
+    ],
+    "note": "Spec-freeze only. No production app code, backend/API/schema/OpenAPI/generated-client, latest evidence/verdict/problems aliases or raw evidence were changed."
+  },
+  {
+    "id": "mvp-03-onboarding-privacy-screen-builder",
+    "category": "web",
+    "description": "apps/web renders the frozen employee-facing onboarding/privacy screen and optional /learning handoff link.",
+    "steps": [
+      "Add /onboarding/privacy or equivalent employee-facing route",
+      "Render what HR sees and does not see before future diagnostics",
+      "Mark copy draft/legal-human-gated and avoid consent/logging behavior",
+      "Preserve learning routes if /learning navigation is touched",
+      "Run web checks, browser/mobile smoke, guardrail scans, harness validation and Java blocker/proof"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-onboarding-privacy-screen-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-onboarding-privacy-screen-001.json",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/evidence.json",
+      "apps/web/components/onboarding-privacy-screen.ts",
+      "apps/web/app/onboarding/privacy/page.tsx",
+      "apps/web/components/learning-shell.ts",
+      "apps/web/app/globals.css",
+      "apps/web/tests/learning-shell.test.mjs",
+      "apps/web/tests/browser-smoke.mjs",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-web-typecheck-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-web-test-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-web-build-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-browser-smoke-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-browser-iab-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-guardrail-scan-20260512.txt",
+      ".agent/stages/mvp/raw/mvp-03-onboarding-privacy-screen-001-screenshots-20260512/"
+    ],
+    "note": "Builder evidence is paired with a separate fresh verifier PASS. This does not close full MVP-03, MVP stage or human gates."
+  },
+  {
+    "id": "mvp-03-onboarding-privacy-screen-fresh-verification",
+    "category": "verification",
+    "description": "Fresh verifier reviewed only MVP-03-onboarding-privacy-screen-001 after builder evidence.",
+    "steps": [
+      "Run JSON validation, web typecheck, web tests and web build",
+      "Run browser/mobile smoke for /onboarding/privacy, /learning and N1/N2/N3 lesson routes",
+      "Run guardrail scans for customer brand, old cohort terms, HR personal-answer promise, required sensitive artifacts and final legal approval claims",
+      "Record Java runtime blocker honestly",
+      "Write scoped verdict and problems artifacts"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/verdicts/MVP-03-onboarding-privacy-screen-001.json",
+      ".agent/stages/mvp/problems/MVP-03-onboarding-privacy-screen-001.md",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-json-validation-20260512.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-web-typecheck-20260512.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-web-test-20260512.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-web-build-20260512.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-browser-smoke-20260512.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-guardrail-scan-20260512.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-git-diff-check-20260512.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-java-version-20260512.txt",
+      ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-screenshots-20260512/"
+    ],
+    "note": "PASS for this sprint only. In-app Browser was unavailable to the verifier, so system Chrome fallback evidence is recorded. Java-backed root verification is not claimed."
+  },
+  {
+    "id": "mvp-03-onboarding-privacy-screen-parent-sync",
+    "category": "harness",
+    "description": "Parent orchestrator accepted scoped MVP-03-onboarding-privacy-screen-001 PASS and synchronized latest aliases.",
+    "steps": [
+      "Review scoped evidence, verdict and problems artifacts",
+      "Accept scoped PASS for narrow MVP-03.02 employee-facing privacy screen",
+      "Synchronize latest verified status without overwriting immutable MVP-06 artifacts",
+      "Validate JSON, git diff whitespace, harness target and open-gate invariants"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-onboarding-privacy-screen-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-onboarding-privacy-screen-001.json",
+      ".agent/stages/mvp/verdicts/MVP-03-onboarding-privacy-screen-001.json",
+      ".agent/stages/mvp/problems/MVP-03-onboarding-privacy-screen-001.md",
+      ".agent/stages/mvp/evidence.json",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/verdict.json",
+      ".agent/stages/mvp/problems.md",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-json-validation-final-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-web-typecheck-final-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-verify-harness-final-20260512.json",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-git-diff-check-final-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-java-version-final-20260512.txt"
+    ],
+    "note": "Latest verified sprint now points to MVP-03-onboarding-privacy-screen-001. Full MVP-03, full MVP-04, full MVP-06, MVP stage and human gates remain open."
+  },
+  {
+    "id": "mvp-03-consent-version-logging-contract-freeze",
+    "category": "harness",
+    "description": "Active MVP sprint contract is frozen for draft consent/legal document version logging after MVP-03 onboarding privacy screen PASS.",
+    "steps": [
+      "Read MVP/product privacy, access guardrails, DoD, human gates, local app AGENTS and current stage artifacts",
+      "Inspect current backend employee registration IDs, API response shape and stateless security model",
+      "Inspect current /onboarding/privacy route shape and no-consent-logging behavior",
+      "Freeze backend/API-first consent version logging scope with append-only Flyway/OpenAPI proof plan",
+      "Preserve latest verified MVP-03-onboarding-privacy-screen-001 PASS and keep human gates open"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/stage_spec.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-03-consent-version-logging-001.md",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/progress.md",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/feature_list.json",
+      "docs/stages/MVP.md",
+      "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md",
+      "docs/architecture/access-and-subscriptions.md",
+      "docs/architecture/organization-access-subscription-model.md",
+      "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java",
+      "apps/api/src/main/java/com/finrhythm/api/common/config/SecurityConfig.java",
+      "apps/web/components/onboarding-privacy-screen.ts"
+    ],
+    "note": "Spec-freeze only. No production code, canonical docs, latest evidence/verdict/problems aliases, immutable PASS artifacts or raw evidence were changed. Harness validation is expected to fail on active/latest alias mismatch until builder evidence and fresh verifier exist."
+  },
+  {
+    "id": "mvp-03-consent-version-logging-backend-api",
+    "category": "backend",
+    "description": "apps/api records draft legal/consent document version acceptance for an existing employee registration.",
+    "steps": [
+      "Add append-only Flyway migration for acceptance log",
+      "Add service/domain allowlist and idempotent same-version retry",
+      "Expose thin Spring controller/API surface",
+      "Reject unsupported document/version and unknown registration safely",
+      "Prove OpenAPI, generated-client decision, tests, guardrails and Java runtime"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.json",
+      "apps/api/src/main/resources/db/migration/V007__legal_document_acceptance_log.sql",
+      "apps/api/src/main/java/com/finrhythm/api/consent/",
+      "apps/api/src/test/java/com/finrhythm/api/consent/LegalDocumentAcceptanceControllerIT.java",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-mvn-test-20260512-r3.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-mvn-verify-20260512-r2.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-make-verify-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-make-test-unit-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-make-build-20260512.txt",
+      "packages/api-client/package.json",
+      "packages/api-client/tsconfig.json",
+      "packages/api-client/README.md",
+      "packages/api-client/openapi/finrhythm-api.openapi.json",
+      "packages/api-client/scripts/generate-contracts.mjs",
+      "packages/api-client/scripts/check-openapi-drift.mjs",
+      "packages/api-client/src/index.ts",
+      "packages/api-client/src/generated/contracts.ts",
+      "packages/api-client/dist/index.js",
+      "packages/api-client/dist/index.d.ts",
+      "packages/api-client/dist/generated/contracts.js",
+      "packages/api-client/dist/generated/contracts.d.ts",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-build-20260512-r3.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-generated-20260512-r2.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-openapi-drift-20260512-r2.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-typecheck-20260512-r2.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-build-current-version-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-generated-current-version-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-openapi-drift-current-version-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-typecheck-current-version-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-marker-scan-current-version-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-build-eof-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-generated-eof-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-openapi-drift-eof-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-typecheck-eof-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-marker-scan-eof-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-eof-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-no-index-whitespace-eof-fix-20260512.txt"
+    ],
+    "note": "Builder/orchestrator evidence is complete and awaits fresh verifier. Includes V007 append-only log, API/service/domain, OpenAPI runtime test, generated api-client coverage including LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION, EOF-clean generated artifacts and Java 21-backed root checks."
+  },
+  {
+    "id": "mvp-03-consent-version-logging-web-handoff",
+    "category": "web",
+    "description": "/onboarding/privacy has only a safe minimal acceptance handoff, or remains non-mutating with the auth/session gap recorded.",
+    "steps": [
+      "Do not invent local identity or unsafe session behavior",
+      "Wire acceptance call only if a trustworthy registration identity exists",
+      "Otherwise keep UI representational/non-mutating",
+      "Run web tests and screenshots if user-visible behavior changes"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.json",
+      "apps/web/components/onboarding-privacy-screen.ts"
+    ],
+    "note": "No web mutation was implemented because current apps/web has no trustworthy employeeRegistrationId/auth-session bridge; privacy screen remains non-mutating and prior MVP-03.02 PASS is preserved."
+  },
+  {
+    "id": "mvp-03-consent-version-logging-fresh-verification",
+    "category": "verification",
+    "description": "Fresh verifier reviews only MVP-03-consent-version-logging-001 after builder evidence.",
+    "steps": [
+      "Review backend/API/schema/OpenAPI/generated-client evidence",
+      "Review web handoff evidence if web changed",
+      "Verify human gates remain open",
+      "Write scoped verdict and problems artifacts"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.json",
+      ".agent/stages/mvp/verdicts/MVP-03-consent-version-logging-001.json",
+      ".agent/stages/mvp/problems/MVP-03-consent-version-logging-001.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-03-consent-version-logging-001.md"
+    ],
+    "note": "Fresh stage_verifier PASS recorded for the scoped consent version logging sprint; full MVP-03 and human gates remain open."
   }
 ]

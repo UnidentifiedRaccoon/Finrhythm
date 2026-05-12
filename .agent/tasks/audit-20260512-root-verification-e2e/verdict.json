@@ -1,0 +1,38 @@
+{
+  "task_id": "audit-20260512-root-verification-e2e",
+  "verdict": "PASS_WITH_OUT_OF_SCOPE_BLOCKERS",
+  "date": "2026-05-12",
+  "checked_scope": [
+    "Makefile",
+    "package.json",
+    "tests/e2e/browser-smoke.mjs",
+    "tests/e2e/smoke-placeholder.mjs",
+    "README.md",
+    "docs/architecture/init-and-dev-contract.md",
+    ".agent/tasks/audit-20260512-root-verification-e2e"
+  ],
+  "proof_gaps": [],
+  "out_of_scope_blockers": [
+    {
+      "id": "backend-failsafe-admin-code-status-group-by",
+      "status": "OPEN",
+      "detail": "make test-unit now reaches apps/api ./mvnw -q verify and fails in AdminCodeStatusControllerIT because PostgreSQL rejects the effective invite status count GROUP BY query."
+    },
+    {
+      "id": "local-playwright-managed-browser-missing",
+      "status": "WORKED_AROUND",
+      "detail": "Playwright-managed Chromium is not installed locally; fresh e2e verification passed with CHROMIUM_EXECUTABLE_PATH pointing to system Google Chrome."
+    },
+    {
+      "id": "concurrent-web-next-dev-server",
+      "status": "WORKED_AROUND",
+      "detail": "An existing apps/web Next dev server from another session blocked starting a second dev server; fresh e2e verification reused http://127.0.0.1:3404 via WEB_SMOKE_BASE_URL."
+    }
+  ],
+  "notes": [
+    "No raw evidence paths were read.",
+    "No child agents were launched.",
+    "No API client/shared package files were edited.",
+    "No init-local/install behavior was changed."
+  ]
+}

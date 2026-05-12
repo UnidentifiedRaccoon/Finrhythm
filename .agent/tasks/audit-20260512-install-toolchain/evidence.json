@@ -1,0 +1,128 @@
+{
+  "task_id": "audit-20260512-install-toolchain",
+  "issue": "P2 Install/toolchain readiness: ранняя проверка окружения для make install",
+  "repo_root": "/Users/elena/cursor/FinPulse",
+  "head": "8115139",
+  "checked_at": "2026-05-12T07:35:49Z",
+  "scope": {
+    "included": [
+      "Makefile install target/help",
+      "scripts/check-toolchain.sh",
+      "scripts/verify-bootstrap.mjs structural guard",
+      "узкая setup note в README",
+      "install contract note в docs/architecture/init-and-dev-contract.md"
+    ],
+    "excluded": [
+      "stage aliases",
+      "approval policy",
+      "destructive operations",
+      "child agents",
+      "API client/shared package implementation",
+      ".agent/stages/**/raw/**"
+    ]
+  },
+  "acceptance_criteria": [
+    {
+      "criterion": "make install проверяет Node/pnpm/Corepack readiness до установки зависимостей",
+      "evidence": [
+        "Makefile install target теперь вызывает ./scripts/check-toolchain.sh перед pnpm install --frozen-lockfile",
+        "scripts/check-toolchain.sh проверяет Node.js >=20.9, доступность Corepack и pnpm@10.27.0 из package.json"
+      ],
+      "status": "PASS"
+    },
+    {
+      "criterion": "make install проверяет Java 21 и Maven wrapper expectations до verify/init",
+      "evidence": [
+        "scripts/check-toolchain.sh проверяет Java major version 21",
+        "scripts/check-toolchain.sh проверяет executable apps/api/mvnw, maven-wrapper.properties distributionUrl и наличие maven-wrapper.jar"
+      ],
+      "status": "PASS"
+    },
+    {
+      "criterion": "Help/docs синхронизированы",
+      "evidence": [
+        "make help описывает Node/pnpm/Corepack/Java 21/Maven wrapper readiness",
+        "README.md и docs/architecture/init-and-dev-contract.md документируют non-destructive readiness behavior"
+      ],
+      "status": "PASS"
+    },
+    {
+      "criterion": "Bootstrap self-check защищает install contract",
+      "evidence": [
+        "scripts/verify-bootstrap.mjs требует scripts/check-toolchain.sh и проверяет ordering/help text install target"
+      ],
+      "status": "PASS"
+    }
+  ],
+  "commands": [
+    {
+      "command": "bash -n scripts/check-toolchain.sh",
+      "status": "PASS"
+    },
+    {
+      "command": "node --check scripts/verify-bootstrap.mjs",
+      "status": "PASS"
+    },
+    {
+      "command": "make -n install",
+      "status": "PASS",
+      "summary": "Dry-run печатает ./scripts/check-toolchain.sh перед pnpm install --frozen-lockfile."
+    },
+    {
+      "command": "./scripts/check-toolchain.sh",
+      "status": "PASS",
+      "summary": "Node.js 24.11.0, Corepack 0.34.0, pnpm 10.27.0, Java 21.0.11, executable apps/api/mvnw, Maven Wrapper 3.9.9 distribution и wrapper jar прошли проверку."
+    },
+    {
+      "command": "node scripts/verify-bootstrap.mjs",
+      "status": "PASS",
+      "summary": "Bootstrap verification PASS, включая install-checks-toolchain и install-help-toolchain."
+    },
+    {
+      "command": "make help",
+      "status": "PASS",
+      "summary": "Help text включает toolchain readiness для make install."
+    },
+    {
+      "command": "make install",
+      "status": "FAIL_UNRELATED_LOCKFILE_DRIFT",
+      "summary": "Новый readiness check прошел; затем pnpm install --frozen-lockfile упал, потому что существующий pnpm-lock.yaml не синхронизирован с packages/ui/package.json. Не исправлялось, так как shared package code/lock drift вне scope этого issue."
+    },
+    {
+      "command": "git diff --check -- Makefile README.md docs/architecture/init-and-dev-contract.md scripts/verify-bootstrap.mjs",
+      "status": "PASS"
+    },
+    {
+      "command": "git diff --no-index --check /dev/null scripts/check-toolchain.sh",
+      "status": "PASS"
+    },
+    {
+      "command": "git diff --no-index --check /dev/null .agent/tasks/audit-20260512-install-toolchain/plan.md",
+      "status": "PASS"
+    },
+    {
+      "command": "node -e \"JSON.parse(require('fs').readFileSync('.agent/tasks/audit-20260512-install-toolchain/evidence.json','utf8')); console.log('evidence.json: PASS')\"",
+      "status": "PASS"
+    },
+    {
+      "command": "git diff --no-index --check /dev/null .agent/tasks/audit-20260512-install-toolchain/evidence.json",
+      "status": "PASS"
+    }
+  ],
+  "docs": {
+    "updated": [
+      "README.md",
+      "docs/architecture/init-and-dev-contract.md"
+    ],
+    "mermaid": "Не требуется: install readiness — линейный preflight check, а не нетривиальная state machine или cross-module runtime flow."
+  },
+  "blockers": [
+    {
+      "id": "existing-lockfile-drift",
+      "status": "BLOCKING_FULL_MAKE_INSTALL",
+      "detail": "pnpm-lock.yaml не совпадает с packages/ui/package.json; make install падает после успешного toolchain readiness."
+    }
+  ],
+  "human_gates": [],
+  "latest_verdict": "PASS_WITH_UNRELATED_BLOCKER"
+}

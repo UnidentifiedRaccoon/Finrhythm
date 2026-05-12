@@ -67,6 +67,7 @@ The detailed routing matrix lives in `.agents/skills/stage-launch-proof-loop/ref
 
 - locally: `docker compose` for dependencies;
 - production: Yandex Cloud with Managed PostgreSQL, Serverless Containers, Object Storage and optional Redis.
+- production deployment readiness and the future `infra/yc` IaC contract are governed by `docs/architecture/production-readiness-contract.md` until a dedicated infra slice freezes implementation details.
 
 ## 4. Frontend ↔ backend contract
 
@@ -116,6 +117,7 @@ Detailed entity/lifecycle model for `Organization`, `OrgMembership`, invitations
 - `points` is a separate domain entity.
 - `points` are not money.
 - начисление и списание проходят через auditable ledger.
+- before any rewards/deployment slice enables accrual, spending, refunds, wallet history or reward reports, the append-only/idempotent ledger prerequisites in `docs/architecture/production-readiness-contract.md` must be frozen and implemented in that slice.
 - redemption, raffle mechanics and billing-adjacent decisions are high-risk.
 
 ## 8. Decisions still to finalize
@@ -123,5 +125,5 @@ Detailed entity/lifecycle model for `Organization`, `OrgMembership`, invitations
 - exact Node, pnpm and JDK versions;
 - exact e2e runner;
 - logging/observability stack;
-- IaC format for Yandex Cloud;
+- exact IaC format/state backend for Yandex Cloud; readiness outline lives in `docs/architecture/production-readiness-contract.md`;
 - exact shared package structure beyond `ui/config/api-client`.

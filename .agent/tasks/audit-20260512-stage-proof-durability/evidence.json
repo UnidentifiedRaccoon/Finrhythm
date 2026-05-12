@@ -1,0 +1,107 @@
+{
+  "task_id": "audit-20260512-stage-proof-durability",
+  "issue": "P1 Stage proof durability",
+  "status": "PASS_STAGED_FOR_PUBLISH",
+  "updated_at": "2026-05-12",
+  "stage_id": "mvp",
+  "scope": {
+    "allowed_writes": [
+      ".agent/tasks/audit-20260512-stage-proof-durability/evidence.md",
+      ".agent/tasks/audit-20260512-stage-proof-durability/evidence.json"
+    ],
+    "production_code_changed": false,
+    "raw_transcripts_read": false,
+    "raw_transcripts_changed": false,
+    "latest_aliases_rewritten": false,
+    "concurrent_unrelated_worktree_changes_left_untouched": true
+  },
+  "plan": [
+    "Confirm git/status durability gap for MVP stage proof refs.",
+    "Check latest tracked stage indexes and immutable proof/task refs without reading raw transcripts.",
+    "Add a task-level audit note for publish/resume inclusion.",
+    "Validate JSON and run harness verification if available."
+  ],
+  "latest_stage_aliases": {
+    "active_sprint_contract_id": "MVP-03-onboarding-privacy-screen-001",
+    "latest_verified_sprint_contract_id": "MVP-03-onboarding-privacy-screen-001",
+    "state": "SCOPED_PASS_PARENT_SYNCED",
+    "refs": [
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/evidence.json",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/verdict.json",
+      ".agent/stages/mvp/problems.md"
+    ]
+  },
+  "publish_critical_lightweight_refs": [
+    ".agent/stages/mvp/evidence/MVP-03-onboarding-privacy-screen-001.json",
+    ".agent/stages/mvp/evidence/MVP-03-onboarding-privacy-screen-001.md",
+    ".agent/stages/mvp/verdicts/MVP-03-onboarding-privacy-screen-001.json",
+    ".agent/stages/mvp/problems/MVP-03-onboarding-privacy-screen-001.md",
+    ".agent/stages/mvp/task-files/MVP-03-onboarding-privacy-screen-001.md",
+    ".agent/stages/mvp/evidence/MVP-06-learning-n3-fixture-001.json",
+    ".agent/stages/mvp/evidence/MVP-06-learning-n3-fixture-001.md",
+    ".agent/stages/mvp/verdicts/MVP-06-learning-n3-fixture-001.json",
+    ".agent/stages/mvp/problems/MVP-06-learning-n3-fixture-001.md",
+    ".agent/stages/mvp/task-files/MVP-06-learning-n3-fixture-001.md",
+    ".agent/tasks/audit-20260512-stage-proof-durability/evidence.json",
+    ".agent/tasks/audit-20260512-stage-proof-durability/evidence.md"
+  ],
+  "git_index_action": {
+    "status": "STAGED_EXACT_REFS_AFTER_AUDIT_NOTE",
+    "staged_refs": [
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/evidence.json",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/verdict.json",
+      ".agent/stages/mvp/problems.md",
+      ".agent/stages/mvp/evidence/MVP-03-onboarding-privacy-screen-001.json",
+      ".agent/stages/mvp/evidence/MVP-03-onboarding-privacy-screen-001.md",
+      ".agent/stages/mvp/verdicts/MVP-03-onboarding-privacy-screen-001.json",
+      ".agent/stages/mvp/problems/MVP-03-onboarding-privacy-screen-001.md",
+      ".agent/stages/mvp/task-files/MVP-03-onboarding-privacy-screen-001.md",
+      ".agent/stages/mvp/evidence/MVP-06-learning-n3-fixture-001.json",
+      ".agent/stages/mvp/evidence/MVP-06-learning-n3-fixture-001.md",
+      ".agent/stages/mvp/verdicts/MVP-06-learning-n3-fixture-001.json",
+      ".agent/stages/mvp/problems/MVP-06-learning-n3-fixture-001.md",
+      ".agent/stages/mvp/task-files/MVP-06-learning-n3-fixture-001.md",
+      ".agent/tasks/audit-20260512-stage-proof-durability/evidence.json",
+      ".agent/tasks/audit-20260512-stage-proof-durability/evidence.md"
+    ],
+    "excluded": [
+      "production code",
+      ".agent/stages/**/raw/**",
+      "unrelated worktree changes",
+      "latest alias rewrites"
+    ]
+  },
+  "checks": [
+    {
+      "command": "git status --short --branch",
+      "status": "PASS",
+      "summary": "Captured dirty worktree and untracked lightweight proof refs before exact staging."
+    },
+    {
+      "command": "git diff --name-status",
+      "status": "PASS",
+      "summary": "Captured tracked modified files before exact staging."
+    },
+    {
+      "command": "jq empty .agent/stages/mvp/status.json .agent/stages/mvp/evidence.json .agent/stages/mvp/verdict.json .agent/stages/mvp/evidence/MVP-03-onboarding-privacy-screen-001.json .agent/stages/mvp/verdicts/MVP-03-onboarding-privacy-screen-001.json .agent/stages/mvp/evidence/MVP-06-learning-n3-fixture-001.json .agent/stages/mvp/verdicts/MVP-06-learning-n3-fixture-001.json .agent/tasks/audit-20260512-stage-proof-durability/evidence.json",
+      "status": "PASS"
+    },
+    {
+      "command": "python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp",
+      "status": "PASS",
+      "checked_at": "2026-05-12T06:42:31.473421+00:00"
+    },
+    {
+      "command": "git diff --cached --check",
+      "status": "PASS_AFTER_FIX",
+      "summary": "Initial run found trailing whitespace in the new audit markdown; audit note was fixed and restaged."
+    }
+  ],
+  "remaining_conditions": [
+    "Publish step must commit/PR the staged proof refs."
+  ]
+}

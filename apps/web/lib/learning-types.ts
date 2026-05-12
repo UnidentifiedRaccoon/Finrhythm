@@ -79,8 +79,17 @@ export type LessonReward = {
   noMoneyEquivalentCopy: string;
 };
 
+export type LessonReviewStatusValue =
+  | "raw_imported"
+  | "method_adapted"
+  | "editorial_review"
+  | "financial_review"
+  | "legal_review"
+  | "hr_wording_review"
+  | "pilot_ready";
+
 export type LessonReviewStatus = {
-  reviewStatus: "editorial_draft";
+  reviewStatus: LessonReviewStatusValue;
   humanReviewRequired: true;
   notes: string[];
 };

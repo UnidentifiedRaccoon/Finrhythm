@@ -1,9 +1,9 @@
 {
   "stage_id": "mvp",
-  "state": "SCOPED_VERIFIER_PASS_PENDING_PARENT_ALIAS_SYNC",
-  "active_sprint_contract_id": "MVP-06-learning-n2-fixture-001",
-  "latest_verified_sprint_contract_id": "MVP-04-design-system-tokenization-001",
-  "latest_status_decision_sprint_contract_id": "MVP-06-learning-n2-fixture-001",
+  "state": "SCOPED_PASS",
+  "active_sprint_contract_id": "MVP-03-consent-version-logging-001",
+  "latest_verified_sprint_contract_id": "MVP-03-consent-version-logging-001",
+  "latest_status_decision_sprint_contract_id": "MVP-03-consent-version-logging-001",
   "completed_ids": [
     "MVP-01.01",
     "MVP-01.02",
@@ -29,15 +29,19 @@
     "MVP-06-learning-renderer-fixture-001",
     "MVP-04-design-system-tokenization-001",
     "MVP-04.04",
-    "MVP-06-learning-n2-fixture-001"
+    "MVP-06-learning-n2-fixture-001",
+    "MVP-06-learning-n3-fixture-001",
+    "MVP-03-onboarding-privacy-screen-001",
+    "MVP-03.03",
+    "MVP-03-consent-version-logging-001"
   ],
   "done_with_human_pending_ids": [
     "MVP-02.04",
     "MVP-02"
   ],
   "active_ids": [
-    "MVP-06.03",
-    "MVP-06-learning-n2-fixture-001"
+    "MVP-03.03",
+    "MVP-03-consent-version-logging-001"
   ],
   "blocked_ids": [],
   "waiting_human_ids": [
@@ -53,12 +57,10 @@
     "admin-auth-role-audit-policy-for-production-use"
   ],
   "next_recommended_ids": [
-    "parent-alias-sync-decision-for-MVP-06-learning-n2-fixture-001",
-    "keep-latest-verified-sprint-contract-id-at-MVP-04-design-system-tokenization-001-until-parent-alias-sync-decision",
-    "preserve-MVP-06-learning-renderer-fixture-001-immutable-artifacts",
-    "preserve-MVP-04-design-system-tokenization-001-latest-evidence-verdict-problems-aliases-until-n2-parent-sync",
-    "keep-onboarding-consent-and-diagnostics-routing-deferred",
-    "do-not-close-MVP-stage-or-human-gates"
+    "preserve-MVP-03-consent-version-logging-001-immutable-artifacts",
+    "freeze-next-MVP-03-profile-or-audit-slice",
+    "keep-final-legal-approval-auth-session-diagnostics-profile-admin-audit-and-full-MVP-03-deferred",
+    "do-not-close-full-MVP-03-MVP-stage-or-human-gates-without-separate-audit"
   ],
   "last_updated": "2026-05-12",
   "exit_gate_summary": {
@@ -132,6 +134,21 @@
     "current_mvp_04_mobile_learning_shell_browser_screenshots_exist": true,
     "current_mvp_04_mobile_learning_shell_fresh_verifier_pass": true,
     "mvp_03_onboarding_consent_complete": false,
+    "current_mvp_03_onboarding_privacy_screen_contract_frozen": true,
+    "current_mvp_03_onboarding_privacy_screen_builder_complete": true,
+    "current_mvp_03_onboarding_privacy_screen_evidence_exists": true,
+    "current_mvp_03_onboarding_privacy_screen_builder_checks_pass": true,
+    "current_mvp_03_onboarding_privacy_screen_browser_screenshots_exist": true,
+    "current_mvp_03_onboarding_privacy_screen_fresh_verifier_pass": true,
+    "current_mvp_03_onboarding_privacy_screen_parent_alias_sync_done": true,
+    "current_mvp_03_consent_version_logging_contract_frozen": true,
+    "current_mvp_03_consent_version_logging_builder_complete": true,
+    "current_mvp_03_consent_version_logging_evidence_exists": true,
+    "current_mvp_03_consent_version_logging_builder_checks_pass": true,
+    "current_mvp_03_consent_version_logging_fresh_verifier_pass": true,
+    "current_mvp_03_consent_version_logging_parent_alias_sync_done": true,
+    "mvp_03_consent_version_logging_complete": true,
+    "mvp_03_complete": false,
     "mvp_07_diagnostics_routing_complete": false,
     "current_mvp_04_mobile_learning_shell_parent_alias_sync_done": true,
     "mvp_04_complete": false,
@@ -156,7 +173,14 @@
     "current_mvp_06_learning_n2_fixture_builder_checks_pass": true,
     "current_mvp_06_learning_n2_fixture_browser_screenshots_exist": true,
     "current_mvp_06_learning_n2_fixture_fresh_verifier_pass": true,
-    "current_mvp_06_learning_n2_fixture_parent_alias_sync_done": false
+    "current_mvp_06_learning_n2_fixture_parent_alias_sync_done": true,
+    "current_mvp_06_learning_n3_fixture_contract_frozen": true,
+    "current_mvp_06_learning_n3_fixture_builder_complete": true,
+    "current_mvp_06_learning_n3_fixture_evidence_exists": true,
+    "current_mvp_06_learning_n3_fixture_builder_checks_pass": true,
+    "current_mvp_06_learning_n3_fixture_browser_screenshots_exist": true,
+    "current_mvp_06_learning_n3_fixture_fresh_verifier_pass": true,
+    "current_mvp_06_learning_n3_fixture_parent_alias_sync_done": true
   },
   "runtime_guardrails": {
     "project_config_approval_policy_expected": "on-request",
@@ -165,25 +189,27 @@
     "java_runtime_available_in_current_shell": false,
     "java_runtime_available_with_explicit_homebrew_jdk21": true,
     "java_version_recorded": "21.0.11",
-    "current_java_blocker": "unqualified java is not on PATH in this verifier/orchestrator shell; java -version cannot locate a Java runtime, so Java-backed root verification must not be claimed for MVP-06-learning-n2-fixture-001 unless a builder records an explicit Java runtime proof or blocker.",
+    "current_java_blocker": "Unqualified java -version is unavailable, but builder/orchestrator recorded explicit Homebrew JDK 21.0.11 proof with JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home and used it for Maven/root verification.",
     "docker_29_testcontainers_compatibility": "apps/api/pom.xml pins Testcontainers 1.21.4 because Docker 29 rejects older Docker API versions used by the inherited Testcontainers stack.",
     "pnpm_available_through_corepack": true,
     "maven_wrapper_present": true,
     "backend_baseline": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway, OpenAPI/springdoc required for public/admin API slices",
+    "freeze_harness_validation": "Active sprint MVP-03-consent-version-logging-001 now has builder evidence and fresh verifier PASS aliases synchronized by the parent orchestrator.",
     "docs_only_latest_verified_sprint": false,
     "public_api_scope_for_latest_verified_sprint": false,
-    "schema_scope_for_latest_verified_sprint": "No backend schema or migration change in MVP-04-design-system-tokenization-001.",
-    "ui_scope_for_latest_verified_sprint": true,
-    "admin_scope_for_latest_verified_sprint": "No admin scope in MVP-04-design-system-tokenization-001.",
-    "generated_client_scope_for_latest_verified_sprint": "No backend/API/schema/OpenAPI/generated-client change in MVP-04-design-system-tokenization-001.",
+    "schema_scope_for_latest_verified_sprint": "Latest verified sprint MVP-03-consent-version-logging-001 added append-only V007 legal document acceptance log.",
+    "ui_scope_for_latest_verified_sprint": "No apps/web mutation in MVP-03-consent-version-logging-001; prior /onboarding/privacy route remains non-mutating because no trustworthy employee identity bridge exists.",
+    "admin_scope_for_latest_verified_sprint": "No admin UI/API scope in MVP-03-consent-version-logging-001.",
+    "generated_client_scope_for_latest_verified_sprint": "packages/api-client OpenAPI snapshot, generator, drift check and generated contract/client helper now cover the legal acceptance endpoint.",
+    "active_sprint_scope": "MVP-03-consent-version-logging-001 built backend/API/Flyway/OpenAPI technical foundation for draft consent/legal document acceptance logging; apps/web remains non-mutating because there is no trustworthy employee auth/session bridge.",
     "content_spec_status": "draft_with_human_gates",
-    "content_runtime_source_of_truth": "No production content source change; existing synthetic apps/web fixtures include demo-only N1 and N2 lessons.",
+    "content_runtime_source_of_truth": "No production content source change; existing synthetic apps/web fixtures include demo-only N1, N2 and N3 lessons.",
     "pii_guardrails_for_latest_verified_sprint": [
-      "synthetic lesson fixtures only",
+      "draft backend legal acceptance logging only",
       "no real employee/customer/personal/financial data",
-      "no exact income, debt, balance, bank, document, photo or screenshot data required",
+      "no raw invite code, activation subject ref, full contact PII or legal text body echoed",
       "no customer brand in employee-facing UI",
-      "no onboarding/privacy/consent completion claim",
+      "no final legal wording or legal approval claim",
       "no diagnostics/scoring/routing completion claim",
       "no casino/random reward mechanics or public leaderboard claim"
     ]
@@ -204,7 +230,10 @@
       "MVP-04-mobile-learning-shell-001 has fresh verifier raw proof and parent-synced PASS for a minimal apps/web mobile-first learning shell with direct demo route, Novice N1-N7 synthetic fixture metadata, one lesson preview, web/root checks and mobile/browser screenshots.",
       "MVP-06-learning-renderer-fixture-001 has fresh verifier PASS for a typed synthetic N1 fixture-backed mobile lesson renderer at /learning/lessons/N1, reachable from /learning, with web/root checks, browser/mobile screenshots and guardrail scans.",
       "MVP-04-design-system-tokenization-001 has fresh verifier PASS and parent-synced latest aliases for the scoped MVP-04.04 design tokens, current app shell/nav/common states and mobile/browser guardrails.",
-      "MVP-06-learning-n2-fixture-001 has scoped fresh verifier PASS for the synthetic N2 fixture, /learning CTA, /learning/lessons/N2 route, display-only mini-test, non-persistent practice, amber/warning-soft reward guardrails, web checks and browser/mobile smoke. Parent alias sync is still pending."
+      "MVP-06-learning-n2-fixture-001 has scoped fresh verifier PASS and parent-synced latest aliases for the synthetic N2 fixture, /learning CTA, /learning/lessons/N2 route, display-only mini-test, non-persistent practice, amber/warning-soft reward guardrails, web checks and browser/mobile smoke.",
+      "MVP-06-learning-n3-fixture-001 has scoped fresh verifier PASS and parent-synced latest aliases for the synthetic N3 decluttering/safe-sale fixture, /learning CTA, /learning/lessons/N3 route, full lesson-id alias, display-only Q10/Q11/Q12 mini-test, non-persistent checklist+choice practice, reward guardrails, web checks and browser/mobile smoke.",
+      "MVP-03-onboarding-privacy-screen-001 has scoped fresh verifier PASS and parent-synced latest aliases for the employee-facing /onboarding/privacy route, draft/legal-human-gated privacy copy, aggregate-by-default HR visibility boundary, no consent logging, no diagnostics/routing and preserved /learning handoff.",
+      "MVP-03-consent-version-logging-001 has scoped fresh verifier PASS and parent-synced latest aliases for append-only backend legal document acceptance log, thin API, OpenAPI source/runtime test, idempotent same-version retry, safe rejection paths, generated api-client coverage and explicit Java 21 root checks."
     ],
     "what_is_closed_now": [
       "MVP-02-admin-code-status-view-001 is PASS for the backend/admin API-only data contract.",
@@ -216,7 +245,10 @@
       "MVP-04-mobile-learning-shell-001 is PASS for the minimal employee-facing mobile learning shell only.",
       "MVP-06-learning-renderer-fixture-001 is PASS for the fixture-backed synthetic N1 mobile lesson renderer only.",
       "MVP-04-design-system-tokenization-001 is PASS; narrow MVP-04.04 is accepted for the currently implemented design-token/app-shell/common-state surface.",
-      "MVP-06-learning-n2-fixture-001 is scoped PASS for the synthetic N2 fixture extension only; root latest aliases have not been synchronized yet."
+      "MVP-06-learning-n2-fixture-001 is scoped PASS for the synthetic N2 fixture extension only; root latest aliases were later synchronized.",
+      "MVP-06-learning-n3-fixture-001 is scoped PASS for the synthetic N3 fixture extension only; root latest aliases have now been synchronized.",
+      "MVP-03-onboarding-privacy-screen-001 is scoped PASS for the employee-facing onboarding/privacy screen only; root latest aliases have now been synchronized.",
+      "MVP-03-consent-version-logging-001 is scoped PASS for the backend/API consent version logging foundation only; root latest aliases have now been synchronized."
     ],
     "what_is_not_proven": [
       "MVP-02.04 is not closed as DONE because admin auth/role/audit policy, production real-data use and customer-specific reporting boundaries remain human-gated.",
@@ -229,14 +261,16 @@
       "Production_ready publish approval for content.",
       "Full MVP-02 is not unconditional DONE because human gates remain open.",
       "MVP stage is not complete.",
-      "MVP-03 onboarding/privacy/consent and MVP-07 diagnostics/routing remain deferred and not complete.",
+      "Full MVP-03 onboarding/privacy/consent remains open: the current PASS covers only a draft privacy screen, while final legal approval, consent acceptance/version logging, profile basics and admin audit logs are not implemented.",
       "Full MVP-04 UX/UI foundation is not closed by the bridge shell slice.",
       "Full MVP-06 learning delivery, CMS publishing, production content approval, progress persistence, scored quiz submission, practice submission, points and wallet are not implemented by this slice.",
       "Full MVP-04 remains open: MVP-04.01, MVP-04.02, MVP-04.03 and MVP-04.05 are not closed by design-system tokenization, and brand/accessibility/privacy/design QA human gates remain open.",
       "Full MVP-06 remains open despite preserved MVP-06-learning-renderer-fixture-001 PASS artifacts: CMS/admin publishing, production content approval, progress persistence, scored quiz submission, practice submission, points and wallet remain unimplemented.",
-      "Root latest aliases still point to MVP-04-design-system-tokenization-001 until a separate parent alias-sync decision for MVP-06-learning-n2-fixture-001.",
-      "MVP-06-learning-n2-fixture-001 does not implement production CMS/admin publishing, content approval, progress persistence, scored quiz submission, practice submission, challenge persistence, reminders, points, wallet, diagnostics/routing, onboarding/consent, backend/API/schema/OpenAPI/generated-client changes or packages/ui."
+      "MVP-06-learning-n2-fixture-001 does not implement production CMS/admin publishing, content approval, progress persistence, scored quiz submission, practice submission, challenge persistence, reminders, points, wallet, diagnostics/routing, onboarding/consent, backend/API/schema/OpenAPI/generated-client changes or packages/ui.",
+      "MVP-06-learning-n3-fixture-001 does not implement production CMS/admin publishing, content states, production content approval, progress persistence, scored quiz submission, practice submission, saved listing/challenge/daily challenge, points/wallet, diagnostics/routing, onboarding/consent, backend/API/schema/OpenAPI/generated-client, packages/ui, admin/HR analytics/event tracking, real data or customer brand.",
+      "MVP-03-onboarding-privacy-screen-001 does not implement final legal approval, consent logging, backend/API/schema/OpenAPI/generated-client, diagnostics/routing, progress persistence, scored quiz/practice submission, points/wallet, CMS/admin publishing, HR reporting or real data.",
+      "MVP-03-consent-version-logging-001 does not implement final legal approval, auth/session, diagnostics/routing, HR reporting, real data, profile basics, broader admin audit policy or full MVP-03 closure."
     ],
-    "next_slice": "Decide in a separate parent alias-sync slice whether to move latest evidence/verdict/problems aliases from MVP-04-design-system-tokenization-001 to MVP-06-learning-n2-fixture-001. Keep CMS/admin publishing, progress persistence, scored quiz submission, practice submission, points/wallet, onboarding/consent and diagnostics/routing deferred unless separately refrozen."
+    "next_slice": "Freeze the next narrow MVP-03 slice, likely profile/contact basics or admin audit policy, without closing full MVP-03 or human gates."
   }
 }

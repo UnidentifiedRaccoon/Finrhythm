@@ -1,0 +1,103 @@
+{
+  "task_id": "audit-20260512-admin-auth",
+  "status": "PASS",
+  "created_at": "2026-05-12T09:50:00+03:00",
+  "scope": [
+    "apps/api admin code-status auth/security/OpenAPI",
+    "apps/admin code-status live source selection",
+    "narrow canonical docs for admin auth/setup"
+  ],
+  "acceptance_criteria": [
+    {
+      "id": "AC1",
+      "criterion": "AdminCodeStatusController is not accessible without an admin auth/permission boundary.",
+      "evidence": [
+        "Spring Security filter chain protects the admin code-status GET path with authority admin.code-status.read and denies other /api/v1/admin/** paths by default.",
+        "AdminCodeStatusControllerIT rejects missing and invalid bearer tokens with 401 sanitized ApiErrorResponse.",
+        "AdminCodeStatusControllerIT existing happy-path requests now require Authorization: Bearer test-admin-token.",
+        "AdminCodeStatusControllerIT verifies an unknown admin path returns sanitized 403 even with the code-status token."
+      ],
+      "passed": true
+    },
+    {
+      "id": "AC2",
+      "criterion": "OpenAPI exposes the admin security scheme and secured operation responses.",
+      "evidence": [
+        "OpenApiConfig defines adminBearerAuth HTTP bearer scheme.",
+        "AdminCodeStatusController documents operation security plus 401/403 sanitized errors.",
+        "AdminCodeStatusControllerIT asserts /v3/api-docs contains adminBearerAuth, ADMIN_AUTHENTICATION_REQUIRED and ADMIN_PERMISSION_DENIED."
+      ],
+      "passed": true
+    },
+    {
+      "id": "AC3",
+      "criterion": "Admin live mode is not switchable by query parameter and uses deploy/env-controlled configuration.",
+      "evidence": [
+        "apps/admin resolves live source only from FINRHYTHM_ADMIN_CODE_STATUS_SOURCE.",
+        "apps/admin live fetch requires FINRHYTHM_ADMIN_API_TOKEN and sends Authorization: Bearer token.",
+        "apps/admin boundary test asserts code-status-client.ts has no params.mode/first(params.mode) live switch."
+      ],
+      "passed": true
+    },
+    {
+      "id": "AC4",
+      "criterion": "Docs and evidence reflect changed auth/setup behavior.",
+      "evidence": [
+        "docs/setup/codex-setup.md documents env-controlled live mode and token requirement.",
+        "docs/architecture/repo-layout.md documents env-only live admin baseline.",
+        "docs/architecture/access-and-subscriptions.md documents the temporary MVP admin bearer boundary and Mermaid flow."
+      ],
+      "passed": true
+    }
+  ],
+  "commands": [
+    {
+      "command": "cd apps/api && ./mvnw -q -DskipTests compile",
+      "exit_code": -1,
+      "outcome": "blocked by macOS Java stub: Unable to locate a Java Runtime"
+    },
+    {
+      "command": "cd apps/api && JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q -DskipTests compile",
+      "exit_code": 0,
+      "outcome": "API compiles with explicit JDK 21"
+    },
+    {
+      "command": "cd apps/api && JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q -Dtest=AdminCodeStatusControllerIT test",
+      "exit_code": 0,
+      "outcome": "Focused admin code-status security/OpenAPI integration test passed with Testcontainers PostgreSQL"
+    },
+    {
+      "command": "cd apps/api && JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q verify",
+      "exit_code": 0,
+      "outcome": "Full apps/api Maven verify passed with Testcontainers PostgreSQL"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/admin typecheck",
+      "exit_code": 0,
+      "outcome": "Admin TypeScript typecheck passed"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/admin test",
+      "exit_code": 0,
+      "outcome": "Admin boundary tests passed: 4 tests"
+    },
+    {
+      "command": "git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'",
+      "exit_code": 0,
+      "outcome": "No whitespace errors in current diff"
+    }
+  ],
+  "docs": [
+    "docs/setup/codex-setup.md",
+    "docs/architecture/repo-layout.md",
+    "docs/architecture/access-and-subscriptions.md"
+  ],
+  "openapi_notes": [
+    "OpenAPI source is updated in apps/api via springdoc annotations and OpenApiConfig.",
+    "packages/api-client currently has no generated artifacts/generator in this repo slice; no generated client files were edited."
+  ],
+  "limitations": [
+    "Root make verify was not run because this audit slice was limited to apps/api/apps/admin and the worktree contains unrelated concurrent apps/web/stage changes."
+  ],
+  "blockers": []
+}
