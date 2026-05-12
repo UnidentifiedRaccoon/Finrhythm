@@ -187,6 +187,23 @@ RBAC отвечает за административные действия:
 - доступ к B2B pro-функциям без organization/membership scope;
 - раскрытие B2C subscription state HR/admin организации без отдельного правового и support-сценария.
 
+### 7.1 Current MVP admin API boundary
+
+До появления полноценной модели admin identity/RBAC текущая live-точка code-status в `apps/api` защищается deploy-configured bearer token из `FINRHYTHM_ADMIN_API_TOKEN`. Этот токен не является ролью пользователя, подпиской, pro-state или customer-facing entitlement; он только выдаёт технический permission `admin.code-status.read` для минимальной операторской read-only поверхности.
+
+Live-режим `apps/admin` выбирается только server-side env (`FINRHYTHM_ADMIN_CODE_STATUS_SOURCE=live`), а не query-параметром. Fixture остаётся дефолтным режимом для локальной разработки.
+
+```mermaid
+flowchart LR
+    ENV["Deploy env: FINRHYTHM_ADMIN_CODE_STATUS_SOURCE=live"] --> UI["apps/admin server render"]
+    TOKEN["FINRHYTHM_ADMIN_API_TOKEN"] --> UI
+    UI -->|Authorization: Bearer token| API["/api/v1/admin/**"]
+    API --> PERM["admin.code-status.read"]
+    PERM --> STATUS["privacy-safe code-status DTO"]
+```
+
+Когда в отдельном slice появятся admin users, sessions or persisted RBAC, этот boundary должен быть заменён или подключён к canonical `OrgMembership`/`Role`/`Permission` модели без shortcut-ролей вроде `pro_user`.
+
 ## 8. MVP boundary
 
 MVP остаётся B2B-first пилотом без in-app подписки и платежей. Текущий MVP может реализовывать `tenant`, `pilotLaunch`, `accessPool`, invite codes and registration без полной subscription/seat модели.

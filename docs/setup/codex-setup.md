@@ -105,7 +105,7 @@ pnpm --filter @finrhythm/admin test
 pnpm --filter @finrhythm/admin build
 ```
 
-The default admin route uses synthetic fixture data. Optional live read-only mode requires synthetic `FINRHYTHM_ADMIN_API_BASE_URL`, `FINRHYTHM_ADMIN_SYNTHETIC_TENANT_ID`, `FINRHYTHM_ADMIN_SYNTHETIC_PILOT_LAUNCH_ID` and `FINRHYTHM_ADMIN_SYNTHETIC_ACCESS_POOL_ID`.
+The default admin route uses synthetic fixture data. Optional live read-only mode is deploy/env-controlled, not query-controlled: set `FINRHYTHM_ADMIN_CODE_STATUS_SOURCE=live` together with `FINRHYTHM_ADMIN_API_BASE_URL`, `FINRHYTHM_ADMIN_API_TOKEN`, `FINRHYTHM_ADMIN_SYNTHETIC_TENANT_ID`, `FINRHYTHM_ADMIN_SYNTHETIC_PILOT_LAUNCH_ID` and `FINRHYTHM_ADMIN_SYNTHETIC_ACCESS_POOL_ID`. Backend admin code-status calls require `Authorization: Bearer <FINRHYTHM_ADMIN_API_TOKEN>` and the API maps that token to the `admin.code-status.read` permission for the current MVP boundary.
 
 Local init/dev require Docker daemon:
 

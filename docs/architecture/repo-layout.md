@@ -55,7 +55,7 @@ Current MVP-04 web baseline: a minimal Next.js + React mobile-first learning she
 
 Operator scenarios: content, challenge/marathon, rewards/store, moderation/support, publish/unpublish, import/export, audit views.
 
-Current MVP-02 admin baseline: a minimal Next.js app renders a read-only access-pool/code status view from the verified backend DTO. It uses synthetic fixture mode by default; generated API client integration remains a no-op until `packages/api-client` has a generator/artifacts.
+Current MVP-02 admin baseline: a minimal Next.js app renders a read-only access-pool/code status view from the verified backend DTO. It uses synthetic fixture mode by default; optional live mode is controlled only by deploy/server environment and sends the configured admin bearer token to the backend. Admin code-status and the MVP-03 legal acceptance DTO/path helpers are covered by the checked-in `packages/api-client` OpenAPI snapshot, generator and drift checks.
 
 ### `apps/api`
 
@@ -63,7 +63,7 @@ Backend: auth/session, diagnostics scoring, learning progress, points ledger, st
 
 ### `packages/api-client`
 
-Generated TypeScript client and shared types from OpenAPI. No manual competing contract types.
+Generated TypeScript client and shared types from OpenAPI. The current narrow surface covers employee registration DTOs, admin code-status DTO/client helper and legal document acceptance DTO/client helper. No manual competing contract types.
 
 ### `.agent/stages/<stage_id>/`
 
@@ -79,7 +79,6 @@ The current repository has the target top-level directories and root wrappers. E
 
 - `packages/ui`;
 - `packages/config`;
-- `packages/api-client`;
 - `content/imports`;
 - `content/exports`;
 - `infra/yc`.

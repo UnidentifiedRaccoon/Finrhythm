@@ -1,0 +1,717 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "FinRhythm API",
+    "version": "0.1.0",
+    "description": "Backend API for FinRhythm pilot access, invite-code activation, employee registration and privacy-safe admin code-status operations."
+  },
+  "paths": {
+    "/api/v1/employee-registrations": {
+      "post": {
+        "operationId": "registerEmployee",
+        "summary": "Register an employee with an invite code",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeRegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "First registration created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeRegistrationResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Idempotent retry for the same invite/contact.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeRegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation or invite-code failure. Raw PII and raw invite code are not echoed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employee-registrations/{employeeRegistrationId}/legal-acceptances": {
+      "post": {
+        "operationId": "acceptLegalDocuments",
+        "summary": "Record current draft legal document version acceptance",
+        "parameters": [
+          {
+            "name": "employeeRegistrationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LegalDocumentAcceptanceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Current draft document version set recorded for the first time.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LegalDocumentAcceptanceResponse"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Idempotent retry for the same employee registration and same current draft versions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LegalDocumentAcceptanceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unsupported document type/version or incomplete current draft set.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Employee registration is unknown.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status": {
+      "get": {
+        "operationId": "getAdminCodeStatus",
+        "summary": "Read access-pool invite-code status for admin operations",
+        "security": [
+          {
+            "adminBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "tenantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "pilotLaunchId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "accessPoolId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "$ref": "#/components/schemas/InviteCodeStatus"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 0,
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Access-pool code-status view.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminCodeStatusResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid UUID, status filter, page or size. Raw invite codes and PII are not echoed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid admin bearer token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authenticated admin principal lacks the required permission.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Tenant/access-pool status view not found or not in the requested tenant and pilot-launch scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "adminBearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "opaque-admin-token",
+        "description": "Deploy-configured admin bearer token for operational API calls."
+      }
+    },
+    "schemas": {
+      "InviteCodeStatus": {
+        "type": "string",
+        "enum": [
+          "CREATED",
+          "ISSUED",
+          "RESERVED",
+          "ACTIVATED",
+          "REVOKED",
+          "EXPIRED"
+        ]
+      },
+      "AccessPoolStatus": {
+        "type": "string",
+        "enum": [
+          "PLANNED",
+          "ACTIVE",
+          "CLOSED",
+          "ARCHIVED"
+        ]
+      },
+      "PilotLaunchStatus": {
+        "type": "string",
+        "enum": [
+          "PLANNED",
+          "ACTIVE",
+          "CLOSED",
+          "ARCHIVED"
+        ]
+      },
+      "LegalDocumentType": {
+        "type": "string",
+        "enum": [
+          "PRIVACY_POLICY",
+          "PERSONAL_DATA_CONSENT",
+          "TERMS_OF_USE",
+          "FINANCIAL_DISCLAIMER"
+        ]
+      },
+      "ApiFieldError": {
+        "type": "object",
+        "required": [
+          "field",
+          "code",
+          "message"
+        ],
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "ApiErrorResponse": {
+        "type": "object",
+        "required": [
+          "code",
+          "message",
+          "fieldErrors"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "fieldErrors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiFieldError"
+            }
+          }
+        }
+      },
+      "EmployeeRegistrationRequest": {
+        "type": "object",
+        "required": [
+          "fullName",
+          "email",
+          "phone",
+          "inviteCode"
+        ],
+        "properties": {
+          "fullName": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 254
+          },
+          "phone": {
+            "type": "string",
+            "maxLength": 32
+          },
+          "inviteCode": {
+            "type": "string",
+            "maxLength": 64
+          }
+        }
+      },
+      "EmployeeRegistrationResponse": {
+        "type": "object",
+        "required": [
+          "employeeRegistrationId",
+          "tenantId",
+          "pilotLaunchId",
+          "accessPoolId",
+          "inviteCodeId",
+          "registeredAt",
+          "idempotentRetry"
+        ],
+        "properties": {
+          "employeeRegistrationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pilotLaunchId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "accessPoolId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "inviteCodeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "registeredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "idempotentRetry": {
+            "type": "boolean"
+          }
+        }
+      },
+      "LegalDocumentVersionRequest": {
+        "type": "object",
+        "required": [
+          "documentType",
+          "documentVersion"
+        ],
+        "properties": {
+          "documentType": {
+            "type": "string",
+            "description": "Draft legal document type. Unknown values are rejected without echoing the submitted value.",
+            "example": "PRIVACY_POLICY"
+          },
+          "documentVersion": {
+            "type": "string",
+            "description": "Draft legal document version identifier.",
+            "example": "draft-2026-05-12"
+          }
+        }
+      },
+      "LegalDocumentAcceptanceRequest": {
+        "type": "object",
+        "required": [
+          "documents"
+        ],
+        "properties": {
+          "documents": {
+            "type": "array",
+            "minItems": 4,
+            "maxItems": 4,
+            "items": {
+              "$ref": "#/components/schemas/LegalDocumentVersionRequest"
+            }
+          },
+          "source": {
+            "type": "string"
+          }
+        }
+      },
+      "AcceptedLegalDocumentResponse": {
+        "type": "object",
+        "required": [
+          "documentType",
+          "documentVersion",
+          "acceptedAt",
+          "source"
+        ],
+        "properties": {
+          "documentType": {
+            "$ref": "#/components/schemas/LegalDocumentType"
+          },
+          "documentVersion": {
+            "type": "string"
+          },
+          "acceptedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "source": {
+            "type": "string"
+          }
+        }
+      },
+      "LegalDocumentAcceptanceResponse": {
+        "type": "object",
+        "required": [
+          "employeeRegistrationId",
+          "tenantId",
+          "pilotLaunchId",
+          "accessPoolId",
+          "acceptedDocuments",
+          "createdCount",
+          "idempotentRetry"
+        ],
+        "properties": {
+          "employeeRegistrationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pilotLaunchId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "accessPoolId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "acceptedDocuments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AcceptedLegalDocumentResponse"
+            }
+          },
+          "createdCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idempotentRetry": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AdminCodeStatusSummary": {
+        "type": "object",
+        "required": [
+          "issuedCount",
+          "activatedCount",
+          "registeredCount",
+          "revokedCount",
+          "expiredCount",
+          "totalCodeCount",
+          "remainingCapacity"
+        ],
+        "properties": {
+          "issuedCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "activatedCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "registeredCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "revokedCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "expiredCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalCodeCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "remainingCapacity": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "AdminCodeStatusCount": {
+        "type": "object",
+        "required": [
+          "status",
+          "count"
+        ],
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/InviteCodeStatus"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "AdminCodeStatusRow": {
+        "type": "object",
+        "required": [
+          "inviteCodeId",
+          "status",
+          "issuedAt",
+          "expiresAt",
+          "activatedAt",
+          "registeredAt",
+          "registered"
+        ],
+        "properties": {
+          "inviteCodeId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "$ref": "#/components/schemas/InviteCodeStatus"
+          },
+          "issuedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "activatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "registeredAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "registered": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AdminCodeStatusPage": {
+        "type": "object",
+        "required": [
+          "page",
+          "size",
+          "totalItems",
+          "totalPages",
+          "items"
+        ],
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalItems": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdminCodeStatusRow"
+            }
+          }
+        }
+      },
+      "AdminCodeStatusResponse": {
+        "type": "object",
+        "required": [
+          "tenantId",
+          "pilotLaunchId",
+          "pilotLaunchKey",
+          "pilotLaunchName",
+          "pilotLaunchStatus",
+          "accessPoolId",
+          "accessPoolKey",
+          "accessPoolName",
+          "accessPoolStatus",
+          "poolCapacity",
+          "summary",
+          "statusCounts",
+          "codes"
+        ],
+        "properties": {
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pilotLaunchId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pilotLaunchKey": {
+            "type": "string"
+          },
+          "pilotLaunchName": {
+            "type": "string"
+          },
+          "pilotLaunchStatus": {
+            "$ref": "#/components/schemas/PilotLaunchStatus"
+          },
+          "accessPoolId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "accessPoolKey": {
+            "type": "string"
+          },
+          "accessPoolName": {
+            "type": "string"
+          },
+          "accessPoolStatus": {
+            "$ref": "#/components/schemas/AccessPoolStatus"
+          },
+          "poolCapacity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/AdminCodeStatusSummary"
+          },
+          "statusCounts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdminCodeStatusCount"
+            }
+          },
+          "codes": {
+            "$ref": "#/components/schemas/AdminCodeStatusPage"
+          }
+        }
+      }
+    }
+  }
+}

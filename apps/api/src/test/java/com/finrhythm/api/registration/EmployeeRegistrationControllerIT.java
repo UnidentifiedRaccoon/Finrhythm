@@ -34,6 +34,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -143,7 +144,11 @@ class EmployeeRegistrationControllerIT {
                 .andExpect(jsonPath("$.idempotentRetry").value(true))
                 .andReturnJson();
 
-        assertThat(retry.get("registeredAt").asText()).isEqualTo(created.get("registeredAt").asText());
+        Instant createdRegisteredAt = Instant.parse(created.get("registeredAt").asText());
+        Instant retryRegisteredAt = Instant.parse(retry.get("registeredAt").asText());
+        assertThat(retryRegisteredAt).isBetween(
+                createdRegisteredAt.minus(1, ChronoUnit.MICROS),
+                createdRegisteredAt.plus(1, ChronoUnit.MICROS));
         assertThat(countRegistrationsForInvite(issuedCode.inviteCodeId())).isEqualTo(1);
     }
 

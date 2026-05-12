@@ -3,9 +3,11 @@ package com.finrhythm.api.admin.web;
 import com.finrhythm.api.admin.readmodel.AdminCodeStatusQuery;
 import com.finrhythm.api.admin.readmodel.AdminCodeStatusResponse;
 import com.finrhythm.api.admin.service.AdminCodeStatusService;
+import com.finrhythm.api.common.config.OpenApiConfig;
 import com.finrhythm.api.common.web.ApiErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
@@ -34,6 +36,7 @@ public class AdminCodeStatusController {
 
     @Operation(
             summary = "Read access-pool invite-code status for admin operations",
+            security = @SecurityRequirement(name = OpenApiConfig.ADMIN_BEARER_AUTH),
             description = """
                     Returns privacy-safe pilot launch and access-pool metadata, invite-code status counts,
                     activation/registration funnel counts
@@ -118,6 +121,40 @@ public class AdminCodeStatusController {
                                                   "message": "Status must be a known invite-code status."
                                                 }
                                               ]
+                                            }
+                                            """
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Missing or invalid admin bearer token.",
+                    content = @Content(
+                            schema = @Schema(implementation = ApiErrorResponse.class),
+                            examples = @ExampleObject(
+                                    name = "adminAuthenticationRequired",
+                                    value = """
+                                            {
+                                              "code": "ADMIN_AUTHENTICATION_REQUIRED",
+                                              "message": "Admin API authentication is required.",
+                                              "fieldErrors": []
+                                            }
+                                            """
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Authenticated admin principal lacks the required permission.",
+                    content = @Content(
+                            schema = @Schema(implementation = ApiErrorResponse.class),
+                            examples = @ExampleObject(
+                                    name = "adminPermissionDenied",
+                                    value = """
+                                            {
+                                              "code": "ADMIN_PERMISSION_DENIED",
+                                              "message": "Admin API permission is required.",
+                                              "fieldErrors": []
                                             }
                                             """
                             )

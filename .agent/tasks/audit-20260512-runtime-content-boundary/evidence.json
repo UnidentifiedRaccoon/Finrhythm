@@ -1,0 +1,73 @@
+{
+  "task_id": "audit-20260512-runtime-content-boundary",
+  "status": "DONE_WITH_HUMAN_PENDING",
+  "started_at": "2026-05-12",
+  "scope": [
+    "apps/web/lib learning fixture boundary",
+    "content lesson fixture files",
+    "focused web tests"
+  ],
+  "changed_files": [
+    "apps/web/lib/learning-fixtures.ts",
+    "apps/web/lib/learning-types.ts",
+    "apps/web/tests/learning-shell.test.mjs",
+    "content/fixtures/learning/novice-demo-lessons.v0.1.json",
+    ".agent/tasks/audit-20260512-runtime-content-boundary/spec_freeze.md",
+    ".agent/tasks/audit-20260512-runtime-content-boundary/evidence.json",
+    ".agent/tasks/audit-20260512-runtime-content-boundary/evidence.md",
+    ".agent/tasks/audit-20260512-runtime-content-boundary/self_verification.md"
+  ],
+  "evidence": [
+    {
+      "kind": "content_boundary",
+      "status": "PASS",
+      "details": [
+        "Large N1/N2/N3 demo lesson payload moved from apps/web/lib/learning-fixtures.ts to content/fixtures/learning/novice-demo-lessons.v0.1.json.",
+        "apps/web/lib/learning-fixtures.ts now imports the content fixture and exposes typed renderer adapter exports.",
+        "Runtime guardrails assert CMS/PostgreSQL remains production content source of truth, web role is renderer_adapter_consumer, fixture is not publishable, and source review is not production_ready."
+      ]
+    },
+    {
+      "kind": "content_review_status",
+      "status": "PASS_WITH_HUMAN_PENDING",
+      "details": [
+        "Fixture source reviewStatus is method_adapted.",
+        "Lesson-level reviewStatus values are method_adapted.",
+        "productionReady is false and humanReviewRequired is true.",
+        "wordingReviewStatus is DONE_WITH_HUMAN_PENDING."
+      ]
+    },
+    {
+      "kind": "provenance",
+      "status": "PASS",
+      "details": [
+        "Provenance records active source root content/getcourse-finstrategy/.",
+        "Provenance records content-baseline inventory: 73 lesson URLs, 73 markdown lessons, 70 exported, 3 blocked, 73 humanReview required, 30 downloaded assets.",
+        "N3 provenance references content/getcourse-finstrategy/12-lesson-235010153.md and notes raw homework data was softened to forbid photos, address, exact sale amount, buyer chat and payment/bank screenshots.",
+        "Inactive exploratory paths are recorded as not used."
+      ]
+    },
+    {
+      "kind": "verification",
+      "status": "PASS",
+      "commands": [
+        "pnpm --filter @finrhythm/web test",
+        "pnpm --filter @finrhythm/web typecheck",
+        "pnpm --filter @finrhythm/web build",
+        "node --input-type=module <content fixture status probe>",
+        "git diff --check -- ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'"
+      ]
+    }
+  ],
+  "human_gates": [
+    {
+      "area": "lesson financial wording and quiz copy",
+      "status": "DONE_WITH_HUMAN_PENDING",
+      "reason": "Agent can prepare demo/import fixtures, but final financial correctness and public wording require human sign-off."
+    }
+  ],
+  "latest_self_verification": {
+    "status": "PASS_WITH_HUMAN_PENDING",
+    "notes": "Code/content boundary and tests pass. Financial lesson wording, quiz wording, legal-sensitive copy and reward wording remain human-gated."
+  }
+}

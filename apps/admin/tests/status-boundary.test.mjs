@@ -5,6 +5,7 @@ import { join } from "node:path";
 
 const appRoot = new URL("..", import.meta.url).pathname;
 const fixturePath = join(appRoot, "lib", "code-status-fixture.json");
+const clientPath = join(appRoot, "lib", "code-status-client.ts");
 const managedSourceDirs = ["app", "components", "lib"];
 const statuses = ["CREATED", "ISSUED", "RESERVED", "ACTIVATED", "REVOKED", "EXPIRED"];
 
@@ -66,6 +67,18 @@ describe("admin code-status local boundary", () => {
     const fixtureText = await readFile(fixturePath, "utf8");
     assert.equal(/INV[-_A-Z0-9]{6,}/.test(fixtureText), false);
     assert.equal(/CODE[-_A-Z0-9]{6,}/.test(fixtureText), false);
+  });
+
+  it("keeps live source deploy-controlled and sends the admin bearer token", async () => {
+    const clientSource = await readFile(clientPath, "utf8");
+
+    assert.match(clientSource, /@finrhythm\/api-client/);
+    assert.match(clientSource, /fetchAdminCodeStatus/);
+    assert.match(clientSource, /FINRHYTHM_ADMIN_CODE_STATUS_SOURCE/);
+    assert.match(clientSource, /FINRHYTHM_ADMIN_API_TOKEN/);
+    assert.match(clientSource, /Authorization:\s*`Bearer/);
+    assert.equal(clientSource.includes("params.mode"), false);
+    assert.equal(clientSource.includes("first(params.mode)"), false);
   });
 });
 

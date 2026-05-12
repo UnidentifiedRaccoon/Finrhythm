@@ -1,0 +1,97 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-03-onboarding-privacy-screen-001",
+  "parent_stage_unit": "MVP-03.02",
+  "verdict": "PASS",
+  "status": "PASS",
+  "updated_at": "2026-05-12",
+  "scope_statement": "Scoped PASS only for the employee-facing /onboarding/privacy screen and /learning navigation handoff. This does not close full MVP-03, full MVP-04, full MVP-06, MVP-07, the MVP stage or any human gate.",
+  "acceptance": {
+    "onboarding_privacy_route_renders": "PASS",
+    "no_diagnostics_or_persistence_behavior": "PASS",
+    "russian_calm_neutral_draft_copy": "PASS",
+    "no_customer_brand": "PASS",
+    "hr_employer_aggregate_by_default_boundary": "PASS",
+    "hr_employer_no_personal_answers_weak_zones_exact_sums_reflections_tax_debt_by_default": "PASS",
+    "no_required_exact_sums_photos_documents_bank_screenshots": "PASS",
+    "no_consent_acceptance_version_logging_backend_api_schema_openapi_generated_client": "PASS",
+    "no_scoring_routing_progress_quiz_practice_points_wallet_cms_admin_hr_reporting": "PASS",
+    "learning_link_navigation_only_and_learning_routes_preserved": "PASS",
+    "human_gates_and_full_mvp_units_remain_open": "PASS"
+  },
+  "commands": {
+    "json_validation": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-json-validation-20260512.txt"
+    },
+    "web_typecheck": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-web-typecheck-20260512.txt"
+    },
+    "web_test": {
+      "status": "PASS",
+      "observed": "14 tests passed across 2 suites.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-web-test-20260512.txt"
+    },
+    "web_build": {
+      "status": "PASS_WITH_GENERATED_SIDE_EFFECT",
+      "observed": "Build passed and rewrote apps/web/next-env.d.ts; this verifier did not patch it.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-web-build-20260512.txt"
+    },
+    "browser_smoke_system_chrome": {
+      "status": "PASS",
+      "observed": "8 mobile screenshots for /learning, /onboarding/privacy, /learning/lessons/N1, /learning/lessons/N2, /learning/lessons/N3, loading, empty and error.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-browser-smoke-20260512.txt",
+      "screenshots_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-screenshots-20260512/"
+    },
+    "browser_iab": {
+      "status": "NON_BLOCKING_UNAVAILABLE",
+      "observed": "Browser plugin path returned: Browser is not available: iab. System Chrome fallback was used as permitted.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-browser-iab-20260512.txt"
+    },
+    "guardrail_scan": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-guardrail-scan-20260512.txt"
+    },
+    "git_diff_check": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-git-diff-check-20260512.txt"
+    },
+    "java_version": {
+      "status": "BLOCKED_UNQUALIFIED_JAVA_RUNTIME_MISSING",
+      "observed": "Unable to locate a Java Runtime; Java-backed root verification is not claimed.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-java-version-20260512.txt"
+    },
+    "verify_harness_before_verdict": {
+      "status": "FAIL_PRE_VERDICT_ALIAS_AND_EVIDENCE_REF_GAP",
+      "observed": "Failed before this verdict because aliases still pointed to MVP-06-learning-n3-fixture-001 and builder evidence referenced a missing orchestrator screenshot directory.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-verify-harness-before-verdict-20260512.json"
+    }
+  },
+  "proof_gaps": [
+    "Unqualified java is unavailable, so Java-backed root verification is not claimed.",
+    "In-app Browser iab is unavailable; system Chrome fallback was used and documented.",
+    "Builder evidence.json references a missing orchestrator screenshot directory, but this verifier produced fresh system Chrome screenshot evidence under its own raw ref.",
+    "Build rewrote generated apps/web/next-env.d.ts; this verifier did not patch it."
+  ],
+  "human_gates_closed": false,
+  "not_claimed": [
+    "final legal approval",
+    "consent acceptance, consent version logging or audit trail",
+    "backend/API/schema/OpenAPI/generated-client changes",
+    "diagnostics questions, scoring, routing or submissions",
+    "progress persistence",
+    "quiz or practice submissions",
+    "points, wallet, ledger, rewards, merch or fulfillment",
+    "CMS/admin publishing or production content approval",
+    "HR dashboard, HR reporting, reporting thresholds, exports or analytics/event tracking",
+    "full MVP-03, full MVP-04, full MVP-06, MVP-07, MVP stage or any human gate"
+  ],
+  "artifacts_written": {
+    "verdict": ".agent/stages/mvp/verdicts/MVP-03-onboarding-privacy-screen-001.json",
+    "problems": ".agent/stages/mvp/problems/MVP-03-onboarding-privacy-screen-001.md",
+    "latest_verdict_alias": ".agent/stages/mvp/verdict.json",
+    "latest_problems_alias": ".agent/stages/mvp/problems.md"
+  },
+  "alias_of": ".agent/stages/mvp/verdicts/MVP-03-onboarding-privacy-screen-001.json"
+}

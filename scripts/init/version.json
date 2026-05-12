@@ -1,7 +1,7 @@
 {
   "bootstrapKey": "local_init",
-  "version": "2026-05-04.1",
-  "checksum": "mvp-01-bootstrap-contract-v1",
+  "version": "2026-05-12.1",
+  "checksum": "mvp-01-bootstrap-pilot-launch-access-pool-v1",
   "fixture": "content/fixtures/demo-bootstrap.json",
   "description": "MVP-01 local bootstrap contract for synthetic corporate pilot fixtures."
 }

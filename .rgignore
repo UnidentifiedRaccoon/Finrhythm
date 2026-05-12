@@ -1,6 +1,7 @@
 # Keep repository-wide search focused on managed source and summary artifacts.
 .agent/stages/**/raw/**
 .agent/tasks/**/raw/**
+apps/*/.agent/**
 
 # Dependency and build output.
 node_modules/**

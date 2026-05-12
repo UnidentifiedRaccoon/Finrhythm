@@ -1,0 +1,72 @@
+{
+  "task_id": "audit-20260512-infra-points-readiness",
+  "status": "DONE",
+  "date": "2026-05-12",
+  "scope": "docs-only readiness contract for production infra and points ledger prerequisites",
+  "changed_files": [
+    "docs/architecture/production-readiness-contract.md",
+    "docs/architecture/source-of-truth.md",
+    "infra/yc/README.md",
+    ".agent/tasks/audit-20260512-infra-points-readiness/spec_freeze.md",
+    ".agent/tasks/audit-20260512-infra-points-readiness/evidence.md",
+    ".agent/tasks/audit-20260512-infra-points-readiness/evidence.json",
+    ".agent/tasks/audit-20260512-infra-points-readiness/self_verification.md"
+  ],
+  "acceptance_criteria": [
+    {
+      "criterion": "production deployment is gated on IaC/env/secrets/backup/migration/smoke evidence",
+      "evidence": "docs/architecture/production-readiness-contract.md"
+    },
+    {
+      "criterion": "points/rewards are gated on append-only auditable idempotent ledger prerequisites",
+      "evidence": "docs/architecture/production-readiness-contract.md"
+    },
+    {
+      "criterion": "canonical source-of-truth references the readiness contract",
+      "evidence": "docs/architecture/source-of-truth.md"
+    },
+    {
+      "criterion": "infra/yc placeholder has a pointer and no deploy/secrets implementation",
+      "evidence": "infra/yc/README.md"
+    }
+  ],
+  "commands": [
+    {
+      "command": "git diff --check -- docs/architecture/production-readiness-contract.md docs/architecture/source-of-truth.md infra/yc/README.md .agent/tasks/audit-20260512-infra-points-readiness",
+      "result": "PASS"
+    },
+    {
+      "command": "git status --short -- docs/architecture/production-readiness-contract.md docs/architecture/source-of-truth.md infra/yc/README.md .agent/tasks/audit-20260512-infra-points-readiness",
+      "result": "PASS"
+    },
+    {
+      "command": "test -f docs/architecture/production-readiness-contract.md",
+      "result": "PASS"
+    },
+    {
+      "command": "rg -n \"production-readiness-contract|append-only|idempotenc|points ledger|infra/yc|Yandex Cloud|human-gate\" docs/architecture/production-readiness-contract.md docs/architecture/source-of-truth.md infra/yc/README.md .agent/tasks/audit-20260512-infra-points-readiness",
+      "result": "PASS"
+    },
+    {
+      "command": "Secret-pattern rg scan over changed docs/evidence; exact regex omitted from evidence to avoid self-match",
+      "result": "PASS_NO_FINDINGS"
+    },
+    {
+      "command": "node -e \"JSON.parse(require('fs').readFileSync('.agent/tasks/audit-20260512-infra-points-readiness/evidence.json','utf8')); console.log('evidence.json ok')\"",
+      "result": "PASS"
+    },
+    {
+      "command": "rg -n \"markdownlint|remark|prettier\" package.json pnpm-lock.yaml",
+      "result": "LIMITATION_NO_MARKDOWN_LINTER_CONFIGURED"
+    },
+    {
+      "command": "pnpm exec markdownlint docs/architecture/production-readiness-contract.md infra/yc/README.md .agent/tasks/audit-20260512-infra-points-readiness/spec_freeze.md .agent/tasks/audit-20260512-infra-points-readiness/evidence.md .agent/tasks/audit-20260512-infra-points-readiness/self_verification.md",
+      "result": "LIMITATION_COMMAND_NOT_FOUND"
+    }
+  ],
+  "verdict": "PASS_WITH_LIMITATION",
+  "limitations": [
+    "markdownlint is not installed or configured in package.json/pnpm-lock.yaml; fallback markdown guardrails were git diff --check, link target test and rg scans."
+  ],
+  "blockers": []
+}

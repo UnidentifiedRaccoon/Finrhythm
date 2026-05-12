@@ -1,164 +1,333 @@
 {
   "stage_id": "mvp",
-  "sprint_contract_id": "MVP-04-design-system-tokenization-001",
-  "parent_stage_unit": "MVP-04.04",
-  "status": "PASS",
-  "verification_status": "FRESH_VERIFIER_PASS",
+  "sprint_contract_id": "MVP-03-consent-version-logging-001",
+  "parent_stage_unit": "MVP-03.03",
+  "status": "SCOPED_PASS",
+  "verification_status": "PASS",
   "updated_at": "2026-05-12",
   "latest_alias": ".agent/stages/mvp/evidence.json",
   "immutable_refs": {
-    "markdown": ".agent/stages/mvp/evidence/MVP-04-design-system-tokenization-001.md",
-    "json": ".agent/stages/mvp/evidence/MVP-04-design-system-tokenization-001.json"
+    "markdown": ".agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.md",
+    "json": ".agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.json"
   },
-  "parent_sync": {
-    "status": "ACCEPTED",
-    "accepted_at": "2026-05-12",
-    "accepted_scope": "MVP-04.04",
-    "previous_latest_sprint_contract_id": "MVP-06-learning-renderer-fixture-001",
-    "preserved_previous_immutable_refs": {
-      "markdown": ".agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.md",
-      "json": ".agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.json",
-      "verdict": ".agent/stages/mvp/verdicts/MVP-06-learning-renderer-fixture-001.json",
-      "problems": ".agent/stages/mvp/problems/MVP-06-learning-renderer-fixture-001.md"
-    },
-    "does_not_close": [
-      "full MVP-04",
-      "full MVP-06",
-      "MVP stage",
-      "human gates"
-    ]
+  "verdict": {
+    "raw": ".agent/stages/mvp/verdicts/MVP-03-consent-version-logging-001.json",
+    "problems": ".agent/stages/mvp/problems/MVP-03-consent-version-logging-001.md",
+    "alias": ".agent/stages/mvp/verdict.json"
   },
+  "affected_ids": [
+    "MVP-03.03",
+    "MVP-03-consent-version-logging-001"
+  ],
   "implemented_scope": [
-    "Mapped design-system-v0.1.md token baseline into apps/web/app/globals.css.",
-    "Aligned apps/web learning shell and fixture-backed lesson renderer to Calm Progress Fintech component patterns.",
-    "Added focused token guardrail test coverage.",
-    "Captured Browser/IAB review and mobile browser smoke screenshots.",
-    "Fixed the follow-up strict UI smoke reward-color gap so the N1 reward block and reward type badge use amber/warning-soft tokens only."
+    "Added append-only Flyway migration V007__legal_document_acceptance_log.sql.",
+    "Added narrow apps/api consent domain/service/persistence/web package.",
+    "Recorded current draft legal document version set for privacy policy, personal data consent, terms of use and financial disclaimer.",
+    "Anchored acceptance rows to employee_registrations.id with tenant, pilot launch and access pool scope copied for audit queries.",
+    "Implemented idempotent same-version retry without duplicate rows.",
+    "Implemented structured safe errors for unknown document type, unsupported version, missing required document and unknown employee registration.",
+    "Covered OpenAPI runtime /v3/api-docs in integration tests.",
+    "Updated packages/api-client OpenAPI snapshot, generator, drift check and generated contract/client helper for the legal acceptance endpoint.",
+    "Kept apps/web non-mutating because there is no trustworthy employee auth/session or registration identity bridge.",
+    "Exposed the current draft legal version marker through packages/api-client as LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION.",
+    "Fixed generated api-client EOF formatting at the generator source and regenerated contracts."
   ],
-  "out_of_scope_preserved": [
-    "No packages/ui component library scaffold.",
-    "No backend/API/schema/OpenAPI/generated-client change.",
-    "No onboarding, diagnostics, progress persistence, points, wallet or CMS publishing.",
-    "No customer brand in employee-facing UI.",
-    "No full MVP-04, MVP-06, MVP stage or human gate closure."
-  ],
-  "screenshots": [
-    ".agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-ready.png",
-    ".agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-lesson-n1.png",
-    ".agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-empty.png",
-    ".agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-error.png",
-    ".agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-loading.png",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/",
-    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-screenshots-followup-20260512/"
-  ],
-  "commands_summary": {
-    "web_typecheck": "PASS",
-    "web_test": "PASS",
-    "web_build": "PASS",
-    "browser_iab": "PASS",
-    "web_browser_smoke": "PASS",
-    "orchestrator_ui_smoke_fixer": "PASS",
-    "orchestrator_strict_ui_smoke": "PASS",
-    "orchestrator_screenshot_smoke": "PASS",
-    "validate_bootstrap": "PASS",
-    "build_docs": "PASS",
-    "customer_brand_scan": "PASS",
-    "forbidden_copy_scan": "PASS",
-    "no_real_data_scan": "PASS",
-    "no_cohort_scan": "PASS",
-    "token_mapping_final": "PASS",
-    "guardrail_scan_final": "PASS",
-    "amber_scope_final": "PASS",
-    "favicon": "PASS",
-    "json_validation_final": "PASS",
-    "git_diff_check_final": "PASS",
-    "whitespace_scan_final": "PASS",
-    "java_version": "BLOCKED_UNQUALIFIED_JAVA_RUNTIME_MISSING",
-    "make_verify": "NOT_RUN_JAVA_RUNTIME_MISSING"
-  },
-  "raw_refs": [
-    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-token-mapping-20260512.md",
-    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-web-typecheck-20260512.txt",
-    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-web-test-20260512.txt",
-    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-web-build-20260512.txt",
-    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-browser-iab-20260512.json",
-    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-browser-smoke-20260512.txt",
-    ".agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/",
-    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-customer-brand-scan-20260512.txt",
-    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-forbidden-copy-scan-20260512.txt",
-    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-no-real-data-scan-20260512.txt",
-    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-no-cohort-scan-20260512.txt",
-    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-validate-bootstrap-20260512.txt",
-    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-build-docs-20260512.txt",
-    ".agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-java-version-20260512.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-web-typecheck-final-20260512.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-web-test-final-20260512.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-web-build-final-20260512.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-browser-iab-final-20260512.json",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-browser-smoke-final-20260512.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-token-mapping-final-20260512.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-guardrail-scan-final-20260512.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-amber-scope-final-20260512.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-favicon-final-20260512.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-json-validation-final-20260512.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-git-diff-check-final-20260512.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-whitespace-scan-final-20260512.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-validate-bootstrap-final-20260512.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-build-docs-final-20260512.txt",
-    ".agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-java-version-final-20260512.txt",
-    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-json-validation-final-20260512.txt",
-    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-git-diff-check-final-20260512.txt",
-    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-alias-invariants-final-20260512.txt",
-    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-verify-harness-final-20260512.txt",
-    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-java-version-final-20260512.txt",
-    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-ui-smoke-fixer-20260512.txt",
-    ".agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-screenshots-followup-20260512/"
-  ],
-  "docs_sync": {
-    "status": "NO_CANONICAL_DOC_CHANGE",
-    "refs": [
-      "docs/stages/MVP.md",
-      "docs/product/b2b-mvp/lemanapro/design-system-v0.1.md"
+  "source_mapping": {
+    "stage_scope": "docs/stages/MVP.md#MVP-03",
+    "product_legal_privacy": "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md",
+    "access_guardrails": [
+      "docs/architecture/access-and-subscriptions.md",
+      "docs/architecture/organization-access-subscription-model.md"
     ],
-    "reason": "The slice follows the existing draft design-system baseline and records parent acceptance in stage artifacts only."
+    "human_gates": "docs/engineering/human-gates.md",
+    "documentation_workflow": "docs/architecture/documentation-workflow.md"
   },
-  "human_gates": [
+  "changed_files": [
+    "apps/api/src/main/resources/db/migration/V007__legal_document_acceptance_log.sql",
+    "apps/api/src/main/java/com/finrhythm/api/consent/domain/LegalDocumentAcceptance.java",
+    "apps/api/src/main/java/com/finrhythm/api/consent/domain/LegalDocumentType.java",
+    "apps/api/src/main/java/com/finrhythm/api/consent/persistence/LegalDocumentAcceptanceRepository.java",
+    "apps/api/src/main/java/com/finrhythm/api/consent/service/AcceptedLegalDocument.java",
+    "apps/api/src/main/java/com/finrhythm/api/consent/service/LegalAcceptanceCommand.java",
+    "apps/api/src/main/java/com/finrhythm/api/consent/service/LegalAcceptanceDocumentCommand.java",
+    "apps/api/src/main/java/com/finrhythm/api/consent/service/LegalAcceptanceException.java",
+    "apps/api/src/main/java/com/finrhythm/api/consent/service/LegalAcceptanceFailureReason.java",
+    "apps/api/src/main/java/com/finrhythm/api/consent/service/LegalAcceptanceResult.java",
+    "apps/api/src/main/java/com/finrhythm/api/consent/service/LegalAcceptanceService.java",
+    "apps/api/src/main/java/com/finrhythm/api/consent/web/AcceptedLegalDocumentResponse.java",
+    "apps/api/src/main/java/com/finrhythm/api/consent/web/LegalDocumentAcceptanceController.java",
+    "apps/api/src/main/java/com/finrhythm/api/consent/web/LegalDocumentAcceptanceRequest.java",
+    "apps/api/src/main/java/com/finrhythm/api/consent/web/LegalDocumentAcceptanceResponse.java",
+    "apps/api/src/main/java/com/finrhythm/api/consent/web/LegalDocumentVersionRequest.java",
+    "apps/api/src/test/java/com/finrhythm/api/consent/LegalDocumentAcceptanceControllerIT.java",
+    "packages/api-client/openapi/finrhythm-api.openapi.json",
+    "packages/api-client/scripts/generate-contracts.mjs",
+    "packages/api-client/scripts/check-openapi-drift.mjs",
+    "packages/api-client/src/generated/contracts.ts",
+    "packages/api-client/dist/generated/contracts.js",
+    "packages/api-client/dist/generated/contracts.d.ts",
+    "packages/api-client/README.md",
+    "apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java",
+    "apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java",
+    "docs/architecture/repo-layout.md",
+    ".agent/stages/mvp/evidence.md",
+    ".agent/stages/mvp/evidence.json",
+    ".agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.md",
+    ".agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.json",
+    ".agent/stages/mvp/status.json",
+    ".agent/stages/mvp/backlog.md",
+    ".agent/stages/mvp/progress.md",
+    ".agent/stages/mvp/feature_list.json",
+    "packages/api-client/package.json",
+    "packages/api-client/tsconfig.json",
+    "packages/api-client/src/index.ts",
+    "packages/api-client/dist/index.js",
+    "packages/api-client/dist/index.d.ts"
+  ],
+  "baseline_compile_fix": {
+    "status": "INCLUDED",
+    "files": [
+      "apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java",
+      "apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java"
+    ],
+    "reason": "Existing dirty admin status service expected effective expired-invite repository methods; Maven could not compile until that active service/repository contract was completed."
+  },
+  "out_of_scope_preserved": [
+    "No final legal approval or production legal text approval.",
+    "No cookie consent.",
+    "No employee auth/session/login/password setup/user/org-membership/subscription/seat implementation.",
+    "No diagnostics questions, scoring, routing or submissions.",
+    "No profile/contact update beyond existing employeeRegistrationId anchor.",
+    "No HR reporting/dashboard/analytics events.",
+    "No admin UI/CMS/content publishing/progress/scored submissions/practice submission/points/wallet/rewards/merch.",
+    "No real employee/customer/personal/financial data.",
+    "No generated TypeScript client hand-writing.",
+    "No full MVP-03, MVP stage or human-gate closure."
+  ],
+  "acceptance_mapping": [
     {
-      "gate": "brand naming approval",
-      "status": "WAITING_HUMAN"
+      "item": "Append-only Flyway migration creates legal/consent acceptance log",
+      "status": "PASS",
+      "evidence": "V007__legal_document_acceptance_log.sql; migration inspection in LegalDocumentAcceptanceControllerIT"
     },
     {
-      "gate": "accessibility contrast audit",
-      "status": "WAITING_HUMAN"
+      "item": "Log anchors to employee_registrations.id and preserves tenant/pilot/access-pool scope",
+      "status": "PASS",
+      "evidence": "V007 foreign key/scope columns; assertStoredScope integration test"
     },
     {
-      "gate": "final legal/privacy wording review",
-      "status": "WAITING_HUMAN"
+      "item": "Current draft allowlist includes four document types",
+      "status": "PASS",
+      "evidence": "LegalDocumentType enum; LegalAcceptanceService required set; OpenAPI test"
     },
     {
-      "gate": "design QA on real mobile screens",
-      "status": "WAITING_HUMAN"
+      "item": "API records acceptance for current draft versions",
+      "status": "PASS",
+      "evidence": "LegalDocumentAcceptanceControllerIT recordsCurrentDraftAcceptanceAndTreatsSameVersionRetryAsIdempotent"
     },
     {
-      "gate": "reward economy/fulfillment approval",
-      "status": "WAITING_HUMAN"
+      "item": "Same-version retry is idempotent without duplicate rows",
+      "status": "PASS",
+      "evidence": "same integration test checks createdCount=0, idempotentRetry=true and row count remains 4"
     },
     {
-      "gate": "customer-specific HR/reporting boundaries",
-      "status": "WAITING_HUMAN"
+      "item": "Unknown type, unsupported version, missing document and unknown registration reject safely",
+      "status": "PASS",
+      "evidence": "LegalDocumentAcceptanceControllerIT rejection tests"
+    },
+    {
+      "item": "API responses do not echo raw invite codes, activation subject refs, PII or legal text bodies",
+      "status": "PASS",
+      "evidence": "response assertions and guardrail scan"
+    },
+    {
+      "item": "Controller remains thin",
+      "status": "PASS",
+      "evidence": "LegalDocumentAcceptanceController delegates to LegalAcceptanceService and maps response"
+    },
+    {
+      "item": "OpenAPI includes new acceptance contract",
+      "status": "PASS",
+      "evidence": "runtime /v3/api-docs integration test"
+    },
+    {
+      "item": "Generated client updated without hand-writing generated artifacts",
+      "status": "PASS",
+      "evidence": "packages/api-client snapshot/generator/drift check cover legal acceptance DTO/path helper and LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION=draft-2026-05-12; api-client build/check:generated/check:openapi-drift/typecheck plus marker scan PASS"
+    },
+    {
+      "item": "Web avoids unsafe acceptance without trustworthy identity bridge",
+      "status": "PASS",
+      "evidence": "no apps/web mutation in this slice; privacy screen remains non-mutating"
+    },
+    {
+      "item": "Fresh verifier PASS",
+      "status": "PASS",
+      "evidence": ".agent/stages/mvp/verdicts/MVP-03-consent-version-logging-001.json"
     }
   ],
+  "commands_summary": {
+    "java_version_explicit_homebrew_jdk21": "PASS",
+    "api_mvn_test": "PASS",
+    "api_mvn_verify": "PASS",
+    "make_verify": "PASS",
+    "make_test_unit": "PASS",
+    "make_build": "PASS",
+    "api_client_generate_build_drift_typecheck": "PASS_WITH_RAW_REFS",
+    "json_validation": "PASS",
+    "git_diff_check": "PASS",
+    "guardrail_scans": "PASS_WITH_ASSERTION_MATCHES",
+    "verify_harness": "PASS",
+    "fresh_verifier": "PASS",
+    "json_validation_after_generated_client_fix": "PASS",
+    "git_diff_check_after_generated_client_fix": "PASS",
+    "api_client_current_version_marker_fix": "PASS_WITH_RAW_REFS",
+    "json_validation_after_current_version_fix": "PASS",
+    "git_diff_check_after_current_version_fix": "PASS",
+    "api_client_eof_whitespace_fix": "PASS_WITH_RAW_REFS",
+    "json_validation_after_eof_fix": "PASS",
+    "git_diff_check_after_eof_fix": "PASS",
+    "parent_sync_json_validation": "PASS",
+    "parent_sync_git_diff_check": "PASS"
+  },
+  "raw_refs": [
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-mvn-test-20260512-r3.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-mvn-verify-20260512-r2.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-make-verify-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-make-test-unit-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-make-build-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-guardrail-scan-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-mvn-test-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-mvn-test-20260512-r2.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-mvn-verify-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-build-20260512-r3.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-generated-20260512-r2.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-openapi-drift-20260512-r2.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-typecheck-20260512-r2.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-fix-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-fix-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-fix-20260512-r2.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-fix-20260512-r2.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-build-current-version-fix-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-generated-current-version-fix-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-openapi-drift-current-version-fix-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-typecheck-current-version-fix-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-marker-scan-current-version-fix-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-current-version-fix-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-current-version-fix-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-current-version-fix-20260512-r2.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-current-version-fix-20260512-r2.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-build-eof-fix-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-generated-eof-fix-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-openapi-drift-eof-fix-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-typecheck-eof-fix-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-marker-scan-eof-fix-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-eof-fix-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-no-index-whitespace-eof-fix-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-eof-fix-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-eof-fix-20260512-r2.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-eof-fix-20260512-r2.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-eof-fix-20260512-r3.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-parent-sync-json-validation-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-parent-sync-git-diff-check-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-verify-harness-20260512.txt"
+  ],
+  "docs_sync": {
+    "status": "CANONICAL_DOC_UPDATED",
+    "refs": [
+      "docs/stages/MVP.md",
+      "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md",
+      "docs/architecture/access-and-subscriptions.md",
+      "docs/architecture/organization-access-subscription-model.md",
+      "docs/architecture/documentation-workflow.md",
+      "docs/architecture/repo-layout.md",
+      "packages/api-client/README.md"
+    ],
+    "reason": "Canonical docs already require consent/legal document version logging; this slice implements backend/API technical foundation without changing product policy, access architecture, setup contract or legal wording. Repo layout/API-client notes were synced after adding generated client coverage for the legal acceptance endpoint."
+  },
+  "generated_client": {
+    "status": "UPDATED_AND_CHECKED_CURRENT_VERSION_MARKER",
+    "refs": [
+      "packages/api-client/package.json",
+      "packages/api-client/tsconfig.json",
+      "packages/api-client/README.md",
+      "packages/api-client/openapi/finrhythm-api.openapi.json",
+      "packages/api-client/scripts/generate-contracts.mjs",
+      "packages/api-client/scripts/check-openapi-drift.mjs",
+      "packages/api-client/src/index.ts",
+      "packages/api-client/src/generated/contracts.ts",
+      "packages/api-client/dist/index.js",
+      "packages/api-client/dist/index.d.ts",
+      "packages/api-client/dist/generated/contracts.js",
+      "packages/api-client/dist/generated/contracts.d.ts"
+    ],
+    "commands": [
+      "pnpm --filter @finrhythm/api-client build",
+      "pnpm --filter @finrhythm/api-client check:generated",
+      "pnpm --filter @finrhythm/api-client check:openapi-drift",
+      "pnpm --filter @finrhythm/api-client typecheck",
+      "rg -n \"legal-acceptances|LegalDocumentAcceptance|LegalDocumentType|PRIVACY_POLICY|draft-2026-05-12|LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION\" packages/api-client"
+    ],
+    "reason": "packages/api-client has a narrow generator/artifacts baseline; legal acceptance DTOs, path helper and current draft version marker were regenerated from the OpenAPI snapshot and checked for generated-output/OpenAPI drift.",
+    "raw_refs": [
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-build-20260512-r3.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-generated-20260512-r2.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-openapi-drift-20260512-r2.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-typecheck-20260512-r2.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-build-current-version-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-generated-current-version-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-openapi-drift-current-version-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-typecheck-current-version-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-marker-scan-current-version-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-build-eof-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-generated-eof-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-openapi-drift-eof-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-typecheck-eof-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-marker-scan-eof-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-eof-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-no-index-whitespace-eof-fix-20260512.txt"
+    ],
+    "current_draft_version": "draft-2026-05-12",
+    "exported_constant": "LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION",
+    "drift_guard": "packages/api-client/scripts/check-openapi-drift.mjs compares LegalDocumentVersionRequest.documentVersion.example with LegalAcceptanceService.CURRENT_DRAFT_VERSION.",
+    "eof_whitespace": "PASS: generator returns trimEnd()+single newline; generated source no-index whitespace check passed."
+  },
+  "web_handoff": {
+    "status": "NO_WEB_MUTATION",
+    "reason": "Current apps/web privacy route has no trustworthy employeeRegistrationId/auth-session bridge; unsafe fake identity was not introduced."
+  },
   "human_gates_closed": false,
+  "human_gates_remaining_open": [
+    "legal-privacy-consent-wording-and-real-pii-processing",
+    "real-employee-customer-data-processing-approval",
+    "customer-specific-hr-reporting-boundaries",
+    "financial-correctness-lessons-diagnostics-quizzes",
+    "legal-tax-review-tax-deduction-wording",
+    "hr-privacy-wording-review-diagnostics-self-assessment-reports",
+    "reward-economy-stock-prices-fulfillment",
+    "support-answer-policy-sensitive-topics",
+    "MVP-05-production-ready-publish-approval",
+    "admin-auth-role-audit-policy-for-production-use"
+  ],
   "fresh_verifier": {
     "status": "PASS",
-    "verdict_ref": ".agent/stages/mvp/verdicts/MVP-04-design-system-tokenization-001.json",
-    "problems_ref": ".agent/stages/mvp/problems/MVP-04-design-system-tokenization-001.md"
+    "verdict_ref": ".agent/stages/mvp/verdicts/MVP-03-consent-version-logging-001.json",
+    "problems_ref": ".agent/stages/mvp/problems/MVP-03-consent-version-logging-001.md",
+    "note": "Fresh stage_verifier PASS recorded; parent aliases synchronized while full MVP-03 and human gates remain open."
   },
-  "blocker": "Unqualified java -version cannot locate a Java runtime in the current shell; make verify was not run for this frontend slice.",
-  "verdict": {
-    "status": "PASS",
-    "raw": ".agent/stages/mvp/verdicts/MVP-04-design-system-tokenization-001.json",
-    "problems": ".agent/stages/mvp/problems/MVP-04-design-system-tokenization-001.md"
-  }
+  "latest_fix_validation_raw_refs": [
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-fix-20260512-r2.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-fix-20260512-r2.txt"
+  ],
+  "summary": [],
+  "latest_current_version_fix_validation_raw_refs": [
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-current-version-fix-20260512-r2.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-current-version-fix-20260512-r2.txt"
+  ],
+  "latest_eof_fix_validation_raw_refs": [
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-eof-fix-20260512-r2.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-eof-fix-20260512-r3.txt"
+  ]
 }

@@ -7,7 +7,7 @@
     "getcourse:collect-links": "node scripts/getcourse-collect-lesson-links.js",
     "getcourse:download-assets": "node scripts/getcourse-download-visible-assets.js",
     "getcourse:export-content": "node scripts/getcourse-export-lesson-content.js",
-    "test:e2e": "node tests/e2e/smoke-placeholder.mjs",
+    "test:e2e": "node tests/e2e/browser-smoke.mjs",
     "verify:bootstrap": "node scripts/verify-bootstrap.mjs"
   },
   "devDependencies": {

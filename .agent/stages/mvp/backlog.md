@@ -40,7 +40,13 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 
 `MVP-06-learning-renderer-fixture-001` has fresh verifier `PASS` for the fixture renderer only and remains immutable/discoverable. Full `MVP-06` remains open.
 
-`MVP-06-learning-n2-fixture-001` has scoped fresh verifier `PASS` after the active sprint contract freeze. It adds one more synthetic N2 savings-challenge fixture, `/learning/lessons/N2` route coverage and a `/learning` link/CTA in the existing fixture renderer. Latest verified evidence remains `MVP-04-design-system-tokenization-001`; a separate parent alias-sync decision is still required before latest aliases can move.
+`MVP-06-learning-n2-fixture-001` has scoped fresh verifier `PASS` and parent-synced latest aliases after the active sprint contract freeze. It adds one more synthetic N2 savings-challenge fixture, `/learning/lessons/N2` route coverage and a `/learning` link/CTA in the existing fixture renderer. Full `MVP-06`, the MVP stage and human gates remain open.
+
+`MVP-06-learning-n3-fixture-001` has scoped fresh verifier `PASS` and parent-synced latest status. It is renderer/fixture-only: one synthetic N3 decluttering/safe-sale fixture, route `/learning/lessons/N3`, existing full lesson-id alias, visible `/learning` CTA and smoke evidence while preserving N1/N2. Full `MVP-06`, the MVP stage and human gates remain open.
+
+`MVP-03-onboarding-privacy-screen-001` has scoped fresh verifier `PASS` and parent-synced latest aliases for parent unit `MVP-03.02`. It adds the smallest employee-facing `/onboarding/privacy` route explaining HR/employer visibility before future diagnostics, and explicitly does not implement consent version logging.
+
+`MVP-03-consent-version-logging-001` now has scoped fresh verifier `PASS` for parent unit `MVP-03.03`. It adds backend/API/Flyway/OpenAPI/generated-client consent version logging, while final legal approval, auth/session and full `MVP-03` remain open.
 
 ## MVP-02. Corporate tenant and invite access
 
@@ -144,6 +150,60 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 - do not edit production code, schemas, API contracts, generated clients, UI, canonical docs, raw evidence or prior immutable proof refs;
 - fresh verifier returned `PASS` for this closure/audit task only.
 
+## MVP-03. Trust, legal consent and profile base
+
+| ID | Mode | Status | Goal | Evidence |
+|----|------|--------|------|----------|
+| MVP-03.01 | agent+human | PENDING | Draft privacy, terms, consent and financial disclaimer documents. | Future legal/human-gated task evidence required. |
+| MVP-03.02 | agent | SCOPED_PASS | Implement onboarding and privacy screen. | Narrow `/onboarding/privacy` screen has scoped PASS via `MVP-03-onboarding-privacy-screen-001`; full MVP-03 remains open. |
+| MVP-03-onboarding-privacy-screen-001 | agent | PASS | Add the smallest employee-facing `apps/web` privacy route, preferred `/onboarding/privacy`, explaining what HR/employer sees and does not see before future diagnostics. | `.agent/stages/mvp/evidence/MVP-03-onboarding-privacy-screen-001.md`; `.agent/stages/mvp/evidence/MVP-03-onboarding-privacy-screen-001.json`; `.agent/stages/mvp/verdicts/MVP-03-onboarding-privacy-screen-001.json`; `.agent/stages/mvp/problems/MVP-03-onboarding-privacy-screen-001.md`. |
+| MVP-03.03 | agent | SCOPED_PASS | Implement consent version logging. | Scoped PASS via `MVP-03-consent-version-logging-001`; full MVP-03 remains open. |
+| MVP-03-consent-version-logging-001 | agent | PASS | Add append-only draft legal/consent document version acceptance logging for an existing employee registration, with idempotent same-version retry and safe rejection of unsupported inputs. | `.agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.md`; `.agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.json`; `.agent/stages/mvp/verdicts/MVP-03-consent-version-logging-001.json`; `.agent/stages/mvp/problems/MVP-03-consent-version-logging-001.md`. |
+| MVP-03.04 | agent | PENDING | Implement profile, contact update and support-ready identity basics. | Future task evidence required. |
+| MVP-03.05 | agent | PENDING | Implement admin audit logs for sensitive access. | Future task evidence and human-gated production policy required. |
+| MVP-03 | agent+human | OPEN | Full trust/legal consent/profile base remains open. | Legal/privacy/consent wording and real-data processing remain human-gated. |
+
+### Verified onboarding/privacy screen slice
+
+`MVP-03-onboarding-privacy-screen-001` is intentionally scoped to a first employee-facing privacy explanation only:
+
+- add a neutral Russian calm mentor privacy route/screen in `apps/web`, preferably `/onboarding/privacy`;
+- explain aggregate-by-default HR/employer reporting before future diagnostics;
+- state that personal diagnostic answers, individual weak zones, exact sums and reflection details are not personal HR reports by default;
+- state that exact sums, photos, documents and bank screenshots are not required;
+- mark wording as draft/legal-human-gated and avoid final legal approval or consent-recording claims;
+- optionally link from `/learning` to the privacy route as navigation/handoff only;
+- exclude diagnostics/routing, consent version logging, backend/API/schema/OpenAPI/generated-client, progress persistence, scored quiz submission, practice submission, points/wallet, CMS/admin publishing, production content approval, HR dashboard/reporting, real data and customer brand;
+- do not close full `MVP-03`, full `MVP-04`, full `MVP-06`, `MVP-07`, MVP stage or any human gate.
+- builder evidence, web checks, browser screenshots and guardrail scans are recorded;
+- fresh scoped verifier returned `PASS`, and parent latest aliases now point to `MVP-03-onboarding-privacy-screen-001`;
+- full `MVP-03`, full `MVP-04`, full `MVP-06`, `MVP-07`, MVP stage and all human gates remain open.
+
+### Frozen consent version logging slice
+
+`MVP-03-consent-version-logging-001` is intentionally scoped to a technical backend/API foundation for draft legal document version logging:
+
+- use `apps/api` baseline: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc;
+- anchor acceptance logging to the existing `employeeRegistrationId` returned by `POST /api/v1/employee-registrations`;
+- append an auditable consent/legal document acceptance log through a new Flyway migration;
+- support current draft document types for privacy policy, personal data consent, terms of use and financial disclaimer;
+- prove idempotent same-version retry and rejection for unknown/unsupported document/version inputs;
+- keep controller thin and business rules in service/domain code;
+- update OpenAPI/springdoc source and record generated-client no-op unless a generator exists in `packages/api-client`;
+- allow `/onboarding/privacy` web handoff only if the existing flow has a trustworthy registration identity; otherwise keep the UI non-mutating and record the auth/session gap;
+- require docs-sync decision, Mermaid flow evidence, Java runtime proof/blocker, backend tests and fresh verifier before PASS;
+- exclude final legal approval, auth/session overhaul, diagnostics/routing, HR reporting, real data, generated client hand-writing and full `MVP-03` closure.
+
+Builder evidence is now recorded:
+
+- append-only `V007__legal_document_acceptance_log.sql`;
+- new `apps/api/src/main/java/com/finrhythm/api/consent/**` package and `LegalDocumentAcceptanceControllerIT`;
+- current draft document set, idempotent retry, safe rejection paths and OpenAPI runtime coverage are covered by backend integration tests;
+- `packages/api-client` OpenAPI snapshot, generator/drift checks and generated contract/client helper now cover the legal acceptance endpoint;
+- `/onboarding/privacy` was not changed because there is no trustworthy employee auth/session or registration identity bridge;
+- backend/root checks passed with explicit Homebrew JDK 21 proof;
+- fresh verifier returned `PASS`, and latest verified aliases now point to `MVP-03-consent-version-logging-001`.
+
 ## MVP-04. UX/UI foundation and neutral brand
 
 | ID | Mode | Status | Goal | Evidence |
@@ -183,7 +243,8 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 | ID | Mode | Status | Goal | Evidence |
 |----|------|--------|------|----------|
 | MVP-06-learning-renderer-fixture-001 | agent | PASS | Build a tiny mobile-first `apps/web` fixture-backed renderer for one synthetic `N1` lesson, reachable from the verified learning shell. | `.agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.md`; `.agent/stages/mvp/evidence/MVP-06-learning-renderer-fixture-001.json`; `.agent/stages/mvp/verdicts/MVP-06-learning-renderer-fixture-001.json`; `.agent/stages/mvp/raw/mvp-06-learning-renderer-fixture-001-screenshots-20260511/` |
-| MVP-06-learning-n2-fixture-001 | agent | PASS_PENDING_PARENT_ALIAS_SYNC | Add one additional synthetic `N2` savings-challenge lesson fixture to the existing `apps/web` fixture-backed renderer and link it from `/learning`. | `.agent/stages/mvp/evidence/MVP-06-learning-n2-fixture-001.md`; `.agent/stages/mvp/evidence/MVP-06-learning-n2-fixture-001.json`; `.agent/stages/mvp/verdicts/MVP-06-learning-n2-fixture-001.json`; `.agent/stages/mvp/problems/MVP-06-learning-n2-fixture-001.md`; `.agent/stages/mvp/raw/mvp-06-learning-n2-fixture-001-screenshots-20260512/` |
+| MVP-06-learning-n2-fixture-001 | agent | PASS | Add one additional synthetic `N2` savings-challenge lesson fixture to the existing `apps/web` fixture-backed renderer and link it from `/learning`. | `.agent/stages/mvp/evidence/MVP-06-learning-n2-fixture-001.md`; `.agent/stages/mvp/evidence/MVP-06-learning-n2-fixture-001.json`; `.agent/stages/mvp/verdicts/MVP-06-learning-n2-fixture-001.json`; `.agent/stages/mvp/problems/MVP-06-learning-n2-fixture-001.md`; `.agent/stages/mvp/raw/mvp-06-learning-n2-fixture-001-screenshots-20260512/`; root latest aliases now point to this task. |
+| MVP-06-learning-n3-fixture-001 | agent | PASS | Add one synthetic `N3_DECLUTTER_TO_GOAL` lesson fixture to the existing renderer, expose `/learning/lessons/N3` and add a visible `/learning` CTA while preserving N1/N2. | `.agent/stages/mvp/evidence/MVP-06-learning-n3-fixture-001.md`; `.agent/stages/mvp/evidence/MVP-06-learning-n3-fixture-001.json`; `.agent/stages/mvp/verdicts/MVP-06-learning-n3-fixture-001.json`; `.agent/stages/mvp/problems/MVP-06-learning-n3-fixture-001.md`; `.agent/stages/mvp/raw/mvp-06-learning-n3-fixture-001-screenshots-20260512/`; `.agent/stages/mvp/raw/mvp-06-learning-n3-fixture-001-verifier-screenshots-20260512/`. |
 | MVP-06 | agent | OPEN | Full learning delivery, CMS/admin, content states, publish validation, progress tracking and analytics hooks remain open. | Future builder evidence and human-gated content approvals required. |
 
 ### Frozen fixture-backed renderer slice
@@ -216,4 +277,24 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 - avoid exact personal sums, photos, documents and bank screenshots;
 - exclude CMS/admin publishing, progress persistence, scored quiz submission, practice submission, points/wallet, diagnostics/routing, onboarding/consent, backend/API/schema/OpenAPI/generated-client and `packages/ui`;
 - do not close full `MVP-04`, full `MVP-06`, the MVP stage or human gates.
-- fresh scoped verifier returned `PASS` for this sprint only. Parent latest-alias sync remains pending as a separate decision.
+- fresh scoped verifier returned `PASS` for this sprint only, and parent latest aliases were synchronized to this task in a separate artifact-only decision.
+
+### Verified N3 fixture extension slice
+
+`MVP-06-learning-n3-fixture-001` is intentionally scoped to one more synthetic fixture for the existing renderer:
+
+- add synthetic `N3_DECLUTTER_TO_GOAL` content for decluttering and safe sale of unused items;
+- provide direct route coverage for `N3`, expected as `/learning/lessons/N3`;
+- allow the full lesson-id alias only if the current resolver pattern supports it;
+- link `/learning` to the N3 lesson with a visible CTA while preserving N1 and N2;
+- include office and store/shift examples;
+- keep the mini-test display-only with safe-sale questions from `Q10`, `Q11` and `Q12`;
+- keep practice non-persistent as checklist+choice: item count/range, safety checklist and destination category;
+- reference `DC_DECLUTTER_ONE` only as fixture/contextual copy, not saved daily challenge behavior;
+- mark content `editorial_draft` and `humanReviewRequired: true`, with `content/getcourse-finstrategy/12-lesson-235010153.md` remaining `humanReview: "required"`;
+- require amber/warning-soft reward guardrails and no money/cash-equivalence/guaranteed-result/random-reward claims;
+- avoid photos, address, listing URLs, deal amount, buyer chat, payment screenshot, bank screenshot, exact sums, customer brand and old cohort terms;
+- exclude CMS/admin publishing, content states, publish validation, progress persistence, scored quiz submission, practice submission, saved listing/challenge/daily challenge, points/wallet, diagnostics/routing, onboarding/consent, backend/API/schema/OpenAPI/generated-client, `packages/ui`, admin/HR analytics/event tracking, real data and customer brand;
+- do not close full `MVP-04`, full `MVP-06`, the MVP stage or human gates.
+- builder and verifier checks, browser smoke and screenshots are recorded in `.agent/stages/mvp/evidence/MVP-06-learning-n3-fixture-001.*`, `.agent/stages/mvp/verdicts/MVP-06-learning-n3-fixture-001.json` and `.agent/stages/mvp/problems/MVP-06-learning-n3-fixture-001.md`;
+- fresh scoped verifier returned `PASS` for this sprint only, and parent latest status was synchronized to this task.

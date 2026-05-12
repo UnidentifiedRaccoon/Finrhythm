@@ -5,7 +5,7 @@ import { chromium } from "playwright";
 
 const baseUrl = process.env.WEB_SMOKE_BASE_URL ?? "http://127.0.0.1:3400";
 const outputDir = process.env.WEB_SMOKE_OUTPUT_DIR ?? ".";
-const screenshotPrefix = process.env.WEB_SMOKE_SCREENSHOT_PREFIX ?? "mvp-06-learning-renderer-fixture-001";
+const screenshotPrefix = process.env.WEB_SMOKE_SCREENSHOT_PREFIX ?? "mvp-03-onboarding-privacy-screen-001";
 const executablePath = process.env.CHROMIUM_EXECUTABLE_PATH;
 
 const scenarios = [
@@ -13,7 +13,33 @@ const scenarios = [
     name: "mobile-ready",
     path: "/learning",
     viewport: { width: 390, height: 844 },
-    expected: ["Финпульс", "Новичок", "План N1-N7", "Урок-превью N1", "Открыть урок"]
+    expected: [
+      "Финпульс",
+      "Новичок",
+      "План N1-N7",
+      "Урок-превью N1",
+      "Открыть урок",
+      "Открыть N2",
+      "Открыть N3",
+      "Подробнее о приватности"
+    ]
+  },
+  {
+    name: "mobile-onboarding-privacy",
+    path: "/onboarding/privacy",
+    viewport: { width: 390, height: 844 },
+    expected: [
+      "Финпульс",
+      "Какие данные видит работодатель",
+      "Что HR видит по умолчанию",
+      "Агрегированную аналитику по группе",
+      "Что HR не видит по умолчанию",
+      "персональные ответы диагностики",
+      "Старт проходит без фото, документов и банковских скриншотов",
+      "Текст требует юридической проверки",
+      "не является принятием согласия",
+      "Диагностика будет отдельным шагом"
+    ]
   },
   {
     name: "mobile-lesson-n1",
@@ -31,6 +57,19 @@ const scenarios = [
       "N2: начните копить играючи",
       "Мини-тест",
       "Выбрать формат без сохранения",
+      "Демо без начисления баллов"
+    ]
+  },
+  {
+    name: "mobile-lesson-n3",
+    path: "/learning/lessons/N3",
+    viewport: { width: 390, height: 844 },
+    expected: [
+      "Финпульс",
+      "Расхламление дома",
+      "N3: пополняйте копилки",
+      "Что безопаснее при продаже вещи",
+      "Выбрать план без сохранения",
       "Демо без начисления баллов"
     ]
   },
@@ -91,7 +130,20 @@ try {
       joinText("худшие", " ", "сотрудники"),
       "пас" + "порт",
       "загрузите " + "скриншот",
-      "отправьте " + "документ"
+      "отправьте " + "документ",
+      "загрузите " + "фото",
+      "приложите " + "фото",
+      "укажите " + "адрес",
+      "укажите " + "ссылку на объявление",
+      "укажите " + "сумму сделки",
+      "отправьте " + "переписку с покупателем",
+      "загрузите " + "скриншот оплаты",
+      "банковский " + "скриншот требуется",
+      "точные " + "личные суммы обязательны",
+      "обязательный " + "мерч",
+      joinText("гарантир", "ованный", " ", "мерч"),
+      joinText("гарантир", "ованный", " ", "результат"),
+      "случайный " + "приз"
     ];
     for (const token of forbidden) {
       assert.equal(html.includes(token), false, `${scenario.name} rendered forbidden token ${token}`);

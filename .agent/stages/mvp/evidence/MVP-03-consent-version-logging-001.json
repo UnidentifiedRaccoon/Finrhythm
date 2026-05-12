@@ -1,0 +1,131 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-03-consent-version-logging-001",
+  "status": "SCOPED_PASS",
+  "updated_at": "2026-05-12",
+  "summary": [
+    "Append-only V007 legal document acceptance log added.",
+    "Narrow apps/api consent package added.",
+    "Current draft legal document set records idempotently for an existing employeeRegistrationId.",
+    "OpenAPI runtime coverage and backend/root checks passed with explicit Homebrew JDK 21.",
+    "packages/api-client snapshot/generator/drift check/generated client now cover legal acceptance DTOs and path helper.",
+    "apps/web remains non-mutating because no trustworthy employee identity bridge exists.",
+    "packages/api-client exports LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION=draft-2026-05-12 and drift-checks it against backend LegalAcceptanceService.CURRENT_DRAFT_VERSION.",
+    "Generated api-client EOF whitespace is fixed at generator source and regenerated artifacts pass scoped/no-index whitespace checks.",
+    "Fresh verifier PASS is recorded."
+  ],
+  "evidence_alias": ".agent/stages/mvp/evidence.json",
+  "markdown": ".agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.md",
+  "verdict": ".agent/stages/mvp/verdicts/MVP-03-consent-version-logging-001.json",
+  "problems": ".agent/stages/mvp/problems/MVP-03-consent-version-logging-001.md",
+  "api_client_validation": {
+    "status": "PASS_CURRENT_VERSION_MARKER_INCLUDED",
+    "files": [
+      "packages/api-client/package.json",
+      "packages/api-client/tsconfig.json",
+      "packages/api-client/README.md",
+      "packages/api-client/openapi/finrhythm-api.openapi.json",
+      "packages/api-client/scripts/generate-contracts.mjs",
+      "packages/api-client/scripts/check-openapi-drift.mjs",
+      "packages/api-client/src/index.ts",
+      "packages/api-client/src/generated/contracts.ts",
+      "packages/api-client/dist/index.js",
+      "packages/api-client/dist/index.d.ts",
+      "packages/api-client/dist/generated/contracts.js",
+      "packages/api-client/dist/generated/contracts.d.ts"
+    ],
+    "commands": [
+      "pnpm --filter @finrhythm/api-client build",
+      "pnpm --filter @finrhythm/api-client check:generated",
+      "pnpm --filter @finrhythm/api-client check:openapi-drift",
+      "pnpm --filter @finrhythm/api-client typecheck",
+      "rg -n \"legal-acceptances|LegalDocumentAcceptance|LegalDocumentType|PRIVACY_POLICY|draft-2026-05-12|LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION\" packages/api-client"
+    ],
+    "raw_refs": [
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-build-20260512-r3.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-generated-20260512-r2.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-openapi-drift-20260512-r2.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-typecheck-20260512-r2.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-build-current-version-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-generated-current-version-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-openapi-drift-current-version-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-typecheck-current-version-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-marker-scan-current-version-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-build-eof-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-generated-eof-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-openapi-drift-eof-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-typecheck-eof-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-marker-scan-eof-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-eof-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-no-index-whitespace-eof-fix-20260512.txt"
+    ],
+    "note": "Legal acceptance OpenAPI snapshot, generated contracts/client helper, current draft version marker and drift checks are present; generated artifacts were checked, not hand-written.",
+    "current_draft_version": "draft-2026-05-12",
+    "exported_constant": "LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION",
+    "eof_whitespace": "PASS"
+  },
+  "fix_validation": {
+    "status": "PASS",
+    "commands": [
+      "jq empty .agent/stages/mvp/status.json .agent/stages/mvp/feature_list.json .agent/stages/mvp/evidence.json .agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.json .agent/stages/mvp/verdict.json .agent/stages/mvp/verdicts/MVP-03-consent-version-logging-001.json",
+      "git diff --check -- generated-client proof fix files"
+    ],
+    "raw_refs": [
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-fix-20260512.txt"
+    ],
+    "latest_raw_refs": [
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-fix-20260512-r2.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-fix-20260512-r2.txt"
+    ]
+  },
+  "current_version_fix_validation": {
+    "status": "PASS",
+    "commands": [
+      "jq empty stage/api-client JSON after current-version marker fix",
+      "git diff --check -- packages/api-client and evidence files after current-version marker fix"
+    ],
+    "raw_refs": [
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-current-version-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-current-version-fix-20260512.txt"
+    ],
+    "latest_raw_refs": [
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-current-version-fix-20260512-r2.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-current-version-fix-20260512-r2.txt"
+    ]
+  },
+  "eof_fix_validation": {
+    "status": "PASS",
+    "commands": [
+      "jq empty stage/api-client JSON after EOF fix",
+      "git diff --check -- packages/api-client and evidence files after EOF fix"
+    ],
+    "raw_refs": [
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-eof-fix-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-eof-fix-20260512-r2.txt"
+    ],
+    "latest_raw_refs": [
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-eof-fix-20260512-r2.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-eof-fix-20260512-r3.txt"
+    ]
+  },
+  "verification_status": "PASS",
+  "fresh_verifier": {
+    "status": "PASS",
+    "verdict_ref": ".agent/stages/mvp/verdicts/MVP-03-consent-version-logging-001.json",
+    "problems_ref": ".agent/stages/mvp/problems/MVP-03-consent-version-logging-001.md"
+  },
+  "parent_sync_validation": {
+    "status": "PASS",
+    "commands": [
+      "jq empty stage/api-client JSON after parent sync",
+      "git diff --check -- scoped consent/api-client/proof files after parent sync",
+      "python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp"
+    ],
+    "raw_refs": [
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-parent-sync-json-validation-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-parent-sync-git-diff-check-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-verify-harness-20260512.txt"
+    ]
+  }
+}

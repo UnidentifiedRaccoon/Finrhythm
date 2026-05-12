@@ -30,6 +30,7 @@ For the current FinLit MVP, product-intent baseline is `docs/product/b2b-mvp/lem
 For content, learning, diagnostics, route rules, lesson templates, content approve-flow, support handoff, learning reports and wording-review slices, load `profiles/CONTENT_PROFILE.md`.
 For non-content/backend/admin/harness slices, do not load product/content methodology docs unless the target stage metadata, task type or verifier problem requires them.
 Raw evidence under `.agent/stages/**/raw/**` is never a default read target. Read raw only by exact reference from current `evidence.json`, current `problems.md` or an explicit audit question.
+Raw evidence is also not a default commit target. Keep full transcripts and repeated screenshots in ignored `raw/`; tracked evidence must summarize outcomes and point to exact local raw refs when useful. All proof artifacts must stay under repo-root `.agent/`, never under `apps/*/.agent/`.
 
 ## Delegation policy
 
@@ -86,6 +87,8 @@ A slice is complete only if:
 4. canonical docs are synchronized;
 5. human gates are explicitly represented;
 6. repo is mergeable or exact blocker is recorded.
+
+Before publishing, check the proof diff for churn. If a slice adds many raw logs or duplicate screenshots, replace them with compact tracked summaries and leave full raw files ignored locally unless an auditor explicitly asked for those exact artifacts.
 
 ## Scope guardrails
 

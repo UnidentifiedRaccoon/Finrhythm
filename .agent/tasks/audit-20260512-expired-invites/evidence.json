@@ -1,0 +1,43 @@
+{
+  "task_id": "audit-20260512-expired-invites",
+  "status": "DONE",
+  "issue": "P1 Expired invites",
+  "implementation": {
+    "strategy": "computed_admin_read_model",
+    "effective_status_rule": "ISSUED with expires_at <= asOf is reported as EXPIRED in admin code-status reads",
+    "storage_lifecycle_changed": false,
+    "expiry_job_added": false,
+    "api_contract_shape_changed": false,
+    "raw_stage_evidence_read": false
+  },
+  "files": [
+    "apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java",
+    "apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java",
+    "apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java",
+    ".agent/tasks/audit-20260512-expired-invites/spec_freeze.md",
+    ".agent/tasks/audit-20260512-expired-invites/evidence.md",
+    ".agent/tasks/audit-20260512-expired-invites/evidence.json"
+  ],
+  "checks": [
+    {
+      "command": "cd apps/api && JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q -Dtest=AdminCodeStatusControllerIT test",
+      "result": "PASS",
+      "summary": "AdminCodeStatusControllerIT: 7 tests, 0 failures, 0 errors, 0 skipped"
+    },
+    {
+      "command": "cd apps/api && JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q verify",
+      "result": "PASS",
+      "summary": "Backend Maven verify passed on OpenJDK 21.0.11 with Testcontainers PostgreSQL"
+    },
+    {
+      "command": "git diff --check -- apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java apps/api/src/test/java/com/finrhythm/api/admin/AdminCodeStatusControllerIT.java .agent/tasks/audit-20260512-expired-invites",
+      "result": "PASS",
+      "summary": "No whitespace errors in scoped diff"
+    }
+  ],
+  "docs": {
+    "canonical_docs_changed": false,
+    "reason": "Bug fix inside existing admin code-status read boundary; no endpoint, DTO shape, lifecycle storage or access-model change."
+  },
+  "blockers": []
+}

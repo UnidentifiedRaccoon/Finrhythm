@@ -1,122 +1,188 @@
-# Evidence: MVP-04-design-system-tokenization-001
+# Evidence: MVP-03-consent-version-logging-001
 
-Status: `PASS`
+Status: `SCOPED_PASS`
 Updated: 2026-05-12
 Stage: `mvp`
-Parent unit: `MVP-04.04`
+Parent unit: `MVP-03.03`
 
-## Implemented
+## Scope
 
-- Added a minimal code token layer in `apps/web/app/globals.css` using the canonical design-system token names from `design-system-v0.1.md`.
-- Kept `packages/ui` untouched because it currently has no package scaffold or local shared component pattern.
-- Replaced the old active local CSS variable layer (`--bg`, `--ink`, `--green`, `--blue`, `--line`, `--surface`) with design-system color, typography, spacing, radius, shadow and control tokens.
-- Aligned the learning shell with a privacy card, route progress/stepper, tokenized cards, chips, primary CTA and bottom navigation.
-- Aligned the lesson renderer with a lesson progress panel, tokenized lesson blocks, privacy/sensitive practice panel, reward panel and policy card.
-- Added a focused test assertion that guards the token baseline and verifies the old local palette does not return.
-- Used Browser/IAB for rendered review; fixed a bottom-nav nested span selector issue found during screenshot inspection.
-- Captured refreshed mobile screenshots for `/learning`, `/learning/lessons/N1`, loading, empty and error states.
+Built the frozen backend/API-first consent version logging slice:
+
+- added append-only Flyway migration `V007__legal_document_acceptance_log.sql`;
+- added a narrow `apps/api` consent package for draft legal document acceptance;
+- records current draft versions for `PRIVACY_POLICY`, `PERSONAL_DATA_CONSENT`, `TERMS_OF_USE` and `FINANCIAL_DISCLAIMER`;
+- anchors acceptance rows to existing `employee_registrations.id` and stores tenant / pilot launch / access pool scope;
+- supports idempotent same-version retry without duplicate rows;
+- rejects unknown document type, unsupported version, missing required document and unknown employee registration through structured safe errors;
+- exposes thin API surface at `POST /api/v1/employee-registrations/{employeeRegistrationId}/legal-acceptances`;
+- covers OpenAPI runtime `/v3/api-docs` in integration tests;
+- updates `packages/api-client` OpenAPI snapshot, generator, drift check and generated contract/client helper for the legal acceptance endpoint;
+- exports `LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION = "draft-2026-05-12"` from generated contracts and drift-checks it against backend `LegalAcceptanceService.CURRENT_DRAFT_VERSION`;
+- keeps generated api-client EOF formatting stable at generator source and verifies new/untracked generated files with no-index whitespace checks;
+- leaves `/onboarding/privacy` non-mutating because there is no trustworthy employee auth/session or registration identity bridge in `apps/web`.
+
+The slice does not approve legal wording, implement final consent/legal text management, add employee auth/session, diagnostics/routing, HR reporting, profile basics, points/wallet, CMS/admin publishing, real data handling, or full `MVP-03` closure.
+
+## Flow
+
+```mermaid
+sequenceDiagram
+    participant Web as "Privacy screen / registration handoff"
+    participant API as "Legal acceptance API"
+    participant Service as "Consent service"
+    participant DB as "Append-only acceptance log"
+
+    Web->>API: POST employeeRegistrationId + 4 draft document versions
+    API->>Service: Validate current draft set
+    Service->>DB: Find existing rows for employee/document/version
+    alt first acceptance
+        Service->>DB: Insert one row per required document
+        API-->>Web: 201 + createdCount=4
+    else same-version retry
+        Service-->>API: Existing rows reused
+        API-->>Web: 200 + idempotentRetry=true
+    else invalid input
+        Service-->>API: Structured safe error
+        API-->>Web: 400/404 without invite code, PII or legal body
+    end
+```
+
+## Source Mapping
+
+- Stage scope: `docs/stages/MVP.md`, `MVP-03.03`.
+- Product legal/privacy baseline: `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`, legal minimum/version logging requirement.
+- Access guardrails: `docs/architecture/access-and-subscriptions.md` and `docs/architecture/organization-access-subscription-model.md`.
+- Human gates: `docs/engineering/human-gates.md`.
+- Documentation workflow: `docs/architecture/documentation-workflow.md`.
+
+## Changed Files
+
+Production/test files for this slice:
+
+- `apps/api/src/main/resources/db/migration/V007__legal_document_acceptance_log.sql`
+- `apps/api/src/main/java/com/finrhythm/api/consent/domain/LegalDocumentAcceptance.java`
+- `apps/api/src/main/java/com/finrhythm/api/consent/domain/LegalDocumentType.java`
+- `apps/api/src/main/java/com/finrhythm/api/consent/persistence/LegalDocumentAcceptanceRepository.java`
+- `apps/api/src/main/java/com/finrhythm/api/consent/service/*`
+- `apps/api/src/main/java/com/finrhythm/api/consent/web/*`
+- `apps/api/src/test/java/com/finrhythm/api/consent/LegalDocumentAcceptanceControllerIT.java`
+- `packages/api-client/openapi/finrhythm-api.openapi.json`
+- `packages/api-client/scripts/generate-contracts.mjs`
+- `packages/api-client/scripts/check-openapi-drift.mjs`
+- `packages/api-client/src/generated/contracts.ts`
+- `packages/api-client/dist/generated/contracts.js`
+- `packages/api-client/dist/generated/contracts.d.ts`
+- `packages/api-client/README.md`
+
+Baseline compile fix encountered while running the slice:
+
+- `apps/api/src/main/java/com/finrhythm/api/tenant/persistence/InviteCodeRepository.java`
+- `apps/api/src/main/java/com/finrhythm/api/admin/service/AdminCodeStatusService.java`
+
+Reason: existing dirty admin status code expected effective expired-invite repository methods. Maven could not compile until the repository contract and count aggregation matched that existing service. This preserves the active admin status behavior and is not a new consent feature.
+
+Stage artifacts:
+
+- `.agent/stages/mvp/evidence.md`
+- `.agent/stages/mvp/evidence.json`
+- `.agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.md`
+- `.agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.json`
+- `.agent/stages/mvp/status.json`
+- `.agent/stages/mvp/backlog.md`
+- `.agent/stages/mvp/progress.md`
+- `.agent/stages/mvp/feature_list.json`
+- `docs/architecture/repo-layout.md`
 
 ## Acceptance Mapping
 
-| AC | Builder status | Evidence |
+| Acceptance item | Status | Evidence |
 |---|---|---|
-| Token layer | BUILDER_PASS | `apps/web/app/globals.css`, token mapping raw ref |
-| App surfaces aligned | BUILDER_PASS | `apps/web/components/learning-shell.ts`, `apps/web/components/lesson-renderer.ts`, screenshots |
-| Behavior preserved | BUILDER_PASS | web typecheck/test/build and browser smoke |
-| Guardrails preserved | BUILDER_PASS | customer-brand, forbidden-copy, no-real-data and no-cohort scans |
-| Browser evidence | BUILDER_PASS | Browser/IAB raw ref and Playwright screenshots |
-| Full MVP/human gates | OPEN | this evidence does not close full `MVP-04`, `MVP-06`, MVP or human gates |
-| Fresh verifier | PASS | `.agent/stages/mvp/verdicts/MVP-04-design-system-tokenization-001.json`, `.agent/stages/mvp/problems/MVP-04-design-system-tokenization-001.md` |
-
-## Parent Alias Sync
-
-Parent orchestrator accepted the scoped fresh verifier `PASS` for `MVP-04.04` on 2026-05-12 and synchronized the root latest aliases to `MVP-04-design-system-tokenization-001`.
-
-The prior `MVP-06-learning-renderer-fixture-001` evidence remains available through immutable refs under `.agent/stages/mvp/evidence/`, `.agent/stages/mvp/verdicts/`, `.agent/stages/mvp/problems/` and `.agent/stages/mvp/raw/`.
-
-Parent-sync validation passed:
-
-- JSON validation: `.agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-json-validation-final-20260512.txt`
-- `git diff --check`: `.agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-git-diff-check-final-20260512.txt`
-- Alias/open-gate invariants: `.agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-alias-invariants-final-20260512.txt`
-- Harness validation: `.agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-verify-harness-final-20260512.txt`
-- Java runtime probe: `.agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-java-version-final-20260512.txt`
-
-## Orchestrator Follow-up UI Smoke Fix
-
-Read-only UI smoke found a strict reward-color gap on `/learning/lessons/N1`: the reward block was already warning-soft, but the reward block border and reward block-type badge still used blue-tinted surface/border tokens.
-
-The follow-up fixer changed only the reward styling and focused token guardrail test:
-
-- `apps/web/app/globals.css`
-- `apps/web/tests/learning-shell.test.mjs`
-
-Post-fix verification passed:
-
-- `pnpm --filter @finrhythm/web typecheck`: PASS
-- `pnpm --filter @finrhythm/web test`: PASS
-- `pnpm --filter @finrhythm/web build`: PASS
-- `FINPULSE_SMOKE_BASE_URL=http://127.0.0.1:3210 pnpm --dir apps/web exec node /tmp/finpulse-ui-smoke.mjs`: PASS
-- Follow-up screenshot smoke on `http://127.0.0.1:3211`: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-screenshots-followup-20260512/`
-
-The strict smoke result reports `blueTintedSurfaces: []` for the N1 reward area. Durable note: `.agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-ui-smoke-fixer-20260512.txt`.
-
-## Raw Evidence
-
-- Token mapping: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-token-mapping-20260512.md`
-- Git status: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-git-status-20260512.txt`
-- Web file list: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-web-file-list-20260512.txt`
-- Web typecheck: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-web-typecheck-20260512.txt`
-- Web test: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-web-test-20260512.txt`
-- Web build: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-web-build-20260512.txt`
-- Browser/IAB review: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-browser-iab-20260512.json`
-- Browser smoke: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-browser-smoke-20260512.txt`
-- Screenshots: `.agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/`
-- Follow-up screenshots: `.agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-screenshots-followup-20260512/`
-- Design doc reference scan: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-design-doc-ref-scan-20260512.txt`
-- Design board reference scan: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-design-board-ref-scan-20260512.txt`
-- Token hard-coded scan: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-token-hardcoded-scan-20260512.txt`
-- Customer-brand scan: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-customer-brand-scan-20260512.txt`
-- Forbidden-copy scan: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-forbidden-copy-scan-20260512.txt`
-- No-real-data scan: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-no-real-data-scan-20260512.txt`
-- No-cohort scan: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-no-cohort-scan-20260512.txt`
-- Java runtime check: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-java-version-20260512.txt`
-- Bootstrap validation: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-validate-bootstrap-20260512.txt`
-- Docs build: `.agent/stages/mvp/raw/stage-builder-mvp-04-design-system-tokenization-001-build-docs-20260512.txt`
-- Orchestrator follow-up UI smoke fixer: `.agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-ui-smoke-fixer-20260512.txt`
-
-## Screenshots
-
-- `.agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-ready.png`
-- `.agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-lesson-n1.png`
-- `.agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-empty.png`
-- `.agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-error.png`
-- `.agent/stages/mvp/raw/mvp-04-design-system-tokenization-001-screenshots-20260512/mvp-04-design-system-tokenization-001-mobile-loading.png`
-- `.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/stage-verifier-mvp-04-design-system-tokenization-001-final-mobile-ready.png`
-- `.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/stage-verifier-mvp-04-design-system-tokenization-001-final-mobile-lesson-n1.png`
-- `.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/stage-verifier-mvp-04-design-system-tokenization-001-final-mobile-empty.png`
-- `.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/stage-verifier-mvp-04-design-system-tokenization-001-final-mobile-error.png`
-- `.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/stage-verifier-mvp-04-design-system-tokenization-001-final-mobile-loading.png`
-- `.agent/stages/mvp/raw/orchestrator-mvp-04-design-system-tokenization-001-screenshots-followup-20260512/`
+| Append-only migration creates acceptance log | PASS | `V007__legal_document_acceptance_log.sql`; migration test |
+| Log anchors to `employee_registrations.id` and preserves tenant/pilot/access-pool scope | PASS | FK and scope columns in `V007`; `assertStoredScope` test |
+| Current draft allowlist has four legal document types | PASS | `LegalDocumentType`; service allowlist; OpenAPI test |
+| API records current draft versions | PASS | `LegalDocumentAcceptanceController`; `recordsCurrentDraftAcceptance...` test |
+| Same-version retry is idempotent and creates no duplicate rows | PASS | retry test checks 4 rows and `idempotentRetry=true` |
+| Unknown type, unsupported version, missing document and unknown registration fail safely | PASS | controller integration tests |
+| API does not echo raw invite codes, activation subject refs, PII or legal text bodies | PASS | response assertions and guardrail scan |
+| Controller remains thin | PASS | controller delegates to service and maps response only |
+| OpenAPI includes the new contract | PASS | `/v3/api-docs` integration test |
+| Generated client updated without hand-writing generated artifacts | PASS | `packages/api-client` snapshot/generator/drift check cover legal acceptance DTO/path helper and `LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION`; api-client build, generated check, drift check, typecheck and marker scan PASS |
+| Web avoids unsafe acceptance without identity bridge | PASS | no `apps/web` change in this slice; privacy screen remains non-mutating |
+| Human gates remain open | PASS | status/evidence keep legal and real-data gates open |
+| Fresh verifier PASS exists | PASS | `.agent/stages/mvp/verdicts/MVP-03-consent-version-logging-001.json` |
 
 ## Validation Summary
 
-- `pnpm --filter @finrhythm/web typecheck`: PASS
-- `pnpm --filter @finrhythm/web test`: PASS
-- `pnpm --filter @finrhythm/web build`: PASS
-- Browser/IAB route and interaction review: PASS
-- `pnpm --filter @finrhythm/web smoke:browser` on `http://127.0.0.1:3401`: PASS
-- Orchestrator follow-up strict UI smoke on `http://127.0.0.1:3210`: PASS
-- Orchestrator follow-up screenshot smoke on `http://127.0.0.1:3211`: PASS
-- `./scripts/validate-bootstrap.sh`: PASS
-- `pnpm -s run build:docs`: PASS
-- `java -version`: BLOCKED in the current shell; unqualified Java runtime cannot be located, so `make verify` is not claimed for this slice.
-- Fresh verifier final PASS: `.agent/stages/mvp/verdicts/MVP-04-design-system-tokenization-001.json`
+- `java -version` with `JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home`: PASS, OpenJDK 21.0.11 recorded in every Maven/root raw ref.
+- `cd apps/api && ./mvnw -q test`: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-mvn-test-20260512-r3.txt`
+- `cd apps/api && ./mvnw -q verify`: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-mvn-verify-20260512-r2.txt`
+- `make verify`: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-make-verify-20260512.txt`
+- `make test-unit`: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-make-test-unit-20260512.txt`
+- `make build`: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-make-build-20260512.txt`
+- `pnpm --filter @finrhythm/api-client build`: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-build-20260512-r3.txt`
+- `pnpm --filter @finrhythm/api-client check:generated`: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-generated-20260512-r2.txt`
+- `pnpm --filter @finrhythm/api-client check:openapi-drift`: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-openapi-drift-20260512-r2.txt`
+- `pnpm --filter @finrhythm/api-client typecheck`: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-typecheck-20260512-r2.txt`
+- `pnpm --filter @finrhythm/api-client build` after current-version marker fix: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-build-current-version-fix-20260512.txt`
+- `pnpm --filter @finrhythm/api-client check:generated` after current-version marker fix: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-generated-current-version-fix-20260512.txt`
+- `pnpm --filter @finrhythm/api-client check:openapi-drift` after current-version marker fix: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-openapi-drift-current-version-fix-20260512.txt`
+- `pnpm --filter @finrhythm/api-client typecheck` after current-version marker fix: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-typecheck-current-version-fix-20260512.txt`
+- `rg -n "<legal acceptance markers>" packages/api-client`: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-marker-scan-current-version-fix-20260512.txt`
+- `pnpm --filter @finrhythm/api-client build` after EOF generator fix: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-build-eof-fix-20260512.txt`
+- `pnpm --filter @finrhythm/api-client check:generated` after EOF generator fix: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-generated-eof-fix-20260512.txt`
+- `pnpm --filter @finrhythm/api-client check:openapi-drift` after EOF generator fix: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-check-openapi-drift-eof-fix-20260512.txt`
+- `pnpm --filter @finrhythm/api-client typecheck` after EOF generator fix: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-typecheck-eof-fix-20260512.txt`
+- `rg -n "<legal acceptance markers>" packages/api-client` after EOF generator fix: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-client-marker-scan-eof-fix-20260512.txt`
+- Fresh `stage_verifier`: PASS, `.agent/stages/mvp/verdicts/MVP-03-consent-version-logging-001.json`
+- JSON validation: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-20260512.txt`
+- JSON validation after generated-client proof fix: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-fix-20260512.txt`
+- JSON validation after final generated-client proof sync: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-fix-20260512-r2.txt`
+- JSON validation after current-version marker fix: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-current-version-fix-20260512.txt`
+- JSON validation after final current-version proof sync: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-current-version-fix-20260512-r2.txt`
+- `git diff --check -- <changed files>`: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-20260512.txt`
+- `git diff --check -- <generated-client proof fix files>`: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-fix-20260512.txt`
+- `git diff --check -- <generated-client proof fix files>` after final proof sync: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-fix-20260512-r2.txt`
+- `git diff --check -- <api-client current-version marker fix files>`: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-current-version-fix-20260512.txt`
+- `git diff --check -- <api-client current-version marker fix files>` after final proof sync: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-current-version-fix-20260512-r2.txt`
+- `git diff --check -- <api-client EOF fix files>`: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-eof-fix-20260512.txt`
+- no-index whitespace checks for new/untracked scoped files after EOF fix: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-no-index-whitespace-eof-fix-20260512.txt`
+- JSON validation after EOF proof sync: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-eof-fix-20260512.txt`
+- `git diff --check -- <api-client EOF fix files>` after EOF proof sync: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-eof-fix-20260512-r2.txt`
+- JSON validation after final EOF proof sync: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-json-validation-eof-fix-20260512-r2.txt`
+- `git diff --check -- <api-client EOF fix files>` after final EOF proof sync: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-git-diff-check-eof-fix-20260512-r3.txt`
+- Parent sync JSON validation: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-parent-sync-json-validation-20260512.txt`
+- Parent sync `git diff --check`: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-parent-sync-git-diff-check-20260512.txt`
+- Harness validation: PASS, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-verify-harness-20260512.txt`
+- Guardrail scan: PASS_WITH_ASSERTION_MATCHES, `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-guardrail-scan-20260512.txt`
+  - matches are test assertions proving raw invite code / activation subject ref / legal text are not echoed;
+  - no production consent source echoes raw invite codes, activation subject refs, full contact PII, real data, customer brand, final legal approval, diagnostics completion, `user.organization_id` or `pro_user`.
+
+Known failed/interrupted raw refs kept for audit:
+
+- first Maven test attempt failed on pre-existing admin repository/service compile mismatch: `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-mvn-test-20260512.txt`;
+- second Maven test attempt conflicted with an orphaned builder Maven process and missing surefirebooter jar: `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-mvn-test-20260512-r2.txt`;
+- first Maven verify attempt exposed the JPQL effective-status grouping bug and was fixed before final PASS: `.agent/stages/mvp/raw/orchestrator-mvp-03-consent-version-logging-001-api-mvn-verify-20260512.txt`.
 
 ## Docs Sync
 
-No canonical product/stage docs were changed. The implementation follows the existing draft design-system baseline and records discoverability through this task/evidence file. Brand naming, accessibility contrast, legal/privacy wording and real-device design QA remain human-gated.
+`CANONICAL_DOC_UPDATED`.
 
-## Limits
+Reason: canonical MVP/product docs already require consent/legal document version logging. This slice implements the backend/API technical foundation without changing product policy, access architecture, setup contract or legal wording. API contract is represented in Spring/OpenAPI source, runtime `/v3/api-docs` tests and the checked-in `packages/api-client` snapshot/generator/drift checks. `packages/api-client/README.md` now documents the narrow current-version marker export, and `docs/architecture/repo-layout.md` was synced to stop saying generated client integration is a no-op.
 
-This sprint does not close `MVP-03`, full `MVP-04`, full `MVP-06`, `MVP-07`, the MVP stage or any human gate. It does not implement CMS/admin, production content publishing, diagnostics/routing, progress persistence, scored quiz submission, practice submission, points, wallet or backend/API/schema changes.
+## Human Gates Remaining Open
+
+- Legal/privacy wording and consent copy.
+- Real employee/customer data processing.
+- Customer-specific HR/reporting boundaries.
+- HR/privacy wording review for diagnostics, self-assessment and reports.
+- Final financial correctness of lessons, diagnostics, quizzes and explanations.
+- Legal/tax review for tax wording.
+- Reward economy, stock, prices and fulfillment.
+- Support answer policy for sensitive topics.
+- `production_ready` content approval.
+- Admin auth/role/audit policy for production use.
+
+## Fresh Verifier
+
+Fresh verifier returned `PASS` for this sprint. Latest verifier aliases point to `MVP-03-consent-version-logging-001`; parent sync updated `status.json`, `verdict.json`, `problems.md` and feature entries for the scoped PASS. Full `MVP-03`, the MVP stage and human gates remain open.

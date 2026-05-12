@@ -96,6 +96,37 @@ def manifest_list(manifest: dict[str, Any], key: str) -> list[str]:
     return value
 
 
+def check_ignore_patterns(root: Path, manifest: dict[str, Any]) -> list[str]:
+    policy = manifest.get("artifact_churn_policy", {})
+    if not isinstance(policy, dict):
+        return ["harness.manifest.json artifact_churn_policy must be an object"]
+
+    checks = [
+        (".gitignore", "required_gitignore_patterns"),
+        (".rgignore", "required_rgignore_patterns"),
+    ]
+    issues: list[str] = []
+    for filename, key in checks:
+        expected = policy.get(key, [])
+        if not isinstance(expected, list) or not all(isinstance(item, str) for item in expected):
+            issues.append(f"harness.manifest.json artifact_churn_policy.{key} must be a string array")
+            continue
+        path = root / filename
+        try:
+            lines = {
+                line.strip()
+                for line in path.read_text(encoding="utf-8").splitlines()
+                if line.strip() and not line.lstrip().startswith("#")
+            }
+        except FileNotFoundError:
+            issues.append(f"missing {filename}")
+            continue
+        for pattern in expected:
+            if pattern not in lines:
+                issues.append(f"{filename} must ignore {pattern}")
+    return issues
+
+
 def normalize_sprint_id(value: Any) -> str | None:
     if not isinstance(value, str):
         return None
@@ -394,6 +425,9 @@ def main() -> None:
 
     missing_bootstrap = missing_paths(root, manifest_list(manifest, "bootstrap_required_files"))
     checks.append(CheckResult("bootstrap-required-files", "PASS" if not missing_bootstrap else "FAIL", "Bootstrap source-of-truth files are present." if not missing_bootstrap else f"Missing bootstrap files: {missing_bootstrap}"))
+
+    ignore_policy = check_ignore_patterns(root, manifest)
+    checks.append(CheckResult("artifact-churn-policy", "PASS" if not ignore_policy else "FAIL", "Raw proof output and nested app proof dirs are ignored by default." if not ignore_policy else "; ".join(ignore_policy)))
 
     api_agents = root / "apps" / "api" / "AGENTS.md"
     api_text = read(api_agents) if api_agents.exists() else ""

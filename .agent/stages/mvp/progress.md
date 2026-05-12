@@ -2,6 +2,106 @@
 
 Updated: 2026-05-12
 
+## Current session: MVP-03-consent-version-logging-001 builder evidence
+
+- Built the frozen backend/API-first `MVP-03-consent-version-logging-001` slice after the spec freeze.
+- Added append-only `V007__legal_document_acceptance_log.sql` for `legal_document_acceptance_log`, anchored to `employee_registrations.id` and preserving tenant / pilot launch / access pool scope for audit queries.
+- Added the narrow `apps/api/src/main/java/com/finrhythm/api/consent/**` package: document type allowlist, append-only acceptance entity/repository, service validation/idempotency, thin controller and request/response DTOs.
+- Added `LegalDocumentAcceptanceControllerIT` covering migration shape, first acceptance, same-version idempotent retry, unknown type, unsupported version, missing required document, unknown registration, response privacy and runtime `/v3/api-docs`.
+- Kept `apps/web` unchanged for this slice because the current privacy route has no trustworthy `employeeRegistrationId` or employee auth/session bridge; no fake local identity or unsafe acceptance UI was introduced.
+- Updated `packages/api-client` OpenAPI snapshot, generator/drift checks and generated contract/client helper for the legal acceptance endpoint; no generated artifact was hand-written.
+- While verifying, a pre-existing dirty admin status compile gap surfaced: `AdminCodeStatusService` expected effective expired-invite repository methods. Completed that repository/service contract minimally in `InviteCodeRepository` and aggregation logic so backend/root verification can run.
+- Checks passed with explicit `JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home`: `cd apps/api && ./mvnw -q test`, `cd apps/api && ./mvnw -q verify`, `make verify`, `make test-unit`, `make build`, `pnpm --filter @finrhythm/api-client build`, `check:generated`, `check:openapi-drift`, `typecheck`, JSON validation, `git diff --check` and guardrail scans.
+- A scoped fresh verifier previously failed only on stale generated-client no-op evidence. Evidence was corrected to the current repo state: `packages/api-client` now contains the legal acceptance OpenAPI snapshot, generated contracts/client helper and drift checks.
+- A second fresh verifier failed on one remaining generated-client marker gap: `draft-2026-05-12` was not visible under `packages/api-client`. The fix now exports `LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION = "draft-2026-05-12"` from generated contracts and makes `check:openapi-drift` compare it with backend `LegalAcceptanceService.CURRENT_DRAFT_VERSION`.
+- A third fresh verifier confirmed the generated-client marker gaps were resolved and reported only `packages/api-client/src/generated/contracts.ts` EOF whitespace from the generator output. Fixed the generator to emit `trimEnd()` plus one trailing newline, regenerated contracts and recorded clean no-index whitespace proof for new/untracked scoped files.
+- Fresh verifier returned `PASS` for `MVP-03-consent-version-logging-001` after rechecking JSON artifacts, api-client generated/drift/typecheck, focused `LegalDocumentAcceptanceControllerIT`, scoped diff check and guardrail scans.
+- Parent accepted the scoped PASS and synchronized latest stage status/evidence/verdict/problems aliases to `MVP-03-consent-version-logging-001`.
+- Full `MVP-03`, MVP stage and all human gates remain open.
+
+## Current session: MVP-03-consent-version-logging-001 spec freeze
+
+- Froze `MVP-03-consent-version-logging-001` for parent unit `MVP-03.03` after scoped fresh verifier `PASS` and parent sync for `MVP-03-onboarding-privacy-screen-001`.
+- Confirmed current backend shape before freezing: `POST /api/v1/employee-registrations` returns `employeeRegistrationId`, `tenantId`, `pilotLaunchId`, `accessPoolId`, `inviteCodeId`, `registeredAt` and `idempotentRetry`; there is no employee auth/session surface, and admin bearer auth is limited to `/api/v1/admin/**`.
+- Confirmed current web shape before freezing: `/onboarding/privacy` is a static draft privacy screen and explicitly says it does not accept consent, record consent versions or log consent.
+- Scope is backend/API-first: append-only Flyway acceptance log, service/controller surface, current draft document allowlist, idempotent same-version retry, rejection for unsupported document/version inputs, OpenAPI evidence and generated-client no-op unless a generator exists.
+- Minimal `/onboarding/privacy` handoff is allowed only if a trustworthy registration identity exists in the current user path; otherwise the builder must keep the UI non-mutating and record the auth/session gap.
+- Explicitly excluded final legal approval, production legal text approval, cookie consent, auth/session overhaul, diagnostics/routing, HR reporting, real data, admin audit policy beyond the narrow append-only log, generated client hand-writing and full `MVP-03` closure.
+- Updated stage artifacts only: `.agent/stages/mvp/stage_spec.md`, `.agent/stages/mvp/sprint_contract.md`, `.agent/stages/mvp/task-files/MVP-03-consent-version-logging-001.md`, `.agent/stages/mvp/backlog.md`, `.agent/stages/mvp/progress.md`, `.agent/stages/mvp/status.json` and `.agent/stages/mvp/feature_list.json`.
+- Latest verified sprint remains `MVP-03-onboarding-privacy-screen-001`; no production code, canonical docs, evidence aliases, verdict aliases or raw evidence were changed by this freezer.
+- `verify_harness.py --stage-id mvp` was run after freeze and returned the expected latest-alias mismatch: active sprint/sprint contract now point to `MVP-03-consent-version-logging-001`, while evidence/verdict/problems aliases remain on the latest verified `MVP-03-onboarding-privacy-screen-001`.
+- Java-backed verification is not claimed for this freeze; builder must record Java 21 runtime proof or blocker before Maven/root Java-backed checks.
+
+## Current session: MVP-03-onboarding-privacy-screen-001 verifier PASS and parent sync
+
+- Fresh scoped verifier returned `PASS` for `MVP-03-onboarding-privacy-screen-001` and wrote verifier-owned artifacts: `.agent/stages/mvp/verdicts/MVP-03-onboarding-privacy-screen-001.json` and `.agent/stages/mvp/problems/MVP-03-onboarding-privacy-screen-001.md`.
+- Verifier reran JSON validation, web typecheck, web tests, web build, browser smoke with system Chrome, guardrail scans, `git diff --check` and Java blocker proof. In-app Browser was unavailable to the verifier, so system Chrome fallback evidence is recorded.
+- Parent accepted the scoped PASS and synchronized latest stage status/evidence aliases to `MVP-03-onboarding-privacy-screen-001` while preserving immutable MVP-06 artifacts.
+- Final parent-sync `verify_harness.py --stage-id mvp`, JSON validation and `git diff --check` passed.
+- `java -version` still cannot locate an unqualified Java runtime, so Java-backed root verification was not run or claimed.
+- Full `MVP-03`, full `MVP-04`, full `MVP-06`, `MVP-07`, the MVP stage and all human gates remain open.
+
+## Current session: MVP-03-onboarding-privacy-screen-001 spec freeze
+
+- Froze `MVP-03-onboarding-privacy-screen-001` for parent unit `MVP-03.02` after latest verified `MVP-06-learning-n3-fixture-001`.
+- Scope is planning-only and employee-facing UI only: add the smallest `apps/web` onboarding/privacy screen or route, preferred `/onboarding/privacy`, explaining before future diagnostics what HR/employer sees and does not see.
+- Required copy constraints: Russian calm mentor tone, neutral product wording, no customer brand, visible draft/legal-human-gated status, aggregate-by-default HR visibility, no claim that HR sees personal diagnostic answers, weak zones, exact sums or reflection details, and no required exact sums/photos/documents/bank screenshots.
+- Optional `/learning` link is allowed only as handoff/navigation; diagnostics/routing must not be implemented.
+- Explicitly excluded final legal approval, consent version persistence/logging, backend/API/schema/OpenAPI/generated-client, diagnostics questions/scoring/routing, progress persistence, scored quiz submission, practice submission, points/wallet, CMS/admin publishing, HR dashboard/reporting, real data and production content approval.
+- Updated only stage planning artifacts: `.agent/stages/mvp/sprint_contract.md`, `.agent/stages/mvp/task-files/MVP-03-onboarding-privacy-screen-001.md`, `.agent/stages/mvp/backlog.md`, `.agent/stages/mvp/progress.md`, `.agent/stages/mvp/status.json` and `.agent/stages/mvp/feature_list.json`.
+- Latest verified sprint remains `MVP-06-learning-n3-fixture-001` with scoped `PASS`; full `MVP-03`, full `MVP-04`, full `MVP-06`, full MVP stage and all human gates remain open.
+- Java-backed root verification is not claimed for this freeze; the builder must record Java blocker/proof honestly.
+
+## Current session: MVP-03-onboarding-privacy-screen-001 builder evidence
+
+- Built the frozen `MVP-03-onboarding-privacy-screen-001` slice in `apps/web`: new `/onboarding/privacy` route, draft/legal-human-gated privacy explanation, clear aggregate-by-default HR visibility boundary and safe handoff to `/learning`.
+- Added a `/learning` link to the privacy screen while preserving existing N1/N2/N3 learning routes and smoke coverage.
+- The screen states that HR/employer does not see personal diagnostic answers, individual weak zones, exact sums, reflection details or personal tax/debt circumstances by default.
+- The screen states that the current start is without exact sums, photos, documents and bank screenshots, and it does not implement consent acceptance/version logging, diagnostics, routing, backend/API/schema/generated-client, progress persistence, scored submissions, points/wallet, CMS/admin publishing or HR reporting.
+- Required web checks passed: `pnpm --filter @finrhythm/web typecheck`, `test`, `build`, Browser/IAB smoke, Playwright/system-Chrome browser smoke and guardrail scans.
+- `java -version` still cannot locate an unqualified Java runtime, so Java-backed root verification was not run or claimed.
+- Evidence aliases now point to `MVP-03-onboarding-privacy-screen-001` with status `BUILT_AWAITING_VERIFIER`; latest verifier aliases still point to `MVP-06-learning-n3-fixture-001` until a fresh verifier runs.
+- Full `MVP-03`, full `MVP-04`, full `MVP-06`, `MVP-07`, the MVP stage and all human gates remain open.
+
+## Current session: MVP-06-learning-n3-fixture-001 verifier PASS and parent sync
+
+- Fresh scoped verifier returned `PASS` for `MVP-06-learning-n3-fixture-001` and wrote verifier-owned artifacts: `.agent/stages/mvp/verdicts/MVP-06-learning-n3-fixture-001.json` and `.agent/stages/mvp/problems/MVP-06-learning-n3-fixture-001.md`.
+- Verifier reran web typecheck, web tests, web build, browser smoke with system Chrome, alias route smoke, guardrail scans and `git diff --check`; all scoped checks passed. Default Playwright Chromium was missing, so Chrome fallback evidence is recorded.
+- Parent accepted the scoped PASS and synchronized latest stage status to `MVP-06-learning-n3-fixture-001` while preserving immutable N1/N2 evidence and verifier refs.
+- `java -version` still cannot locate an unqualified Java runtime, so Java-backed `make verify` was not run or claimed.
+- Full `MVP-04`, full `MVP-06`, `MVP-07`, `MVP-09`, the MVP stage and all human gates remain open.
+- Next honest step is a separately frozen narrow MVP-06 learning/content renderer slice after a new `TASK_ID`; CMS/admin publishing, progress persistence, scored quiz submission, practice submission, points/wallet, onboarding/consent and diagnostics/routing remain deferred.
+
+## Current session: MVP-06-learning-n3-fixture-001 builder evidence
+
+- Built the frozen renderer/fixture-only N3 slice in `apps/web`: synthetic `N3_DECLUTTER_TO_GOAL` fixture, direct `/learning/lessons/N3`, existing full lesson-id alias `/learning/lessons/N3_DECLUTTER_TO_GOAL`, and visible `/learning` CTA while preserving N1/N2.
+- N3 fixture uses the standard seven blocks, office/store examples, display-only `Q10`/`Q11`/`Q12` safe-sale mini-test, and non-persistent checklist+choice practice for item range, safety checklist and destination category.
+- Reward copy stays on the existing amber/warning-soft pattern and states points are not money, salary, guaranteed merch/result, random reward or cash equivalent.
+- Required web checks passed: typecheck, tests, build, browser smoke for `/learning`, N1, N2, N3, loading, empty and error, and guardrail scans for customer brand, old cohort terms, sensitive-data request patterns and unsafe reward claims.
+- Screenshots are under `.agent/stages/mvp/raw/mvp-06-learning-n3-fixture-001-screenshots-20260512/`.
+- `java -version` still cannot locate an unqualified Java runtime, so Java-backed `make verify` was not run or claimed.
+- Latest evidence aliases now point to N3. Fresh verifier and parent sync later accepted the scoped N3 PASS.
+- Full `MVP-04`, full `MVP-06`, `MVP-07`, `MVP-09`, the MVP stage and all human gates remain open.
+
+## Current session: MVP-06-learning-n3-fixture-001 spec freeze
+
+- Froze `MVP-06-learning-n3-fixture-001` for parent unit `MVP-06.03` after latest verified `MVP-06-learning-n2-fixture-001`.
+- Scope is planning-only and renderer/fixture-only: add one synthetic `N3_DECLUTTER_TO_GOAL` lesson fixture, expose `/learning/lessons/N3`, optionally preserve the full lesson-id alias if the existing resolver supports it, and add a visible `/learning` CTA while preserving N1/N2.
+- Acceptance requires office/store examples, display-only safe-sale mini-test coverage for `Q10`, `Q11` and `Q12`, non-persistent checklist+choice practice, `editorial_draft`/humanReview required status, `DC_DECLUTTER_ONE` only as contextual fixture copy, amber/warning-soft reward guardrails, and scans for no photos/address/listing URLs/deal amount/buyer chat/payment screenshot/bank screenshot/exact sums/customer brand/old cohort terms/unsafe reward claims.
+- Explicitly excluded CMS/admin publishing, content states, publish validation, `production_ready` approval, progress persistence, scored quiz submission, practice submission, saved listing/challenge/daily challenge, points/wallet, diagnostics/routing, onboarding/consent, backend/API/schema/OpenAPI/generated-client, `packages/ui`, admin/HR analytics/event tracking, real data and customer brand.
+- Updated only `.agent/stages/mvp/sprint_contract.md`, `.agent/stages/mvp/task-files/MVP-06-learning-n3-fixture-001.md`, `.agent/stages/mvp/backlog.md`, `.agent/stages/mvp/progress.md`, `.agent/stages/mvp/status.json` and `.agent/stages/mvp/feature_list.json`.
+- Latest verified sprint remains `MVP-06-learning-n2-fixture-001` with scoped PASS and parent-synced aliases. Full `MVP-04`, full `MVP-06`, the MVP stage and all human gates remain open.
+- Java-backed root verification is not claimed for this freeze; the builder must record Java blocker/proof honestly.
+
+## Current session: MVP-06-learning-n2-fixture-001 parent alias sync
+
+- Parent orchestrator accepted the scoped fresh verifier `PASS` for `MVP-06-learning-n2-fixture-001` as sufficient for the narrow `MVP-06.03` synthetic N2 fixture extension surface.
+- Root latest aliases were synchronized from `MVP-04-design-system-tokenization-001` to `MVP-06-learning-n2-fixture-001`: `.agent/stages/mvp/evidence.json`, `.agent/stages/mvp/evidence.md`, `.agent/stages/mvp/verdict.json`, `.agent/stages/mvp/problems.md`, `.agent/stages/mvp/status.json`, `.agent/stages/mvp/progress.md`, `.agent/stages/mvp/backlog.md`, `.agent/stages/mvp/feature_list.json` and `.agent/stages/mvp/sprint_contract.md`.
+- Immutable `MVP-04-design-system-tokenization-001`, `MVP-06-learning-renderer-fixture-001` and `MVP-06-learning-n2-fixture-001` artifacts were preserved under `.agent/stages/mvp/evidence/`, `.agent/stages/mvp/verdicts/`, `.agent/stages/mvp/problems/` and `.agent/stages/mvp/raw/`.
+- No feature code, backend/API/schema/OpenAPI/generated-client, `packages/ui` or canonical product docs were changed in this parent alias-sync slice.
+- Full `MVP-04`, full `MVP-06`, `MVP-07`, `MVP-09`, the MVP stage and all human gates remain open.
+- `java -version` remains unavailable in the current shell, so `make verify` is not run or claimed for this parent sync.
+
 ## Current session: MVP-06-learning-n2-fixture-001 verifier PASS
 
 - Fresh scoped verifier returned `PASS` for `MVP-06-learning-n2-fixture-001` and wrote only immutable scoped artifacts: `.agent/stages/mvp/verdicts/MVP-06-learning-n2-fixture-001.json` and `.agent/stages/mvp/problems/MVP-06-learning-n2-fixture-001.md`.
@@ -18,7 +118,7 @@ Updated: 2026-05-12
 - Updated focused web tests and browser smoke coverage for N2; Chrome screenshot smoke captured `/learning`, N1, N2, loading, empty and error states under `.agent/stages/mvp/raw/mvp-06-learning-n2-fixture-001-screenshots-20260512/`.
 - Builder checks passed: `pnpm --filter @finrhythm/web typecheck`, `pnpm --filter @finrhythm/web test`, `pnpm --filter @finrhythm/web build`, Browser/IAB route smoke, strict N2 reward UI smoke, JSON validation and `git diff --check`.
 - `java -version` still cannot locate an unqualified Java runtime in this shell, so `make verify` was not run or claimed for this slice.
-- Latest evidence/verdict/problems aliases remain on `MVP-04-design-system-tokenization-001`; `MVP-06-learning-n2-fixture-001` now has scoped fresh verifier PASS, but still needs a separate parent alias-sync decision before aliases move.
+- Latest evidence/verdict/problems aliases now point to `MVP-06-learning-n2-fixture-001` after the separate parent alias-sync decision.
 - Full `MVP-04`, full `MVP-06`, the MVP stage and all human gates remain open.
 
 ## Current session: MVP-06-learning-n2-fixture-001 spec freeze

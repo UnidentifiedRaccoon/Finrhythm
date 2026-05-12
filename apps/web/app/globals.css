@@ -363,6 +363,86 @@ p {
   width: 6px;
 }
 
+.privacy-inline-link {
+  color: var(--color-primary);
+  display: inline-flex;
+  font-size: var(--text-body-sm-size);
+  font-weight: 700;
+  line-height: var(--text-body-sm-line);
+  margin-top: var(--space-xs);
+}
+
+.privacy-page {
+  padding-bottom: var(--space-xl);
+}
+
+.privacy-shell {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.privacy-hero,
+.privacy-disclosure,
+.privacy-artifact-panel,
+.privacy-next-step {
+  background: var(--card-bg);
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  padding: var(--card-padding-lg);
+}
+
+.privacy-hero h1,
+.privacy-hero p,
+.privacy-disclosure h2,
+.privacy-disclosure p,
+.privacy-artifact-panel h2,
+.privacy-next-step h2,
+.privacy-next-step p {
+  margin-bottom: 0;
+}
+
+.privacy-draft-card {
+  margin-bottom: 0;
+}
+
+.privacy-disclosure-visible {
+  border-color: var(--color-primary-soft);
+}
+
+.privacy-disclosure-hidden {
+  background: var(--color-mint);
+  border-color: var(--privacy-card-border);
+}
+
+.privacy-bullets {
+  color: var(--color-text-secondary);
+  display: grid;
+  font-size: var(--text-body-md-size);
+  gap: var(--space-xs);
+  line-height: var(--text-body-md-line);
+  margin: var(--space-md) 0 0;
+  padding-left: 20px;
+}
+
+.privacy-bullets li::marker {
+  color: var(--color-teal);
+}
+
+.privacy-bullets-compact {
+  margin-top: var(--space-sm);
+}
+
+.privacy-actions {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.privacy-static-action {
+  margin-top: 0;
+  pointer-events: none;
+}
+
 .track-summary {
   display: grid;
   gap: var(--space-md);

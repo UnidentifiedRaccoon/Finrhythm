@@ -21,5 +21,6 @@ export const STATUS_HINTS: Record<CodeStatus, string> = {
 export const ACCESS_POOL_STATUS_LABELS: Record<AdminCodeStatusResponse["accessPoolStatus"], string> = {
   PLANNED: "Запланирован",
   ACTIVE: "Активен",
-  CLOSED: "Закрыт"
+  CLOSED: "Закрыт",
+  ARCHIVED: "Архивирован"
 };

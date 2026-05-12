@@ -1,0 +1,75 @@
+{
+  "task_id": "audit-20260512-init-dev-contract",
+  "status": "PASS",
+  "verified_at": "2026-05-12T07:27:35Z",
+  "scope": [
+    "scripts/init-local.sh",
+    "Makefile help text",
+    "scripts/verify-bootstrap.mjs focused init checks",
+    "docs/architecture/init-and-dev-contract.md",
+    ".agent/tasks/audit-20260512-init-dev-contract/*"
+  ],
+  "checks": [
+    {
+      "command": "bash -n scripts/init-local.sh scripts/dev-local.sh",
+      "result": "PASS"
+    },
+    {
+      "command": "node scripts/verify-bootstrap.mjs",
+      "result": "PASS",
+      "details": "Includes init-runs-flyway-migrations, init-not-v001-only and init-record-after-flyway checks."
+    },
+    {
+      "command": "FINRHYTHM_DATABASE_URL='jdbc:postgresql://db.example.internal:5432/finrhythm' ./scripts/init-local.sh",
+      "result": "PASS_EXPECTED_REFUSAL",
+      "details": "Exited 5 before Docker/DB mutation; local init refuses non-compose DB targets."
+    },
+    {
+      "command": "make init",
+      "result": "PASS",
+      "details": "Started local compose Postgres, ran backend Flyway migrations, inserted local_init bootstrap record."
+    },
+    {
+      "command": "make init",
+      "result": "PASS",
+      "details": "Idempotent rerun showed INSERT 0 0 and reused the existing local_init record."
+    },
+    {
+      "command": "docker compose -f infra/local/compose.yaml exec -T postgres psql -U finlit -d finrhythm -v ON_ERROR_STOP=1 -c \"select version, description, success from flyway_schema_history where type in ('SQL','BASELINE') order by installed_rank;\"",
+      "result": "PASS",
+      "details": "Flyway schema history has successful SQL migrations 001 through 007."
+    },
+    {
+      "command": "docker compose -f infra/local/compose.yaml exec -T postgres psql -U finlit -d finrhythm -v ON_ERROR_STOP=1 -c \"select bootstrap_key, version, checksum, count(*) over () as matching_rows from dev_bootstrap_runs where bootstrap_key = 'local_init' and version = '2026-05-12.1';\"",
+      "result": "PASS",
+      "details": "Exactly one matching bootstrap record."
+    },
+    {
+      "command": "git diff --check -- scripts/init-local.sh scripts/dev-local.sh Makefile scripts/verify-bootstrap.mjs docs/architecture/init-and-dev-contract.md .agent/tasks/audit-20260512-init-dev-contract",
+      "result": "PASS"
+    },
+    {
+      "command": "if rg -n \"[ \\\\t]+$\" .agent/tasks/audit-20260512-init-dev-contract; then exit 1; fi",
+      "result": "PASS",
+      "details": "No trailing whitespace in untracked task evidence files."
+    }
+  ],
+  "docs": {
+    "updated": [
+      "docs/architecture/init-and-dev-contract.md"
+    ],
+    "notes": [
+      "Documented full backend Flyway migration before bootstrap record.",
+      "Documented local-only DB guard.",
+      "Documented domain seed/importer as out of scope."
+    ]
+  },
+  "limitations": [
+    "Domain seed import remains out of scope until a real importer exists.",
+    "Full make verify/test-unit/build were not run; focused requested checks and actual make init proof were run.",
+    "No destructive DB reset, volume deletion or cleanup was performed.",
+    "The local finrhythm-postgres compose service was left running after make init.",
+    "Unrelated concurrent worktree changes were left untouched."
+  ],
+  "human_gates": []
+}

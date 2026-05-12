@@ -1,4 +1,5 @@
 import fixture from "./code-status-fixture.json";
+import { fetchAdminCodeStatus } from "@finrhythm/api-client";
 import {
   CODE_STATUSES,
   type AdminCodeStatusResponse,
@@ -13,13 +14,14 @@ type SearchParams = Record<string, SearchValue>;
 const DEFAULT_PAGE = 0;
 const DEFAULT_SIZE = 25;
 export const MAX_PAGE_SIZE = 100;
+const ADMIN_STATUS_SOURCE_ENV = "FINRHYTHM_ADMIN_CODE_STATUS_SOURCE";
 
 export async function getAdminCodeStatus(
   params: SearchParams
 ): Promise<AdminCodeStatusResult> {
-  const source = resolveSource(params);
+  const source = resolveSource();
   const statusFilter = normalizeStatus(first(params.status));
-  const forcedState = first(params.state);
+  const forcedState = source === "fixture" ? first(params.state) : undefined;
 
   if (forcedState === "loading") {
     return { state: "loading", source, statusFilter };
@@ -61,12 +63,15 @@ export async function getAdminCodeStatus(
   return { state: "success", source, statusFilter, data };
 }
 
-function resolveSource(params: SearchParams): AdminStatusSource {
-  const requested = first(params.mode);
-  if (requested === "live") {
+function resolveSource(): AdminStatusSource {
+  const configuredSource = process.env[ADMIN_STATUS_SOURCE_ENV]?.trim().toLowerCase();
+  if (!configuredSource || configuredSource === "fixture") {
+    return "fixture";
+  }
+  if (configuredSource === "live") {
     return "live";
   }
-  return "fixture";
+  throw new Error(`${ADMIN_STATUS_SOURCE_ENV} must be "fixture" or "live".`);
 }
 
 async function fetchLiveCodeStatus(
@@ -77,35 +82,35 @@ async function fetchLiveCodeStatus(
   const tenantId = process.env.FINRHYTHM_ADMIN_SYNTHETIC_TENANT_ID;
   const pilotLaunchId = process.env.FINRHYTHM_ADMIN_SYNTHETIC_PILOT_LAUNCH_ID;
   const accessPoolId = process.env.FINRHYTHM_ADMIN_SYNTHETIC_ACCESS_POOL_ID;
+  const adminApiToken = process.env.FINRHYTHM_ADMIN_API_TOKEN;
 
-  if (!baseUrl || !tenantId || !pilotLaunchId || !accessPoolId) {
+  if (!baseUrl || !tenantId || !pilotLaunchId || !accessPoolId || !adminApiToken) {
     throw new Error(
-      "Live-режим требует FINRHYTHM_ADMIN_API_BASE_URL и синтетические ID контура, запуска и пула доступа."
+      "Live-режим требует server-side API base URL, admin token и синтетические ID контура, запуска и пула доступа."
     );
   }
 
   const page = normalizeInteger(first(params.page), DEFAULT_PAGE, 0);
   const size = normalizeInteger(first(params.size), DEFAULT_SIZE, 1, MAX_PAGE_SIZE);
-  const url = new URL(
-    `/api/v1/admin/tenants/${tenantId}/pilot-launches/${pilotLaunchId}/access-pools/${accessPoolId}/code-status`,
-    baseUrl
-  );
-  url.searchParams.set("page", String(page));
-  url.searchParams.set("size", String(size));
-  if (statusFilter) {
-    url.searchParams.set("status", statusFilter);
-  }
-
-  const response = await fetch(url, {
-    cache: "no-store",
-    method: "GET"
-  });
-
-  if (!response.ok) {
+  return fetchAdminCodeStatus(
+    baseUrl,
+    {
+      accessPoolId,
+      page,
+      pilotLaunchId,
+      size,
+      status: statusFilter ?? undefined,
+      tenantId
+    },
+    {
+      cache: "no-store",
+      headers: {
+        Authorization: `Bearer ${adminApiToken}`
+      }
+    }
+  ).catch(() => {
     throw new Error("Backend вернул безопасную ошибку при чтении статуса пула доступа.");
-  }
-
-  return (await response.json()) as AdminCodeStatusResponse;
+  });
 }
 
 function paginateFixture(

@@ -1,0 +1,30 @@
+{
+  "task_id": "audit-20260512-admin-auth",
+  "verdict": "PASS",
+  "verified_at": "2026-05-12T09:50:00+03:00",
+  "summary": "Admin code-status now requires a deploy-configured bearer token mapped to admin.code-status.read, OpenAPI documents the security boundary, and admin live mode is env-controlled rather than query-controlled.",
+  "checks": [
+    {
+      "name": "apps/api focused admin security integration",
+      "status": "PASS",
+      "evidence": "AdminCodeStatusControllerIT passed with Testcontainers PostgreSQL"
+    },
+    {
+      "name": "apps/api full Maven verify",
+      "status": "PASS",
+      "evidence": "./mvnw -q verify passed with explicit JAVA_HOME=/opt/homebrew/opt/openjdk@21"
+    },
+    {
+      "name": "apps/admin type/test",
+      "status": "PASS",
+      "evidence": "typecheck passed; status-boundary.test.mjs passed 4 tests"
+    },
+    {
+      "name": "doc-sync",
+      "status": "PASS",
+      "evidence": "setup, repo-layout and access/subscriptions docs updated"
+    }
+  ],
+  "blockers": [],
+  "human_gates": []
+}

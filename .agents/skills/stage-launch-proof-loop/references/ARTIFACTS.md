@@ -80,6 +80,8 @@ Machine-readable proof index. Suggested keys: `stage_id`, `sprint_contract_id`, 
 
 For content/CMS/adaptation slices, also include the evidence required by `profiles/CONTENT_PROFILE.md`.
 
+Tracked evidence should be compact. Command entries should include command, working directory, exit status, short result, timestamp and optional `raw_ref`; they should not paste full command transcripts. UI screenshot entries should identify the reviewed state and the selected artifact; duplicate browser captures stay in ignored `raw/`.
+
 ### `publish_manifest.json` (optional)
 
 Short publish-ready index for commit/PR/merge agents. Use this only after implementation evidence exists; it does not replace `evidence.json`.
@@ -143,6 +145,21 @@ The first heading must include the sprint contract id, for example `# Fresh veri
 ### `raw/`
 
 Raw outputs only: `maven-verify.txt`, `unit-tests.txt`, `smoke.txt`, `playwright.txt`, `curl-openapi.txt`, screenshots, logs.
+
+`raw/` is local audit material and is ignored by Git by default for both `.agent/stages/**/raw/**` and `.agent/tasks/**/raw/**`. Keep raw files on disk while working, reference them from tracked evidence, and commit only a specifically requested raw file or curated screenshot. Do not create nested proof directories such as `apps/web/.agent` or `apps/admin/.agent`.
+
+## Churn budget
+
+For a normal slice, the tracked proof diff should usually fit inside:
+
+- active task or sprint contract;
+- `evidence.json`, `evidence.md` and immutable `evidence/<SPRINT_CONTRACT_ID>.*`;
+- `verdict.json` and immutable `verdicts/<SPRINT_CONTRACT_ID>.json`;
+- `problems.md`/`problems/<SPRINT_CONTRACT_ID>.md` only when non-pass;
+- narrowly changed `status.json`, `progress.md`, `feature_list.json`, `decisions.md` or `risks.md` only when their content actually changed;
+- `publish_manifest.json` when a publish-only agent needs a short PR handoff.
+
+Treat more than 18 tracked proof files for one slice as a smell. It may be justified for UI review assets or content inventory, but the reason must be explicit in `evidence.md`.
 
 ## Ownership rules
 

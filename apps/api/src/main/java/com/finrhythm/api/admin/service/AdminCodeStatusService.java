@@ -19,6 +19,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
@@ -36,6 +38,7 @@ public class AdminCodeStatusService {
     private final AccessPoolRepository accessPoolRepository;
     private final InviteCodeRepository inviteCodeRepository;
     private final EmployeeRegistrationRepository employeeRegistrationRepository;
+    private final Clock clock;
 
     @Transactional(readOnly = true)
     public AdminCodeStatusResponse getCodeStatus(
@@ -54,13 +57,17 @@ public class AdminCodeStatusService {
         )
                 .orElseThrow(AdminCodeStatusException::notFound);
 
-        Map<InviteCodeStatus, Long> statusCounts = statusCounts(tenantId, accessPoolId);
+        Instant asOf = clock.instant();
+        Map<InviteCodeStatus, Long> statusCounts = statusCounts(tenantId, accessPoolId, asOf);
         long totalCodeCount = inviteCodeRepository.countByTenantIdAndAccessPoolId(tenantId, accessPoolId);
         long issuedCount = inviteCodeRepository.countIssuedByTenantIdAndAccessPoolId(tenantId, accessPoolId);
         long registeredCount = employeeRegistrationRepository.countByTenantIdAndAccessPoolId(tenantId, accessPoolId);
         Page<InviteCodeStatusRowProjection> codeRows = inviteCodeRepository.findCodeStatusRows(
                 tenantId,
                 accessPoolId,
+                asOf,
+                InviteCodeStatus.ISSUED,
+                InviteCodeStatus.EXPIRED,
                 statusFilter,
                 PageRequest.of(page, size)
         );
@@ -121,12 +128,18 @@ public class AdminCodeStatusService {
         }
     }
 
-    private Map<InviteCodeStatus, Long> statusCounts(UUID tenantId, UUID accessPoolId) {
+    private Map<InviteCodeStatus, Long> statusCounts(UUID tenantId, UUID accessPoolId, Instant asOf) {
         Map<InviteCodeStatus, Long> counts = new EnumMap<>(InviteCodeStatus.class);
         Arrays.stream(InviteCodeStatus.values()).forEach(status -> counts.put(status, 0L));
         for (InviteCodeStatusCountProjection projection
-                : inviteCodeRepository.countStatusesByTenantIdAndAccessPoolId(tenantId, accessPoolId)) {
-            counts.put(projection.getStatus(), projection.getCount());
+                : inviteCodeRepository.countEffectiveStatusesByTenantIdAndAccessPoolId(
+                        tenantId,
+                        accessPoolId,
+                        asOf,
+                        InviteCodeStatus.ISSUED,
+                        InviteCodeStatus.EXPIRED
+                )) {
+            counts.merge(projection.getStatus(), projection.getCount(), Long::sum);
         }
         return counts;
     }

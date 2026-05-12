@@ -1,0 +1,163 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-06-learning-n3-fixture-001",
+  "parent_stage_unit": "MVP-06.03",
+  "verdict": "PASS",
+  "status": "PASS",
+  "updated_at": "2026-05-12",
+  "scope_statement": "Scoped PASS only for the synthetic N3 fixture/renderer slice: /learning/lessons/N3, existing /learning/lessons/N3_DECLUTTER_TO_GOAL alias, and /learning CTA while preserving N1/N2. This does not close full MVP-04, full MVP-06, the MVP stage, production content approval or any human gate.",
+  "parent_status_sync": {
+    "status": "PENDING_PARENT_UPDATE",
+    "note": "This verifier may write only verdict/problems/raw artifacts. status.json and feature_list.json were not updated."
+  },
+  "acceptance": {
+    "n3_fixture_exists": "PASS",
+    "affected_ids_n3_declutter_dc_c4_c3_c9_q10_q11_q12": "PASS",
+    "synthetic_only_editorial_draft_human_review_required": "PASS",
+    "raw_source_human_review_required_recorded": "PASS",
+    "situation_why_rule_examples_mini_test_practice_reward_present": "PASS",
+    "office_and_store_shift_examples_present": "PASS",
+    "direct_route_learning_lessons_n3": "PASS",
+    "alias_route_learning_lessons_n3_declutter_to_goal": "PASS",
+    "learning_cta_to_n3_preserves_n1_n2": "PASS",
+    "mini_test_display_only_q10_q11_q12": "PASS",
+    "no_scored_quiz_persistence_pass_fail_completion_points": "PASS",
+    "practice_non_persistent_checklist_choice": "PASS",
+    "no_forbidden_sale_proof_or_exact_personal_sums": "PASS",
+    "reward_guardrails_no_money_cash_equivalence_guarantee_random_reward_raffle": "PASS",
+    "warning_soft_amber_reward_surface": "PASS",
+    "no_customer_brand_or_active_old_cohort_terms": "PASS",
+    "no_cms_admin_progress_points_diagnostics_onboarding_backend_api_schema_openapi_generated_client_packages_ui_scope": "PASS",
+    "full_mvp_04_full_mvp_06_mvp_stage_human_gates_remain_open": "PASS"
+  },
+  "commands": {
+    "json_validation": {
+      "status": "PASS",
+      "command": "jq empty .agent/stages/mvp/status.json .agent/stages/mvp/feature_list.json",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-json-validation-20260512.txt"
+    },
+    "web_typecheck": {
+      "status": "PASS",
+      "command": "pnpm --filter @finrhythm/web typecheck",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-web-typecheck-20260512.txt"
+    },
+    "web_test": {
+      "status": "PASS",
+      "command": "pnpm --filter @finrhythm/web test",
+      "observed": "13 tests passed across 2 suites.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-web-test-20260512.txt"
+    },
+    "web_build": {
+      "status": "PASS",
+      "command": "pnpm --filter @finrhythm/web build",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-web-build-20260512.txt"
+    },
+    "browser_smoke_default_playwright": {
+      "status": "BLOCKED_MISSING_PLAYWRIGHT_BROWSER",
+      "command": "pnpm --filter @finrhythm/web smoke:browser",
+      "observed": "Bundled Playwright Chromium executable was missing.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-browser-smoke-20260512.txt"
+    },
+    "browser_smoke_chrome": {
+      "status": "PASS",
+      "command": "CHROMIUM_EXECUTABLE_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' WEB_SMOKE_BASE_URL=http://127.0.0.1:3400 WEB_SMOKE_OUTPUT_DIR=/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/mvp-06-learning-n3-fixture-001-verifier-screenshots-20260512 WEB_SMOKE_SCREENSHOT_PREFIX=mvp-06-learning-n3-fixture-001-verifier pnpm --filter @finrhythm/web smoke:browser",
+      "observed": "7 screenshots for /learning, /learning/lessons/N1, /learning/lessons/N2, /learning/lessons/N3, loading, empty and error.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-browser-smoke-chrome-20260512.txt",
+      "screenshots_ref": ".agent/stages/mvp/raw/mvp-06-learning-n3-fixture-001-verifier-screenshots-20260512/"
+    },
+    "alias_route_smoke": {
+      "status": "PASS",
+      "command": "curl -fsS http://127.0.0.1:3400/learning/lessons/N3_DECLUTTER_TO_GOAL",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-alias-route-20260512.html"
+    },
+    "guardrail_scan": {
+      "status": "PASS",
+      "command": "verifier Node guardrail scan over git status plus apps/web/app, apps/web/components and apps/web/lib",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-guardrail-scan-20260512.txt"
+    },
+    "git_diff_check": {
+      "status": "PASS",
+      "command": "git diff --check -- <changed files>",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-git-diff-check-20260512.txt"
+    },
+    "java_version": {
+      "status": "BLOCKED_UNQUALIFIED_JAVA_RUNTIME_MISSING",
+      "command": "java -version",
+      "observed": "Unable to locate a Java Runtime.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-java-version-20260512.txt"
+    },
+    "make_verify": {
+      "status": "NOT_RUN_JAVA_RUNTIME_MISSING"
+    },
+    "verify_harness_before_verdict": {
+      "status": "FAIL_EXPECTED_ACTIVE_LATEST_VERIFIER_PENDING_MISMATCH",
+      "command": "python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-verify-harness-before-verdict-20260512.json"
+    },
+    "verify_harness_after_verdict": {
+      "status": "FAIL_STATUS_LATEST_VERIFIED_STILL_N2",
+      "command": "python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp",
+      "observed": "All harness checks passed except stage-artifacts: status.json.latest_verified_sprint_contract_id remains MVP-06-learning-n2-fixture-001 while active sprint/evidence/verdict/problems point to MVP-06-learning-n3-fixture-001. This verifier was not allowed to edit status.json.",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-verify-harness-after-verdict-20260512.json"
+    }
+  },
+  "source_refs_reviewed": [
+    "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md#N3",
+    "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md#Q10-Q12",
+    "docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md#N3_DECLUTTER_TO_GOAL",
+    "docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md#DC_DECLUTTER_ONE",
+    "content/getcourse-finstrategy/12-lesson-235010153.md",
+    "docs/product/b2b-mvp/lemanapro/design-system-v0.1.md"
+  ],
+  "evidence_refs_reviewed": [
+    ".agent/stages/mvp/evidence/MVP-06-learning-n3-fixture-001.md",
+    ".agent/stages/mvp/evidence/MVP-06-learning-n3-fixture-001.json",
+    ".agent/stages/mvp/evidence.json",
+    ".agent/stages/mvp/sprint_contract.md"
+  ],
+  "implementation_refs_reviewed": [
+    "apps/web/lib/learning-fixtures.ts",
+    "apps/web/lib/lesson-state.ts",
+    "apps/web/lib/learning-types.ts",
+    "apps/web/components/learning-shell.ts",
+    "apps/web/components/lesson-renderer.ts",
+    "apps/web/app/learning/page.tsx",
+    "apps/web/app/learning/lessons/[lessonId]/page.tsx",
+    "apps/web/app/globals.css",
+    "apps/web/tests/learning-shell.test.mjs",
+    "apps/web/tests/browser-smoke.mjs"
+  ],
+  "not_claimed": [
+    "onboarding or consent",
+    "diagnostics, scoring or routing",
+    "progress persistence",
+    "scored quiz submission, pass/fail or completion",
+    "practice submission or saved listing/challenge/daily challenge",
+    "points ledger, wallet, reward catalog, merch, random reward or fulfillment",
+    "CMS/admin publishing, content states, publish validation or production_ready approval",
+    "backend/API/schema/OpenAPI/generated-client/packages/ui work",
+    "admin/HR analytics/event tracking",
+    "real employee/customer/personal/financial data",
+    "full MVP-04, full MVP-06, MVP stage or any human gate"
+  ],
+  "human_gates_closed": false,
+  "remaining_human_gates": [
+    "Legal/privacy wording and consent copy.",
+    "Real employee/customer data processing.",
+    "Customer-specific HR/reporting boundaries.",
+    "Final financial correctness of lessons, diagnostics, quizzes and explanations.",
+    "Legal/tax review where applicable.",
+    "HR/privacy wording review for diagnostics, self-assessment and reports.",
+    "Reward economy, stock, prices and fulfillment.",
+    "production_ready content approval.",
+    "Admin auth/role/audit policy for production use."
+  ],
+  "problems_ref": ".agent/stages/mvp/problems/MVP-06-learning-n3-fixture-001.md",
+  "artifacts_written": {
+    "verdict": ".agent/stages/mvp/verdicts/MVP-06-learning-n3-fixture-001.json",
+    "problems": ".agent/stages/mvp/problems/MVP-06-learning-n3-fixture-001.md",
+    "latest_verdict_alias": ".agent/stages/mvp/verdict.json",
+    "latest_problems_alias": ".agent/stages/mvp/problems.md"
+  },
+  "alias_of": ".agent/stages/mvp/verdicts/MVP-06-learning-n3-fixture-001.json"
+}

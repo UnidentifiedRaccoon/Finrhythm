@@ -1,0 +1,146 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-03-consent-version-logging-001",
+  "parent_stage_unit": "MVP-03.03",
+  "verdict": "PASS",
+  "status": "PASS",
+  "updated_at": "2026-05-12T12:53:00+03:00",
+  "verifier_role": "fresh_stage_verifier",
+  "scope_statement": "Fresh verifier check for only the scoped MVP-03.03 consent version logging sprint after the minimal fix for scoped-git-diff-check-generated-contracts-blank-line-eof. This verdict does not close full MVP-03, the MVP stage, parent aliases or any human gate.",
+  "summary": [
+    "Fresh api-client check:generated, check:openapi-drift and typecheck commands exited 0.",
+    "Fresh marker scan confirms packages/api-client contains legal-acceptances, LegalDocumentAcceptance, LegalDocumentType, PRIVACY_POLICY, draft-2026-05-12 and LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION.",
+    "OpenAPI snapshot and generated src/dist contracts include the legal acceptance endpoint/types/client helper and current draft version marker.",
+    "generate-contracts now returns trimEnd() + newline, and scoped/no-index whitespace verification passes for new/untracked scoped files including packages/api-client/src/generated/contracts.ts.",
+    "Previous backend Maven/root verifier evidence is accepted because exact fresh raw refs contain [exit_status] 0 and scoped backend consent/migration/test files are not newer than those refs.",
+    "apps/web remains non-mutating for this sprint; no fresh browser/screenshot evidence is required for the api-client/generated-contract EOF fix.",
+    "Human gates, full MVP-03 and the MVP stage remain open."
+  ],
+  "previous_gaps": [
+    {
+      "id": "generated-client-no-op-drift",
+      "status": "RESOLVED",
+      "evidence": "packages/api-client now covers the legal acceptance endpoint, request/response/client helper, LegalDocumentType and PRIVACY_POLICY in snapshot/generator/generated src/dist artifacts; fresh generated/drift/typecheck proof passes."
+    },
+    {
+      "id": "generated-client-current-version-marker-missing",
+      "status": "RESOLVED",
+      "evidence": "packages/api-client carries draft-2026-05-12 and LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION in the OpenAPI snapshot and generated src/dist contracts; check-openapi-drift compares the OpenAPI example with backend LegalAcceptanceService.CURRENT_DRAFT_VERSION."
+    },
+    {
+      "id": "scoped-git-diff-check-generated-contracts-blank-line-eof",
+      "status": "RESOLVED",
+      "evidence": "packages/api-client/scripts/generate-contracts.mjs emits trimEnd() + newline; generated contracts tail has no blank line at EOF; fresh scoped git diff and no-index whitespace checks pass."
+    }
+  ],
+  "acceptance": {
+    "append_only_v007_log_anchored_to_employee_registration_scope": "PASS_RELIED_ON_PREVIOUS_FRESH_BACKEND_VERIFIER",
+    "current_four_draft_document_types_allowlist": "PASS",
+    "current_draft_version_backend_allowlist": "PASS",
+    "api_service_records_current_versions_and_same_version_retry_idempotent": "PASS_RELIED_ON_PREVIOUS_FRESH_BACKEND_VERIFIER",
+    "safe_errors_for_unknown_type_unsupported_version_missing_required_document_unknown_registration": "PASS_RELIED_ON_PREVIOUS_FRESH_BACKEND_VERIFIER",
+    "responses_do_not_echo_raw_invite_code_activation_subject_refs_full_contact_pii_or_legal_text_bodies": "PASS_RELIED_ON_PREVIOUS_FRESH_BACKEND_VERIFIER",
+    "controller_thin_and_openapi_runtime_covered": "PASS_RELIED_ON_PREVIOUS_FRESH_BACKEND_VERIFIER",
+    "openapi_snapshot_current_version_example": "PASS",
+    "generated_client_updated_honestly_not_no_op": "PASS",
+    "generated_client_current_version_marker": "PASS",
+    "scoped_git_diff_and_no_index_whitespace": "PASS",
+    "apps_web_remains_non_mutating_without_trustworthy_identity_bridge": "PASS",
+    "human_gates_and_full_mvp_03_remain_open": "PASS"
+  },
+  "commands": {
+    "api_client_check_generated": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-consent-version-logging-001-api-client-check-generated-eof-fix-20260512-fresh.log"
+    },
+    "api_client_check_openapi_drift": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-consent-version-logging-001-api-client-check-openapi-drift-eof-fix-20260512-fresh.log"
+    },
+    "api_client_typecheck": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-consent-version-logging-001-api-client-typecheck-eof-fix-20260512-fresh.log"
+    },
+    "api_client_marker_scan": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-consent-version-logging-001-api-client-marker-scan-eof-fix-20260512-fresh.log"
+    },
+    "backend_reliance_check": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-consent-version-logging-001-backend-reliance-eof-fix-20260512-fresh.log"
+    },
+    "json_validation": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-consent-version-logging-001-json-validation-eof-fix-20260512-fresh.log"
+    },
+    "git_diff_check": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-consent-version-logging-001-git-diff-check-eof-fix-20260512-fresh.log"
+    },
+    "no_index_whitespace_check": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-consent-version-logging-001-no-index-whitespace-eof-fix-20260512-fresh.log"
+    },
+    "previous_java_version": {
+      "status": "PASS_RELIED_ON_EXACT_RAW_REF",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-consent-version-logging-001-java-version-20260512.log"
+    },
+    "previous_api_mvn_test": {
+      "status": "PASS_RELIED_ON_EXACT_RAW_REF",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-consent-version-logging-001-api-mvn-test-20260512.log"
+    },
+    "previous_api_mvn_verify": {
+      "status": "PASS_RELIED_ON_EXACT_RAW_REF",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-consent-version-logging-001-api-mvn-verify-20260512.log"
+    },
+    "previous_make_verify": {
+      "status": "PASS_RELIED_ON_EXACT_RAW_REF",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-consent-version-logging-001-make-verify-20260512.log"
+    },
+    "previous_make_test_unit": {
+      "status": "PASS_RELIED_ON_EXACT_RAW_REF",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-consent-version-logging-001-make-test-unit-20260512.log"
+    },
+    "previous_make_build": {
+      "status": "PASS_RELIED_ON_EXACT_RAW_REF",
+      "raw_ref": ".agent/stages/mvp/raw/stage-verifier-mvp-03-consent-version-logging-001-make-build-20260512.log"
+    }
+  },
+  "backend_reliance_check": {
+    "status": "PASS",
+    "basis": [
+      "Exact previous fresh verifier backend/root raw refs contain [exit_status] 0.",
+      "Scoped backend consent source, test and V007 migration files are not newer than those previous backend/root verifier raw refs."
+    ]
+  },
+  "openapi_schema_drift": {
+    "status": "PASS",
+    "basis": [
+      "packages/api-client/openapi/finrhythm-api.openapi.json has the legal acceptance path and LegalDocumentVersionRequest.documentVersion.example = draft-2026-05-12.",
+      "packages/api-client/scripts/check-openapi-drift.mjs reads backend LegalAcceptanceService.CURRENT_DRAFT_VERSION and compares it with that OpenAPI example.",
+      "Fresh pnpm --filter @finrhythm/api-client check:openapi-drift exited 0."
+    ]
+  },
+  "ui_evidence": {
+    "status": "NOT_REQUIRED_FOR_CURRENT_FIX",
+    "reason": "The verified minimal fix is api-client/generated-contract EOF formatting only and did not introduce user-visible UI behavior. The sprint remains non-mutating on apps/web because there is no trustworthy employeeRegistrationId/session bridge."
+  },
+  "human_gates_closed": false,
+  "human_gates_remaining_open": [
+    "legal-privacy-consent-wording-and-real-pii-processing",
+    "real-employee-customer-data-processing-approval",
+    "customer-specific-hr-reporting-boundaries",
+    "financial-correctness-lessons-diagnostics-quizzes",
+    "legal-tax-review-tax-deduction-wording",
+    "hr-privacy-wording-review-diagnostics-self-assessment-reports",
+    "reward-economy-stock-prices-fulfillment",
+    "support-answer-policy-sensitive-topics",
+    "MVP-05-production-ready-publish-approval",
+    "admin-auth-role-audit-policy-for-production-use"
+  ],
+  "blocking_problems": [],
+  "artifacts_written": {
+    "verdict": ".agent/stages/mvp/verdicts/MVP-03-consent-version-logging-001.json",
+    "problems": ".agent/stages/mvp/problems/MVP-03-consent-version-logging-001.md"
+  }
+}

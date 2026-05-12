@@ -15,3 +15,8 @@ spring:
       hibernate:
         jdbc:
           time_zone: UTC
+
+finrhythm:
+  admin:
+    security:
+      token: ${FINRHYTHM_ADMIN_API_TOKEN:}

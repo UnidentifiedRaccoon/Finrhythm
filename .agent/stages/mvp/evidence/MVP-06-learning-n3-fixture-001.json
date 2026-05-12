@@ -1,0 +1,100 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-06-learning-n3-fixture-001",
+  "parent_stage_unit": "MVP-06.03",
+  "status": "PASS",
+  "verification_status": "FRESH_VERIFIER_PASS",
+  "updated_at": "2026-05-12",
+  "parent_sync": {
+    "status": "ACCEPTED",
+    "accepted_at": "2026-05-12",
+    "accepted_scope": "MVP-06.03",
+    "previous_latest_sprint_contract_id": "MVP-06-learning-n2-fixture-001",
+    "does_not_close": [
+      "full MVP-04",
+      "full MVP-06",
+      "MVP stage",
+      "human gates"
+    ]
+  },
+  "affected_ids": [
+    "N3",
+    "N3_DECLUTTER_TO_GOAL",
+    "DC_DECLUTTER_ONE",
+    "C4",
+    "C3",
+    "C9",
+    "Q10",
+    "Q11",
+    "Q12"
+  ],
+  "changed_files": [
+    "apps/web/lib/learning-fixtures.ts",
+    "apps/web/components/learning-shell.ts",
+    "apps/web/tests/learning-shell.test.mjs",
+    "apps/web/tests/browser-smoke.mjs",
+    ".agent/stages/mvp/evidence.md",
+    ".agent/stages/mvp/evidence.json",
+    ".agent/stages/mvp/evidence/MVP-06-learning-n3-fixture-001.md",
+    ".agent/stages/mvp/evidence/MVP-06-learning-n3-fixture-001.json",
+    ".agent/stages/mvp/status.json",
+    ".agent/stages/mvp/progress.md",
+    ".agent/stages/mvp/decisions.md",
+    ".agent/stages/mvp/risks.md",
+    ".agent/stages/mvp/backlog.md",
+    ".agent/stages/mvp/feature_list.json",
+    ".agent/stages/mvp/verdict.json",
+    ".agent/stages/mvp/problems.md",
+    ".agent/stages/mvp/verdicts/MVP-06-learning-n3-fixture-001.json",
+    ".agent/stages/mvp/problems/MVP-06-learning-n3-fixture-001.md"
+  ],
+  "commands_summary": {
+    "json_validation": "PASS",
+    "web_typecheck": "PASS",
+    "web_test": "PASS",
+    "web_build": "PASS",
+    "browser_smoke": "PASS",
+    "guardrail_scans": "PASS",
+    "git_diff_check": "PASS",
+    "verify_harness": "PASS_AFTER_PARENT_SYNC",
+    "java_version": "BLOCKED_UNQUALIFIED_JAVA_RUNTIME_MISSING",
+    "make_verify": "NOT_RUN_JAVA_RUNTIME_MISSING"
+  },
+  "raw_refs": [
+    ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-n3-fixture-001-json-validation-20260512.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-n3-fixture-001-web-typecheck-20260512.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-n3-fixture-001-web-test-20260512.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-n3-fixture-001-web-build-20260512.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-n3-fixture-001-browser-smoke-20260512.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-n3-fixture-001-guardrail-scan-20260512.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-n3-fixture-001-java-version-20260512.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-n3-fixture-001-git-diff-check-20260512.txt",
+    ".agent/stages/mvp/raw/stage-builder-mvp-06-learning-n3-fixture-001-verify-harness-20260512.json",
+    ".agent/stages/mvp/raw/mvp-06-learning-n3-fixture-001-screenshots-20260512/",
+    ".agent/stages/mvp/verdicts/MVP-06-learning-n3-fixture-001.json",
+    ".agent/stages/mvp/problems/MVP-06-learning-n3-fixture-001.md",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-web-typecheck-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-web-test-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-web-build-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-browser-smoke-chrome-20260512.txt",
+    ".agent/stages/mvp/raw/mvp-06-learning-n3-fixture-001-verifier-screenshots-20260512/",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-guardrail-scan-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-git-diff-check-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-java-version-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-06-learning-n3-fixture-001-verify-harness-after-verdict-20260512.json",
+    ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n3-fixture-001-json-validation-final-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n3-fixture-001-verify-harness-final-20260512.json",
+    ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n3-fixture-001-git-diff-check-final-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n3-fixture-001-alias-invariants-final-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-06-learning-n3-fixture-001-java-version-final-20260512.txt"
+  ],
+  "docs_sync": {
+    "status": "NO_CANONICAL_DOC_CHANGE"
+  },
+  "human_gates_closed": false,
+  "fresh_verifier": {
+    "status": "PASS",
+    "verdict_ref": ".agent/stages/mvp/verdicts/MVP-06-learning-n3-fixture-001.json",
+    "problems_ref": ".agent/stages/mvp/problems/MVP-06-learning-n3-fixture-001.md"
+  }
+}

@@ -1,0 +1,112 @@
+:root {
+  --color-bg-primary: #F6FAFE;
+  --color-bg-soft: #EEF7FF;
+  --color-surface-primary: #FFFFFF;
+  --color-surface-blue: #EAF5FF;
+  --color-primary: #1677F2;
+  --color-primary-hover: #0F63D8;
+  --color-primary-soft: #D8ECFF;
+  --color-cyan: #2CC6D3;
+  --color-teal: #2BBFA5;
+  --color-mint: #E5F8F3;
+  --color-success: #22B573;
+  --color-amber: #F5B942;
+  --color-purple-soft: #F0ECFF;
+  --color-error: #E84D4F;
+  --color-error-soft: #FFEAEA;
+  --color-warning: #D98A00;
+  --color-warning-soft: #FFF4DE;
+  --color-text-primary: #102A43;
+  --color-text-secondary: #5D7186;
+  --color-text-muted: #8EA4B8;
+  --color-border: #DDEAF5;
+  --color-divider: #EAF0F6;
+  --font-family-base: Inter, Manrope, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --text-h1-size: 24px;
+  --text-h1-line: 32px;
+  --text-h1-weight: 700;
+  --text-h2-size: 20px;
+  --text-h2-line: 28px;
+  --text-h2-weight: 700;
+  --text-body-size: 16px;
+  --text-body-line: 24px;
+  --text-body-weight: 400;
+  --text-caption-size: 12px;
+  --text-caption-line: 16px;
+  --text-caption-weight: 500;
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 40px;
+  --space-3xl: 48px;
+  --space-4xl: 64px;
+  --radius-xs: 8px;
+  --radius-sm: 12px;
+  --radius-md: 14px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-round: 999px;
+  --shadow-card: 0 8px 24px rgba(16, 42, 67, 0.08);
+  --shadow-soft: 0 4px 16px rgba(16, 42, 67, 0.06);
+  --shadow-floating: 0 12px 32px rgba(16, 42, 67, 0.12);
+  --button-height: 52px;
+  --button-radius: 14px;
+  --input-height: 48px;
+  --input-radius: 14px;
+  --bottom-nav-height: 68px;
+}
+
+.fin-ui-surface {
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-soft);
+  color: var(--color-text-primary);
+}
+
+.fin-ui-surface--default {
+  background: var(--color-surface-primary);
+}
+
+.fin-ui-surface--soft {
+  background: var(--color-bg-soft);
+}
+
+.fin-ui-surface--blue {
+  background: var(--color-surface-blue);
+}
+
+.fin-ui-surface--success {
+  background: var(--color-mint);
+  border-color: var(--color-mint);
+}
+
+.fin-ui-surface--radius-xs {
+  border-radius: var(--radius-xs);
+}
+
+.fin-ui-surface--radius-sm {
+  border-radius: var(--radius-sm);
+}
+
+.fin-ui-surface--radius-md {
+  border-radius: var(--radius-md);
+}
+
+.fin-ui-surface--radius-lg {
+  border-radius: var(--radius-lg);
+}
+
+.fin-ui-surface--radius-xl {
+  border-radius: var(--radius-xl);
+}
+
+.fin-ui-surface--radius-2xl {
+  border-radius: var(--radius-2xl);
+}
+
+.fin-ui-surface--radius-round {
+  border-radius: var(--radius-round);
+}

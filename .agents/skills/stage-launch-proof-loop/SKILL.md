@@ -85,6 +85,19 @@ Each stage lives under:
 These files are the source of truth for cross-session handoff. Session-local todo UI is not authoritative.
 Latest aliases (`evidence.json`, `evidence.md`, `verdict.json`, `problems.md`) describe the current/latest sprint. Historical proof refs should use immutable per-contract files under `evidence/`, `verdicts/` and `problems/` when available.
 
+## Compact proof policy
+
+The proof loop must stay durable without flooding commits:
+
+- track compact proof indexes (`evidence.json`, `evidence.md`, immutable `evidence/<ID>.*`, `verdicts/<ID>.json`, `problems/<ID>.md` when needed);
+- keep full command transcripts, browser dumps, repeated screenshots and local scratch output under `raw/`, which is ignored by Git by default;
+- never create `.agent/` under `apps/*`; all proof artifacts belong under the repo-root `.agent/`;
+- record command names, exit status, short outcome, and exact local raw path in tracked evidence, not full stdout/stderr;
+- track only curated UI screenshots when they are needed for review or PR handoff; repeated loading/error/success captures stay in ignored `raw/`;
+- update latest aliases once per meaningful phase boundary, not after every command rerun.
+
+If an auditor needs a raw transcript in Git, add only that exact file with a written reason in `evidence.md` or `problems.md`.
+
 ## Top-level workflow
 
 ### 1. Re-sync at the start
@@ -136,7 +149,7 @@ Content slices must preserve raw-source provenance, must not publish `humanRevie
 After implementation:
 
 - gather commands run;
-- store relevant raw outputs under `raw/`;
+- store full raw outputs under ignored `raw/` and summarize them in tracked evidence;
 - record screenshots for UI/user-visible behavior;
 - update `evidence.md` and `evidence.json`;
 - map acceptance criteria to evidence;

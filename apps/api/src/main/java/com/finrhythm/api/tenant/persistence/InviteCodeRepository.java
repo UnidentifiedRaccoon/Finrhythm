@@ -22,16 +22,25 @@ public interface InviteCodeRepository extends JpaRepository<InviteCode, UUID> {
     long countByTenantIdAndAccessPoolId(UUID tenantId, UUID accessPoolId);
 
     @Query("""
-            select inviteCode.status as status,
+            select case
+                       when inviteCode.status = :issuedStatus
+                         and inviteCode.expiresAt is not null
+                         and inviteCode.expiresAt <= :asOf
+                       then :expiredStatus
+                       else inviteCode.status
+                   end as status,
                    count(inviteCode) as count
             from InviteCode inviteCode
             where inviteCode.tenant.id = :tenantId
               and inviteCode.accessPool.id = :accessPoolId
-            group by inviteCode.status
+            group by inviteCode.status, inviteCode.expiresAt
             """)
-    List<InviteCodeStatusCountProjection> countStatusesByTenantIdAndAccessPoolId(
+    List<InviteCodeStatusCountProjection> countEffectiveStatusesByTenantIdAndAccessPoolId(
             @Param("tenantId") UUID tenantId,
-            @Param("accessPoolId") UUID accessPoolId
+            @Param("accessPoolId") UUID accessPoolId,
+            @Param("asOf") Instant asOf,
+            @Param("issuedStatus") InviteCodeStatus issuedStatus,
+            @Param("expiredStatus") InviteCodeStatus expiredStatus
     );
 
     @Query("""
@@ -49,7 +58,13 @@ public interface InviteCodeRepository extends JpaRepository<InviteCode, UUID> {
     @Query(
             value = """
                     select inviteCode.id as inviteCodeId,
-                           inviteCode.status as status,
+                           case
+                               when inviteCode.status = :issuedStatus
+                                 and inviteCode.expiresAt is not null
+                                 and inviteCode.expiresAt <= :asOf
+                               then :expiredStatus
+                               else inviteCode.status
+                           end as status,
                            inviteCode.issuedAt as issuedAt,
                            inviteCode.expiresAt as expiresAt,
                            inviteCode.activatedAt as activatedAt,
@@ -59,7 +74,13 @@ public interface InviteCodeRepository extends JpaRepository<InviteCode, UUID> {
                       on registration.inviteCodeId = inviteCode.id
                     where inviteCode.tenant.id = :tenantId
                       and inviteCode.accessPool.id = :accessPoolId
-                      and (:status is null or inviteCode.status = :status)
+                      and (:status is null or (case
+                              when inviteCode.status = :issuedStatus
+                                and inviteCode.expiresAt is not null
+                                and inviteCode.expiresAt <= :asOf
+                              then :expiredStatus
+                              else inviteCode.status
+                          end) = :status)
                     order by inviteCode.createdAt asc, inviteCode.id asc
                     """,
             countQuery = """
@@ -67,12 +88,21 @@ public interface InviteCodeRepository extends JpaRepository<InviteCode, UUID> {
                     from InviteCode inviteCode
                     where inviteCode.tenant.id = :tenantId
                       and inviteCode.accessPool.id = :accessPoolId
-                      and (:status is null or inviteCode.status = :status)
+                      and (:status is null or (case
+                              when inviteCode.status = :issuedStatus
+                                and inviteCode.expiresAt is not null
+                                and inviteCode.expiresAt <= :asOf
+                              then :expiredStatus
+                              else inviteCode.status
+                          end) = :status)
                     """
     )
     Page<InviteCodeStatusRowProjection> findCodeStatusRows(
             @Param("tenantId") UUID tenantId,
             @Param("accessPoolId") UUID accessPoolId,
+            @Param("asOf") Instant asOf,
+            @Param("issuedStatus") InviteCodeStatus issuedStatus,
+            @Param("expiredStatus") InviteCodeStatus expiredStatus,
             @Param("status") InviteCodeStatus status,
             Pageable pageable
     );

@@ -11,6 +11,7 @@ const navItems = [
   { label: "Награды", mark: "reward" },
   { label: "Профиль", mark: "profile" }
 ];
+const enabledLessonIds = new Set<NoviceLesson["id"]>(["N1", "N2", "N3"]);
 
 export function LearningShellScreen({ result }: LearningShellProps) {
   if (result.state === "loading") {
@@ -159,6 +160,8 @@ function LessonList({ lessons }: { lessons: NoviceLesson[] }) {
 }
 
 function LessonRow({ lesson }: { lesson: NoviceLesson }) {
+  const isLessonEnabled = enabledLessonIds.has(lesson.id);
+
   return h(
     "li",
     { className: `lesson-row lesson-${lesson.status}` },
@@ -183,7 +186,7 @@ function LessonRow({ lesson }: { lesson: NoviceLesson }) {
         h("span", null, lesson.time),
         h("span", null, lesson.competencyCodes.join(" / "))
       ),
-      lesson.status === "available" || lesson.status === "next"
+      isLessonEnabled
         ? h(
             "a",
             { className: "lesson-row-link", href: `/learning/lessons/${lesson.id}` },
@@ -272,7 +275,13 @@ function PrivacyCard({ title, body }: { title: string; body: string }) {
     "section",
     { className: "privacy-card", "aria-labelledby": "privacy-card-title" },
     h("span", { className: "privacy-icon", "aria-hidden": "true" }),
-    h("div", null, h("h2", { id: "privacy-card-title" }, title), h("p", null, body))
+    h(
+      "div",
+      null,
+      h("h2", { id: "privacy-card-title" }, title),
+      h("p", null, body),
+      h("a", { className: "privacy-inline-link", href: "/onboarding/privacy" }, "Подробнее о приватности")
+    )
   );
 }
 

@@ -1,0 +1,91 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-03-onboarding-privacy-screen-001",
+  "parent_stage_unit": "MVP-03.02",
+  "status": "PASS",
+  "verification_status": "FRESH_VERIFIER_PASS_PARENT_SYNCED",
+  "updated_at": "2026-05-12",
+  "source_mapping": {
+    "stage_scope": "docs/stages/MVP.md#MVP-03",
+    "product_privacy": "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md#9-данные-приватность-и-отчётность",
+    "methodology_privacy": "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md#12-1-приватность",
+    "design_system": "docs/product/b2b-mvp/lemanapro/design-system-v0.1.md",
+    "human_gates": "docs/engineering/human-gates.md"
+  },
+  "changed_files": [
+    "apps/web/components/onboarding-privacy-screen.ts",
+    "apps/web/app/onboarding/privacy/page.tsx",
+    "apps/web/components/learning-shell.ts",
+    "apps/web/app/globals.css",
+    "apps/web/tests/learning-shell.test.mjs",
+    "apps/web/tests/browser-smoke.mjs"
+  ],
+  "commands_summary": {
+    "json_validation": "PASS",
+    "web_typecheck": "PASS",
+    "web_test": "PASS",
+    "web_build": "PASS",
+    "browser_smoke": "PASS",
+    "browser_iab": "PASS",
+    "guardrail_scans": "PASS",
+    "git_diff_check": "PASS",
+    "new_file_whitespace": "PASS",
+    "verify_harness": "PASS_AFTER_PARENT_SYNC",
+    "java_version": "BLOCKED_UNQUALIFIED_JAVA_RUNTIME_MISSING"
+  },
+  "raw_refs": [
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-json-validation-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-web-typecheck-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-web-test-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-web-build-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-browser-smoke-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-browser-iab-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-guardrail-scan-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-java-version-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-git-diff-check-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-new-file-whitespace-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-verify-harness-pre-verifier-20260512.json",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-json-validation-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-web-typecheck-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-web-test-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-web-build-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-browser-smoke-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-browser-iab-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-guardrail-scan-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-git-diff-check-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-java-version-20260512.txt",
+    ".agent/stages/mvp/raw/stage-verifier-mvp-03-onboarding-privacy-screen-001-screenshots-20260512/",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-json-validation-final-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-web-typecheck-final-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-verify-harness-final-20260512.json",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-git-diff-check-final-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-onboarding-privacy-screen-001-java-version-final-20260512.txt"
+  ],
+  "human_gates_closed": false,
+  "human_gates_remaining_open": [
+    "legal-privacy-consent-wording-and-real-pii-processing",
+    "real-employee-customer-data-processing-approval",
+    "customer-specific-hr-reporting-boundaries",
+    "financial-correctness-lessons-diagnostics-quizzes",
+    "legal-tax-review-tax-deduction-wording",
+    "hr-privacy-wording-review-diagnostics-self-assessment-reports",
+    "reward-economy-stock-prices-fulfillment",
+    "support-answer-policy-sensitive-topics",
+    "MVP-05-production-ready-publish-approval",
+    "admin-auth-role-audit-policy-for-production-use"
+  ],
+  "fresh_verifier": {
+    "status": "PASS",
+    "raw_verdict": ".agent/stages/mvp/verdicts/MVP-03-onboarding-privacy-screen-001.json",
+    "problems": ".agent/stages/mvp/problems/MVP-03-onboarding-privacy-screen-001.md"
+  },
+  "parent_sync": {
+    "status": "ACCEPTED",
+    "note": "Latest stage aliases were synchronized to this scoped PASS while full MVP-03, full MVP-04, full MVP-06, MVP stage and human gates remain open."
+  },
+  "verdict": {
+    "status": "PASS",
+    "raw": ".agent/stages/mvp/verdicts/MVP-03-onboarding-privacy-screen-001.json",
+    "problems": ".agent/stages/mvp/problems/MVP-03-onboarding-privacy-screen-001.md"
+  }
+}
