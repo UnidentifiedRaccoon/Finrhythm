@@ -1,0 +1,163 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-03-profile-contact-summary-001",
+  "parent_stage_unit": "MVP-03.04",
+  "verifier_role": "fresh_stage_verifier",
+  "verdict": "PASS",
+  "verified_at": "2026-05-12",
+  "scope": "Backend/API-only read-only employee profile/contact summary lookup.",
+  "summary": "Verified that POST /api/v1/employee-registrations/profile-summary requires raw invite code plus matching normalized fullName/email/phone, returns only support-ready fields on match, fails safely for unknown/mismatch/invalid inputs, and does not introduce contact mutation, UUID-only profile lookup, employee auth/session, access/subscription shortcuts, support tickets, HR/reporting, real data or employee UI changes.",
+  "acceptance": [
+    {
+      "criterion": "Read-only profile/contact summary endpoint exists and is documented in OpenAPI.",
+      "status": "PASS",
+      "evidence": [
+        "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java",
+        "apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java",
+        "packages/api-client/openapi/finrhythm-api.openapi.json",
+        ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/guardrail-scans.txt"
+      ]
+    },
+    {
+      "criterion": "Lookup requires raw invite code plus matching normalized fullName/email/phone and no UUID-only public profile lookup is introduced.",
+      "status": "PASS",
+      "evidence": [
+        "apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java",
+        ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/api-employee-registration-controller-it.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/guardrail-scans.txt"
+      ]
+    },
+    {
+      "criterion": "Success returns only employeeRegistrationId, normalized fullName/email/phone, tenantId, pilotLaunchId, accessPoolId, registeredAt and contactVerifiedByRegistrationMatch.",
+      "status": "PASS",
+      "evidence": [
+        "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeProfileSummaryResponse.java",
+        "packages/api-client/src/generated/contracts.ts",
+        ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/guardrail-scans.txt"
+      ]
+    },
+    {
+      "criterion": "Unknown invite/registration, contact mismatch and invalid input fail safely without sensitive echoes.",
+      "status": "PASS",
+      "evidence": [
+        "profileSummaryRejectsUnknownInviteAndContactMismatchWithoutEchoingSensitiveValues",
+        "profileSummaryValidationErrorsDoNotEchoSubmittedPiiOrInviteCode",
+        ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/api-employee-registration-controller-it.txt"
+      ]
+    },
+    {
+      "criterion": "No contact mutation/update, auth/session/login/password setup, User/OrgMembership/subscription/seat/pro_user/premium shortcut, support ticket, HR reporting, real data or UI product source change is introduced by this sprint.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/evidence/MVP-03-profile-contact-summary-001.json",
+        ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/guardrail-scans.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/git-name-status.txt"
+      ]
+    },
+    {
+      "criterion": "OpenAPI snapshot and generated packages/api-client artifacts/checks are synchronized from source.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/api-client-check-generated.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/api-client-check-openapi-drift.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/api-client-typecheck.txt"
+      ]
+    },
+    {
+      "criterion": "Builder evidence commands are sufficient and reproducible for backend/API proof.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/java-version.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/api-employee-registration-controller-it.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/api-mvn-verify.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/json-validation.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/git-diff-check.txt"
+      ]
+    },
+    {
+      "criterion": "Full MVP-03, MVP stage and human gates remain open.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/status.json",
+        ".agent/stages/mvp/backlog.md",
+        ".agent/stages/mvp/evidence/MVP-03-profile-contact-summary-001.md"
+      ]
+    }
+  ],
+  "commands": [
+    {
+      "command": "JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home PATH=\"$JAVA_HOME/bin:$PATH\" java -version",
+      "exit_status": 0,
+      "raw": ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/java-version.txt"
+    },
+    {
+      "command": "cd apps/api && JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home PATH=\"$JAVA_HOME/bin:$PATH\" ./mvnw -q -Dtest=EmployeeRegistrationControllerIT test",
+      "exit_status": 0,
+      "raw": ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/api-employee-registration-controller-it.txt"
+    },
+    {
+      "command": "cd apps/api && JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home PATH=\"$JAVA_HOME/bin:$PATH\" ./mvnw -q verify",
+      "exit_status": 0,
+      "raw": ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/api-mvn-verify.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/api-client check:generated",
+      "exit_status": 0,
+      "raw": ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/api-client-check-generated.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/api-client check:openapi-drift",
+      "exit_status": 0,
+      "raw": ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/api-client-check-openapi-drift.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/api-client typecheck",
+      "exit_status": 0,
+      "raw": ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/api-client-typecheck.txt"
+    },
+    {
+      "command": "jq validation for sprint/stage/OpenAPI JSON",
+      "exit_status": 0,
+      "raw": ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/json-validation.txt"
+    },
+    {
+      "command": "git diff --check -- . ':(exclude).agent/stages/mvp/raw/**'",
+      "exit_status": 0,
+      "raw": ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/git-diff-check.txt"
+    },
+    {
+      "command": "targeted guardrail scans for profile-summary sprint",
+      "exit_status": 0,
+      "raw": ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-summary-001-20260512/guardrail-scans.txt"
+    }
+  ],
+  "ui_screenshot_requirement": {
+    "required": false,
+    "reason": "This sprint is explicitly backend/API-only and no apps/web or product UI source file is changed by the sprint evidence."
+  },
+  "schema_api_evidence": {
+    "db_migration_for_this_sprint": "not_expected",
+    "maven_verify": "PASS",
+    "flyway_runtime_migrations": "PASS in Maven/Testcontainers logs",
+    "openapi_snapshot": "PASS",
+    "generated_api_client": "PASS"
+  },
+  "docs_sync": {
+    "status": "PASS",
+    "note": "No canonical doc change was required by the frozen scope; API contract source/snapshot/generated client artifacts are synchronized. Stage evidence records contact-update/auth-session deferral."
+  },
+  "human_gates": {
+    "closed_by_this_verdict": false,
+    "remaining_open": [
+      "legal/privacy wording and consent copy",
+      "real employee/customer data processing",
+      "customer-specific HR/reporting boundaries",
+      "production admin auth/role/audit policy",
+      "support answer policy for sensitive topics",
+      "final financial correctness of lessons/diagnostics/quizzes/explanations",
+      "reward economy, prices and fulfillment",
+      "production-ready content approval"
+    ]
+  },
+  "problems_ref": ".agent/stages/mvp/problems/MVP-03-profile-contact-summary-001.md"
+}

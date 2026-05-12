@@ -1,7 +1,9 @@
 package com.finrhythm.api.registration.service;
 
+import com.finrhythm.api.registration.domain.EmployeeProfileSession;
 import com.finrhythm.api.registration.domain.EmployeeRegistration;
 import com.finrhythm.api.registration.domain.RegistrationContact;
+import com.finrhythm.api.registration.persistence.EmployeeProfileSessionRepository;
 import com.finrhythm.api.registration.persistence.EmployeeRegistrationRepository;
 import com.finrhythm.api.tenant.domain.ActivationSubjectRef;
 import com.finrhythm.api.tenant.domain.InviteCodeHash;
@@ -11,18 +13,27 @@ import com.finrhythm.api.tenant.service.InviteCodeAccessService;
 import com.finrhythm.api.tenant.service.InviteCodeActivationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
 public class EmployeeRegistrationService {
+    private static final Duration PROFILE_SESSION_TTL = Duration.ofMinutes(15);
+    private static final String BEARER_PREFIX = "Bearer ";
+    private static final Pattern PROFILE_SESSION_TOKEN = Pattern.compile("^[A-Za-z0-9_-]{32,256}$");
+
     private final EmployeeRegistrationRepository employeeRegistrationRepository;
+    private final EmployeeProfileSessionRepository employeeProfileSessionRepository;
     private final InviteCodeAccessService inviteCodeAccessService;
     private final RegistrationSubjectRefGenerator subjectRefGenerator;
+    private final EmployeeProfileSessionTokenService profileSessionTokenService;
     private final Clock clock;
 
     @Transactional
@@ -39,6 +50,57 @@ public class EmployeeRegistrationService {
                         registeredAt
                 ))
                 .orElseGet(() -> createRegistration(command.inviteCode(), contact, registeredAt));
+    }
+
+    @Transactional(readOnly = true)
+    public EmployeeProfileSummaryResult profileSummary(EmployeeProfileSummaryCommand command) {
+        RegistrationContact contact = contactFrom(command);
+        String inviteLookupHash = inviteLookupHash(command.inviteCode());
+        EmployeeRegistration registration = employeeRegistrationRepository.findByInviteLookupHash(inviteLookupHash)
+                .filter(existingRegistration -> existingRegistration.matchesContact(contact))
+                .orElseThrow(EmployeeRegistrationService::profileLookupNotFound);
+        return toProfileSummary(registration);
+    }
+
+    @Transactional
+    public EmployeeProfileSessionResult createProfileSession(EmployeeProfileSessionCommand command) {
+        RegistrationContact contact = contactFrom(command);
+        String inviteLookupHash = inviteLookupHash(command.inviteCode());
+        EmployeeRegistration registration = employeeRegistrationRepository.findByInviteLookupHash(inviteLookupHash)
+                .filter(existingRegistration -> existingRegistration.matchesContact(contact))
+                .orElseThrow(EmployeeRegistrationService::profileLookupNotFound);
+        Instant createdAt = clock.instant();
+        String rawToken = profileSessionTokenService.generateRawToken();
+        EmployeeProfileSession session = EmployeeProfileSession.create(
+                registration.getId(),
+                profileSessionTokenService.sha256Hex(rawToken),
+                createdAt.plus(PROFILE_SESSION_TTL)
+        );
+
+        employeeProfileSessionRepository.revokeActiveForRegistration(registration.getId(), createdAt, createdAt);
+        employeeProfileSessionRepository.saveAndFlush(session);
+        return new EmployeeProfileSessionResult(
+                rawToken,
+                session.getExpiresAt(),
+                registration.getId(),
+                registration.getTenantId(),
+                registration.getPilotLaunchId(),
+                registration.getAccessPoolId(),
+                true
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public EmployeeProfileSummaryResult profileSummaryForSession(String authorizationHeader) {
+        String rawToken = profileSessionTokenFromAuthorization(authorizationHeader);
+        String tokenHash = profileSessionTokenService.sha256Hex(rawToken);
+        Instant asOf = clock.instant();
+        EmployeeProfileSession session = employeeProfileSessionRepository.findByTokenHash(tokenHash)
+                .filter(profileSession -> profileSession.isUsableAt(asOf))
+                .orElseThrow(EmployeeRegistrationService::profileSessionAuthenticationRequired);
+        EmployeeRegistration registration = employeeRegistrationRepository.findById(session.getEmployeeRegistrationId())
+                .orElseThrow(EmployeeRegistrationService::profileLookupNotFound);
+        return toProfileSummary(registration);
     }
 
     private EmployeeRegistrationResult retryExistingRegistration(
@@ -98,8 +160,20 @@ public class EmployeeRegistrationService {
     }
 
     private static RegistrationContact contactFrom(EmployeeRegistrationCommand command) {
+        return contactFrom(command.fullName(), command.email(), command.phone());
+    }
+
+    private static RegistrationContact contactFrom(EmployeeProfileSummaryCommand command) {
+        return contactFrom(command.fullName(), command.email(), command.phone());
+    }
+
+    private static RegistrationContact contactFrom(EmployeeProfileSessionCommand command) {
+        return contactFrom(command.fullName(), command.email(), command.phone());
+    }
+
+    private static RegistrationContact contactFrom(String fullName, String email, String phone) {
         try {
-            return new RegistrationContact(command.fullName(), command.email(), command.phone());
+            return new RegistrationContact(fullName, email, phone);
         } catch (IllegalArgumentException exception) {
             throw new EmployeeRegistrationException(
                     EmployeeRegistrationFailureReason.VALIDATION_FAILED,
@@ -154,6 +228,33 @@ public class EmployeeRegistrationService {
         );
     }
 
+    private static EmployeeRegistrationException profileLookupNotFound() {
+        return new EmployeeRegistrationException(
+                HttpStatus.NOT_FOUND,
+                EmployeeRegistrationFailureReason.PROFILE_LOOKUP_NOT_FOUND,
+                "Registration profile was not found."
+        );
+    }
+
+    private static EmployeeRegistrationException profileSessionAuthenticationRequired() {
+        return new EmployeeRegistrationException(
+                HttpStatus.UNAUTHORIZED,
+                EmployeeRegistrationFailureReason.PROFILE_SESSION_AUTHENTICATION_REQUIRED,
+                "Employee profile session authentication is required."
+        );
+    }
+
+    private static String profileSessionTokenFromAuthorization(String authorizationHeader) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith(BEARER_PREFIX)) {
+            throw profileSessionAuthenticationRequired();
+        }
+        String rawToken = authorizationHeader.substring(BEARER_PREFIX.length()).trim();
+        if (!PROFILE_SESSION_TOKEN.matcher(rawToken).matches()) {
+            throw profileSessionAuthenticationRequired();
+        }
+        return rawToken;
+    }
+
     private static EmployeeRegistrationResult toResult(
             EmployeeRegistration registration,
             boolean idempotentRetry
@@ -166,6 +267,20 @@ public class EmployeeRegistrationService {
                 registration.getInviteCodeId(),
                 registration.getRegisteredAt(),
                 idempotentRetry
+        );
+    }
+
+    private static EmployeeProfileSummaryResult toProfileSummary(EmployeeRegistration registration) {
+        return new EmployeeProfileSummaryResult(
+                registration.getId(),
+                registration.getFullName(),
+                registration.getEmail(),
+                registration.getPhone(),
+                registration.getTenantId(),
+                registration.getPilotLaunchId(),
+                registration.getAccessPoolId(),
+                registration.getRegisteredAt(),
+                true
         );
     }
 }

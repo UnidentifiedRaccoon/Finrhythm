@@ -56,3 +56,63 @@ export async function fetchLegalDocumentAcceptance(baseUrl, params, init = {}) {
     }
     return (await response.json());
 }
+export const EMPLOYEE_PROFILE_SUMMARY_PATH = "/api/v1/employee-registrations/profile-summary";
+export function buildEmployeeProfileSummaryUrl(baseUrl) {
+    return new URL(EMPLOYEE_PROFILE_SUMMARY_PATH, baseUrl);
+}
+export async function fetchEmployeeProfileSummary(baseUrl, params, init = {}) {
+    const url = buildEmployeeProfileSummaryUrl(baseUrl);
+    const headers = new Headers(init.headers);
+    if (!headers.has("content-type")) {
+        headers.set("content-type", "application/json");
+    }
+    const response = await fetch(url, {
+        ...init,
+        method: "POST",
+        headers,
+        body: JSON.stringify(params.body)
+    });
+    if (!response.ok) {
+        throw new Error(`POST ${url.pathname} failed with HTTP ${response.status}.`);
+    }
+    return (await response.json());
+}
+export const EMPLOYEE_PROFILE_SESSIONS_PATH = "/api/v1/employee-registrations/profile-sessions";
+export function buildEmployeeProfileSessionsUrl(baseUrl) {
+    return new URL(EMPLOYEE_PROFILE_SESSIONS_PATH, baseUrl);
+}
+export async function fetchEmployeeProfileSession(baseUrl, params, init = {}) {
+    const url = buildEmployeeProfileSessionsUrl(baseUrl);
+    const headers = new Headers(init.headers);
+    if (!headers.has("content-type")) {
+        headers.set("content-type", "application/json");
+    }
+    const response = await fetch(url, {
+        ...init,
+        method: "POST",
+        headers,
+        body: JSON.stringify(params.body)
+    });
+    if (!response.ok) {
+        throw new Error(`POST ${url.pathname} failed with HTTP ${response.status}.`);
+    }
+    return (await response.json());
+}
+export const EMPLOYEE_ME_PROFILE_SUMMARY_PATH = "/api/v1/employee-registrations/me/profile-summary";
+export function buildEmployeeMeProfileSummaryUrl(baseUrl) {
+    return new URL(EMPLOYEE_ME_PROFILE_SUMMARY_PATH, baseUrl);
+}
+export async function fetchEmployeeMeProfileSummary(baseUrl, params, init = {}) {
+    const url = buildEmployeeMeProfileSummaryUrl(baseUrl);
+    const headers = new Headers(init.headers);
+    headers.set("authorization", `Bearer ${params.profileSessionToken}`);
+    const response = await fetch(url, {
+        ...init,
+        method: "GET",
+        headers
+    });
+    if (!response.ok) {
+        throw new Error(`GET ${url.pathname} failed with HTTP ${response.status}.`);
+    }
+    return (await response.json());
+}

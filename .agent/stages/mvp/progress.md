@@ -2,6 +2,91 @@
 
 Updated: 2026-05-12
 
+## Current session: MVP-03-employee-profile-session-001 verifier PASS and parent sync
+
+- Fresh scoped verifier returned `PASS` for `MVP-03-employee-profile-session-001` and wrote verifier-owned artifacts: `.agent/stages/mvp/verdicts/MVP-03-employee-profile-session-001.json` and `.agent/stages/mvp/problems/MVP-03-employee-profile-session-001.md`.
+- Verifier confirmed invite+contact-gated profile-session creation, opaque non-JWT raw token returned once, SHA-256 token hash persistence only, previous-session revocation, non-consuming read-only `me/profile-summary`, safe token failure responses, V009 Flyway proof, OpenAPI/generated-client sync and access-doc sync.
+- Parent accepted the scoped PASS and synchronized latest stage evidence/verdict/problems/status aliases to `MVP-03-employee-profile-session-001`.
+- No UI screenshot/browser evidence is required for this backend/API-only slice; verifier no-employee-UI diff check found no `apps/web` changes.
+- Full `MVP-03`, contact update, the MVP stage and all human gates remain open.
+
+## Current session: MVP-03-employee-profile-session-001 builder evidence
+
+- Built the frozen backend/API-only `MVP-03-employee-profile-session-001` slice after spec freeze.
+- Added append-only `V009__employee_profile_session.sql` and `employee_profile_sessions` for short-lived registration-scoped profile sessions; raw tokens are not persisted, only SHA-256 `token_hash`.
+- Added `POST /api/v1/employee-registrations/profile-sessions`, requiring raw invite code plus matching normalized full name, email and phone; success returns an opaque high-entropy non-JWT token once and revokes previous active sessions for the same registration.
+- Added `GET /api/v1/employee-registrations/me/profile-summary`, authenticated with the profile-session bearer token and read-only/non-consuming.
+- Added tests for token hash-only persistence, previous-session revocation, expired/revoked/missing/malformed/unknown token rejection, safe error echoes and runtime OpenAPI exposure.
+- Updated OpenAPI snapshot, generated `packages/api-client` contracts/dist and generator/drift checks for profile-session creation and authenticated me/profile-summary helpers.
+- Updated `docs/architecture/access-and-subscriptions.md` with the MVP employee profile-session boundary and Mermaid flow.
+- Checks passed with explicit `JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home`: focused `EmployeeRegistrationControllerIT`, `cd apps/api && ./mvnw -q verify`, api-client build/generated/drift/typecheck, `make verify`, `make test-unit`, `make build`, JSON validation and guardrail scans.
+- Evidence aliases now point to `MVP-03-employee-profile-session-001` with status `BUILT_AWAITING_VERIFIER`; latest verifier aliases still point to `MVP-03-profile-contact-summary-001` until a fresh verifier runs.
+- No contact update, employee UI, login/password setup, `User`, `OrgMembership`, subscriptions/seats, `pro_user`, `premium`, support tickets, HR reporting, diagnostics, points, CMS, rewards, real data, full `MVP-03` or human gate was closed.
+
+## Current session: MVP-03-employee-profile-session-001 spec freeze
+
+- Froze `MVP-03-employee-profile-session-001` for parent unit `MVP-03.04` after scoped fresh verifier `PASS` and parent sync for `MVP-03-profile-contact-summary-001`.
+- Scope is backend/API-only: create a short-lived employee profile session after raw invite code plus normalized fullName/email/phone proof, then allow read-only authenticated `me/profile-summary` from that session.
+- Acceptance requires opaque high-entropy raw token returned once, server-side token hash only, explicit expiry/revocation/consumption policy, safe `400`/`401`/`404` errors, no raw token/invite/contact echo, OpenAPI/generated-client sync and Flyway evidence if sessions are persisted.
+- Canonical doc target is `docs/architecture/access-and-subscriptions.md` because this introduces the MVP employee registration/profile-session boundary; a small Mermaid flow is expected.
+- Explicitly excludes contact update, employee UI, login/password setup, `User`, `OrgMembership`, subscriptions/seats, `pro_user`, `premium`, SSO, support tickets, HR reporting, diagnostics, points, CMS, rewards, real data and full `MVP-03` or human-gate closure.
+- Latest verified sprint remains `MVP-03-profile-contact-summary-001`; no production code, canonical docs, evidence aliases, verdict aliases, raw evidence or immutable PASS artifacts were changed by this freeze.
+- Java-backed verification is not claimed for this freeze; builder must record explicit Homebrew JDK 21 proof or blocker before Maven/root Java-backed checks.
+
+## Current session: MVP-03-profile-contact-summary-001 verifier PASS and parent sync
+
+- Fresh scoped verifier returned `PASS` for `MVP-03-profile-contact-summary-001` and wrote verifier-owned artifacts: `.agent/stages/mvp/verdicts/MVP-03-profile-contact-summary-001.json` and `.agent/stages/mvp/problems/MVP-03-profile-contact-summary-001.md`.
+- Verifier reran explicit Java 21 proof, focused `EmployeeRegistrationControllerIT`, full backend Maven verify, api-client generated/drift/typecheck, JSON validation, `git diff --check` and targeted guardrail scans.
+- Parent accepted the scoped PASS and synchronized latest stage status/evidence/verdict/problems aliases to `MVP-03-profile-contact-summary-001`.
+- No UI screenshot/browser evidence is required for this backend/API-only slice; no `apps/web` or product UI source changed.
+- Full `MVP-03`, contact update, employee auth/session, the MVP stage and all human gates remain open.
+
+## Current session: MVP-03-profile-contact-summary-001 builder evidence
+
+- Built the frozen backend/API-only `MVP-03-profile-contact-summary-001` slice after spec freeze.
+- Added read-only `POST /api/v1/employee-registrations/profile-summary`, requiring raw invite code plus matching normalized full name, email and phone.
+- Reused existing invite-code lookup hash and registration contact normalization; success returns only support-ready registration contact/scope summary and `contactVerifiedByRegistrationMatch=true`.
+- Unknown invite/registration and contact mismatch return safe `PROFILE_LOOKUP_NOT_FOUND` without echoing submitted/stored contact, raw invite code, lookup hash or activation subject ref.
+- No migration was needed because `employee_registrations` already stores the summary fields; no contact update, auth/session, UUID-only lookup, support ticket flow, HR reporting, real-data processing or UI source was added.
+- Updated `packages/api-client` OpenAPI snapshot, generator/drift checks and generated contracts/client helper for the new endpoint.
+- Checks passed with explicit `JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home`: focused registration/profile IT, `cd apps/api && ./mvnw -q test`, `cd apps/api && ./mvnw -q verify`, api-client build/generated/drift/typecheck, `make verify`, `make test-unit`, `make build`, JSON validation, `git diff --check` and guardrail scans.
+- Evidence aliases now point to `MVP-03-profile-contact-summary-001` with status `BUILT_AWAITING_VERIFIER`; latest verifier aliases still point to `MVP-03-admin-sensitive-access-audit-001` until a fresh verifier runs.
+- Full `MVP-03`, the MVP stage and all human gates remain open.
+
+## Current session: MVP-03-profile-contact-summary-001 spec freeze
+
+- Froze `MVP-03-profile-contact-summary-001` for parent unit `MVP-03.04` after scoped fresh verifier `PASS` and parent sync for `MVP-03-admin-sensitive-access-audit-001`.
+- Scope is backend/API-only and read-only: support-ready profile/contact summary lookup for an existing employee registration by raw invite code plus matching normalized full name, email and phone.
+- Chosen over contact update because current repo has no trustworthy employee auth/session bridge, and contact mutation by `employeeRegistrationId` alone would create an unsafe capability.
+- Acceptance requires no UUID-only profile lookup, no mutation, safe structured errors, no raw invite code/lookup hash/activation subject ref/stored contact leakage, OpenAPI/generated-client sync and fresh verifier PASS.
+- Explicitly excludes contact update, employee auth/session/login/password setup, `User`, `OrgMembership`, subscriptions/seats, employee profile UI, support tickets, HR reporting, real data and full `MVP-03` closure.
+- Latest verified sprint remains `MVP-03-admin-sensitive-access-audit-001`; no production code, canonical docs, evidence aliases, verdict aliases or immutable PASS artifacts were changed by this freeze.
+- Java-backed verification is not claimed for this freeze; builder must record explicit Homebrew JDK 21 proof or blocker before Maven/root Java-backed checks.
+
+## Current session: MVP-03-admin-sensitive-access-audit-001 builder evidence
+
+- Built the frozen backend-only `MVP-03-admin-sensitive-access-audit-001` slice after the spec freeze.
+- Added append-only `V008__admin_access_audit_log.sql` for `admin_access_audit_log`, storing only safe admin request metadata and no raw bearer tokens, raw invite codes, activation subject refs, employee contact PII, bodies or full query strings.
+- Added `apps/api/src/main/java/com/finrhythm/api/admin/audit/**` for route/scope classification, principal classification, outcome mapping and append-only audit insertion.
+- Hooked the existing admin bearer-token security filter so covered `/api/v1/admin/**` attempts are recorded after security/controller handling.
+- Extended `AdminCodeStatusControllerIT` to cover migration shape, successful code-status reads, missing/invalid token attempts, validation/not-found outcomes and default-denied admin paths while preserving existing response behavior.
+- Updated `docs/architecture/access-and-subscriptions.md` to document the audited current MVP admin boundary and Mermaid diagram.
+- Checks passed with explicit `JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home`: focused admin IT, `cd apps/api && ./mvnw -q test`, `cd apps/api && ./mvnw -q verify`, `make verify`, `make test-unit`, `make build`, JSON validation, `git diff --check` and production guardrail scan.
+- `verify_harness.py --stage-id mvp` currently reports the expected active/latest mismatch because fresh verifier aliases still point to latest verified `MVP-03-consent-version-logging-001`.
+- Evidence aliases moved to `MVP-03-admin-sensitive-access-audit-001`; fresh verifier returned `PASS` and parent sync updated latest verdict/problems/status aliases.
+- Full `MVP-03`, the MVP stage and all human gates remain open.
+
+## Current session: MVP-03-admin-sensitive-access-audit-001 spec freeze
+
+- Froze `MVP-03-admin-sensitive-access-audit-001` for parent unit `MVP-03.05` after latest verified `MVP-03-consent-version-logging-001` scoped PASS.
+- Scope is planning-only and backend-only: add append-only audit logging for the existing protected admin code-status route and default-denied `/api/v1/admin/**` attempts.
+- Chosen over `MVP-03.04` profile/contact basics because current `apps/web` still has no trustworthy employee auth/session bridge, and a contact-update slice would likely require broader identity/session semantics before it can be safely verified.
+- Acceptance requires safe audit metadata only: timestamp, method, action, permission, normalized route/path, parsed UUID scope, status code, outcome and non-secret principal ref.
+- Explicitly excludes profile/contact basics, employee UI, admin audit viewer UI, persisted admin users/sessions/RBAC, `User`, `OrgMembership`, SSO/SCIM, subscriptions/seats, HR reporting, support tickets, real-data operations, production admin policy approval and full `MVP-03` closure.
+- Updated only stage planning/status artifacts: `.agent/stages/mvp/stage_spec.md`, `.agent/stages/mvp/sprint_contract.md`, `.agent/stages/mvp/task-files/MVP-03-admin-sensitive-access-audit-001.md`, `.agent/stages/mvp/backlog.md`, `.agent/stages/mvp/progress.md`, `.agent/stages/mvp/status.json` and `.agent/stages/mvp/feature_list.json`.
+- Latest verified sprint and evidence/verdict aliases remain `MVP-03-consent-version-logging-001`; no production code, canonical docs, raw evidence or immutable PASS artifacts were changed.
+- Java-backed verification is not claimed for this freeze; the builder must record Java 21 runtime proof or blocker before Maven/root Java-backed checks.
+
 ## Current session: MVP-03-consent-version-logging-001 builder evidence
 
 - Built the frozen backend/API-first `MVP-03-consent-version-logging-001` slice after the spec freeze.

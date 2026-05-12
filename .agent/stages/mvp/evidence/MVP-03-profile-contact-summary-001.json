@@ -1,0 +1,72 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-03-profile-contact-summary-001",
+  "parent_stage_unit": "MVP-03.04",
+  "status": "SCOPED_PASS",
+  "verification_status": "PASS",
+  "updated_at": "2026-05-12",
+  "immutable_refs": {
+    "markdown": ".agent/stages/mvp/evidence/MVP-03-profile-contact-summary-001.md",
+    "json": ".agent/stages/mvp/evidence/MVP-03-profile-contact-summary-001.json"
+  },
+  "implemented_scope": [
+    "Read-only POST /api/v1/employee-registrations/profile-summary.",
+    "Raw invite code plus matching normalized fullName/email/phone required.",
+    "Support-ready contact/scope summary returned only on registration contact match.",
+    "Safe PROFILE_LOOKUP_NOT_FOUND for unknown invite/registration and contact mismatch.",
+    "OpenAPI snapshot and packages/api-client generated contracts/client helper updated through generator/checks."
+  ],
+  "commands_summary": {
+    "java_version_explicit_homebrew_jdk21": "PASS",
+    "api_employee_registration_profile_it": "PASS",
+    "api_mvn_test": "PASS",
+    "api_mvn_verify": "PASS",
+    "api_client_build": "PASS",
+    "api_client_check_generated": "PASS",
+    "api_client_check_openapi_drift": "PASS",
+    "api_client_typecheck": "PASS",
+    "make_verify": "PASS",
+    "make_test_unit": "PASS",
+    "make_build": "PASS",
+    "response_guardrail_scan": "PASS",
+    "shortcut_mutation_guardrail_scan": "PASS",
+    "real_data_guardrail_scan": "PASS",
+    "json_validation": "PASS",
+    "git_diff_check": "PASS",
+    "verify_harness_before_fresh_verifier": "EXPECTED_FAIL_ACTIVE_LATEST_MISMATCH",
+    "fresh_verifier": "PASS",
+    "parent_sync_json_validation": "PASS",
+    "parent_sync_git_diff_check": "PASS",
+    "parent_sync_verify_harness": "PASS",
+    "parent_sync_status_check": "PASS"
+  },
+  "raw_refs": [
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-java-version-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-api-registration-it-first-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-api-client-build-first-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-api-client-check-generated-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-api-client-check-openapi-drift-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-api-client-typecheck-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-api-mvn-test-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-api-mvn-verify-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-make-verify-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-make-test-unit-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-make-build-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-response-guardrail-scan-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-shortcut-mutation-guardrail-scan-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-real-data-guardrail-scan-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-json-validation-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-git-diff-check-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-pre-evidence-verify-harness-expected-mismatch-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-final-json-validation-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-final-git-diff-check-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-final-verify-harness-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-mvp-03-profile-contact-summary-001-final-status-check-20260512.txt"
+  ],
+  "human_gates_closed": false,
+  "fresh_verifier": {
+    "status": "PASS",
+    "verdict_ref": ".agent/stages/mvp/verdicts/MVP-03-profile-contact-summary-001.json",
+    "problems_ref": ".agent/stages/mvp/problems/MVP-03-profile-contact-summary-001.md"
+  }
+}

@@ -31,6 +31,38 @@ export type EmployeeRegistrationResponse = {
     registeredAt: string;
     idempotentRetry: boolean;
 };
+export type EmployeeProfileSummaryRequest = {
+    fullName: string;
+    email: string;
+    phone: string;
+    inviteCode: string;
+};
+export type EmployeeProfileSummaryResponse = {
+    employeeRegistrationId: string;
+    fullName: string;
+    email: string;
+    phone: string;
+    tenantId: string;
+    pilotLaunchId: string;
+    accessPoolId: string;
+    registeredAt: string;
+    contactVerifiedByRegistrationMatch: boolean;
+};
+export type EmployeeProfileSessionRequest = {
+    fullName: string;
+    email: string;
+    phone: string;
+    inviteCode: string;
+};
+export type EmployeeProfileSessionResponse = {
+    profileSessionToken: string;
+    expiresAt: string;
+    employeeRegistrationId: string;
+    tenantId: string;
+    pilotLaunchId: string;
+    accessPoolId: string;
+    contactVerifiedByRegistrationMatch: boolean;
+};
 export type LegalDocumentVersionRequest = {
     documentType: string;
     documentVersion: string;
@@ -124,3 +156,21 @@ export declare const LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION = "draft-2026-05-12";
 export declare const LEGAL_DOCUMENT_ACCEPTANCE_PATH_TEMPLATE = "/api/v1/employee-registrations/{employeeRegistrationId}/legal-acceptances";
 export declare function buildLegalDocumentAcceptanceUrl(baseUrl: string | URL, params: LegalDocumentAcceptancePathParams): URL;
 export declare function fetchLegalDocumentAcceptance(baseUrl: string | URL, params: LegalDocumentAcceptanceClientRequest, init?: ApiJsonClientRequestInit): Promise<LegalDocumentAcceptanceResponse>;
+export type EmployeeProfileSummaryClientRequest = {
+    body: EmployeeProfileSummaryRequest;
+};
+export declare const EMPLOYEE_PROFILE_SUMMARY_PATH = "/api/v1/employee-registrations/profile-summary";
+export declare function buildEmployeeProfileSummaryUrl(baseUrl: string | URL): URL;
+export declare function fetchEmployeeProfileSummary(baseUrl: string | URL, params: EmployeeProfileSummaryClientRequest, init?: ApiJsonClientRequestInit): Promise<EmployeeProfileSummaryResponse>;
+export type EmployeeProfileSessionClientRequest = {
+    body: EmployeeProfileSessionRequest;
+};
+export declare const EMPLOYEE_PROFILE_SESSIONS_PATH = "/api/v1/employee-registrations/profile-sessions";
+export declare function buildEmployeeProfileSessionsUrl(baseUrl: string | URL): URL;
+export declare function fetchEmployeeProfileSession(baseUrl: string | URL, params: EmployeeProfileSessionClientRequest, init?: ApiJsonClientRequestInit): Promise<EmployeeProfileSessionResponse>;
+export type EmployeeMeProfileSummaryClientRequest = {
+    profileSessionToken: string;
+};
+export declare const EMPLOYEE_ME_PROFILE_SUMMARY_PATH = "/api/v1/employee-registrations/me/profile-summary";
+export declare function buildEmployeeMeProfileSummaryUrl(baseUrl: string | URL): URL;
+export declare function fetchEmployeeMeProfileSummary(baseUrl: string | URL, params: EmployeeMeProfileSummaryClientRequest, init?: ApiClientRequestInit): Promise<EmployeeProfileSummaryResponse>;

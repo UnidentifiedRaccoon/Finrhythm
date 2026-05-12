@@ -65,6 +65,22 @@ async function checkRecords() {
       file: "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationResponse.java"
     },
     {
+      schema: "EmployeeProfileSummaryRequest",
+      file: "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeProfileSummaryRequest.java"
+    },
+    {
+      schema: "EmployeeProfileSummaryResponse",
+      file: "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeProfileSummaryResponse.java"
+    },
+    {
+      schema: "EmployeeProfileSessionRequest",
+      file: "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeProfileSessionRequest.java"
+    },
+    {
+      schema: "EmployeeProfileSessionResponse",
+      file: "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeProfileSessionResponse.java"
+    },
+    {
       schema: "LegalDocumentVersionRequest",
       file: "apps/api/src/main/java/com/finrhythm/api/consent/web/LegalDocumentVersionRequest.java"
     },
@@ -169,6 +185,52 @@ function checkOperations() {
     registrationOperation.responses?.["201"]?.content?.["application/json"]?.schema,
     "#/components/schemas/EmployeeRegistrationResponse"
   );
+
+  const profileSummaryPath = "/api/v1/employee-registrations/profile-summary";
+  const profileSummaryOperation = openApi.paths?.[profileSummaryPath]?.post;
+  if (!profileSummaryOperation) {
+    throw new Error(`Missing employee profile summary operation at ${profileSummaryPath}`);
+  }
+  assertRef(
+    "employee profile summary request",
+    profileSummaryOperation.requestBody?.content?.["application/json"]?.schema,
+    "#/components/schemas/EmployeeProfileSummaryRequest"
+  );
+  assertRef(
+    "employee profile summary 200 response",
+    profileSummaryOperation.responses?.["200"]?.content?.["application/json"]?.schema,
+    "#/components/schemas/EmployeeProfileSummaryResponse"
+  );
+
+  const profileSessionsPath = "/api/v1/employee-registrations/profile-sessions";
+  const profileSessionsOperation = openApi.paths?.[profileSessionsPath]?.post;
+  if (!profileSessionsOperation) {
+    throw new Error(`Missing employee profile session operation at ${profileSessionsPath}`);
+  }
+  assertRef(
+    "employee profile session request",
+    profileSessionsOperation.requestBody?.content?.["application/json"]?.schema,
+    "#/components/schemas/EmployeeProfileSessionRequest"
+  );
+  assertRef(
+    "employee profile session 201 response",
+    profileSessionsOperation.responses?.["201"]?.content?.["application/json"]?.schema,
+    "#/components/schemas/EmployeeProfileSessionResponse"
+  );
+
+  const meProfileSummaryPath = "/api/v1/employee-registrations/me/profile-summary";
+  const meProfileSummaryOperation = openApi.paths?.[meProfileSummaryPath]?.get;
+  if (!meProfileSummaryOperation) {
+    throw new Error(`Missing employee me profile summary operation at ${meProfileSummaryPath}`);
+  }
+  assertRef(
+    "employee me profile summary 200 response",
+    meProfileSummaryOperation.responses?.["200"]?.content?.["application/json"]?.schema,
+    "#/components/schemas/EmployeeProfileSummaryResponse"
+  );
+  if (!meProfileSummaryOperation.security?.some((requirement) => requirement.employeeProfileSessionBearerAuth)) {
+    throw new Error("Employee me profile summary operation is missing employeeProfileSessionBearerAuth security.");
+  }
 
   const legalAcceptancePath = "/api/v1/employee-registrations/{employeeRegistrationId}/legal-acceptances";
   const legalAcceptanceOperation = openApi.paths?.[legalAcceptancePath]?.post;

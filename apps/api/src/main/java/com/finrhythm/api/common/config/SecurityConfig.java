@@ -1,6 +1,7 @@
 package com.finrhythm.api.common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.finrhythm.api.admin.audit.AdminAccessAuditService;
 import com.finrhythm.api.admin.security.AdminBearerTokenAuthenticationFilter;
 import com.finrhythm.api.admin.security.AdminPermissions;
 import com.finrhythm.api.admin.security.AdminSecurityProperties;
@@ -63,8 +64,11 @@ public class SecurityConfig {
     }
 
     @Bean
-    AdminBearerTokenAuthenticationFilter adminBearerTokenAuthenticationFilter(AdminSecurityProperties properties) {
-        return new AdminBearerTokenAuthenticationFilter(properties);
+    AdminBearerTokenAuthenticationFilter adminBearerTokenAuthenticationFilter(
+            AdminSecurityProperties properties,
+            AdminAccessAuditService adminAccessAuditService
+    ) {
+        return new AdminBearerTokenAuthenticationFilter(properties, adminAccessAuditService);
     }
 
     @Bean

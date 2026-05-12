@@ -15,6 +15,11 @@ public class EmployeeRegistrationException extends ApiException {
         this.reason = reason;
     }
 
+    public EmployeeRegistrationException(HttpStatus status, EmployeeRegistrationFailureReason reason, String message) {
+        super(status, reason.name(), message, List.of());
+        this.reason = reason;
+    }
+
     public EmployeeRegistrationException(EmployeeRegistrationFailureReason reason, String message, Throwable cause) {
         super(HttpStatus.BAD_REQUEST, reason.name(), message, cause, List.of());
         this.reason = reason;
