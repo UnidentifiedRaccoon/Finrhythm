@@ -171,6 +171,7 @@ class EmployeeRegistrationControllerIT {
                 .andReturnJson();
 
         UUID registrationId = UUID.fromString(created.get("employeeRegistrationId").asText());
+        String persistedRegisteredAt = persistedInstantText(created.get("registeredAt").asText());
 
         String response = postProfileSummary("""
                 {
@@ -188,7 +189,7 @@ class EmployeeRegistrationControllerIT {
                 .andExpect(jsonPath("$.tenantId").value(tenant.getId().toString()))
                 .andExpect(jsonPath("$.pilotLaunchId").value(accessPool.getPilotLaunch().getId().toString()))
                 .andExpect(jsonPath("$.accessPoolId").value(accessPool.getId().toString()))
-                .andExpect(jsonPath("$.registeredAt").value(created.get("registeredAt").asText()))
+                .andExpect(jsonPath("$.registeredAt").value(persistedRegisteredAt))
                 .andExpect(jsonPath("$.contactVerifiedByRegistrationMatch").value(true))
                 .andReturn()
                 .getResponse()
@@ -309,6 +310,7 @@ class EmployeeRegistrationControllerIT {
                 .andReturnJson();
 
         UUID registrationId = UUID.fromString(created.get("employeeRegistrationId").asText());
+        String persistedRegisteredAt = persistedInstantText(created.get("registeredAt").asText());
         JsonNode session = postProfileSession("""
                 {
                   "fullName": "Session Contact",
@@ -343,7 +345,7 @@ class EmployeeRegistrationControllerIT {
                 .andExpect(jsonPath("$.tenantId").value(tenant.getId().toString()))
                 .andExpect(jsonPath("$.pilotLaunchId").value(accessPool.getPilotLaunch().getId().toString()))
                 .andExpect(jsonPath("$.accessPoolId").value(accessPool.getId().toString()))
-                .andExpect(jsonPath("$.registeredAt").value(created.get("registeredAt").asText()))
+                .andExpect(jsonPath("$.registeredAt").value(persistedRegisteredAt))
                 .andExpect(jsonPath("$.contactVerifiedByRegistrationMatch").value(true))
                 .andReturn()
                 .getResponse()
@@ -830,6 +832,10 @@ class EmployeeRegistrationControllerIT {
 
     private static ActivationSubjectRef subjectRef(int value) {
         return ActivationSubjectRef.fromSha256Hex("%064x".formatted(value));
+    }
+
+    private static String persistedInstantText(String instantText) {
+        return Instant.parse(instantText).truncatedTo(ChronoUnit.MICROS).toString();
     }
 
     private static final class RegistrationResultActions {
