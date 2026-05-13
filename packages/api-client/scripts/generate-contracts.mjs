@@ -44,6 +44,7 @@ function generateContracts(document, schemaMap) {
     ...emitEmployeeProfileSummaryClient(document),
     ...emitEmployeeProfileSessionClient(document),
     ...emitEmployeeMeProfileSummaryClient(document),
+    ...emitEmployeeMeContactUpdateClient(document),
     ""
   ];
   return `${lines.join("\n").trimEnd()}\n`;
@@ -319,6 +320,51 @@ function emitEmployeeMeProfileSummaryClient(document) {
     "    throw new Error(`GET ${url.pathname} failed with HTTP ${response.status}.`);",
     "  }",
     "  return (await response.json()) as EmployeeProfileSummaryResponse;",
+    "}",
+    ""
+  ];
+}
+
+function emitEmployeeMeContactUpdateClient(document) {
+  const path = "/api/v1/employee-registrations/me/contact";
+  const operation = document.paths?.[path]?.patch;
+  if (!operation) {
+    throw new Error(`Missing OpenAPI operation for ${path}`);
+  }
+
+  return [
+    "export type EmployeeMeContactUpdateClientRequest = {",
+    "  profileSessionToken: string;",
+    "  body: EmployeeContactUpdateRequest;",
+    "};",
+    "",
+    `export const EMPLOYEE_ME_CONTACT_PATH = ${JSON.stringify(path)};`,
+    "",
+    "export function buildEmployeeMeContactUrl(baseUrl: string | URL): URL {",
+    "  return new URL(EMPLOYEE_ME_CONTACT_PATH, baseUrl);",
+    "}",
+    "",
+    "export async function fetchEmployeeMeContactUpdate(",
+    "  baseUrl: string | URL,",
+    "  params: EmployeeMeContactUpdateClientRequest,",
+    "  init: ApiJsonClientRequestInit = {}",
+    "): Promise<EmployeeContactUpdateResponse> {",
+    "  const url = buildEmployeeMeContactUrl(baseUrl);",
+    "  const headers = new Headers(init.headers);",
+    "  if (!headers.has(\"content-type\")) {",
+    "    headers.set(\"content-type\", \"application/json\");",
+    "  }",
+    "  headers.set(\"authorization\", `Bearer ${params.profileSessionToken}`);",
+    "  const response = await fetch(url, {",
+    "    ...init,",
+    "    method: \"PATCH\",",
+    "    headers,",
+    "    body: JSON.stringify(params.body)",
+    "  });",
+    "  if (!response.ok) {",
+    "    throw new Error(`PATCH ${url.pathname} failed with HTTP ${response.status}.`);",
+    "  }",
+    "  return (await response.json()) as EmployeeContactUpdateResponse;",
     "}",
     ""
   ];

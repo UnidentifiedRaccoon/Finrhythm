@@ -81,6 +81,15 @@ async function checkRecords() {
       file: "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeProfileSessionResponse.java"
     },
     {
+      schema: "EmployeeContactUpdateRequest",
+      file: "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeContactUpdateRequest.java",
+      requiredFields: []
+    },
+    {
+      schema: "EmployeeContactUpdateResponse",
+      file: "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeContactUpdateResponse.java"
+    },
+    {
       schema: "LegalDocumentVersionRequest",
       file: "apps/api/src/main/java/com/finrhythm/api/consent/web/LegalDocumentVersionRequest.java"
     },
@@ -230,6 +239,25 @@ function checkOperations() {
   );
   if (!meProfileSummaryOperation.security?.some((requirement) => requirement.employeeProfileSessionBearerAuth)) {
     throw new Error("Employee me profile summary operation is missing employeeProfileSessionBearerAuth security.");
+  }
+
+  const meContactPath = "/api/v1/employee-registrations/me/contact";
+  const meContactOperation = openApi.paths?.[meContactPath]?.patch;
+  if (!meContactOperation) {
+    throw new Error(`Missing employee me contact update operation at ${meContactPath}`);
+  }
+  assertRef(
+    "employee me contact request",
+    meContactOperation.requestBody?.content?.["application/json"]?.schema,
+    "#/components/schemas/EmployeeContactUpdateRequest"
+  );
+  assertRef(
+    "employee me contact 200 response",
+    meContactOperation.responses?.["200"]?.content?.["application/json"]?.schema,
+    "#/components/schemas/EmployeeContactUpdateResponse"
+  );
+  if (!meContactOperation.security?.some((requirement) => requirement.employeeProfileSessionBearerAuth)) {
+    throw new Error("Employee me contact update operation is missing employeeProfileSessionBearerAuth security.");
   }
 
   const legalAcceptancePath = "/api/v1/employee-registrations/{employeeRegistrationId}/legal-acceptances";

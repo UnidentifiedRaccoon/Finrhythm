@@ -1,159 +1,178 @@
-# Sprint contract: MVP-03-employee-profile-session-001
+# Sprint contract: MVP-03-employee-start-route-ui-001
 
 Stage: `mvp`
-Parent unit: `MVP-03.04`
+Parent units: `MVP-03.02`, `MVP-03.04`
 Status: `FROZEN`
-Created: 2026-05-12
+Proof status: `NOT_IMPLEMENTED`
+Functional passes: `false`
+Created: 2026-05-13
 Owner role: stage_builder
 
 ## Purpose
 
-Implement the smallest backend/API identity prerequisite for a later safe contact-update slice: issue a short-lived employee profile session only after the already proven raw invite code plus normalized contact match, then use that session for a read-only authenticated `me/profile-summary` lookup.
+Add the smallest runnable employee-facing start route at `/start` in `apps/web`.
 
-This contract does not implement contact update, employee UI, login/password setup, `User`, `OrgMembership`, subscriptions/seats, support tickets, HR reporting, diagnostics, points, CMS, rewards, real-data operations, full `MVP-03`, the MVP stage or any human-gate closure.
+The route must give an employee a neutral, mobile-first first screen that starts the already verified path:
 
-## Latest PASS State To Preserve
+`/start -> /onboarding/privacy -> /profile/session -> /profile/contact`
 
-- Latest verified scoped slice is `MVP-03-profile-contact-summary-001` with fresh verifier `PASS`; aliases/evidence/verdict/status are synchronized.
-- `MVP-03-admin-sensitive-access-audit-001` PASS and immutable refs are preserved.
-- Current backend has read-only `POST /api/v1/employee-registrations/profile-summary`, requiring raw invite code plus matching normalized fullName/email/phone.
-- `apps/web` remains non-mutating for consent/profile/contact flows until a trustworthy employeeRegistrationId/session bridge exists.
-- Current MVP-03 and human gates remain open.
+This is a product UI slice, not a closure audit and not docs/artifacts-only. It must not introduce auth, subscription, organization, HR/reporting, diagnostics, points, CMS, support/admin or backend/API scope.
 
-## Rationale
+## Baseline And Source Refs
 
-`MVP-03.04` includes profile, contact update and support-ready identity basics. The previous slice proved a safe read-only lookup, but a contact update is still unsafe without a trustworthy employee-bound session. This slice freezes only that prerequisite: a narrow profile-session boundary scoped to an existing employee registration and a read-only `me/profile-summary` call.
+- Latest verified scoped slice: `MVP-03-onboarding-to-profile-session-continuity-ui-001` = `PASS`.
+- Verified current behavior:
+  - `/onboarding/privacy` leads the employee to `/profile/session`;
+  - `/profile/session` creates a profile session through generated `@finrhythm/api-client`;
+  - returned `profileSessionToken` remains only in mounted React component memory;
+  - `/profile/contact` does not accept `profileSessionToken` from URL/query/hash/path;
+  - direct `/profile/contact` shows a safe missing-session state with a link to `/profile/session`.
+- `docs/stages/MVP.md`: `MVP-03` requires safe start, privacy boundary before diagnostics and profile/contact basics.
+- `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`: MVP is B2B-first mobile web, employee UI is neutral, customer brand is not used, privacy boundary separates operational data from sensitive learning/financial data.
+- `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md`: mobile-first, calm first, one screen/one thought, visible privacy copy, primary CTA, neutral employee-facing UI.
+- `apps/web/AGENTS.md`: user-visible critical profile/settings flows require browser smoke or e2e evidence and screenshots.
+- Backend baseline remains explicit and unchanged: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
 
-The session must not become a shortcut account model. It does not create `User`, `OrgMembership`, organization seat access, product entitlement, password setup, login or SSO.
-
-## Current Code Shape
-
-- Existing registration endpoint: `POST /api/v1/employee-registrations`.
-- Existing profile proof endpoint: `POST /api/v1/employee-registrations/profile-summary`.
-- Existing profile proof requires raw invite code plus matching normalized fullName/email/phone and returns support-safe summary only.
-- Existing backend stack baseline: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
-- `packages/api-client` has OpenAPI snapshot/generated contracts and drift checks that must be synchronized for API changes.
-
-## Source Refs
-
-- `docs/stages/MVP.md`: `MVP-03.04` profile, contact update and support-ready identity basics; MVP-03 privacy/human gates remain open.
-- `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`: invite-code registration, identity/contact data for access, communication, support/recovery; real-data handling remains human-gated.
-- `docs/architecture/access-and-subscriptions.md`: current access/session boundaries, no `user.organization_id`, no role/subscription shortcuts, human-gated production access policies.
-- `docs/architecture/organization-access-subscription-model.md`: `User`/`OrgMembership`/invitation/password setup constraints that this slice must not introduce.
-- `docs/architecture/documentation-workflow.md`: doc targets and Mermaid expectations before build.
-- `docs/engineering/definition-of-done.md`: backend/schema/API verification, generated client notes, evidence and fresh verifier requirements.
+Do not read `.agent/stages/**/raw/**` for this slice unless a later verifier problem names an exact raw ref.
 
 ## Affected IDs
 
+- `MVP-03.02`
 - `MVP-03.04`
-- `MVP-03-employee-profile-session-001`
+- `MVP-03-employee-start-route-ui-001`
+- `MVP-03` remains open
+- MVP stage remains open
+
+## Builder First Touch Requirement
+
+The builder must first touch production/test code, not harness cleanup:
+
+- production route/screen files for `/start` in `apps/web`;
+- focused web tests and browser smoke coverage for `/start -> /onboarding/privacy -> /profile/session`.
+
+Stage/evidence/status artifacts may be updated only after code/tests/browser proof exists.
 
 ## In Scope
 
-- Add a narrow backend/API session creation endpoint:
-  - recommended route: `POST /api/v1/employee-registrations/profile-sessions`;
-  - request proof fields: raw `inviteCode`, `fullName`, `email`, `phone`;
-  - proof must reuse existing invite-code lookup hash and contact normalization/match rules from profile-summary.
-- Return a one-time-visible opaque high-entropy profile-session token plus `expiresAt` on successful proof.
-- Store only a server-side hash of the profile-session token; never persist or log the raw token.
-- Persist sessions in PostgreSQL unless the builder records a concrete safer alternative; if persisted, add an append-only Flyway migration for the session table/indexes.
-- Define explicit session lifecycle:
-  - recommended TTL: 15 minutes;
-  - revoke previous unexpired profile sessions for the same registration on successful new session creation;
-  - read-only profile-summary lookup does not consume the session;
-  - expired or revoked sessions fail authorization.
-- Add read-only authenticated profile endpoint:
-  - recommended route: `GET /api/v1/employee-registrations/me/profile-summary`;
-  - authentication: `Authorization: Bearer <profile-session-token>`;
-  - successful response returns only support-safe profile summary fields from the existing verified profile-summary contract.
-- Return safe structured errors:
-  - `400` for invalid proof input;
-  - `401` for missing/malformed/expired/revoked/unknown profile-session bearer token;
-  - `404` for failed invite+contact proof or missing registration, without distinguishing enumeration-sensitive cases.
-- Keep controllers thin; proof, token hashing, expiry, revocation and lookup rules live in service/domain code.
-- Update OpenAPI/springdoc source, OpenAPI snapshot and generated `packages/api-client` artifacts/checks.
-- Add focused JUnit/Testcontainers coverage for session creation success, failed proof, invalid input, me lookup success, missing/malformed/expired/revoked/unknown token, previous-session revocation, no contact mutation and runtime OpenAPI.
-- Update canonical docs: `docs/architecture/access-and-subscriptions.md` should document the MVP employee profile-session boundary and include a small Mermaid flow unless the builder proves no canonical decision changed.
-- Record evidence, docs-sync decision, human gates and fresh verifier result.
+- Add a first employee start route at `/start`.
+- Render a calm, mobile-first, Russian, neutral employee-facing start screen using the current `apps/web` UI/style patterns.
+- Make the primary visible action from `/start` go to `/onboarding/privacy`.
+- Show a short safe order of steps:
+  1. read the privacy boundary;
+  2. open a temporary profile session;
+  3. enter or update contact data only after that temporary profile session.
+- Explain that contact data is entered after a temporary profile session and that the session secret is not moved through the address bar.
+- Preserve the existing verified path after the primary action: `/onboarding/privacy -> /profile/session`.
+- A secondary link to `/profile/session` is allowed only if it is visually secondary and worded as continuation after the privacy screen, for example "Уже прочитали про приватность: продолжить вход в профиль".
+- Update focused render/unit tests for the new start route/screen.
+- Update browser smoke to prove `/start -> /onboarding/privacy -> /profile/session` on a mobile viewport and capture screenshots.
+- Use synthetic/local/browser-smoke data only.
 
 ## Out Of Scope
 
-- Contact update/mutation.
-- Employee profile UI, consent/profile/contact mutations in `apps/web`, browser screenshots.
-- Login, password setup, account recovery, SSO/SCIM, full auth framework or product session.
-- `User`, `OrgMembership`, organization invitations/codes beyond the existing invite-code registration proof, subscriptions, seats, entitlements, `pro_user`, `premium`.
-- Support tickets, support operator UI, HR reporting, diagnostics/routing, learning progress, points/wallet, rewards, merch, CMS/content changes.
-- Admin UI or admin auth/role/audit policy changes beyond preserving existing behavior.
-- Real employee/customer/personal/financial data.
-- Full `MVP-03`, MVP stage or human-gate closure.
+- Closure audit for full `MVP-03` or the MVP stage.
+- Docs/artifacts-only completion.
+- Root route redirect or replacing `/learning` as the app home, unless a later contract explicitly asks for that.
+- New auth platform, login/password, password setup, account recovery, persistent auth, SSO/SCIM or session cookies.
+- `User`, `users.organization_id`, `OrgMembership`, invitations beyond existing verified invite-code proof, organization codes, subscriptions, seats, entitlement resolver, `pro_user`, `premium`, paywall or billing.
+- Backend/API/schema/Flyway/OpenAPI/generated-client source changes.
+- Creating a profile session on `/start`.
+- Accepting invite code, contact data, raw profile-session token or any secret on `/start`.
+- Passing `profileSessionToken` through URL/query/hash/path, `localStorage`, `sessionStorage`, cookies, IndexedDB, fixtures, screenshots, logs or evidence.
+- Direct `/start -> /profile/contact` handoff or any token handoff to `/profile/contact`.
+- Raw invite-code echo in UI errors, screenshots, logs or evidence.
+- HR reporting, diagnostics/scoring/routing, points, CMS, rewards, merch, support tickets or admin flows.
+- Final legal/privacy wording approval, real employee/customer data processing approval or customer-specific HR/reporting approval.
+- Customer brand in employee-facing UI.
+- Financial promises, guaranteed results, quick-income, risk-free or guaranteed debt-relief claims.
+- Required exact sums, photos, documents or bank screenshots.
 
 ## Acceptance Checklist
 
-- Session creation endpoint exists and requires raw invite code plus matching normalized fullName/email/phone before issuing any session.
-- Profile-session token is opaque, high-entropy, non-JWT, returned only once and stored only as a server-side hash.
-- Expiry, revocation and consumption policy is implemented and tested: 15-minute or explicitly documented short TTL, previous active sessions revoked on new creation, read-only me lookup does not consume, expired/revoked sessions rejected.
-- Authenticated `me/profile-summary` works only with a valid unexpired profile-session bearer token.
-- Successful `me/profile-summary` response includes only support-safe fields already allowed by profile-summary: `employeeRegistrationId`, normalized `fullName`, `email`, `phone`, `tenantId`, `pilotLaunchId`, `accessPoolId`, `registeredAt`, and a session/proof boolean/key if needed.
-- Failure responses use safe `400`/`401`/`404` semantics and do not echo raw token, raw invite code, fullName/email/phone values, lookup hash, activation subject ref, legal bodies, diagnostics, points, HR/reporting data or stored PII.
-- No contact update or mutation of employee contact fields occurs.
-- No UUID-only public profile lookup is introduced.
-- No `User`, `OrgMembership`, subscription, seat, `pro_user`, `premium`, login/password setup or SSO shortcut is introduced.
-- OpenAPI snapshot and generated client artifacts/checks are synchronized from backend source.
-- Append-only Flyway migration is present if sessions are persisted; Flyway/Testcontainers proof covers it.
-- Tests use synthetic `.test` data only.
-- Canonical docs sync is completed or an exact no-doc-change reason is recorded; expected doc target is `docs/architecture/access-and-subscriptions.md` with Mermaid session-flow diagram.
-- Human gates and full `MVP-03` remain open.
-- Fresh verifier PASS is required before this slice is marked passing.
+- `/start` exists in `apps/web` and renders successfully.
+- `/start` is mobile-first, Russian, neutral employee-facing UI and contains no customer brand.
+- `/start` primary action is a clear visible link/button to `/onboarding/privacy`.
+- `/start` does not make `/profile/session` the primary path and does not link directly to `/profile/contact`.
+- `/start` explains the safe order: privacy first, then temporary profile session, then contact data.
+- `/start` explains that contact details are entered after the temporary profile session.
+- `/start` does not collect invite code, name, email, phone, financial data or documents.
+- `/start` does not call backend APIs and does not create a profile session.
+- Browser/mobile smoke proves `/start -> /onboarding/privacy -> /profile/session` without manual URL entry after opening `/start`.
+- `/onboarding/privacy` remains the privacy boundary before profile-session entry.
+- `/profile/session` remains the existing generated-client entry flow, not a new auth/login/account shortcut.
+- Existing `/profile/contact` missing-session behavior remains safe if directly opened.
+- No `profileSessionToken` appears in URL, query, hash, route params, storage, cookies, IndexedDB, tracked fixtures, screenshots, logs or evidence.
+- No raw invite-code echo appears in UI errors, screenshots, logs or evidence.
+- No real employee/customer/personal/financial data appears in source, tests, screenshots or evidence.
+- No login/password/account/organization/subscription/seat/HR/diagnostics/points/CMS/rewards/support behavior is introduced.
+- Backend baseline remains unchanged: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
+- Canonical docs are updated only if the builder changes product/access behavior beyond the narrow `/start` route. Otherwise evidence records `NOOP_EXPECTED`.
+- Functional `passes=false` remains until builder evidence and a fresh `stage_verifier` PASS exist.
 
-## Expected Files
+## Required Validation
 
-- New or extended `apps/api/src/main/java/com/finrhythm/api/registration/service/**`.
-- New or extended `apps/api/src/main/java/com/finrhythm/api/registration/web/**`.
-- If persisted, next append-only migration under `apps/api/src/main/resources/db/migration/` for employee profile sessions.
-- Focused tests in `apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java` or a new narrow IT.
-- `packages/api-client/openapi/finrhythm-api.openapi.json`.
-- `packages/api-client/scripts/generate-contracts.mjs` and `check-openapi-drift.mjs` if generator/drift scripts need the new DTO/routes.
-- Generated `packages/api-client/src/generated/contracts.ts` and `dist/**`.
-- Canonical docs target: `docs/architecture/access-and-subscriptions.md`.
+The builder must run and record:
 
-## Proof Plan
+- `pnpm --filter @finrhythm/web typecheck`
+- `pnpm --filter @finrhythm/web test`
+- `pnpm --filter @finrhythm/web build`
+- Browser/mobile smoke and screenshots for `/start -> /onboarding/privacy -> /profile/session`.
+- Guardrail scans for:
+  - token storage through `localStorage`, `sessionStorage`, cookies and IndexedDB;
+  - token leakage through URL/query/hash/path;
+  - token routing or handoff to `/profile/contact`;
+  - raw profile-session token leakage;
+  - raw invite-code echo;
+  - real employee/customer/personal/financial data;
+  - customer brand in employee-facing UI;
+  - forbidden financial claims.
+- Generated-client boundary check proving the existing `/profile/session` flow still consumes generated `@finrhythm/api-client` helpers/types.
+- `jq empty` for changed JSON artifacts.
+- `git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'`
+- Root wrappers if feasible:
+  - `make verify`;
+  - `make test-unit`;
+  - `make build`.
+- If any root wrapper is not feasible, record the precise environment limitation and narrower passing checks.
+- Fresh `stage_verifier` after builder evidence before any PASS claim.
 
-- Java 21 proof with explicit `JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home` if unqualified Java remains unavailable.
-- `cd apps/api && ./mvnw -q -Dtest=EmployeeRegistrationControllerIT test` or a focused profile-session IT.
-- `cd apps/api && ./mvnw -q test`.
-- `cd apps/api && ./mvnw -q verify`.
-- `pnpm --filter @finrhythm/api-client build`.
-- `pnpm --filter @finrhythm/api-client check:generated`.
-- `pnpm --filter @finrhythm/api-client check:openapi-drift`.
-- `pnpm --filter @finrhythm/api-client typecheck`.
-- `make verify`, `make test-unit`, `make build` when Java proof exists.
-- JSON validation and `git diff --check -- . ':(exclude).agent/stages/**/raw/**'`.
-- Guardrail scans for raw token/invite/contact echo, token/hash persistence leaks, activation subject ref leaks, UUID-only lookup, contact mutation, auth/session/account shortcuts, `User`/`OrgMembership`/subscription/seat/pro_user/premium shortcuts and real data.
-- Fresh `stage_verifier`.
+## Evidence Handoff Required
 
-## Docs Sync
+The future builder must record:
 
-Expected canonical doc change: update `docs/architecture/access-and-subscriptions.md` with a current MVP employee profile-session boundary and a small Mermaid flow:
+- exact `apps/web` route/component/test/browser-smoke files changed;
+- route path proven by browser smoke: `/start -> /onboarding/privacy -> /profile/session`;
+- screenshot refs for `/start`, `/onboarding/privacy` after primary navigation and `/profile/session` after privacy-screen navigation;
+- command outcomes with raw refs under `.agent/stages/mvp/raw/`;
+- guardrail scan results proving no unsafe token storage, token URL/storage/cookie leakage, token handoff to `/profile/contact`, raw invite echo, real data, customer brand or forbidden claims;
+- generated-client boundary proof for `/profile/session`;
+- docs-sync decision and diagram decision;
+- backend baseline unchanged note;
+- human-gate table preserving `WAITING_HUMAN`;
+- fresh verifier verdict/problems artifacts for `MVP-03-employee-start-route-ui-001`.
 
-```mermaid
-flowchart LR
-    Proof["Raw invite code + normalized contact proof"] --> Create["Create employee profile session"]
-    Create --> Store["Store token hash + registration scope + expiry"]
-    Store --> Me["GET /me/profile-summary with Bearer profile token"]
-    Me --> Summary["Read-only support-safe profile summary"]
-```
+## Doc Targets And Diagram Expectations
 
-The doc must state that this boundary is not a `User` session, not `OrgMembership`, not an entitlement, not login/password setup, not SSO and not contact update.
+- Canonical docs target: `NOOP_EXPECTED` if the builder only adds `/start` as a narrow entry screen to the existing verified path.
+- Canonical docs update required only if the builder changes product/access behavior beyond this route. The narrow targets would be:
+  - `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md` for product flow changes;
+  - `docs/architecture/access-and-subscriptions.md` for access/session boundary changes.
+- Product/design docs target: `NOOP_EXPECTED`; use existing product foundation and design-system baselines.
+- Stage artifact targets after implementation:
+  - `.agent/stages/mvp/evidence/MVP-03-employee-start-route-ui-001.{md,json}`;
+  - `.agent/stages/mvp/verdicts/MVP-03-employee-start-route-ui-001.json`;
+  - `.agent/stages/mvp/problems/MVP-03-employee-start-route-ui-001.md`;
+  - compact aliases only after evidence and fresh verification.
+- Mermaid expectation: `NONE_EXPECTED` for a simple start route and links. Add a small Mermaid diagram only if the builder introduces a reusable app-level navigation/state boundary.
 
-## Human Gates
+## Human Gates That Remain Open
 
-Remain open:
+- Legal/privacy wording and consent copy: `WAITING_HUMAN`.
+- Real employee/customer data processing: `WAITING_HUMAN`.
+- Customer-specific HR/reporting boundaries: `WAITING_HUMAN`.
+- Final financial correctness of lessons, diagnostics, quizzes and explanations: `WAITING_HUMAN`.
+- Reward economy, stock, prices and fulfillment: `WAITING_HUMAN`.
 
-- legal/privacy wording and consent copy;
-- real employee/customer data processing;
-- customer-specific HR/reporting boundaries;
-- production admin auth/role/audit policy;
-- support answer policy for sensitive topics;
-- final financial correctness of lessons/diagnostics/quizzes/explanations;
-- reward economy, stock, prices and fulfillment;
-- production-ready content approval.
+## Freeze Limitation
+
+This contract is frozen but not implemented. This freezer did not edit production code/tests, did not create evidence, did not move evidence/verdict aliases, did not set any feature `passes=true` and did not close full `MVP-03` or the MVP stage.

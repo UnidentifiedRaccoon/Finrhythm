@@ -100,6 +100,12 @@ public class EmployeeRegistration extends AuditedEntity {
         return new RegistrationContact(fullName, email, phone).sameContact(contact);
     }
 
+    public void updateContact(String email, String phone) {
+        RegistrationContact normalized = new RegistrationContact(fullName, email, phone);
+        this.email = normalized.email();
+        this.phone = normalized.phone();
+    }
+
     @PrePersist
     void prePersist() {
         validate();

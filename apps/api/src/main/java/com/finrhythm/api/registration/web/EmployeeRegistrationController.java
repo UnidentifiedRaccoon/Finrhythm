@@ -2,6 +2,8 @@ package com.finrhythm.api.registration.web;
 
 import com.finrhythm.api.common.config.OpenApiConfig;
 import com.finrhythm.api.common.web.ApiErrorResponse;
+import com.finrhythm.api.registration.service.EmployeeContactUpdateCommand;
+import com.finrhythm.api.registration.service.EmployeeContactUpdateResult;
 import com.finrhythm.api.registration.service.EmployeeProfileSessionCommand;
 import com.finrhythm.api.registration.service.EmployeeProfileSessionResult;
 import com.finrhythm.api.registration.service.EmployeeProfileSummaryCommand;
@@ -23,6 +25,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -321,6 +324,94 @@ public class EmployeeRegistrationController {
                 result.accessPoolId(),
                 result.registeredAt(),
                 result.contactVerifiedByRegistrationMatch()
+        );
+    }
+
+    @Operation(
+            summary = "Update the current employee contact fields",
+            description = "Updates only email and/or phone for the registration resolved from a valid profile-session bearer token.",
+            security = @SecurityRequirement(name = OpenApiConfig.PROFILE_SESSION_BEARER_AUTH)
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Accepted contact update or normalized no-op. One audit row is appended.",
+                    content = @Content(
+                            schema = @Schema(implementation = EmployeeContactUpdateResponse.class),
+                            examples = @ExampleObject(
+                                    name = "updated",
+                                    value = """
+                                            {
+                                              "employeeRegistrationId": "11111111-1111-4111-8111-111111111111",
+                                              "fullName": "Sample Learner",
+                                              "email": "learner.new@example.test",
+                                              "phone": "+70000000002",
+                                              "tenantId": "22222222-2222-4222-8222-222222222222",
+                                              "pilotLaunchId": "33333333-3333-4333-8333-333333333333",
+                                              "accessPoolId": "55555555-5555-4555-8555-555555555555",
+                                              "registeredAt": "2026-05-09T09:00:00Z",
+                                              "changed": true,
+                                              "outcome": "updated",
+                                              "changedFields": ["email", "phone"],
+                                              "contactVerifiedByProfileSession": true
+                                            }
+                                            """
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Empty payload or invalid contact field. Submitted raw values are not echoed.",
+                    content = @Content(
+                            schema = @Schema(implementation = ApiErrorResponse.class),
+                            examples = @ExampleObject(
+                                    name = "validation",
+                                    value = """
+                                            {
+                                              "code": "VALIDATION_FAILED",
+                                              "message": "At least one contact field must be submitted.",
+                                              "fieldErrors": []
+                                            }
+                                            """
+                            )
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Profile session token is missing, malformed, expired, revoked or unknown. Raw token is not echoed.",
+                    content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Registration referenced by the session was not found.",
+                    content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))
+            )
+    })
+    @PatchMapping("/me/contact")
+    public EmployeeContactUpdateResponse updateContactForSession(
+            @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorizationHeader,
+            @RequestBody EmployeeContactUpdateRequest request
+    ) {
+        EmployeeContactUpdateResult result = employeeRegistrationService.updateContactForSession(
+                authorizationHeader,
+                new EmployeeContactUpdateCommand(
+                        request == null ? null : request.email(),
+                        request == null ? null : request.phone()
+                )
+        );
+        return new EmployeeContactUpdateResponse(
+                result.employeeRegistrationId(),
+                result.fullName(),
+                result.email(),
+                result.phone(),
+                result.tenantId(),
+                result.pilotLaunchId(),
+                result.accessPoolId(),
+                result.registeredAt(),
+                result.changed(),
+                result.outcome(),
+                result.changedFields(),
+                result.contactVerifiedByProfileSession()
         );
     }
 }

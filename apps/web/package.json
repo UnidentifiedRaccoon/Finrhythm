@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@finrhythm/api-client": "workspace:*",
     "next": "^16.0.7",
     "react": "^19.2.1",
     "react-dom": "^19.2.1"

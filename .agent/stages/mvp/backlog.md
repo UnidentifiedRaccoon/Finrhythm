@@ -1,7 +1,7 @@
 # MVP backlog
 
 Stage ID: `mvp`
-Updated: 2026-05-12
+Updated: 2026-05-13
 
 ## MVP-01. Product/stage foundation and repo baseline
 
@@ -53,6 +53,16 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 `MVP-03-profile-contact-summary-001` now has scoped fresh verifier `PASS` for parent unit `MVP-03.04`. It is backend/API-only and read-only: support-ready profile/contact summary lookup for an existing registration by raw invite code plus matching normalized contact fields. It explicitly does not implement contact update, employee auth/session, profile UI, support tickets, HR reporting, real-data processing or full `MVP-03`.
 
 `MVP-03-employee-profile-session-001` now has scoped fresh verifier `PASS` for parent unit `MVP-03.04`. It is the backend/API prerequisite for later safe contact update: create a short-lived profile session only after the existing invite+contact proof and allow read-only authenticated `me/profile-summary`. It explicitly does not implement contact update, employee UI, support tickets, HR reporting, real-data processing or full `MVP-03`.
+
+`MVP-03-profile-contact-update-001` now has scoped fresh verifier `PASS` for parent unit `MVP-03.04`. It adds backend/API-only `PATCH /api/v1/employee-registrations/me/contact`, profile-session scoped email/phone update, V010 append-only privacy-safe audit storage and docs/OpenAPI/generated-client sync. It explicitly does not implement `fullName` update, employee UI, support tickets, HR reporting, real-data processing or full `MVP-03`.
+
+`MVP-03-closure-audit-001` is frozen as an artifact-only closure/status audit for full `MVP-03`. It must reconcile existing immutable MVP-03 PASS refs and current human gates, then either record full `MVP-03` as `DONE_WITH_HUMAN_PENDING` if no concrete non-human proof gap remains, or keep full `MVP-03` `OPEN` and name the next smallest gap-fix contract. It must not close human gates, close the MVP stage, add product code or move evidence/verdict aliases before evidence and fresh verification.
+
+`MVP-03-legal-drafts-001` has fresh verifier `PASS` for the four tracked draft legal artifacts, keeps legal approval `WAITING_HUMAN`, and does not close full `MVP-03`, the MVP stage or any human gate.
+
+`MVP-03-employee-contact-update-ui-001` now has scoped fresh verifier `PASS` for parent unit `MVP-03.04`: a minimal mobile-first `apps/web` profile/contact screen using the already verified profile-session contact update API. It is local/browser-smoke token-handoff only because no production web profile-session handoff exists yet.
+
+`MVP-03-employee-profile-session-entry-ui-001` is frozen as the next functional `MVP-03.04` slice. It must add the production employee-facing `apps/web` entry flow that creates a profile session from invite code + full name + email + phone and connects the returned token to contact update in component memory only. It is not implemented and has no PASS evidence yet.
 
 ## MVP-02. Corporate tenant and invite access
 
@@ -160,17 +170,95 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 
 | ID | Mode | Status | Goal | Evidence |
 |----|------|--------|------|----------|
-| MVP-03.01 | agent+human | PENDING | Draft privacy, terms, consent and financial disclaimer documents. | Future legal/human-gated task evidence required. |
+| MVP-03.01 | agent+human | DONE_WITH_HUMAN_PENDING | Draft privacy, terms, consent and financial disclaimer documents. | `MVP-03-legal-drafts-001` created the four tracked draft legal artifacts under `docs/legal/mvp/drafts/` and has fresh verifier `PASS`. Human legal approval remains `WAITING_HUMAN`; this does not close full `MVP-03`. |
 | MVP-03.02 | agent | SCOPED_PASS | Implement onboarding and privacy screen. | Narrow `/onboarding/privacy` screen has scoped PASS via `MVP-03-onboarding-privacy-screen-001`; full MVP-03 remains open. |
 | MVP-03-onboarding-privacy-screen-001 | agent | PASS | Add the smallest employee-facing `apps/web` privacy route, preferred `/onboarding/privacy`, explaining what HR/employer sees and does not see before future diagnostics. | `.agent/stages/mvp/evidence/MVP-03-onboarding-privacy-screen-001.md`; `.agent/stages/mvp/evidence/MVP-03-onboarding-privacy-screen-001.json`; `.agent/stages/mvp/verdicts/MVP-03-onboarding-privacy-screen-001.json`; `.agent/stages/mvp/problems/MVP-03-onboarding-privacy-screen-001.md`. |
 | MVP-03.03 | agent | SCOPED_PASS | Implement consent version logging. | Scoped PASS via `MVP-03-consent-version-logging-001`; full MVP-03 remains open. |
 | MVP-03-consent-version-logging-001 | agent | PASS | Add append-only draft legal/consent document version acceptance logging for an existing employee registration, with idempotent same-version retry and safe rejection of unsupported inputs. | `.agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.md`; `.agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.json`; `.agent/stages/mvp/verdicts/MVP-03-consent-version-logging-001.json`; `.agent/stages/mvp/problems/MVP-03-consent-version-logging-001.md`. |
-| MVP-03.04 | agent | SCOPED_PASS | Implement profile, contact update and support-ready identity basics. | Narrow read-only backend/API slice has scoped PASS via `MVP-03-profile-contact-summary-001`; contact update remains deferred until trustworthy employee identity/session exists. |
+| MVP-03.04 | agent | SCOPED_PASS | Implement profile, contact update and support-ready identity basics. | Profile summary, profile-session, backend/API contact update and employee contact UI have scoped PASS. Production login/password setup, support tickets, HR reporting and real-data processing remain out of scope. |
 | MVP-03-profile-contact-summary-001 | agent | PASS | Add backend/API read-only support-ready profile/contact summary lookup requiring invite code plus matching normalized contact. | `.agent/stages/mvp/evidence/MVP-03-profile-contact-summary-001.md`; `.agent/stages/mvp/evidence/MVP-03-profile-contact-summary-001.json`; `.agent/stages/mvp/verdicts/MVP-03-profile-contact-summary-001.json`; `.agent/stages/mvp/problems/MVP-03-profile-contact-summary-001.md`. |
 | MVP-03-employee-profile-session-001 | agent | PASS | Add backend/API short-lived employee profile session after invite+contact proof and read-only authenticated `me/profile-summary`. | `.agent/stages/mvp/evidence/MVP-03-employee-profile-session-001.md`; `.agent/stages/mvp/evidence/MVP-03-employee-profile-session-001.json`; `.agent/stages/mvp/verdicts/MVP-03-employee-profile-session-001.json`; `.agent/stages/mvp/problems/MVP-03-employee-profile-session-001.md`. |
+| MVP-03-profile-contact-update-001 | agent | PASS | Add backend/API profile-session scoped update for registration `email` and `phone` with append-only privacy-safe audit. | `.agent/stages/mvp/evidence/MVP-03-profile-contact-update-001.md`; `.agent/stages/mvp/evidence/MVP-03-profile-contact-update-001.json`; `.agent/stages/mvp/verdicts/MVP-03-profile-contact-update-001.json`; `.agent/stages/mvp/problems/MVP-03-profile-contact-update-001.md`. |
+| MVP-03-employee-contact-update-ui-001 | agent | PASS | Add minimal employee-facing mobile-first `apps/web` profile/contact UI over the verified profile-session contact update API. | `.agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.md`; `.agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.json`; `.agent/stages/mvp/verdicts/MVP-03-employee-contact-update-ui-001.json`; `.agent/stages/mvp/problems/MVP-03-employee-contact-update-ui-001.md`. |
+| MVP-03-employee-profile-session-entry-ui-001 | agent | FROZEN | Add production employee-facing `apps/web` entry flow for creating a profile session and connecting it to contact update without URL or persistent token storage. | Planning only: `.agent/stages/mvp/sprint_contract.md`; `.agent/stages/mvp/task-files/MVP-03-employee-profile-session-entry-ui-001.md`. `passes=false` until builder evidence and fresh verifier PASS exist. |
 | MVP-03.05 | agent | SCOPED_PASS | Implement admin audit logs for sensitive access. | Scoped PASS via `MVP-03-admin-sensitive-access-audit-001`; human-gated production policy and full MVP-03 remain open. |
 | MVP-03-admin-sensitive-access-audit-001 | agent | PASS | Add backend-only append-only audit logging for the existing protected admin code-status access path and denied admin attempts. | `.agent/stages/mvp/evidence/MVP-03-admin-sensitive-access-audit-001.md`; `.agent/stages/mvp/evidence/MVP-03-admin-sensitive-access-audit-001.json`; `.agent/stages/mvp/verdicts/MVP-03-admin-sensitive-access-audit-001.json`; `.agent/stages/mvp/problems/MVP-03-admin-sensitive-access-audit-001.md`. |
-| MVP-03 | agent+human | OPEN | Full trust/legal consent/profile base remains open. | Legal/privacy/consent wording and real-data processing remain human-gated. |
+| MVP-03-closure-audit-001 | agent | PASS | Artifact-only closure/status audit for full `MVP-03` against immutable PASS refs and current human gates. | `.agent/stages/mvp/evidence/MVP-03-closure-audit-001.md`; `.agent/stages/mvp/evidence/MVP-03-closure-audit-001.json`; `.agent/stages/mvp/verdicts/MVP-03-closure-audit-001.json`; `.agent/stages/mvp/problems/MVP-03-closure-audit-001.md`. |
+| MVP-03-legal-drafts-001 | agent+human | PASS | Create tracked draft legal artifacts for privacy, terms, personal-data consent and financial disclaimer. | `docs/legal/mvp/drafts/privacy-policy-draft.md`; `docs/legal/mvp/drafts/terms-of-use-draft.md`; `docs/legal/mvp/drafts/personal-data-consent-draft.md`; `docs/legal/mvp/drafts/financial-disclaimer-draft.md`; `.agent/stages/mvp/evidence/MVP-03-legal-drafts-001.md`; `.agent/stages/mvp/evidence/MVP-03-legal-drafts-001.json`; `.agent/stages/mvp/verdicts/MVP-03-legal-drafts-001.json`; `.agent/stages/mvp/problems/MVP-03-legal-drafts-001.md`. |
+| MVP-03 | agent+human | OPEN | Full trust/legal consent/profile base remains open. | Legal drafts and employee contact UI now have scoped PASS, but human gates remain open; MVP stage remains open and a separate closure audit is required before any full `MVP-03` status decision. |
+
+### Verified MVP-03 employee contact update UI slice
+
+`MVP-03-employee-contact-update-ui-001` is intentionally narrower than full `MVP-03.04`:
+
+- implement only the employee-facing mobile-first `apps/web` profile/contact screen over the already verified profile-session API;
+- show/read `fullName` as read-only when available;
+- edit only `email` and `phone`;
+- handle changed success, normalized no-op, `400` validation and `401` expired/invalid profile-session states with safe Russian UI copy;
+- because `apps/web` has no existing token handoff, use only the existing profile-session API flow or a local/browser smoke harness, keep the token in memory and record the limitation;
+- browser/screenshot evidence, generated-client usage proof, web/root checks, guardrail scans, JSON validation, diff check and fresh verifier are recorded;
+- exclude `fullName` update, login/password setup, `User`, `OrgMembership`, subscriptions/seats/entitlements, support tickets, HR reporting, diagnostics, points, CMS, rewards, legal approval, real data processing, full `MVP-03` closure and MVP stage closure.
+
+Fresh verifier returned `PASS` for this scoped UI slice. Production profile-session handoff remains a known limitation because the current measurable handoff is local/browser-smoke-only.
+
+### Frozen MVP-03 employee profile-session entry UI slice
+
+`MVP-03-employee-profile-session-entry-ui-001` is intentionally narrower than full `MVP-03.04`:
+
+- add only the employee-facing profile-session entry route, preferred `/profile/session`;
+- collect invite code, full name, email and phone;
+- call the existing verified `POST /api/v1/employee-registrations/profile-sessions` through generated `@finrhythm/api-client`;
+- keep returned `profileSessionToken` in component memory only, with no URL/query/hash or persistent storage;
+- connect the memory token to profile summary/contact update by refactoring the existing UI or keeping entry + contact update in one mounted client flow if cross-route handoff is unsafe;
+- preserve read-only `fullName`, editable `email`/`phone` only, updated/no-op/400/401/generic safe Russian states and visible privacy boundary;
+- exclude login/password setup, `User`, `OrgMembership`, organization codes, subscriptions/seats/entitlements, support tickets, HR reporting, diagnostics, points, CMS, rewards, backend/API/schema/OpenAPI changes, legal approval, real data processing, full `MVP-03` closure and MVP stage closure.
+
+This slice is frozen only. It has no builder evidence or verifier PASS yet.
+
+### Verified MVP-03 legal drafts slice
+
+`MVP-03-legal-drafts-001` is intentionally scoped to the missing `MVP-03.01` draft artifacts only:
+
+- created `docs/legal/mvp/drafts/privacy-policy-draft.md`, `docs/legal/mvp/drafts/terms-of-use-draft.md`, `docs/legal/mvp/drafts/personal-data-consent-draft.md` and `docs/legal/mvp/drafts/financial-disclaimer-draft.md`;
+- included draft status, version/date, MVP scope, owner/reviewer expectation and explicit non-approval warning in each draft;
+- scans record no financial/legal guarantees, legal approval claims or personalized investment, tax, credit or legal advice claims;
+- keep `legal-privacy-consent-wording-and-real-pii-processing` as `WAITING_HUMAN` and name the exact files for human review;
+- treated cookie/consent as deferred/out of scope because no active cookie/tracking implementation scope was found in `apps/` or `packages/`;
+- preserve backend baseline unchanged: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc;
+- expected canonical product/stage doc target is `NOOP`; expected Mermaid change is `NONE`;
+- do not edit production code, app/package files, schemas, API/OpenAPI/generated client, UI, raw evidence or prior immutable proof refs;
+- do not close full `MVP-03`, the MVP stage or any human gate;
+- builder evidence exists at `.agent/stages/mvp/evidence/MVP-03-legal-drafts-001.md` and `.agent/stages/mvp/evidence/MVP-03-legal-drafts-001.json`;
+- fresh verifier returned `PASS` and wrote `.agent/stages/mvp/verdicts/MVP-03-legal-drafts-001.json` plus `.agent/stages/mvp/problems/MVP-03-legal-drafts-001.md`;
+- `mvp_03_legal_drafts_proven=true`, but legal/human review remains `WAITING_HUMAN`;
+- full `MVP-03` still needs a separate closure audit before any `DONE_WITH_HUMAN_PENDING` decision.
+
+### Frozen MVP-03 closure audit slice
+
+`MVP-03-closure-audit-001` is intentionally scoped to status reconciliation only:
+
+- cite immutable PASS refs for `MVP-03-onboarding-privacy-screen-001`, `MVP-03-consent-version-logging-001`, `MVP-03-admin-sensitive-access-audit-001`, `MVP-03-profile-contact-summary-001`, `MVP-03-employee-profile-session-001` and `MVP-03-profile-contact-update-001`;
+- account honestly for `MVP-03.01` legal/privacy/terms/consent/disclaimer drafts and human gates;
+- map the `MVP-03` acceptance criteria in `docs/stages/MVP.md` to existing evidence or a concrete proof gap;
+- preserve backend baseline accounting for cited backend slices: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc;
+- expected docs-sync target is `NOOP`; expected Mermaid change is `NONE`;
+- choose either `DONE_WITH_HUMAN_PENDING` for full `MVP-03` or keep it `OPEN` with the next gap-fix contract;
+- do not edit production code, tests, schemas, API/OpenAPI/generated client, UI, canonical docs, raw evidence or prior immutable proof refs;
+- do not close human gates or the MVP stage;
+- fresh verifier returned `PASS` for this audit only; full `MVP-03` remains `OPEN`.
+
+### MVP-03 closure audit builder decision
+
+`MVP-03-closure-audit-001` builder evidence is recorded as artifact-only status proof:
+
+- cited immutable PASS refs for `MVP-03-onboarding-privacy-screen-001`, `MVP-03-consent-version-logging-001`, `MVP-03-admin-sensitive-access-audit-001`, `MVP-03-profile-contact-summary-001`, `MVP-03-employee-profile-session-001` and `MVP-03-profile-contact-update-001`;
+- mapped `docs/stages/MVP.md` `MVP-03` acceptance criteria to those refs and current human gates;
+- found one concrete non-human proof gap: no tracked `MVP-03.01` legal draft artifacts for privacy, terms, consent and financial disclaimer;
+- chose full `MVP-03` decision `OPEN`, not `DONE_WITH_HUMAN_PENDING` and not unconditional `DONE`;
+- named next smallest gap-fix contract `MVP-03-legal-drafts-001`;
+- recorded docs-sync `NOOP`, diagram expectation `NONE`, backend baseline preservation and MVP-stage-open check;
+- fresh verifier returned `PASS` for this audit and wrote `.agent/stages/mvp/verdicts/MVP-03-closure-audit-001.json` plus `.agent/stages/mvp/problems/MVP-03-closure-audit-001.md`;
+- parent sync moved latest evidence/verdict/problems aliases to `MVP-03-closure-audit-001`.
 
 ### Verified onboarding/privacy screen slice
 
@@ -279,6 +367,31 @@ Builder evidence is now recorded:
 - backend/root/api-client checks passed with explicit Homebrew JDK 21 proof;
 - fresh verifier returned `PASS`, and latest verified aliases now point to `MVP-03-employee-profile-session-001`;
 - full `MVP-03`, contact update and human gates remain open.
+
+### Frozen profile contact update slice
+
+`MVP-03-profile-contact-update-001` is intentionally narrower than full `MVP-03.04` and depends on the existing profile-session boundary:
+
+- expose `PATCH /api/v1/employee-registrations/me/contact`;
+- authenticate only with a valid unexpired unrevoked profile-session bearer token;
+- update only normalized `email` and `phone`; omitted fields stay unchanged and `fullName` remains out of scope;
+- reject empty or invalid payloads with safe `400`;
+- return safe `401` for missing, malformed, unknown, expired and revoked profile-session tokens without contact-update audit rows;
+- append one privacy-safe audit row for every accepted changed update or normalized no-op;
+- store registration scope, changed fields/outcome, old/new contact hashes, timestamp, actor type `employee_profile_session` and safe `employee_profile_session_id`;
+- update OpenAPI/generated `packages/api-client` artifacts and canonical access docs;
+- exclude employee UI, support tickets, HR reporting, diagnostics, points, rewards, CMS, real data, `User`, `OrgMembership`, subscriptions/seats, login/password setup, SSO/SCIM and full `MVP-03` closure.
+
+Builder evidence is now recorded:
+
+- append-only `V010__employee_contact_update_audit.sql`;
+- new contact update command/result/request/response/audit service plus service/controller integration under `apps/api/src/main/java/com/finrhythm/api/registration/**`;
+- focused `EmployeeRegistrationControllerIT` coverage for changed update, no-op, omitted fields, fullName non-mutation, empty/invalid payload, failed-auth token cases, audit rows, no sensitive echo and runtime OpenAPI;
+- OpenAPI snapshot and generated `packages/api-client` helper now cover `fetchEmployeeMeContactUpdate`;
+- `docs/architecture/access-and-subscriptions.md` documents the contact-update boundary with Mermaid flow/state diagrams;
+- backend/root/api-client checks and guardrail scans passed with explicit Homebrew JDK 21 proof;
+- fresh verifier returned `PASS`, and latest verified aliases now point to `MVP-03-profile-contact-update-001`;
+- full `MVP-03`, the MVP stage and all human gates remain open.
 
 ## MVP-04. UX/UI foundation and neutral brand
 

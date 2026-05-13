@@ -1,0 +1,413 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-03-employee-contact-update-ui-001",
+  "parent_stage_unit": "MVP-03.04",
+  "updated_at": "2026-05-13",
+  "status": "SCOPED_PASS",
+  "verification_status": "PASS",
+  "summary": "Minimal mobile-first apps/web profile/contact UI is implemented and fresh-verified for /profile/contact over the verified profile-session boundary. It loads profile summary with a bearer profile-session token, shows fullName read-only, edits/submits only email/phone, handles updated/no-op/400/401/generic states safely in Russian, preserves privacy boundaries, and keeps full MVP-03 plus human gates open.",
+  "implemented_scope": [
+    "Added /profile/contact route.",
+    "Added ProfileContactScreen client component.",
+    "Enabled the existing employee Profile nav item as a link to /profile/contact while leaving unrelated future sections disabled.",
+    "Added @finrhythm/api-client as an apps/web workspace dependency.",
+    "Used generated fetchEmployeeMeProfileSummary and fetchEmployeeMeContactUpdate helpers plus EmployeeContactUpdateRequest, EmployeeContactUpdateResponse and ApiErrorResponse types.",
+    "Accepted profileSessionToken query parameter for local/browser smoke only, kept it in component memory and scrubbed it from the URL with history.replaceState.",
+    "Loaded current profile summary with bearer token.",
+    "Rendered fullName read-only and made only email/phone editable.",
+    "Submitted only changed email/phone fields and never fullName.",
+    "Rendered Russian no-token, loading, form, saving, updated success, normalized no-op, safe 400 validation, safe 401 expired/invalid session and generic failure states.",
+    "Preserved employee privacy boundary copy for diagnostic answers, weak zones, exact sums and reflection details."
+  ],
+  "changed_files_owned_by_builder": [
+    "apps/web/app/profile/contact/page.tsx",
+    "apps/web/components/profile-contact-screen.ts",
+    "apps/web/lib/profile-contact-state.ts",
+    "apps/web/components/learning-shell.ts",
+    "apps/web/app/globals.css",
+    "apps/web/tests/learning-shell.test.mjs",
+    "apps/web/tests/browser-smoke.mjs",
+    "apps/web/package.json",
+    "pnpm-lock.yaml",
+    ".agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.md",
+    ".agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.json",
+    ".agent/stages/mvp/evidence.md",
+    ".agent/stages/mvp/evidence.json",
+    ".agent/stages/mvp/status.json",
+    ".agent/stages/mvp/progress.md",
+    ".agent/stages/mvp/feature_list.json"
+  ],
+  "pre_existing_dirty_scope_not_owned": [
+    "apps/api/** contact update backend/API files",
+    "packages/api-client/** generated contract files",
+    "docs/architecture/access-and-subscriptions.md",
+    "docs/legal/**",
+    "older .agent/stages/mvp artifacts unrelated to this builder"
+  ],
+  "generated_client_usage": {
+    "status": "PASS",
+    "dependency": "@finrhythm/api-client workspace:*",
+    "helpers_and_types": [
+      "fetchEmployeeMeProfileSummary",
+      "fetchEmployeeMeContactUpdate",
+      "EmployeeContactUpdateRequest",
+      "EmployeeContactUpdateResponse",
+      "ApiErrorResponse"
+    ],
+    "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/generated-client-usage-check.txt"
+  },
+  "token_handoff": {
+    "status": "LOCAL_BROWSER_SMOKE_ONLY",
+    "query_param": "profileSessionToken",
+    "storage": "component memory only",
+    "scrub": "history.replaceState immediately after reading query parameter",
+    "no_local_storage": true,
+    "no_session_storage": true,
+    "no_cookie_storage": true,
+    "limitations": [
+      "No production apps/web token handoff exists yet.",
+      "The query parameter is accepted only as a measurable local/browser-smoke prerequisite."
+    ],
+    "evidence": [
+      ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/unsafe-token-storage-scan.txt",
+      ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/raw-token-invite-echo-scan.txt",
+      ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/browser-smoke-token-json-check.txt",
+      ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/web-browser-smoke.txt"
+    ]
+  },
+  "browser_evidence": {
+    "status": "PASS",
+    "base_url": "http://127.0.0.1:3404",
+    "runner": "apps/web/tests/browser-smoke.mjs",
+    "route_mocks": true,
+    "screenshots": {
+      "start_no_token": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-start.png",
+      "loaded_form": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-loaded.png",
+      "updated_success": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-updated.png",
+      "noop_success": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-noop.png",
+      "validation_400": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-validation-400.png",
+      "invalid_401": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-invalid-401.png"
+    },
+    "index": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-browser-smoke.json",
+    "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/web-browser-smoke.txt",
+    "orchestrator_in_app_browser_qa": {
+      "status": "PASS_START_STATE_ONLY",
+      "summary_ref": ".agent/stages/mvp/raw/orchestrator-MVP-03-employee-contact-update-ui-001-browser-qa-20260513/browser-qa-summary.json",
+      "screenshot_ref": ".agent/stages/mvp/raw/orchestrator-MVP-03-employee-contact-update-ui-001-browser-qa-20260513/profile-contact-start-browser.png",
+      "note": "In-app Browser QA checked /profile/contact start/no-token state at 127.0.0.1:3404; full state coverage remains in builder/verifier Playwright browser smoke evidence."
+    }
+  },
+  "acceptance_mapping": [
+    {
+      "criterion": "Mobile-first profile/contact UI exists and is reachable.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        "apps/web/app/profile/contact/page.tsx",
+        "apps/web/components/profile-contact-screen.ts",
+        "apps/web/components/learning-shell.ts",
+        "browser_evidence.screenshots"
+      ]
+    },
+    {
+      "criterion": "Uses verified profile-session boundary only; no broader auth/access model.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        "generated_client_usage.raw_ref",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/access-shortcut-guardrail-scan.txt"
+      ]
+    },
+    {
+      "criterion": "Token prerequisite is explicit, local/browser-smoke-only and scrubbed from URL.",
+      "status": "BUILDER_CHECK_PASS_WITH_LIMITATION",
+      "evidence": [
+        "token_handoff",
+        "browser_evidence.screenshots.start_no_token"
+      ]
+    },
+    {
+      "criterion": "Token is not persisted to localStorage/sessionStorage/cookies/tracked artifacts.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/unsafe-token-storage-scan.txt",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/raw-token-invite-echo-scan.txt",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/browser-smoke-token-json-check.txt"
+      ]
+    },
+    {
+      "criterion": "Current profile summary loads with bearer token and fullName is read-only.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        "apps/web/components/profile-contact-screen.ts",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-loaded.png",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/web-test.txt"
+      ]
+    },
+    {
+      "criterion": "Only changed email/phone are submitted; fullName is never submitted.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        "apps/web/lib/profile-contact-state.ts",
+        "apps/web/tests/learning-shell.test.mjs",
+        "apps/web/tests/browser-smoke.mjs"
+      ]
+    },
+    {
+      "criterion": "Changed update and normalized no-op render distinct success states.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-updated.png",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-noop.png"
+      ]
+    },
+    {
+      "criterion": "400 validation and 401 expired/invalid session states render safe Russian copy.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-validation-400.png",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-invalid-401.png",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/web-test.txt"
+      ]
+    },
+    {
+      "criterion": "Privacy boundary copy and synthetic/local test data only.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        "apps/web/components/profile-contact-screen.ts",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/customer-brand-forbidden-claims-scan.txt"
+      ]
+    },
+    {
+      "criterion": "Relevant checks and root wrappers recorded.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        "commands"
+      ]
+    },
+    {
+      "criterion": "Fresh verifier PASS before scoped PASS claim.",
+      "status": "PENDING_FRESH_VERIFIER",
+      "evidence": [
+        "No verifier artifacts written by builder."
+      ]
+    }
+  ],
+  "commands": [
+    {
+      "command": "pnpm install --filter @finrhythm/web --offline",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/pnpm-install-web-offline.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/web typecheck",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/web-typecheck.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/web test",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/web-test.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/web build",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/web-build.txt"
+    },
+    {
+      "command": "CHROMIUM_EXECUTABLE_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' WEB_SMOKE_BASE_URL=http://127.0.0.1:3404 WEB_SMOKE_OUTPUT_DIR=/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513 WEB_SMOKE_SCREENSHOT_PREFIX=MVP-03-employee-contact-update-ui-001 pnpm --filter @finrhythm/web smoke:browser",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/web-browser-smoke.txt"
+    },
+    {
+      "command": "rg generated client usage check",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/generated-client-usage-check.txt"
+    },
+    {
+      "command": "rg unsafe token storage/cookie scan",
+      "cwd": ".",
+      "exit_status": 1,
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/unsafe-token-storage-scan.txt"
+    },
+    {
+      "command": "rg raw token/invite echo scan",
+      "cwd": ".",
+      "exit_status": 1,
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/raw-token-invite-echo-scan.txt"
+    },
+    {
+      "command": "node browser-smoke token JSON check",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/browser-smoke-token-json-check.txt"
+    },
+    {
+      "command": "rg customer brand / forbidden claims scan",
+      "cwd": ".",
+      "exit_status": 1,
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/customer-brand-forbidden-claims-scan.txt"
+    },
+    {
+      "command": "rg access shortcut guardrail scan",
+      "cwd": ".",
+      "exit_status": 1,
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/access-shortcut-guardrail-scan.txt"
+    },
+    {
+      "command": "make verify",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/make-verify.txt"
+    },
+    {
+      "command": "make test-unit",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/make-test-unit.txt"
+    },
+    {
+      "command": "make build",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/make-build.txt"
+    },
+    {
+      "command": "jq empty for changed JSON artifacts",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/json-validation.txt"
+    },
+    {
+      "command": "git diff --check -- . ':(exclude).agent/stages/**/raw/**'",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS_AFTER_PARENT_WHITESPACE_FIX",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/git-diff-check-excluding-raw.txt"
+    },
+    {
+      "command": "python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp",
+      "cwd": ".",
+      "exit_status": 1,
+      "status": "EXPECTED_FAIL_PENDING_FRESH_VERIFIER",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/harness-validation.json"
+    }
+  ],
+  "commands_summary": {
+    "web_typecheck": "PASS",
+    "web_test": "PASS",
+    "web_build": "PASS",
+    "web_browser_smoke": "PASS",
+    "generated_client_usage_check": "PASS",
+    "unsafe_token_storage_scan": "PASS_NO_MATCHES",
+    "raw_token_invite_echo_scan": "PASS_NO_MATCHES",
+    "browser_smoke_token_json_check": "PASS",
+    "customer_brand_forbidden_claims_scan": "PASS_NO_MATCHES",
+    "access_shortcut_guardrail_scan": "PASS_NO_MATCHES",
+    "make_verify": "PASS",
+    "make_test_unit": "PASS",
+    "make_build": "PASS",
+    "json_validation": "PASS",
+    "git_diff_check_excluding_raw": "PASS_AFTER_PARENT_WHITESPACE_FIX",
+    "harness_validation": "EXPECTED_FAIL_PENDING_FRESH_VERIFIER"
+  },
+  "docs_sync": {
+    "status": "NOOP_EXPECTED",
+    "canonical_docs_changed": false,
+    "reason": "The UI consumes the already documented profile-session/contact-update boundary in docs/architecture/access-and-subscriptions.md and introduces no new access workflow, API contract, schema, setup/runtime or canonical product decision."
+  },
+  "diagram": {
+    "status": "NONE_EXPECTED",
+    "reason": "No new cross-module flow or state machine was introduced."
+  },
+  "backend_api_baseline_preserved": {
+    "status": true,
+    "baseline": [
+      "Spring Boot",
+      "Java 21",
+      "Maven Wrapper",
+      "PostgreSQL",
+      "Flyway",
+      "OpenAPI/springdoc"
+    ],
+    "note": "No backend behavior, Flyway migration, OpenAPI source or generated api-client artifact was edited by this builder."
+  },
+  "human_gates": [
+    {
+      "gate": "legal-privacy-consent-wording-and-real-pii-processing",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "real-employee-customer-data-processing-approval",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "customer-specific-hr-reporting-boundaries",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "financial-correctness-lessons-diagnostics-quizzes",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "reward-economy-stock-prices-fulfillment",
+      "status": "WAITING_HUMAN"
+    }
+  ],
+  "known_limitations": [
+    "apps/web has no production profile-session handoff yet; profileSessionToken query handoff is local/browser-smoke-only and scrubbed immediately after client mount.",
+    "No login/password setup, account recovery, persistent auth, User, OrgMembership, subscriptions, seats, entitlements, support tickets, HR reporting, diagnostics, points, rewards, CMS or real-data processing is implemented.",
+    "Fresh stage_verifier has not run for this sprint yet; no scoped PASS claim is made."
+  ],
+  "fresh_verifier": {
+    "status": "PASS",
+    "required_next": false,
+    "expected_scope": "MVP-03-employee-contact-update-ui-001 only",
+    "verdict_ref": ".agent/stages/mvp/verdicts/MVP-03-employee-contact-update-ui-001.json",
+    "problems_ref": ".agent/stages/mvp/problems/MVP-03-employee-contact-update-ui-001.md",
+    "raw_dir": ".agent/stages/mvp/raw/verifier-MVP-03-employee-contact-update-ui-001-20260513/",
+    "summary": "The /profile/contact employee profile/contact UI is present, reachable from the employee Profile nav, uses generated @finrhythm/api-client helpers/types, keeps the local browser-smoke profileSessionToken in component memory only, scrubs the query string with history.replaceState, loads profile summary with a bearer profile-session token, renders fullName read-only, submits only changed email/phone, and covers start/loading/form/updated/no-op/400/401/generic failure states with builder plus verifier browser evidence. Full MVP-03, the MVP stage and human gates remain open."
+  },
+  "handoff": {
+    "next_role": "stage_verifier",
+    "verify_focus": [
+      "Confirm /profile/contact route and Profile nav reachability.",
+      "Confirm generated @finrhythm/api-client helper/type usage.",
+      "Confirm token remains memory-only, URL is scrubbed, and no unsafe storage/cookie persistence is used.",
+      "Confirm PATCH payload contains only changed email/phone and never fullName.",
+      "Confirm browser screenshots cover start, loaded, updated, noop, 400 and 401 states.",
+      "Confirm docs-sync NOOP is valid because no access workflow changed beyond the documented profile-session boundary.",
+      "Keep full MVP-03, MVP stage and human gates open."
+    ]
+  },
+  "immutable_refs": {
+    "markdown": ".agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.md",
+    "json": ".agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.json"
+  },
+  "verdict": {
+    "status": "PASS",
+    "raw": ".agent/stages/mvp/verdicts/MVP-03-employee-contact-update-ui-001.json",
+    "problems": ".agent/stages/mvp/problems/MVP-03-employee-contact-update-ui-001.md",
+    "alias": ".agent/stages/mvp/verdict.json",
+    "note": "Fresh stage_verifier PASS recorded; parent synchronized latest verdict/problems aliases to MVP-03-employee-contact-update-ui-001."
+  }
+}

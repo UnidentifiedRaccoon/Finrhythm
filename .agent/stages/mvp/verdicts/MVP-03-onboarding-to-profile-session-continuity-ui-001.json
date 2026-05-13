@@ -1,0 +1,356 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-03-onboarding-to-profile-session-continuity-ui-001",
+  "verifier_role": "second_fresh_read_only_stage_verifier",
+  "verified_at": "2026-05-13T14:00:20+03:00",
+  "git_head": "7ed85e66dc695aec98e7ce58bb6b4fdc5107ee3e",
+  "verdict": "PASS",
+  "status": "PASS",
+  "summary": "The fixer-resolved repo state satisfies the scoped sprint contract. /onboarding/privacy has a visible primary action to /profile/session; mobile browser smoke proves click navigation without a manual URL; /profile/session remains the generated-client profile-session entry flow and keeps profileSessionToken only in mounted component memory; direct /profile/contact shows the safe missing-session state and URL/query/hash/path token-shaped inputs do not call the profile-summary API or unlock contact editing. Web checks, root wrappers, Flyway/Maven evidence, OpenAPI/generated-client drift checks, JSON validation and git diff whitespace checks pass. Full MVP-03, the MVP stage and human gates remain open.",
+  "source_refs_checked": [
+    "AGENTS.md",
+    "apps/web/AGENTS.md",
+    ".agents/skills/stage-launch-proof-loop/SKILL.md",
+    ".agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md",
+    "docs/architecture/source-of-truth.md",
+    "docs/architecture/documentation-workflow.md",
+    "docs/stages/MVP.md MVP-03 lines",
+    "docs/engineering/definition-of-done.md",
+    "docs/engineering/human-gates.md",
+    ".agent/stages/mvp/status.json",
+    ".agent/stages/mvp/sprint_contract.md",
+    ".agent/stages/mvp/task-files/MVP-03-onboarding-to-profile-session-continuity-ui-001.md",
+    ".agent/stages/mvp/evidence/MVP-03-onboarding-to-profile-session-continuity-ui-001.md",
+    ".agent/stages/mvp/evidence/MVP-03-onboarding-to-profile-session-continuity-ui-001.json",
+    ".agent/stages/mvp/problems/MVP-03-onboarding-to-profile-session-continuity-ui-001.md",
+    ".agent/stages/mvp/verdicts/MVP-03-onboarding-to-profile-session-continuity-ui-001.json previous FAIL",
+    "apps/web/app/profile/contact/page.tsx",
+    "apps/web/app/profile/session/page.tsx",
+    "apps/web/components/onboarding-privacy-screen.ts",
+    "apps/web/components/profile-contact-screen.ts",
+    "apps/web/components/profile-session-entry-screen.ts",
+    "apps/web/lib/profile-contact-state.ts",
+    "apps/web/lib/profile-session-state.ts",
+    "apps/web/tests/learning-shell.test.mjs",
+    "apps/web/tests/browser-smoke.mjs",
+    "packages/api-client/src/generated/contracts.ts",
+    "packages/api-client/dist/generated/contracts.d.ts",
+    "packages/api-client/dist/generated/contracts.js",
+    "packages/api-client/openapi/finrhythm-api.openapi.json"
+  ],
+  "acceptance_mapping": [
+    {
+      "criterion": "/onboarding/privacy includes a clear visible action to /profile/session.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/components/onboarding-privacy-screen.ts:130",
+        "apps/web/components/onboarding-privacy-screen.ts:144",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-mobile-onboarding-privacy.png",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-test.txt"
+      ]
+    },
+    {
+      "criterion": "Browser/mobile smoke proves /onboarding/privacy -> /profile/session without manually typing the URL.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-browser-smoke.txt",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-mobile-onboarding-privacy-to-profile-session.png",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-browser-smoke.json"
+      ]
+    },
+    {
+      "criterion": "The resulting /profile/session state is the existing profile-session entry state, not a new auth/login/account shortcut.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/app/profile/session/page.tsx:1",
+        "apps/web/components/profile-session-entry-screen.ts:42",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-mobile-profile-session-start.png",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-browser-smoke.txt"
+      ]
+    },
+    {
+      "criterion": "Existing /profile/session generated-client boundary remains intact.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/components/profile-session-entry-screen.ts:13",
+        "apps/web/components/profile-session-entry-screen.ts:84",
+        "apps/web/lib/profile-session-state.ts:1",
+        "apps/web/components/profile-contact-screen.ts:13",
+        "apps/web/components/profile-contact-screen.ts:14",
+        "packages/api-client/src/generated/contracts.ts:66",
+        "packages/api-client/src/generated/contracts.ts:73",
+        "packages/api-client/src/generated/contracts.ts:324",
+        "packages/api-client/src/generated/contracts.ts:356",
+        "packages/api-client/src/generated/contracts.ts:386",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/generated-client-boundary-check.txt",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/api-client-drift-check.txt"
+      ]
+    },
+    {
+      "criterion": "/profile/contact must not accept profileSessionToken from URL/query/hash/path.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/app/profile/contact/page.tsx:4",
+        "apps/web/components/profile-contact-screen.ts:45",
+        "apps/web/components/profile-contact-screen.ts:60",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/query-token-intake-source-scan.txt",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/profile-contact-url-token-behavior.txt",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-profile-contact-query-token-ignored.png",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-profile-contact-hash-token-ignored.png",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-profile-contact-path-token-not-routed.png"
+      ],
+      "notes": [
+        "No allowQueryToken, PROFILE_SESSION_TOKEN_QUERY_PARAM, profileSessionToken query-assignment, window.location.search, searchParams.get, hash or pathname token-intake markers were found in the profile route/component/lib path.",
+        "The browser probe intercepted profile-summary calls and observed zero calls for direct, query-token, hash-token and path-token-shaped cases."
+      ]
+    },
+    {
+      "criterion": "/profile/contact shows safe missing-session state when opened directly.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-mobile-profile-contact-start.png",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-profile-contact-direct-missing-session.png",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/profile-contact-url-token-behavior.txt"
+      ]
+    },
+    {
+      "criterion": "No profile-session token appears in URL/query/hash/path, browser storage, cookies, IndexedDB, tracked fixtures, screenshots, logs or evidence.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/query-token-intake-source-scan.txt",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/token-storage-cookie-indexeddb-scan.txt",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/raw-invite-token-echo-scan.txt",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-browser-smoke.txt"
+      ],
+      "notes": [
+        "The source scans are zero-byte no-match outputs for the forbidden markers.",
+        "Browser smoke asserts that page URLs and visible text do not contain generated profile-session tokens."
+      ]
+    },
+    {
+      "criterion": "The continuity path does not pass a token to /profile/contact; memory-only handoff remains inside /profile/session.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/components/onboarding-privacy-screen.ts:144",
+        "apps/web/components/profile-session-entry-screen.ts:116",
+        "apps/web/components/profile-session-entry-screen.ts:118",
+        "apps/web/components/profile-contact-screen.ts:46",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-browser-smoke.txt"
+      ]
+    },
+    {
+      "criterion": "Invalid/session/error handling remains existing and does not echo raw invite/contact/token values.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/tests/learning-shell.test.mjs:144",
+        "apps/web/tests/browser-smoke.mjs:392",
+        "apps/web/tests/browser-smoke.mjs:395",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/raw-invite-token-echo-scan.txt",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-test.txt",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-browser-smoke.txt"
+      ]
+    },
+    {
+      "criterion": "Russian privacy copy remains visible and preserves the HR/privacy boundary.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/components/onboarding-privacy-screen.ts:9",
+        "apps/web/components/onboarding-privacy-screen.ts:19",
+        "apps/web/components/onboarding-privacy-screen.ts:82",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-mobile-onboarding-privacy.png",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-test.txt"
+      ]
+    },
+    {
+      "criterion": "UI remains neutral employee-facing with no customer brand, real data or forbidden financial claims.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/customer-brand-real-data-forbidden-claims-scan.txt",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-test.txt",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-browser-smoke.txt"
+      ]
+    },
+    {
+      "criterion": "No out-of-scope auth/account/organization/subscription/HR/diagnostics/points/CMS/rewards/support/admin behavior is introduced by this continuity/fixer slice.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/evidence/MVP-03-onboarding-to-profile-session-continuity-ui-001.json",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/git-diff-name-status-excluding-raw.txt"
+      ],
+      "note": "The current worktree contains pre-existing backend/API/generated-client/legal/stage changes from prior MVP-03 slices; this scoped verifier did not treat them as owned by the continuity/fixer slice, and Maven/Flyway/OpenAPI checks passed in the repo state as-is."
+    },
+    {
+      "criterion": "Backend/API/schema/Flyway/OpenAPI/generated-client baseline is not drifted by this sprint.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/make-verify.txt",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/make-test-unit.txt",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/make-build.txt",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/api-client-drift-check.txt"
+      ],
+      "note": "Root Maven verification logs include Flyway validation/application through V010 on Testcontainers PostgreSQL; api-client generated/OpenAPI drift checks passed."
+    },
+    {
+      "criterion": "Canonical docs sync decision is justified.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/evidence/MVP-03-onboarding-to-profile-session-continuity-ui-001.md",
+        ".agent/stages/mvp/evidence/MVP-03-onboarding-to-profile-session-continuity-ui-001.json"
+      ],
+      "note": "NOOP_EXPECTED is acceptable for route continuity plus removal of unsafe query-token fallback because no product/access/API/schema/setup contract changed."
+    },
+    {
+      "criterion": "Full MVP-03, MVP stage and human gates remain open.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/status.json",
+        ".agent/stages/mvp/evidence/MVP-03-onboarding-to-profile-session-continuity-ui-001.json",
+        "docs/engineering/human-gates.md"
+      ]
+    },
+    {
+      "criterion": "Changed JSON artifacts are valid and diff whitespace check passes.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/json-validation-before-verdict.txt",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/git-diff-check-excluding-raw-before-verdict.txt",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/json-validation-after-verdict.txt",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/git-diff-check-excluding-raw-after-verdict.txt"
+      ]
+    }
+  ],
+  "command_evidence_review": {
+    "pnpm_web_typecheck": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-typecheck.txt"
+    },
+    "pnpm_web_test": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-test.txt"
+    },
+    "pnpm_web_build": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-build.txt"
+    },
+    "next_start": {
+      "status": "PASS_AFTER_RETRY_READY_STOPPED_AFTER_SMOKE",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/next-start-retry.txt",
+      "note": "An initial next start attempt used an invalid pnpm argument separator and failed before serving; it was not used for smoke. The retry used pnpm exec next start on port 3418 and was manually stopped after smoke."
+    },
+    "browser_mobile_smoke": {
+      "status": "PASS",
+      "screenshots": 19,
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-browser-smoke.txt",
+      "index_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-browser-smoke.json"
+    },
+    "profile_contact_url_token_behavior": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/profile-contact-url-token-behavior.txt"
+    },
+    "query_token_intake_source_scan": {
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/query-token-intake-source-scan.txt"
+    },
+    "token_storage_cookie_indexeddb_scan": {
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/token-storage-cookie-indexeddb-scan.txt"
+    },
+    "raw_invite_token_echo_scan": {
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/raw-invite-token-echo-scan.txt"
+    },
+    "final_query_token_and_sensitive_marker_scan": {
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/final-query-token-and-sensitive-marker-scan.txt"
+    },
+    "customer_brand_real_data_forbidden_claims_scan": {
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/customer-brand-real-data-forbidden-claims-scan.txt"
+    },
+    "generated_client_boundary_check": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/generated-client-boundary-check.txt"
+    },
+    "api_client_generated_and_openapi_drift": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/api-client-drift-check.txt"
+    },
+    "make_verify": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/make-verify.txt"
+    },
+    "make_test_unit": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/make-test-unit.txt"
+    },
+    "make_build": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/make-build.txt"
+    },
+    "changed_json_validation_before_verdict": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/json-validation-before-verdict.txt"
+    },
+    "git_diff_check_before_verdict": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/git-diff-check-excluding-raw-before-verdict.txt"
+    },
+    "changed_json_validation_after_verdict": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/json-validation-after-verdict.txt"
+    },
+    "git_diff_check_after_verdict": {
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/git-diff-check-excluding-raw-after-verdict.txt"
+    },
+    "git_cached_diff_after_verdict": {
+      "status": "PASS_EMPTY",
+      "raw_ref": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/git-diff-cached-name-status-after-verdict.txt"
+    }
+  },
+  "raw_refs": {
+    "raw_dir": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/",
+    "browser_smoke_index": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-browser-smoke.json",
+    "privacy_screen_screenshot": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-mobile-onboarding-privacy.png",
+    "privacy_to_profile_session_screenshot": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-mobile-onboarding-privacy-to-profile-session.png",
+    "profile_contact_direct_missing_screenshot": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-profile-contact-direct-missing-session.png",
+    "profile_contact_query_token_ignored_screenshot": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-profile-contact-query-token-ignored.png",
+    "profile_contact_hash_token_ignored_screenshot": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-profile-contact-hash-token-ignored.png",
+    "profile_contact_path_token_not_routed_screenshot": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-profile-contact-path-token-not-routed.png",
+    "profile_session_start_screenshot": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-mobile-profile-session-start.png",
+    "git_status": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/git-status-short-branch.txt",
+    "git_cached_diff": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/git-diff-cached-name-status.txt"
+  },
+  "write_scope": {
+    "production_code_changed": false,
+    "tests_changed": false,
+    "schemas_or_openapi_changed": false,
+    "generated_client_changed": false,
+    "canonical_docs_changed": false,
+    "builder_or_fixer_evidence_changed": false,
+    "latest_aliases_updated": false,
+    "verifier_artifacts_written": [
+      ".agent/stages/mvp/verdicts/MVP-03-onboarding-to-profile-session-continuity-ui-001.json",
+      ".agent/stages/mvp/problems/MVP-03-onboarding-to-profile-session-continuity-ui-001.md",
+      ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/"
+    ],
+    "staged_or_committed": false,
+    "no_staging_or_commit_evidence": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/git-diff-cached-name-status-after-verdict.txt"
+  },
+  "stage_status": {
+    "full_mvp_03_open": true,
+    "mvp_stage_open": true,
+    "human_gates_open": true,
+    "human_gate_status": "WAITING_HUMAN",
+    "open_human_gates": [
+      "Legal/privacy wording and consent copy",
+      "Real employee/customer data processing",
+      "Customer-specific HR/reporting boundaries",
+      "Final financial correctness of lessons, diagnostics, quizzes and explanations",
+      "Reward economy, stock, prices and fulfillment"
+    ],
+    "no_full_mvp_03_done_claim": true,
+    "no_mvp_stage_done_claim": true
+  },
+  "blocking_problems": []
+}

@@ -21,8 +21,8 @@
           }
         },
         "responses": {
-          "201": {
-            "description": "First registration created.",
+          "200": {
+            "description": "Idempotent retry for the same invite/contact.",
             "content": {
               "application/json": {
                 "schema": {
@@ -31,8 +31,8 @@
               }
             }
           },
-          "200": {
-            "description": "Idempotent retry for the same invite/contact.",
+          "201": {
+            "description": "First registration created.",
             "content": {
               "application/json": {
                 "schema": {
@@ -193,6 +193,69 @@
         }
       }
     },
+    "/api/v1/employee-registrations/me/contact": {
+      "patch": {
+        "operationId": "updateContactForSession",
+        "summary": "Update the current employee contact fields",
+        "security": [
+          {
+            "employeeProfileSessionBearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeContactUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Accepted contact update or normalized no-op. One audit row is appended.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeContactUpdateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Empty payload or invalid contact field. Submitted raw values are not echoed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Profile session token is missing, malformed, expired, revoked or unknown. Raw token is not echoed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Registration referenced by the session was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/employee-registrations/{employeeRegistrationId}/legal-acceptances": {
       "post": {
         "operationId": "acceptLegalDocuments",
@@ -219,8 +282,8 @@
           }
         },
         "responses": {
-          "201": {
-            "description": "Current draft document version set recorded for the first time.",
+          "200": {
+            "description": "Idempotent retry for the same employee registration and same current draft versions.",
             "content": {
               "application/json": {
                 "schema": {
@@ -229,8 +292,8 @@
               }
             }
           },
-          "200": {
-            "description": "Idempotent retry for the same employee registration and same current draft versions.",
+          "201": {
+            "description": "Current draft document version set recorded for the first time.",
             "content": {
               "application/json": {
                 "schema": {
@@ -998,6 +1061,84 @@
           },
           "codes": {
             "$ref": "#/components/schemas/AdminCodeStatusPage"
+          }
+        }
+      },
+      "EmployeeContactUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          }
+        }
+      },
+      "EmployeeContactUpdateResponse": {
+        "type": "object",
+        "required": [
+          "employeeRegistrationId",
+          "fullName",
+          "email",
+          "phone",
+          "tenantId",
+          "pilotLaunchId",
+          "accessPoolId",
+          "registeredAt",
+          "changed",
+          "outcome",
+          "changedFields",
+          "contactVerifiedByProfileSession"
+        ],
+        "properties": {
+          "employeeRegistrationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pilotLaunchId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "accessPoolId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "registeredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "changed": {
+            "type": "boolean"
+          },
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "updated",
+              "noop"
+            ]
+          },
+          "changedFields": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "contactVerifiedByProfileSession": {
+            "type": "boolean"
           }
         }
       }

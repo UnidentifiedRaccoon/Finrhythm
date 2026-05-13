@@ -978,6 +978,179 @@ p {
   width: 100%;
 }
 
+.profile-contact-page {
+  padding-bottom: calc(var(--bottom-nav-height) + var(--space-lg));
+}
+
+.profile-contact-shell {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.profile-hero,
+.profile-form-panel,
+.profile-session-ready,
+.profile-state-panel {
+  background: var(--card-bg);
+  border: var(--card-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  padding: var(--card-padding-lg);
+}
+
+.profile-hero h1,
+.profile-hero p,
+.profile-form-panel h2,
+.profile-session-ready h2,
+.profile-session-ready p,
+.profile-state-panel h2,
+.profile-state-panel p {
+  margin-bottom: 0;
+}
+
+.profile-privacy-card {
+  margin-bottom: 0;
+}
+
+.profile-form-panel {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.profile-session-ready {
+  background: var(--gradient-success-soft);
+  border-color: var(--card-completed-border);
+  padding: var(--card-padding-lg);
+}
+
+.profile-readonly-list {
+  background: var(--color-bg-soft);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+  margin: 0;
+  padding: var(--card-padding-md);
+}
+
+.profile-readonly-list div {
+  display: grid;
+  gap: 5px;
+}
+
+.profile-readonly-list dt {
+  color: var(--color-text-muted);
+  font-size: var(--text-caption-size);
+  font-weight: 700;
+  line-height: var(--text-caption-line);
+  text-transform: uppercase;
+}
+
+.profile-readonly-list dd {
+  color: var(--color-text-primary);
+  font-size: var(--text-body-lg-size);
+  font-weight: 700;
+  line-height: var(--text-body-lg-line);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.profile-contact-form {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.profile-field {
+  color: var(--color-text-primary);
+  display: grid;
+  font-size: var(--text-body-sm-size);
+  font-weight: 700;
+  gap: 7px;
+  line-height: var(--text-body-sm-line);
+}
+
+.profile-field input {
+  background: var(--input-bg);
+  border: 1px solid var(--input-border);
+  border-radius: var(--input-radius);
+  color: var(--color-text-primary);
+  min-height: var(--input-height);
+  padding: 0 14px;
+  width: 100%;
+}
+
+.profile-field input::placeholder {
+  color: var(--input-placeholder);
+}
+
+.profile-field input:focus {
+  border-color: var(--input-focus-border);
+  box-shadow: var(--input-focus-shadow);
+  outline: 0;
+}
+
+.profile-field input[aria-invalid="true"] {
+  background: var(--color-error-soft);
+  border-color: var(--color-error);
+}
+
+.profile-field-error {
+  color: var(--color-error);
+  font-size: var(--text-body-sm-size);
+  font-weight: 600;
+  line-height: var(--text-body-sm-line);
+}
+
+.profile-validation-message,
+.profile-notice {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--card-padding-md);
+}
+
+.profile-validation-message {
+  background: var(--color-error-soft);
+  border-color: rgba(232, 77, 79, 0.34);
+}
+
+.profile-notice-updated {
+  background: var(--gradient-success-soft);
+  border-color: var(--card-completed-border);
+}
+
+.profile-notice-noop {
+  background: var(--color-surface-blue);
+  border-color: var(--color-primary-soft);
+}
+
+.profile-notice-error {
+  background: var(--color-error-soft);
+  border-color: rgba(232, 77, 79, 0.34);
+}
+
+.profile-validation-message strong,
+.profile-notice strong {
+  color: var(--color-text-primary);
+  display: block;
+  font-size: var(--text-body-md-size);
+  line-height: var(--text-body-md-line);
+  margin-bottom: 3px;
+}
+
+.profile-validation-message p,
+.profile-notice p {
+  margin-bottom: 0;
+}
+
+.profile-submit {
+  border: 0;
+  cursor: pointer;
+}
+
+.profile-submit:disabled {
+  background: var(--color-disabled-bg);
+  color: var(--color-disabled-text);
+  cursor: wait;
+}
+
 .bottom-nav {
   background: rgba(255, 255, 255, 0.96);
   border: 1px solid var(--color-border);
@@ -1138,7 +1311,11 @@ p {
   .preview-panel,
   .lesson-progress-card,
   .lesson-block,
-  .state-panel {
+  .state-panel,
+  .profile-hero,
+  .profile-form-panel,
+  .profile-session-ready,
+  .profile-state-panel {
     padding: var(--space-lg);
   }
 

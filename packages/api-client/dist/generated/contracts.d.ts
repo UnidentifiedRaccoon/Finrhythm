@@ -130,6 +130,24 @@ export type AdminCodeStatusResponse = {
     statusCounts: AdminCodeStatusCount[];
     codes: AdminCodeStatusPage;
 };
+export type EmployeeContactUpdateRequest = {
+    email?: string;
+    phone?: string;
+};
+export type EmployeeContactUpdateResponse = {
+    employeeRegistrationId: string;
+    fullName: string;
+    email: string;
+    phone: string;
+    tenantId: string;
+    pilotLaunchId: string;
+    accessPoolId: string;
+    registeredAt: string;
+    changed: boolean;
+    outcome: "updated" | "noop";
+    changedFields: string[];
+    contactVerifiedByProfileSession: boolean;
+};
 export type AdminCodeStatusPathParams = {
     tenantId: string;
     pilotLaunchId: string;
@@ -174,3 +192,10 @@ export type EmployeeMeProfileSummaryClientRequest = {
 export declare const EMPLOYEE_ME_PROFILE_SUMMARY_PATH = "/api/v1/employee-registrations/me/profile-summary";
 export declare function buildEmployeeMeProfileSummaryUrl(baseUrl: string | URL): URL;
 export declare function fetchEmployeeMeProfileSummary(baseUrl: string | URL, params: EmployeeMeProfileSummaryClientRequest, init?: ApiClientRequestInit): Promise<EmployeeProfileSummaryResponse>;
+export type EmployeeMeContactUpdateClientRequest = {
+    profileSessionToken: string;
+    body: EmployeeContactUpdateRequest;
+};
+export declare const EMPLOYEE_ME_CONTACT_PATH = "/api/v1/employee-registrations/me/contact";
+export declare function buildEmployeeMeContactUrl(baseUrl: string | URL): URL;
+export declare function fetchEmployeeMeContactUpdate(baseUrl: string | URL, params: EmployeeMeContactUpdateClientRequest, init?: ApiJsonClientRequestInit): Promise<EmployeeContactUpdateResponse>;

@@ -6,10 +6,10 @@ type LearningShellProps = {
 };
 
 const navItems = [
-  { label: "Обучение", mark: "route" },
-  { label: "Челленджи", mark: "challenge" },
-  { label: "Награды", mark: "reward" },
-  { label: "Профиль", mark: "profile" }
+  { label: "Обучение", mark: "route", href: "/learning", enabled: true },
+  { label: "Челленджи", mark: "challenge", enabled: false },
+  { label: "Награды", mark: "reward", enabled: false },
+  { label: "Профиль", mark: "profile", href: "/profile/session", enabled: true }
 ];
 const enabledLessonIds = new Set<NoviceLesson["id"]>(["N1", "N2", "N3"]);
 
@@ -252,11 +252,11 @@ function AppNav() {
   return h(
     "nav",
     { className: "bottom-nav", "aria-label": "Разделы приложения" },
-    navItems.map((item, index) =>
-      index === 0
+    navItems.map((item) =>
+      item.enabled
         ? h(
             "a",
-            { key: item.label, href: "/learning", "aria-current": "page" },
+            { key: item.label, href: item.href, "aria-current": item.mark === "route" ? "page" : undefined },
             h("span", { className: `nav-mark nav-mark-${item.mark}`, "aria-hidden": "true" }),
             h("span", null, item.label)
           )

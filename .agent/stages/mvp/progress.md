@@ -1,6 +1,155 @@
 # MVP progress
 
-Updated: 2026-05-12
+Updated: 2026-05-13
+
+## Current session: MVP-03-employee-start-route-ui-001 builder evidence
+
+- Built frozen `MVP-03-employee-start-route-ui-001` as the next narrow apps/web UI slice without subagents and without touching verdict/problems.
+- Added `/start` route and `EmployeeStartScreen` with Russian, mobile-first, neutral employee-facing copy.
+- Primary path is `/start -> /onboarding/privacy -> /profile/session`; `/profile/session` is secondary on `/start` and direct `/profile/contact` is not linked.
+- The start screen explains the safe order: privacy boundary first, temporary profile session second, contact data only after that session; it also states that the session secret is not passed through the address bar.
+- `/start` has no inputs, API calls, backend calls or session creation.
+- Updated focused render/source tests and browser smoke to cover `/start`, `/start -> /onboarding/privacy`, `/start -> /onboarding/privacy -> /profile/session`, existing `/profile/session` generated-client entry and direct `/profile/contact` missing-session behavior.
+- Checks passed: `pnpm --filter @finrhythm/web typecheck`, `pnpm --filter @finrhythm/web test`, `pnpm --filter @finrhythm/web build`, browser smoke against built app, guardrail scans, generated-client boundary check, `make verify`, `make test-unit`, `make build`, JSON validation and diff whitespace check.
+- Browser smoke raw refs and screenshots are under `.agent/stages/mvp/raw/builder-MVP-03-employee-start-route-ui-001-20260513/`.
+- Canonical docs sync is `NOOP_EXPECTED`; this slice only adds a narrow start route to the existing verified privacy/profile-session path and changes no product/access/API/schema/setup decision.
+- Backend baseline remains unchanged: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
+- Evidence aliases now point to builder evidence for `MVP-03-employee-start-route-ui-001`; latest verified sprint remains `MVP-03-onboarding-to-profile-session-continuity-ui-001` until a fresh verifier runs.
+- Full `MVP-03`, the MVP stage and all legal/privacy/real-data/reporting/financial/reward human gates remain open.
+
+## Current session: MVP-03-employee-profile-session-entry-ui-001 builder evidence
+
+- Fresh verifier returned `PASS` for `MVP-03-employee-profile-session-entry-ui-001` and wrote `.agent/stages/mvp/verdicts/MVP-03-employee-profile-session-entry-ui-001.json` plus `.agent/stages/mvp/problems/MVP-03-employee-profile-session-entry-ui-001.md`.
+- Parent synchronized latest verdict/problems/status aliases to `MVP-03-employee-profile-session-entry-ui-001`; evidence aliases already point to this slice.
+- The scoped slice is now proven, while full `MVP-03`, the MVP stage and all legal/privacy/real-data/reporting/financial/reward human gates remain open.
+- Implemented the frozen `apps/web` employee profile-session entry UI at `/profile/session`.
+- The entry form collects invite code, full name, email and phone, then calls `POST /api/v1/employee-registrations/profile-sessions` through generated `@finrhythm/api-client` helper/types.
+- Refactored `ProfileContactScreen` to accept a memory-only `initialProfileSessionToken`, so the production entry path no longer sends the returned token through `/profile/contact` query params or any URL handoff.
+- After session creation, the same mounted client flow loads profile summary with the bearer profile-session token and renders contact update UI: `fullName` is read-only and only `email`/`phone` are editable/submitted.
+- Existing `/profile/contact` query-token support remains only as a local/browser-smoke fallback and its no-token state links users to `/profile/session`.
+- Browser smoke on production-like `next start` captured 18 screenshots covering start, creating/loading, session ready/profile form, updated success, normalized no-op, safe `400` invalid proof/contact validation, safe `401` invalid session and generic failure.
+- Checks passed: `pnpm --filter @finrhythm/web typecheck`, `pnpm --filter @finrhythm/web test`, `pnpm --filter @finrhythm/web build`, web browser smoke, `make verify`, `make test-unit`, `make build` and guardrail scans for generated-client usage, token/storage/query/raw invite echo, customer brand/real data/forbidden claims, access shortcuts and `fullName` mutation.
+- Builder agent later hit model-capacity before final handoff; parent/orchestrator reran the required web checks, browser smoke, guardrail scans, JSON validation, diff check and root wrappers under `.agent/stages/mvp/raw/orchestrator-MVP-03-employee-profile-session-entry-ui-001-20260513/` without changing production implementation.
+- Canonical docs sync is `NOOP_EXPECTED`: the implementation consumes the already documented profile-session/contact-update boundary in `docs/architecture/access-and-subscriptions.md` section 7.2 and introduces no backend/API/schema/access decision.
+- Backend baseline is preserved unchanged: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
+- Evidence aliases now point to builder evidence for `MVP-03-employee-profile-session-entry-ui-001`; verdict aliases remain on latest verified `MVP-03-employee-contact-update-ui-001` until a fresh verifier runs.
+- Full `MVP-03`, the MVP stage and all legal/privacy/real-data/reporting/financial/reward human gates remain open. Fresh verifier is pending.
+
+## Current session: MVP-03-employee-profile-session-entry-ui-001 spec freeze
+
+- Froze `MVP-03-employee-profile-session-entry-ui-001` for parent unit `MVP-03.04` after latest verified `MVP-03-employee-contact-update-ui-001` PASS.
+- Scope is one functional `apps/web` entry slice: employee enters invite code, full name, email and phone; UI calls the verified `POST /api/v1/employee-registrations/profile-sessions` through generated `@finrhythm/api-client` helper/types.
+- Returned raw profile-session token must stay in component memory only: no URL/query/hash, no `localStorage`, no `sessionStorage`, no cookies, no IndexedDB, no tracked fixtures/screenshots/logs/evidence token.
+- Builder must connect the in-memory token to the existing profile/contact update UI by refactoring for a memory-token prop/state or by keeping session entry + profile summary + contact update in one mounted client flow if cross-route memory handoff is unsafe.
+- Required behavior: load profile summary after session creation, show `fullName` read-only, edit/submit only `email` and `phone`, preserve updated/no-op/400/401/generic safe Russian states and visible privacy boundary.
+- Explicitly excludes login/password setup, `User`, `OrgMembership`, organization codes, subscriptions/seats/entitlements, `fullName` update, support tickets, HR reporting, diagnostics, points, CMS, rewards, backend/API/schema/OpenAPI changes, legal approval, real data processing, full `MVP-03` closure and MVP stage closure.
+- Backend baseline is preserved unchanged: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
+- Canonical docs target is `NOOP_EXPECTED` unless a new durable access/session handoff pattern is introduced; Mermaid expectation is `NONE_EXPECTED` unless such a new app-level handoff/state boundary appears.
+- Updated stage planning/status artifacts only. No production code, tests, schemas, API/OpenAPI/generated client, canonical docs, evidence aliases, verdict aliases, raw evidence or immutable PASS refs were changed.
+- Latest verified sprint remains `MVP-03-employee-contact-update-ui-001`; functional `passes=false` remains required until builder evidence and a fresh verifier PASS exist.
+
+## Current session: MVP-03-employee-contact-update-ui-001 verifier PASS and parent sync
+
+- Built and verified `MVP-03-employee-contact-update-ui-001` for parent unit `MVP-03.04`.
+- Added employee-facing `/profile/contact` in `apps/web`, reachable from the Profile nav.
+- UI uses generated `@finrhythm/api-client` helpers/types, loads profile summary with a bearer profile-session token, shows `fullName` read-only, and edits/submits only `email` and `phone`.
+- Because `apps/web` still has no production profile-session handoff, the measurable handoff is local/browser-smoke-only: a raw profile-session token can be accepted from the query string, kept in component memory and immediately scrubbed from the URL.
+- Browser evidence covers start/no-token, loaded form, updated success, normalized no-op, safe `400`, safe `401`, loading, generic load failure and generic save failure states.
+- Checks passed: web typecheck/test/build, browser smoke, `make verify`, `make test-unit`, `make build`, guardrail scans, JSON validation and `git diff --check`.
+- Fresh verifier returned `PASS` and wrote `.agent/stages/mvp/verdicts/MVP-03-employee-contact-update-ui-001.json` plus `.agent/stages/mvp/problems/MVP-03-employee-contact-update-ui-001.md`.
+- Parent synchronized latest evidence/verdict/problems/status aliases to `MVP-03-employee-contact-update-ui-001`.
+- Full `MVP-03`, the MVP stage and all legal/privacy/real-data/reporting human gates remain open. A separate closure audit is required before any full `MVP-03` status decision.
+
+## Current session: MVP-03-employee-contact-update-ui-001 builder evidence
+
+- Implemented the frozen `apps/web` UI slice without backend/API/schema/OpenAPI/generated-client source changes.
+- Added `@finrhythm/api-client` as a web workspace dependency and updated `pnpm-lock.yaml`.
+- Added component/state/test coverage for safe contact update UI behavior, Russian state copy and guardrails against unsafe token storage or raw sensitive echo.
+- Builder evidence is compact at `.agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.md` and `.agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.json`; full outputs and screenshots are under ignored `.agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/`.
+
+## Current session: MVP-03-employee-contact-update-ui-001 spec freeze
+
+- Froze `MVP-03-employee-contact-update-ui-001` for parent unit `MVP-03.04` after latest verified scoped `MVP-03-legal-drafts-001` PASS.
+- Scope is one product UI slice in `apps/web`: minimal mobile-first employee profile/contact screen over the already verified profile-session contact update API.
+- Current repo has no established `apps/web` profile-session token handoff, so the contract freezes the smallest measurable prerequisite inside the slice: use the existing profile-session API flow or a local/browser smoke harness only, keep the token in memory, and record the limitation explicitly.
+- Required UI behavior: load current profile summary, show `fullName` read-only if available, edit only `email` and `phone`, handle changed success, normalized no-op, `400` validation and `401` expired/invalid session states with safe Russian copy.
+- Explicitly excludes `fullName` update, login/password setup, `User`, `OrgMembership`, subscriptions/seats/entitlements, support tickets, HR reporting, diagnostics, points, CMS, rewards, legal approval, real data processing, full `MVP-03` closure and MVP stage closure.
+- Backend baseline is preserved unchanged: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
+- Canonical docs target is `NOOP_EXPECTED` unless the builder changes behavior/access workflow beyond the existing documented profile-session/contact-update boundary; Mermaid expectation is `NONE_EXPECTED` unless a new handoff flow is introduced.
+- Updated stage planning/status artifacts only. No production code, tests, schemas, API/OpenAPI/generated client, canonical docs, evidence aliases, verdict aliases, raw evidence or immutable PASS refs were changed.
+- Freeze validation: `jq empty .agent/stages/mvp/status.json .agent/stages/mvp/feature_list.json .agent/stages/mvp/evidence.json .agent/stages/mvp/verdict.json` passed; `git diff --check -- . ':(exclude).agent/stages/**/raw/**'` passed; `verify_harness.py --stage-id mvp` returned the expected active/latest alias mismatch because evidence/verdict/problems aliases remain on verified `MVP-03-legal-drafts-001`.
+- Latest verified sprint remains `MVP-03-legal-drafts-001`; functional `passes=false` remains required until builder evidence and a fresh verifier PASS exist.
+
+## Current session: MVP-03-legal-drafts-001 verifier PASS and parent sync
+
+- Fresh verifier returned `PASS` for `MVP-03-legal-drafts-001` and wrote `.agent/stages/mvp/verdicts/MVP-03-legal-drafts-001.json` plus `.agent/stages/mvp/problems/MVP-03-legal-drafts-001.md`.
+- Verifier independently checked the four draft paths, required draft/not-approved metadata, aggregate-by-default HR/sponsor privacy boundary, no blocking legal approval / real-data approval / guaranteed outcome / personalized-advice claims and cookie/tracking deferral.
+- Parent synchronized latest `evidence`, `verdict`, `problems` and `status` aliases to `MVP-03-legal-drafts-001`.
+- `mvp_03_legal_drafts_proven=true` for tracked draft artifacts only.
+- Human gate `legal-privacy-consent-wording-and-real-pii-processing` remains `WAITING_HUMAN`; real-data approval, customer-specific HR/reporting, financial correctness and reward/fulfillment gates remain open.
+- Full `MVP-03` and the MVP stage remain open. A separate closure audit is required before any full `MVP-03` `DONE_WITH_HUMAN_PENDING` decision.
+
+## Current session: MVP-03-legal-drafts-001 builder evidence
+
+- Created four tracked draft legal artifacts: `docs/legal/mvp/drafts/privacy-policy-draft.md`, `docs/legal/mvp/drafts/terms-of-use-draft.md`, `docs/legal/mvp/drafts/personal-data-consent-draft.md` and `docs/legal/mvp/drafts/financial-disclaimer-draft.md`.
+- Each draft includes `DRAFT_WAITING_HUMAN_REVIEW`, version/date, MVP/B2B pilot scope, owner expectation, required human reviewer expectation, production-use limitation and a prominent not-approved warning.
+- Privacy and consent drafts preserve aggregate-by-default HR/sponsor reporting; personal diagnostic answers, weak zones, exact sums and reflection details are not personal HR reports by default.
+- Terms and financial disclaimer keep the product educational, avoid guaranteed outcomes and exclude personalized investment, tax, credit or legal advice.
+- Cookie policy/banner/tracking consent remains deferred/out of scope; the builder scan found no active cookie/tracking implementation scope in `apps/` or `packages/`.
+- Wrote compact builder evidence to `.agent/stages/mvp/evidence/MVP-03-legal-drafts-001.md`, `.agent/stages/mvp/evidence/MVP-03-legal-drafts-001.json`, `.agent/stages/mvp/evidence.md` and `.agent/stages/mvp/evidence.json`.
+- Updated status/backlog/progress/feature list only; did not edit production code, app/package files, schemas, OpenAPI/generated client, canonical product/stage docs, verifier artifacts or prior immutable proof refs.
+- Backend baseline remains unchanged: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
+- Human gate `legal-privacy-consent-wording-and-real-pii-processing` remains `WAITING_HUMAN`; full `MVP-03`, MVP stage and all human gates remain open.
+- Superseded by fresh verifier `PASS`; `mvp_03_legal_drafts_proven=true` after parent sync, while legal human review remains pending.
+
+## Current session: MVP-03-legal-drafts-001 spec freeze
+
+- Froze `MVP-03-legal-drafts-001` as the next smallest `MVP-03.01` gap-fix contract after verified `MVP-03-closure-audit-001` PASS.
+- Scope is docs/legal-draft-only: create tracked draft artifacts for privacy, terms, personal-data consent and financial disclaimer under `docs/legal/mvp/drafts/`.
+- Each future draft must carry draft/not-approved status, version/date, MVP scope, owner/reviewer expectation and explicit human-review warning.
+- Human gate stays `WAITING_HUMAN`; no legal approval, real-data approval, full `MVP-03`, MVP stage or human gate closure is allowed.
+- Cookie/consent stays deferred/out of scope unless current repo evidence proves cookies/tracking are active implementation scope.
+- Backend baseline is explicitly preserved unchanged: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
+- Updated only stage planning/status artifacts: `.agent/stages/mvp/stage_spec.md`, `.agent/stages/mvp/sprint_contract.md`, `.agent/stages/mvp/task-files/MVP-03-legal-drafts-001.md`, `.agent/stages/mvp/backlog.md`, `.agent/stages/mvp/progress.md`, `.agent/stages/mvp/status.json` and `.agent/stages/mvp/feature_list.json`.
+- Latest verified sprint and evidence/verdict/problems aliases remain `MVP-03-closure-audit-001`; future builder evidence and a fresh verifier are required before any PASS claim.
+
+## Current session: MVP-03-closure-audit-001 verifier PASS and parent sync
+
+- Recorded artifact-only builder evidence for `MVP-03-closure-audit-001` without spawning subagents.
+- Reconciled immutable PASS refs for onboarding/privacy screen, consent version logging, admin sensitive access audit, profile/contact summary, employee profile session and profile contact update.
+- Decision: full `MVP-03` remains `OPEN`, not `DONE_WITH_HUMAN_PENDING` and not unconditional `DONE`.
+- Concrete non-human proof gap: `MVP-03.01` has no tracked privacy/terms/consent/financial disclaimer legal draft artifacts; current proof covers draft privacy screen copy and consent version logging, not the required legal draft documents.
+- Next smallest gap-fix contract named: `MVP-03-legal-drafts-001`.
+- Human gates remain non-DONE; MVP stage remains open.
+- Docs-sync is `NOOP` and diagram expectation is `NONE` because this audit changes no behavior, architecture, workflow, schema, API contract or setup/runtime expectation.
+- Backend baseline for cited backend slices remains Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc; this audit changed no backend/API/schema/generated-client files.
+- Fresh verifier returned `PASS` and wrote `.agent/stages/mvp/verdicts/MVP-03-closure-audit-001.json` plus `.agent/stages/mvp/problems/MVP-03-closure-audit-001.md`.
+- Parent synchronized latest evidence/verdict/problems/status aliases to `MVP-03-closure-audit-001`.
+- Next honest slice: freeze `MVP-03-legal-drafts-001` for tracked privacy, terms, consent and financial disclaimer drafts with explicit `WAITING_HUMAN` approval status.
+
+## Current session: MVP-03-closure-audit-001 spec freeze
+
+- Froze `MVP-03-closure-audit-001` as an artifact-only closure/status audit for full `MVP-03` after latest verified scoped `MVP-03-profile-contact-update-001` PASS.
+- Scope is audit-only: reconcile `MVP-03.01` through `MVP-03.05` against existing immutable PASS refs and current human-gate accounting.
+- The audit must choose either `DONE_WITH_HUMAN_PENDING` for full `MVP-03` if no concrete non-human proof gap remains, or keep full `MVP-03` `OPEN` and name the next smallest gap-fix contract.
+- Unconditional `DONE`, MVP stage closure and human-gate closure are explicitly out of scope.
+- Canonical docs target is `NOOP_EXPECTED`; Mermaid expectation is `NONE_EXPECTED` unless the audit finds material drift, which must be recorded as a proof gap rather than silently expanding scope.
+- Backend baseline is explicitly preserved for cited backend slices: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
+- Updated only stage planning/status artifacts. No production code, tests, schemas, API/OpenAPI/generated client, UI, canonical docs, raw evidence or prior immutable PASS refs were changed.
+- Evidence/verdict/problems aliases remain on `MVP-03-profile-contact-update-001`; `MVP-03-closure-audit-001` has no PASS evidence or fresh verifier yet.
+
+## Current session: MVP-03-profile-contact-update-001 verifier PASS and parent sync
+
+- Built the frozen backend/API-only `MVP-03-profile-contact-update-001` slice without spawning child agents.
+- Added `PATCH /api/v1/employee-registrations/me/contact`, authenticated only by valid unexpired unrevoked profile-session bearer token.
+- Contact update mutates only normalized `email` and `phone`; omitted fields stay unchanged, empty/invalid payload returns safe `400`, and `fullName` remains out of scope.
+- Added append-only `V010__employee_contact_update_audit.sql` and audit service storing registration scope, changed fields, `outcome`, old/new contact hashes, `occurred_at`, actor type `employee_profile_session` and safe `employee_profile_session_id`.
+- Normalized no-op returns success, writes one `outcome=noop` audit row and does not consume or revoke the profile session.
+- Updated OpenAPI snapshot, generated `packages/api-client` contracts/dist, generator/drift checks and `docs/architecture/access-and-subscriptions.md` Mermaid flow/state docs.
+- Checks passed with explicit Homebrew JDK 21: focused `EmployeeRegistrationControllerIT`, `cd apps/api && ./mvnw -q verify`, api-client build/generated/drift/typecheck, `make verify`, `make test-unit`, `make build` and guardrail scans.
+- Fresh scoped verifier returned `PASS` and wrote verifier-owned artifacts: `.agent/stages/mvp/verdicts/MVP-03-profile-contact-update-001.json` and `.agent/stages/mvp/problems/MVP-03-profile-contact-update-001.md`.
+- Parent accepted the scoped PASS and synchronized latest stage evidence/verdict/problems/status aliases to `MVP-03-profile-contact-update-001`.
+- Full `MVP-03`, the MVP stage and all human gates remain open.
 
 ## Current session: MVP-03-employee-profile-session-001 verifier PASS and parent sync
 
@@ -538,3 +687,50 @@ Open:
 
 - `MVP-01-bootstrap-001` remains previously verified with fresh verifier `PASS`.
 - Earlier `MVP-02-tenant-domain-001` attempts were blocked by missing Java runtime and absent Maven Wrapper; those raw outputs remain as historical evidence, superseded by this session's Java/Maven proof.
+
+## Current builder slice: MVP-03-onboarding-to-profile-session-continuity-ui-001
+
+- Implemented the smallest apps/web continuity path from `/onboarding/privacy` to `/profile/session`.
+- Production/test files touched by this builder:
+  - `apps/web/components/onboarding-privacy-screen.ts`
+  - `apps/web/tests/learning-shell.test.mjs`
+  - `apps/web/tests/browser-smoke.mjs`
+- `/onboarding/privacy` now renders a primary Russian action to `/profile/session`; `/learning` remains secondary demo-learning navigation.
+- Browser smoke starts at `/onboarding/privacy`, activates the primary profile action, lands on `/profile/session`, and verifies the existing profile-session entry state.
+- Builder checks passed:
+  - `pnpm --filter @finrhythm/web typecheck`
+  - `pnpm --filter @finrhythm/web test`
+  - `pnpm --filter @finrhythm/web build`
+  - browser smoke with screenshots under `.agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/`
+  - token/storage/route, raw token/invite echo, generated-client boundary and brand/real-data/claims guardrail scans
+  - `make verify`
+  - `make test-unit`
+  - `make build`
+- Canonical docs sync is `NOOP_EXPECTED`; this slice only wires two existing web routes and does not change product/access/backend/API/schema/setup/workflow decisions.
+- Backend/API/schema/Flyway/OpenAPI/generated client remain unchanged by this builder.
+- Latest evidence aliases now point to this builder evidence. Latest verified sprint remains `MVP-03-employee-profile-session-entry-ui-001` until a fresh `stage_verifier` runs.
+- Full `MVP-03`, MVP stage and human gates remain open.
+
+## Current verified slice: MVP-03-onboarding-to-profile-session-continuity-ui-001
+
+- Fresh verifier PASS is recorded for the apps/web continuity path from `/onboarding/privacy` to `/profile/session`.
+- The verifier first found one concrete blocker: `/profile/contact` still accepted the profile-session secret through URL query.
+- `stage_fixer` removed that production query-token intake:
+  - `apps/web/app/profile/contact/page.tsx` now renders `ProfileContactScreen` without query-token enablement.
+  - `apps/web/components/profile-contact-screen.ts` opens a profile session only from `initialProfileSessionToken` passed in mounted component memory.
+  - `/profile/session` keeps the memory-only handoff into contact update.
+- Second fresh verifier PASS confirms direct/query/hash/path token-shaped `/profile/contact` requests stay in the safe missing-session state and do not call profile-summary or unlock contact editing.
+- Required checks passed in builder/fixer/verifier evidence: web typecheck/test/build, browser smoke with screenshots, guardrail scans, api-client drift check, `make verify`, `make test-unit`, `make build`, JSON validation and `git diff --check`.
+- Latest evidence/verdict/problems aliases and `status.json` now point to `MVP-03-onboarding-to-profile-session-continuity-ui-001`.
+- Full `MVP-03`, MVP stage and human gates remain open; do not run closure audit unless explicitly selected as a separate next step.
+
+## Current verified slice: MVP-03-employee-start-route-ui-001
+
+- Added the employee-facing apps/web `/start` route as a no-input, no-API first screen.
+- The verified primary path is `/start -> /onboarding/privacy -> /profile/session`; `/profile/session` remains a secondary continuation only after privacy copy.
+- `/start` explains the safe order: privacy boundary first, temporary profile session second, contact data only after that session.
+- Browser/mobile smoke screenshots exist for `/start`, `/start -> /onboarding/privacy` and `/start -> /onboarding/privacy -> /profile/session`.
+- Builder checks passed: web typecheck/test/build, browser smoke, guardrail scans, generated-client boundary check, `make verify`, `make test-unit`, `make build`, JSON validation and `git diff --check`.
+- Fresh verifier PASS is recorded in `.agent/stages/mvp/verdicts/MVP-03-employee-start-route-ui-001.json`.
+- Latest evidence/verdict/problems aliases and `status.json` now point to `MVP-03-employee-start-route-ui-001`.
+- Full `MVP-03`, MVP stage and human gates remain open; no closure audit was run.

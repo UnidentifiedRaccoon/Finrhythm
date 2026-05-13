@@ -136,13 +136,13 @@ function FutureState() {
     h(
       "p",
       null,
-      "В этом срезе диагностика, scoring, маршрут и сохранение прогресса не реализованы. Пока можно перейти к демо-обучению и посмотреть формат уроков."
+      "Перед будущей диагностикой можно открыть профиль по коду приглашения. Короткая профильная сессия нужна только для контактных данных и не переносит секрет через адрес."
     ),
     h(
       "div",
       { className: "privacy-actions" },
-      h("a", { className: "primary-action", href: "/learning" }, "Перейти к обучению"),
-      h("span", { className: "secondary-action privacy-static-action", "aria-disabled": "true" }, "Диагностика позже")
+      h("a", { className: "primary-action", href: "/profile/session" }, "Открыть вход в профиль"),
+      h("a", { className: "secondary-action", href: "/learning" }, "Посмотреть демо-обучение")
     )
   );
 }

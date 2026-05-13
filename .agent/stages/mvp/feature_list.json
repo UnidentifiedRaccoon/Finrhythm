@@ -1787,5 +1787,375 @@
       ".agent/stages/mvp/problems/MVP-03-employee-profile-session-001.md"
     ],
     "note": "Fresh stage_verifier PASS recorded for the scoped backend/API-only employee profile-session sprint; full MVP-03, contact update and human gates remain open."
+  },
+  {
+    "id": "mvp-03-profile-contact-update-backend-api",
+    "category": "backend",
+    "description": "apps/api exposes profile-session scoped employee contact update for normalized email and phone only.",
+    "steps": [
+      "Add V010 employee_contact_update_audit_log migration",
+      "Authenticate PATCH /me/contact with profile-session bearer token",
+      "Update only normalized email/phone and preserve fullName/scope",
+      "Record changed and no-op attempts in append-only privacy-safe audit rows",
+      "Reject failed auth and invalid payloads without PII echo or contact audit rows"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-profile-contact-update-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-profile-contact-update-001.json",
+      "apps/api/src/main/resources/db/migration/V010__employee_contact_update_audit.sql",
+      "apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java",
+      "apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeContactUpdateAuditService.java",
+      "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java",
+      "apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java",
+      ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-api-registration-it-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-api-mvn-verify-20260512.txt"
+    ],
+    "note": "Fresh stage_verifier PASS recorded for the scoped backend/API-only contact update sprint; full MVP-03, employee UI and human gates remain open."
+  },
+  {
+    "id": "mvp-03-profile-contact-update-openapi-client-docs",
+    "category": "api-client-documentation",
+    "description": "OpenAPI/generated client and access docs cover the current MVP contact-update boundary.",
+    "steps": [
+      "Update OpenAPI snapshot",
+      "Extend generated contracts/client helper",
+      "Extend generated-client drift checks",
+      "Document profile-session scoped contact update and Mermaid flow/state"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-profile-contact-update-001.md",
+      "packages/api-client/openapi/finrhythm-api.openapi.json",
+      "packages/api-client/scripts/generate-contracts.mjs",
+      "packages/api-client/scripts/check-openapi-drift.mjs",
+      "packages/api-client/src/generated/contracts.ts",
+      "packages/api-client/dist/generated/contracts.js",
+      "packages/api-client/dist/generated/contracts.d.ts",
+      "docs/architecture/access-and-subscriptions.md",
+      ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-api-client-build-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-api-client-check-generated-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-api-client-check-openapi-drift-20260512.txt",
+      ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-api-client-typecheck-20260512.txt"
+    ],
+    "note": "Fresh stage_verifier PASS recorded; docs state this is not User/OrgMembership/subscription/login/support/HR reporting scope."
+  },
+  {
+    "id": "mvp-03-profile-contact-update-fresh-verification",
+    "category": "verification",
+    "description": "Fresh verifier reviews only MVP-03-profile-contact-update-001 after builder/orchestrator evidence.",
+    "steps": [
+      "Review profile-session scoped contact update implementation",
+      "Review V010 Flyway audit migration and Testcontainers proof",
+      "Review OpenAPI/generated-client sync",
+      "Verify no sensitive storage/echo or access-model shortcuts",
+      "Verify human gates remain open",
+      "Write scoped verdict and problems artifacts"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-profile-contact-update-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-profile-contact-update-001.json",
+      ".agent/stages/mvp/verdicts/MVP-03-profile-contact-update-001.json",
+      ".agent/stages/mvp/problems/MVP-03-profile-contact-update-001.md"
+    ],
+    "note": "Fresh stage_verifier PASS recorded for the scoped backend/API-only contact update sprint; full MVP-03, employee UI and human gates remain open."
+  },
+  {
+    "id": "mvp-03-closure-audit-contract-freeze",
+    "category": "harness",
+    "description": "Active MVP sprint contract is frozen for an artifact-only full MVP-03 closure/status audit.",
+    "steps": [
+      "Preserve latest verified MVP-03-profile-contact-update-001 PASS refs",
+      "Freeze closure audit scope without implementation",
+      "Require immutable PASS ref mapping for MVP-03.01 through MVP-03.05",
+      "Keep full MVP-03, MVP stage and human gates open until evidence and fresh verification"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/stage_spec.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-03-closure-audit-001.md",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/progress.md",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/feature_list.json",
+      ".agent/stages/mvp/evidence/MVP-03-closure-audit-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-closure-audit-001.json"
+    ],
+    "note": "Freeze, builder evidence and fresh verifier PASS exist. Evidence/verdict/problems aliases are parent-synced to MVP-03-closure-audit-001; full MVP-03 remains OPEN."
+  },
+  {
+    "id": "mvp-03-closure-audit-builder-evidence",
+    "category": "harness",
+    "description": "Artifact-only full MVP-03 closure/status audit evidence is recorded without closing human gates or moving latest verifier aliases.",
+    "steps": [
+      "Map MVP-03.01 through MVP-03.05 to immutable PASS refs or proof gaps",
+      "Choose exactly one full MVP-03 decision",
+      "Record explicit human-gate status table and MVP-stage-open check",
+      "Record docs-sync and diagram decision",
+      "Record backend baseline preservation for cited backend slices"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-closure-audit-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-closure-audit-001.json",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/progress.md",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/verdicts/MVP-03-closure-audit-001.json",
+      ".agent/stages/mvp/problems/MVP-03-closure-audit-001.md"
+    ],
+    "note": "Builder evidence records full MVP-03 as OPEN because MVP-03.01 legal draft artifacts are not proven. Fresh verifier PASS confirms this audit decision; next smallest gap-fix contract is MVP-03-legal-drafts-001."
+  },
+  {
+    "id": "mvp-03-closure-audit-fresh-verification",
+    "category": "verification",
+    "description": "Fresh verifier validates the artifact-only MVP-03 closure/status audit and its OPEN decision.",
+    "steps": [
+      "Verify immutable MVP-03 PASS refs for technical slices",
+      "Verify MVP-03.01 legal draft proof gap",
+      "Verify full MVP-03 remains OPEN and human gates remain non-DONE",
+      "Verify no production code, canonical docs, raw evidence or prior immutable proof refs were edited",
+      "Write scoped verdict and problems artifacts"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-closure-audit-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-closure-audit-001.json",
+      ".agent/stages/mvp/verdicts/MVP-03-closure-audit-001.json",
+      ".agent/stages/mvp/problems/MVP-03-closure-audit-001.md"
+    ],
+    "note": "Fresh stage_verifier PASS recorded for the artifact-only audit. Full MVP-03 remains OPEN; next smallest gap-fix contract is MVP-03-legal-drafts-001."
+  },
+  {
+    "id": "mvp-03-legal-drafts-contract-freeze",
+    "category": "harness",
+    "description": "Active MVP sprint contract is frozen for tracked MVP-03.01 legal draft artifacts.",
+    "steps": [
+      "Create draft targets for privacy policy, terms of use, personal-data consent and financial disclaimer",
+      "Require draft/not-approved metadata, owner/reviewer expectation, version/date and MVP scope in each draft",
+      "Keep legal approval, real-data processing, full MVP-03, MVP stage and human gates open",
+      "Defer cookie/consent unless active cookies/tracking are proven in current repo scope",
+      "Require compact evidence, JSON validation, markdown/path checks, diff check, harness validation if applicable and fresh verifier"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/stage_spec.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-03-legal-drafts-001.md",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/progress.md",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/evidence/MVP-03-legal-drafts-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-legal-drafts-001.json",
+      "docs/legal/mvp/drafts/privacy-policy-draft.md",
+      "docs/legal/mvp/drafts/terms-of-use-draft.md",
+      "docs/legal/mvp/drafts/personal-data-consent-draft.md",
+      "docs/legal/mvp/drafts/financial-disclaimer-draft.md",
+      "docs/stages/MVP.md",
+      "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md",
+      "docs/engineering/human-gates.md"
+    ],
+    "note": "Contract freeze, builder evidence and fresh verifier PASS now exist for the four draft legal artifacts. Legal/human review remains WAITING_HUMAN; full MVP-03 and the MVP stage remain open."
+  },
+  {
+    "id": "mvp-03-legal-drafts-builder-evidence",
+    "category": "legal-drafts",
+    "description": "Tracked MVP-03.01 draft legal artifacts are created with explicit draft/not-approved status and human-gate accounting.",
+    "steps": [
+      "Create privacy policy, terms of use, personal-data consent and financial disclaimer drafts",
+      "Include draft metadata, owner/reviewer expectations, MVP scope and not-approved warning",
+      "Preserve aggregate-by-default HR/sponsor reporting boundary",
+      "Scan for approval, guarantee and personalized-advice claims",
+      "Record cookie/tracking deferral and backend baseline unchanged",
+      "Write compact builder evidence while leaving verifier artifacts untouched"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      "docs/legal/mvp/drafts/privacy-policy-draft.md",
+      "docs/legal/mvp/drafts/terms-of-use-draft.md",
+      "docs/legal/mvp/drafts/personal-data-consent-draft.md",
+      "docs/legal/mvp/drafts/financial-disclaimer-draft.md",
+      ".agent/stages/mvp/evidence/MVP-03-legal-drafts-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-legal-drafts-001.json",
+      ".agent/stages/mvp/verdicts/MVP-03-legal-drafts-001.json",
+      ".agent/stages/mvp/problems/MVP-03-legal-drafts-001.md",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/evidence.json",
+      ".agent/stages/mvp/verdict.json",
+      ".agent/stages/mvp/problems.md",
+      ".agent/stages/mvp/status.json"
+    ],
+    "note": "Builder checks are recorded and fresh verifier returned PASS. The scoped sprint is proven for tracked draft artifacts only; human legal review remains WAITING_HUMAN and full MVP-03 remains open."
+  },
+  {
+    "id": "mvp-03-legal-drafts-fresh-verification",
+    "category": "verification",
+    "description": "Fresh verifier reviewed only MVP-03-legal-drafts-001 after builder evidence.",
+    "steps": [
+      "Verify four exact draft artifact paths and evidence references",
+      "Verify draft/not-approved metadata and human reviewer expectations",
+      "Verify aggregate HR/sponsor boundary and no personalized HR report default for diagnostic answers, weak zones, exact sums or reflection details",
+      "Scan for legal approval, real-data approval, production readiness, guaranteed outcome and personalized-advice claims",
+      "Confirm cookie/tracking deferral, JSON validation, diff check and expected pre-parent-sync harness alias mismatch",
+      "Write scoped verdict and problems artifacts"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-legal-drafts-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-legal-drafts-001.json",
+      ".agent/stages/mvp/verdicts/MVP-03-legal-drafts-001.json",
+      ".agent/stages/mvp/problems/MVP-03-legal-drafts-001.md",
+      "docs/legal/mvp/drafts/privacy-policy-draft.md",
+      "docs/legal/mvp/drafts/terms-of-use-draft.md",
+      "docs/legal/mvp/drafts/personal-data-consent-draft.md",
+      "docs/legal/mvp/drafts/financial-disclaimer-draft.md"
+    ],
+    "note": "Fresh stage_verifier PASS recorded for the scoped legal draft artifacts. Legal wording/approval and real-data processing remain WAITING_HUMAN; full MVP-03 and MVP stage remain open pending a separate closure audit."
+  },
+  {
+    "id": "mvp-03-employee-contact-update-ui-contract-freeze",
+    "category": "web-ui",
+    "description": "Active MVP sprint contract is frozen for a minimal mobile-first apps/web employee profile/contact update screen over the verified profile-session API.",
+    "steps": [
+      "Freeze one MVP-03.04 UI implementation slice",
+      "Use existing profile-session flow only, with in-memory token handling and explicit limitation if a local/browser harness is needed",
+      "Show fullName read-only and edit only email/phone",
+      "Require safe Russian UI states for success, normalized no-op, 400 validation and 401 expired/invalid session",
+      "Preserve backend baseline, privacy boundaries and human gates",
+      "Require browser screenshots, web/root checks, generated-client usage proof or limitation, guardrail scans, JSON validation, diff check and fresh verifier"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/stage_spec.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-03-employee-contact-update-ui-001.md",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/progress.md",
+      ".agent/stages/mvp/status.json",
+      "packages/api-client/src/generated/contracts.ts",
+      "docs/architecture/access-and-subscriptions.md",
+      "docs/product/b2b-mvp/lemanapro/design-system-v0.1.md",
+      "apps/web/AGENTS.md"
+    ],
+    "note": "Contract froze the UI slice; builder evidence and fresh verifier later returned PASS for MVP-03-employee-contact-update-ui-001."
+  },
+  {
+    "id": "mvp-03-employee-contact-update-ui-implementation",
+    "category": "web-ui",
+    "description": "Minimal mobile-first apps/web employee profile/contact UI over the verified profile-session contact update API.",
+    "steps": [
+      "Add /profile/contact route and enable Profile nav reachability",
+      "Use generated @finrhythm/api-client helpers/types for me/profile-summary and me/contact update",
+      "Accept local/browser-smoke-only profileSessionToken query handoff, keep token in memory and scrub URL",
+      "Render fullName read-only and edit/submit only email and phone",
+      "Handle updated, normalized no-op, 400 validation, 401 auth and generic failure states in Russian",
+      "Collect browser screenshots and guardrail scans"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.json",
+      ".agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.md",
+      ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/web-browser-smoke.txt",
+      ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-browser-smoke.json"
+    ],
+    "note": "UI slice is verified for local/browser-smoke token handoff only; production profile-session handoff remains a known future prerequisite."
+  },
+  {
+    "id": "mvp-03-employee-contact-update-ui-fresh-verification",
+    "category": "verification",
+    "description": "Fresh verifier reviewed only MVP-03-employee-contact-update-ui-001 after builder evidence.",
+    "steps": [
+      "Verify route/nav, generated client usage and no duplicate local contract types",
+      "Verify memory-only token handoff, URL scrub and no unsafe token persistence",
+      "Verify read-only fullName, email/phone-only edits and PATCH payload",
+      "Verify browser state coverage and safe Russian 400/401/generic failure copy",
+      "Verify docs-sync NOOP, unchanged backend/API/schema/OpenAPI/generated-client source and open human gates"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.json",
+      ".agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.md",
+      ".agent/stages/mvp/verdicts/MVP-03-employee-contact-update-ui-001.json",
+      ".agent/stages/mvp/problems/MVP-03-employee-contact-update-ui-001.md",
+      ".agent/stages/mvp/raw/verifier-MVP-03-employee-contact-update-ui-001-20260513/static-verifier-checks.json",
+      ".agent/stages/mvp/raw/verifier-MVP-03-employee-contact-update-ui-001-20260513/profile-contact-extra-browser-smoke.json"
+    ],
+    "note": "Fresh stage_verifier PASS recorded; full MVP-03, MVP stage and human gates remain open."
+  },
+  {
+    "id": "mvp-03-employee-profile-session-entry-ui-contract-freeze",
+    "category": "web-ui",
+    "description": "Active MVP sprint contract is frozen for a production employee-facing apps/web profile-session entry flow over the verified backend API.",
+    "steps": [
+      "Freeze one MVP-03.04 UI implementation slice",
+      "Require invite code, full name, email and phone entry",
+      "Require generated @finrhythm/api-client profile-session helper/types",
+      "Require returned profileSessionToken to stay in component memory only",
+      "Require connection to existing contact update UI without URL/query/hash or persistent storage",
+      "Preserve backend baseline, privacy boundaries and human gates",
+      "Require browser screenshots, web/root checks, generated-client usage proof, guardrail scans, JSON validation, diff check and fresh verifier"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-03-employee-profile-session-entry-ui-001.md",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/progress.md",
+      ".agent/stages/mvp/status.json",
+      "packages/api-client/src/generated/contracts.ts",
+      "docs/architecture/access-and-subscriptions.md",
+      "docs/architecture/organization-access-subscription-model.md",
+      "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md",
+      "docs/product/b2b-mvp/lemanapro/design-system-v0.1.md",
+      "apps/web/AGENTS.md",
+      ".agent/stages/mvp/evidence/MVP-03-employee-profile-session-entry-ui-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-employee-profile-session-entry-ui-001.json"
+    ],
+    "note": "Contract froze the UI slice; builder evidence now exists and fresh verifier remains pending."
+  },
+  {
+    "id": "mvp-03-employee-profile-session-entry-ui-implementation",
+    "category": "web-ui",
+    "description": "apps/web creates an employee profile session from invite/contact proof and connects the memory-only token to profile/contact update.",
+    "steps": [
+      "Add /profile/session or equivalent entry route",
+      "Submit invite code, full name, email and phone to POST /employee-registrations/profile-sessions through generated api-client",
+      "Keep profileSessionToken in component memory only",
+      "Load profile summary and render contact update without URL token or persistent storage",
+      "Show fullName read-only and edit/submit only email and phone",
+      "Render safe Russian start/loading/success/400/401/generic/privacy states",
+      "Collect browser screenshots and guardrail scans"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-employee-profile-session-entry-ui-001.json",
+      ".agent/stages/mvp/evidence/MVP-03-employee-profile-session-entry-ui-001.md",
+      ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/web-browser-smoke.txt",
+      ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/MVP-03-employee-profile-session-entry-ui-001-browser-smoke.json",
+      ".agent/stages/mvp/verdicts/MVP-03-employee-profile-session-entry-ui-001.json",
+      ".agent/stages/mvp/problems/MVP-03-employee-profile-session-entry-ui-001.md"
+    ],
+    "note": "Implementation and parent recheck are complete; fresh verifier PASS is recorded for MVP-03-employee-profile-session-entry-ui-001. Full MVP-03 remains open."
+  },
+  {
+    "id": "mvp-03-employee-profile-session-entry-ui-fresh-verification",
+    "category": "verification",
+    "description": "Fresh verifier reviews only MVP-03-employee-profile-session-entry-ui-001 after builder evidence.",
+    "steps": [
+      "Verify route/nav and generated client usage",
+      "Verify memory-only token handling and no URL/storage/tracked artifact leakage",
+      "Verify profile summary load and contact update UI connection",
+      "Verify read-only fullName and email/phone-only PATCH payload",
+      "Verify browser state coverage and safe Russian error/privacy copy",
+      "Verify docs-sync decision, backend baseline unchanged and open human gates"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/verdicts/MVP-03-employee-profile-session-entry-ui-001.json",
+      ".agent/stages/mvp/problems/MVP-03-employee-profile-session-entry-ui-001.md"
+    ],
+    "note": "Fresh stage_verifier PASS recorded. Verifier wrote only verifier artifacts; parent aliases synchronized after PASS."
   }
 ]

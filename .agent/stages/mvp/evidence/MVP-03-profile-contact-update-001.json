@@ -1,0 +1,263 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-03-profile-contact-update-001",
+  "parent_stage_unit": "MVP-03.04",
+  "status": "SCOPED_PASS",
+  "verification_status": "PASS",
+  "updated_at": "2026-05-12",
+  "latest_alias": ".agent/stages/mvp/evidence.json",
+  "immutable_refs": {
+    "markdown": ".agent/stages/mvp/evidence/MVP-03-profile-contact-update-001.md",
+    "json": ".agent/stages/mvp/evidence/MVP-03-profile-contact-update-001.json"
+  },
+  "verdict": {
+    "raw": ".agent/stages/mvp/verdicts/MVP-03-profile-contact-update-001.json",
+    "problems": ".agent/stages/mvp/problems/MVP-03-profile-contact-update-001.md",
+    "alias": ".agent/stages/mvp/verdict.json",
+    "status": "PASS",
+    "note": "Fresh stage_verifier PASS recorded for this slice."
+  },
+  "affected_ids": [
+    "MVP-03.04",
+    "MVP-03-profile-contact-update-001"
+  ],
+  "implemented_scope": [
+    "Added backend/API-only PATCH /api/v1/employee-registrations/me/contact.",
+    "Authenticated update only with a valid unexpired unrevoked profile-session bearer token.",
+    "Updated only normalized email and phone on employee_registrations; omitted fields stay unchanged and fullName mutation remains out of scope.",
+    "Rejected empty/invalid payloads with safe 400 responses.",
+    "Returned safe 401 for missing, malformed, unknown, expired and revoked profile-session bearer tokens without contact-update audit rows.",
+    "Implemented normalized no-op success with outcome=noop, one audit row and no profile-session consumption/revocation.",
+    "Implemented changed update plus audit append in one transaction.",
+    "Added append-only V010 employee_contact_update_audit_log storing scope, changed fields, outcome, old/new contact hashes, actor type employee_profile_session and safe employee_profile_session_id.",
+    "Updated OpenAPI snapshot, generated api-client contracts/dist and generator/drift checks.",
+    "Updated docs/architecture/access-and-subscriptions.md with contact-update boundary and Mermaid flow/state diagrams."
+  ],
+  "out_of_scope_preserved": [
+    "No fullName update or identity-proof rule change.",
+    "No employee UI or apps/web mutation.",
+    "No login/password setup, account recovery, SSO/SCIM, User, OrgMembership, subscriptions, seats, entitlements, pro_user or premium.",
+    "No support tickets, HR reporting, diagnostics, points, CMS, rewards, merch or real data.",
+    "No raw token, raw invite code, lookup hash, activation subject ref, raw audit contact values, diagnostics, points, HR/reporting data or legal bodies persisted by this slice.",
+    "Full MVP-03, MVP stage and all human gates remain open."
+  ],
+  "changed_files": {
+    "production": [
+      "apps/api/src/main/java/com/finrhythm/api/registration/domain/EmployeeRegistration.java",
+      "apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeContactUpdateAuditService.java",
+      "apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeContactUpdateCommand.java",
+      "apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeContactUpdateResult.java",
+      "apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java",
+      "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeContactUpdateRequest.java",
+      "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeContactUpdateResponse.java",
+      "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeRegistrationController.java",
+      "apps/api/src/main/resources/db/migration/V010__employee_contact_update_audit.sql"
+    ],
+    "tests": [
+      "apps/api/src/test/java/com/finrhythm/api/registration/EmployeeRegistrationControllerIT.java"
+    ],
+    "api_client": [
+      "packages/api-client/openapi/finrhythm-api.openapi.json",
+      "packages/api-client/scripts/generate-contracts.mjs",
+      "packages/api-client/scripts/check-openapi-drift.mjs",
+      "packages/api-client/src/generated/contracts.ts",
+      "packages/api-client/dist/generated/contracts.js",
+      "packages/api-client/dist/generated/contracts.d.ts"
+    ],
+    "docs": [
+      "docs/architecture/access-and-subscriptions.md"
+    ],
+    "stage_artifacts": [
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/evidence.json",
+      ".agent/stages/mvp/evidence/MVP-03-profile-contact-update-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-profile-contact-update-001.json",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/progress.md",
+      ".agent/stages/mvp/feature_list.json"
+    ]
+  },
+  "acceptance_mapping": [
+    {
+      "criterion": "Contact update endpoint exists and authenticates only with a valid unexpired unrevoked profile-session bearer token.",
+      "status": "BUILT",
+      "evidence": [
+        "EmployeeRegistrationService#updateContactForSession",
+        "EmployeeRegistrationControllerIT contact-update auth tests"
+      ]
+    },
+    {
+      "criterion": "Missing, malformed, unknown, expired and revoked tokens return safe 401 and do not create contact-update audit rows.",
+      "status": "BUILT",
+      "evidence": [
+        "contactUpdateRejectsMissingMalformedUnknownExpiredAndRevokedTokensWithoutAuditOrEcho"
+      ]
+    },
+    {
+      "criterion": "Only email and phone may update; fullName and omitted fields are preserved.",
+      "status": "BUILT",
+      "evidence": [
+        "contactUpdateKeepsOmittedFieldsAndNeverMutatesFullName"
+      ]
+    },
+    {
+      "criterion": "Validation and normalization cover email, phone, omitted fields, empty and invalid payloads.",
+      "status": "BUILT",
+      "evidence": [
+        "contactUpdateRejectsEmptyAndInvalidPayloadWithoutAuditOrMutation",
+        "RegistrationContact normalization reuse"
+      ]
+    },
+    {
+      "criterion": "Normalized no-op succeeds, appends one outcome=noop audit row and does not consume the session.",
+      "status": "BUILT",
+      "evidence": [
+        "contactUpdateNoopSucceedsAuditsAndDoesNotConsumeProfileSession"
+      ]
+    },
+    {
+      "criterion": "Changed update and audit row append are atomic.",
+      "status": "BUILT",
+      "evidence": [
+        "@Transactional EmployeeRegistrationService#updateContactForSession",
+        "contactUpdateChangesEmailAndPhoneAtomicallyAndAppendsPrivacySafeAuditRow"
+      ]
+    },
+    {
+      "criterion": "Audit stores scope, changed fields/outcome, contact hashes, timestamp, actor type and safe session id without raw sensitive values.",
+      "status": "BUILT",
+      "evidence": [
+        "V010__employee_contact_update_audit.sql",
+        "EmployeeContactUpdateAuditService",
+        "storage/sensitive guardrail scans"
+      ]
+    },
+    {
+      "criterion": "OpenAPI snapshot and generated api-client artifacts/checks are synchronized.",
+      "status": "BUILT",
+      "evidence": [
+        "api-client build/check:generated/check:openapi-drift/typecheck raw refs"
+      ]
+    },
+    {
+      "criterion": "Canonical docs sync includes contact update boundary and Mermaid flow/state.",
+      "status": "BUILT",
+      "evidence": [
+        "docs/architecture/access-and-subscriptions.md"
+      ]
+    },
+    {
+      "criterion": "Fresh verifier PASS before marking slice passing.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/verdicts/MVP-03-profile-contact-update-001.json",
+        ".agent/stages/mvp/problems/MVP-03-profile-contact-update-001.md"
+      ]
+    }
+  ],
+  "raw_refs": [
+    ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-java-version-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-api-registration-it-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-api-mvn-verify-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-api-client-build-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-api-client-check-generated-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-api-client-check-openapi-drift-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-api-client-typecheck-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-make-verify-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-make-test-unit-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-make-build-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-json-validation-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-git-diff-check-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-storage-guardrail-scan-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-shortcut-guardrail-scan-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-sensitive-echo-guardrail-scan-20260512.txt",
+    ".agent/stages/mvp/raw/orchestrator-MVP-03-profile-contact-update-001-real-data-guardrail-scan-20260512.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-update-001-20260512/java-version.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-update-001-20260512/api-registration-it.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-update-001-20260512/api-mvn-verify.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-update-001-20260512/api-client-build.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-update-001-20260512/api-client-check-generated.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-update-001-20260512/api-client-check-openapi-drift.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-update-001-20260512/api-client-typecheck.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-update-001-20260512/make-verify.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-update-001-20260512/make-test-unit.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-update-001-20260512/make-build.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-update-001-20260512/json-validation.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-update-001-20260512/git-diff-check.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-update-001-20260512/storage-guardrail-scan.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-update-001-20260512/shortcut-guardrail-scan.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-update-001-20260512/sensitive-echo-guardrail-scan.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-03-profile-contact-update-001-20260512/ui-real-data-guardrail-scan.txt"
+  ],
+  "commands_summary": {
+    "java_version_explicit_homebrew_jdk21": "PASS",
+    "api_employee_registration_contact_update_it": "PASS",
+    "api_mvn_verify": "PASS",
+    "api_client_build": "PASS",
+    "api_client_check_generated": "PASS",
+    "api_client_check_openapi_drift": "PASS",
+    "api_client_typecheck": "PASS",
+    "make_verify": "PASS",
+    "make_test_unit": "PASS",
+    "make_build": "PASS",
+    "storage_guardrail_scan": "PASS",
+    "shortcut_guardrail_scan": "PASS",
+    "sensitive_echo_guardrail_scan": "PASS",
+    "real_data_guardrail_scan": "PASS",
+    "json_validation": "PASS",
+    "git_diff_check": "PASS",
+    "fresh_verifier": "PASS"
+  },
+  "schema_api_evidence": {
+    "db_migration_for_this_sprint": "apps/api/src/main/resources/db/migration/V010__employee_contact_update_audit.sql",
+    "flyway_runtime_migrations": "PASS in Maven/Testcontainers logs; schema reached v010.",
+    "openapi_snapshot_updated": true,
+    "generated_contracts_updated": true,
+    "generator_updated": true,
+    "drift_check_updated": true,
+    "new_generated_exports": [
+      "EmployeeContactUpdateRequest",
+      "EmployeeContactUpdateResponse",
+      "EMPLOYEE_ME_CONTACT_PATH",
+      "buildEmployeeMeContactUrl",
+      "fetchEmployeeMeContactUpdate"
+    ]
+  },
+  "docs_sync": {
+    "status": "UPDATED",
+    "updated_files": [
+      "docs/architecture/access-and-subscriptions.md"
+    ],
+    "mermaid": [
+      "profile-session/contact-update flowchart",
+      "profile-session lifecycle stateDiagram"
+    ],
+    "note": "Documented contact update as registration/profile-session scoped and not a User/OrgMembership/subscription/login/support/HR/reporting boundary."
+  },
+  "ui_screenshot_requirement": {
+    "required": false,
+    "reason": "Backend/API-only slice; no apps/web or employee-facing UI source changed."
+  },
+  "human_gates_closed": false,
+  "human_gates_remaining_open": [
+    "legal/privacy wording and consent copy",
+    "real employee/customer data processing",
+    "customer-specific HR/reporting boundaries",
+    "production admin auth/role/audit policy",
+    "support answer policy for sensitive topics",
+    "final financial correctness of lessons/diagnostics/quizzes/explanations",
+    "reward economy, stock, prices and fulfillment",
+    "production_ready content approval"
+  ],
+  "known_limitations": [
+    "Null JSON fields are treated as omitted; clearing contact values remains out of scope and blank/invalid values are rejected.",
+    "Employee UI/contact form is not implemented by this backend/API-only slice."
+  ],
+  "fresh_verifier": {
+    "status": "PASS",
+    "verdict_ref": ".agent/stages/mvp/verdicts/MVP-03-profile-contact-update-001.json",
+    "problems_ref": ".agent/stages/mvp/problems/MVP-03-profile-contact-update-001.md",
+    "note": "Fresh stage_verifier PASS recorded; parent aliases synchronized while full MVP-03 and human gates remain open."
+  }
+}

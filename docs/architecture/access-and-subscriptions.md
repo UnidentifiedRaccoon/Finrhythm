@@ -212,9 +212,13 @@ flowchart LR
 
 До появления полноценной модели `User`, employee login/password setup и `OrgMembership` текущая MVP employee boundary для профиля остаётся привязанной к `employee_registrations`. Короткоживущая profile session создаётся только после повторной проверки raw invite code plus normalized `fullName`/`email`/`phone` against the existing registration. Это не является общим логином, password setup, account recovery, entitlement, subscription, seat or RBAC role.
 
-Profile-session token is opaque, high-entropy and non-JWT. Backend returns the raw token only once in `POST /api/v1/employee-registrations/profile-sessions`, stores only a SHA-256 token hash in `employee_profile_sessions`, applies a short TTL and revokes previous active sessions for the same registration when a new one is created. `GET /api/v1/employee-registrations/me/profile-summary` uses this bearer token only for read-only support-safe profile summary. Contact update remains a separate later slice that must freeze mutation semantics, auditability and identity proof before implementation.
+Profile-session token is opaque, high-entropy and non-JWT. Backend returns the raw token only once in `POST /api/v1/employee-registrations/profile-sessions`, stores only a SHA-256 token hash in `employee_profile_sessions`, applies a short TTL and revokes previous active sessions for the same registration when a new one is created. `GET /api/v1/employee-registrations/me/profile-summary` uses this bearer token for support-safe profile summary and does not consume the session.
 
-Profile-session storage must not persist raw invite code, raw profile token, lookup hash, activation subject ref, employee contact values beyond the existing registration record, request/response bodies, diagnostics, points, HR/reporting data or legal text bodies. This boundary does not add `users.organization_id`, `User`, `OrgMembership`, subscription, seat, `pro_user` or `premium` shortcuts.
+`PATCH /api/v1/employee-registrations/me/contact` is the current narrow mutation allowed inside this boundary. It accepts only a valid unexpired unrevoked profile-session bearer token; raw invite code, lookup hash, activation subject ref, UUID-only lookup and contact-proof-only bodies do not authenticate the update. The endpoint may update only normalized `email` and `phone` on the resolved `employee_registrations` row. Omitted fields remain unchanged, empty payload is invalid, clearing contact values is out of scope, and `fullName` remains immutable for this slice because it is part of the current identity proof.
+
+Every accepted contact update attempt is atomic: after session validation and contact normalization, the backend updates changed contact fields when needed and appends exactly one row to `employee_contact_update_audit_log` in the same transaction. Normalized no-op attempts succeed with `outcome=noop`, append one audit row and do not consume or revoke the profile session. Audit rows store registration scope, `employee_profile_session_id`, actor type `employee_profile_session`, outcome, changed field set and old/new contact hashes/fingerprints only. Failed authentication returns a safe `401` and does not persist request contact PII or contact-update audit rows.
+
+Profile-session and contact-update storage must not persist raw invite code, raw profile token, lookup hash, activation subject ref, raw contact values in audit rows, request/response bodies, diagnostics, points, HR/reporting data or legal text bodies. This boundary does not add `users.organization_id`, `User`, `OrgMembership`, subscription, seat, entitlement, login/password setup, SSO, support-ticket workflow, HR reporting, `pro_user` or `premium` shortcuts.
 
 ```mermaid
 flowchart LR
@@ -225,6 +229,24 @@ flowchart LR
     RAW --> ME["GET /employee-registrations/me/profile-summary"]
     HASH --> ME
     ME --> SUMMARY["support-safe read-only profile summary"]
+    RAW --> CONTACT["PATCH /employee-registrations/me/contact"]
+    HASH --> AUTH["Validate hash, expiry and revocation"]
+    AUTH --> CONTACT
+    CONTACT --> NORMALIZE["Validate and normalize email/phone"]
+    NORMALIZE --> TX["Transaction: update registration contact + append audit row"]
+    TX --> AUDIT["Audit: scope, hashes, actor=session, timestamp"]
+    TX --> CURRENT["current support-safe contact summary"]
+    AUTH -->|missing, malformed, unknown, expired, revoked| DENY["401 without contact audit row"]
+```
+
+```mermaid
+stateDiagram-v2
+    [*] --> Active: profile session created
+    Active --> Active: profile summary read / contact update
+    Active --> Revoked: newer profile session
+    Active --> Expired: expires_at reached
+    Revoked --> [*]
+    Expired --> [*]
 ```
 
 ## 8. MVP boundary

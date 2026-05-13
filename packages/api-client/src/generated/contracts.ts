@@ -156,6 +156,26 @@ export type AdminCodeStatusResponse = {
   codes: AdminCodeStatusPage;
 };
 
+export type EmployeeContactUpdateRequest = {
+  email?: string;
+  phone?: string;
+};
+
+export type EmployeeContactUpdateResponse = {
+  employeeRegistrationId: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  tenantId: string;
+  pilotLaunchId: string;
+  accessPoolId: string;
+  registeredAt: string;
+  changed: boolean;
+  outcome: "updated" | "noop";
+  changedFields: string[];
+  contactVerifiedByProfileSession: boolean;
+};
+
 export type AdminCodeStatusPathParams = {
   tenantId: string;
   pilotLaunchId: string;
@@ -350,4 +370,38 @@ export async function fetchEmployeeMeProfileSummary(
     throw new Error(`GET ${url.pathname} failed with HTTP ${response.status}.`);
   }
   return (await response.json()) as EmployeeProfileSummaryResponse;
+}
+
+export type EmployeeMeContactUpdateClientRequest = {
+  profileSessionToken: string;
+  body: EmployeeContactUpdateRequest;
+};
+
+export const EMPLOYEE_ME_CONTACT_PATH = "/api/v1/employee-registrations/me/contact";
+
+export function buildEmployeeMeContactUrl(baseUrl: string | URL): URL {
+  return new URL(EMPLOYEE_ME_CONTACT_PATH, baseUrl);
+}
+
+export async function fetchEmployeeMeContactUpdate(
+  baseUrl: string | URL,
+  params: EmployeeMeContactUpdateClientRequest,
+  init: ApiJsonClientRequestInit = {}
+): Promise<EmployeeContactUpdateResponse> {
+  const url = buildEmployeeMeContactUrl(baseUrl);
+  const headers = new Headers(init.headers);
+  if (!headers.has("content-type")) {
+    headers.set("content-type", "application/json");
+  }
+  headers.set("authorization", `Bearer ${params.profileSessionToken}`);
+  const response = await fetch(url, {
+    ...init,
+    method: "PATCH",
+    headers,
+    body: JSON.stringify(params.body)
+  });
+  if (!response.ok) {
+    throw new Error(`PATCH ${url.pathname} failed with HTTP ${response.status}.`);
+  }
+  return (await response.json()) as EmployeeContactUpdateResponse;
 }

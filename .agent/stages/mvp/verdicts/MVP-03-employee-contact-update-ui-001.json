@@ -1,0 +1,216 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-03-employee-contact-update-ui-001",
+  "parent_stage_unit": "MVP-03.04",
+  "verifier_role": "fresh_read_only_stage_verifier",
+  "verified_at": "2026-05-13T06:16:00Z",
+  "git_head": "7ed85e66dc695aec98e7ce58bb6b4fdc5107ee3e",
+  "verdict": "PASS",
+  "status": "PASS",
+  "summary": "The /profile/contact employee profile/contact UI is present, reachable from the employee Profile nav, uses generated @finrhythm/api-client helpers/types, keeps the local browser-smoke profileSessionToken in component memory only, scrubs the query string with history.replaceState, loads profile summary with a bearer profile-session token, renders fullName read-only, submits only changed email/phone, and covers start/loading/form/updated/no-op/400/401/generic failure states with builder plus verifier browser evidence. Full MVP-03, the MVP stage and human gates remain open.",
+  "write_scope": {
+    "production_code_modified_by_verifier": false,
+    "tests_modified_by_verifier": false,
+    "schemas_modified_by_verifier": false,
+    "openapi_or_generated_client_modified_by_verifier": false,
+    "canonical_docs_modified_by_verifier": false,
+    "builder_evidence_modified_by_verifier": false,
+    "latest_aliases_modified_by_verifier": false,
+    "verifier_artifacts_written": [
+      ".agent/stages/mvp/verdicts/MVP-03-employee-contact-update-ui-001.json",
+      ".agent/stages/mvp/problems/MVP-03-employee-contact-update-ui-001.md",
+      ".agent/stages/mvp/raw/verifier-MVP-03-employee-contact-update-ui-001-20260513/"
+    ]
+  },
+  "source_refs_checked": [
+    "AGENTS.md",
+    ".agents/skills/stage-launch-proof-loop/SKILL.md",
+    ".agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md",
+    ".agent/stages/mvp/status.json",
+    ".agent/stages/mvp/sprint_contract.md",
+    ".agent/stages/mvp/task-files/MVP-03-employee-contact-update-ui-001.md",
+    ".agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.md",
+    ".agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.json",
+    ".agent/stages/mvp/evidence.json",
+    ".agent/stages/mvp/verdict.json",
+    ".agent/stages/mvp/problems.md",
+    "apps/web/AGENTS.md",
+    "apps/web/app/profile/contact/page.tsx",
+    "apps/web/components/profile-contact-screen.ts",
+    "apps/web/lib/profile-contact-state.ts",
+    "apps/web/components/learning-shell.ts",
+    "apps/web/tests/learning-shell.test.mjs",
+    "apps/web/tests/browser-smoke.mjs",
+    "apps/web/package.json",
+    "packages/api-client/src/generated/contracts.ts",
+    "packages/api-client/dist/generated/contracts.d.ts",
+    "packages/api-client/dist/generated/contracts.js",
+    "docs/architecture/access-and-subscriptions.md section 7.2",
+    "docs/stages/MVP.md MVP-03 lines",
+    "docs/engineering/definition-of-done.md",
+    "docs/engineering/human-gates.md"
+  ],
+  "acceptance_mapping": [
+    {
+      "criterion": "Route exists and is reachable from employee Profile navigation.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/app/profile/contact/page.tsx",
+        "apps/web/components/learning-shell.ts",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/web-build.txt",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-start.png"
+      ]
+    },
+    {
+      "criterion": "Generated api-client helpers/types and dependency wiring are used without duplicate local contract types.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/package.json",
+        "apps/web/components/profile-contact-screen.ts",
+        "apps/web/lib/profile-contact-state.ts",
+        "packages/api-client/src/generated/contracts.ts",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/generated-client-usage-check.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-03-employee-contact-update-ui-001-20260513/static-verifier-checks.json"
+      ]
+    },
+    {
+      "criterion": "Token handoff is local/browser-smoke-only, memory-only, scrubbed from URL and not persisted to browser storage/cookies/tracked indexes.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/components/profile-contact-screen.ts",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/unsafe-token-storage-scan.txt",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/raw-token-invite-echo-scan.txt",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/browser-smoke-token-json-check.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-03-employee-contact-update-ui-001-20260513/verifier-extra-token-json-scan.txt"
+      ]
+    },
+    {
+      "criterion": "Profile summary loads through bearer profile-session; fullName is read-only; only email/phone are editable and submitted.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/components/profile-contact-screen.ts",
+        "apps/web/lib/profile-contact-state.ts",
+        "apps/web/tests/browser-smoke.mjs",
+        "apps/web/tests/learning-shell.test.mjs",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-loaded.png"
+      ]
+    },
+    {
+      "criterion": "UI states cover start/no token, loading, form, updated success, no-op success, 400 validation, 401 invalid/expired session and generic API/network failure.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-start.png",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-loaded.png",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-updated.png",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-noop.png",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-validation-400.png",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-invalid-401.png",
+        ".agent/stages/mvp/raw/verifier-MVP-03-employee-contact-update-ui-001-20260513/verifier-profile-contact-loading.png",
+        ".agent/stages/mvp/raw/verifier-MVP-03-employee-contact-update-ui-001-20260513/verifier-profile-contact-generic-load-error.png",
+        ".agent/stages/mvp/raw/verifier-MVP-03-employee-contact-update-ui-001-20260513/verifier-profile-contact-generic-save-error.png"
+      ]
+    },
+    {
+      "criterion": "400/401 Russian copy is safe and does not echo raw sensitive values.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/lib/profile-contact-state.ts",
+        "apps/web/components/profile-contact-screen.ts",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/web-test.txt",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-validation-400.png",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/MVP-03-employee-contact-update-ui-001-mobile-profile-contact-invalid-401.png"
+      ]
+    },
+    {
+      "criterion": "Privacy boundary copy is present; no customer brand, real employee/customer data or forbidden financial claims are introduced.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/components/profile-contact-screen.ts",
+        "apps/web/tests/browser-smoke.mjs",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/customer-brand-forbidden-claims-scan.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-03-employee-contact-update-ui-001-20260513/static-verifier-checks.json"
+      ]
+    },
+    {
+      "criterion": "Builder command evidence and raw refs cover web checks, browser smoke, root wrappers, guardrail scans, JSON validation and diff-check.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.json.commands_summary",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/web-typecheck.txt",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/web-test.txt",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/web-build.txt",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/web-browser-smoke.txt",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/make-verify.txt",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/make-test-unit.txt",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/make-build.txt",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/json-validation.txt",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-contact-update-ui-001-20260513/git-diff-check-excluding-raw.txt"
+      ]
+    },
+    {
+      "criterion": "Docs-sync NOOP is valid for this UI slice; backend/API/schema/OpenAPI/generated-client source is not owned by the UI builder.",
+      "status": "PASS",
+      "evidence": [
+        "docs/architecture/access-and-subscriptions.md section 7.2",
+        ".agent/stages/mvp/evidence/MVP-03-profile-contact-update-001.md",
+        ".agent/stages/mvp/verdicts/MVP-03-profile-contact-update-001.json",
+        ".agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.json.docs_sync",
+        ".agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.json.changed_files_owned_by_builder"
+      ]
+    },
+    {
+      "criterion": "Full MVP-03, MVP stage and human gates remain open.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/status.json",
+        ".agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.json.human_gates",
+        "docs/engineering/human-gates.md"
+      ]
+    }
+  ],
+  "command_evidence_review": {
+    "web_typecheck": "PASS",
+    "web_test": "PASS",
+    "web_build": "PASS",
+    "web_browser_smoke": "PASS",
+    "make_verify": "PASS",
+    "make_test_unit": "PASS",
+    "make_build": "PASS",
+    "guardrail_scans": "PASS_NO_MATCHES",
+    "json_validation": "PASS",
+    "git_diff_check_excluding_raw": "PASS",
+    "builder_harness_validation": "EXPECTED_FAIL_PENDING_FRESH_VERIFIER_ONLY_ALIAS_MISMATCH"
+  },
+  "verifier_raw_evidence": {
+    "static_checks": ".agent/stages/mvp/raw/verifier-MVP-03-employee-contact-update-ui-001-20260513/static-verifier-checks.json",
+    "extra_browser_smoke_summary": ".agent/stages/mvp/raw/verifier-MVP-03-employee-contact-update-ui-001-20260513/profile-contact-extra-browser-smoke.txt",
+    "extra_browser_smoke_index": ".agent/stages/mvp/raw/verifier-MVP-03-employee-contact-update-ui-001-20260513/profile-contact-extra-browser-smoke.json",
+    "extra_screenshot_file_check": ".agent/stages/mvp/raw/verifier-MVP-03-employee-contact-update-ui-001-20260513/verifier-extra-screenshot-files.txt",
+    "token_json_scan": ".agent/stages/mvp/raw/verifier-MVP-03-employee-contact-update-ui-001-20260513/verifier-extra-token-json-scan.txt",
+    "json_validation": ".agent/stages/mvp/raw/verifier-MVP-03-employee-contact-update-ui-001-20260513/json-validation.txt",
+    "diff_check_before_verdict": ".agent/stages/mvp/raw/verifier-MVP-03-employee-contact-update-ui-001-20260513/git-diff-check-excluding-raw-before-verdict.txt"
+  },
+  "human_gates": [
+    {
+      "gate": "legal-privacy-consent-wording-and-real-pii-processing",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "real-employee-customer-data-processing-approval",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "customer-specific-hr-reporting-boundaries",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "financial-correctness-lessons-diagnostics-quizzes",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "reward-economy-stock-prices-fulfillment",
+      "status": "WAITING_HUMAN"
+    }
+  ],
+  "problems_ref": ".agent/stages/mvp/problems/MVP-03-employee-contact-update-ui-001.md"
+}
