@@ -14,6 +14,7 @@ Keep the tree shallow. Parent orchestrates. Child agents are leaf roles.
 Purpose: parent controller for one stage run.
 
 Must maintain `.agent/stages/<stage_id>/`, choose next slice, enforce proof loop, and never self-certify.
+After fresh verifier `PASS`, invokes `$push-main` and owns continuation handoff when the prompt, sprint contract or `publish_manifest.json` requests post-PASS publish.
 
 ## `task_explorer`
 
@@ -41,6 +42,7 @@ Must preserve scope, non-goals, human gates and doc targets.
 Purpose: integration owner for implementation.
 
 Owns implementation coherence and `evidence.*`. Must sync docs and record real commands/tests.
+If post-PASS publish is in scope, prepares compact `publish_manifest.json` proof refs and PR summary inputs; it does not merge or verify.
 
 ## Domain workers
 

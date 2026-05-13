@@ -90,12 +90,17 @@ Purpose:
 - let publish-only agents avoid reading raw logs or full stage history;
 - summarize the branch, PR title/body, validation commands and exact proof refs;
 - mark whether the current slice is ready to publish.
+- declare whether post-PASS publish/merge/local-main-update through `$push-main` is requested.
 
 Suggested shape:
 
 ```json
 {
   "ready_for_pr": false,
+  "publish_after_pass": false,
+  "merge_after_pr": false,
+  "stage_id": "{{STAGE_ID}}",
+  "sprint_contract_id": "{{SPRINT_CONTRACT_ID}}",
   "base_branch": "main",
   "branch": null,
   "commit_title": null,
@@ -103,6 +108,10 @@ Suggested shape:
   "pr_body_summary": [],
   "validation": [],
   "proof_refs": [],
+  "pr_url": null,
+  "merge_status": null,
+  "local_main_head": null,
+  "continuation_prompt_required": true,
   "raw_read_policy": "do_not_read_raw_by_default",
   "updated_at": "{{TIMESTAMP}}"
 }
@@ -112,6 +121,10 @@ Rules:
 - keep it short enough to read in full;
 - store only refs and summaries, not command transcripts;
 - do not set `ready_for_pr=true` unless verifier evidence or an explicit blocker/limitation is recorded.
+- do not set `publish_after_pass=true` unless the user prompt, sprint contract or stage policy requests post-PASS publishing;
+- do not set `merge_after_pr=true` unless the same source explicitly allows merge after PR checks/protection permit it;
+- after publish flow, record the PR URL, merge status and local `main` HEAD when available;
+- if `continuation_prompt_required=true`, the final chat response must print the next copyable continuation prompt.
 
 ### `verdict.json`
 

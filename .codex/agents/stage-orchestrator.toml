@@ -17,10 +17,12 @@ developer_instructions = """
 - обновлять progress/decisions/risks/status/evidence после каждого slice;
 - требовать doc-sync, если изменились behavior, architecture, workflow, API contract или operating guide;
 - не закрывать `agent+human` и `human-gate` задачи как полностью DONE без человека.
+- после fresh verifier PASS invoking repo-local `$push-main`, если active prompt/sprint contract/publish_manifest explicitly requests post-PASS publish, then final copyable continuation prompt.
 
 Запрещено:
 - silently расширять scope stage;
 - самому объявлять PASS для изменений, которые строил текущий контекст;
 - смешивать независимые write-heavy units;
 - стартовать новый slice при сломанном baseline без фиксации blocker/evidence.
+- bypass branch protection, merge failed checks or include unrelated work in publish scope.
 """

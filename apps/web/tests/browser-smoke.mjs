@@ -3,6 +3,11 @@ import { randomUUID } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { chromium } from "playwright";
+import {
+  LEGAL_DOCUMENT_ACCEPTANCE_PATH_TEMPLATE,
+  LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION,
+  LEGAL_DOCUMENT_TYPES
+} from "@finrhythm/api-client";
 
 const baseUrl = process.env.WEB_SMOKE_BASE_URL ?? "http://127.0.0.1:3400";
 const outputDir = process.env.WEB_SMOKE_OUTPUT_DIR ?? ".";
@@ -11,15 +16,15 @@ const executablePath = process.env.CHROMIUM_EXECUTABLE_PATH;
 const syntheticInviteCode = joinText("INVITE", "-", "LOCAL", "-", "001");
 const sessionFormValues = {
   inviteCode: syntheticInviteCode,
-  fullName: "Ирина Петрова",
-  email: "irina.profile@example.test",
+  fullName: "Синтетический Участник",
+  email: "synthetic.profile@example.test",
   phone: "+70000000000"
 };
 
 const profileSummary = {
   employeeRegistrationId: "10000000-0000-4000-8000-000000000001",
-  fullName: "Ирина Петрова",
-  email: "irina.profile@example.test",
+  fullName: "Синтетический Участник",
+  email: "synthetic.profile@example.test",
   phone: "+70000000000",
   tenantId: "20000000-0000-4000-8000-000000000001",
   pilotLaunchId: "30000000-0000-4000-8000-000000000001",
@@ -27,6 +32,33 @@ const profileSummary = {
   registeredAt: "2026-05-13T09:00:00Z",
   contactVerifiedByRegistrationMatch: true
 };
+
+const expectedLegalAcceptanceBody = {
+  documents: LEGAL_DOCUMENT_TYPES.map((documentType) => ({
+    documentType,
+    documentVersion: LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION
+  })),
+  source: "web_profile_session"
+};
+
+const legalAcceptanceResponse = {
+  employeeRegistrationId: profileSummary.employeeRegistrationId,
+  tenantId: profileSummary.tenantId,
+  pilotLaunchId: profileSummary.pilotLaunchId,
+  accessPoolId: profileSummary.accessPoolId,
+  acceptedDocuments: expectedLegalAcceptanceBody.documents.map((document) => ({
+    ...document,
+    acceptedAt: "2026-05-13T09:05:00Z",
+    source: expectedLegalAcceptanceBody.source
+  })),
+  createdCount: expectedLegalAcceptanceBody.documents.length,
+  idempotentRetry: false
+};
+
+const legalAcceptancePath = LEGAL_DOCUMENT_ACCEPTANCE_PATH_TEMPLATE.replace(
+  "{employeeRegistrationId}",
+  profileSummary.employeeRegistrationId
+);
 
 const scenarios = [
   {
@@ -240,6 +272,42 @@ const scenarios = [
     expectedAfter: ["Проверяем профиль", "без сохранения секрета"]
   },
   {
+    name: "mobile-profile-session-legal-acknowledgement",
+    path: "/profile/session",
+    viewport: { width: 390, height: 844 },
+    sessionMock: { sessionStatus: 200, summaryStatus: 200 },
+    expected: ["Подтвердите контактный профиль", "Открыть профиль"],
+    action: submitProfileSessionForm,
+    expectedAfter: [
+      "Подтвердите текущие черновые документы",
+      "Формулировки остаются черновыми",
+      "не заменяет проверку юристом",
+      "Подтвердить принятие черновых документов"
+    ],
+    assertAfter: async (_page, requestEvents) => {
+      assertProfileSessionBeforeLegalStep(requestEvents);
+      assert.equal(requestEvents.includes("legal-acceptance:request"), false);
+      assert.equal(requestEvents.includes("contact-summary:request"), false);
+    }
+  },
+  {
+    name: "mobile-profile-session-legal-acceptance-loading",
+    path: "/profile/session",
+    viewport: { width: 390, height: 844 },
+    sessionMock: { sessionStatus: 200, legalDelayMs: 3000, summaryStatus: 200 },
+    expected: ["Подтвердите контактный профиль", "Открыть профиль"],
+    action: async (page) => {
+      await submitProfileSessionForm(page);
+      await page.getByText("Подтвердите текущие черновые документы", { exact: false }).first().waitFor({ timeout: 5000 });
+      await acceptLegalDocuments(page);
+    },
+    expectedAfter: ["Записываем принятие..."],
+    assertAfter: async (_page, requestEvents) => {
+      assertProfileSessionBeforeLegalAcceptance(requestEvents);
+      assert.equal(requestEvents.includes("contact-summary:request"), false);
+    }
+  },
+  {
     name: "mobile-profile-session-loaded",
     path: "/profile/session",
     viewport: { width: 390, height: 844 },
@@ -248,16 +316,19 @@ const scenarios = [
       "Подтвердите контактный профиль",
       "Открыть профиль"
     ],
-    action: submitProfileSessionForm,
+    action: submitProfileSessionAndAcceptLegal,
     expectedAfter: [
-      "Профильная сессия готова",
+      "Документы зафиксированы",
       "Проверьте контактные поля",
-      "Ирина Петрова",
+      "Синтетический Участник",
       "Email",
       "Телефон",
       "Сохранить контакты"
     ],
-    assertAfter: assertLoadedProfileFields
+    assertAfter: async (page, requestEvents) => {
+      await assertLoadedProfileFields(page);
+      assertLegalAcceptanceBeforeContactSummary(requestEvents);
+    }
   },
   {
     name: "mobile-profile-session-updated",
@@ -280,7 +351,7 @@ const scenarios = [
     },
     expected: ["Подтвердите контактный профиль", "Открыть профиль"],
     action: async (page) => {
-      await submitProfileSessionForm(page);
+      await submitProfileSessionAndAcceptLegal(page);
       await page.getByText("Проверьте контактные поля", { exact: false }).first().waitFor({ timeout: 5000 });
       await page.getByLabel("Email").fill("updated.profile@example.test");
       await page.getByLabel("Телефон").fill("+70000000001");
@@ -295,7 +366,7 @@ const scenarios = [
     sessionMock: {
       sessionStatus: 200,
       summaryStatus: 200,
-      expectedPatchBody: { email: "IRINA.PROFILE@example.test" },
+      expectedPatchBody: { email: "SYNTHETIC.PROFILE@example.test" },
       contactStatus: 200,
       contactResponse: {
         ...profileSummary,
@@ -307,9 +378,9 @@ const scenarios = [
     },
     expected: ["Подтвердите контактный профиль", "Открыть профиль"],
     action: async (page) => {
-      await submitProfileSessionForm(page);
+      await submitProfileSessionAndAcceptLegal(page);
       await page.getByText("Проверьте контактные поля", { exact: false }).first().waitFor({ timeout: 5000 });
-      await page.getByLabel("Email").fill("IRINA.PROFILE@example.test");
+      await page.getByLabel("Email").fill("SYNTHETIC.PROFILE@example.test");
       await page.getByRole("button", { name: "Сохранить контакты" }).click();
     },
     expectedAfter: ["Контакты уже совпадали", "после нормализации email и телефон уже были такими же"]
@@ -331,12 +402,43 @@ const scenarios = [
     },
     expected: ["Подтвердите контактный профиль", "Открыть профиль"],
     action: async (page) => {
-      await submitProfileSessionForm(page);
+      await submitProfileSessionAndAcceptLegal(page);
       await page.getByText("Проверьте контактные поля", { exact: false }).first().waitFor({ timeout: 5000 });
       await page.getByLabel("Телефон").fill("");
       await page.getByRole("button", { name: "Сохранить контакты" }).click();
     },
     expectedAfter: ["Проверьте контактные данные", "Мы не показываем введённое значение в ошибке"]
+  },
+  {
+    name: "mobile-profile-session-legal-failure-503",
+    path: "/profile/session",
+    viewport: { width: 390, height: 844 },
+    sessionMock: {
+      sessionStatus: 200,
+      legalStatus: 503,
+      legalResponse: {
+        code: "TEMPORARY_UNAVAILABLE",
+        message: "Temporary unavailable",
+        fieldErrors: []
+      },
+      summaryStatus: 200
+    },
+    expected: ["Подтвердите контактный профиль", "Открыть профиль"],
+    action: async (page) => {
+      await submitProfileSessionForm(page);
+      await page.getByText("Подтвердите текущие черновые документы", { exact: false }).first().waitFor({ timeout: 5000 });
+      await acceptLegalDocuments(page);
+    },
+    expectedAfter: [
+      "Не удалось записать принятие документов",
+      "не показываются код приглашения, сессионный секрет, идентификаторы или контактные поля"
+    ],
+    assertAfter: async (page, requestEvents) => {
+      assertProfileSessionBeforeLegalAcceptance(requestEvents);
+      assert.equal(requestEvents.includes("contact-summary:request"), false);
+      assert.equal(await page.locator("input[name='email']").count(), 0);
+      assert.equal(await page.locator("input[name='phone']").count(), 0);
+    }
   },
   {
     name: "mobile-profile-session-invalid-proof-400",
@@ -371,7 +473,7 @@ const scenarios = [
       }
     },
     expected: ["Подтвердите контактный профиль", "Открыть профиль"],
-    action: submitProfileSessionForm,
+    action: submitProfileSessionAndAcceptLegal,
     expectedAfter: [
       "Сессия истекла",
       "Нужна новая профильная сессия",
@@ -406,6 +508,7 @@ const browser = await chromium.launch({
   executablePath
 });
 const refs = [];
+const requestEventSummaries = [];
 
 try {
   for (const scenario of scenarios) {
@@ -413,12 +516,13 @@ try {
       isMobile: true,
       viewport: scenario.viewport
     });
+    const requestEvents = [];
     const profileSessionToken = scenario.profileMock || scenario.sessionMock ? randomUUID() : null;
     if (scenario.profileMock) {
-      await installProfileContactMocks(page, scenario.profileMock, profileSessionToken);
+      await installProfileContactMocks(page, scenario.profileMock, profileSessionToken, requestEvents);
     }
     if (scenario.sessionMock) {
-      await installProfileSessionFlowMocks(page, scenario.sessionMock, profileSessionToken);
+      await installProfileSessionFlowMocks(page, scenario.sessionMock, profileSessionToken, requestEvents);
     }
 
     const scenarioPath = typeof scenario.path === "function" ? scenario.path(profileSessionToken) : scenario.path;
@@ -432,11 +536,11 @@ try {
     }
 
     if (scenario.assertBefore) {
-      await scenario.assertBefore(page);
+      await scenario.assertBefore(page, requestEvents);
     }
 
     if (scenario.action) {
-      await scenario.action(page);
+      await scenario.action(page, requestEvents);
     }
 
     for (const text of scenario.expectedAfter ?? []) {
@@ -444,8 +548,9 @@ try {
     }
 
     if (scenario.assertAfter) {
-      await scenario.assertAfter(page);
+      await scenario.assertAfter(page, requestEvents);
     }
+    requestEventSummaries.push({ scenario: scenario.name, requestEvents });
 
     const html = await page.content();
     const visibleText = await page.locator("body").innerText();
@@ -460,6 +565,16 @@ try {
     if (scenario.sessionMock) {
       assert.equal(html.includes(syntheticInviteCode), false, `${scenario.name} did not keep raw invite code in HTML`);
       assert.equal(visibleText.includes(syntheticInviteCode), false, `${scenario.name} did not show raw invite code`);
+      assert.equal(
+        html.includes(profileSummary.employeeRegistrationId),
+        false,
+        `${scenario.name} did not keep raw employee registration id in HTML`
+      );
+      assert.equal(
+        visibleText.includes(profileSummary.employeeRegistrationId),
+        false,
+        `${scenario.name} did not show raw employee registration id`
+      );
     }
 
     const forbidden = [
@@ -510,7 +625,18 @@ try {
 
 await writeFile(
   join(outputDir, `${screenshotPrefix}-browser-smoke.json`),
-  JSON.stringify({ baseUrl, screenshots: refs, scenarios: scenarios.map((item) => item.name) }, null, 2)
+  JSON.stringify(
+    {
+      baseUrl,
+      legalDocumentTypesCount: LEGAL_DOCUMENT_TYPES.length,
+      legalDocumentDraftVersion: LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION,
+      requestEventSummaries,
+      screenshots: refs,
+      scenarios: scenarios.map((item) => item.name)
+    },
+    null,
+    2
+  )
 );
 
 console.log(`web browser smoke passed: ${refs.length} screenshots`);
@@ -523,10 +649,21 @@ async function submitProfileSessionForm(page) {
   await page.getByRole("button", { name: "Открыть профиль" }).click();
 }
 
-async function installProfileSessionFlowMocks(page, sessionMock, profileSessionToken) {
+async function submitProfileSessionAndAcceptLegal(page) {
+  await submitProfileSessionForm(page);
+  await page.getByText("Подтвердите текущие черновые документы", { exact: false }).first().waitFor({ timeout: 5000 });
+  await acceptLegalDocuments(page);
+}
+
+async function acceptLegalDocuments(page) {
+  await page.getByRole("button", { name: "Подтвердить принятие черновых документов" }).click();
+}
+
+async function installProfileSessionFlowMocks(page, sessionMock, profileSessionToken, requestEvents) {
   await page.route("**/api/v1/employee-registrations/profile-sessions", async (route) => {
     const request = route.request();
     const body = JSON.parse(request.postData() ?? "{}");
+    requestEvents.push("profile-session:request");
     assert.equal(request.method(), "POST");
     assert.deepEqual(Object.keys(body).sort(), ["email", "fullName", "inviteCode", "phone"]);
     assert.equal(typeof body.inviteCode, "string");
@@ -551,28 +688,79 @@ async function installProfileSessionFlowMocks(page, sessionMock, profileSessionT
             pilotLaunchId: profileSummary.pilotLaunchId,
             accessPoolId: profileSummary.accessPoolId,
             contactVerifiedByRegistrationMatch: true
-          }
+        }
       )
     });
+    requestEvents.push(`profile-session:response:${sessionMock.sessionStatus}`);
+  });
+
+  await page.route(`**${legalAcceptancePath}`, async (route) => {
+    const request = route.request();
+    const body = JSON.parse(request.postData() ?? "{}");
+    const url = new URL(request.url());
+    const legalStatus = sessionMock.legalStatus ?? 200;
+
+    requestEvents.push("legal-acceptance:request");
+    assert.equal(request.method(), "POST");
+    assert.equal(url.pathname, legalAcceptancePath);
+    assert.equal(request.url().includes(profileSessionToken), false, "legal acceptance URL does not leak token");
+    assert.equal(request.url().includes(syntheticInviteCode), false, "legal acceptance URL does not leak invite code");
+    assert.equal(request.headers().authorization ?? "", "", "legal acceptance request has no token header");
+    assert.deepEqual(body, expectedLegalAcceptanceBody);
+    assert.equal(JSON.stringify(body).includes(profileSessionToken), false, "legal acceptance body does not leak token");
+    assert.equal(JSON.stringify(body).includes(syntheticInviteCode), false, "legal acceptance body does not leak invite code");
+    assert.equal(
+      JSON.stringify(body).includes(profileSummary.employeeRegistrationId),
+      false,
+      "legal acceptance body does not duplicate employee registration id"
+    );
+
+    if (sessionMock.legalDelayMs) {
+      await delay(sessionMock.legalDelayMs);
+    }
+
+    await route.fulfill({
+      contentType: "application/json",
+      status: legalStatus,
+      body: JSON.stringify(sessionMock.legalResponse ?? legalAcceptanceResponse)
+    });
+    requestEvents.push(`legal-acceptance:response:${legalStatus}`);
   });
 
   if (sessionMock.summaryStatus !== undefined) {
-    await installProfileContactMocks(page, sessionMock, profileSessionToken);
+    await installProfileContactMocks(page, sessionMock, profileSessionToken, requestEvents, {
+      requireLegalAcceptance: sessionMock.sessionStatus === 200
+    });
   }
 }
 
-async function installProfileContactMocks(page, profileMock, profileSessionToken) {
+async function installProfileContactMocks(
+  page,
+  profileMock,
+  profileSessionToken,
+  requestEvents,
+  { requireLegalAcceptance = false } = {}
+) {
   await page.route("**/api/v1/employee-registrations/me/profile-summary", async (route) => {
     const request = route.request();
+    requestEvents.push("contact-summary:request");
     assert.equal(request.method(), "GET");
     assert.equal(request.url().includes(profileSessionToken), false, "summary request does not leak token in URL");
     assert.equal(request.headers().authorization, `Bearer ${profileSessionToken}`);
+    if (requireLegalAcceptance) {
+      assert.equal(
+        requestEvents.includes("legal-acceptance:response:200"),
+        true,
+        "summary request starts only after successful legal acceptance"
+      );
+    }
 
     await route.fulfill({
       contentType: "application/json",
       status: profileMock.summaryStatus,
       body: JSON.stringify(profileMock.summaryResponse ?? profileSummary)
     });
+    requestEvents.push(`contact-summary:response:${profileMock.summaryStatus}`);
   });
 
   if (profileMock.contactStatus === undefined) {
@@ -581,6 +769,7 @@ async function installProfileContactMocks(page, profileMock, profileSessionToken
 
   await page.route("**/api/v1/employee-registrations/me/contact", async (route) => {
     const request = route.request();
+    requestEvents.push("contact-update:request");
     assert.equal(request.method(), "PATCH");
     assert.equal(request.url().includes(profileSessionToken), false, "contact request does not leak token in URL");
     assert.equal(request.headers().authorization, `Bearer ${profileSessionToken}`);
@@ -591,12 +780,37 @@ async function installProfileContactMocks(page, profileMock, profileSessionToken
       status: profileMock.contactStatus,
       body: JSON.stringify(profileMock.contactResponse)
     });
+    requestEvents.push(`contact-update:response:${profileMock.contactStatus}`);
   });
 }
 
 async function assertLoadedProfileFields(page) {
   assert.equal(await page.getByLabel("Email").inputValue(), profileSummary.email);
   assert.equal(await page.getByLabel("Телефон").inputValue(), profileSummary.phone);
+}
+
+function assertProfileSessionBeforeLegalStep(requestEvents) {
+  assert.deepEqual(requestEvents, ["profile-session:request", "profile-session:response:200"]);
+}
+
+function assertProfileSessionBeforeLegalAcceptance(requestEvents) {
+  const profileResponseIndex = requestEvents.indexOf("profile-session:response:200");
+  const legalRequestIndex = requestEvents.indexOf("legal-acceptance:request");
+
+  assert.notEqual(profileResponseIndex, -1, "profile session response exists");
+  assert.notEqual(legalRequestIndex, -1, "legal acceptance request exists");
+  assert.equal(profileResponseIndex < legalRequestIndex, true, "legal acceptance starts after profile session");
+}
+
+function assertLegalAcceptanceBeforeContactSummary(requestEvents) {
+  assertProfileSessionBeforeLegalAcceptance(requestEvents);
+
+  const legalResponseIndex = requestEvents.indexOf("legal-acceptance:response:200");
+  const summaryRequestIndex = requestEvents.indexOf("contact-summary:request");
+
+  assert.notEqual(legalResponseIndex, -1, "legal acceptance response exists");
+  assert.notEqual(summaryRequestIndex, -1, "contact summary request exists");
+  assert.equal(legalResponseIndex < summaryRequestIndex, true, "contact summary starts after legal acceptance");
 }
 
 function joinText(...parts) {

@@ -22,6 +22,7 @@ developer_instructions = """
 - API contract меняется через OpenAPI source и downstream generated client notes;
 - sync canonical docs in the same slice when behavior/architecture/workflow/contracts changed;
 - evidence must list commands, tests, screenshots/logs, docs, known limitations, human gates.
+- if post-PASS publish is in scope, prepare compact `publish_manifest.json` refs and summaries, but do not merge or self-verify.
 
 Нельзя:
 - становиться вторым orchestrator;

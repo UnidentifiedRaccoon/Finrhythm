@@ -201,7 +201,22 @@ Raw evidence policy для publish-only:
 - не добавлять в PR `codex-exec-*.log` и полные terminal transcripts без отдельной причины;
 - если raw `.txt` всё же меняется, нормализовать CR/trailing whitespace before commit или исключить raw paths from publish-only `git diff --check`.
 
-## 10. Короткий workflow
+## 10. Agent post-PASS publish workflow
+
+Этот режим применяется к stage/task execution, где prompt, sprint contract или `publish_manifest.json` явно задаёт `publish_after_pass=true`. Stage harness отвечает за PASS-readiness and handoff, а git/GitHub publish mechanics выполняет repo-local skill `$push-main`.
+
+Порядок:
+
+1. Довести slice до fresh verifier `PASS`.
+2. Обновить evidence, docs, stage status and `publish_manifest.json`.
+3. Проверить publish scope через `git diff --check`, исключая raw evidence pathspecs when needed.
+4. Вызвать `$push-main` for publish-only branch/commit/PR/merge/local-main update.
+5. Если `$push-main` reports blocker по permissions, conflicts, checks or branch protection, остановиться после последнего успешного publish step and record blocker.
+6. В финальном ответе указать PR URL, merge status, локальный `main` HEAD and next copyable continuation prompt.
+
+Protection rules не обходить, unrelated work не включать, stage harness повторно не запускать внутри `$push-main`.
+
+## 11. Короткий workflow
 
 ```bash
 git checkout main

@@ -13,6 +13,7 @@
 - Added stage roles: `stage_spec_freezer`, `stage_builder`, `stage_verifier`, `stage_fixer`.
 - Added semantic harness self-check script.
 - Added mandatory documentation workflow and doc-sync proof gate.
+- Added optional post-PASS publish handoff: verified slices delegate git/GitHub publish mechanics to `$push-main`, then print the next copyable continuation prompt when `publish_after_pass=true`.
 
 ## Почему
 

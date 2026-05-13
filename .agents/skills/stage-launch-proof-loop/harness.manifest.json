@@ -116,6 +116,7 @@
     ".agents/skills/stage-launch-proof-loop/references/SUBAGENTS.md",
     ".agents/skills/stage-launch-proof-loop/profiles/CONTENT_PROFILE.md",
     ".agents/skills/stage-launch-proof-loop/scripts/verify_harness.py",
+    ".agents/skills/push-main/SKILL.md",
     "content/getcourse-finstrategy/content-baseline.manifest.json",
     "docs/architecture/source-of-truth.md",
     "docs/architecture/documentation-workflow.md",

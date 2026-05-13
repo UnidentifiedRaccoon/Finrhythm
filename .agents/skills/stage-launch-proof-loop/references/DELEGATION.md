@@ -25,6 +25,7 @@
 5. `stage_fixer` patches concrete proof gaps if needed.
 6. A new fresh verifier checks again.
 7. `stage_orchestrator` updates stage memory.
+8. If post-PASS publish is requested, `stage_orchestrator` invokes `$push-main` for branch/commit/PR/merge/local-main update and prints the next continuation prompt.
 
 ## Bad pattern
 

@@ -8,6 +8,7 @@
 - `.codex/config.toml`;
 - `.codex/agents/*.toml`;
 - `.agents/skills/stage-launch-proof-loop/`;
+- `.agents/skills/push-main/`;
 - `.agent/stages/` and `.agent/tasks/`;
 - `docs/stages/MVP.md`, `docs/stages/v1.md`, `docs/stages/v2.md`.
 
@@ -58,6 +59,7 @@ For v1: `prompts/run-v1.prompt.md`
 For v2: `prompts/run-v2.prompt.md`
 
 The prompt invokes `$stage-launch-proof-loop`; no external task-loop skill is required.
+Current run prompts also request post-PASS publish: after a fresh verifier `PASS`, the agent updates `publish_manifest.json`, invokes repo-local `$push-main` for branch/commit/PR/merge/local-main update, and prints the next copyable continuation prompt.
 
 ## 6. Что проверять после настройки
 

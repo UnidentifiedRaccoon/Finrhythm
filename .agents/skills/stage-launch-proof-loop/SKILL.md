@@ -73,6 +73,7 @@ Each stage lives under:
   evidence.md
   evidence.json
   evidence/
+  publish_manifest.json
   verdict.json
   verdicts/
   problems.md
@@ -197,6 +198,26 @@ At the end of each session:
 - update only truly proven `passes=true` entries in `feature_list.json`;
 - leave docs consistent;
 - leave repo in a clean mergeable state or record exact blocker.
+
+### 9. Publish and hand off after PASS when requested
+
+If the active prompt, sprint contract or `publish_manifest.json` sets `publish_after_pass=true`, run post-PASS publish after the fresh verifier returns `PASS` by invoking the repo-local `$push-main` skill.
+
+Preconditions:
+
+- evidence, docs and stage status are current;
+- `publish_manifest.json` summarizes the intended branch, PR title/body, validation and proof refs;
+- only current-slice files are staged/committed;
+- human-gated work is represented honestly;
+- `git diff --check` passes for the publish scope, excluding raw evidence paths if needed.
+
+Responsibility split:
+
+- stage harness owns PASS readiness, evidence/doc/status consistency and continuation handoff;
+- `$push-main` owns publish-only git/GitHub mechanics: separate branch, commit, PR into `main`, merge when allowed, local switch to `main`, `git pull --ff-only`;
+- if `$push-main` reports permissions, checks, conflicts or branch protection blocker, record/report that exact blocker and do not bypass protection rules.
+
+The final chat response must include a copyable continuation prompt for the next run. It must tell the next `stage_orchestrator` to continue from updated `main`, select the next highest-impact verified slice, use bounded leaf subagents, preserve the proof loop, repeat post-PASS publish when requested and print the next continuation prompt.
 
 ## Hard rules
 

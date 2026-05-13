@@ -1,5 +1,7 @@
 {
   "ready_for_pr": false,
+  "publish_after_pass": false,
+  "merge_after_pr": false,
   "stage_id": "{{STAGE_ID}}",
   "sprint_contract_id": "{{SPRINT_CONTRACT_ID}}",
   "base_branch": "main",
@@ -9,6 +11,10 @@
   "pr_body_summary": [],
   "validation": [],
   "proof_refs": [],
+  "pr_url": null,
+  "merge_status": null,
+  "local_main_head": null,
+  "continuation_prompt_required": true,
   "raw_read_policy": "do_not_read_raw_by_default",
   "updated_at": "{{TIMESTAMP}}"
 }
