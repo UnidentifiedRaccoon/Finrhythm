@@ -1,16 +1,11 @@
 import { createElement as h, Fragment, type ReactNode } from "react";
 import type { LearningFixture, LearningShellResult, LessonPreview, NoviceLesson } from "../lib/learning-types";
+import { EmployeeAppHeader, EmployeeBottomNav } from "./employee-app-shell.ts";
 
 type LearningShellProps = {
   result: LearningShellResult;
 };
 
-const navItems = [
-  { label: "Обучение", mark: "route", href: "/learning", enabled: true },
-  { label: "Челленджи", mark: "challenge", enabled: false },
-  { label: "Награды", mark: "reward", enabled: false },
-  { label: "Профиль", mark: "profile", href: "/profile/session", enabled: true }
-];
 const enabledLessonIds = new Set<NoviceLesson["id"]>(["N1", "N2", "N3"]);
 
 export function LearningShellScreen({ result }: LearningShellProps) {
@@ -66,8 +61,8 @@ function ReadyLearningView({ fixture }: { fixture: LearningFixture }) {
     h(
       "div",
       { className: "mobile-shell" },
-      h(AppHeader),
-      h(AppNav),
+      h(EmployeeAppHeader),
+      h(EmployeeBottomNav, { active: "learning" }),
       h(
         "section",
         { className: "hero-section", "aria-labelledby": "learning-title" },
@@ -83,6 +78,7 @@ function ReadyLearningView({ fixture }: { fixture: LearningFixture }) {
         title: "Личные ответы остаются личными",
         body: "В этом демо нет персонального отчета для работодателя. Превью показывает только синтетический маршрут и не просит точные суммы."
       }),
+      h(DiagnosticEntryCard),
       h(TrackSummary, { fixture }),
       h(LessonList, { lessons: fixture.lessons }),
       activeLesson ? h(LessonPreviewCard, { preview: fixture.preview, activeLesson }) : null
@@ -90,17 +86,18 @@ function ReadyLearningView({ fixture }: { fixture: LearningFixture }) {
   );
 }
 
-function AppHeader() {
+function DiagnosticEntryCard() {
   return h(
-    "header",
-    { className: "app-header" },
+    "section",
+    { className: "diagnostic-entry-card", "aria-labelledby": "learning-diagnostic-entry-title" },
+    h("p", { className: "section-label" }, "Перед маршрутом"),
+    h("h2", { id: "learning-diagnostic-entry-title" }, "Открыть diagnostic preview"),
     h(
-      "a",
-      { className: "brand-lockup", href: "/learning", "aria-label": "Финпульс: обучение" },
-      h("span", { className: "brand-mark", "aria-hidden": "true" }, "Ф"),
-      h("span", null, "Финпульс")
+      "p",
+      null,
+      "Можно пройти короткий черновик входной диагностики: Q0 про приватность, SA1-SA3 без scoring и несколько карточек Q1-Q3."
     ),
-    h("span", { className: "demo-pill" }, "Демо без данных")
+    h("a", { className: "secondary-action", href: "/diagnostics" }, "Открыть диагностику")
   );
 }
 
@@ -246,28 +243,6 @@ function LessonPreviewCard({
 
 function PreviewBlock({ title, body }: { title: string; body: string }) {
   return h("article", { className: "preview-block" }, h("h3", null, title), h("p", null, body));
-}
-
-function AppNav() {
-  return h(
-    "nav",
-    { className: "bottom-nav", "aria-label": "Разделы приложения" },
-    navItems.map((item) =>
-      item.enabled
-        ? h(
-            "a",
-            { key: item.label, href: item.href, "aria-current": item.mark === "route" ? "page" : undefined },
-            h("span", { className: `nav-mark nav-mark-${item.mark}`, "aria-hidden": "true" }),
-            h("span", null, item.label)
-          )
-        : h(
-            "span",
-            { key: item.label, "aria-disabled": "true" },
-            h("span", { className: `nav-mark nav-mark-${item.mark}`, "aria-hidden": "true" }),
-            h("span", null, item.label)
-          )
-    )
-  );
 }
 
 function PrivacyCard({ title, body }: { title: string; body: string }) {

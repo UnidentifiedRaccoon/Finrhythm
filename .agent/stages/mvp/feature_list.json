@@ -1423,6 +1423,8 @@
       ".agent/stages/mvp/progress.md",
       ".agent/stages/mvp/status.json",
       ".agent/stages/mvp/feature_list.json",
+      ".agent/stages/mvp/raw/spec-freezer-MVP-07-diagnostic-entry-preview-ui-001-20260513/jq-empty.txt",
+      ".agent/stages/mvp/raw/spec-freezer-MVP-07-diagnostic-entry-preview-ui-001-20260513/git-diff-check.txt",
       "docs/stages/MVP.md",
       "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md",
       "docs/architecture/access-and-subscriptions.md",
@@ -2113,7 +2115,7 @@
       ".agent/stages/mvp/evidence/MVP-03-employee-profile-session-entry-ui-001.md",
       ".agent/stages/mvp/evidence/MVP-03-employee-profile-session-entry-ui-001.json"
     ],
-    "note": "Contract froze the UI slice; builder evidence now exists and fresh verifier remains pending."
+    "note": "Contract froze the UI slice; builder evidence and fresh verifier PASS are now recorded."
   },
   {
     "id": "mvp-03-employee-profile-session-entry-ui-implementation",
@@ -2157,5 +2159,302 @@
       ".agent/stages/mvp/problems/MVP-03-employee-profile-session-entry-ui-001.md"
     ],
     "note": "Fresh stage_verifier PASS recorded. Verifier wrote only verifier artifacts; parent aliases synchronized after PASS."
+  },
+  {
+    "id": "mvp-03-profile-session-legal-acceptance-ui-implementation",
+    "category": "web-ui",
+    "description": "apps/web inserts draft legal acknowledgement/acceptance after profile-session proof and before contact update.",
+    "steps": [
+      "Keep /start -> /onboarding/privacy -> /profile/session as the verified entry path",
+      "Render legal acknowledgement before ProfileContactScreen",
+      "Post generated legal document types and draft version through generated api-client helper",
+      "Keep profileSessionToken memory-only and out of legal acceptance",
+      "Collect browser ordering proof and guardrail scans"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-profile-session-legal-acceptance-ui-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-profile-session-legal-acceptance-ui-001.json",
+      "apps/web/components/profile-session-entry-screen.ts",
+      "apps/web/tests/learning-shell.test.mjs",
+      "apps/web/tests/browser-smoke.mjs"
+    ],
+    "note": "Scoped PASS exists for legal acceptance UI only. Legal wording, real-data processing, full MVP-03 and MVP stage remain open."
+  },
+  {
+    "id": "mvp-03-profile-session-legal-acceptance-ui-fresh-verification",
+    "category": "verification",
+    "description": "Fresh verifier reviewed only MVP-03-profile-session-legal-acceptance-ui-001 after builder evidence.",
+    "steps": [
+      "Verify generated api-client legal acceptance usage",
+      "Verify profile-session, legal acceptance and contact-summary request ordering",
+      "Verify safe direct /profile/contact missing-session state",
+      "Verify no token/storage/url/raw invite/raw id/customer brand/real-data/final-legal-approval leakage",
+      "Verify docs-sync decision, backend baseline unchanged and open human gates"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-profile-session-legal-acceptance-ui-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-profile-session-legal-acceptance-ui-001.json",
+      ".agent/stages/mvp/verdicts/MVP-03-profile-session-legal-acceptance-ui-001.json",
+      ".agent/stages/mvp/problems/MVP-03-profile-session-legal-acceptance-ui-001.md"
+    ],
+    "note": "Fresh stage_verifier PASS recorded for the scoped UI slice; full MVP-03, MVP stage and human gates remain open."
+  },
+  {
+    "id": "mvp-03-post-legal-acceptance-closure-audit-contract-freeze",
+    "category": "harness",
+    "description": "Active MVP sprint contract is frozen for an artifact-only full MVP-03 closure/status audit after legal-acceptance UI PASS.",
+    "steps": [
+      "Select closure/status audit because no concrete non-human functional gap is visible in current tracked refs",
+      "Require immutable PASS ref reconciliation for all current MVP-03 subunits",
+      "Require legal draft and human-gate status accounting",
+      "Allow full MVP-03 DONE_WITH_HUMAN_PENDING only if no non-human proof gap remains",
+      "Keep unconditional DONE, MVP stage closure and human-gate closure out of scope",
+      "Require builder evidence and fresh verifier before PASS"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/stage_spec.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-03-post-legal-acceptance-closure-audit-001.md",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/progress.md",
+      ".agent/stages/mvp/status.json"
+    ],
+    "note": "Spec-freeze was superseded by builder evidence and fresh verifier PASS for the closure audit."
+  },
+  {
+    "id": "mvp-03-post-legal-acceptance-closure-audit-builder-evidence",
+    "category": "harness",
+    "description": "Artifact-only full MVP-03 closure/status audit builder evidence after legal-acceptance UI PASS.",
+    "steps": [
+      "Cite tracked immutable PASS evidence/verdict/problems refs for all required MVP-03 subunits",
+      "Map docs/stages/MVP.md MVP-03 acceptance criteria to evidence",
+      "Record full MVP-03 decision as DONE_WITH_HUMAN_PENDING and confirm it with fresh verifier",
+      "Preserve legal/privacy/real-data/HR/reporting/admin/support/financial/reward human gates",
+      "Keep MVP stage open and avoid unconditional DONE",
+      "Record docs-sync NOOP, Mermaid NONE and backend baseline unchanged",
+      "Run JSON validation, diff check and harness validation"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-03-post-legal-acceptance-closure-audit-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-post-legal-acceptance-closure-audit-001.json",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/evidence.json",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/progress.md",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/verdicts/MVP-03-post-legal-acceptance-closure-audit-001.json",
+      ".agent/stages/mvp/problems/MVP-03-post-legal-acceptance-closure-audit-001.md"
+    ],
+    "note": "Builder evidence and fresh stage_verifier PASS are recorded. Full MVP-03 is DONE_WITH_HUMAN_PENDING; MVP stage and human gates remain open."
+  },
+  {
+    "id": "mvp-03-post-legal-acceptance-closure-audit-fresh-verification",
+    "category": "verification",
+    "description": "Fresh verifier reviewed only MVP-03-post-legal-acceptance-closure-audit-001 after builder evidence.",
+    "steps": [
+      "Verify all 13 required immutable MVP-03 refs exist and have PASS verdicts",
+      "Verify MVP-03 acceptance criteria mapping",
+      "Verify full MVP-03 DONE_WITH_HUMAN_PENDING decision has no non-human proof gap",
+      "Verify human gates and MVP stage remain open",
+      "Verify no production code, canonical docs, raw evidence or prior immutable proof refs were edited"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/verdicts/MVP-03-post-legal-acceptance-closure-audit-001.json",
+      ".agent/stages/mvp/problems/MVP-03-post-legal-acceptance-closure-audit-001.md",
+      ".agent/stages/mvp/verdict.json",
+      ".agent/stages/mvp/problems.md"
+    ],
+    "note": "Fresh stage_verifier PASS recorded; parent aliases synchronized after PASS."
+  },
+  {
+    "id": "mvp-04-employee-app-ia-nav-contract-freeze",
+    "category": "web-ui",
+    "description": "Active MVP sprint contract is frozen for the smallest apps/web mobile employee IA/navigation shell for Learning, Challenges, Rewards/Store, Profile and secondary Support reachability.",
+    "steps": [
+      "Freeze one MVP-04.02 implementation slice after MVP-03 DONE_WITH_HUMAN_PENDING",
+      "Require max-five bottom navigation using the design-system baseline",
+      "Require Support as a secondary Home/Profile IA entry instead of a sixth bottom-nav item",
+      "Require placeholder-only Challenges, Rewards/Store and Support hubs without business workflows",
+      "Preserve the verified /start -> /onboarding/privacy -> /profile/session path",
+      "Require first meaningful builder touch in apps/web production/test code",
+      "Require browser screenshots, web/root checks, guardrail scans, Mermaid IA map and fresh verifier"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/stage_spec.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-04-employee-app-ia-nav-001.md",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/progress.md",
+      ".agent/stages/mvp/status.json",
+      "apps/web/AGENTS.md",
+      "docs/product/b2b-mvp/lemanapro/design-system-v0.1.md"
+    ],
+    "note": "Contract freeze complete and subsequently verified through MVP-04-employee-app-ia-nav-001 scoped PASS. Full MVP-04, MVP stage and human gates remain open."
+  },
+  {
+    "id": "mvp-04-employee-app-ia-nav-builder-evidence",
+    "category": "web-ui",
+    "description": "Builder implemented the frozen MVP-04 employee app IA/navigation slice; bottom-nav verifier gap was fixed and fresh verifier returned PASS.",
+    "steps": [
+      "Add shared employee app shell and five-item bottom nav",
+      "Add Home, Challenges, Rewards and Support routes",
+      "Preserve learning lessons and start/privacy/profile-session legal flow",
+      "Run web checks, browser smoke, guardrail scans and root wrappers",
+      "Record builder evidence and keep verifier PASS pending"
+    ],
+    "passes": true,
+    "status": "PASS",
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-04-employee-app-ia-nav-001.md",
+      ".agent/stages/mvp/evidence/MVP-04-employee-app-ia-nav-001.json",
+      ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/MVP-04-employee-app-ia-nav-001-browser-smoke.json",
+      ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/guardrail-scans.txt",
+      ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/browser-layout-check.json",
+      ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/MVP-04-employee-app-ia-nav-001-fixed-browser-smoke.json",
+      ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/pnpm-web-typecheck.txt",
+      ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/pnpm-web-test.txt",
+      ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/pnpm-web-build.txt",
+      ".agent/stages/mvp/verdicts/MVP-04-employee-app-ia-nav-001.json",
+      ".agent/stages/mvp/problems/MVP-04-employee-app-ia-nav-001.md",
+      ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/verifier-layout-check.json",
+      ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/MVP-04-employee-app-ia-nav-001-verifier-prod-browser-smoke.json"
+    ],
+    "note": "Scoped PASS only. Full MVP-04, MVP stage and human gates remain open."
+  },
+  {
+    "id": "mvp-04-employee-app-ia-nav-fresh-verification",
+    "category": "verification",
+    "description": "Fresh verifier accepted MVP-04-employee-app-ia-nav-001 after the bottom-nav positioning fix.",
+    "steps": [
+      "Review fixed evidence and prior verifier problem",
+      "Run web typecheck/test/build and production-like browser smoke",
+      "Check bottom-nav layout on representative mobile routes",
+      "Run root wrappers and guardrail/no-drift checks",
+      "Write scoped PASS verifier verdict/problems artifacts"
+    ],
+    "passes": true,
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-04-employee-app-ia-nav-001.md",
+      ".agent/stages/mvp/evidence/MVP-04-employee-app-ia-nav-001.json",
+      ".agent/stages/mvp/verdicts/MVP-04-employee-app-ia-nav-001.json",
+      ".agent/stages/mvp/problems/MVP-04-employee-app-ia-nav-001.md",
+      ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/verifier-layout-check.json",
+      ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/MVP-04-employee-app-ia-nav-001-verifier-prod-browser-smoke.json",
+      ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/make-verify.txt",
+      ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/make-test-unit.txt",
+      ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/make-build.txt"
+    ],
+    "note": "PASS for this sprint only. Full MVP-04, the MVP stage and all human gates remain open."
+  },
+  {
+    "id": "mvp-07-diagnostic-entry-preview-ui-contract-freeze",
+    "category": "web-ui",
+    "description": "Active MVP sprint contract is frozen for the smallest apps/web diagnostic entry/preview flow with Q0 privacy, non-scoring SA1-SA3, a few synthetic Q cards and safe draft route preview.",
+    "steps": [
+      "Freeze one UI-only prerequisite slice for MVP-07.01 and MVP-07.03 after latest verified MVP-04 employee IA/nav PASS",
+      "Require /diagnostics route reachable from existing Home/Learning shell",
+      "Require Q0 privacy/expectation screen before SA and question preview",
+      "Require SA1-SA3 non-scoring self-assessment",
+      "Require several synthetic methodology Q cards such as Q1-Q3, optional Q4 or Q7",
+      "Require local in-memory answers/progress only and safe preview route copy",
+      "Exclude full Q1-Q27, Q28, R1-R6, scoring correctness, persistence/storage/network, backend/API/schema/OpenAPI/generated-client, HR reports, points/rewards and full MVP-07 closure",
+      "Require first meaningful builder touch in apps/web production/test code"
+    ],
+    "passes": true,
+    "status": "FROZEN_SUPERSEDED_BY_BUILDER_EVIDENCE",
+    "evidence_refs": [
+      ".agent/stages/mvp/stage_spec.md",
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-07-diagnostic-entry-preview-ui-001.md",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/progress.md",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/feature_list.json",
+      ".agent/stages/mvp/raw/spec-freezer-MVP-07-diagnostic-entry-preview-ui-001-20260513/jq-empty.txt",
+      ".agent/stages/mvp/raw/spec-freezer-MVP-07-diagnostic-entry-preview-ui-001-20260513/git-diff-check.txt",
+      "docs/stages/MVP.md",
+      "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md",
+      "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md",
+      "docs/product/b2b-mvp/lemanapro/design-system-v0.1.md",
+      "apps/web/AGENTS.md"
+    ],
+    "note": "Spec-freeze completed and is superseded by builder evidence plus fresh verifier PASS. Full MVP-07 remains open."
+  },
+  {
+    "id": "mvp-07-diagnostic-entry-preview-ui-builder-evidence",
+    "category": "web-ui",
+    "description": "Builder implemented the apps/web diagnostic entry/preview UI slice; fresh verifier returned PASS.",
+    "steps": [
+      "Add /diagnostics route and diagnostic preview component",
+      "Add Home and Learning entry links",
+      "Render Q0 before SA/questions",
+      "Render SA1-SA3 as non-scoring self-assessment",
+      "Render only synthetic Q1-Q3 preview cards",
+      "Keep answer/progress state in mounted component memory only",
+      "Show safe draft route preview linking to N1 / learning",
+      "Run web checks, browser smoke, guardrail scans and root wrappers",
+      "Record builder evidence without writing verifier artifacts"
+    ],
+    "passes": true,
+    "status": "PASS",
+    "evidence_refs": [
+      ".agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.md",
+      ".agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.json",
+      ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/MVP-07-diagnostic-entry-preview-ui-001-browser-smoke.json",
+      ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/guardrail-scans.txt",
+      ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/pnpm-web-typecheck.txt",
+      ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/pnpm-web-test.txt",
+      ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/pnpm-web-build.txt",
+      ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/make-verify.txt",
+      ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/make-test-unit.txt",
+      ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/make-build.txt",
+      ".agent/stages/mvp/verdicts/MVP-07-diagnostic-entry-preview-ui-001.json",
+      ".agent/stages/mvp/problems/MVP-07-diagnostic-entry-preview-ui-001.md",
+      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/MVP-07-diagnostic-entry-preview-ui-001-verifier-browser-smoke.json",
+      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/pnpm-web-typecheck.txt",
+      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/pnpm-web-test.txt",
+      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/pnpm-web-build.txt",
+      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/pnpm-web-smoke-browser-system-chrome.txt",
+      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/source-acceptance-scans.txt",
+      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/make-verify.txt",
+      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/make-test-unit.txt",
+      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/make-build.txt"
+    ],
+    "note": "Scoped PASS only. Full MVP-07.01, MVP-07.03, MVP-07, MVP stage and human gates remain open."
+  },
+  {
+    "id": "mvp-07-diagnostic-entry-preview-ui-fresh-verification",
+    "category": "verification",
+    "description": "Fresh verifier accepted MVP-07-diagnostic-entry-preview-ui-001 after independent web, browser, root and scope-guardrail checks.",
+    "steps": [
+      "Review builder evidence and sprint contract",
+      "Run web typecheck/test/build",
+      "Run production-like browser smoke with system Chrome and 33 screenshots",
+      "Run source/scope guardrail scans",
+      "Run root make verify, make test-unit and make build",
+      "Write scoped PASS verdict and problems artifacts"
+    ],
+    "passes": true,
+    "status": "PASS",
+    "evidence_refs": [
+      ".agent/stages/mvp/verdicts/MVP-07-diagnostic-entry-preview-ui-001.json",
+      ".agent/stages/mvp/problems/MVP-07-diagnostic-entry-preview-ui-001.md",
+      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/MVP-07-diagnostic-entry-preview-ui-001-verifier-browser-smoke.json",
+      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/pnpm-web-typecheck.txt",
+      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/pnpm-web-test.txt",
+      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/pnpm-web-build.txt",
+      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/pnpm-web-smoke-browser-system-chrome.txt",
+      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/source-acceptance-scans.txt",
+      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/make-verify.txt",
+      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/make-test-unit.txt",
+      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/make-build.txt"
+    ],
+    "note": "PASS for this sprint only. Full MVP-07.01, MVP-07.03, MVP-07, MVP stage and all human gates remain open."
   }
 ]

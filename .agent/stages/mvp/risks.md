@@ -1,6 +1,6 @@
 # MVP risks
 
-Updated: 2026-05-12
+Updated: 2026-05-13
 
 | ID | Risk | Status | Mitigation |
 |----|------|--------|------------|
@@ -45,3 +45,5 @@ Updated: 2026-05-12
 | R-039 | N3 renderer fixture could be mistaken for CMS/admin publishing, progress, submissions or points implementation. | Mitigated for current slice | Fresh verifier PASS is scoped only to fixture rendering, route/alias, CTA, display-only quiz, non-persistent practice and guardrails; full MVP-06 and related implementation areas remain open. |
 | R-040 | Current shell cannot run Java-backed root verification for frontend-only N3 proof. | Active environment note | Builder and verifier recorded unqualified `java -version` blocker and did not run or claim Java-backed `make verify`; web typecheck/test/build and browser smoke are the scoped proof. |
 | R-041 | Draft privacy screen could be mistaken for legal consent acceptance or final legal approval. | Active until human legal review | `/onboarding/privacy` visibly states the text requires legal review and does not accept/log consent; full `MVP-03`, consent version logging and legal/privacy human gates remain open. |
+| R-042 | Diagnostic preview UI could be mistaken for production diagnostic scoring, route assignment or financial advice. | Mitigated for current slice; human gates ongoing | `/diagnostics` is recorded as preview-only and non-scoring, uses local component state only, and avoids final advice claims; Q/SA wording, scoring correctness, route decisions and financial correctness remain human-gated. |
+| R-043 | A UI-only diagnostic preview cannot prove saved diagnostic drafts, route persistence or learning progress. | Active for next slice | Next product slice should freeze backend diagnostic draft/progress persistence or learning progress foundation with schema/API/tests and fresh verification before any completion claim. |

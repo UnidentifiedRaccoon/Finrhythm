@@ -1,0 +1,45 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-07-diagnostic-entry-preview-ui-001",
+  "updated_at": "2026-05-13",
+  "publish_after_pass": false,
+  "publish_status": "NOT_REQUESTED",
+  "publish_blocker": "User explicitly asked not to publish commit/PR without a separate command.",
+  "latest_verifier_verdict": "PASS",
+  "proof_refs": {
+    "evidence": ".agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.json",
+    "evidence_md": ".agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.md",
+    "verdict": ".agent/stages/mvp/verdicts/MVP-07-diagnostic-entry-preview-ui-001.json",
+    "problems": ".agent/stages/mvp/problems/MVP-07-diagnostic-entry-preview-ui-001.md",
+    "verifier_raw": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/",
+    "browser_smoke": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/MVP-07-diagnostic-entry-preview-ui-001-verifier-browser-smoke.json"
+  },
+  "validation": {
+    "web_typecheck": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/pnpm-web-typecheck.txt",
+    "web_test": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/pnpm-web-test.txt",
+    "web_build": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/pnpm-web-build.txt",
+    "browser_smoke": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/pnpm-web-smoke-browser-system-chrome.txt",
+    "make_verify": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/make-verify.txt",
+    "make_test_unit": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/make-test-unit.txt",
+    "make_build": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/make-build.txt",
+    "git_diff_check": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/git-diff-check.txt",
+    "jq": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/jq-json-artifacts.txt"
+  },
+  "pr_summary_ru": "Добавлен scoped MVP-07 /diagnostics preview: Q0 privacy, SA1-SA3 non-scoring, Q1-Q3 preview cards and safe draft route handoff without persistence/scoring/backend changes.",
+  "human_gates_open": [
+    "Final Q/SA wording review",
+    "Scoring correctness and route-rule correctness",
+    "Final financial correctness of diagnostics",
+    "HR/privacy wording and reporting-boundary approval",
+    "Legal/privacy boundaries and real employee/customer data processing approval",
+    "Design/accessibility QA on real mobile screens"
+  ],
+  "out_of_scope_still_open": [
+    "Full diagnostic engine",
+    "Full Q1-Q27 and Q28",
+    "C1-C10 scoring and final R1-R6 assignment",
+    "Backend persistence/resume/retry/event tracking",
+    "Aggregated HR diagnostic reports",
+    "Full MVP-07 and MVP stage closure"
+  ]
+}

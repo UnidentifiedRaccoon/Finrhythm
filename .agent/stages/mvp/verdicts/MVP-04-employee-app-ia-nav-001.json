@@ -1,0 +1,168 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-04-employee-app-ia-nav-001",
+  "verifier_role": "fresh_stage_verifier",
+  "verdict": "PASS",
+  "verified_at": "2026-05-13T20:06:41+03:00",
+  "summary": "Fresh verification accepts the bottom-nav fix and the full scoped MVP-04 employee IA/navigation contract. The five-item bottom nav is visually anchored at the bottom on the required 390x844 mobile routes, Support remains secondary, placeholder routes do not mutate workflows, the start/privacy/profile-session/legal acceptance path remains preserved, and no backend/API/schema/OpenAPI/generated-client/admin/packages/content/infra/canonical-doc drift was detected.",
+  "checks": [
+    {
+      "cmd": "jq empty .agent/stages/mvp/status.json .agent/stages/mvp/feature_list.json .agent/stages/mvp/evidence.json .agent/stages/mvp/evidence/MVP-04-employee-app-ia-nav-001.json",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/jq-json-artifacts.txt"
+    },
+    {
+      "cmd": "git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/git-diff-check.txt"
+    },
+    {
+      "cmd": "git status --short --untracked-files=all -- apps/api packages/api-client apps/admin packages/ui packages/config content infra docs/architecture docs/product docs/engineering package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json Makefile README.md",
+      "exit_code": 0,
+      "result": "PASS",
+      "summary": "Scoped drift status output was empty.",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/no-backend-canonical-doc-drift-status.txt"
+    },
+    {
+      "cmd": "git diff --name-only -- apps/api packages/api-client apps/admin packages/ui packages/config content infra docs/architecture docs/product docs/engineering package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json Makefile README.md",
+      "exit_code": 0,
+      "result": "PASS",
+      "summary": "Scoped backend/API/schema/OpenAPI/generated-client/admin/packages/content/infra/canonical-doc diff output was empty.",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/no-backend-canonical-doc-drift-diff.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/web typecheck",
+      "exit_code": 0,
+      "result": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/pnpm-web-typecheck.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/web test",
+      "exit_code": 0,
+      "result": "PASS",
+      "summary": "27 node tests passed, including five-item nav, Support secondary placement, placeholder-only screens, profile-session/legal ordering, generated client usage, and guardrail scans.",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/pnpm-web-test.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/web build",
+      "exit_code": 0,
+      "result": "PASS",
+      "summary": "Production build includes /, /learning, /learning/lessons/[lessonId], /challenges, /rewards, /support, /profile/session, /profile/contact and /start.",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/pnpm-web-build.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/web smoke:browser against pre-existing Next dev server at http://127.0.0.1:3404",
+      "exit_code": 1,
+      "result": "NON_BLOCKING_DEV_SERVER_LIMITATION",
+      "summary": "Dev-server smoke hit one extra dev-only button on /challenges. The same smoke passed against a production-like next start server and is not treated as acceptance evidence.",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/pnpm-web-smoke-browser-system-chrome.txt"
+    },
+    {
+      "cmd": "CHROMIUM_EXECUTABLE_PATH=\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" WEB_SMOKE_BASE_URL=http://127.0.0.1:3421 pnpm --filter @finrhythm/web smoke:browser",
+      "exit_code": 0,
+      "result": "PASS",
+      "summary": "Production-like browser smoke passed with 29 screenshots and route/request assertions for Home, Learning, Challenges, Rewards, Support, Profile Session, Profile Contact, lessons N1/N2/N3 and start/privacy/profile-session/legal/contact paths.",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/pnpm-web-smoke-browser-system-chrome-prod.txt",
+      "summary_ref": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/MVP-04-employee-app-ia-nav-001-verifier-prod-browser-smoke.json"
+    },
+    {
+      "cmd": "Focused Playwright layout check for /, /learning, /challenges, /rewards, /support, /profile/session and /profile/contact at 390x844",
+      "exit_code": 0,
+      "result": "PASS",
+      "summary": "All seven routes reported exactly five labels [Главная, Обучение, Челлендж, Награды, Профиль], Support count 0, top=770, bottom=836, bottomGap=8.",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/verifier-layout-check.json"
+    },
+    {
+      "cmd": "make verify",
+      "exit_code": 0,
+      "result": "PASS",
+      "summary": "Root verification passed, including web/admin checks and apps/api Maven verify with Testcontainers, Flyway migration validation/application and springdoc OpenAPI initialization logs.",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/make-verify.txt"
+    },
+    {
+      "cmd": "make test-unit",
+      "exit_code": 0,
+      "result": "PASS",
+      "summary": "Root unit verification passed, including apps/api Maven verify with Testcontainers and Flyway migration validation/application.",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/make-test-unit.txt"
+    },
+    {
+      "cmd": "make build",
+      "exit_code": 0,
+      "result": "PASS",
+      "summary": "Root build passed for docs, web, admin and apps/api Maven package with tests skipped.",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/make-build.txt"
+    },
+    {
+      "cmd": "jq empty .agent/stages/mvp/verdicts/MVP-04-employee-app-ia-nav-001.json .agent/stages/mvp/evidence/MVP-04-employee-app-ia-nav-001.json .agent/stages/mvp/status.json .agent/stages/mvp/feature_list.json",
+      "exit_code": 0,
+      "result": "PASS",
+      "summary": "Final verifier JSON/artifact syntax check passed after writing the PASS verdict.",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/jq-final-verifier-artifacts.txt"
+    },
+    {
+      "cmd": "git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'",
+      "exit_code": 0,
+      "result": "PASS",
+      "summary": "Final whitespace check passed after writing verifier artifacts.",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/git-diff-check-final.txt"
+    }
+  ],
+  "acceptance": {
+    "bottom_nav_exactly_five_and_no_support_item": "PASS",
+    "bottom_nav_visually_anchored_on_required_390x844_routes": "PASS",
+    "learning_challenges_rewards_profile_reachable_from_bottom_nav": "PASS",
+    "support_secondary_from_home_and_profile": "PASS",
+    "challenges_placeholder_only_no_participation_persistence_rewards_or_points_claim": "PASS",
+    "rewards_placeholder_only_no_redemption_order_wallet_cash_equivalence_or_points_mutation": "PASS",
+    "support_informational_only_no_ticket_submission_or_personal_advice_promise": "PASS",
+    "start_privacy_profile_session_path_preserved": "PASS",
+    "learning_and_lessons_n1_n2_n3_render": "PASS",
+    "profile_session_legal_acceptance_before_contact_update_preserved": "PASS",
+    "direct_profile_contact_safe_missing_session_preserved": "PASS",
+    "russian_neutral_copy_no_customer_brand_real_data_forbidden_claim_or_money_equivalence": "PASS",
+    "no_backend_api_schema_openapi_generated_client_admin_packages_content_infra_canonical_doc_drift": "PASS",
+    "docs_sync_noop_expected_and_mermaid_evidence_recorded": "PASS",
+    "backend_baseline_preserved": "PASS",
+    "full_mvp_04_and_human_gates_remain_open": "PASS"
+  },
+  "screenshot_refs": {
+    "home": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/MVP-04-employee-app-ia-nav-001-verifier-prod-mobile-home.png",
+    "learning": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/MVP-04-employee-app-ia-nav-001-verifier-prod-mobile-ready.png",
+    "challenges": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/MVP-04-employee-app-ia-nav-001-verifier-prod-mobile-challenges.png",
+    "rewards": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/MVP-04-employee-app-ia-nav-001-verifier-prod-mobile-rewards.png",
+    "support": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/MVP-04-employee-app-ia-nav-001-verifier-prod-mobile-support.png",
+    "profile_session": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/MVP-04-employee-app-ia-nav-001-verifier-prod-mobile-profile-session-start.png",
+    "profile_contact": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/MVP-04-employee-app-ia-nav-001-verifier-prod-mobile-profile-contact-start.png",
+    "start_to_profile_session": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/MVP-04-employee-app-ia-nav-001-verifier-prod-mobile-start-to-profile-session.png"
+  },
+  "supporting_evidence_inspected": [
+    ".agent/stages/mvp/sprint_contract.md",
+    ".agent/stages/mvp/task-files/MVP-04-employee-app-ia-nav-001.md",
+    ".agent/stages/mvp/evidence/MVP-04-employee-app-ia-nav-001.md",
+    ".agent/stages/mvp/evidence/MVP-04-employee-app-ia-nav-001.json",
+    ".agent/stages/mvp/problems/MVP-04-employee-app-ia-nav-001.md",
+    ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/browser-layout-check.json",
+    ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/MVP-04-employee-app-ia-nav-001-fixed-browser-smoke.json"
+  ],
+  "human_gates": {
+    "preserved": true,
+    "full_mvp_04_closed": false,
+    "mvp_stage_closed": false,
+    "not_closed_by_verifier": [
+      "brand naming and final anti-shame voice review",
+      "accessibility contrast audit",
+      "final legal/privacy wording review",
+      "design QA on real mobile screens",
+      "real employee/customer data processing",
+      "customer-specific HR/reporting boundaries",
+      "final financial correctness review",
+      "reward economy, stock, prices and fulfillment",
+      "support answer policy for sensitive topics"
+    ]
+  },
+  "problems_ref": ".agent/stages/mvp/problems/MVP-04-employee-app-ia-nav-001.md",
+  "status": "PASS"
+}

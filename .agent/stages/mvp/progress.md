@@ -2,6 +2,102 @@
 
 Updated: 2026-05-13
 
+## Current verified slice: MVP-07-diagnostic-entry-preview-ui-001
+
+- Fresh verifier returned `PASS` for the scoped `apps/web` diagnostic entry/preview UI slice.
+- `/diagnostics` is reachable from Home and Learning and renders Q0 privacy/expectation before any self-assessment or question cards.
+- The flow includes `SA1-SA3` as non-scoring self-assessment and synthetic `Q1-Q3` preview cards only.
+- Answers/progress stay in mounted React component memory only; no browser storage, URL handoff, backend/API call, generated-client change or persistence is introduced.
+- The draft result card uses safe `черновой preview` / `предварительный маршрут` wording and links to `/learning/lessons/N1` plus `/learning` without claiming final scoring, final level, final `R1-R6` route assignment, points, saved progress or HR report.
+- Existing `/start -> /onboarding/privacy -> /profile/session -> legal acknowledgement -> generated legal acceptance POST -> contact update screen` and `/learning/lessons/N1|N2|N3` remained covered by browser smoke.
+- Fresh verifier checks passed: web typecheck/test/build, browser smoke with 33 screenshots, source/scope guardrail scans, `make verify`, `make test-unit`, `make build`, JSON validation and `git diff --check`.
+- Evidence/verdict/problems aliases now point to `MVP-07-diagnostic-entry-preview-ui-001`; latest verified sprint is `MVP-07-diagnostic-entry-preview-ui-001`.
+- Canonical docs sync is `NOOP_EXPECTED`; stage evidence contains the required Mermaid diagnostic preview flow.
+- `publish_manifest.json` records `publish_after_pass=false`; no commit, PR or publish action was run because the user asked not to publish without a separate command.
+- Full `MVP-07.01`, `MVP-07.03`, `MVP-07`, the MVP stage and all diagnostic/financial/legal/HR/privacy/design human gates remain open.
+
+## Current session: MVP-07-diagnostic-entry-preview-ui-001 builder evidence
+
+- Built the frozen apps/web UI-only diagnostic preview slice without child agents and without backend/API/schema/OpenAPI/generated-client changes.
+- Added /diagnostics with Q0 privacy/expectation first, SA1-SA3 non-scoring self-assessment, synthetic Q1-Q3 preview cards, local component state only and a safe draft route preview linking to /learning/lessons/N1 and /learning.
+- Added reachability from Home and Learning while preserving /start -> /onboarding/privacy -> /profile/session -> legal acknowledgement -> generated legal acceptance POST -> contact update screen.
+- Existing /learning and /learning/lessons/N1|N2|N3 remain covered by tests and browser smoke.
+- Passed web typecheck, web test, web build, system-Chrome browser smoke with 33 screenshots, guardrail scans, make verify, make test-unit and make build. Raw refs are under .agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/.
+- Canonical docs sync is NOOP_EXPECTED; stage evidence includes the required Mermaid diagnostic preview flow.
+- Evidence aliases initially pointed to `BUILT_AWAITING_VERIFIER`; the fresh verifier PASS and parent sync now supersede that state for this scoped sprint.
+- Full MVP-07.01, MVP-07.03, MVP-07, MVP stage and all human gates remain open.
+
+## Current session: MVP-07-diagnostic-entry-preview-ui-001 spec freeze
+
+- Froze `MVP-07-diagnostic-entry-preview-ui-001` as the next functional `apps/web` product slice after latest verified `MVP-04-employee-app-ia-nav-001` PASS.
+- Parent scope is only a prerequisite for `MVP-07.01` and `MVP-07.03`; full `MVP-07.01`, full `MVP-07.03`, full `MVP-07`, the MVP stage and all human gates remain open.
+- Scope is `/diagnostics` UI-only preview/entry: Q0 privacy/expectation screen, `SA1-SA3` non-scoring pre self-assessment, several synthetic methodology question cards such as `Q1-Q3` with optional `Q4`/`Q7`, local in-memory progress and a safe draft route preview.
+- Explicitly excludes full diagnostic engine, `Q1-Q27`, `Q28`, final `R1-R6` route assignment, scoring correctness, persistence/storage/network, backend/API/schema/OpenAPI/generated-client changes, HR reports, CMS/admin, lesson progress/completion, points/rewards and final financial/legal/HR wording approval.
+- Builder first meaningful touch must be production/test code under `apps/web`, not `.agent`, docs or evidence.
+- Required builder proof includes web typecheck/test/build, browser/mobile screenshots, guardrail scans, docs-sync decision, Mermaid preview-flow evidence, root checks if feasible and fresh verifier before any PASS claim.
+- Backend baseline is preserved unchanged: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
+- Updated planning/status artifacts only: `.agent/stages/mvp/stage_spec.md`, `.agent/stages/mvp/sprint_contract.md`, `.agent/stages/mvp/task-files/MVP-07-diagnostic-entry-preview-ui-001.md`, `.agent/stages/mvp/backlog.md`, `.agent/stages/mvp/progress.md`, `.agent/stages/mvp/status.json` and `.agent/stages/mvp/feature_list.json`.
+- No production code, tests, schemas, API/OpenAPI/generated client, canonical docs, evidence aliases, verdict aliases, problems aliases or prior immutable proof refs were intentionally changed by this freeze.
+- Freeze validation passed and raw outputs are recorded under `.agent/stages/mvp/raw/spec-freezer-MVP-07-diagnostic-entry-preview-ui-001-20260513/`: `jq-empty.txt` and `git-diff-check.txt`.
+- Latest verified sprint remains `MVP-04-employee-app-ia-nav-001`; functional `passes=false` remains required until builder evidence and fresh verifier PASS exist.
+
+## Current verified slice: MVP-04-employee-app-ia-nav-001
+
+- Built `MVP-04-employee-app-ia-nav-001` as the next smallest high-impact `MVP-04.02` functional product slice after `MVP-03-post-legal-acceptance-closure-audit-001` fresh verifier `PASS`.
+- First meaningful builder touch was `apps/web/components/employee-app-shell.ts`, satisfying the first-touch requirement before stage artifacts were written.
+- Implemented `apps/web` mobile IA/navigation only: Home, Learning, Challenges, Rewards/Store and Profile in a max-five bottom nav; Support remains a visible secondary IA entry from Home/Profile.
+- Added `/` Home hub, `/challenges`, `/rewards` and `/support` placeholder/info routes while preserving `/learning`, `/learning/lessons/N1|N2|N3`, `/start`, `/onboarding/privacy`, `/profile/session` legal acceptance ordering and direct `/profile/contact` safe missing-session behavior.
+- Challenges, Rewards/Store and Support remain placeholder/hub reachability only; no challenge workflow, reward operation, support submission, diagnostics/routing, CMS/admin, backend/API/schema/OpenAPI/generated-client change or full `MVP-04` closure is in scope.
+- Checks passed: web typecheck/test/build, browser smoke with 29 screenshots, guardrail scans, `make verify`, `make test-unit`, `make build`, JSON validation and `git diff --check`.
+- Fresh verifier first returned `FAIL` for one visual gap: the nav had the right five items but rendered near the top of the mobile viewport.
+- Minimal bottom-nav fix is recorded: fixed viewport-bottom positioning in `apps/web/app/globals.css` and browser-smoke layout assertions in `apps/web/tests/browser-smoke.mjs`.
+- Post-fix web typecheck/test/build, browser smoke with 29 screenshots and independent route layout proof passed under `.agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/`.
+- Browser evidence is under `.agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/` and `.agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/`.
+- Canonical docs sync is `NOOP_EXPECTED`; implementation follows the existing stage/design-system IA baseline. Stage evidence includes a compact Mermaid route/IA map.
+- Backend baseline is explicitly preserved: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
+- Fresh verifier re-run returned `PASS` after the bottom-nav fix, with production-like browser smoke, focused layout proof and root wrapper checks.
+- Evidence/verdict/problems aliases now point to `MVP-04-employee-app-ia-nav-001`; latest verified sprint is `MVP-04-employee-app-ia-nav-001`.
+- Functional/status is scoped PASS for this sprint after fresh verification.
+- Full `MVP-04`, MVP stage and human gates remain open; this is a scoped navigation reachability PASS only.
+
+## Current verified slice: MVP-03-post-legal-acceptance-closure-audit-001
+
+- Fresh verifier returned `PASS` for the artifact-only closure/status audit and wrote `.agent/stages/mvp/verdicts/MVP-03-post-legal-acceptance-closure-audit-001.json` plus `.agent/stages/mvp/problems/MVP-03-post-legal-acceptance-closure-audit-001.md`.
+- Parent synchronized latest evidence/verdict/problems/status aliases to `MVP-03-post-legal-acceptance-closure-audit-001`.
+- Full `MVP-03` is now recorded as `DONE_WITH_HUMAN_PENDING`, not unconditional `DONE`.
+- No concrete non-human proof gap remains across the required tracked immutable `MVP-03` refs.
+- MVP stage remains open. Legal/privacy wording, real employee/customer data processing, customer-specific HR/reporting, financial correctness, reward operations, production admin policy and support answer policy remain human-gated.
+- Next recommended product work is to freeze the next highest-impact `MVP-04` functional gap with the same proof loop.
+
+## Current session: MVP-03-post-legal-acceptance-closure-audit-001 builder evidence
+
+- Built the frozen artifact-only closure/status audit without child agents and without reading broad `.agent/stages/**/raw/**`.
+- Reconciled all required tracked immutable `MVP-03` refs named by the contract: onboarding/privacy, consent version logging, admin sensitive access audit, profile/contact summary, employee profile session, contact update, prior closure audit, legal drafts, contact update UI, profile-session entry UI, onboarding-to-profile-session continuity, employee start route and profile-session legal acceptance UI.
+- Each required ref has tracked immutable evidence `.md/.json`, verdict `PASS` and problems `.md`; prior raw evidence was not re-read.
+- Mapped the `docs/stages/MVP.md` `MVP-03` acceptance criteria to immutable refs and found no concrete remaining non-human proof gap.
+- Builder decision: full `MVP-03` is `DONE_WITH_HUMAN_PENDING`, not unconditional `DONE`; fresh verifier later confirmed this decision.
+- MVP stage remains open. Legal/privacy wording, real employee/customer data processing, customer-specific HR/reporting, financial correctness, reward operations, production admin policy and support answer policy remain human-gated.
+- Canonical docs sync is `NOOP`; Mermaid expectation is `NONE`; backend baseline remains Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
+- Wrote compact immutable evidence to `.agent/stages/mvp/evidence/MVP-03-post-legal-acceptance-closure-audit-001.md` and `.agent/stages/mvp/evidence/MVP-03-post-legal-acceptance-closure-audit-001.json`; latest evidence aliases now point to this builder evidence.
+- Builder did not write verifier verdict/problems; the fresh verifier later wrote immutable verifier artifacts for this audit.
+- Required validation is recorded in evidence: immutable ref checks, `jq empty` for changed JSON, `git diff --check` excluding raw/task raw and harness validation with the expected pending-fresh-verifier alias mismatch.
+
+## Current session: MVP-03-post-legal-acceptance-closure-audit-001 spec freeze
+
+- Re-synced the read-gated MVP freeze sources without child agents and without reading `.agent/stages/**/raw/**`.
+- Latest verified sprint remains `MVP-03-profile-session-legal-acceptance-ui-001` with fresh verifier `PASS`.
+- The read-gated tracked artifacts show no concrete remaining non-human functional gap after legal-acceptance UI PASS; the remaining work is status reconciliation and human-gate accounting.
+- Froze `MVP-03-post-legal-acceptance-closure-audit-001` as an artifact-only closure/status audit for full `MVP-03`.
+- The future builder must reconcile immutable PASS refs for all current `MVP-03` subunits, including `MVP-03-legal-drafts-001` and `MVP-03-profile-session-legal-acceptance-ui-001`.
+- Full `MVP-03` may become `DONE_WITH_HUMAN_PENDING` only if the audit finds no concrete non-human proof gap; unconditional `DONE`, MVP stage closure and human-gate closure are out of scope.
+- Human gates remain honest: legal/privacy wording and real employee/customer data processing are `WAITING_HUMAN`; `MVP-03.01` legal drafts are at most `DONE_WITH_HUMAN_PENDING`.
+- Backend baseline is explicitly preserved for cited backend slices: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
+- Canonical docs target is `NOOP_EXPECTED`; Mermaid expectation is `NONE_EXPECTED` unless the audit finds material drift, which must be recorded as a proof gap.
+- Updated stage planning artifacts only: `.agent/stages/mvp/stage_spec.md`, `.agent/stages/mvp/sprint_contract.md`, `.agent/stages/mvp/task-files/MVP-03-post-legal-acceptance-closure-audit-001.md`, `.agent/stages/mvp/backlog.md`, `.agent/stages/mvp/progress.md`, `.agent/stages/mvp/status.json` and `.agent/stages/mvp/feature_list.json`.
+- No production code, tests, schemas, API/OpenAPI/generated client, canonical docs, evidence aliases, verdict aliases, problems aliases, raw evidence or prior immutable proof refs were changed.
+- Freeze validation passed: `jq empty .agent/stages/mvp/status.json .agent/stages/mvp/feature_list.json .agent/stages/mvp/evidence.json`; `git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'`; trailing-whitespace scan for changed markdown planning files.
+- Functional/status `passes=false` remains required until builder evidence and a fresh verifier PASS exist.
+
 ## Current session: MVP-03-employee-start-route-ui-001 builder evidence
 
 - Built frozen `MVP-03-employee-start-route-ui-001` as the next narrow apps/web UI slice without subagents and without touching verdict/problems.
@@ -773,3 +869,19 @@ Open:
 - Builder proof includes web typecheck/test/build, browser smoke with screenshots, generated-client boundary checks, guardrail scans, `make verify`, `make test-unit`, `make build`, JSON validation and `git diff --check`.
 - Latest evidence/verdict/problems aliases and `status.json` now point to `MVP-03-profile-session-legal-acceptance-ui-001`.
 - Full `MVP-03`, MVP stage and human gates remain open; legal wording remains draft and human-gated.
+
+## Post-fix verification note: MVP-04-employee-app-ia-nav-001
+
+- Builder implemented the smallest apps/web employee IA/navigation shell for Home, Learning, Challenges, Rewards, Profile and secondary Support.
+- Fresh verifier returned `FAIL` for one concrete gap only: the correct five-item nav rendered near the top of the mobile viewport instead of as a bottom nav.
+- Minimal fix applied to `apps/web/app/globals.css`: `.bottom-nav` is now fixed to the bottom viewport edge and sized to the mobile shell width.
+- `apps/web/tests/browser-smoke.mjs` now asserts the bottom-nav bounding box is inside the viewport, near the bottom edge and not near the top.
+- Post-fix checks passed:
+  - `pnpm --filter @finrhythm/web typecheck`
+  - `pnpm --filter @finrhythm/web test`
+  - `pnpm --filter @finrhythm/web build`
+  - browser smoke with system Chrome, 29 screenshots and layout assertions under `.agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/`
+  - independent Playwright layout check: `/`, `/learning`, `/challenges`, `/rewards`, `/support`, `/profile/session` and `/profile/contact` all report bottom nav `top=770`, `bottom=836`, `bottomGap=8` on a 390x844 viewport.
+- Latest evidence aliases now point to fixed evidence for `MVP-04-employee-app-ia-nav-001`.
+- Fresh verifier re-run returned `PASS`; latest evidence/verdict/problems aliases now point to `MVP-04-employee-app-ia-nav-001`.
+- Full `MVP-04`, MVP stage and human gates remain open.

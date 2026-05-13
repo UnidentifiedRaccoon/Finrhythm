@@ -1,0 +1,306 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-04-employee-app-ia-nav-001",
+  "parent_stage_unit": "MVP-04.02",
+  "updated_at": "2026-05-13",
+  "status": "SCOPED_PASS",
+  "verification_status": "PASS",
+  "functional_passes": true,
+  "summary": "Fresh verifier PASS recorded for the scoped MVP-04 employee app IA/navigation shell in apps/web. The five-item bottom nav is anchored at the bottom on representative mobile routes, Support remains secondary, placeholder routes are non-mutating, and the start/privacy/profile-session/legal acceptance path remains preserved.",
+  "changed_files": {
+    "production": [
+      "apps/web/app/page.tsx",
+      "apps/web/app/challenges/page.tsx",
+      "apps/web/app/rewards/page.tsx",
+      "apps/web/app/support/page.tsx",
+      "apps/web/app/globals.css",
+      "apps/web/components/employee-app-shell.ts",
+      "apps/web/components/employee-home-screen.ts",
+      "apps/web/components/employee-placeholder-screen.ts",
+      "apps/web/components/learning-shell.ts",
+      "apps/web/components/lesson-renderer.ts",
+      "apps/web/components/profile-contact-screen.ts",
+      "apps/web/components/profile-session-entry-screen.ts"
+    ],
+    "tests": [
+      "apps/web/tests/learning-shell.test.mjs",
+      "apps/web/tests/browser-smoke.mjs"
+    ],
+    "stage_artifacts": [
+      ".agent/stages/mvp/evidence/MVP-04-employee-app-ia-nav-001.md",
+      ".agent/stages/mvp/evidence/MVP-04-employee-app-ia-nav-001.json",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/evidence.json",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/progress.md",
+      ".agent/stages/mvp/feature_list.json"
+    ]
+  },
+  "commands": [
+    {
+      "cmd": "pnpm --filter @finrhythm/web typecheck",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/pnpm-web-typecheck.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/web test",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/pnpm-web-test.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/web build",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/pnpm-web-build.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/web smoke:browser",
+      "exit_code": 1,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/pnpm-web-smoke-browser.txt",
+      "note": "Bundled Playwright Chromium was not installed."
+    },
+    {
+      "cmd": "CHROMIUM_EXECUTABLE_PATH=\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" WEB_SMOKE_BASE_URL=http://127.0.0.1:3400 WEB_SMOKE_OUTPUT_DIR=/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513 WEB_SMOKE_SCREENSHOT_PREFIX=MVP-04-employee-app-ia-nav-001 pnpm --filter @finrhythm/web smoke:browser",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/pnpm-web-smoke-browser-system-chrome.txt"
+    },
+    {
+      "cmd": "guardrail scans",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/guardrail-scans.txt"
+    },
+    {
+      "cmd": "make verify",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/make-verify.txt"
+    },
+    {
+      "cmd": "make test-unit",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/make-test-unit.txt"
+    },
+    {
+      "cmd": "make build",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/make-build.txt"
+    },
+    {
+      "cmd": "jq empty .agent/stages/mvp/status.json .agent/stages/mvp/feature_list.json .agent/stages/mvp/evidence.json .agent/stages/mvp/evidence/MVP-04-employee-app-ia-nav-001.json",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/jq-json-artifacts.txt"
+    },
+    {
+      "cmd": "git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/git-diff-check.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/web typecheck after bottom-nav fix",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/pnpm-web-typecheck.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/web test after bottom-nav fix",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/pnpm-web-test.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/web build after bottom-nav fix",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/pnpm-web-build.txt"
+    },
+    {
+      "cmd": "CHROMIUM_EXECUTABLE_PATH=\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" WEB_SMOKE_BASE_URL=http://127.0.0.1:3410 WEB_SMOKE_OUTPUT_DIR=/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513 WEB_SMOKE_SCREENSHOT_PREFIX=MVP-04-employee-app-ia-nav-001-fixed pnpm --filter @finrhythm/web smoke:browser",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/MVP-04-employee-app-ia-nav-001-fixed-browser-smoke.json",
+      "note": "Smoke command passed and produced JSON plus 29 screenshots; command stdout was observed in the orchestration transcript."
+    },
+    {
+      "cmd": "Independent Playwright layout spot-check for bottom nav on /, /learning, /challenges, /rewards, /support, /profile/session and /profile/contact at 390x844",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/browser-layout-check.json"
+    },
+    {
+      "cmd": "jq empty for fixed MVP-04 evidence/status/raw JSON artifacts",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/jq-json-artifacts.txt"
+    },
+    {
+      "cmd": "git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**' after bottom-nav fix",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/git-diff-check.txt"
+    },
+    {
+      "cmd": "git diff --name-only -- apps/api packages/api-client apps/admin packages/ui infra content docs/architecture docs/product docs/engineering after bottom-nav fix",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/no-backend-canonical-doc-drift.txt"
+    },
+    {
+      "cmd": "Parent jq validation after MVP-04 verifier PASS alias sync",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-04-employee-app-ia-nav-001-parent-sync-20260513/jq-json-artifacts.txt"
+    },
+    {
+      "cmd": "Parent git diff --check after MVP-04 verifier PASS alias sync",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-04-employee-app-ia-nav-001-parent-sync-20260513/git-diff-check.txt"
+    },
+    {
+      "cmd": "Parent verify_harness.py --stage-id mvp after MVP-04 verifier PASS alias sync",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-04-employee-app-ia-nav-001-parent-sync-20260513/verify-harness.txt"
+    }
+  ],
+  "browser": {
+    "summary_ref": ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/MVP-04-employee-app-ia-nav-001-browser-smoke.json",
+    "screenshot_count": 29,
+    "key_screenshots": {
+      "home": ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/MVP-04-employee-app-ia-nav-001-mobile-home.png",
+      "learning": ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/MVP-04-employee-app-ia-nav-001-mobile-ready.png",
+      "challenges": ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/MVP-04-employee-app-ia-nav-001-mobile-challenges.png",
+      "rewards": ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/MVP-04-employee-app-ia-nav-001-mobile-rewards.png",
+      "profile": ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/MVP-04-employee-app-ia-nav-001-mobile-profile-session-start.png",
+      "support": ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/MVP-04-employee-app-ia-nav-001-mobile-support.png",
+      "start_to_profile_session": ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/MVP-04-employee-app-ia-nav-001-mobile-start-to-profile-session.png"
+    },
+    "post_fix_summary_ref": ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/MVP-04-employee-app-ia-nav-001-fixed-browser-smoke.json",
+    "post_fix_screenshot_count": 29,
+    "post_fix_layout_check_ref": ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/browser-layout-check.json",
+    "post_fix_layout_summary": "On a 390x844 viewport, /, /learning, /challenges, /rewards, /support, /profile/session and /profile/contact all reported bottom nav top=770, bottom=836, bottomGap=8 with five labels and no Support item."
+  },
+  "acceptance": [
+    {
+      "criterion": "Mobile bottom navigation has no more than five items, follows baseline labels/order and is visually anchored at the bottom of mobile routes.",
+      "status": "FIXED",
+      "evidence": [
+        "apps/web/components/employee-app-shell.ts",
+        "apps/web/tests/learning-shell.test.mjs",
+        ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/guardrail-scans.txt",
+        "apps/web/app/globals.css",
+        "apps/web/tests/browser-smoke.mjs",
+        ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/browser-layout-check.json",
+        ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/MVP-04-employee-app-ia-nav-001-fixed-browser-smoke.json"
+      ]
+    },
+    {
+      "criterion": "Learning, Challenges, Rewards/Store and Profile are reachable.",
+      "status": "BUILT",
+      "evidence": [
+        ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/MVP-04-employee-app-ia-nav-001-browser-smoke.json"
+      ]
+    },
+    {
+      "criterion": "Support is visible from Home and Profile as secondary IA, not a bottom-nav item.",
+      "status": "BUILT",
+      "evidence": [
+        "apps/web/components/employee-app-shell.ts",
+        "apps/web/components/employee-home-screen.ts",
+        "apps/web/components/profile-session-entry-screen.ts",
+        "apps/web/components/profile-contact-screen.ts"
+      ]
+    },
+    {
+      "criterion": "Challenges, Rewards and Support routes remain placeholder/informational only.",
+      "status": "BUILT",
+      "evidence": [
+        "apps/web/components/employee-placeholder-screen.ts",
+        "apps/web/tests/learning-shell.test.mjs",
+        ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/guardrail-scans.txt"
+      ]
+    },
+    {
+      "criterion": "Verified start/privacy/profile-session/legal/contact path remains intact.",
+      "status": "BUILT",
+      "evidence": [
+        "apps/web/tests/browser-smoke.mjs",
+        ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/MVP-04-employee-app-ia-nav-001-browser-smoke.json"
+      ]
+    },
+    {
+      "criterion": "Backend/API/schema/OpenAPI/generated-client files remain unchanged.",
+      "status": "BUILT",
+      "evidence": [
+        ".agent/stages/mvp/raw/builder-MVP-04-employee-app-ia-nav-001-20260513/guardrail-scans.txt"
+      ]
+    },
+    {
+      "criterion": "Fresh verifier PASS exists.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/verdicts/MVP-04-employee-app-ia-nav-001.json",
+        ".agent/stages/mvp/problems/MVP-04-employee-app-ia-nav-001.md",
+        ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/verifier-layout-check.json",
+        ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/MVP-04-employee-app-ia-nav-001-verifier-prod-browser-smoke.json"
+      ]
+    }
+  ],
+  "docs": {
+    "canonical_docs_sync": "NOOP_EXPECTED",
+    "reason": "Implementation follows the frozen sprint, MVP stage and design-system five-item IA baseline without changing product, architecture, workflow, API, schema, setup or contract decisions.",
+    "mermaid_in_evidence": true
+  },
+  "backend_baseline_unchanged": {
+    "spring_boot": true,
+    "java_21": true,
+    "maven_wrapper": true,
+    "postgresql": true,
+    "flyway": true,
+    "openapi_springdoc": true
+  },
+  "human_gates": {
+    "preserved": true,
+    "open": [
+      "brand naming and final voice review",
+      "accessibility contrast audit",
+      "final legal/privacy wording review",
+      "design QA on real mobile screens",
+      "real employee/customer data processing",
+      "customer-specific HR/reporting boundaries",
+      "final financial correctness review",
+      "reward operations",
+      "support answer policy for sensitive topics"
+    ]
+  },
+  "known_limitations": [
+    "Fresh stage_verifier returned PASS for the scoped sprint after the bottom-nav fix.",
+    "Challenges, Rewards and Support are placeholder/hub screens only.",
+    "Full MVP-04, full MVP stage and all human gates remain open.",
+    "Bundled Playwright Chromium was unavailable; system Chrome smoke passed."
+  ],
+  "immutable_refs": {
+    "evidence_md": ".agent/stages/mvp/evidence/MVP-04-employee-app-ia-nav-001.md",
+    "evidence_json": ".agent/stages/mvp/evidence/MVP-04-employee-app-ia-nav-001.json",
+    "verdict_json_expected_after_fresh_verifier": ".agent/stages/mvp/verdicts/MVP-04-employee-app-ia-nav-001.json",
+    "problems_md_expected_after_fresh_verifier": ".agent/stages/mvp/problems/MVP-04-employee-app-ia-nav-001.md"
+  },
+  "fixer": {
+    "status": "FIXED_AWAITING_VERIFIER",
+    "verifier_gap": "Fresh verifier FAIL found the five-item nav rendered near the top of the mobile viewport because it was sticky in normal flow.",
+    "fix_summary": "Changed .bottom-nav to fixed bottom viewport positioning scoped to the mobile shell width and added browser-smoke bounding-box assertions.",
+    "changed_files": [
+      "apps/web/app/globals.css",
+      "apps/web/tests/browser-smoke.mjs"
+    ],
+    "raw_dir": ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/",
+    "layout_check_ref": ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/browser-layout-check.json",
+    "browser_smoke_ref": ".agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/MVP-04-employee-app-ia-nav-001-fixed-browser-smoke.json"
+  },
+  "verifier": {
+    "status": "PASS",
+    "verdict_ref": ".agent/stages/mvp/verdicts/MVP-04-employee-app-ia-nav-001.json",
+    "problems_ref": ".agent/stages/mvp/problems/MVP-04-employee-app-ia-nav-001.md",
+    "raw_dir": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/",
+    "layout_check_ref": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/verifier-layout-check.json",
+    "browser_smoke_ref": ".agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/MVP-04-employee-app-ia-nav-001-verifier-prod-browser-smoke.json"
+  },
+  "parent_sync": {
+    "status": "PASS_AFTER_PARENT_SYNC",
+    "raw_dir": ".agent/stages/mvp/raw/orchestrator-MVP-04-employee-app-ia-nav-001-parent-sync-20260513/",
+    "latest_aliases": {
+      "evidence": ".agent/stages/mvp/evidence.json",
+      "verdict": ".agent/stages/mvp/verdict.json",
+      "problems": ".agent/stages/mvp/problems.md",
+      "status": ".agent/stages/mvp/status.json"
+    }
+  }
+}

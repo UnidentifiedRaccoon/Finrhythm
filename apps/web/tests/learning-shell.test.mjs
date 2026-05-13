@@ -8,6 +8,21 @@ import {
   LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION,
   LEGAL_DOCUMENT_TYPES
 } from "@finrhythm/api-client";
+import { EmployeeHomeScreen } from "../components/employee-home-screen.ts";
+import {
+  buildDiagnosticPreviewProgress,
+  DiagnosticPreviewScreen,
+  diagnosticPreviewPhases,
+  diagnosticPreviewQuestions,
+  diagnosticQ0Options,
+  diagnosticSelfAssessmentItems
+} from "../components/diagnostic-preview-screen.ts";
+import { employeeBottomNavItems, EmployeeBottomNav } from "../components/employee-app-shell.ts";
+import {
+  ChallengesPlaceholderScreen,
+  RewardsPlaceholderScreen,
+  SupportPlaceholderScreen
+} from "../components/employee-placeholder-screen.ts";
 import { LessonRendererScreen } from "../components/lesson-renderer.ts";
 import { getLessonRendererState } from "../lib/lesson-state.ts";
 import { EmployeeStartScreen } from "../components/employee-start-screen.ts";
@@ -67,6 +82,8 @@ describe("mobile learning shell", () => {
     assert.match(html, /Новичок/);
     assert.match(html, /План N1-N7/);
     assert.match(html, /Урок-превью N1/);
+    assert.match(html, /href="\/diagnostics"/);
+    assert.match(html, /Открыть диагностику/);
     assert.match(html, /href="\/learning\/lessons\/N2"/);
     assert.match(html, /Открыть N2/);
     assert.match(html, /href="\/learning\/lessons\/N3"/);
@@ -77,6 +94,151 @@ describe("mobile learning shell", () => {
     assert.match(html, /Пример: офис/);
     assert.match(html, /Пример: сменный график/);
     assert.match(html, /href="\/learning\/lessons\/N1"/);
+  });
+
+  it("defines a five-item employee bottom nav with reachable core sections", () => {
+    const html = renderToStaticMarkup(h(EmployeeBottomNav, { active: "home" }));
+
+    assert.equal(employeeBottomNavItems.length, 5);
+    assert.deepEqual(
+      employeeBottomNavItems.map((item) => item.label),
+      ["Главная", "Обучение", "Челлендж", "Награды", "Профиль"]
+    );
+    assert.deepEqual(
+      employeeBottomNavItems.map((item) => item.href),
+      ["/", "/learning", "/challenges", "/rewards", "/profile/session"]
+    );
+    assert.match(html, /aria-current="page"/);
+    assert.doesNotMatch(html, /aria-disabled/);
+    assert.equal((html.match(/<a /g) ?? []).length, 5);
+    assert.equal((html.match(/Поддержка/g) ?? []).length, 0);
+  });
+
+  it("renders the employee home hub with support as secondary IA", () => {
+    const html = renderToStaticMarkup(EmployeeHomeScreen());
+
+    assert.match(html, /Ваш спокойный маршрут/);
+    assert.match(html, /href="\/diagnostics"/);
+    assert.match(html, /Открыть preview/);
+    assert.match(html, /href="\/learning"/);
+    assert.match(html, /Открыть обучение/);
+    assert.match(html, /href="\/profile\/session"/);
+    assert.match(html, /Открыть профиль/);
+    assert.match(html, /href="\/challenges"/);
+    assert.match(html, /href="\/rewards"/);
+    assert.match(html, /Помощь по доступу и навигации/);
+    assert.match(html, /href="\/support"/);
+    assert.equal((html.match(/Основные разделы приложения/g) ?? []).length, 1);
+  });
+
+  it("renders honest placeholder routes for challenges, rewards and support", () => {
+    const challenges = renderToStaticMarkup(ChallengesPlaceholderScreen());
+    const rewards = renderToStaticMarkup(RewardsPlaceholderScreen());
+    const support = renderToStaticMarkup(SupportPlaceholderScreen());
+
+    assert.match(challenges, /Челлендж пока в подготовке/);
+    assert.match(challenges, /навигационная заглушка/);
+    assert.match(challenges, /Нельзя присоединиться к активности/);
+    assert.doesNotMatch(
+      challenges,
+      new RegExp(
+        `<form|type="submit"|${joinText("Получить", " ", "ба", "ллы")}|${joinText("зачис", "лено")}|${joinText("чек", "-", "ин")}`,
+        "i"
+      )
+    );
+
+    assert.match(rewards, /Награды появятся позже/);
+    assert.match(rewards, /место раздела в навигации/);
+    assert.match(rewards, /не обещает получение награды/);
+    assert.doesNotMatch(
+      rewards,
+      new RegExp(
+        `<form|type="submit"|${joinText("кош", "ел[её]к")}|${joinText("ру", "бл")}|${joinText("ден", "ежн")}|${joinText("вы", "куп")}|${joinText("за", "каз")}`,
+        "i"
+      )
+    );
+
+    assert.match(support, /Помощь по приложению/);
+    assert.match(support, /доступом, маршрутом обучения, профилем и навигацией/);
+    assert.match(support, /не даются личные финансовые, юридические, налоговые, кредитные или инвестиционные рекомендации/);
+    assert.doesNotMatch(
+      support,
+      new RegExp(`<form|type="submit"|${joinText("тик", "ет")}|${joinText("S", "LA")}|${joinText("отправить", " ", "заявку")}`, "i")
+    );
+  });
+
+  it("renders diagnostic preview with Q0 privacy before any SA or routing-preview question", () => {
+    const html = renderToStaticMarkup(h(DiagnosticPreviewScreen));
+
+    assert.match(html, /Спокойный вход в preview/);
+    assert.match(html, /Q0 сначала: кто что видит/);
+    assert.match(html, /Личные ответы, слабые зоны, точные суммы и детали рефлексии/);
+    assert.match(html, /Что важно знать перед стартом/);
+    assert.match(html, /Продолжить к самооценке/);
+    assert.doesNotMatch(html, /SA1/);
+    assert.doesNotMatch(html, /SA2/);
+    assert.doesNotMatch(html, /SA3/);
+    assert.doesNotMatch(html, /Q1 ·/);
+    assert.doesNotMatch(html, /Q2 ·/);
+    assert.doesNotMatch(html, /Q3 ·/);
+    assert.doesNotMatch(html, /Черновой preview: начните с N1/);
+  });
+
+  it("defines the diagnostic preview sequence without full routing, scoring or final route assignment", () => {
+    assert.deepEqual(diagnosticPreviewPhases, ["q0", "self_assessment", "preview_questions", "route_preview"]);
+    assert.equal(diagnosticQ0Options.includes("кто увидит мои ответы"), true);
+    assert.deepEqual(
+      diagnosticSelfAssessmentItems.map((item) => item.id),
+      ["SA1", "SA2", "SA3"]
+    );
+    assert.deepEqual(
+      diagnosticPreviewQuestions.map((question) => question.id),
+      ["Q1", "Q2", "Q3"]
+    );
+    assert.equal(diagnosticPreviewQuestions.length, 3);
+
+    const questionText = JSON.stringify(diagnosticPreviewQuestions);
+    for (const token of ["Q4", "Q7", "Q27", "Q28", "R1", "R2", "R3", "R4", "R5", "R6"]) {
+      assert.equal(questionText.includes(token), false, `diagnostic preview includes forbidden full-routing token: ${token}`);
+    }
+
+    assert.deepEqual(buildDiagnosticPreviewProgress("q0"), {
+      current: 1,
+      total: 4,
+      label: "Приватность до вопросов",
+      percent: 25
+    });
+    assert.equal(buildDiagnosticPreviewProgress("route_preview").percent, 100);
+  });
+
+  it("keeps diagnostic preview state memory-only and outside backend/API/generated-client scope", async () => {
+    const pageSource = await readFile(join(appRoot, "app", "diagnostics", "page.tsx"), "utf8");
+    const componentSource = await readFile(join(appRoot, "components", "diagnostic-preview-screen.ts"), "utf8");
+    const source = `${pageSource}\n${componentSource}`;
+
+    assert.match(pageSource, /DiagnosticPreviewScreen/);
+    assert.match(componentSource, /useState/);
+    assert.match(componentSource, /diagnosticPreviewPhases/);
+    assert.match(componentSource, /diagnosticSelfAssessmentItems/);
+    assert.match(componentSource, /diagnosticPreviewQuestions/);
+    assert.doesNotMatch(source, /@finrhythm\/api-client|fetch\(|XMLHttpRequest|navigator\.sendBeacon/);
+    assert.doesNotMatch(source, /useSearchParams|searchParams|window\.location|location\.hash|history\.replaceState/);
+    assert.doesNotMatch(source, /localStorage|sessionStorage|indexedDB|document\.cookie|cookieStore/);
+    assert.doesNotMatch(source, /Q27|Q28|R1\.|R2\.|R3\.|R4\.|R5\.|R6\./);
+    assert.doesNotMatch(
+      source,
+      new RegExp(
+        `${joinText("точный", " ", "доход")}|${joinText("точный", " ", "долг")}|${joinText("номер", " ", "сч[её]та")}|${joinText("банк", "овский", " ", "скриншот")}|${joinText("загрузите", " ", "фото")}|${joinText("приложите", " ", "документ")}`,
+        "i"
+      )
+    );
+    assert.doesNotMatch(
+      source,
+      new RegExp(
+        `${joinText("персональный", " ", "финансовый", " ", "совет")}|${joinText("инвестиционная", " ", "рекомендация")}|${joinText("налоговая", " ", "рекомендация")}|${joinText("кредитная", " ", "рекомендация")}`,
+        "i"
+      )
+    );
   });
 
   it("renders loading, empty and error states from query-like params", () => {
@@ -335,7 +497,7 @@ describe("mobile learning shell", () => {
     assert.doesNotMatch(profileSessionSuccessBlock, /setPhase\("ready"\)/);
     const legalAcceptanceBlock = profileSessionSource.slice(
       profileSessionSource.indexOf("const response = await fetchLegalDocumentAcceptance"),
-      profileSessionSource.indexOf("function ProfileSessionHeader")
+      profileSessionSource.indexOf("function ProfileSessionHero")
     );
     const legalAcceptanceFetchBlock = profileSessionSource.slice(
       profileSessionSource.indexOf("const response = await fetchLegalDocumentAcceptance"),

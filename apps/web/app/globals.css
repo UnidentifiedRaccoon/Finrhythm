@@ -202,10 +202,11 @@ p {
 
 .learning-page {
   min-height: 100vh;
-  padding: 0 0 calc(var(--bottom-nav-height) + var(--space-md));
+  padding: 0 0 calc(var(--bottom-nav-height) + var(--space-xl) + env(safe-area-inset-bottom, 0px));
 }
 
 .mobile-shell {
+  --shell-inline-padding: var(--screen-padding-mobile);
   margin: 0 auto;
   max-width: 720px;
   min-height: 100vh;
@@ -274,7 +275,17 @@ p {
 .state-panel,
 .lesson-progress-card,
 .lesson-block,
-.privacy-card {
+.privacy-card,
+.home-hero,
+.home-section-card,
+.placeholder-hero,
+.placeholder-boundary,
+.secondary-support-entry,
+.diagnostic-hero,
+.diagnostic-progress-card,
+.diagnostic-panel,
+.diagnostic-result-card,
+.diagnostic-entry-card {
   background: var(--card-bg);
   border: var(--card-border);
   border-radius: var(--card-radius);
@@ -370,6 +381,249 @@ p {
   font-weight: 700;
   line-height: var(--text-body-sm-line);
   margin-top: var(--space-xs);
+}
+
+.employee-app-shell {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.home-hero,
+.placeholder-hero,
+.placeholder-boundary,
+.secondary-support-entry,
+.diagnostic-hero,
+.diagnostic-progress-card,
+.diagnostic-panel,
+.diagnostic-result-card,
+.diagnostic-entry-card {
+  padding: var(--card-padding-lg);
+}
+
+.home-hero h1,
+.home-hero p,
+.placeholder-hero h1,
+.placeholder-hero p,
+.placeholder-boundary h2,
+.secondary-support-entry h2,
+.secondary-support-entry p,
+.diagnostic-hero h1,
+.diagnostic-hero p,
+.diagnostic-progress-card p,
+.diagnostic-panel h2,
+.diagnostic-panel p,
+.diagnostic-result-card h2,
+.diagnostic-result-card p,
+.diagnostic-entry-card h2,
+.diagnostic-entry-card p {
+  margin-bottom: 0;
+}
+
+.home-section-grid {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.home-section-card {
+  display: grid;
+  gap: var(--space-xs);
+  padding: var(--card-padding-md);
+}
+
+.home-section-card h2,
+.home-section-card p {
+  margin-bottom: 0;
+}
+
+.section-card-link {
+  color: var(--color-primary);
+  font-size: var(--text-body-sm-size);
+  font-weight: 700;
+  line-height: var(--text-body-sm-line);
+  width: fit-content;
+}
+
+.diagnostic-page .employee-app-shell {
+  gap: var(--space-md);
+}
+
+.diagnostic-privacy-card {
+  margin-bottom: 0;
+}
+
+.diagnostic-progress-card,
+.diagnostic-panel,
+.diagnostic-result-card,
+.diagnostic-entry-card {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.diagnostic-progress-track {
+  background: var(--color-bg-soft);
+  border-radius: var(--radius-round);
+  height: 10px;
+  overflow: hidden;
+}
+
+.diagnostic-progress-track span {
+  background: var(--gradient-brand);
+  border-radius: inherit;
+  display: block;
+  height: 100%;
+  transition: width 180ms var(--ease-standard);
+}
+
+.choice-grid {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.choice-card,
+.scale-choice {
+  background: var(--color-surface-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--choice-radius);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  font: inherit;
+  min-height: var(--choice-min-height);
+  padding: var(--choice-padding);
+  text-align: left;
+  width: 100%;
+}
+
+.choice-card-selected,
+.scale-choice-selected {
+  background: var(--card-active-bg);
+  border-color: var(--card-active-border);
+  box-shadow: var(--focus-ring);
+}
+
+.self-assessment-list,
+.preview-question-list {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.self-assessment-item,
+.preview-question-item {
+  border-top: 1px solid var(--color-divider);
+  display: grid;
+  gap: var(--space-xs);
+  padding-top: var(--space-md);
+}
+
+.question-code {
+  color: var(--color-primary);
+  font-size: var(--text-caption-size);
+  font-weight: 700;
+  line-height: var(--text-caption-line);
+  margin-bottom: 0;
+  text-transform: uppercase;
+}
+
+.scale-grid {
+  display: grid;
+  gap: var(--space-xs);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.scale-choice {
+  align-items: center;
+  display: grid;
+  justify-items: center;
+  min-height: 64px;
+  padding: 8px 4px;
+  text-align: center;
+}
+
+.scale-choice span {
+  color: var(--color-text-primary);
+  font-size: var(--text-body-lg-size);
+  font-weight: 700;
+  line-height: var(--text-body-lg-line);
+}
+
+.scale-choice small {
+  color: var(--color-text-secondary);
+  font-size: 10px;
+  line-height: 1.15;
+}
+
+.diagnostic-action-row {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.diagnostic-action {
+  border: 0;
+  cursor: pointer;
+}
+
+.diagnostic-action:disabled {
+  background: var(--color-disabled-bg);
+  color: var(--color-disabled-text);
+  cursor: not-allowed;
+}
+
+.diagnostic-action-hint {
+  color: var(--color-text-muted);
+  font-size: var(--text-body-sm-size);
+  line-height: var(--text-body-sm-line);
+  margin: var(--space-xs) 0 0;
+}
+
+.diagnostic-result-card {
+  background: var(--gradient-success-soft);
+  border-color: var(--card-completed-border);
+}
+
+.diagnostic-boundary-list {
+  color: var(--color-text-secondary);
+  display: grid;
+  font-size: var(--text-body-md-size);
+  gap: var(--space-xs);
+  line-height: var(--text-body-md-line);
+  margin: 0;
+  padding-left: 20px;
+}
+
+.diagnostic-boundary-list li::marker {
+  color: var(--color-teal);
+}
+
+.diagnostic-result-actions {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.placeholder-boundary {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.placeholder-list {
+  color: var(--color-text-secondary);
+  display: grid;
+  font-size: var(--text-body-md-size);
+  gap: var(--space-xs);
+  line-height: var(--text-body-md-line);
+  margin: 0;
+  padding-left: 20px;
+}
+
+.placeholder-list li::marker {
+  color: var(--color-teal);
+}
+
+.secondary-support-entry {
+  background: var(--color-surface-blue);
+  border-color: var(--color-primary-soft);
+}
+
+.secondary-support-entry-compact {
+  padding: var(--card-padding-md);
 }
 
 .privacy-page {
@@ -1155,13 +1409,19 @@ p {
   background: rgba(255, 255, 255, 0.96);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
+  bottom: calc(var(--space-xs) + env(safe-area-inset-bottom, 0px));
   box-shadow: var(--shadow-floating);
   display: grid;
   gap: 3px;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin: 0 0 var(--space-md);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  left: 50%;
+  margin: 0;
+  max-width: calc(720px - var(--shell-inline-padding) - var(--shell-inline-padding));
   padding: 5px;
-  width: 100%;
+  position: fixed;
+  transform: translateX(-50%);
+  width: calc(100vw - var(--shell-inline-padding) - var(--shell-inline-padding));
+  z-index: 20;
 }
 
 .bottom-nav > a,
@@ -1170,9 +1430,9 @@ p {
   border-radius: var(--radius-md);
   color: var(--color-text-muted);
   display: grid;
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
-  gap: 3px;
+  gap: 2px;
   justify-items: center;
   line-height: 1.15;
   min-height: 54px;
@@ -1211,6 +1471,22 @@ p {
   position: absolute;
   top: 5px;
   width: 5px;
+}
+
+.nav-mark-home {
+  border-radius: var(--radius-xs);
+}
+
+.nav-mark-home::before {
+  border-left: 2px solid currentColor;
+  border-top: 2px solid currentColor;
+  content: "";
+  height: 7px;
+  left: 3px;
+  position: absolute;
+  top: 5px;
+  transform: rotate(45deg);
+  width: 7px;
 }
 
 .nav-mark-challenge {
@@ -1301,6 +1577,7 @@ p {
 
 @media (min-width: 640px) {
   .mobile-shell {
+    --shell-inline-padding: var(--screen-padding-desktop);
     padding-left: var(--screen-padding-desktop);
     padding-right: var(--screen-padding-desktop);
     padding-top: var(--space-lg);
@@ -1315,7 +1592,16 @@ p {
   .profile-hero,
   .profile-form-panel,
   .profile-session-ready,
-  .profile-state-panel {
+  .profile-state-panel,
+  .home-hero,
+  .placeholder-hero,
+  .placeholder-boundary,
+  .secondary-support-entry,
+  .diagnostic-hero,
+  .diagnostic-progress-card,
+  .diagnostic-panel,
+  .diagnostic-result-card,
+  .diagnostic-entry-card {
     padding: var(--space-lg);
   }
 
@@ -1349,7 +1635,10 @@ p {
   }
 
   .example-grid,
-  .lesson-progress-card {
+  .lesson-progress-card,
+  .home-section-grid,
+  .diagnostic-result-actions,
+  .diagnostic-action-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
