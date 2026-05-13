@@ -1,0 +1,532 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-03-employee-profile-session-entry-ui-001",
+  "parent_stage_unit": "MVP-03.04",
+  "updated_at": "2026-05-13",
+  "status": "SCOPED_PASS",
+  "verification_status": "PASS",
+  "summary": "Minimal mobile-first apps/web /profile/session entry flow is implemented. It creates a profile session from invite/contact proof through generated @finrhythm/api-client helpers, keeps the returned raw token in mounted component memory only, loads profile summary, and renders the contact update UI without URL or persistent storage handoff. Full MVP-03 and human gates remain open pending a fresh verifier. Fresh verifier PASS is recorded and latest verdict/problems/status aliases are synchronized; full MVP-03 and human gates remain open.",
+  "implemented_scope": [
+    "Added /profile/session route.",
+    "Added ProfileSessionEntryScreen client component.",
+    "Collected invite code, full name, email and phone only.",
+    "Used generated fetchEmployeeProfileSession helper with EmployeeProfileSessionRequest and EmployeeProfileSessionResponse types.",
+    "Refactored ProfileContactScreen to accept initialProfileSessionToken in component memory.",
+    "Used generated fetchEmployeeMeProfileSummary and fetchEmployeeMeContactUpdate helpers plus generated contact update types.",
+    "Kept raw profileSessionToken only in React component state.",
+    "Loaded profile summary after session creation before contact editing.",
+    "Rendered fullName read-only and submitted only changed email/phone fields.",
+    "Kept /profile/contact query token handling as local/browser-smoke fallback only and linked ordinary users to /profile/session.",
+    "Rendered safe Russian start, creating, ready, updated, noop, 400, 401 and generic failure states.",
+    "Preserved visible privacy boundary copy for diagnostic answers, weak zones, exact sums and reflection details."
+  ],
+  "changed_files_owned_by_builder": [
+    "apps/web/app/profile/session/page.tsx",
+    "apps/web/app/profile/contact/page.tsx",
+    "apps/web/components/profile-session-entry-screen.ts",
+    "apps/web/components/profile-contact-screen.ts",
+    "apps/web/lib/profile-session-state.ts",
+    "apps/web/components/learning-shell.ts",
+    "apps/web/app/globals.css",
+    "apps/web/tests/learning-shell.test.mjs",
+    "apps/web/tests/browser-smoke.mjs",
+    ".agent/stages/mvp/evidence/MVP-03-employee-profile-session-entry-ui-001.md",
+    ".agent/stages/mvp/evidence/MVP-03-employee-profile-session-entry-ui-001.json",
+    ".agent/stages/mvp/evidence.md",
+    ".agent/stages/mvp/evidence.json",
+    ".agent/stages/mvp/progress.md",
+    ".agent/stages/mvp/status.json",
+    ".agent/stages/mvp/feature_list.json"
+  ],
+  "pre_existing_dirty_scope_not_owned": [
+    "apps/api/** backend/API profile-session/contact-update files from prior verified slices",
+    "packages/api-client/** generated contract files from prior backend/API slices",
+    "docs/architecture/access-and-subscriptions.md from prior backend/API docs sync",
+    "docs/legal/** from prior legal-drafts slice",
+    "older .agent/stages/mvp artifacts unrelated to this builder"
+  ],
+  "generated_client_usage": {
+    "status": "PASS",
+    "helpers_and_types": [
+      "fetchEmployeeProfileSession",
+      "EmployeeProfileSessionRequest",
+      "EmployeeProfileSessionResponse",
+      "fetchEmployeeMeProfileSummary",
+      "fetchEmployeeMeContactUpdate",
+      "EmployeeContactUpdateRequest",
+      "EmployeeContactUpdateResponse"
+    ],
+    "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/generated-client-usage-check.txt"
+  },
+  "token_handoff": {
+    "status": "PASS_MEMORY_ONLY",
+    "design": "The production entry keeps session entry, profile summary and contact update in one mounted client flow. The raw profileSessionToken is held only in React state and passed as a prop to ProfileContactScreen.",
+    "no_url": true,
+    "no_query_param": true,
+    "no_hash": true,
+    "no_local_storage": true,
+    "no_session_storage": true,
+    "no_cookie_storage": true,
+    "no_indexed_db": true,
+    "no_tracked_artifact_token": true,
+    "fallback": "/profile/contact allowQueryToken remains local/browser-smoke only and links normal users to /profile/session.",
+    "limitations": [
+      "No cross-route memory-only handoff exists yet.",
+      "Reload or navigation drops the token and requires a new profile session."
+    ],
+    "evidence": [
+      ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/unsafe-token-storage-scan.txt",
+      ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/raw-token-invite-echo-scan.txt",
+      ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/browser-smoke-token-json-check.txt",
+      ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/web-browser-smoke.txt"
+    ]
+  },
+  "browser_evidence": {
+    "status": "PASS",
+    "base_url": "http://127.0.0.1:3415",
+    "server": "next start after pnpm --filter @finrhythm/web build",
+    "runner": "apps/web/tests/browser-smoke.mjs",
+    "route_mocks": true,
+    "screenshot_count": 18,
+    "screenshots": {
+      "start_form": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/MVP-03-employee-profile-session-entry-ui-001-mobile-profile-session-start.png",
+      "creating_loading": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/MVP-03-employee-profile-session-entry-ui-001-mobile-profile-session-loading.png",
+      "session_ready_profile_form": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/MVP-03-employee-profile-session-entry-ui-001-mobile-profile-session-loaded.png",
+      "contact_updated_success": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/MVP-03-employee-profile-session-entry-ui-001-mobile-profile-session-updated.png",
+      "normalized_noop": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/MVP-03-employee-profile-session-entry-ui-001-mobile-profile-session-noop.png",
+      "contact_validation_400": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/MVP-03-employee-profile-session-entry-ui-001-mobile-profile-session-contact-validation-400.png",
+      "invalid_proof_400": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/MVP-03-employee-profile-session-entry-ui-001-mobile-profile-session-invalid-proof-400.png",
+      "invalid_session_401": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/MVP-03-employee-profile-session-entry-ui-001-mobile-profile-session-invalid-401.png",
+      "generic_failure": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/MVP-03-employee-profile-session-entry-ui-001-mobile-profile-session-generic-failure.png"
+    },
+    "index": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/MVP-03-employee-profile-session-entry-ui-001-browser-smoke.json",
+    "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/web-browser-smoke.txt"
+  },
+  "acceptance_mapping": [
+    {
+      "criterion": "/profile/session exists and is reachable by a clear route/navigation path.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        "apps/web/app/profile/session/page.tsx",
+        "apps/web/components/learning-shell.ts",
+        "browser_evidence.screenshots.start_form"
+      ]
+    },
+    {
+      "criterion": "Employee enters invite code, full name, email and phone to call POST profile-sessions through generated client helper/types.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        "apps/web/components/profile-session-entry-screen.ts",
+        "apps/web/lib/profile-session-state.ts",
+        "generated_client_usage.raw_ref",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/web-test.txt"
+      ]
+    },
+    {
+      "criterion": "Returned profileSessionToken stays in component memory only.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        "token_handoff",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/web-browser-smoke.txt"
+      ]
+    },
+    {
+      "criterion": "No token in URL, query, hash, storage, cookies, fixtures, screenshots, logs or tracked evidence.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/unsafe-token-storage-scan.txt",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/raw-token-invite-echo-scan.txt",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/browser-smoke-token-json-check.txt"
+      ]
+    },
+    {
+      "criterion": "Profile summary loads with bearer profile-session token before contact edit.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        "browser_evidence.screenshots.session_ready_profile_form",
+        "apps/web/components/profile-contact-screen.ts"
+      ]
+    },
+    {
+      "criterion": "Only email and phone are editable/submitted; fullName is read-only and never sent.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/web-test.txt",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/fullname-mutation-guardrail-scan.txt",
+        "apps/web/tests/browser-smoke.mjs"
+      ]
+    },
+    {
+      "criterion": "Updated and normalized no-op success states remain distinct.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        "browser_evidence.screenshots.contact_updated_success",
+        "browser_evidence.screenshots.normalized_noop"
+      ]
+    },
+    {
+      "criterion": "Safe 400 invalid proof/contact validation, 401 expired/invalid session and generic failure states render Russian copy without raw proof/token echo.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        "browser_evidence.screenshots.contact_validation_400",
+        "browser_evidence.screenshots.invalid_proof_400",
+        "browser_evidence.screenshots.invalid_session_401",
+        "browser_evidence.screenshots.generic_failure",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/raw-token-invite-echo-scan.txt"
+      ]
+    },
+    {
+      "criterion": "Privacy boundary copy is preserved and no customer brand, real data or forbidden claims are introduced.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        "apps/web/components/profile-session-entry-screen.ts",
+        "apps/web/components/profile-contact-screen.ts",
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/customer-brand-real-data-forbidden-claims-scan.txt"
+      ]
+    },
+    {
+      "criterion": "Existing /profile/contact query-token limitation is removed from production path.",
+      "status": "BUILDER_CHECK_PASS_WITH_LOCAL_FALLBACK",
+      "evidence": [
+        "apps/web/app/profile/session/page.tsx",
+        "apps/web/app/profile/contact/page.tsx",
+        "apps/web/components/profile-contact-screen.ts",
+        "browser_evidence.screenshots.start_form"
+      ]
+    },
+    {
+      "criterion": "No login/password/account/organization/subscription shortcut is introduced.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/access-shortcut-scope-guardrail-scan.txt"
+      ]
+    },
+    {
+      "criterion": "Relevant web/root checks, guardrail scans, JSON validation and diff check are recorded.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        "commands"
+      ]
+    },
+    {
+      "criterion": "Fresh stage_verifier PASS before scoped PASS claim.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/verdicts/MVP-03-employee-profile-session-entry-ui-001.json",
+        ".agent/stages/mvp/problems/MVP-03-employee-profile-session-entry-ui-001.md"
+      ]
+    }
+  ],
+  "commands": [
+    {
+      "command": "pnpm --filter @finrhythm/web typecheck",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/web-typecheck.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/web test",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/web-test.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/web build",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/web-build.txt"
+    },
+    {
+      "command": "CHROMIUM_EXECUTABLE_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' WEB_SMOKE_BASE_URL=http://127.0.0.1:3415 WEB_SMOKE_OUTPUT_DIR=/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513 WEB_SMOKE_SCREENSHOT_PREFIX=MVP-03-employee-profile-session-entry-ui-001 pnpm --filter @finrhythm/web smoke:browser",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/web-browser-smoke.txt"
+    },
+    {
+      "command": "rg generated client usage check",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/generated-client-usage-check.txt"
+    },
+    {
+      "command": "rg unsafe storage/cookie/IndexedDB scan",
+      "cwd": ".",
+      "exit_status": 1,
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/unsafe-token-storage-scan.txt"
+    },
+    {
+      "command": "rg raw token/query/invite echo scan",
+      "cwd": ".",
+      "exit_status": 1,
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/raw-token-invite-echo-scan.txt"
+    },
+    {
+      "command": "node browser-smoke token/invite JSON check",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/browser-smoke-token-json-check.txt"
+    },
+    {
+      "command": "rg customer brand / real data / forbidden claims scan",
+      "cwd": ".",
+      "exit_status": 1,
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/customer-brand-real-data-forbidden-claims-scan.txt"
+    },
+    {
+      "command": "rg access shortcut scope scan",
+      "cwd": ".",
+      "exit_status": 1,
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/access-shortcut-scope-guardrail-scan.txt"
+    },
+    {
+      "command": "rg fullName mutation scan",
+      "cwd": ".",
+      "exit_status": 1,
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/fullname-mutation-guardrail-scan.txt"
+    },
+    {
+      "command": "make verify",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/make-verify.txt"
+    },
+    {
+      "command": "make test-unit",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/make-test-unit.txt"
+    },
+    {
+      "command": "make build",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-employee-profile-session-entry-ui-001-20260513/make-build.txt"
+    }
+  ],
+  "commands_summary": {
+    "web_typecheck": "PASS",
+    "web_test": "PASS",
+    "web_build": "PASS",
+    "web_browser_smoke": "PASS",
+    "generated_client_usage_check": "PASS",
+    "unsafe_token_storage_scan": "PASS_NO_MATCHES",
+    "raw_token_invite_echo_scan": "PASS_NO_MATCHES",
+    "browser_smoke_token_json_check": "PASS",
+    "customer_brand_real_data_forbidden_claims_scan": "PASS_NO_MATCHES",
+    "access_shortcut_scope_guardrail_scan": "PASS_NO_MATCHES",
+    "fullname_mutation_guardrail_scan": "PASS_NO_MATCHES",
+    "make_verify": "PASS",
+    "make_test_unit": "PASS",
+    "make_build": "PASS",
+    "json_validation": "PASS_AFTER_PARENT_RECHECK",
+    "git_diff_check_excluding_raw": "PASS_AFTER_PARENT_RECHECK",
+    "parent_recheck_after_builder_capacity_interruption": "PASS"
+  },
+  "parent_recheck": {
+    "status": "PASS",
+    "reason": "The stage_builder process wrote implementation and compact evidence, then the agent session errored on model capacity before final handoff. The parent/orchestrator reran the required checks without changing production implementation.",
+    "raw_dir": ".agent/stages/mvp/raw/orchestrator-MVP-03-employee-profile-session-entry-ui-001-20260513/",
+    "commands": [
+      {
+        "command": "pnpm --filter @finrhythm/web typecheck",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS",
+        "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-03-employee-profile-session-entry-ui-001-20260513/web-typecheck.txt"
+      },
+      {
+        "command": "pnpm --filter @finrhythm/web test",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS",
+        "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-03-employee-profile-session-entry-ui-001-20260513/web-test.txt"
+      },
+      {
+        "command": "pnpm --filter @finrhythm/web build",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS",
+        "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-03-employee-profile-session-entry-ui-001-20260513/web-build.txt"
+      },
+      {
+        "command": "CHROMIUM_EXECUTABLE_PATH='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' WEB_SMOKE_BASE_URL=http://127.0.0.1:3416 WEB_SMOKE_OUTPUT_DIR=/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/orchestrator-MVP-03-employee-profile-session-entry-ui-001-20260513 WEB_SMOKE_SCREENSHOT_PREFIX=orchestrator-MVP-03-employee-profile-session-entry-ui-001 pnpm --filter @finrhythm/web smoke:browser",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS",
+        "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-03-employee-profile-session-entry-ui-001-20260513/web-browser-smoke.txt"
+      },
+      {
+        "command": "rg production /profile/session token URL/storage strict scan",
+        "cwd": ".",
+        "exit_status": 1,
+        "status": "PASS_NO_MATCHES",
+        "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-03-employee-profile-session-entry-ui-001-20260513/production-session-token-url-storage-strict-scan.txt"
+      },
+      {
+        "command": "rg production customer brand / real data / forbidden claims scan",
+        "cwd": ".",
+        "exit_status": 1,
+        "status": "PASS_NO_MATCHES",
+        "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-03-employee-profile-session-entry-ui-001-20260513/production-brand-real-data-forbidden-claims-scan.txt"
+      },
+      {
+        "command": "rg production fullName mutation scan",
+        "cwd": ".",
+        "exit_status": 1,
+        "status": "PASS_NO_MATCHES",
+        "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-03-employee-profile-session-entry-ui-001-20260513/production-fullname-mutation-scan.txt"
+      },
+      {
+        "command": "rg browser smoke token/invite JSON check",
+        "cwd": ".",
+        "exit_status": 1,
+        "status": "PASS_NO_MATCHES",
+        "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-03-employee-profile-session-entry-ui-001-20260513/browser-smoke-token-json-check.txt"
+      },
+      {
+        "command": "rg generated client usage check",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS",
+        "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-03-employee-profile-session-entry-ui-001-20260513/generated-client-usage-check.txt"
+      },
+      {
+        "command": "jq empty .agent/stages/mvp/status.json .agent/stages/mvp/feature_list.json .agent/stages/mvp/evidence.json .agent/stages/mvp/evidence/MVP-03-employee-profile-session-entry-ui-001.json",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS",
+        "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-03-employee-profile-session-entry-ui-001-20260513/json-validation.txt"
+      },
+      {
+        "command": "git diff --check -- . ':(exclude).agent/stages/**/raw/**'",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS",
+        "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-03-employee-profile-session-entry-ui-001-20260513/git-diff-check-excluding-raw.txt"
+      },
+      {
+        "command": "JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH make verify",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS",
+        "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-03-employee-profile-session-entry-ui-001-20260513/make-verify.txt"
+      },
+      {
+        "command": "JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH make test-unit",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS",
+        "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-03-employee-profile-session-entry-ui-001-20260513/make-test-unit.txt"
+      },
+      {
+        "command": "JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH make build",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS",
+        "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-03-employee-profile-session-entry-ui-001-20260513/make-build.txt"
+      }
+    ],
+    "browser_plugin_qa": {
+      "status": "PASS_DOM_NO_SCREENSHOT",
+      "url": "http://127.0.0.1:3404/profile/session",
+      "page_identity": true,
+      "not_blank": true,
+      "framework_overlay": false,
+      "console_errors_or_warnings": 0,
+      "visible_content_checked": [
+        "Подтвердите контактный профиль",
+        "Код приглашения",
+        "Граница приватности видна до входа"
+      ],
+      "screenshot_limitation": "In-app Browser screenshot capture timed out; Playwright browser-smoke screenshot evidence is available in parent and builder raw refs."
+    }
+  },
+  "docs_sync": {
+    "status": "NOOP_EXPECTED",
+    "canonical_docs_changed": false,
+    "reason": "The builder added a web UI over the already documented profile-session/contact-update boundary in docs/architecture/access-and-subscriptions.md section 7.2 and introduced no new durable access/session handoff, API contract, schema, setup/runtime or product decision."
+  },
+  "diagram": {
+    "status": "NONE_EXPECTED",
+    "reason": "No new cross-module flow or state machine was introduced."
+  },
+  "backend_api_baseline_preserved": {
+    "status": true,
+    "baseline": [
+      "Spring Boot",
+      "Java 21",
+      "Maven Wrapper",
+      "PostgreSQL",
+      "Flyway",
+      "OpenAPI/springdoc"
+    ],
+    "note": "No backend behavior, Flyway migration, OpenAPI source or generated api-client artifact was edited by this builder."
+  },
+  "human_gates": [
+    {
+      "gate": "legal-privacy-consent-wording-and-real-pii-processing",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "real-employee-customer-data-processing-approval",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "customer-specific-hr-reporting-boundaries",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "financial-correctness-lessons-diagnostics-quizzes",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "reward-economy-stock-prices-fulfillment",
+      "status": "WAITING_HUMAN"
+    }
+  ],
+  "known_limitations": [
+    "No cross-route memory-only token handoff exists yet; session entry, profile summary and contact update intentionally stay in one mounted client flow.",
+    "Reload or navigation drops the token and requires a new profile session.",
+    "/profile/contact query-token support remains local/browser-smoke fallback only.",
+    "No login/password setup, account recovery, persistent auth, User, OrgMembership, organization codes, subscriptions, seats, entitlements, support tickets, HR reporting, diagnostics, points, rewards, CMS, backend/API changes or real-data processing is implemented."
+  ],
+  "fresh_verifier": {
+    "status": "PASS",
+    "required_next": false,
+    "scope": "MVP-03-employee-profile-session-entry-ui-001 only",
+    "verdict_ref": ".agent/stages/mvp/verdicts/MVP-03-employee-profile-session-entry-ui-001.json",
+    "problems_ref": ".agent/stages/mvp/problems/MVP-03-employee-profile-session-entry-ui-001.md",
+    "alias_refs": [
+      ".agent/stages/mvp/verdict.json",
+      ".agent/stages/mvp/problems.md"
+    ],
+    "note": "Fresh read-only stage_verifier returned PASS. Parent synchronized latest aliases after verifier completion."
+  },
+  "handoff": {
+    "next_role": "stage_orchestrator",
+    "status": "PARENT_SYNC_DONE",
+    "next_recommended_ids": [
+      "freeze-next-MVP-03-functional-gap-after-profile-session-entry-ui-001",
+      "candidate-MVP-03-onboarding-to-profile-continuity-ui-001"
+    ],
+    "note": "Full MVP-03 remains open; do not close MVP-03 or human gates without separate closure audit and human approvals."
+  },
+  "immutable_refs": {
+    "markdown": ".agent/stages/mvp/evidence/MVP-03-employee-profile-session-entry-ui-001.md",
+    "json": ".agent/stages/mvp/evidence/MVP-03-employee-profile-session-entry-ui-001.json"
+  }
+}

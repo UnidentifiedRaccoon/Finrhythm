@@ -2,11 +2,15 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
+import { createElement as h } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { LessonRendererScreen } from "../components/lesson-renderer.ts";
 import { getLessonRendererState } from "../lib/lesson-state.ts";
+import { EmployeeStartScreen } from "../components/employee-start-screen.ts";
 import { LearningShellScreen } from "../components/learning-shell.ts";
 import { OnboardingPrivacyScreen } from "../components/onboarding-privacy-screen.ts";
+import { ProfileContactScreen } from "../components/profile-contact-screen.ts";
+import { ProfileSessionEntryScreen } from "../components/profile-session-entry-screen.ts";
 import {
   learningFixtureSourceBoundary,
   learningFixtureSourceProvenance,
@@ -17,6 +21,16 @@ import {
   syntheticN3LessonFixture
 } from "../lib/learning-fixtures.ts";
 import { getLearningShellState } from "../lib/learning-state.ts";
+import {
+  buildChangedContactRequest,
+  buildSafeValidationFeedback,
+  classifyApiClientError
+} from "../lib/profile-contact-state.ts";
+import {
+  buildEmployeeProfileSessionRequest,
+  buildInvalidProfileSessionFeedback,
+  buildProfileSessionValidationFeedback
+} from "../lib/profile-session-state.ts";
 
 const appRoot = new URL("..", import.meta.url).pathname;
 const managedSourceDirs = ["app", "components", "lib"];
@@ -50,6 +64,7 @@ describe("mobile learning shell", () => {
     assert.match(html, /Открыть N3/);
     assert.match(html, /href="\/onboarding\/privacy"/);
     assert.match(html, /Подробнее о приватности/);
+    assert.match(html, /href="\/profile\/session"/);
     assert.match(html, /Пример: офис/);
     assert.match(html, /Пример: сменный график/);
     assert.match(html, /href="\/learning\/lessons\/N1"/);
@@ -83,10 +98,205 @@ describe("mobile learning shell", () => {
     assert.match(html, /не является принятием согласия/);
     assert.match(html, /не записывает версию согласия/);
     assert.match(html, /Диагностика будет отдельным шагом/);
+    assert.match(html, /Перед будущей диагностикой можно открыть профиль по коду приглашения/);
+    assert.match(html, /Короткая профильная сессия нужна только для контактных данных/);
+    assert.match(html, /href="\/profile\/session"/);
+    assert.match(html, /Открыть вход в профиль/);
     assert.match(html, /href="\/learning"/);
+    assert.match(html, /Посмотреть демо-обучение/);
     assert.doesNotMatch(html, /href="\/diagnostics"/);
     assert.doesNotMatch(html, /type="checkbox"/);
     assert.doesNotMatch(html, /финально утвержд/);
+  });
+
+  it("renders the employee start screen with privacy-first profile order", () => {
+    const html = renderToStaticMarkup(EmployeeStartScreen());
+
+    assert.match(html, /Начните с приватности/);
+    assert.match(html, /Секрет сессии не идёт через адрес/);
+    assert.match(html, /На этом экране нет полей и нет создания сессии/);
+    assert.match(html, /Безопасный порядок/);
+    assert.match(html, /Сначала граница приватности/);
+    assert.match(html, /Затем временная профильная сессия/);
+    assert.match(html, /Контакты только после сессии/);
+    assert.match(html, /Контактные данные появятся только после временной профильной сессии/);
+    assert.match(html, /href="\/onboarding\/privacy"/);
+    assert.match(html, /Перейти к приватности/);
+    assert.match(html, /href="\/profile\/session"/);
+    assert.match(html, /Уже прочитали про приватность: продолжить вход в профиль/);
+    assert.doesNotMatch(html, /href="\/profile\/contact"/);
+    assert.doesNotMatch(html, /<input/);
+    assert.doesNotMatch(html, /name="inviteCode"/);
+    assert.doesNotMatch(html, /name="email"/);
+    assert.doesNotMatch(html, /name="phone"/);
+  });
+
+  it("keeps the employee start route as a no-API privacy-first entry", async () => {
+    const pageSource = await readFile(join(appRoot, "app", "start", "page.tsx"), "utf8");
+    const componentSource = await readFile(join(appRoot, "components", "employee-start-screen.ts"), "utf8");
+    const source = `${pageSource}\n${componentSource}`;
+
+    assert.match(pageSource, /EmployeeStartScreen/);
+    assert.match(componentSource, /href: "\/onboarding\/privacy"/);
+    assert.match(componentSource, /className: "primary-action"/);
+    assert.match(componentSource, /href: "\/profile\/session"/);
+    assert.match(componentSource, /className: "secondary-action"/);
+    assert.doesNotMatch(source, /\/profile\/contact/);
+    assert.doesNotMatch(source, /@finrhythm\/api-client|fetchEmployee|fetch\(/);
+    assert.doesNotMatch(source, /useState|useEffect|useSearchParams|searchParams/);
+    assert.doesNotMatch(source, /<input|name: "inviteCode"|name: "email"|name: "phone"/);
+    assert.equal(source.includes(joinText("profile", "Session", "Token")), false);
+    assert.doesNotMatch(
+      source,
+      new RegExp(`${joinText("local", "Storage")}|${joinText("session", "Storage")}|indexedDB`)
+    );
+    assert.doesNotMatch(source, new RegExp(`${joinText("document", "\\.", "cookie")}|${joinText("cookie", "Store")}`));
+  });
+
+  it("renders the employee profile/contact start limitation without persisting a token", () => {
+    const html = renderToStaticMarkup(h(ProfileContactScreen));
+
+    assert.match(html, /Контакты для связи/);
+    assert.match(html, /Нужна профильная сессия/);
+    assert.match(html, /Откройте вход в профиль/);
+    assert.match(html, /Короткая сессия останется только в памяти/);
+    assert.match(html, /href="\/profile\/session"/);
+    assert.match(html, /Личные ответы диагностики/);
+    assert.match(html, /слабые зоны/);
+    assert.match(html, /точные суммы/);
+    assert.match(html, /детали рефлексии/);
+    assert.doesNotMatch(html, /name="fullName"/);
+    assert.doesNotMatch(html, /password/i);
+  });
+
+  it("renders the employee profile session entry flow with privacy copy", () => {
+    const html = renderToStaticMarkup(h(ProfileSessionEntryScreen));
+
+    assert.match(html, /Подтвердите контактный профиль/);
+    assert.match(html, /Код приглашения/);
+    assert.match(html, /Имя и фамилия/);
+    assert.match(html, /Email/);
+    assert.match(html, /Телефон/);
+    assert.match(html, /Граница приватности видна до входа/);
+    assert.match(html, /Личные ответы диагностики/);
+    assert.match(html, /слабые зоны/);
+    assert.match(html, /точные суммы/);
+    assert.match(html, /детали рефлексии/);
+    assert.match(html, /href="\/profile\/session"/);
+    assert.doesNotMatch(html, /password/i);
+  });
+
+  it("builds profile-session POST payloads through generated request types without echoing invalid proof", () => {
+    const syntheticInviteCode = joinText("INVITE", "-", "LOCAL", "-", "001");
+    const request = buildEmployeeProfileSessionRequest({
+      inviteCode: ` ${syntheticInviteCode} `,
+      fullName: " Ирина Петрова ",
+      email: " irina.profile@example.test ",
+      phone: " +70000000000 "
+    });
+
+    assert.deepEqual(request, {
+      inviteCode: syntheticInviteCode,
+      fullName: "Ирина Петрова",
+      email: "irina.profile@example.test",
+      phone: "+70000000000"
+    });
+
+    const missing = buildProfileSessionValidationFeedback({
+      inviteCode: "",
+      fullName: "",
+      email: "irina.profile@example.test",
+      phone: ""
+    });
+    assert.match(missing?.message, /Мы не показываем введённые значения/);
+    assert.equal(missing?.fieldHints.inviteCode, "Введите код приглашения.");
+    assert.equal(missing?.fieldHints.fullName, "Введите имя так, как оно указано при регистрации.");
+    assert.equal(missing?.fieldHints.phone, "Введите телефон.");
+    assert.equal(missing?.fieldHints.email, undefined);
+
+    const invalid = buildInvalidProfileSessionFeedback();
+    assert.match(invalid.message, /Не удалось подтвердить профиль/);
+    assert.equal(JSON.stringify(invalid).includes(syntheticInviteCode), false);
+    assert.doesNotMatch(JSON.stringify(invalid), /irina\.profile/);
+  });
+
+  it("builds contact update payloads only from changed email and phone fields", () => {
+    const request = buildChangedContactRequest(
+      { email: "employee@example.test", phone: "+70000000000" },
+      { email: "EMPLOYEE@example.test", phone: "+70000000000" }
+    );
+    assert.deepEqual(request, { email: "EMPLOYEE@example.test" });
+    assert.equal(Object.hasOwn(request, "fullName"), false);
+
+    const phoneRequest = buildChangedContactRequest(
+      { email: "employee@example.test", phone: "+70000000000" },
+      { email: " employee@example.test ", phone: "+7 000 000 00 01" }
+    );
+    assert.deepEqual(phoneRequest, { phone: "+7 000 000 00 01" });
+
+    const noop = buildChangedContactRequest(
+      { email: "employee@example.test", phone: "+70000000000" },
+      { email: " employee@example.test ", phone: "+70000000000" }
+    );
+    assert.equal(noop, null);
+  });
+
+  it("keeps profile/contact validation and API failure handling safe", () => {
+    assert.equal(classifyApiClientError(new Error("PATCH /api/v1/employee-registrations/me/contact failed with HTTP 400.")), "validation");
+    assert.equal(classifyApiClientError(new Error("GET /api/v1/employee-registrations/me/profile-summary failed with HTTP 401.")), "auth");
+    assert.equal(classifyApiClientError(new Error("fetch failed")), "network");
+
+    const feedback = buildSafeValidationFeedback({ email: "bad-value@example", phone: "123" });
+    assert.match(feedback.message, /Проверьте email и телефон/);
+    assert.match(feedback.fieldHints.email, /не показываем введённое значение/);
+    assert.match(feedback.fieldHints.phone, /не показываем введённое значение/);
+    assert.doesNotMatch(JSON.stringify(feedback), /bad-value/);
+    assert.doesNotMatch(JSON.stringify(feedback), /123/);
+  });
+
+  it("uses generated profile-session client helpers and avoids unsafe browser token storage", async () => {
+    const profileSource = await readFile(join(appRoot, "components", "profile-contact-screen.ts"), "utf8");
+    const profileContactPageSource = await readFile(join(appRoot, "app", "profile", "contact", "page.tsx"), "utf8");
+    const profileSessionSource = await readFile(join(appRoot, "components", "profile-session-entry-screen.ts"), "utf8");
+    const profileStateSource = await readFile(join(appRoot, "lib", "profile-contact-state.ts"), "utf8");
+    const profileSessionStateSource = await readFile(join(appRoot, "lib", "profile-session-state.ts"), "utf8");
+    const webPackage = JSON.parse(await readFile(join(appRoot, "package.json"), "utf8"));
+
+    assert.equal(webPackage.dependencies["@finrhythm/api-client"], "workspace:*");
+    assert.match(profileSessionSource, /fetchEmployeeProfileSession/);
+    assert.match(profileSessionSource, /EmployeeProfileSessionResponse/);
+    assert.match(profileSessionStateSource, /EmployeeProfileSessionRequest/);
+    assert.match(profileSource, /fetchEmployeeMeProfileSummary/);
+    assert.match(profileSource, /fetchEmployeeMeContactUpdate/);
+    assert.match(profileSource, /EmployeeContactUpdateResponse/);
+    assert.match(profileStateSource, /EmployeeContactUpdateRequest/);
+    assert.match(profileStateSource, /ApiErrorResponse/);
+    assert.match(profileSource, /initialProfileSessionToken/);
+    assert.match(profileSessionSource, /initialProfileSessionToken/);
+    assert.equal(
+      `${profileSource}\n${profileContactPageSource}\n${profileStateSource}`.includes(joinText("allow", "Query", "Token")),
+      false
+    );
+    assert.equal(
+      `${profileSource}\n${profileContactPageSource}\n${profileStateSource}`.includes(
+        joinText("PROFILE_SESSION", "_TOKEN_QUERY", "_PARAM")
+      ),
+      false
+    );
+    assert.doesNotMatch(`${profileSource}\n${profileContactPageSource}`, /history\.replaceState/);
+    assert.doesNotMatch(
+      `${profileSource}\n${profileContactPageSource}`,
+      /window\.location\.search|searchParams\.get/
+    );
+    assert.equal(`${profileSource}\n${profileContactPageSource}`.includes(joinText("profile", "Session", "Token", "=")), false);
+    assert.doesNotMatch(
+      `${profileSource}\n${profileSessionSource}`,
+      new RegExp(`${joinText("set", "Item")}|${joinText("get", "Item")}|${joinText("remove", "Item")}`)
+    );
+    assert.doesNotMatch(
+      `${profileSource}\n${profileSessionSource}`,
+      new RegExp(`${joinText("document", "\\.", "cookie")}|${joinText("cookie", "Store")}`)
+    );
   });
 
   it("keeps managed web source free of customer brand, active old access terms and forbidden claims", async () => {
@@ -102,7 +312,11 @@ describe("mobile learning shell", () => {
       "без " + "риска",
       joinText("рейтинг", " ", "сотрудников"),
       joinText("лучшие", " ", "сотрудники"),
-      joinText("худшие", " ", "сотрудники")
+      joinText("худшие", " ", "сотрудники"),
+      joinText("local", "Storage"),
+      joinText("session", "Storage"),
+      joinText("document", ".", "cookie"),
+      joinText("cookie", "Store")
     ];
 
     for (const token of forbidden) {
@@ -274,18 +488,18 @@ describe("fixture-backed lesson renderer", () => {
 
     const fixtureText = JSON.stringify(syntheticN3LessonFixture);
     const forbiddenRequestPatterns = [
-      "загрузите фото",
-      "приложите фото",
-      "укажите адрес",
-      "укажите ссылку на объявление",
-      "укажите сумму сделки",
-      "отправьте переписку с покупателем",
-      "загрузите скриншот оплаты",
-      "банковский скриншот требуется",
-      "точные личные суммы обязательны",
-      "обязательный мерч",
-      "гарантированный результат",
-      "случайный приз"
+      joinText("загрузите", " ", "фото"),
+      joinText("приложите", " ", "фото"),
+      joinText("укажите", " ", "адрес"),
+      joinText("укажите", " ", "ссылку на объявление"),
+      joinText("укажите", " ", "сумму сделки"),
+      joinText("отправьте", " ", "переписку с покупателем"),
+      joinText("загрузите", " ", "скриншот оплаты"),
+      joinText("банковский", " ", "скриншот требуется"),
+      joinText("точные", " ", "личные суммы обязательны"),
+      joinText("обязательный", " ", "мерч"),
+      joinText("гарантир", "ованный", " ", "результат"),
+      joinText("случайный", " ", "приз")
     ];
 
     for (const token of forbiddenRequestPatterns) {
@@ -336,7 +550,7 @@ describe("fixture-backed lesson renderer", () => {
     assert.match(html, /гарантией накоплений/);
     assert.doesNotMatch(html, /запуск challenge зафиксирован/);
     assert.doesNotMatch(html, /ответ отправлен/);
-    assert.doesNotMatch(html, /банковский скриншот требуется/);
+    assert.doesNotMatch(html, new RegExp(joinText("банковский", " ", "скриншот требуется")));
   });
 
   it("renders the synthetic N3 decluttering lesson without sale proof, persistence or unsafe rewards", () => {
@@ -357,9 +571,9 @@ describe("fixture-backed lesson renderer", () => {
     assert.match(html, /случайной наградой/);
     assert.doesNotMatch(html, /продажа зафиксирована/);
     assert.doesNotMatch(html, /ответ отправлен/);
-    assert.doesNotMatch(html, /загрузите фото/);
-    assert.doesNotMatch(html, /укажите адрес/);
-    assert.doesNotMatch(html, /загрузите скриншот оплаты/);
+    assert.doesNotMatch(html, new RegExp(joinText("загрузите", " ", "фото")));
+    assert.doesNotMatch(html, new RegExp(joinText("укажите", " ", "адрес")));
+    assert.doesNotMatch(html, new RegExp(joinText("загрузите", " ", "скриншот оплаты")));
   });
 
   it("keeps the renderer source free of customer brand, old access terms and unsafe claims", async () => {

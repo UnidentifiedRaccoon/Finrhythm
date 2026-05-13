@@ -44,6 +44,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.reset;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -530,6 +531,388 @@ class EmployeeRegistrationControllerIT {
     }
 
     @Test
+    void contactUpdateChangesEmailAndPhoneAtomicallyAndAppendsPrivacySafeAuditRow() throws Exception {
+        Tenant tenant = seedTenant();
+        AccessPool accessPool = seedAccessPool(tenant, 5);
+        IssuedInviteCode issuedCode = issueOne(tenant, accessPool, NON_EXPIRED_AT);
+
+        JsonNode created = postRegistration("""
+                {
+                  "fullName": "Contact Update",
+                  "email": "contact.update@example.test",
+                  "phone": "+70000000021",
+                  "inviteCode": "%s"
+                }
+                """.formatted(issuedCode.code()))
+                .andExpect(status().isCreated())
+                .andReturnJson();
+        UUID registrationId = UUID.fromString(created.get("employeeRegistrationId").asText());
+
+        String token = postProfileSession("""
+                {
+                  "fullName": "Contact Update",
+                  "email": "contact.update@example.test",
+                  "phone": "+70000000021",
+                  "inviteCode": "%s"
+                }
+                """.formatted(issuedCode.code()))
+                .andExpect(status().isCreated())
+                .andReturnJson()
+                .get("profileSessionToken")
+                .asText();
+        UUID profileSessionId = profileSessionIdForRegistration(registrationId);
+
+        String response = patchMeContact(token, """
+                {
+                  "email": "CONTACT.UPDATED@EXAMPLE.TEST",
+                  "phone": "+7 (000) 000-00-22"
+                }
+                """)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.employeeRegistrationId").value(registrationId.toString()))
+                .andExpect(jsonPath("$.fullName").value("Contact Update"))
+                .andExpect(jsonPath("$.email").value("contact.updated@example.test"))
+                .andExpect(jsonPath("$.phone").value("+70000000022"))
+                .andExpect(jsonPath("$.changed").value(true))
+                .andExpect(jsonPath("$.outcome").value("updated"))
+                .andExpect(jsonPath("$.changedFields[0]").value("email"))
+                .andExpect(jsonPath("$.changedFields[1]").value("phone"))
+                .andExpect(jsonPath("$.contactVerifiedByProfileSession").value(true))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertThat(registeredContact(registrationId))
+                .isEqualTo("Contact Update|contact.updated@example.test|+70000000022");
+        assertThat(countContactUpdateAuditRows(registrationId)).isEqualTo(1);
+
+        Map<String, Object> audit = latestContactUpdateAuditRow(registrationId);
+        assertThat(audit.get("employee_registration_id")).isEqualTo(registrationId);
+        assertThat(audit.get("tenant_id")).isEqualTo(tenant.getId());
+        assertThat(audit.get("pilot_launch_id")).isEqualTo(accessPool.getPilotLaunch().getId());
+        assertThat(audit.get("access_pool_id")).isEqualTo(accessPool.getId());
+        assertThat(audit.get("changed_fields")).isEqualTo("email,phone");
+        assertThat(audit.get("outcome")).isEqualTo("updated");
+        assertThat(audit.get("actor_type")).isEqualTo("employee_profile_session");
+        assertThat(audit.get("employee_profile_session_id")).isEqualTo(profileSessionId);
+        assertThat(audit.get("old_email_hash")).asString().matches("^[a-f0-9]{64}$");
+        assertThat(audit.get("new_email_hash")).asString().matches("^[a-f0-9]{64}$");
+        assertThat(audit.get("old_phone_hash")).asString().matches("^[a-f0-9]{64}$");
+        assertThat(audit.get("new_phone_hash")).asString().matches("^[a-f0-9]{64}$");
+        assertThat(audit.get("old_email_hash")).isNotEqualTo(audit.get("new_email_hash"));
+        assertThat(audit.get("old_phone_hash")).isNotEqualTo(audit.get("new_phone_hash"));
+
+        String auditDump = contactUpdateAuditDump(registrationId);
+        assertThat(auditDump)
+                .doesNotContain(token)
+                .doesNotContain(issuedCode.code())
+                .doesNotContain("contact.update@example.test")
+                .doesNotContain("contact.updated@example.test")
+                .doesNotContain("+70000000021")
+                .doesNotContain("+70000000022")
+                .doesNotContain("activationSubjectRef")
+                .doesNotContain("lookupHash");
+        assertThat(response)
+                .doesNotContain(token)
+                .doesNotContain(issuedCode.code())
+                .doesNotContain("activationSubjectRef")
+                .doesNotContain("lookupHash");
+
+        assertThat(countActiveProfileSessions(registrationId)).isEqualTo(1);
+        getMeProfileSummary(token)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.email").value("contact.updated@example.test"))
+                .andExpect(jsonPath("$.phone").value("+70000000022"));
+    }
+
+    @Test
+    void contactUpdateNoopSucceedsAuditsAndDoesNotConsumeProfileSession() throws Exception {
+        Tenant tenant = seedTenant();
+        AccessPool accessPool = seedAccessPool(tenant, 5);
+        IssuedInviteCode issuedCode = issueOne(tenant, accessPool, NON_EXPIRED_AT);
+
+        JsonNode created = postRegistration("""
+                {
+                  "fullName": "Contact Noop",
+                  "email": "contact.noop@example.test",
+                  "phone": "+70000000023",
+                  "inviteCode": "%s"
+                }
+                """.formatted(issuedCode.code()))
+                .andExpect(status().isCreated())
+                .andReturnJson();
+        UUID registrationId = UUID.fromString(created.get("employeeRegistrationId").asText());
+        String token = postProfileSession("""
+                {
+                  "fullName": "Contact Noop",
+                  "email": "contact.noop@example.test",
+                  "phone": "+70000000023",
+                  "inviteCode": "%s"
+                }
+                """.formatted(issuedCode.code()))
+                .andExpect(status().isCreated())
+                .andReturnJson()
+                .get("profileSessionToken")
+                .asText();
+
+        patchMeContact(token, """
+                {
+                  "email": "CONTACT.NOOP@EXAMPLE.TEST",
+                  "phone": "+7 (000) 000-00-23"
+                }
+                """)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.changed").value(false))
+                .andExpect(jsonPath("$.outcome").value("noop"))
+                .andExpect(jsonPath("$.changedFields").isEmpty())
+                .andExpect(jsonPath("$.email").value("contact.noop@example.test"))
+                .andExpect(jsonPath("$.phone").value("+70000000023"));
+
+        assertThat(registeredContact(registrationId))
+                .isEqualTo("Contact Noop|contact.noop@example.test|+70000000023");
+        assertThat(countContactUpdateAuditRows(registrationId)).isEqualTo(1);
+        Map<String, Object> audit = latestContactUpdateAuditRow(registrationId);
+        assertThat(audit.get("changed_fields")).isEqualTo("none");
+        assertThat(audit.get("outcome")).isEqualTo("noop");
+        assertThat(audit.get("old_email_hash")).isEqualTo(audit.get("new_email_hash"));
+        assertThat(audit.get("old_phone_hash")).isEqualTo(audit.get("new_phone_hash"));
+
+        assertThat(countActiveProfileSessions(registrationId)).isEqualTo(1);
+        getMeProfileSummary(token).andExpect(status().isOk());
+    }
+
+    @Test
+    void contactUpdateKeepsOmittedFieldsAndNeverMutatesFullName() throws Exception {
+        Tenant tenant = seedTenant();
+        AccessPool accessPool = seedAccessPool(tenant, 5);
+        IssuedInviteCode issuedCode = issueOne(tenant, accessPool, NON_EXPIRED_AT);
+
+        JsonNode created = postRegistration("""
+                {
+                  "fullName": "Contact Original",
+                  "email": "contact.original@example.test",
+                  "phone": "+70000000024",
+                  "inviteCode": "%s"
+                }
+                """.formatted(issuedCode.code()))
+                .andExpect(status().isCreated())
+                .andReturnJson();
+        UUID registrationId = UUID.fromString(created.get("employeeRegistrationId").asText());
+        String token = postProfileSession("""
+                {
+                  "fullName": "Contact Original",
+                  "email": "contact.original@example.test",
+                  "phone": "+70000000024",
+                  "inviteCode": "%s"
+                }
+                """.formatted(issuedCode.code()))
+                .andExpect(status().isCreated())
+                .andReturnJson()
+                .get("profileSessionToken")
+                .asText();
+
+        patchMeContact(token, """
+                {
+                  "fullName": "Injected Name",
+                  "email": "contact.email.only@example.test"
+                }
+                """)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.fullName").value("Contact Original"))
+                .andExpect(jsonPath("$.email").value("contact.email.only@example.test"))
+                .andExpect(jsonPath("$.phone").value("+70000000024"))
+                .andExpect(jsonPath("$.changedFields[0]").value("email"));
+
+        assertThat(registeredContact(registrationId))
+                .isEqualTo("Contact Original|contact.email.only@example.test|+70000000024");
+        assertThat(countContactUpdateAuditRows(registrationId)).isEqualTo(1);
+    }
+
+    @Test
+    void contactUpdateRejectsEmptyAndInvalidPayloadWithoutAuditOrMutation() throws Exception {
+        Tenant tenant = seedTenant();
+        AccessPool accessPool = seedAccessPool(tenant, 5);
+        IssuedInviteCode issuedCode = issueOne(tenant, accessPool, NON_EXPIRED_AT);
+
+        JsonNode created = postRegistration("""
+                {
+                  "fullName": "Contact Invalid",
+                  "email": "contact.invalid@example.test",
+                  "phone": "+70000000025",
+                  "inviteCode": "%s"
+                }
+                """.formatted(issuedCode.code()))
+                .andExpect(status().isCreated())
+                .andReturnJson();
+        UUID registrationId = UUID.fromString(created.get("employeeRegistrationId").asText());
+        String token = postProfileSession("""
+                {
+                  "fullName": "Contact Invalid",
+                  "email": "contact.invalid@example.test",
+                  "phone": "+70000000025",
+                  "inviteCode": "%s"
+                }
+                """.formatted(issuedCode.code()))
+                .andExpect(status().isCreated())
+                .andReturnJson()
+                .get("profileSessionToken")
+                .asText();
+
+        patchMeContact(token, "{}")
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("VALIDATION_FAILED"));
+
+        String invalidResponse = patchMeContact(token, """
+                {
+                  "email": "raw-bad-contact-email",
+                  "phone": "25"
+                }
+                """)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("VALIDATION_FAILED"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertThat(invalidResponse)
+                .doesNotContain("raw-bad-contact-email")
+                .doesNotContain("25")
+                .doesNotContain(token)
+                .doesNotContain(issuedCode.code());
+        assertThat(registeredContact(registrationId))
+                .isEqualTo("Contact Invalid|contact.invalid@example.test|+70000000025");
+        assertThat(countContactUpdateAuditRows(registrationId)).isZero();
+    }
+
+    @Test
+    void contactUpdateRejectsMissingMalformedUnknownExpiredAndRevokedTokensWithoutAuditOrEcho() throws Exception {
+        Tenant tenant = seedTenant();
+        AccessPool accessPool = seedAccessPool(tenant, 5);
+        IssuedInviteCode issuedCode = issueOne(tenant, accessPool, NON_EXPIRED_AT);
+        String body = """
+                {
+                  "email": "auth.fail@example.test",
+                  "phone": "+70000009999"
+                }
+                """;
+        int auditCountBefore = countContactUpdateAuditRows();
+
+        String missingResponse = patchMeContactWithoutToken(body)
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("PROFILE_SESSION_AUTHENTICATION_REQUIRED"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        assertThat(missingResponse)
+                .doesNotContain("auth.fail@example.test")
+                .doesNotContain("+70000009999");
+
+        String malformedToken = "bad.profile.session.token";
+        String malformedResponse = patchMeContact(malformedToken, body)
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("PROFILE_SESSION_AUTHENTICATION_REQUIRED"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        assertThat(malformedResponse)
+                .doesNotContain(malformedToken)
+                .doesNotContain("auth.fail@example.test")
+                .doesNotContain("+70000009999");
+
+        String unknownToken = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB";
+        String unknownResponse = patchMeContact(unknownToken, body)
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("PROFILE_SESSION_AUTHENTICATION_REQUIRED"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        assertThat(unknownResponse)
+                .doesNotContain(unknownToken)
+                .doesNotContain("auth.fail@example.test")
+                .doesNotContain("+70000009999");
+
+        postRegistration("""
+                {
+                  "fullName": "Contact Expired",
+                  "email": "contact.expired@example.test",
+                  "phone": "+70000000026",
+                  "inviteCode": "%s"
+                }
+                """.formatted(issuedCode.code()))
+                .andExpect(status().isCreated());
+        String expiredToken = postProfileSession("""
+                {
+                  "fullName": "Contact Expired",
+                  "email": "contact.expired@example.test",
+                  "phone": "+70000000026",
+                  "inviteCode": "%s"
+                }
+                """.formatted(issuedCode.code()))
+                .andExpect(status().isCreated())
+                .andReturnJson()
+                .get("profileSessionToken")
+                .asText();
+        expireProfileSessions();
+        String expiredResponse = patchMeContact(expiredToken, body)
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("PROFILE_SESSION_AUTHENTICATION_REQUIRED"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        assertThat(expiredResponse)
+                .doesNotContain(expiredToken)
+                .doesNotContain("auth.fail@example.test")
+                .doesNotContain("+70000009999");
+
+        IssuedInviteCode revokedIssuedCode = issueOne(tenant, accessPool, NON_EXPIRED_AT);
+        postRegistration("""
+                {
+                  "fullName": "Contact Revoked",
+                  "email": "contact.revoked@example.test",
+                  "phone": "+70000000027",
+                  "inviteCode": "%s"
+                }
+                """.formatted(revokedIssuedCode.code()))
+                .andExpect(status().isCreated());
+        String revokedToken = postProfileSession("""
+                {
+                  "fullName": "Contact Revoked",
+                  "email": "contact.revoked@example.test",
+                  "phone": "+70000000027",
+                  "inviteCode": "%s"
+                }
+                """.formatted(revokedIssuedCode.code()))
+                .andExpect(status().isCreated())
+                .andReturnJson()
+                .get("profileSessionToken")
+                .asText();
+        String activeToken = postProfileSession("""
+                {
+                  "fullName": "Contact Revoked",
+                  "email": "contact.revoked@example.test",
+                  "phone": "+70000000027",
+                  "inviteCode": "%s"
+                }
+                """.formatted(revokedIssuedCode.code()))
+                .andExpect(status().isCreated())
+                .andReturnJson()
+                .get("profileSessionToken")
+                .asText();
+        String revokedResponse = patchMeContact(revokedToken, body)
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("PROFILE_SESSION_AUTHENTICATION_REQUIRED"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        assertThat(revokedResponse)
+                .doesNotContain(revokedToken)
+                .doesNotContain("auth.fail@example.test")
+                .doesNotContain("+70000009999");
+        getMeProfileSummary(activeToken).andExpect(status().isOk());
+        assertThat(countContactUpdateAuditRows()).isEqualTo(auditCountBefore);
+    }
+
+    @Test
     void returnsStructuredErrorsForInvalidExpiredRevokedAndUnissuedCodesWithoutEchoingSubmittedCode() throws Exception {
         Tenant tenant = seedTenant();
         AccessPool accessPool = seedAccessPool(tenant, 10);
@@ -665,16 +1048,20 @@ class EmployeeRegistrationControllerIT {
                 .contains("/api/v1/employee-registrations/profile-summary")
                 .contains("/api/v1/employee-registrations/profile-sessions")
                 .contains("/api/v1/employee-registrations/me/profile-summary")
+                .contains("/api/v1/employee-registrations/me/contact")
                 .contains("EmployeeRegistrationRequest")
                 .contains("EmployeeRegistrationResponse")
                 .contains("EmployeeProfileSummaryRequest")
                 .contains("EmployeeProfileSummaryResponse")
                 .contains("EmployeeProfileSessionRequest")
                 .contains("EmployeeProfileSessionResponse")
+                .contains("EmployeeContactUpdateRequest")
+                .contains("EmployeeContactUpdateResponse")
                 .contains("ApiErrorResponse")
                 .contains("employeeRegistrationId")
                 .contains("idempotentRetry")
                 .contains("contactVerifiedByRegistrationMatch")
+                .contains("contactVerifiedByProfileSession")
                 .contains("employeeProfileSessionBearerAuth")
                 .contains("INVALID_INVITE_CODE")
                 .contains("DUPLICATE_INVITE_CODE")
@@ -707,6 +1094,19 @@ class EmployeeRegistrationControllerIT {
 
     private RegistrationResultActions getMeProfileSummaryWithoutToken() throws Exception {
         return new RegistrationResultActions(mockMvc.perform(get("/api/v1/employee-registrations/me/profile-summary")));
+    }
+
+    private RegistrationResultActions patchMeContact(String profileSessionToken, String json) throws Exception {
+        return new RegistrationResultActions(mockMvc.perform(patch("/api/v1/employee-registrations/me/contact")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + profileSessionToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)));
+    }
+
+    private RegistrationResultActions patchMeContactWithoutToken(String json) throws Exception {
+        return new RegistrationResultActions(mockMvc.perform(patch("/api/v1/employee-registrations/me/contact")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json)));
     }
 
     private static String profileSessionJson(String inviteCode, String phone) {
@@ -790,6 +1190,16 @@ class EmployeeRegistrationControllerIT {
                 """, String.class, registrationId);
     }
 
+    private UUID profileSessionIdForRegistration(UUID registrationId) {
+        return jdbcTemplate.queryForObject("""
+                select id
+                from employee_profile_sessions
+                where employee_registration_id = ?
+                order by created_at desc
+                limit 1
+                """, UUID.class, registrationId);
+    }
+
     private int countActiveProfileSessions(UUID registrationId) {
         return jdbcTemplate.queryForObject("""
                 select count(*)
@@ -807,6 +1217,64 @@ class EmployeeRegistrationControllerIT {
                 where employee_registration_id = ?
                   and revoked_at is not null
                 """, Integer.class, registrationId);
+    }
+
+    private int countContactUpdateAuditRows() {
+        return jdbcTemplate.queryForObject("""
+                select count(*)
+                from employee_contact_update_audit_log
+                """, Integer.class);
+    }
+
+    private int countContactUpdateAuditRows(UUID registrationId) {
+        return jdbcTemplate.queryForObject("""
+                select count(*)
+                from employee_contact_update_audit_log
+                where employee_registration_id = ?
+                """, Integer.class, registrationId);
+    }
+
+    private Map<String, Object> latestContactUpdateAuditRow(UUID registrationId) {
+        return jdbcTemplate.queryForMap("""
+                select *
+                from employee_contact_update_audit_log
+                where employee_registration_id = ?
+                order by occurred_at desc
+                limit 1
+                """, registrationId);
+    }
+
+    private String contactUpdateAuditDump(UUID registrationId) {
+        return jdbcTemplate.queryForObject("""
+                select concat_ws('|',
+                    id,
+                    occurred_at,
+                    employee_registration_id,
+                    tenant_id,
+                    pilot_launch_id,
+                    access_pool_id,
+                    changed_fields,
+                    outcome,
+                    old_email_hash,
+                    new_email_hash,
+                    old_phone_hash,
+                    new_phone_hash,
+                    actor_type,
+                    employee_profile_session_id
+                )
+                from employee_contact_update_audit_log
+                where employee_registration_id = ?
+                order by occurred_at desc
+                limit 1
+                """, String.class, registrationId);
+    }
+
+    private String registeredContact(UUID registrationId) {
+        return jdbcTemplate.queryForObject("""
+                select full_name || '|' || email || '|' || phone
+                from employee_registrations
+                where id = ?
+                """, String.class, registrationId);
     }
 
     private void expireProfileSessions() {

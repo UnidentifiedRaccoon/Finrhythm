@@ -1,0 +1,330 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-03-legal-drafts-001",
+  "parent_stage_unit": "MVP-03.01",
+  "updated_at": "2026-05-13",
+  "status": "SCOPED_PASS",
+  "verification_status": "PASS",
+  "summary": "Four tracked MVP legal draft artifacts were created and fresh-verified for privacy policy, terms of use, personal-data consent and financial disclaimer. They remain DRAFT_WAITING_HUMAN_REVIEW and do not approve legal wording, real-data processing, full MVP-03 or the MVP stage.",
+  "artifacts": [
+    {
+      "path": "docs/legal/mvp/drafts/privacy-policy-draft.md",
+      "purpose": "Draft MVP privacy policy and aggregate-by-default HR/sponsor reporting boundary."
+    },
+    {
+      "path": "docs/legal/mvp/drafts/terms-of-use-draft.md",
+      "purpose": "Draft B2B pilot educational Terms of Use without guaranteed outcomes."
+    },
+    {
+      "path": "docs/legal/mvp/drafts/personal-data-consent-draft.md",
+      "purpose": "Draft personal-data processing consent template without production legality or real-data approval."
+    },
+    {
+      "path": "docs/legal/mvp/drafts/financial-disclaimer-draft.md",
+      "purpose": "Draft educational financial disclaimer excluding personalized investment, tax, credit and legal advice."
+    }
+  ],
+  "draft_metadata_required": {
+    "status": "DRAFT_WAITING_HUMAN_REVIEW",
+    "version_date": "v0.1 / 2026-05-13",
+    "owner_expectation": true,
+    "required_human_reviewer_expectation": true,
+    "mvp_b2b_pilot_scope": true,
+    "not_approved_warning": true,
+    "requires_human_legal_review_before_production_use": true
+  },
+  "privacy_boundary": {
+    "hr_sponsor_reporting_default": "aggregate",
+    "not_personal_hr_reports_by_default": [
+      "personal diagnostic answers",
+      "individual weak zones",
+      "exact sums",
+      "reflection details",
+      "personal tax/debt circumstances"
+    ],
+    "customer_specific_reporting": "WAITING_HUMAN"
+  },
+  "cookie_tracking": {
+    "status": "DEFERRED_OUT_OF_SCOPE",
+    "reason": "No active cookie/tracking implementation scope was found in apps/ or packages/ by the builder scan. Cookie policy/banner/tracking consent must be added separately if cookies, web analytics or tracking are introduced."
+  },
+  "human_gates": [
+    {
+      "gate": "legal-privacy-consent-wording-and-real-pii-processing",
+      "status": "WAITING_HUMAN",
+      "reviewer_files": [
+        "docs/legal/mvp/drafts/privacy-policy-draft.md",
+        "docs/legal/mvp/drafts/terms-of-use-draft.md",
+        "docs/legal/mvp/drafts/personal-data-consent-draft.md",
+        "docs/legal/mvp/drafts/financial-disclaimer-draft.md"
+      ]
+    },
+    {
+      "gate": "real-employee-customer-data-processing-approval",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "customer-specific-hr-reporting-boundaries",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "financial-correctness-lessons-diagnostics-quizzes",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "reward-economy-stock-prices-fulfillment",
+      "status": "WAITING_HUMAN"
+    }
+  ],
+  "acceptance_mapping": [
+    {
+      "criterion": "Four tracked draft artifact paths exist and are referenced in stage evidence.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        "docs/legal/mvp/drafts/privacy-policy-draft.md",
+        "docs/legal/mvp/drafts/terms-of-use-draft.md",
+        "docs/legal/mvp/drafts/personal-data-consent-draft.md",
+        "docs/legal/mvp/drafts/financial-disclaimer-draft.md",
+        ".agent/stages/mvp/raw/builder-MVP-03-legal-drafts-001-20260513/legal-draft-path-check.txt",
+        ".agent/stages/mvp/raw/builder-MVP-03-legal-drafts-001-20260513/legal-draft-evidence-ref-check.txt"
+      ]
+    },
+    {
+      "criterion": "Each draft includes required metadata and non-approval warning.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/builder-MVP-03-legal-drafts-001-20260513/legal-draft-metadata-scan.txt"
+      ]
+    },
+    {
+      "criterion": "Drafts avoid approval, guarantee and personalized-advice claims.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/builder-MVP-03-legal-drafts-001-20260513/legal-draft-forbidden-claim-scan.txt"
+      ]
+    },
+    {
+      "criterion": "Privacy/consent preserve aggregate HR/sponsor reporting by default.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        "docs/legal/mvp/drafts/privacy-policy-draft.md",
+        "docs/legal/mvp/drafts/personal-data-consent-draft.md",
+        ".agent/stages/mvp/raw/builder-MVP-03-legal-drafts-001-20260513/legal-draft-privacy-boundary-scan.txt"
+      ]
+    },
+    {
+      "criterion": "Cookie/consent is deferred unless active cookies/tracking are proven in current repo scope.",
+      "status": "BUILDER_CHECK_PASS_NO_ACTIVE_IMPL_FOUND",
+      "evidence": [
+        ".agent/stages/mvp/raw/builder-MVP-03-legal-drafts-001-20260513/active-cookie-tracking-scope-scan.txt"
+      ]
+    },
+    {
+      "criterion": "Human-gate record remains WAITING_HUMAN and names exact files.",
+      "status": "BUILDER_CHECK_PASS_WAITING_HUMAN",
+      "evidence": [
+        ".agent/stages/mvp/evidence/MVP-03-legal-drafts-001.md#human-gates",
+        ".agent/stages/mvp/evidence/MVP-03-legal-drafts-001.json.human_gates"
+      ]
+    },
+    {
+      "criterion": "Full MVP-03, MVP stage and all human gates remain open.",
+      "status": "BUILDER_CHECK_PASS_OPEN",
+      "evidence": [
+        ".agent/stages/mvp/status.json"
+      ]
+    },
+    {
+      "criterion": "Backend baseline unchanged.",
+      "status": "BUILDER_CHECK_PASS_NOT_APPLICABLE_TO_CODE",
+      "evidence": [
+        ".agent/stages/mvp/evidence/MVP-03-legal-drafts-001.md#backendui-baseline"
+      ]
+    },
+    {
+      "criterion": "Changed JSON artifacts validate.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/builder-MVP-03-legal-drafts-001-20260513/json-validation.txt"
+      ]
+    },
+    {
+      "criterion": "git diff --check excluding raw is clean.",
+      "status": "BUILDER_CHECK_PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/builder-MVP-03-legal-drafts-001-20260513/git-diff-check-excluding-raw.txt"
+      ]
+    },
+    {
+      "criterion": "Harness validation run if applicable and alias mismatch recorded honestly.",
+      "status": "EXPECTED_FAIL_PENDING_FRESH_VERIFIER",
+      "evidence": [
+        ".agent/stages/mvp/raw/builder-MVP-03-legal-drafts-001-20260513/harness-validation.json"
+      ]
+    }
+  ],
+  "commands": [
+    {
+      "command": "for path in docs/legal/mvp/drafts/{privacy-policy-draft.md,terms-of-use-draft.md,personal-data-consent-draft.md,financial-disclaimer-draft.md}; do test -f \"$path\" && printf \"FOUND %s\\n\" \"$path\"; done",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-legal-drafts-001-20260513/legal-draft-path-check.txt"
+    },
+    {
+      "command": "rg -n \"DRAFT_WAITING_HUMAN_REVIEW|NOT_APPROVED|НЕ УТВЕРЖДЕНО|Version / date|Owner expectation|Required human reviewer expectation|Production use|Scope\" docs/legal/mvp/drafts/*.md",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-legal-drafts-001-20260513/legal-draft-metadata-scan.txt"
+    },
+    {
+      "command": "rg -n -i \"aggregate|агрегирован|HR|sponsor|diagnostic answers|weak zones|exact sums|reflection details|персональные diagnostic answers|индивидуальные weak zones\" docs/legal/mvp/drafts/privacy-policy-draft.md docs/legal/mvp/drafts/personal-data-consent-draft.md docs/legal/mvp/drafts/financial-disclaimer-draft.md",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-legal-drafts-001-20260513/legal-draft-privacy-boundary-scan.txt"
+    },
+    {
+      "command": "(rg -n -i \"(гарантируем|гарантированн[а-я]*\\\\s+(доход|выгод|сбереж|эконом|списан|избав|результат)|безрисков|быстрый доход|юридически одобрен|одобрен[а-я]*\\\\s+юрист|утвержден[а-я]*\\\\s+юрист|approved for production|production legal readiness confirmed|разрешен[а-я]*\\\\s+(обработка|использование)\\\\s+реальн|это\\\\s+(персональн|индивидуальн)[а-я ]*(инвестиционн|налогов|кредитн|юридическ)[а-я ]*(совет|рекомендац)|мы\\\\s+предоставляем\\\\s+(персональн|индивидуальн))\" docs/legal/mvp/drafts/*.md || true) | rg -v -i \"(не обещает|не предоставляет|не подтверждает|не разрешает|не является|не утверждает|NOT_APPROVED|НЕ УТВЕРЖДЕНО)\"",
+      "cwd": ".",
+      "exit_status": 1,
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-legal-drafts-001-20260513/legal-draft-forbidden-claim-scan.txt"
+    },
+    {
+      "command": "rg -n -i \"document\\\\.cookie|cookieStore|cookies\\\\(|next/headers.*cookies|gtag|google-analytics|posthog|plausible|metrika|ym\\\\(\" apps packages",
+      "cwd": ".",
+      "exit_status": 1,
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-legal-drafts-001-20260513/active-cookie-tracking-scope-scan.txt"
+    },
+    {
+      "command": "rg -n \"docs/legal/mvp/drafts/(privacy-policy-draft.md|terms-of-use-draft.md|personal-data-consent-draft.md|financial-disclaimer-draft.md)\" .agent/stages/mvp/evidence/MVP-03-legal-drafts-001.md .agent/stages/mvp/evidence/MVP-03-legal-drafts-001.json .agent/stages/mvp/evidence.md .agent/stages/mvp/evidence.json",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-legal-drafts-001-20260513/legal-draft-evidence-ref-check.txt"
+    },
+    {
+      "command": "jq empty .agent/stages/mvp/status.json .agent/stages/mvp/feature_list.json .agent/stages/mvp/evidence/MVP-03-legal-drafts-001.json .agent/stages/mvp/evidence.json",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-legal-drafts-001-20260513/json-validation.txt"
+    },
+    {
+      "command": "git diff --check -- . ':(exclude).agent/stages/**/raw/**'",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-legal-drafts-001-20260513/git-diff-check-excluding-raw.txt"
+    },
+    {
+      "command": "python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp",
+      "cwd": ".",
+      "exit_status": 1,
+      "status": "EXPECTED_FAIL_PENDING_FRESH_VERIFIER",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-legal-drafts-001-20260513/harness-validation.json"
+    },
+    {
+      "command": "Parent sync: jq empty .agent/stages/mvp/status.json .agent/stages/mvp/feature_list.json .agent/stages/mvp/evidence/MVP-03-legal-drafts-001.json .agent/stages/mvp/evidence.json .agent/stages/mvp/verdict.json .agent/stages/mvp/verdicts/MVP-03-legal-drafts-001.json",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-03-legal-drafts-001-parent-sync-20260513/json-validation.txt"
+    },
+    {
+      "command": "Parent sync: git diff --check -- . ':(exclude).agent/stages/**/raw/**'",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-03-legal-drafts-001-parent-sync-20260513/git-diff-check-excluding-raw.txt"
+    },
+    {
+      "command": "Parent sync: python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-03-legal-drafts-001-parent-sync-20260513/verify-harness.json"
+    }
+  ],
+  "commands_summary": {
+    "legal_draft_path_check": "PASS",
+    "metadata_scan": "PASS",
+    "privacy_boundary_scan": "PASS",
+    "forbidden_claim_scan": "PASS_NO_MATCHES",
+    "active_cookie_tracking_scope_scan": "PASS_NO_MATCHES",
+    "evidence_ref_check": "PASS",
+    "json_validation": "PASS",
+    "git_diff_check_excluding_raw": "PASS",
+    "harness_validation": "EXPECTED_FAIL_PENDING_FRESH_VERIFIER",
+    "parent_json_validation": "PASS",
+    "parent_git_diff_check_excluding_raw": "PASS",
+    "parent_harness_validation": "PASS_AFTER_PARENT_ALIAS_SYNC"
+  },
+  "docs_sync": {
+    "status": "NOOP",
+    "canonical_docs_changed": false,
+    "reason": "The frozen product/stage scope already requires these draft artifacts. This slice adds draft legal documents only and changes no behavior, architecture, workflow, API contract, schema or setup/runtime expectation."
+  },
+  "diagram": {
+    "status": "NONE",
+    "reason": "No flow, state machine or cross-module interaction changed."
+  },
+  "backend_baseline_preserved": {
+    "status": true,
+    "baseline": [
+      "Spring Boot",
+      "Java 21",
+      "Maven Wrapper",
+      "PostgreSQL",
+      "Flyway",
+      "OpenAPI/springdoc"
+    ],
+    "note": "No backend, schema, OpenAPI or generated-client file was edited by this docs/legal-draft slice."
+  },
+  "tests_not_run": [
+    {
+      "scope": "backend/UI/e2e",
+      "reason": "Not required for docs/legal-draft-only slice; backend baseline unchanged and no UI source changed."
+    }
+  ],
+  "fresh_verifier": {
+    "status": "PASS",
+    "required_next": false,
+    "expected_scope": "MVP-03-legal-drafts-001 only",
+    "verdict_ref": ".agent/stages/mvp/verdicts/MVP-03-legal-drafts-001.json",
+    "problems_ref": ".agent/stages/mvp/problems/MVP-03-legal-drafts-001.md",
+    "raw_dir": ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/",
+    "summary": "Fresh verifier PASS confirmed draft paths, metadata, human-gate accounting, privacy boundary, forbidden-claim scans, cookie/tracking deferral, JSON validation and diff check."
+  },
+  "verdict": {
+    "status": "PASS",
+    "raw": ".agent/stages/mvp/verdicts/MVP-03-legal-drafts-001.json",
+    "problems": ".agent/stages/mvp/problems/MVP-03-legal-drafts-001.md",
+    "alias": ".agent/stages/mvp/verdict.json",
+    "note": "Fresh stage_verifier PASS recorded; parent synchronized latest verdict/problems aliases to MVP-03-legal-drafts-001."
+  },
+  "known_limitations": [
+    "Draft wording is not legally approved.",
+    "Real employee/customer data processing remains WAITING_HUMAN.",
+    "Cookie/banner/tracking policy is deferred unless a future active implementation scope introduces cookies, analytics or tracking.",
+    "Full MVP-03, MVP stage and all human gates remain open.",
+    "A separate closure audit is required before full MVP-03 can be reconsidered for DONE_WITH_HUMAN_PENDING."
+  ],
+  "handoff": {
+    "next_role": "stage_spec_freezer",
+    "scope": "Separate MVP-03 post-legal-drafts closure audit only if full MVP-03 status should be reconsidered.",
+    "verify_focus": [
+      "Reconcile MVP-03.01 through MVP-03.05 after MVP-03-legal-drafts-001 PASS.",
+      "Keep legal/privacy wording and real-data processing as human-gated unless human approval is recorded.",
+      "Do not close the MVP stage.",
+      "No production code, app/package files, schema, OpenAPI/generated client, UI or prior immutable proof refs were edited by this legal-draft slice."
+    ]
+  },
+  "immutable_refs": {
+    "markdown": ".agent/stages/mvp/evidence/MVP-03-legal-drafts-001.md",
+    "json": ".agent/stages/mvp/evidence/MVP-03-legal-drafts-001.json"
+  }
+}

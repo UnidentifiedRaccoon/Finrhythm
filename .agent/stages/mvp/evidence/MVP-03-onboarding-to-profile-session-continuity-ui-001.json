@@ -1,0 +1,488 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-03-onboarding-to-profile-session-continuity-ui-001",
+  "parent_stage_units": [
+    "MVP-03.02",
+    "MVP-03.04"
+  ],
+  "updated_at": "2026-05-13",
+  "status": "SCOPED_PASS",
+  "verification_status": "PASS",
+  "summary": "The fixer-resolved repo state satisfies the scoped sprint contract. /onboarding/privacy has a visible primary action to /profile/session; mobile browser smoke proves click navigation without a manual URL; /profile/session remains the generated-client profile-session entry flow and keeps profileSessionToken only in mounted component memory; direct /profile/contact shows the safe missing-session state and URL/query/hash/path token-shaped inputs do not call the profile-summary API or unlock contact editing. Web checks, root wrappers, Flyway/Maven evidence, OpenAPI/generated-client drift checks, JSON validation and git diff whitespace checks pass. Full MVP-03, the MVP stage and human gates remain open.",
+  "implemented_scope": [
+    "Updated /onboarding/privacy primary action to /profile/session.",
+    "Kept /learning as a secondary demo-learning link.",
+    "Preserved visible Russian privacy boundary copy.",
+    "Updated focused render tests for the privacy screen route target.",
+    "Updated browser smoke with a mobile /onboarding/privacy -> /profile/session scenario.",
+    "Preserved existing /profile/session generated @finrhythm/api-client boundary."
+  ],
+  "changed_files_owned_by_builder": [
+    "apps/web/components/onboarding-privacy-screen.ts",
+    "apps/web/tests/learning-shell.test.mjs",
+    "apps/web/tests/browser-smoke.mjs",
+    ".agent/stages/mvp/evidence/MVP-03-onboarding-to-profile-session-continuity-ui-001.md",
+    ".agent/stages/mvp/evidence/MVP-03-onboarding-to-profile-session-continuity-ui-001.json",
+    ".agent/stages/mvp/evidence.md",
+    ".agent/stages/mvp/evidence.json",
+    ".agent/stages/mvp/progress.md",
+    ".agent/stages/mvp/status.json"
+  ],
+  "pre_existing_dirty_scope_not_owned": [
+    "apps/api/** backend/API files from prior slices",
+    "packages/api-client/** generated contract files from prior backend/API slices",
+    "docs/architecture/access-and-subscriptions.md from prior backend/API docs sync",
+    "docs/legal/** from prior legal-drafts slice",
+    "older .agent/stages/mvp artifacts unrelated to this builder"
+  ],
+  "browser_evidence": {
+    "status": "PASS",
+    "base_url": "http://127.0.0.1:3416",
+    "server": "next start after pnpm --filter @finrhythm/web build",
+    "runner": "apps/web/tests/browser-smoke.mjs",
+    "route_mocks": true,
+    "screenshot_count": 19,
+    "raw_dir": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/",
+    "screenshots": {
+      "privacy_screen": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-mobile-onboarding-privacy.png",
+      "privacy_to_profile_session": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-mobile-onboarding-privacy-to-profile-session.png",
+      "profile_session_start": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-mobile-profile-session-start.png"
+    },
+    "index": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-browser-smoke.json",
+    "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-browser-smoke.txt"
+  },
+  "generated_client_boundary": {
+    "status": "PASS",
+    "description": "/profile/session remains the existing generated-client entry flow.",
+    "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/generated-client-boundary-check.txt"
+  },
+  "token_and_invite_guardrails": {
+    "status": "PASS",
+    "no_url_or_route_handoff_from_privacy": true,
+    "no_browser_storage": true,
+    "no_cookie_or_indexed_db": true,
+    "no_raw_invite_echo_in_raw_outputs": true,
+    "no_raw_session_secret_in_raw_outputs": true,
+    "raw_refs": [
+      ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/unsafe-token-storage-scan.txt",
+      ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/token-url-routing-scan.txt",
+      ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/raw-token-invite-echo-scan.txt",
+      ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/tracked-evidence-sensitive-marker-scan.txt"
+    ]
+  },
+  "brand_data_claim_guardrails": {
+    "status": "PASS",
+    "no_customer_brand": true,
+    "no_real_employee_or_customer_data": true,
+    "no_forbidden_financial_claims": true,
+    "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/customer-brand-real-data-forbidden-claims-scan.txt"
+  },
+  "acceptance_mapping": [
+    {
+      "criterion": "/onboarding/privacy includes a clear visible action to /profile/session.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/components/onboarding-privacy-screen.ts",
+        ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-mobile-onboarding-privacy.png"
+      ]
+    },
+    {
+      "criterion": "Browser/mobile smoke proves /onboarding/privacy -> /profile/session without manual URL entry.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-browser-smoke.txt",
+        ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-mobile-onboarding-privacy-to-profile-session.png"
+      ]
+    },
+    {
+      "criterion": "Resulting /profile/session state is existing profile-session entry, not auth/login/account shortcut.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/tests/browser-smoke.mjs",
+        ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-mobile-profile-session-start.png"
+      ]
+    },
+    {
+      "criterion": "Generated api-client usage for profile-session creation remains in /profile/session flow.",
+      "status": "PASS",
+      "evidence": [
+        "generated_client_boundary",
+        ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-test.txt"
+      ]
+    },
+    {
+      "criterion": "No token storage/leakage, token route handoff, raw invite echo, customer brand, real data or forbidden claims.",
+      "status": "PASS",
+      "evidence": [
+        "token_and_invite_guardrails",
+        "brand_data_claim_guardrails"
+      ]
+    },
+    {
+      "criterion": "Backend/API/schema/Flyway/OpenAPI/generated client unchanged by this builder.",
+      "status": "PASS",
+      "evidence": [
+        "changed_files_owned_by_builder",
+        "commands"
+      ]
+    },
+    {
+      "criterion": "Fresh stage_verifier before scoped PASS claim.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/verdicts/MVP-03-onboarding-to-profile-session-continuity-ui-001.json",
+        ".agent/stages/mvp/problems/MVP-03-onboarding-to-profile-session-continuity-ui-001.md"
+      ]
+    },
+    {
+      "criterion": "/profile/contact must not accept profileSessionToken from URL/query/hash/path.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/app/profile/contact/page.tsx:4",
+        "apps/web/components/profile-contact-screen.ts:45",
+        "apps/web/components/profile-contact-screen.ts:60",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/query-token-intake-source-scan.txt",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/profile-contact-url-token-behavior.txt",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-profile-contact-query-token-ignored.png",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-profile-contact-hash-token-ignored.png",
+        ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-verifier2-profile-contact-path-token-not-routed.png"
+      ],
+      "notes": [
+        "No allowQueryToken, PROFILE_SESSION_TOKEN_QUERY_PARAM, profileSessionToken query-assignment, window.location.search, searchParams.get, hash or pathname token-intake markers were found in the profile route/component/lib path.",
+        "The browser probe intercepted profile-summary calls and observed zero calls for direct, query-token, hash-token and path-token-shaped cases."
+      ]
+    }
+  ],
+  "commands": [
+    {
+      "command": "pnpm --filter @finrhythm/web typecheck",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-typecheck.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/web test",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-test.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/web build",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-build.txt"
+    },
+    {
+      "command": "CHROMIUM_EXECUTABLE_PATH=... WEB_SMOKE_BASE_URL=http://127.0.0.1:3416 WEB_SMOKE_OUTPUT_DIR=.agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513 WEB_SMOKE_SCREENSHOT_PREFIX=MVP-03-onboarding-to-profile-session-continuity-ui-001 pnpm --filter @finrhythm/web smoke:browser",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-browser-smoke.txt"
+    },
+    {
+      "command": "scoped unsafe storage/cookie/IndexedDB scan",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/unsafe-token-storage-scan.txt"
+    },
+    {
+      "command": "redacted route URL scan",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/token-url-routing-scan.txt"
+    },
+    {
+      "command": "final raw token/invite echo scan",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/raw-token-invite-echo-scan.txt"
+    },
+    {
+      "command": "tracked evidence marker scan",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/tracked-evidence-sensitive-marker-scan.txt"
+    },
+    {
+      "command": "generated-client boundary check",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/generated-client-boundary-check.txt"
+    },
+    {
+      "command": "customer brand / real data / forbidden claims scan",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/customer-brand-real-data-forbidden-claims-scan.txt"
+    },
+    {
+      "command": "make verify",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/make-verify.txt"
+    },
+    {
+      "command": "make test-unit",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/make-test-unit.txt"
+    },
+    {
+      "command": "make build",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/make-build.txt"
+    },
+    {
+      "command": "jq empty for changed JSON artifacts",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/json-validation.txt"
+    },
+    {
+      "command": "git diff --check excluding raw evidence paths",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/git-diff-check-excluding-raw.txt"
+    }
+  ],
+  "docs_sync": {
+    "canonical_docs": "NOOP_EXPECTED",
+    "reason": "Only route continuity from existing privacy screen to existing profile-session entry changed; no product/access/backend/API/schema/setup/workflow decision changed.",
+    "mermaid": "NONE_EXPECTED"
+  },
+  "backend_api_schema": {
+    "status": "UNCHANGED_BY_THIS_BUILDER",
+    "baseline": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway, OpenAPI/springdoc"
+  },
+  "human_gates": [
+    {
+      "gate": "Legal/privacy wording and consent copy",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "Real employee/customer data processing",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "Customer-specific HR/reporting boundaries",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "Final financial correctness of lessons, diagnostics, quizzes and explanations",
+      "status": "WAITING_HUMAN"
+    },
+    {
+      "gate": "Reward economy, stock, prices and fulfillment",
+      "status": "WAITING_HUMAN"
+    }
+  ],
+  "known_limitations": [
+    "Full MVP-03 remains open; this PASS is scoped only to onboarding/privacy -> profile-session continuity and removal of the unsafe /profile/contact query-token fallback.",
+    "Human gates remain WAITING_HUMAN for legal/privacy wording, real data processing, HR/reporting boundaries, financial correctness and reward/fulfillment decisions.",
+    "No login/password, User, OrgMembership, org codes, subscriptions/seats/entitlements, HR reporting, diagnostics, points, CMS, rewards, merch, support tickets, admin flows or real-data processing is implemented.",
+    "Playwright bundled Chromium cache was unavailable locally; builder/fixer/verifier smoke passed with installed Google Chrome and no browser download."
+  ],
+  "fresh_verifier": {
+    "status": "PASS",
+    "verdict_ref": ".agent/stages/mvp/verdicts/MVP-03-onboarding-to-profile-session-continuity-ui-001.json",
+    "problems_ref": ".agent/stages/mvp/problems/MVP-03-onboarding-to-profile-session-continuity-ui-001.md",
+    "verified_at": "2026-05-13T14:00:20+03:00",
+    "summary": "The fixer-resolved repo state satisfies the scoped sprint contract. /onboarding/privacy has a visible primary action to /profile/session; mobile browser smoke proves click navigation without a manual URL; /profile/session remains the generated-client profile-session entry flow and keeps profileSessionToken only in mounted component memory; direct /profile/contact shows the safe missing-session state and URL/query/hash/path token-shaped inputs do not call the profile-summary API or unlock contact editing. Web checks, root wrappers, Flyway/Maven evidence, OpenAPI/generated-client drift checks, JSON validation and git diff whitespace checks pass. Full MVP-03, the MVP stage and human gates remain open.",
+    "raw_dir": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/"
+  },
+  "changed_files_owned_by_fixer": [
+    "apps/web/app/profile/contact/page.tsx",
+    "apps/web/components/profile-contact-screen.ts",
+    "apps/web/components/profile-session-entry-screen.ts",
+    "apps/web/lib/profile-contact-state.ts",
+    "apps/web/tests/learning-shell.test.mjs",
+    "apps/web/tests/browser-smoke.mjs"
+  ],
+  "fixer_evidence": {
+    "role": "stage_fixer",
+    "updated_at": "2026-05-13",
+    "status": "FIXED_AND_VERIFIED",
+    "fixed_problem_ids": [
+      "TOKEN_URL_HANDOFF_PROFILE_CONTACT"
+    ],
+    "summary": "Removed production profile-session query-token intake from /profile/contact while preserving /profile/session component-memory handoff through initialProfileSessionToken.",
+    "production_files_changed": [
+      "apps/web/app/profile/contact/page.tsx",
+      "apps/web/components/profile-contact-screen.ts",
+      "apps/web/components/profile-session-entry-screen.ts",
+      "apps/web/lib/profile-contact-state.ts"
+    ],
+    "test_files_changed": [
+      "apps/web/tests/learning-shell.test.mjs",
+      "apps/web/tests/browser-smoke.mjs"
+    ],
+    "artifact_files_changed": [
+      ".agent/stages/mvp/evidence/MVP-03-onboarding-to-profile-session-continuity-ui-001.md",
+      ".agent/stages/mvp/evidence/MVP-03-onboarding-to-profile-session-continuity-ui-001.json",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/evidence.json",
+      ".agent/stages/mvp/problems/MVP-03-onboarding-to-profile-session-continuity-ui-001.md",
+      ".agent/stages/mvp/problems.md",
+      ".agent/stages/mvp/status.json"
+    ],
+    "behavior": {
+      "profile_contact_url_token_intake": "REMOVED",
+      "profile_contact_missing_session_state": "SAFE_LINKS_TO_/profile/session",
+      "profile_session_memory_handoff": "PRESERVED_INITIAL_PROFILE_SESSION_TOKEN_PROP",
+      "backend_api_schema_flyway_openapi_generated_client": "UNCHANGED"
+    },
+    "browser_evidence": {
+      "status": "PASS",
+      "base_url": "http://127.0.0.1:3417",
+      "server": "next start after pnpm --filter @finrhythm/web build",
+      "runner": "apps/web/tests/browser-smoke.mjs",
+      "route_mocks": true,
+      "screenshot_count": 19,
+      "raw_dir": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/",
+      "screenshots": {
+        "privacy_screen": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-fixer-mobile-onboarding-privacy.png",
+        "privacy_to_profile_session": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-fixer-mobile-onboarding-privacy-to-profile-session.png",
+        "profile_contact_missing_session": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-fixer-mobile-profile-contact-start.png",
+        "profile_session_start": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-fixer-mobile-profile-session-start.png"
+      },
+      "index": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/MVP-03-onboarding-to-profile-session-continuity-ui-001-fixer-browser-smoke.json",
+      "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-browser-smoke.txt"
+    },
+    "guardrail_scans": {
+      "status": "PASS",
+      "no_query_token_intake_or_routing_markers": true,
+      "no_allow_query_token_marker": true,
+      "no_profile_session_query_param_constant": true,
+      "no_token_storage_cookies_or_indexeddb": true,
+      "no_raw_invite_or_token_echo": true,
+      "no_customer_brand_real_data_or_forbidden_claims": true,
+      "raw_refs": [
+        ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/query-token-intake-source-scan.txt",
+        ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/token-storage-cookie-indexeddb-scan.txt",
+        ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/raw-invite-token-echo-scan.txt",
+        ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/customer-brand-real-data-forbidden-claims-scan.txt"
+      ]
+    },
+    "commands": [
+      {
+        "command": "pnpm --filter @finrhythm/web typecheck",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS",
+        "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-typecheck.txt"
+      },
+      {
+        "command": "pnpm --filter @finrhythm/web test",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS",
+        "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-test.txt"
+      },
+      {
+        "command": "pnpm --filter @finrhythm/web build",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS",
+        "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-build.txt"
+      },
+      {
+        "command": "CHROMIUM_EXECUTABLE_PATH=... WEB_SMOKE_BASE_URL=http://127.0.0.1:3417 WEB_SMOKE_OUTPUT_DIR=<repo-root raw dir> WEB_SMOKE_SCREENSHOT_PREFIX=MVP-03-onboarding-to-profile-session-continuity-ui-001-fixer pnpm --filter @finrhythm/web smoke:browser",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS",
+        "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/web-browser-smoke.txt"
+      },
+      {
+        "command": "query-token intake/routing source scan",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS_NO_MATCHES",
+        "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/query-token-intake-source-scan.txt"
+      },
+      {
+        "command": "token storage/cookie/IndexedDB source scan",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS_NO_MATCHES",
+        "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/token-storage-cookie-indexeddb-scan.txt"
+      },
+      {
+        "command": "raw invite/token echo scan",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS_NO_MATCHES",
+        "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/raw-invite-token-echo-scan.txt"
+      },
+      {
+        "command": "customer brand / real data / forbidden claims scan",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS_NO_MATCHES",
+        "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/customer-brand-real-data-forbidden-claims-scan.txt"
+      },
+      {
+        "command": "make verify",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS",
+        "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/make-verify.txt"
+      },
+      {
+        "command": "make test-unit",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS",
+        "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/make-test-unit.txt"
+      },
+      {
+        "command": "make build",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS",
+        "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/make-build.txt"
+      },
+      {
+        "command": "jq empty for changed JSON artifacts",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS",
+        "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/json-validation.txt"
+      },
+      {
+        "command": "git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'",
+        "cwd": ".",
+        "exit_status": 0,
+        "status": "PASS",
+        "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/git-diff-check-excluding-raw.txt"
+      }
+    ],
+    "docs_sync": {
+      "canonical_docs": "NOOP_EXPECTED",
+      "reason": "Fix removes unsafe /profile/contact URL query-token fallback; it does not change product/access/API/schema/setup contract.",
+      "mermaid": "NONE_EXPECTED"
+    },
+    "fresh_verifier": {
+      "status": "PASS",
+      "verdict_ref": ".agent/stages/mvp/verdicts/MVP-03-onboarding-to-profile-session-continuity-ui-001.json",
+      "problems_ref": ".agent/stages/mvp/problems/MVP-03-onboarding-to-profile-session-continuity-ui-001.md",
+      "verified_at": "2026-05-13T14:00:20+03:00",
+      "summary": "The fixer-resolved repo state satisfies the scoped sprint contract. /onboarding/privacy has a visible primary action to /profile/session; mobile browser smoke proves click navigation without a manual URL; /profile/session remains the generated-client profile-session entry flow and keeps profileSessionToken only in mounted component memory; direct /profile/contact shows the safe missing-session state and URL/query/hash/path token-shaped inputs do not call the profile-summary API or unlock contact editing. Web checks, root wrappers, Flyway/Maven evidence, OpenAPI/generated-client drift checks, JSON validation and git diff whitespace checks pass. Full MVP-03, the MVP stage and human gates remain open.",
+      "raw_dir": ".agent/stages/mvp/raw/verifier2-MVP-03-onboarding-to-profile-session-continuity-ui-001-20260513/"
+    }
+  }
+}

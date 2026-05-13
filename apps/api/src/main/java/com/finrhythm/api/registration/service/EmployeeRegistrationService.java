@@ -5,6 +5,7 @@ import com.finrhythm.api.registration.domain.EmployeeRegistration;
 import com.finrhythm.api.registration.domain.RegistrationContact;
 import com.finrhythm.api.registration.persistence.EmployeeProfileSessionRepository;
 import com.finrhythm.api.registration.persistence.EmployeeRegistrationRepository;
+import com.finrhythm.api.registration.service.EmployeeContactUpdateAuditService.ContactUpdateAuditEvent;
 import com.finrhythm.api.tenant.domain.ActivationSubjectRef;
 import com.finrhythm.api.tenant.domain.InviteCodeHash;
 import com.finrhythm.api.tenant.service.InviteActivationFailureReason;
@@ -20,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 @Service
@@ -34,6 +37,7 @@ public class EmployeeRegistrationService {
     private final InviteCodeAccessService inviteCodeAccessService;
     private final RegistrationSubjectRefGenerator subjectRefGenerator;
     private final EmployeeProfileSessionTokenService profileSessionTokenService;
+    private final EmployeeContactUpdateAuditService employeeContactUpdateAuditService;
     private final Clock clock;
 
     @Transactional
@@ -92,15 +96,52 @@ public class EmployeeRegistrationService {
 
     @Transactional(readOnly = true)
     public EmployeeProfileSummaryResult profileSummaryForSession(String authorizationHeader) {
-        String rawToken = profileSessionTokenFromAuthorization(authorizationHeader);
-        String tokenHash = profileSessionTokenService.sha256Hex(rawToken);
-        Instant asOf = clock.instant();
-        EmployeeProfileSession session = employeeProfileSessionRepository.findByTokenHash(tokenHash)
-                .filter(profileSession -> profileSession.isUsableAt(asOf))
-                .orElseThrow(EmployeeRegistrationService::profileSessionAuthenticationRequired);
-        EmployeeRegistration registration = employeeRegistrationRepository.findById(session.getEmployeeRegistrationId())
-                .orElseThrow(EmployeeRegistrationService::profileLookupNotFound);
-        return toProfileSummary(registration);
+        return toProfileSummary(authenticateProfileSession(authorizationHeader).registration());
+    }
+
+    @Transactional
+    public EmployeeContactUpdateResult updateContactForSession(
+            String authorizationHeader,
+            EmployeeContactUpdateCommand command
+    ) {
+        AuthenticatedProfileSession authenticated = authenticateProfileSession(authorizationHeader);
+        EmployeeRegistration registration = authenticated.registration();
+        ContactUpdate contactUpdate = contactUpdateFrom(registration, command);
+        Instant occurredAt = clock.instant();
+
+        if (contactUpdate.changed()) {
+            registration.updateContact(contactUpdate.newEmail(), contactUpdate.newPhone());
+        }
+
+        employeeContactUpdateAuditService.record(new ContactUpdateAuditEvent(
+                occurredAt,
+                registration.getId(),
+                registration.getTenantId(),
+                registration.getPilotLaunchId(),
+                registration.getAccessPoolId(),
+                contactUpdate.changedFields(),
+                contactUpdate.outcome(),
+                contactUpdate.oldEmail(),
+                contactUpdate.newEmail(),
+                contactUpdate.oldPhone(),
+                contactUpdate.newPhone(),
+                authenticated.session().getId()
+        ));
+
+        return new EmployeeContactUpdateResult(
+                registration.getId(),
+                registration.getFullName(),
+                contactUpdate.newEmail(),
+                contactUpdate.newPhone(),
+                registration.getTenantId(),
+                registration.getPilotLaunchId(),
+                registration.getAccessPoolId(),
+                registration.getRegisteredAt(),
+                contactUpdate.changed(),
+                contactUpdate.outcome(),
+                contactUpdate.changedFields(),
+                true
+        );
     }
 
     private EmployeeRegistrationResult retryExistingRegistration(
@@ -183,6 +224,50 @@ public class EmployeeRegistrationService {
         }
     }
 
+    private AuthenticatedProfileSession authenticateProfileSession(String authorizationHeader) {
+        String rawToken = profileSessionTokenFromAuthorization(authorizationHeader);
+        String tokenHash = profileSessionTokenService.sha256Hex(rawToken);
+        Instant asOf = clock.instant();
+        EmployeeProfileSession session = employeeProfileSessionRepository.findByTokenHash(tokenHash)
+                .filter(profileSession -> profileSession.isUsableAt(asOf))
+                .orElseThrow(EmployeeRegistrationService::profileSessionAuthenticationRequired);
+        EmployeeRegistration registration = employeeRegistrationRepository.findById(session.getEmployeeRegistrationId())
+                .orElseThrow(EmployeeRegistrationService::profileLookupNotFound);
+        return new AuthenticatedProfileSession(session, registration);
+    }
+
+    private static ContactUpdate contactUpdateFrom(
+            EmployeeRegistration registration,
+            EmployeeContactUpdateCommand command
+    ) {
+        if (command == null || (command.email() == null && command.phone() == null)) {
+            throw validationFailed("At least one contact field must be submitted.");
+        }
+
+        String oldEmail = registration.getEmail();
+        String oldPhone = registration.getPhone();
+        String requestedEmail = command.email() == null ? oldEmail : command.email();
+        String requestedPhone = command.phone() == null ? oldPhone : command.phone();
+        RegistrationContact normalized = contactFrom(registration.getFullName(), requestedEmail, requestedPhone);
+
+        List<String> changedFields = new ArrayList<>(2);
+        if (!oldEmail.equals(normalized.email())) {
+            changedFields.add("email");
+        }
+        if (!oldPhone.equals(normalized.phone())) {
+            changedFields.add("phone");
+        }
+        String outcome = changedFields.isEmpty() ? "noop" : "updated";
+        return new ContactUpdate(
+                oldEmail,
+                normalized.email(),
+                oldPhone,
+                normalized.phone(),
+                List.copyOf(changedFields),
+                outcome
+        );
+    }
+
     private static String inviteLookupHash(String inviteCode) {
         try {
             return InviteCodeHash.fromEnteredCode(inviteCode).value();
@@ -244,6 +329,13 @@ public class EmployeeRegistrationService {
         );
     }
 
+    private static EmployeeRegistrationException validationFailed(String message) {
+        return new EmployeeRegistrationException(
+                EmployeeRegistrationFailureReason.VALIDATION_FAILED,
+                message
+        );
+    }
+
     private static String profileSessionTokenFromAuthorization(String authorizationHeader) {
         if (authorizationHeader == null || !authorizationHeader.startsWith(BEARER_PREFIX)) {
             throw profileSessionAuthenticationRequired();
@@ -282,5 +374,24 @@ public class EmployeeRegistrationService {
                 registration.getRegisteredAt(),
                 true
         );
+    }
+
+    private record AuthenticatedProfileSession(
+            EmployeeProfileSession session,
+            EmployeeRegistration registration
+    ) {
+    }
+
+    private record ContactUpdate(
+            String oldEmail,
+            String newEmail,
+            String oldPhone,
+            String newPhone,
+            List<String> changedFields,
+            String outcome
+    ) {
+        private boolean changed() {
+            return !changedFields.isEmpty();
+        }
     }
 }

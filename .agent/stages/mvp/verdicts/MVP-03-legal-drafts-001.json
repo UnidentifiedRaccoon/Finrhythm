@@ -1,0 +1,265 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-03-legal-drafts-001",
+  "parent_stage_unit": "MVP-03.01",
+  "verifier_role": "fresh_read_only_stage_verifier",
+  "verified_at": "2026-05-13T01:24:26+03:00",
+  "git_head": "7ed85e66dc695aec98e7ce58bb6b4fdc5107ee3e",
+  "verdict": "PASS",
+  "status": "PASS",
+  "summary": "The four MVP legal draft artifacts exist at the exact frozen paths, are referenced by evidence, keep DRAFT_WAITING_HUMAN_REVIEW/not-approved warnings, preserve aggregate-by-default HR/sponsor reporting, avoid legal approval/real-data approval/guaranteed outcome/personalized-advice claims, and keep legal and real-data human gates open. This verifier did not update latest aliases; parent sync may move them later.",
+  "write_scope": {
+    "production_code_modified_by_verifier": false,
+    "tests_modified_by_verifier": false,
+    "schemas_modified_by_verifier": false,
+    "openapi_or_generated_client_modified_by_verifier": false,
+    "legal_draft_files_modified_by_verifier": false,
+    "canonical_docs_modified_by_verifier": false,
+    "builder_evidence_modified_by_verifier": false,
+    "latest_aliases_modified_by_verifier": false,
+    "verifier_artifacts_written": [
+      ".agent/stages/mvp/verdicts/MVP-03-legal-drafts-001.json",
+      ".agent/stages/mvp/problems/MVP-03-legal-drafts-001.md",
+      ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/"
+    ]
+  },
+  "source_refs_checked": [
+    "AGENTS.md",
+    ".agents/skills/stage-launch-proof-loop/SKILL.md",
+    ".agents/skills/stage-launch-proof-loop/references/READ_MATRIX.md",
+    ".agent/stages/mvp/sprint_contract.md",
+    ".agent/stages/mvp/task-files/MVP-03-legal-drafts-001.md",
+    ".agent/stages/mvp/evidence/MVP-03-legal-drafts-001.md",
+    ".agent/stages/mvp/evidence/MVP-03-legal-drafts-001.json",
+    ".agent/stages/mvp/status.json",
+    ".agent/stages/mvp/evidence.json",
+    ".agent/stages/mvp/verdict.json",
+    ".agent/stages/mvp/problems.md",
+    "docs/legal/mvp/drafts/privacy-policy-draft.md",
+    "docs/legal/mvp/drafts/terms-of-use-draft.md",
+    "docs/legal/mvp/drafts/personal-data-consent-draft.md",
+    "docs/legal/mvp/drafts/financial-disclaimer-draft.md",
+    "docs/stages/MVP.md relevant MVP-03/legal/human-gate lines",
+    "docs/engineering/human-gates.md",
+    "docs/engineering/definition-of-done.md",
+    "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md relevant privacy/legal lines"
+  ],
+  "acceptance_mapping": [
+    {
+      "criterion": "Four exact draft files exist and are referenced in evidence.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/legal-draft-files.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/legal-drafts-independent-check-v3.json"
+      ]
+    },
+    {
+      "criterion": "Each draft has DRAFT_WAITING_HUMAN_REVIEW, version/date, MVP/B2B scope, owner expectation, human reviewer expectation, production-use limitation and prominent not-approved warning.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/legal-drafts-independent-check-v3.json"
+      ]
+    },
+    {
+      "criterion": "Drafts preserve aggregate HR/sponsor reporting by default and do not make personal diagnostic answers, weak zones, exact sums or reflection details personal HR reports by default.",
+      "status": "PASS",
+      "evidence": [
+        "docs/legal/mvp/drafts/privacy-policy-draft.md",
+        "docs/legal/mvp/drafts/terms-of-use-draft.md",
+        "docs/legal/mvp/drafts/personal-data-consent-draft.md",
+        "docs/legal/mvp/drafts/financial-disclaimer-draft.md",
+        ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/legal-drafts-independent-check-v3.json"
+      ]
+    },
+    {
+      "criterion": "Drafts do not claim legal approval, real-data processing approval, production readiness, guaranteed outcomes/debt relief/savings/risk-free results or personalized investment/tax/credit/legal advice.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/forbidden-claim-candidate-lines.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/legal-drafts-independent-check-v3.json"
+      ],
+      "note": "Candidate lines were manually classified by the verifier; all blocking positive-claim matches were excluded by negative or limiting language."
+    },
+    {
+      "criterion": "Cookie/tracking is deferred/out of scope unless active repo implementation proves otherwise.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/active-cookie-tracking-scope-scan.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/legal-drafts-independent-check-v3.json"
+      ],
+      "note": "The app/package scan returned no active cookie/tracking implementation matches."
+    },
+    {
+      "criterion": "Human gate legal-privacy-consent-wording-and-real-pii-processing remains WAITING_HUMAN with the exact four files named for review.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/evidence/MVP-03-legal-drafts-001.json.human_gates",
+        ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/legal-drafts-independent-check-v3.json"
+      ]
+    },
+    {
+      "criterion": "Full MVP-03, MVP stage, real-data approval and other human gates remain open.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/status.json",
+        ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/legal-drafts-independent-check-v3.json"
+      ]
+    },
+    {
+      "criterion": "Builder evidence is compact, maps acceptance to artifacts/commands/limitations and notes no backend/UI/schema/API changes for this slice.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/evidence/MVP-03-legal-drafts-001.md",
+        ".agent/stages/mvp/evidence/MVP-03-legal-drafts-001.json"
+      ],
+      "note": "Evidence markdown is 95 lines and machine evidence maps 11 acceptance items and 9 commands."
+    },
+    {
+      "criterion": "UI/user-visible screenshot/browser evidence requirement is handled.",
+      "status": "PASS_NOT_REQUIRED",
+      "reason": "This slice created draft legal markdown artifacts only and changed no app UI route or rendered user-visible application surface."
+    },
+    {
+      "criterion": "Backend/schema/API/Flyway/OpenAPI evidence requirement is handled.",
+      "status": "PASS_NOT_REQUIRED_FOR_THIS_SLICE",
+      "reason": "The legal draft slice changes no backend, schema, Flyway migration, OpenAPI source or generated client artifact. Maven/Flyway/OpenAPI commands were not run because the verifier write scope is restricted to proof artifacts and this sprint has no backend/API build target."
+    },
+    {
+      "criterion": "Changed JSON artifacts validate.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/changed-json-files.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/changed-json-validation.txt"
+      ]
+    },
+    {
+      "criterion": "git diff --check excluding raw is clean or unrelated pre-existing issues are recorded honestly.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/git-diff-check-excluding-raw.txt"
+      ]
+    },
+    {
+      "criterion": "Harness validation result is evaluated honestly.",
+      "status": "PASS_EXPECTED_ALIAS_MISMATCH",
+      "evidence": [
+        ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/harness-validation-before-verdict.json",
+        ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/harness-validation-after-verdict.json"
+      ],
+      "reason": "Harness bootstrap checks passed and stage-artifacts failed only because latest evidence is on MVP-03-legal-drafts-001 while latest verdict/problems aliases still point to MVP-03-closure-audit-001 before parent alias sync."
+    }
+  ],
+  "commands": [
+    {
+      "command": "git status --short --branch",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "INFO",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/git-status-short.txt"
+    },
+    {
+      "command": "find docs/legal/mvp/drafts -maxdepth 1 -type f -print | sort",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/legal-draft-files.txt"
+    },
+    {
+      "command": "node inline legal draft independent check",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/legal-drafts-independent-check-v3.json"
+    },
+    {
+      "command": "rg -n -i active cookie/tracking patterns apps packages",
+      "cwd": ".",
+      "exit_status": 1,
+      "status": "PASS_NO_MATCHES",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/active-cookie-tracking-scope-scan.txt"
+    },
+    {
+      "command": "rg -n -i forbidden/legal/guarantee/advice candidate patterns docs/legal/mvp/drafts/*.md",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS_WITH_MANUAL_FALSE_POSITIVE_REVIEW",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/forbidden-claim-candidate-lines.txt"
+    },
+    {
+      "command": "git ls-files -m -o --exclude-standard -- '*.json' && xargs jq empty",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/changed-json-validation.txt"
+    },
+    {
+      "command": "git diff --name-status -- . ':(exclude).agent/stages/**/raw/**'",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "INFO_DIRTY_WORKTREE",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/git-diff-name-status-excluding-raw.txt"
+    },
+    {
+      "command": "git diff --check -- . ':(exclude).agent/stages/**/raw/**'",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/git-diff-check-excluding-raw.txt"
+    },
+    {
+      "command": "jq empty .agent/stages/mvp/verdicts/MVP-03-legal-drafts-001.json",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/verifier-verdict-json-validation.txt"
+    },
+    {
+      "command": "git diff --check -- . ':(exclude).agent/stages/**/raw/**'",
+      "cwd": ".",
+      "exit_status": 0,
+      "status": "PASS_AFTER_VERDICT",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/git-diff-check-excluding-raw-after-verdict.txt"
+    },
+    {
+      "command": "python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp",
+      "cwd": ".",
+      "exit_status": 1,
+      "status": "EXPECTED_FAIL_ALIAS_MISMATCH_BEFORE_PARENT_SYNC",
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-03-legal-drafts-001-20260513/harness-validation-after-verdict.json"
+    }
+  ],
+  "docs_sync": {
+    "status": "PASS_NOOP_ACCEPTED",
+    "canonical_docs_changed_by_slice": false,
+    "material_drift_found": false,
+    "diagram": "NONE_ACCEPTED",
+    "reason": "The existing MVP stage/product docs already require legal drafts and privacy/legal guardrails. This slice adds draft legal artifacts only and does not change behavior, architecture, API contract, schema, setup/runtime workflow or a canonical decision."
+  },
+  "human_gates": {
+    "closed_by_this_verifier": false,
+    "legal_privacy_consent_wording_and_real_pii_processing": "WAITING_HUMAN",
+    "real_employee_customer_data_processing_approval": "WAITING_HUMAN",
+    "customer_specific_hr_reporting_boundaries": "WAITING_HUMAN",
+    "financial_correctness_lessons_diagnostics_quizzes": "WAITING_HUMAN",
+    "reward_economy_stock_prices_fulfillment": "WAITING_HUMAN",
+    "full_mvp_03_closed": false,
+    "mvp_stage_closed": false
+  },
+  "ui_or_browser_evidence": {
+    "required": false,
+    "reason": "No UI or app-rendered user-visible surface changed in this docs/legal draft slice."
+  },
+  "backend_schema_api_evidence": {
+    "required_for_this_slice": false,
+    "reason": "No backend/schema/API/OpenAPI/generated-client change is part of MVP-03-legal-drafts-001.",
+    "repo_state_note": "The current worktree contains unrelated pre-existing backend/OpenAPI/generated-client modifications outside this legal draft slice; this verifier did not certify those changes."
+  },
+  "residual_risks": [
+    "The four legal documents are drafts only and still require human legal/privacy review before production use or real employee/customer data processing.",
+    "Full MVP-03 and the MVP stage remain open.",
+    "Latest verdict/problems aliases still point to MVP-03-closure-audit-001; this verifier intentionally wrote immutable refs only and left parent alias sync to the orchestrator.",
+    "The worktree contains unrelated backend/API/generated-client changes from other MVP-03 work; they are outside this verifier scope."
+  ],
+  "problems_ref": ".agent/stages/mvp/problems/MVP-03-legal-drafts-001.md",
+  "blocking_problems": []
+}

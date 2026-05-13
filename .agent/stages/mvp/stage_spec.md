@@ -1,48 +1,80 @@
-# MVP-03 employee profile session spec freeze
+# MVP-03 employee contact update UI spec freeze
 
-Stage ID: `mvp`
-Active slice: `MVP-03-employee-profile-session-001`
+Stage: `mvp`
+Active slice: `MVP-03-employee-contact-update-ui-001`
 Parent stage unit: `MVP-03.04`
+Role: `stage_spec_freezer`
 Status: `FROZEN`
-Frozen at: 2026-05-12
-Freezer role: `stage_spec_freezer`
+Date: 2026-05-13
 
-## Objective
+## Freeze Goal
 
-Freeze one narrow backend/API prerequisite for future safe contact update: create a trustworthy short-lived employee profile session only after the existing raw invite code plus normalized full name/email/phone proof succeeds, then allow a read-only authenticated `me/profile-summary` lookup from that session.
+Freeze the next narrow product functionality slice after verified `MVP-03-legal-drafts-001` PASS: an employee-facing, mobile-first profile/contact screen in `apps/web` that uses the already verified profile-session contact update API.
 
-This freeze does not implement production code, contact update, employee UI, login/password setup, `User`, `OrgMembership`, subscriptions/seats, support tickets, HR reporting, diagnostics, points, CMS, rewards, real-data use, full `MVP-03`, the MVP stage or any human gate.
+This is not harness-only work and does not implement production code. Builder evidence and a fresh stage verifier are still required before any PASS claim.
 
-## Current Verified State
+## Current Baseline
 
-- Latest verified scoped slice remains `MVP-03-profile-contact-summary-001` with fresh verifier `PASS`.
-- Immutable PASS refs for `MVP-03-profile-contact-summary-001` and `MVP-03-admin-sensitive-access-audit-001` must be preserved.
-- Existing backend has `POST /api/v1/employee-registrations/profile-summary`, requiring raw invite code plus matching normalized fullName/email/phone, read-only, no UUID-only public lookup, no contact update and no auth/session bridge.
-- `apps/web` remains non-mutating for consent/profile/contact flows because there is no trustworthy employeeRegistrationId/session bridge.
+- Latest verified scoped slice: `MVP-03-legal-drafts-001` PASS.
+- Full `MVP-03` remains open; legal/privacy wording, real data processing and customer-specific reporting gates remain `WAITING_HUMAN`.
+- Backend/API contact update contract is already verified by `MVP-03-profile-contact-update-001` PASS.
+- Generated API client currently exposes:
+  - `fetchEmployeeProfileSession`;
+  - `fetchEmployeeMeProfileSummary`;
+  - `fetchEmployeeMeContactUpdate`;
+  - `EmployeeContactUpdateRequest`;
+  - `EmployeeContactUpdateResponse`.
+- `apps/web` currently has no profile/contact route and no established profile-session token handoff. The UI slice must therefore include the smallest measurable session bridge in the same screen, using only the existing profile-session flow and local/test harness evidence.
 
-## Decision
+## Frozen Slice
 
-The safe next implementation slice is an employee-registration-scoped profile session, not contact update. The session is a narrow MVP registration/profile boundary:
+`MVP-03-employee-contact-update-ui-001` is a minimal `apps/web` slice for `/profile/contact` or an equivalently explicit profile contact route.
 
-- it is created only after the same invite+contact proof already verified by the profile-summary endpoint;
-- it is not a product login, not a password setup flow, not a `User` session and not an `OrgMembership`/subscription/seat entitlement;
-- it returns an opaque high-entropy raw token only once and stores only a server-side token hash;
-- it is short-lived, revocable and valid only for read-only profile-summary lookup.
+The screen must:
 
-Contact update remains out of scope until a later slice explicitly freezes update semantics, auditability and identity proof requirements.
+- be mobile-first and match `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md`;
+- use neutral employee-facing branding without customer brand;
+- obtain a profile-session token only through the existing profile-session API flow or a clearly marked local/browser test harness limitation;
+- keep any profile-session token in memory only for the active page/session;
+- load the current support-safe profile summary through the profile-session token;
+- display `fullName` as read-only when returned by the API;
+- edit only `email` and `phone`;
+- submit updates through the verified profile-session contact update API;
+- handle success, normalized no-op, `400` validation errors and `401` expired/invalid session safely with Russian UI copy;
+- preserve the privacy boundary and avoid real employee/customer data.
 
-## Acceptance Summary
+## Out Of Scope
 
-The builder must prove:
+- `fullName` update.
+- Login, password setup, account recovery, SSO/SCIM or full auth framework.
+- `User`, `OrgMembership`, organization membership acceptance, subscriptions, seats, entitlements, `pro_user` or `premium`.
+- Backend/API/schema/Flyway/OpenAPI/generated-client changes unless a compile-time contract import fix is strictly necessary and recorded as a limitation.
+- Support tickets, support UI beyond contact basics, HR reporting, diagnostics, points, CMS, rewards, merch, legal approval, real data processing, full `MVP-03` closure or MVP stage closure.
 
-- `POST /api/v1/employee-registrations/profile-sessions` creates a short-lived profile session only when raw invite code plus normalized fullName/email/phone match the existing registration.
-- The raw profile-session token is opaque, high-entropy, non-JWT and stored only as a server-side hash.
-- Expiry and revocation/consumption policy is explicit: recommended 15-minute TTL, previous active profile sessions for the same registration revoked on successful new creation, read-only `me/profile-summary` does not consume the session, expired/revoked sessions fail.
-- `GET /api/v1/employee-registrations/me/profile-summary` works only with a valid unexpired profile-session bearer token and returns the same support-safe summary fields as the verified read-only profile-summary contract.
-- Invalid input, failed proof, missing/malformed token, expired/revoked token and unknown session fail with safe `400`/`401`/`404` responses without echoing raw token, raw invite code, contact values, lookup hash, activation subject ref or stored PII.
-- Backend baseline stays Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
-- If sessions are persisted, an append-only Flyway migration adds the session table/indexes; schema evidence and Testcontainers/Flyway proof are required.
-- OpenAPI and generated `packages/api-client` artifacts are updated from backend source.
-- Canonical docs sync targets are declared before build; `docs/architecture/access-and-subscriptions.md` likely needs a new MVP employee profile-session boundary with a small Mermaid flow.
-- No contact update, employee UI, login/password setup, `User`, `OrgMembership`, subscription/seat, `pro_user`, `premium`, SSO, support ticket, HR report, diagnostics, points, CMS, rewards, real data or human-gate closure is introduced.
-- Fresh stage verifier PASS is required before any new `passes=true` or scoped PASS claim.
+## Backend Baseline
+
+Backend baseline is explicitly preserved: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc. This UI slice consumes the existing generated API client contract and must not change backend behavior unless a builder-discovered proof gap is recorded separately.
+
+## Doc Targets And Diagram Expectations
+
+- Canonical docs target: `NOOP_EXPECTED` unless the builder changes behavior/access workflow beyond the already documented `docs/architecture/access-and-subscriptions.md` profile-session/contact-update boundary.
+- Stage artifact targets after build:
+  - `.agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.{md,json}`;
+  - `.agent/stages/mvp/verdicts/MVP-03-employee-contact-update-ui-001.json`;
+  - `.agent/stages/mvp/problems/MVP-03-employee-contact-update-ui-001.md`;
+  - latest aliases only after builder evidence/fresh verifier as required by the proof loop.
+- Mermaid expectation: `NONE_EXPECTED` for the minimal UI wiring. If the builder introduces a new token handoff or access workflow beyond the documented boundary, update the narrow canonical doc and add/refresh a small Mermaid flow there.
+
+## Human Gates
+
+Remain open:
+
+- legal/privacy wording and consent copy: `WAITING_HUMAN`;
+- real employee/customer data processing: `WAITING_HUMAN`;
+- customer-specific HR/reporting boundaries: `WAITING_HUMAN`;
+- final financial correctness of lessons/diagnostics/quizzes: `WAITING_HUMAN`;
+- reward economy, real rewards and fulfillment: `WAITING_HUMAN`.
+
+## Evidence Rule
+
+This freeze records scope only. Leave functional `passes=false` until builder evidence and a fresh `stage_verifier` verdict exist.
