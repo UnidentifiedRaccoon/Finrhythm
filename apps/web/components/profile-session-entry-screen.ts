@@ -11,7 +11,12 @@ import {
 } from "react";
 import {
   fetchEmployeeProfileSession,
-  type EmployeeProfileSessionResponse
+  fetchLegalDocumentAcceptance,
+  LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION,
+  LEGAL_DOCUMENT_TYPES,
+  type EmployeeProfileSessionResponse,
+  type LegalDocumentAcceptanceRequest,
+  type LegalDocumentAcceptanceResponse
 } from "@finrhythm/api-client";
 import { ProfileContactScreen, type ProfileContactScreenProps } from "./profile-contact-screen.ts";
 import { classifyApiClientError } from "../lib/profile-contact-state.ts";
@@ -24,13 +29,13 @@ import {
   type ProfileSessionValidationFeedback
 } from "../lib/profile-session-state.ts";
 
-type EntryPhase = "entry" | "creating" | "ready";
+type EntryPhase = "entry" | "creating" | "legal" | "accepting" | "ready";
 
 type EntryNotice =
   | { kind: "validation"; title: string; body: string }
   | { kind: "error"; title: string; body: string };
 
-type SessionMeta = Omit<EmployeeProfileSessionResponse, "profileSessionToken">;
+export const PROFILE_SESSION_LEGAL_ACCEPTANCE_SOURCE = "web_profile_session";
 
 const navItems = [
   { label: "Обучение", mark: "route", href: "/learning", enabled: true },
@@ -44,14 +49,16 @@ export function ProfileSessionEntryScreen() {
   const [values, setValues] = useState<ProfileSessionFormValues>(() => emptyProfileSessionFormValues());
   const [validationFeedback, setValidationFeedback] = useState<ProfileSessionValidationFeedback | null>(null);
   const [notice, setNotice] = useState<EntryNotice | null>(null);
+  const [legalNotice, setLegalNotice] = useState<EntryNotice | null>(null);
   const [profileSessionToken, setProfileSessionToken] = useState<string | null>(null);
-  const [sessionMeta, setSessionMeta] = useState<SessionMeta | null>(null);
+  const [employeeRegistrationId, setEmployeeRegistrationId] = useState<string | null>(null);
 
   function updateValue(field: keyof ProfileSessionFormValues) {
     return (event: ChangeEvent<HTMLInputElement>) => {
       setValues((current) => ({ ...current, [field]: event.target.value }));
       setValidationFeedback(null);
       setNotice(null);
+      setLegalNotice(null);
     };
   }
 
@@ -78,20 +85,22 @@ export function ProfileSessionEntryScreen() {
     setNotice(null);
     setValidationFeedback(null);
     setProfileSessionToken(null);
-    setSessionMeta(null);
+    setEmployeeRegistrationId(null);
+    setLegalNotice(null);
 
     try {
       const response = await fetchEmployeeProfileSession(getBrowserApiBaseUrl(), { body: request });
       setProfileSessionToken(response.profileSessionToken);
-      setSessionMeta(stripRawToken(response));
+      setEmployeeRegistrationId(getEmployeeRegistrationId(response));
       setValues(emptyProfileSessionFormValues());
-      setPhase("ready");
+      setPhase("legal");
     } catch (error: unknown) {
       const kind = classifyApiClientError(error);
 
       setPhase("entry");
       setProfileSessionToken(null);
-      setSessionMeta(null);
+      setEmployeeRegistrationId(null);
+      setLegalNotice(null);
       setValues(emptyProfileSessionFormValues());
 
       if (kind === "validation") {
@@ -113,13 +122,40 @@ export function ProfileSessionEntryScreen() {
     }
   }
 
-  if (phase === "ready" && profileSessionToken && sessionMeta) {
+  async function submitLegalAcceptance(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (!profileSessionToken || !employeeRegistrationId || phase === "accepting") {
+      return;
+    }
+
+    setPhase("accepting");
+    setLegalNotice(null);
+
+    try {
+      const response = await fetchLegalDocumentAcceptance(getBrowserApiBaseUrl(), {
+        employeeRegistrationId,
+        body: buildProfileSessionLegalAcceptanceRequest()
+      });
+
+      if (!acceptedAllCurrentDraftLegalDocuments(response)) {
+        throw new Error("Legal acceptance response did not include all current draft documents.");
+      }
+
+      setPhase("ready");
+    } catch (_error: unknown) {
+      setPhase("legal");
+      setLegalNotice(buildLegalAcceptanceFailureNotice());
+    }
+  }
+
+  if (phase === "ready" && profileSessionToken) {
     return h<ProfileContactScreenProps>(ProfileContactScreen, {
       initialProfileSessionToken: profileSessionToken,
       sessionReadyNotice: {
-        title: "Профильная сессия готова",
+        title: "Документы зафиксированы",
         body:
-          "Контактный профиль открыт в этой вкладке. Сессионный секрет остаётся только в памяти компонента и не переносится через адрес."
+          "Контактный профиль открыт в этой вкладке после записи текущих черновых версий. Сессионный секрет остаётся только в памяти компонента и не переносится через адрес."
       }
     });
   }
@@ -136,6 +172,12 @@ export function ProfileSessionEntryScreen() {
       h(ProfileSessionPrivacyCard),
       phase === "creating"
         ? h(ProfileSessionCreatingPanel)
+        : phase === "legal" || phase === "accepting"
+          ? h(ProfileSessionLegalAcceptanceStep, {
+              busy: phase === "accepting",
+              notice: legalNotice,
+              onSubmit: submitLegalAcceptance
+            })
         : h(ProfileSessionForm, {
             notice,
             onChange: updateValue,
@@ -144,6 +186,26 @@ export function ProfileSessionEntryScreen() {
             values
           })
     )
+  );
+}
+
+export function buildProfileSessionLegalAcceptanceRequest(): LegalDocumentAcceptanceRequest {
+  return {
+    documents: LEGAL_DOCUMENT_TYPES.map((documentType) => ({
+      documentType,
+      documentVersion: LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION
+    })),
+    source: PROFILE_SESSION_LEGAL_ACCEPTANCE_SOURCE
+  };
+}
+
+export function acceptedAllCurrentDraftLegalDocuments(response: LegalDocumentAcceptanceResponse): boolean {
+  const acceptedVersions = new Map(
+    response.acceptedDocuments.map((document) => [document.documentType, document.documentVersion])
+  );
+
+  return LEGAL_DOCUMENT_TYPES.every(
+    (documentType) => acceptedVersions.get(documentType) === LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION
   );
 }
 
@@ -227,6 +289,50 @@ function ProfileSessionCreatingPanel() {
     busy: true,
     children: h(Fragment, null, h("div", { className: "skeleton-line" }), h("div", { className: "skeleton-line" }))
   });
+}
+
+function ProfileSessionLegalAcceptanceStep({
+  busy,
+  notice,
+  onSubmit
+}: {
+  busy: boolean;
+  notice: EntryNotice | null;
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+}) {
+  return h(
+    "section",
+    { className: "profile-form-panel profile-legal-panel", "aria-labelledby": "profile-legal-title" },
+    h("p", { className: "section-label" }, "Юридический шаг"),
+    h("h2", { id: "profile-legal-title" }, "Подтвердите текущие черновые документы"),
+    h(
+      "p",
+      null,
+      "Перед контактами нужно зафиксировать версии политики приватности, согласия на обработку данных, правил использования и финансового дисклеймера."
+    ),
+    h(
+      "p",
+      null,
+      "Формулировки остаются черновыми и ждут проверки человеком и юристом. Этот экран не заменяет проверку юристом."
+    ),
+    h(
+      "ul",
+      { className: "privacy-list", "aria-label": "Что будет записано" },
+      h("li", null, `Все текущие типы документов: ${LEGAL_DOCUMENT_TYPES.length}.`),
+      h("li", null, `Версия документов: ${LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION}.`),
+      h("li", null, "Технический источник отмечается без сессионного секрета.")
+    ),
+    h(
+      "form",
+      { className: "profile-contact-form profile-legal-form", onSubmit },
+      notice ? h(ProfileEntryNotice, { notice }) : null,
+      h(
+        "button",
+        { className: "primary-action profile-submit", disabled: busy, type: "submit" },
+        busy ? "Записываем принятие..." : "Подтвердить принятие черновых документов"
+      )
+    )
+  );
 }
 
 function ProfileSessionForm({
@@ -367,15 +473,17 @@ function ProfileStatePanel({
   );
 }
 
-function stripRawToken(response: EmployeeProfileSessionResponse): SessionMeta {
+function buildLegalAcceptanceFailureNotice(): EntryNotice {
   return {
-    accessPoolId: response.accessPoolId,
-    contactVerifiedByRegistrationMatch: response.contactVerifiedByRegistrationMatch,
-    employeeRegistrationId: response.employeeRegistrationId,
-    expiresAt: response.expiresAt,
-    pilotLaunchId: response.pilotLaunchId,
-    tenantId: response.tenantId
+    kind: "error",
+    title: "Не удалось записать принятие документов",
+    body:
+      "Попробуйте ещё раз. В ошибке не показываются код приглашения, сессионный секрет, идентификаторы или контактные поля."
   };
+}
+
+function getEmployeeRegistrationId(response: EmployeeProfileSessionResponse): string {
+  return response.employeeRegistrationId;
 }
 
 function getBrowserApiBaseUrl(): string {

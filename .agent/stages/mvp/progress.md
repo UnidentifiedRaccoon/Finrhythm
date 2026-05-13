@@ -734,3 +734,42 @@ Open:
 - Fresh verifier PASS is recorded in `.agent/stages/mvp/verdicts/MVP-03-employee-start-route-ui-001.json`.
 - Latest evidence/verdict/problems aliases and `status.json` now point to `MVP-03-employee-start-route-ui-001`.
 - Full `MVP-03`, MVP stage and human gates remain open; no closure audit was run.
+
+## Current builder slice: MVP-03-profile-session-legal-acceptance-ui-001
+
+- Implemented the smallest apps/web legal acknowledgement step inside `/profile/session`.
+- First touched production/test file: `apps/web/components/profile-session-entry-screen.ts`.
+- Production/test files touched by this builder:
+  - `apps/web/components/profile-session-entry-screen.ts`
+  - `apps/web/tests/learning-shell.test.mjs`
+  - `apps/web/tests/browser-smoke.mjs`
+- `/start -> /onboarding/privacy -> /profile/session` remains the entry path.
+- After successful `fetchEmployeeProfileSession`, the route shows Russian neutral draft legal acknowledgement copy before contact update.
+- Legal acceptance posts every generated `LEGAL_DOCUMENT_TYPES` item with `LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION` through generated `fetchLegalDocumentAcceptance`.
+- `employeeRegistrationId` from the profile-session response is used only in mounted component memory for the legal acceptance path parameter.
+- `profileSessionToken` remains only in mounted component memory and is not sent to legal acceptance; `ProfileContactScreen` opens only after legal acceptance succeeds.
+- Browser smoke proves profile-session request/response happens before legal acceptance, contact-summary waits for successful legal acceptance, and legal failure blocks contact-summary.
+- Builder checks passed:
+  - `pnpm --filter @finrhythm/web typecheck`
+  - `pnpm --filter @finrhythm/web test`
+  - `pnpm --filter @finrhythm/web build`
+  - browser smoke with screenshots under `.agent/stages/mvp/raw/builder-MVP-03-profile-session-legal-acceptance-ui-001-20260513/`
+  - generated-client boundary check
+  - token/storage/url/cookie/indexedDB, legal-token-leakage, raw invite/id/token echo, brand/real-data/claims/final-legal-approval guardrail scans
+  - `make verify`
+  - `make test-unit`
+  - `make build`
+- Canonical docs sync is `NOOP_EXPECTED`; this slice consumes the existing generated legal acceptance contract and does not change product/access/backend/API/schema/setup/workflow decisions.
+- Backend/API/schema/Flyway/OpenAPI/generated client source remain unchanged by this builder.
+- Builder phase wrote evidence aliases before fresh verification; parent sync below now records the fresh verifier PASS for this sprint.
+- Full `MVP-03`, MVP stage and human gates remain open; legal/privacy wording and real data processing remain human-gated.
+
+## Current verified slice: MVP-03-profile-session-legal-acceptance-ui-001
+
+- Fresh verifier PASS is recorded for the apps/web legal acknowledgement/acceptance step inside `/profile/session`.
+- The verified path is `/start -> /onboarding/privacy -> /profile/session -> legal acknowledgement -> generated legal acceptance POST -> contact update screen`.
+- `/profile/session` still creates the temporary profile session through generated `fetchEmployeeProfileSession`, then uses generated `fetchLegalDocumentAcceptance`, `LEGAL_DOCUMENT_TYPES` and `LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION` before opening the existing contact update screen.
+- Verifier confirmed `ProfileContactScreen` opens only after successful legal acceptance, direct `/profile/contact` remains the safe missing-session state, and no token/storage/URL/cookie/IndexedDB, raw invite, raw id, customer brand, real-data, forbidden-claim or final-legal-approval leakage was found.
+- Builder proof includes web typecheck/test/build, browser smoke with screenshots, generated-client boundary checks, guardrail scans, `make verify`, `make test-unit`, `make build`, JSON validation and `git diff --check`.
+- Latest evidence/verdict/problems aliases and `status.json` now point to `MVP-03-profile-session-legal-acceptance-ui-001`.
+- Full `MVP-03`, MVP stage and human gates remain open; legal wording remains draft and human-gated.

@@ -34,4 +34,10 @@ Execution loop:
 7. при FAIL используй minimal fixer and fresh verifier again;
 8. обнови progress/decisions/risks/status.
 
+Post-PASS publish:
+1. после fresh verifier `PASS` обнови `publish_manifest.json` with `publish_after_pass=true` and `merge_after_pr=true`;
+2. вызови repo-local `$push-main` для publish-only flow по verified slice;
+3. если `$push-main` сообщает blocker по checks/protection/permissions/conflicts, зафиксируй blocker and stop after the last successful publish step;
+4. в финальном ответе напечатай следующий copyable continuation prompt для запуска нового агента с updated `main`.
+
 Не объявляй stage or slice complete without proof. Human-gated items may only be `DONE_WITH_HUMAN_PENDING` or `WAITING_HUMAN` until human approval.

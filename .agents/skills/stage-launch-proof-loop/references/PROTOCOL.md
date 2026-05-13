@@ -90,6 +90,32 @@ A slice is complete only if:
 
 Before publishing, check the proof diff for churn. If a slice adds many raw logs or duplicate screenshots, replace them with compact tracked summaries and leave full raw files ignored locally unless an auditor explicitly asked for those exact artifacts.
 
+## Post-PASS publish and continuation handoff
+
+This phase runs only after a fresh verifier returns `PASS` and the active prompt, sprint contract or `publish_manifest.json` explicitly sets `publish_after_pass=true`. Execute the publish part through repo-local skill `$push-main` instead of duplicating git/GitHub mechanics in the stage harness.
+
+Required preconditions:
+
+1. evidence bundle, immutable proof refs and latest aliases point to the verified sprint contract;
+2. canonical docs are synchronized or exact deferred gaps are recorded;
+3. `progress.md`, `status.json` and `publish_manifest.json` are current;
+4. human gates are represented honestly;
+5. worktree scope contains only the completed slice or an exact blocker is recorded;
+6. `git diff --check` passes for the publish scope, excluding `.agent/stages/**/raw/**` and `.agent/tasks/**/raw/**` when needed.
+
+Responsibility split:
+
+- stage harness owns PASS readiness, evidence/doc/status consistency and continuation prompt;
+- `$push-main` owns publish-only workflow: create branch, commit verified scope, open PR into `main`, wait for checks, merge when allowed, switch local checkout to `main`, pull merged update;
+- `$push-main` must not run the stage harness, create subagents, read raw evidence without exact refs, publish unrelated changes or bypass protection rules;
+- if `$push-main` reports push, PR creation, merge, permissions, conflicts, checks or branch protection blocker, stop after the last successful step and report/record the blocker.
+
+Final response requirements:
+
+- report PR URL, merge status, local `main` HEAD and skipped/blocked steps;
+- print a copyable continuation prompt directly in chat;
+- the prompt must tell the next run to continue from updated `main`, use `stage_orchestrator` with bounded leaf subagents, pick the next highest-impact verified slice, run `spec freeze -> build -> evidence -> fresh verify -> minimal fix -> fresh verify`, update docs/evidence, repeat post-PASS publish when requested and print the next continuation prompt.
+
 ## Scope guardrails
 
 Do not expand beyond stage source. For FinLit, especially avoid:

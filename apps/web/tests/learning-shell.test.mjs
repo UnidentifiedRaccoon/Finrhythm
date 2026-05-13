@@ -4,13 +4,22 @@ import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
 import { createElement as h } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
+import {
+  LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION,
+  LEGAL_DOCUMENT_TYPES
+} from "@finrhythm/api-client";
 import { LessonRendererScreen } from "../components/lesson-renderer.ts";
 import { getLessonRendererState } from "../lib/lesson-state.ts";
 import { EmployeeStartScreen } from "../components/employee-start-screen.ts";
 import { LearningShellScreen } from "../components/learning-shell.ts";
 import { OnboardingPrivacyScreen } from "../components/onboarding-privacy-screen.ts";
 import { ProfileContactScreen } from "../components/profile-contact-screen.ts";
-import { ProfileSessionEntryScreen } from "../components/profile-session-entry-screen.ts";
+import {
+  acceptedAllCurrentDraftLegalDocuments,
+  buildProfileSessionLegalAcceptanceRequest,
+  ProfileSessionEntryScreen,
+  PROFILE_SESSION_LEGAL_ACCEPTANCE_SOURCE
+} from "../components/profile-session-entry-screen.ts";
 import {
   learningFixtureSourceBoundary,
   learningFixtureSourceProvenance,
@@ -106,7 +115,7 @@ describe("mobile learning shell", () => {
     assert.match(html, /Посмотреть демо-обучение/);
     assert.doesNotMatch(html, /href="\/diagnostics"/);
     assert.doesNotMatch(html, /type="checkbox"/);
-    assert.doesNotMatch(html, /финально утвержд/);
+    assert.equal(html.includes(joinText("финально", " ", "утвержд")), false);
   });
 
   it("renders the employee start screen with privacy-first profile order", () => {
@@ -186,26 +195,63 @@ describe("mobile learning shell", () => {
     assert.doesNotMatch(html, /password/i);
   });
 
+  it("builds legal acceptance POST payloads from generated current draft constants", () => {
+    const request = buildProfileSessionLegalAcceptanceRequest();
+
+    assert.equal(request.source, PROFILE_SESSION_LEGAL_ACCEPTANCE_SOURCE);
+    assert.equal(request.source, "web_profile_session");
+    assert.deepEqual(
+      request.documents,
+      LEGAL_DOCUMENT_TYPES.map((documentType) => ({
+        documentType,
+        documentVersion: LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION
+      }))
+    );
+
+    const acceptedResponse = {
+      employeeRegistrationId: "10000000-0000-4000-8000-000000000001",
+      tenantId: "20000000-0000-4000-8000-000000000001",
+      pilotLaunchId: "30000000-0000-4000-8000-000000000001",
+      accessPoolId: "40000000-0000-4000-8000-000000000001",
+      acceptedDocuments: request.documents.map((document) => ({
+        ...document,
+        acceptedAt: "2026-05-13T09:00:00Z",
+        source: PROFILE_SESSION_LEGAL_ACCEPTANCE_SOURCE
+      })),
+      createdCount: request.documents.length,
+      idempotentRetry: false
+    };
+
+    assert.equal(acceptedAllCurrentDraftLegalDocuments(acceptedResponse), true);
+    assert.equal(
+      acceptedAllCurrentDraftLegalDocuments({
+        ...acceptedResponse,
+        acceptedDocuments: acceptedResponse.acceptedDocuments.slice(1)
+      }),
+      false
+    );
+  });
+
   it("builds profile-session POST payloads through generated request types without echoing invalid proof", () => {
     const syntheticInviteCode = joinText("INVITE", "-", "LOCAL", "-", "001");
     const request = buildEmployeeProfileSessionRequest({
       inviteCode: ` ${syntheticInviteCode} `,
-      fullName: " Ирина Петрова ",
-      email: " irina.profile@example.test ",
+      fullName: " Синтетический Участник ",
+      email: " synthetic.profile@example.test ",
       phone: " +70000000000 "
     });
 
     assert.deepEqual(request, {
       inviteCode: syntheticInviteCode,
-      fullName: "Ирина Петрова",
-      email: "irina.profile@example.test",
+      fullName: "Синтетический Участник",
+      email: "synthetic.profile@example.test",
       phone: "+70000000000"
     });
 
     const missing = buildProfileSessionValidationFeedback({
       inviteCode: "",
       fullName: "",
-      email: "irina.profile@example.test",
+      email: "synthetic.profile@example.test",
       phone: ""
     });
     assert.match(missing?.message, /Мы не показываем введённые значения/);
@@ -217,7 +263,7 @@ describe("mobile learning shell", () => {
     const invalid = buildInvalidProfileSessionFeedback();
     assert.match(invalid.message, /Не удалось подтвердить профиль/);
     assert.equal(JSON.stringify(invalid).includes(syntheticInviteCode), false);
-    assert.doesNotMatch(JSON.stringify(invalid), /irina\.profile/);
+    assert.doesNotMatch(JSON.stringify(invalid), /synthetic\.profile/);
   });
 
   it("builds contact update payloads only from changed email and phone fields", () => {
@@ -265,6 +311,11 @@ describe("mobile learning shell", () => {
     assert.equal(webPackage.dependencies["@finrhythm/api-client"], "workspace:*");
     assert.match(profileSessionSource, /fetchEmployeeProfileSession/);
     assert.match(profileSessionSource, /EmployeeProfileSessionResponse/);
+    assert.match(profileSessionSource, /fetchLegalDocumentAcceptance/);
+    assert.match(profileSessionSource, /LEGAL_DOCUMENT_TYPES/);
+    assert.match(profileSessionSource, /LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION/);
+    assert.match(profileSessionSource, /LegalDocumentAcceptanceRequest/);
+    assert.match(profileSessionSource, /LegalDocumentAcceptanceResponse/);
     assert.match(profileSessionStateSource, /EmployeeProfileSessionRequest/);
     assert.match(profileSource, /fetchEmployeeMeProfileSummary/);
     assert.match(profileSource, /fetchEmployeeMeContactUpdate/);
@@ -273,6 +324,38 @@ describe("mobile learning shell", () => {
     assert.match(profileStateSource, /ApiErrorResponse/);
     assert.match(profileSource, /initialProfileSessionToken/);
     assert.match(profileSessionSource, /initialProfileSessionToken/);
+    assert.match(profileSessionSource, /setPhase\("legal"\)/);
+    assert.match(profileSessionSource, /setPhase\("ready"\)/);
+    assert.equal(profileSessionSource.includes(joinText("/", "legal", "-", "acceptances")), false);
+    const profileSessionSuccessBlock = profileSessionSource.slice(
+      profileSessionSource.indexOf("const response = await fetchEmployeeProfileSession"),
+      profileSessionSource.indexOf("} catch (error: unknown)")
+    );
+    assert.match(profileSessionSuccessBlock, /setPhase\("legal"\)/);
+    assert.doesNotMatch(profileSessionSuccessBlock, /setPhase\("ready"\)/);
+    const legalAcceptanceBlock = profileSessionSource.slice(
+      profileSessionSource.indexOf("const response = await fetchLegalDocumentAcceptance"),
+      profileSessionSource.indexOf("function ProfileSessionHeader")
+    );
+    const legalAcceptanceFetchBlock = profileSessionSource.slice(
+      profileSessionSource.indexOf("const response = await fetchLegalDocumentAcceptance"),
+      profileSessionSource.indexOf("if (!acceptedAllCurrentDraftLegalDocuments")
+    );
+    assert.match(legalAcceptanceBlock, /employeeRegistrationId/);
+    assert.match(legalAcceptanceBlock, /body: buildProfileSessionLegalAcceptanceRequest\(\)/);
+    assert.match(legalAcceptanceBlock, /setPhase\("ready"\)/);
+    assert.doesNotMatch(legalAcceptanceFetchBlock, /profileSessionToken/);
+    assert.match(profileSessionSource, /Не удалось записать принятие документов/);
+    assert.match(profileSessionSource, /не показываются код приглашения, сессионный секрет, идентификаторы или контактные поля/);
+    const finalLegalApprovalClaims = [
+      joinText("финально", " ", "утвержд"),
+      joinText("юридическое", " ", "утверждение"),
+      joinText("юридически", " ", "утвержд"),
+      joinText("final", " ", "legal", " ", "approval")
+    ];
+    for (const claim of finalLegalApprovalClaims) {
+      assert.equal(profileSessionSource.toLowerCase().includes(claim), false);
+    }
     assert.equal(
       `${profileSource}\n${profileContactPageSource}\n${profileStateSource}`.includes(joinText("allow", "Query", "Token")),
       false

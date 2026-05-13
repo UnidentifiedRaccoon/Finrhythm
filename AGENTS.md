@@ -72,6 +72,32 @@ Read-gating: не читать все stage docs, product docs или `.agent/st
 
 Fast publish mode не ослабляет требования для изменения кода. Он только запрещает повторно исполнять и перечитывать stage harness при операции публикации уже подготовленного diff.
 
+## 3.2 Post-PASS publish and continuation handoff
+
+Для stage/task execution, где активный prompt, sprint contract или `publish_manifest.json` явно включает `publish_after_pass=true`, агент после свежего verifier `PASS` обязан выполнить финальную publish-and-handoff фазу через repo-local skill `$push-main`.
+
+Preconditions:
+- latest fresh verifier verdict is `PASS`;
+- evidence, docs, `progress.md`, `status.json` and `publish_manifest.json` актуальны;
+- human-gated items не объявлены полностью закрытыми без человека;
+- worktree diff содержит только файлы текущего slice или точный blocker recorded;
+- `git diff --check` проходит для publish scope, excluding raw evidence pathspecs when needed.
+
+Delegation:
+- stage harness owns PASS preconditions, evidence/doc/status consistency and continuation prompt;
+- `$push-main` owns publish mechanics: branch, commit, PR to `main`, merge when allowed, local switch to `main`, `git pull --ff-only`;
+- `publish_manifest.json` must provide compact PR/validation/proof refs for `$push-main`;
+- if `$push-main` reports push, PR, merge, branch protection, checks or permission blocker, stage harness records/reports that blocker and does not bypass protection rules.
+
+`$push-main` must not publish unrelated changes, rerun the stage harness, create subagents, or blanket-read raw evidence.
+
+Final chat handoff:
+- последний ответ после publish flow должен содержать copyable continuation prompt для следующего запуска;
+- prompt должен instruct `stage_orchestrator` and bounded leaf subagents to continue product development from updated `main`;
+- prompt must preserve the proof loop: `spec freeze -> build -> evidence -> fresh verify -> minimal fix -> fresh verify`;
+- prompt must ask for significant product progress on the next highest-impact verified slice, not analysis-only work;
+- prompt must tell the next agent to repeat this post-PASS publish flow and print the next continuation prompt.
+
 ## 4. Рабочий стиль по умолчанию
 
 - Маленькие, верифицируемые slices.

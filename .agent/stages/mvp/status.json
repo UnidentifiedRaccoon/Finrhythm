@@ -1,9 +1,9 @@
 {
   "stage_id": "mvp",
   "state": "SCOPED_PASS",
-  "active_sprint_contract_id": "MVP-03-employee-start-route-ui-001",
-  "latest_verified_sprint_contract_id": "MVP-03-employee-start-route-ui-001",
-  "latest_status_decision_sprint_contract_id": "MVP-03-employee-start-route-ui-001",
+  "active_sprint_contract_id": "MVP-03-profile-session-legal-acceptance-ui-001",
+  "latest_verified_sprint_contract_id": "MVP-03-profile-session-legal-acceptance-ui-001",
+  "latest_status_decision_sprint_contract_id": "MVP-03-profile-session-legal-acceptance-ui-001",
   "completed_ids": [
     "MVP-01.01",
     "MVP-01.02",
@@ -44,7 +44,8 @@
     "MVP-03-employee-contact-update-ui-001",
     "MVP-03-employee-profile-session-entry-ui-001",
     "MVP-03-onboarding-to-profile-session-continuity-ui-001",
-    "MVP-03-employee-start-route-ui-001"
+    "MVP-03-employee-start-route-ui-001",
+    "MVP-03-profile-session-legal-acceptance-ui-001"
   ],
   "done_with_human_pending_ids": [
     "MVP-02.04",
@@ -68,7 +69,7 @@
     "admin-auth-role-audit-policy-for-production-use"
   ],
   "next_recommended_ids": [
-    "freeze-next-MVP-03-functional-gap-after-employee-start-route-ui-001",
+    "freeze-next-MVP-03-functional-gap-after-profile-session-legal-acceptance-ui-001",
     "do-not-close-full-MVP-03-or-MVP-stage-without-separate-closure-audit",
     "do-not-close-legal-or-real-data-human-gates"
   ],
@@ -275,23 +276,38 @@
     "current_mvp_03_employee_start_route_ui_builder_checks_pass": true,
     "current_mvp_03_employee_start_route_ui_browser_screenshots_exist": true,
     "current_mvp_03_employee_start_route_ui_fresh_verifier_pass": true,
-    "current_mvp_03_employee_start_route_ui_active": true,
+    "current_mvp_03_employee_start_route_ui_active": false,
     "mvp_03_employee_start_route_ui_proven": true,
     "mvp_03_employee_start_route_ui_complete": true,
     "current_mvp_03_employee_start_route_ui_parent_alias_sync_done": true,
     "mvp_03_employee_start_route_ui_active": false,
     "docs_only_latest_verified_sprint": false,
     "public_api_scope_for_latest_verified_sprint": false,
-    "schema_scope_for_latest_verified_sprint": "MVP-03-employee-start-route-ui-001 is apps/web UI-only and adds no schema, Flyway migration, OpenAPI source or generated api-client artifact.",
-    "ui_scope_for_latest_verified_sprint": "MVP-03-employee-start-route-ui-001 adds /start as a no-input/no-API employee-facing entry screen. The verified primary path is /start -> /onboarding/privacy -> /profile/session; contact data remains after temporary profile session only.",
-    "generated_client_scope_for_latest_verified_sprint": "apps/web /profile/session still consumes @finrhythm/api-client helpers/types; no generated api-client source or OpenAPI artifact was changed by the /start UI slice.",
-    "active_sprint_scope": "Latest verified scoped sprint MVP-03-employee-start-route-ui-001 adds only the apps/web /start employee entry route and focused tests/smoke for /start -> /onboarding/privacy -> /profile/session. Full MVP-03 remains open.",
-    "ui_scope_for_active_sprint": "MVP-03-employee-start-route-ui-001 adds /start as a no-input/no-API employee-facing entry screen. The verified primary path is /start -> /onboarding/privacy -> /profile/session; contact data remains after temporary profile session only.",
+    "schema_scope_for_latest_verified_sprint": "MVP-03-profile-session-legal-acceptance-ui-001 is apps/web UI-only and adds no schema, Flyway migration, OpenAPI source or generated api-client artifact.",
+    "ui_scope_for_latest_verified_sprint": "MVP-03-profile-session-legal-acceptance-ui-001 adds a draft legal acknowledgement/acceptance step after /profile/session proof and before contact update. The verified path is /start -> /onboarding/privacy -> /profile/session -> legal acknowledgement -> generated legal acceptance POST -> contact update screen.",
+    "generated_client_scope_for_latest_verified_sprint": "apps/web /profile/session consumes generated profile-session and legal acceptance helpers/types/constants from @finrhythm/api-client; no OpenAPI or generated api-client source changed.",
+    "active_sprint_scope": "Latest verified scoped sprint MVP-03-profile-session-legal-acceptance-ui-001 adds the apps/web draft legal acknowledgement/acceptance step inside the profile-session flow. Full MVP-03 remains open.",
+    "ui_scope_for_active_sprint": "Primary browser-proven path is /start -> /onboarding/privacy -> /profile/session -> legal acknowledgement -> generated legal acceptance POST -> contact update screen.",
     "public_api_scope_for_latest_builder_sprint": false,
-    "schema_scope_for_latest_builder_sprint": "MVP-03-employee-start-route-ui-001 is apps/web UI-only and adds no schema, Flyway migration, OpenAPI source or generated api-client artifact.",
+    "schema_scope_for_latest_builder_sprint": "MVP-03-profile-session-legal-acceptance-ui-001 is apps/web UI-only and adds no schema, Flyway migration, OpenAPI source or generated api-client artifact.",
     "backend_baseline_for_latest_builder_sprint": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc remain unchanged.",
     "mvp_03_employee_start_route_ui_builder_harness_validation": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC",
-    "mvp_03_employee_start_route_ui_verifier_verdict": "PASS"
+    "mvp_03_employee_start_route_ui_verifier_verdict": "PASS",
+    "current_mvp_03_profile_session_legal_acceptance_ui_contract_frozen": true,
+    "current_mvp_03_profile_session_legal_acceptance_ui_builder_complete": true,
+    "current_mvp_03_profile_session_legal_acceptance_ui_evidence_exists": true,
+    "current_mvp_03_profile_session_legal_acceptance_ui_builder_checks_pass": true,
+    "current_mvp_03_profile_session_legal_acceptance_ui_browser_screenshots_exist": true,
+    "current_mvp_03_profile_session_legal_acceptance_ui_active": false,
+    "current_mvp_03_profile_session_legal_acceptance_ui_fresh_verifier_pass": true,
+    "mvp_03_profile_session_legal_acceptance_ui_proven": true,
+    "mvp_03_profile_session_legal_acceptance_ui_complete": true,
+    "docs_only_latest_builder_sprint": false,
+    "ui_scope_for_latest_builder_sprint": "MVP-03-profile-session-legal-acceptance-ui-001 adds a draft legal acknowledgement/acceptance step after /profile/session proof and before contact update.",
+    "generated_client_scope_for_latest_builder_sprint": "apps/web consumes generated fetchLegalDocumentAcceptance, LEGAL_DOCUMENT_TYPES and LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION; no generated api-client source was changed.",
+    "mvp_03_profile_session_legal_acceptance_ui_builder_harness_validation": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC",
+    "mvp_03_profile_session_legal_acceptance_ui_verifier_verdict": "PASS",
+    "current_mvp_03_profile_session_legal_acceptance_ui_parent_alias_sync_done": true
   },
   "runtime_guardrails": {
     "project_config_approval_policy_expected": "on-request",
@@ -370,7 +386,8 @@
       "MVP-03-employee-contact-update-ui-001 has scoped fresh verifier PASS for the employee-facing apps/web /profile/contact UI over the verified profile-session contact update API; latest aliases are synchronized after parent sync.",
       "MVP-03-employee-profile-session-entry-ui-001 has scoped fresh verifier PASS for the apps/web /profile/session memory-only profile-session entry flow.",
       "MVP-03-onboarding-to-profile-session-continuity-ui-001 has scoped fresh verifier PASS for the apps/web /onboarding/privacy -> /profile/session continuity path and removal of the unsafe /profile/contact query-token fallback.",
-      "MVP-03-employee-start-route-ui-001 has scoped fresh verifier PASS for the apps/web /start employee entry route, with primary /onboarding/privacy navigation, mobile browser proof for /start -> /onboarding/privacy -> /profile/session, no inputs/API calls/session creation, and preserved memory-only profile-session boundary."
+      "MVP-03-employee-start-route-ui-001 has scoped fresh verifier PASS for the apps/web /start employee entry route, with primary /onboarding/privacy navigation, mobile browser proof for /start -> /onboarding/privacy -> /profile/session, no inputs/API calls/session creation, and preserved memory-only profile-session boundary.",
+      "MVP-03-profile-session-legal-acceptance-ui-001 has scoped fresh verifier PASS for the apps/web /profile/session draft legal acknowledgement/acceptance step using generated @finrhythm/api-client legal acceptance helpers before contact update."
     ],
     "what_is_closed_now": [
       "MVP-02-admin-code-status-view-001 is PASS for the backend/admin API-only data contract.",
@@ -394,7 +411,8 @@
       "MVP-03-legal-drafts-001 is scoped PASS for creating tracked draft privacy, terms, personal-data consent and financial disclaimer artifacts only; legal approval remains WAITING_HUMAN.",
       "MVP-03-employee-profile-session-entry-ui-001 is scoped PASS for the /profile/session entry flow only; full MVP-03 and human gates remain open.",
       "MVP-03-onboarding-to-profile-session-continuity-ui-001 is scoped PASS for route continuity from /onboarding/privacy to /profile/session and for blocking profile-session token URL handoff through /profile/contact; full MVP-03 remains open.",
-      "MVP-03-employee-start-route-ui-001 is scoped PASS for the /start employee entry route only; full MVP-03 and human gates remain open."
+      "MVP-03-employee-start-route-ui-001 is scoped PASS for the /start employee entry route only; full MVP-03 and human gates remain open.",
+      "MVP-03-profile-session-legal-acceptance-ui-001 is scoped PASS for the profile-session legal acknowledgement/acceptance UI only; full MVP-03 and human gates remain open."
     ],
     "what_is_not_proven": [
       "MVP-02.04 is not closed as DONE because admin auth/role/audit policy, production real-data use and customer-specific reporting boundaries remain human-gated.",
@@ -424,22 +442,27 @@
       "MVP-03-legal-drafts-001 is fresh-verified for draft artifacts only, not human-reviewed: legal approval, real employee/customer data processing, customer-specific HR/reporting boundaries and other human gates remain WAITING_HUMAN.",
       "Full MVP-03 is not closed after MVP-03-legal-drafts-001; a separate closure audit must decide whether any non-human proof gap remains and whether the maximum allowed status is DONE_WITH_HUMAN_PENDING.",
       "MVP-03-onboarding-to-profile-session-continuity-ui-001 does not implement final legal approval, diagnostics/routing, auth/login, User/OrgMembership, subscriptions/seats, HR reporting, points, CMS, rewards, support/admin flows, real-data processing or full MVP-03 closure.",
-      "MVP-03-employee-start-route-ui-001 does not implement auth/login, User/OrgMembership, organization codes, subscriptions/seats/entitlements, HR reporting, diagnostics, points, CMS, rewards, merch, support/admin flows, real-data processing, final legal approval or full MVP-03 closure."
+      "MVP-03-employee-start-route-ui-001 does not implement auth/login, User/OrgMembership, organization codes, subscriptions/seats/entitlements, HR reporting, diagnostics, points, CMS, rewards, merch, support/admin flows, real-data processing, final legal approval or full MVP-03 closure.",
+      "MVP-03-profile-session-legal-acceptance-ui-001 has builder evidence only; fresh stage_verifier PASS is still pending.",
+      "MVP-03-profile-session-legal-acceptance-ui-001 does not approve legal/privacy wording, real employee/customer data processing, customer-specific HR/reporting boundaries, auth/login, User/OrgMembership, subscriptions/seats, diagnostics, points, CMS, rewards, merch, support/admin flows or full MVP-03 closure."
     ],
     "next_slice": "Freeze the next small runnable MVP-03 functional gap. Do not run closure audit or close full MVP-03 unless explicitly selected as a separate closure slice."
   },
   "notes": {
     "mvp_03_onboarding_to_profile_session_continuity_ui_builder_evidence": "Builder evidence is ready for the route continuity slice. Latest evidence aliases now point to builder evidence; latest verified sprint remains MVP-03-employee-profile-session-entry-ui-001 until a fresh verifier runs.",
-    "active_sprint_scope": "Current active builder slice adds apps/web /start as a no-input/no-API employee-facing entry screen to the existing privacy/profile-session path.",
+    "active_sprint_scope": "Latest verified scoped sprint adds apps/web draft legal acknowledgement/acceptance between successful profile-session proof and contact update.",
     "backend_baseline_for_latest_builder_sprint": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc remain unchanged.",
     "mvp_03_onboarding_to_profile_session_continuity_ui_verifier_verdict": "PASS",
     "mvp_03_onboarding_to_profile_session_continuity_ui_parent_alias_sync": "PASS_AFTER_PARENT_SYNC",
-    "ui_scope_for_latest_verified_sprint": "MVP-03-employee-start-route-ui-001 adds /start as a no-input/no-API employee-facing entry screen. The verified primary path is /start -> /onboarding/privacy -> /profile/session; contact data remains after temporary profile session only.",
-    "generated_client_scope_for_latest_verified_sprint": "apps/web /profile/session still consumes @finrhythm/api-client helpers/types; no generated api-client source or OpenAPI artifact was changed by the /start UI slice.",
+    "ui_scope_for_latest_verified_sprint": "MVP-03-profile-session-legal-acceptance-ui-001 adds a draft legal acknowledgement/acceptance step after /profile/session proof and before contact update. The verified path is /start -> /onboarding/privacy -> /profile/session -> legal acknowledgement -> generated legal acceptance POST -> contact update screen.",
+    "generated_client_scope_for_latest_verified_sprint": "apps/web /profile/session consumes generated profile-session and legal acceptance helpers/types/constants from @finrhythm/api-client; no OpenAPI or generated api-client source changed.",
     "mvp_03_employee_start_route_ui_builder_evidence": "Builder evidence is complete for the /start route slice.",
-    "ui_scope_for_latest_builder_sprint": "Primary browser-proven path is /start -> /onboarding/privacy -> /profile/session. Direct /profile/contact remains safe missing-session behavior.",
-    "generated_client_scope_for_latest_builder_sprint": "apps/web /profile/session still consumes @finrhythm/api-client helpers/types; no generated api-client source or OpenAPI artifact was changed by this UI slice.",
+    "ui_scope_for_latest_builder_sprint": "Primary browser-proven path is /start -> /onboarding/privacy -> /profile/session -> legal acknowledgement -> generated legal acceptance POST -> contact update screen.",
+    "generated_client_scope_for_latest_builder_sprint": "apps/web /profile/session uses generated profile-session and legal acceptance helpers/types/constants; no OpenAPI or generated api-client source changed.",
     "mvp_03_employee_start_route_ui_verifier_verdict": "PASS",
-    "mvp_03_employee_start_route_ui_parent_alias_sync": "PASS_AFTER_PARENT_SYNC"
+    "mvp_03_employee_start_route_ui_parent_alias_sync": "PASS_AFTER_PARENT_SYNC",
+    "mvp_03_profile_session_legal_acceptance_ui_builder_evidence": "Builder evidence is complete for the legal acceptance UI slice.",
+    "mvp_03_profile_session_legal_acceptance_ui_verifier_verdict": "PASS",
+    "mvp_03_profile_session_legal_acceptance_ui_parent_alias_sync": "PASS_AFTER_PARENT_SYNC"
   }
 }
