@@ -1,5 +1,6 @@
 import { createElement as h, Fragment } from "react";
 import type { FixtureLesson, LessonBlock, LessonExampleVariant, LessonQuizItem } from "../lib/learning-types";
+import { EmployeeAppHeader, EmployeeBottomNav } from "./employee-app-shell.ts";
 
 type LessonRendererProps = {
   lesson: FixtureLesson;
@@ -22,7 +23,8 @@ export function LessonRendererScreen({ lesson }: LessonRendererProps) {
     h(
       "div",
       { className: "mobile-shell" },
-      h(LessonHeader, { lesson }),
+      h(EmployeeAppHeader, { pill: `${lesson.routeId} · демо` }),
+      h(EmployeeBottomNav, { active: "learning" }),
       h(LessonHero, { lesson }),
       h(LessonProgressCard, { lesson }),
       h(
@@ -40,20 +42,6 @@ export function LessonRendererScreen({ lesson }: LessonRendererProps) {
       h(PolicyPanel, { lesson }),
       h(LessonFooter)
     )
-  );
-}
-
-function LessonHeader({ lesson }: LessonRendererProps) {
-  return h(
-    "header",
-    { className: "app-header" },
-    h(
-      "a",
-      { className: "brand-lockup", href: "/learning", "aria-label": "Финпульс: обучение" },
-      h("span", { className: "brand-mark", "aria-hidden": "true" }, "Ф"),
-      h("span", null, "Финпульс")
-    ),
-    h("span", { className: "demo-pill" }, `${lesson.routeId} · демо`)
   );
 }
 

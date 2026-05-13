@@ -1,6 +1,6 @@
 # MVP decisions
 
-Updated: 2026-05-12
+Updated: 2026-05-13
 
 ## D-2026-05-12-003: Build MVP-03 privacy screen as route-only employee UI
 
@@ -223,3 +223,15 @@ Impact: N3 remains synthetic, `editorial_draft` and human-review-required. It do
 Decision: parent orchestrator accepts the fresh scoped verifier `PASS` for `MVP-06-learning-n3-fixture-001` and synchronizes latest status aliases to that task.
 Why: independent verifier reran web checks, browser smoke, alias route smoke, guardrail scans and diff checks, and found no blocking scoped problem for the N3 renderer/fixture contract.
 Impact: latest verified sprint becomes `MVP-06-learning-n3-fixture-001`. Full `MVP-04`, full `MVP-06`, the MVP stage, onboarding/consent, diagnostics/routing, progress persistence, scored quiz submission, practice submission, points/wallet, CMS/admin publishing, production content approval and all human gates remain open.
+
+## D-2026-05-13-001: Keep diagnostic entry preview UI-only and non-scoring
+
+Decision: `MVP-07-diagnostic-entry-preview-ui-001` implements `/diagnostics` as an `apps/web` preview-only flow with Q0 privacy/expectation entry, SA1-SA3 non-scoring self-assessment, synthetic Q1-Q3 preview cards, local component state only and safe draft route preview language.
+Why: this is the smallest product-visible step toward diagnostics/route while avoiding unproven scoring, persistence, financial advice, production content approval and backend contract changes.
+Impact: no backend/API/schema/OpenAPI/generated-client changes are part of this slice. Full MVP-07, Q0/Q1-Q28/SA1-SA3 production wording, scoring correctness, route engine, progress persistence and human gates remain open.
+
+## D-2026-05-13-002: Do not publish current scoped PASS without a separate command
+
+Decision: `.agent/stages/mvp/publish_manifest.json` records `publish_after_pass=false`, `publish_status=NOT_REQUESTED` and the user-requested publish blocker.
+Why: the user explicitly requested post-PASS sync but no commit/PR/publish without a separate command.
+Impact: proof artifacts and implementation remain local in the working tree; a later publish-only command can use the manifest, verifier verdict and evidence refs without rerunning the full stage loop unless the scope changes.

@@ -22,6 +22,7 @@ import {
   type ContactValues,
   type SafeValidationFeedback
 } from "../lib/profile-contact-state.ts";
+import { EmployeeAppHeader, EmployeeBottomNav, SecondarySupportEntry } from "./employee-app-shell.ts";
 
 type ScreenState = "missing" | "loading" | "ready" | "auth" | "error";
 
@@ -29,13 +30,6 @@ type SaveNotice =
   | { kind: "updated"; title: string; body: string }
   | { kind: "noop"; title: string; body: string }
   | { kind: "error"; title: string; body: string };
-
-const navItems = [
-  { label: "Обучение", mark: "route", href: "/learning", enabled: true },
-  { label: "Челленджи", mark: "challenge", enabled: false },
-  { label: "Награды", mark: "reward", enabled: false },
-  { label: "Профиль", mark: "profile", href: "/profile/session", enabled: true }
-];
 
 export type ProfileSessionReadyNotice = {
   title: string;
@@ -183,10 +177,11 @@ export function ProfileContactScreen(props?: ProfileContactScreenProps) {
     h(
       "div",
       { className: "mobile-shell profile-contact-shell" },
-      h(ProfileHeader),
-      h(ProfileNav),
+      h(EmployeeAppHeader, { pill: "Профиль" }),
+      h(EmployeeBottomNav, { active: "profile" }),
       h(ProfileHero),
       h(ProfilePrivacyCard),
+      h(SecondarySupportEntry, { compact: true }),
       sessionReadyNotice ? h(ProfileSessionReadyBanner, { notice: sessionReadyNotice }) : null,
       h(ProfileContent, {
         draft,
@@ -198,46 +193,6 @@ export function ProfileContactScreen(props?: ProfileContactScreenProps) {
         onDraftChange: updateDraft,
         onSubmit: submitContactUpdate
       })
-    )
-  );
-}
-
-function ProfileHeader() {
-  return h(
-    "header",
-    { className: "app-header" },
-    h(
-      "a",
-      { className: "brand-lockup", href: "/learning", "aria-label": "Финпульс: обучение" },
-      h("span", { className: "brand-mark", "aria-hidden": "true" }, "Ф"),
-      h("span", null, "Финпульс")
-    ),
-    h("span", { className: "demo-pill" }, "Профиль")
-  );
-}
-
-function ProfileNav() {
-  return h(
-    "nav",
-    { className: "bottom-nav", "aria-label": "Разделы приложения" },
-    navItems.map((item) =>
-      item.enabled
-        ? h(
-            "a",
-            {
-              key: item.label,
-              href: item.href,
-              "aria-current": item.mark === "profile" ? "page" : undefined
-            },
-            h("span", { className: `nav-mark nav-mark-${item.mark}`, "aria-hidden": "true" }),
-            h("span", null, item.label)
-          )
-        : h(
-            "span",
-            { key: item.label, "aria-disabled": "true" },
-            h("span", { className: `nav-mark nav-mark-${item.mark}`, "aria-hidden": "true" }),
-            h("span", null, item.label)
-          )
     )
   );
 }

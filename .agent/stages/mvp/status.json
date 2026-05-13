@@ -1,9 +1,9 @@
 {
   "stage_id": "mvp",
   "state": "SCOPED_PASS",
-  "active_sprint_contract_id": "MVP-03-profile-session-legal-acceptance-ui-001",
-  "latest_verified_sprint_contract_id": "MVP-03-profile-session-legal-acceptance-ui-001",
-  "latest_status_decision_sprint_contract_id": "MVP-03-profile-session-legal-acceptance-ui-001",
+  "active_sprint_contract_id": "MVP-07-diagnostic-entry-preview-ui-001",
+  "latest_verified_sprint_contract_id": "MVP-07-diagnostic-entry-preview-ui-001",
+  "latest_status_decision_sprint_contract_id": "MVP-07-diagnostic-entry-preview-ui-001",
   "completed_ids": [
     "MVP-01.01",
     "MVP-01.02",
@@ -45,15 +45,22 @@
     "MVP-03-employee-profile-session-entry-ui-001",
     "MVP-03-onboarding-to-profile-session-continuity-ui-001",
     "MVP-03-employee-start-route-ui-001",
-    "MVP-03-profile-session-legal-acceptance-ui-001"
+    "MVP-03-profile-session-legal-acceptance-ui-001",
+    "MVP-03-post-legal-acceptance-closure-audit-001",
+    "MVP-04-employee-app-ia-nav-001",
+    "MVP-07-diagnostic-entry-preview-ui-001"
   ],
   "done_with_human_pending_ids": [
     "MVP-02.04",
     "MVP-02",
-    "MVP-03.01"
+    "MVP-03.01",
+    "MVP-03"
   ],
   "active_ids": [
-    "MVP-03"
+    "MVP-04",
+    "MVP-05",
+    "MVP-06",
+    "MVP-07"
   ],
   "blocked_ids": [],
   "waiting_human_ids": [
@@ -69,9 +76,9 @@
     "admin-auth-role-audit-policy-for-production-use"
   ],
   "next_recommended_ids": [
-    "freeze-next-MVP-03-functional-gap-after-profile-session-legal-acceptance-ui-001",
-    "do-not-close-full-MVP-03-or-MVP-stage-without-separate-closure-audit",
-    "do-not-close-legal-or-real-data-human-gates"
+    "freeze-next-high-impact-MVP-07-or-MVP-06-progress-slice",
+    "do-not-close-full-MVP-07-without-scoring-persistence-privacy-proof-and-human-gates",
+    "preserve-proof-loop-spec-freeze-build-evidence-fresh-verify"
   ],
   "last_updated": "2026-05-13",
   "exit_gate_summary": {
@@ -235,7 +242,12 @@
     "current_mvp_03_legal_drafts_builder_checks_pass": true,
     "current_mvp_03_legal_drafts_fresh_verifier_pass": true,
     "mvp_03_legal_drafts_proven": true,
-    "mvp_03_done_with_human_pending": false,
+    "mvp_03_done_with_human_pending": true,
+    "mvp_03_builder_decision_done_with_human_pending_pending_fresh_verifier": false,
+    "mvp_03_done_with_human_pending_fresh_verifier_pass": true,
+    "mvp_03_non_human_proof_gap_after_post_legal_acceptance_closure_audit": false,
+    "mvp_03_post_legal_acceptance_closure_audit_decision_recorded": true,
+    "mvp_03_post_legal_acceptance_closure_audit_next_gap_fix_contract": null,
     "current_mvp_03_closure_audit_parent_alias_sync_done": true,
     "current_mvp_03_legal_drafts_parent_alias_sync_done": true,
     "mvp_03_legal_draft_non_human_gap_resolved": true,
@@ -281,15 +293,16 @@
     "mvp_03_employee_start_route_ui_complete": true,
     "current_mvp_03_employee_start_route_ui_parent_alias_sync_done": true,
     "mvp_03_employee_start_route_ui_active": false,
+    "mvp_04_employee_app_ia_nav_freeze_validation": "Superseded by builder evidence, fixer evidence and fresh verifier PASS. Latest verified sprint is MVP-04-employee-app-ia-nav-001.",
     "docs_only_latest_verified_sprint": false,
     "public_api_scope_for_latest_verified_sprint": false,
-    "schema_scope_for_latest_verified_sprint": "MVP-03-profile-session-legal-acceptance-ui-001 is apps/web UI-only and adds no schema, Flyway migration, OpenAPI source or generated api-client artifact.",
-    "ui_scope_for_latest_verified_sprint": "MVP-03-profile-session-legal-acceptance-ui-001 adds a draft legal acknowledgement/acceptance step after /profile/session proof and before contact update. The verified path is /start -> /onboarding/privacy -> /profile/session -> legal acknowledgement -> generated legal acceptance POST -> contact update screen.",
-    "generated_client_scope_for_latest_verified_sprint": "apps/web /profile/session consumes generated profile-session and legal acceptance helpers/types/constants from @finrhythm/api-client; no OpenAPI or generated api-client source changed.",
-    "active_sprint_scope": "Latest verified scoped sprint MVP-03-profile-session-legal-acceptance-ui-001 adds the apps/web draft legal acknowledgement/acceptance step inside the profile-session flow. Full MVP-03 remains open.",
-    "ui_scope_for_active_sprint": "Primary browser-proven path is /start -> /onboarding/privacy -> /profile/session -> legal acknowledgement -> generated legal acceptance POST -> contact update screen.",
+    "schema_scope_for_latest_verified_sprint": "MVP-04-employee-app-ia-nav-001 changes no schema, Flyway migration, OpenAPI source or generated api-client artifact.",
+    "ui_scope_for_latest_verified_sprint": "MVP-04-employee-app-ia-nav-001 verifies apps/web Home, Learning, Challenges, Rewards, Profile bottom navigation with secondary Support and preserved /start -> /onboarding/privacy -> /profile/session -> legal acceptance -> contact update path.",
+    "generated_client_scope_for_latest_verified_sprint": "No OpenAPI or generated api-client source changed by the latest verified sprint.",
+    "active_sprint_scope": "Frozen active sprint MVP-07-diagnostic-entry-preview-ui-001 is apps/web UI-only: /diagnostics preview with Q0 privacy, SA1-SA3 non-scoring self-assessment, a few synthetic Q cards, local in-memory answers/progress and safe draft route preview. Latest verified sprint remains MVP-04-employee-app-ia-nav-001 until builder evidence and fresh verification.",
+    "ui_scope_for_active_sprint": "Frozen UI scope only: diagnostic preview entry reachable from Home/Learning shell, preserving /start -> /onboarding/privacy -> /profile/session -> legal acknowledgement -> generated legal acceptance POST -> contact update screen and /learning/lessons/N1|N2|N3.",
     "public_api_scope_for_latest_builder_sprint": false,
-    "schema_scope_for_latest_builder_sprint": "MVP-03-profile-session-legal-acceptance-ui-001 is apps/web UI-only and adds no schema, Flyway migration, OpenAPI source or generated api-client artifact.",
+    "schema_scope_for_latest_builder_sprint": "MVP-03-post-legal-acceptance-closure-audit-001 is artifact-only and adds no schema, Flyway migration, OpenAPI source or generated api-client artifact.",
     "backend_baseline_for_latest_builder_sprint": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc remain unchanged.",
     "mvp_03_employee_start_route_ui_builder_harness_validation": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC",
     "mvp_03_employee_start_route_ui_verifier_verdict": "PASS",
@@ -307,7 +320,43 @@
     "generated_client_scope_for_latest_builder_sprint": "apps/web consumes generated fetchLegalDocumentAcceptance, LEGAL_DOCUMENT_TYPES and LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION; no generated api-client source was changed.",
     "mvp_03_profile_session_legal_acceptance_ui_builder_harness_validation": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC",
     "mvp_03_profile_session_legal_acceptance_ui_verifier_verdict": "PASS",
-    "current_mvp_03_profile_session_legal_acceptance_ui_parent_alias_sync_done": true
+    "current_mvp_03_profile_session_legal_acceptance_ui_parent_alias_sync_done": true,
+    "current_mvp_03_post_legal_acceptance_closure_audit_contract_frozen": true,
+    "current_mvp_03_post_legal_acceptance_closure_audit_builder_complete": true,
+    "current_mvp_03_post_legal_acceptance_closure_audit_evidence_exists": true,
+    "current_mvp_03_post_legal_acceptance_closure_audit_builder_checks_pass": true,
+    "current_mvp_03_post_legal_acceptance_closure_audit_evidence_alias_sync_done": true,
+    "current_mvp_03_post_legal_acceptance_closure_audit_fresh_verifier_pass": true,
+    "current_mvp_03_post_legal_acceptance_closure_audit_parent_alias_sync_done": true,
+    "mvp_03_post_legal_acceptance_closure_audit_required": false,
+    "mvp_03_non_human_functional_gap_found_by_freezer_after_legal_acceptance_ui": false,
+    "current_mvp_04_employee_app_ia_nav_contract_frozen": true,
+    "current_mvp_04_employee_app_ia_nav_builder_complete": true,
+    "current_mvp_04_employee_app_ia_nav_evidence_exists": true,
+    "current_mvp_04_employee_app_ia_nav_builder_checks_pass": true,
+    "current_mvp_04_employee_app_ia_nav_browser_screenshots_exist": true,
+    "current_mvp_04_employee_app_ia_nav_fresh_verifier_pass": true,
+    "mvp_04_02_complete": false,
+    "mvp_04_employee_app_ia_nav_active": false,
+    "current_mvp_04_employee_app_ia_nav_pending_fresh_verifier": false,
+    "current_mvp_04_employee_app_ia_nav_fixer_fixed_pending_fresh_verifier": false,
+    "current_mvp_04_employee_app_ia_nav_first_verifier_verdict": "FAIL_BOTTOM_NAV_POSITION_RESOLVED",
+    "current_mvp_04_employee_app_ia_nav_parent_alias_sync_done": true,
+    "mvp_04_employee_app_ia_nav_proven": true,
+    "mvp_04_02_navigation_reachability_scoped_pass": true,
+    "backend_baseline_for_latest_verified_sprint": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc remain unchanged.",
+    "current_mvp_07_diagnostic_entry_preview_ui_contract_frozen": true,
+    "current_mvp_07_diagnostic_entry_preview_ui_builder_complete": true,
+    "current_mvp_07_diagnostic_entry_preview_ui_evidence_exists": true,
+    "current_mvp_07_diagnostic_entry_preview_ui_builder_checks_pass": true,
+    "current_mvp_07_diagnostic_entry_preview_ui_browser_screenshots_exist": true,
+    "current_mvp_07_diagnostic_entry_preview_ui_fresh_verifier_pass": true,
+    "mvp_07_diagnostic_entry_preview_ui_active": true,
+    "mvp_07_diagnostic_entry_preview_ui_proven": false,
+    "mvp_07_01_complete": false,
+    "mvp_07_03_complete": false,
+    "backend_baseline_for_active_sprint": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc remain unchanged for this UI-only slice.",
+    "current_mvp_07_diagnostic_entry_preview_ui_parent_alias_sync_done": true
   },
   "runtime_guardrails": {
     "project_config_approval_policy_expected": "on-request",
@@ -328,14 +377,19 @@
     "mvp_03_employee_contact_update_ui_freeze_validation": "JSON validation and git diff --check passed on 2026-05-13. verify_harness.py --stage-id mvp returned EXPECTED_FAIL_ACTIVE_LATEST_ALIAS_MISMATCH because sprint_contract/status active point to MVP-03-employee-contact-update-ui-001 while evidence/verdict/problems aliases intentionally remain on latest verified MVP-03-legal-drafts-001 until builder evidence and fresh verification.",
     "mvp_03_employee_profile_session_entry_ui_freeze_validation": "JSON validation and git diff --check passed on 2026-05-13. Active sprint contract is frozen for MVP-03-employee-profile-session-entry-ui-001; evidence/verdict/problems aliases intentionally remain on latest verified MVP-03-employee-contact-update-ui-001 until builder evidence and fresh verification.",
     "mvp_03_onboarding_to_profile_session_continuity_ui_freeze_validation": "Frozen on 2026-05-13 as the active next slice. Evidence/verdict/problems aliases intentionally remain on latest verified MVP-03-employee-profile-session-entry-ui-001 until builder evidence and fresh verification.",
+    "mvp_03_post_legal_acceptance_closure_audit_freeze_validation": "JSON validation passed for .agent/stages/mvp/status.json, .agent/stages/mvp/feature_list.json and .agent/stages/mvp/evidence.json on 2026-05-13. git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**' passed. Trailing-whitespace scan for changed markdown planning files passed. Evidence/verdict/problems aliases intentionally remained on latest verified MVP-03-profile-session-legal-acceptance-ui-001 until builder evidence.",
+    "mvp_03_post_legal_acceptance_closure_audit_builder_validation": "Builder evidence recorded full MVP-03 as DONE_WITH_HUMAN_PENDING, with no concrete non-human proof gap found. JSON validation, git diff --check excluding raw/task raw and immutable ref checks passed; fresh verifier later returned PASS and parent aliases were synchronized.",
+    "mvp_03_post_legal_acceptance_closure_audit_verifier_verdict": "PASS",
+    "mvp_03_post_legal_acceptance_closure_audit_parent_alias_sync": "PASS_AFTER_PARENT_SYNC",
+    "mvp_07_diagnostic_entry_preview_ui_freeze_validation": "JSON validation and git diff --check passed on 2026-05-13. Raw refs: .agent/stages/mvp/raw/spec-freezer-MVP-07-diagnostic-entry-preview-ui-001-20260513/jq-empty.txt and .agent/stages/mvp/raw/spec-freezer-MVP-07-diagnostic-entry-preview-ui-001-20260513/git-diff-check.txt.",
     "docs_only_latest_verified_sprint": false,
     "public_api_scope_for_latest_verified_sprint": false,
-    "schema_scope_for_latest_verified_sprint": "Latest verified sprint MVP-03-employee-profile-session-entry-ui-001 is apps/web UI-only and adds no schema. Latest backend/API/schema PASS remains MVP-03-profile-contact-update-001 with V010 contact-update audit storage.",
-    "ui_scope_for_latest_verified_sprint": "MVP-03-employee-profile-session-entry-ui-001 adds /profile/session, generated api-client profile-session creation, memory-only returned token, profile summary load and contact update UI connection without URL or persistent storage.",
-    "admin_scope_for_latest_verified_sprint": "No admin behavior change in MVP-03-legal-drafts-001; previous admin sensitive-access audit PASS remains preserved.",
-    "generated_client_scope_for_latest_verified_sprint": "apps/web consumes @finrhythm/api-client helpers/types; no generated api-client source or OpenAPI artifact was changed by the UI slice.",
-    "active_sprint_scope": "Frozen active sprint MVP-03-employee-start-route-ui-001 adds only the apps/web /start employee entry route and focused tests/smoke for /start -> /onboarding/privacy -> /profile/session. Latest verified scoped sprint remains MVP-03-onboarding-to-profile-session-continuity-ui-001 until fresh verifier runs. Full MVP-03 remains open.",
-    "ui_scope_for_active_sprint": "Employee-facing /start route in apps/web: primary CTA to /onboarding/privacy, secondary continuation to /profile/session, no inputs, no API calls, no session creation, no direct /profile/contact link.",
+    "schema_scope_for_latest_verified_sprint": "Latest verified sprint MVP-04-employee-app-ia-nav-001 is apps/web UI-only and adds no schema. Latest backend/API/schema PASS remains MVP-03-profile-contact-update-001 with V010 contact-update audit storage.",
+    "ui_scope_for_latest_verified_sprint": "MVP-04-employee-app-ia-nav-001 verifies apps/web Home, Learning, Challenges, Rewards, Profile bottom navigation with secondary Support and preserved /start -> /onboarding/privacy -> /profile/session -> legal acceptance -> contact update path.",
+    "admin_scope_for_latest_verified_sprint": "No admin behavior change in the latest verified UI sprint; previous admin sensitive-access audit PASS remains preserved.",
+    "generated_client_scope_for_latest_verified_sprint": "No generated api-client source or OpenAPI artifact was changed by the latest verified UI sprint.",
+    "active_sprint_scope": "Frozen active sprint MVP-07-diagnostic-entry-preview-ui-001 is apps/web UI-only and must keep all diagnostic answers/progress in mounted component memory only.",
+    "ui_scope_for_active_sprint": "/diagnostics preview with Q0 privacy, SA1-SA3 non-scoring self-assessment, several synthetic Q cards and safe draft route preview; no full scoring/routing/persistence/backend/API scope.",
     "content_spec_status": "draft_with_human_gates",
     "content_runtime_source_of_truth": "No production content source change; existing synthetic apps/web fixtures include demo-only N1, N2 and N3 lessons.",
     "pii_guardrails_for_latest_verified_sprint": [
@@ -349,13 +403,14 @@
     ],
     "mvp_03_employee_contact_update_ui_builder_harness_validation": "EXPECTED_FAIL_PENDING_FRESH_VERIFIER: bootstrap checks passed; stage-artifacts failed only because latest verdict/problems aliases still pointed to MVP-03-legal-drafts-001 before fresh verifier and parent alias sync.",
     "mvp_03_employee_contact_update_ui_verifier_verdict": "PASS",
-    "mvp_03_employee_contact_update_ui_parent_harness_validation": "PENDING_FINAL_PARENT_RUN",
+    "mvp_03_employee_contact_update_ui_parent_harness_validation": "PASS_AFTER_PARENT_SYNC",
     "mvp_03_employee_profile_session_entry_ui_verifier_verdict": "PASS",
-    "mvp_03_onboarding_to_profile_session_continuity_ui_builder_harness_validation": "PENDING_BUILDER_EVIDENCE",
+    "mvp_03_onboarding_to_profile_session_continuity_ui_builder_harness_validation": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC",
     "public_api_scope_for_latest_builder_sprint": false,
-    "schema_scope_for_latest_builder_sprint": "MVP-03-employee-start-route-ui-001 is apps/web UI-only and adds no schema, Flyway migration, OpenAPI source or generated api-client artifact.",
+    "schema_scope_for_latest_builder_sprint": "MVP-04-employee-app-ia-nav-001 is apps/web UI-only and adds no schema, Flyway migration, OpenAPI source or generated api-client artifact.",
     "backend_baseline_for_latest_builder_sprint": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc remain unchanged.",
-    "mvp_03_employee_start_route_ui_builder_harness_validation": "PENDING_FRESH_VERIFIER: builder evidence exists and required checks passed; verdict/problems are intentionally not written by the builder."
+    "mvp_03_employee_start_route_ui_builder_harness_validation": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC",
+    "mvp_07_diagnostic_entry_preview_ui_builder_validation": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC: web typecheck/test/build, system-Chrome browser smoke with 33 screenshots, guardrail scans, make verify, make test-unit and make build passed. Fresh verifier PASS is recorded in verdict/problems aliases for MVP-07-diagnostic-entry-preview-ui-001."
   },
   "handoff": {
     "what_is_proven": [
@@ -387,7 +442,9 @@
       "MVP-03-employee-profile-session-entry-ui-001 has scoped fresh verifier PASS for the apps/web /profile/session memory-only profile-session entry flow.",
       "MVP-03-onboarding-to-profile-session-continuity-ui-001 has scoped fresh verifier PASS for the apps/web /onboarding/privacy -> /profile/session continuity path and removal of the unsafe /profile/contact query-token fallback.",
       "MVP-03-employee-start-route-ui-001 has scoped fresh verifier PASS for the apps/web /start employee entry route, with primary /onboarding/privacy navigation, mobile browser proof for /start -> /onboarding/privacy -> /profile/session, no inputs/API calls/session creation, and preserved memory-only profile-session boundary.",
-      "MVP-03-profile-session-legal-acceptance-ui-001 has scoped fresh verifier PASS for the apps/web /profile/session draft legal acknowledgement/acceptance step using generated @finrhythm/api-client legal acceptance helpers before contact update."
+      "MVP-03-profile-session-legal-acceptance-ui-001 has scoped fresh verifier PASS for the apps/web /profile/session draft legal acknowledgement/acceptance step using generated @finrhythm/api-client legal acceptance helpers before contact update.",
+      "MVP-03-post-legal-acceptance-closure-audit-001 has fresh verifier PASS for the artifact-only full MVP-03 closure/status audit and records full MVP-03 as DONE_WITH_HUMAN_PENDING, with human gates and MVP stage still open.",
+      "MVP-07-diagnostic-entry-preview-ui-001 has scoped fresh verifier PASS for the apps/web /diagnostics preview-only flow: Q0 privacy/expectation entry, SA1-SA3 non-scoring self-assessment, synthetic Q1-Q3 preview cards, local component state only and safe draft route preview."
     ],
     "what_is_closed_now": [
       "MVP-02-admin-code-status-view-001 is PASS for the backend/admin API-only data contract.",
@@ -412,7 +469,10 @@
       "MVP-03-employee-profile-session-entry-ui-001 is scoped PASS for the /profile/session entry flow only; full MVP-03 and human gates remain open.",
       "MVP-03-onboarding-to-profile-session-continuity-ui-001 is scoped PASS for route continuity from /onboarding/privacy to /profile/session and for blocking profile-session token URL handoff through /profile/contact; full MVP-03 remains open.",
       "MVP-03-employee-start-route-ui-001 is scoped PASS for the /start employee entry route only; full MVP-03 and human gates remain open.",
-      "MVP-03-profile-session-legal-acceptance-ui-001 is scoped PASS for the profile-session legal acknowledgement/acceptance UI only; full MVP-03 and human gates remain open."
+      "MVP-03-profile-session-legal-acceptance-ui-001 is scoped PASS for the profile-session legal acknowledgement/acceptance UI only.",
+      "MVP-03-post-legal-acceptance-closure-audit-001 is PASS and records full MVP-03 as DONE_WITH_HUMAN_PENDING, not unconditional DONE.",
+      "MVP-04-employee-app-ia-nav-001 is scoped PASS for mobile employee IA/navigation reachability only: five-item bottom nav, Home/Learning/Challenges/Rewards/Profile, secondary Support, placeholder-only non-mutating routes and preserved profile/legal path.",
+      "MVP-07-diagnostic-entry-preview-ui-001 is scoped PASS for the diagnostic entry preview UI only; full MVP-07, diagnostic scoring, persistence, route engine, production content approval and human gates remain open."
     ],
     "what_is_not_proven": [
       "MVP-02.04 is not closed as DONE because admin auth/role/audit policy, production real-data use and customer-specific reporting boundaries remain human-gated.",
@@ -425,10 +485,11 @@
       "Production_ready publish approval for content.",
       "Full MVP-02 is not unconditional DONE because human gates remain open.",
       "MVP stage is not complete.",
-      "Full MVP-03 onboarding/privacy/consent/profile remains open: current PASS refs cover a draft privacy screen, backend consent version logging foundation, backend admin audit logging, read-only profile/contact summary, short-lived profile sessions and backend/API contact update; the verified closure audit found missing MVP-03.01 legal draft artifacts and final human approvals remain open.",
+      "Full MVP-03 is not unconditional DONE because legal/privacy wording, real employee/customer data processing, customer-specific HR/reporting boundaries, production admin policy and other human gates remain open.",
       "Full MVP-04 UX/UI foundation is not closed by the bridge shell slice.",
       "Full MVP-06 learning delivery, CMS publishing, production content approval, progress persistence, scored quiz submission, practice submission, points and wallet are not implemented by this slice.",
       "Full MVP-04 remains open: MVP-04.01, MVP-04.02, MVP-04.03 and MVP-04.05 are not closed by design-system tokenization, and brand/accessibility/privacy/design QA human gates remain open.",
+      "Full MVP-04 remains open despite scoped MVP-04-employee-app-ia-nav-001 PASS; brand/accessibility/privacy/design QA human gates and remaining MVP-04 units are not closed.",
       "Full MVP-06 remains open despite preserved MVP-06-learning-renderer-fixture-001 PASS artifacts: CMS/admin publishing, production content approval, progress persistence, scored quiz submission, practice submission, points and wallet remain unimplemented.",
       "MVP-06-learning-n2-fixture-001 does not implement production CMS/admin publishing, content approval, progress persistence, scored quiz submission, practice submission, challenge persistence, reminders, points, wallet, diagnostics/routing, onboarding/consent, backend/API/schema/OpenAPI/generated-client changes or packages/ui.",
       "MVP-06-learning-n3-fixture-001 does not implement production CMS/admin publishing, content states, production content approval, progress persistence, scored quiz submission, practice submission, saved listing/challenge/daily challenge, points/wallet, diagnostics/routing, onboarding/consent, backend/API/schema/OpenAPI/generated-client, packages/ui, admin/HR analytics/event tracking, real data or customer brand.",
@@ -440,17 +501,20 @@
       "MVP-03-profile-contact-update-001 does not implement fullName update, employee UI, login/password setup, User/OrgMembership/subscription shortcuts, support tickets, HR reporting, diagnostics, points, rewards, CMS, real data or full MVP-03 closure.",
       "MVP-03-closure-audit-001 verified that full MVP-03 remained OPEN because MVP-03.01 legal draft artifacts were not tracked/proven at audit time.",
       "MVP-03-legal-drafts-001 is fresh-verified for draft artifacts only, not human-reviewed: legal approval, real employee/customer data processing, customer-specific HR/reporting boundaries and other human gates remain WAITING_HUMAN.",
-      "Full MVP-03 is not closed after MVP-03-legal-drafts-001; a separate closure audit must decide whether any non-human proof gap remains and whether the maximum allowed status is DONE_WITH_HUMAN_PENDING.",
+      "Full MVP-03 is DONE_WITH_HUMAN_PENDING after MVP-03-post-legal-acceptance-closure-audit-001 fresh verifier PASS found no concrete non-human proof gap; this is not unconditional DONE.",
       "MVP-03-onboarding-to-profile-session-continuity-ui-001 does not implement final legal approval, diagnostics/routing, auth/login, User/OrgMembership, subscriptions/seats, HR reporting, points, CMS, rewards, support/admin flows, real-data processing or full MVP-03 closure.",
       "MVP-03-employee-start-route-ui-001 does not implement auth/login, User/OrgMembership, organization codes, subscriptions/seats/entitlements, HR reporting, diagnostics, points, CMS, rewards, merch, support/admin flows, real-data processing, final legal approval or full MVP-03 closure.",
-      "MVP-03-profile-session-legal-acceptance-ui-001 has builder evidence only; fresh stage_verifier PASS is still pending.",
-      "MVP-03-profile-session-legal-acceptance-ui-001 does not approve legal/privacy wording, real employee/customer data processing, customer-specific HR/reporting boundaries, auth/login, User/OrgMembership, subscriptions/seats, diagnostics, points, CMS, rewards, merch, support/admin flows or full MVP-03 closure."
+      "MVP-03-profile-session-legal-acceptance-ui-001 is fresh-verified PASS for the scoped legal acceptance UI, but it does not approve legal/privacy wording, real employee/customer data processing, customer-specific HR/reporting boundaries, auth/login, User/OrgMembership, subscriptions/seats, diagnostics, points, CMS, rewards, merch, support/admin flows or full MVP-03 closure.",
+      "MVP-03-post-legal-acceptance-closure-audit-001 has fresh verifier PASS and parent alias sync; full MVP-03 is DONE_WITH_HUMAN_PENDING.",
+      "MVP-07-diagnostic-entry-preview-ui-001 has scoped fresh verifier PASS, but full MVP-07.01, MVP-07.03 and MVP-07 remain open."
     ],
-    "next_slice": "Freeze the next small runnable MVP-03 functional gap. Do not run closure audit or close full MVP-03 unless explicitly selected as a separate closure slice."
+    "next_slice": "Freeze the next highest-impact small product slice, likely backend diagnostic draft/progress persistence or learning progress foundation, while preserving the proof loop and human gates.",
+    "active_sprint_scope": "MVP-07-diagnostic-entry-preview-ui-001 has scoped fresh verifier PASS: /diagnostics Q0 privacy, SA1-SA3 non-scoring self-assessment, Q1-Q3 preview cards, local component state only and safe draft route preview.",
+    "documentation_decision": "NOOP_EXPECTED; Mermaid diagnostic preview flow is in builder evidence."
   },
   "notes": {
     "mvp_03_onboarding_to_profile_session_continuity_ui_builder_evidence": "Builder evidence is ready for the route continuity slice. Latest evidence aliases now point to builder evidence; latest verified sprint remains MVP-03-employee-profile-session-entry-ui-001 until a fresh verifier runs.",
-    "active_sprint_scope": "Latest verified scoped sprint adds apps/web draft legal acknowledgement/acceptance between successful profile-session proof and contact update.",
+    "active_sprint_scope": "MVP-07-diagnostic-entry-preview-ui-001 has scoped fresh verifier PASS for /diagnostics preview only: Q0 privacy, SA1-SA3 non-scoring self-assessment, synthetic Q1-Q3 preview cards, local component state only and safe draft route preview.",
     "backend_baseline_for_latest_builder_sprint": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc remain unchanged.",
     "mvp_03_onboarding_to_profile_session_continuity_ui_verifier_verdict": "PASS",
     "mvp_03_onboarding_to_profile_session_continuity_ui_parent_alias_sync": "PASS_AFTER_PARENT_SYNC",
@@ -463,6 +527,43 @@
     "mvp_03_employee_start_route_ui_parent_alias_sync": "PASS_AFTER_PARENT_SYNC",
     "mvp_03_profile_session_legal_acceptance_ui_builder_evidence": "Builder evidence is complete for the legal acceptance UI slice.",
     "mvp_03_profile_session_legal_acceptance_ui_verifier_verdict": "PASS",
-    "mvp_03_profile_session_legal_acceptance_ui_parent_alias_sync": "PASS_AFTER_PARENT_SYNC"
+    "mvp_03_profile_session_legal_acceptance_ui_parent_alias_sync": "PASS_AFTER_PARENT_SYNC",
+    "mvp_03_post_legal_acceptance_closure_audit_freeze": "Superseded by builder evidence.",
+    "mvp_03_post_legal_acceptance_closure_audit_builder_evidence": "Builder evidence and fresh verifier PASS are complete for MVP-03-post-legal-acceptance-closure-audit-001.",
+    "mvp_03_post_legal_acceptance_closure_audit_parent_alias_sync": "PASS_AFTER_PARENT_SYNC",
+    "mvp_04_employee_app_ia_nav_freeze": "Superseded by builder evidence. Bottom nav is capped at five items; Support is secondary from Home/Profile; backend baseline remains unchanged.",
+    "mvp_04_employee_app_ia_nav_verifier_first_verdict": "FAIL: nav had correct five items but rendered near top; see .agent/stages/mvp/problems/MVP-04-employee-app-ia-nav-001.md before post-fix verifier rerun.",
+    "mvp_04_employee_app_ia_nav_bottom_nav_fix": "Fixed .bottom-nav to viewport-bottom positioning and added browser-smoke bounding-box assertions; raw proof under .agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/.",
+    "mvp_04_employee_app_ia_nav_verifier_verdict": "PASS",
+    "mvp_04_employee_app_ia_nav_parent_alias_sync": "PASS_AFTER_PARENT_SYNC",
+    "mvp_07_diagnostic_entry_preview_ui_freeze": "Frozen on 2026-05-13 as UI-only /diagnostics preview. No production code, evidence aliases, verdict aliases, problems aliases, backend/API/schema/OpenAPI/generated-client or canonical docs were intentionally changed by the freeze.",
+    "mvp_07_diagnostic_entry_preview_ui_freeze_validation": "PASS: jq empty and git diff --check raw outputs are under .agent/stages/mvp/raw/spec-freezer-MVP-07-diagnostic-entry-preview-ui-001-20260513/.",
+    "backend_baseline_for_active_sprint": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc remain unchanged.",
+    "mvp_07_diagnostic_entry_preview_ui_verifier_verdict": "PASS",
+    "mvp_07_diagnostic_entry_preview_ui_parent_alias_sync": "PASS_AFTER_PARENT_SYNC",
+    "backend_baseline_for_latest_verified_sprint": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc remain unchanged."
+  },
+  "current_status": {
+    "active_sprint": "MVP-07-diagnostic-entry-preview-ui-001",
+    "active_sprint_scope": "Scoped PASS: apps/web /diagnostics preview with Q0 privacy, SA1-SA3 non-scoring self-assessment, synthetic Q1-Q3 cards, local component state only and safe draft route preview.",
+    "latest_verified_sprint": "MVP-07-diagnostic-entry-preview-ui-001",
+    "latest_evidence": ".agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.json",
+    "latest_verdict": ".agent/stages/mvp/verdicts/MVP-07-diagnostic-entry-preview-ui-001.json",
+    "latest_problems": ".agent/stages/mvp/problems/MVP-07-diagnostic-entry-preview-ui-001.md",
+    "latest_verifier_raw": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/",
+    "fresh_verifier_required": false,
+    "notes": [
+      "Fresh verifier PASS exists for MVP-07-diagnostic-entry-preview-ui-001.",
+      "Full MVP-07.01, MVP-07.03, MVP-07, MVP stage and human gates remain open.",
+      "Next slice should implement a small backend/progress/scoring foundation only after a new sprint contract freeze."
+    ]
+  },
+  "decisions": {
+    "mvp_04_employee_app_ia_nav_builder": "Built apps/web IA/navigation slice and evidence; pending fresh verifier PASS before any scoped closure.",
+    "mvp_04_employee_app_ia_nav_bottom_nav_fix": "Minimal verifier-reported gap fix applied: fixed bottom-nav viewport positioning and smoke layout assertions; pending fresh verifier.",
+    "mvp_04_employee_app_ia_nav_verifier_pass": "Fresh verifier PASS accepted by parent orchestrator; latest aliases synchronized to MVP-04-employee-app-ia-nav-001.",
+    "mvp_07_diagnostic_entry_preview_ui_freeze": "Freeze one UI-only diagnostic preview slice under apps/web; preserve full diagnostic engine, scoring/routing, persistence, backend/API/schema/generated-client, HR reports and human-gated wording as out of scope.",
+    "mvp_07_diagnostic_entry_preview_ui_builder": "Built apps/web UI-only diagnostic preview slice with local component state only; no backend/API/schema/generated-client change; pending fresh verifier.",
+    "mvp_07_diagnostic_entry_preview_ui_verifier_pass": "Fresh verifier PASS accepted by parent orchestrator; latest aliases synchronized to MVP-07-diagnostic-entry-preview-ui-001."
   }
 }

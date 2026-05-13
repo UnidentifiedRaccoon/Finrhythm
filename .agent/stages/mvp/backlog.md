@@ -64,6 +64,8 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 
 `MVP-03-employee-profile-session-entry-ui-001` is frozen as the next functional `MVP-03.04` slice. It must add the production employee-facing `apps/web` entry flow that creates a profile session from invite code + full name + email + phone and connects the returned token to contact update in component memory only. It is not implemented and has no PASS evidence yet.
 
+`MVP-07-diagnostic-entry-preview-ui-001` is frozen as the next functional `apps/web` UI-only prerequisite for `MVP-07.01` and `MVP-07.03`. It must add a `/diagnostics` preview flow with Q0 privacy, non-scoring `SA1-SA3`, several synthetic methodology question cards and a safe draft route preview. It must not implement full diagnostic scoring/routing, persistence, backend/API/schema/generated-client changes or close full `MVP-07`.
+
 ## MVP-02. Corporate tenant and invite access
 
 | ID | Mode | Status | Goal | Evidence |
@@ -175,17 +177,21 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 | MVP-03-onboarding-privacy-screen-001 | agent | PASS | Add the smallest employee-facing `apps/web` privacy route, preferred `/onboarding/privacy`, explaining what HR/employer sees and does not see before future diagnostics. | `.agent/stages/mvp/evidence/MVP-03-onboarding-privacy-screen-001.md`; `.agent/stages/mvp/evidence/MVP-03-onboarding-privacy-screen-001.json`; `.agent/stages/mvp/verdicts/MVP-03-onboarding-privacy-screen-001.json`; `.agent/stages/mvp/problems/MVP-03-onboarding-privacy-screen-001.md`. |
 | MVP-03.03 | agent | SCOPED_PASS | Implement consent version logging. | Scoped PASS via `MVP-03-consent-version-logging-001`; full MVP-03 remains open. |
 | MVP-03-consent-version-logging-001 | agent | PASS | Add append-only draft legal/consent document version acceptance logging for an existing employee registration, with idempotent same-version retry and safe rejection of unsupported inputs. | `.agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.md`; `.agent/stages/mvp/evidence/MVP-03-consent-version-logging-001.json`; `.agent/stages/mvp/verdicts/MVP-03-consent-version-logging-001.json`; `.agent/stages/mvp/problems/MVP-03-consent-version-logging-001.md`. |
-| MVP-03.04 | agent | SCOPED_PASS | Implement profile, contact update and support-ready identity basics. | Profile summary, profile-session, backend/API contact update and employee contact UI have scoped PASS. Production login/password setup, support tickets, HR reporting and real-data processing remain out of scope. |
+| MVP-03.04 | agent | SCOPED_PASS | Implement profile, contact update and support-ready identity basics. | Profile summary, profile-session, backend/API contact update, employee contact UI, profile-session entry UI, onboarding-to-profile-session continuity, start route and profile-session legal acceptance UI have scoped PASS. Production login/password setup, support tickets, HR reporting and real-data processing remain out of scope. |
 | MVP-03-profile-contact-summary-001 | agent | PASS | Add backend/API read-only support-ready profile/contact summary lookup requiring invite code plus matching normalized contact. | `.agent/stages/mvp/evidence/MVP-03-profile-contact-summary-001.md`; `.agent/stages/mvp/evidence/MVP-03-profile-contact-summary-001.json`; `.agent/stages/mvp/verdicts/MVP-03-profile-contact-summary-001.json`; `.agent/stages/mvp/problems/MVP-03-profile-contact-summary-001.md`. |
 | MVP-03-employee-profile-session-001 | agent | PASS | Add backend/API short-lived employee profile session after invite+contact proof and read-only authenticated `me/profile-summary`. | `.agent/stages/mvp/evidence/MVP-03-employee-profile-session-001.md`; `.agent/stages/mvp/evidence/MVP-03-employee-profile-session-001.json`; `.agent/stages/mvp/verdicts/MVP-03-employee-profile-session-001.json`; `.agent/stages/mvp/problems/MVP-03-employee-profile-session-001.md`. |
 | MVP-03-profile-contact-update-001 | agent | PASS | Add backend/API profile-session scoped update for registration `email` and `phone` with append-only privacy-safe audit. | `.agent/stages/mvp/evidence/MVP-03-profile-contact-update-001.md`; `.agent/stages/mvp/evidence/MVP-03-profile-contact-update-001.json`; `.agent/stages/mvp/verdicts/MVP-03-profile-contact-update-001.json`; `.agent/stages/mvp/problems/MVP-03-profile-contact-update-001.md`. |
 | MVP-03-employee-contact-update-ui-001 | agent | PASS | Add minimal employee-facing mobile-first `apps/web` profile/contact UI over the verified profile-session contact update API. | `.agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.md`; `.agent/stages/mvp/evidence/MVP-03-employee-contact-update-ui-001.json`; `.agent/stages/mvp/verdicts/MVP-03-employee-contact-update-ui-001.json`; `.agent/stages/mvp/problems/MVP-03-employee-contact-update-ui-001.md`. |
-| MVP-03-employee-profile-session-entry-ui-001 | agent | FROZEN | Add production employee-facing `apps/web` entry flow for creating a profile session and connecting it to contact update without URL or persistent token storage. | Planning only: `.agent/stages/mvp/sprint_contract.md`; `.agent/stages/mvp/task-files/MVP-03-employee-profile-session-entry-ui-001.md`. `passes=false` until builder evidence and fresh verifier PASS exist. |
+| MVP-03-employee-profile-session-entry-ui-001 | agent | PASS | Add production employee-facing `apps/web` entry flow for creating a profile session and connecting it to contact update without URL or persistent token storage. | `.agent/stages/mvp/evidence/MVP-03-employee-profile-session-entry-ui-001.md`; `.agent/stages/mvp/evidence/MVP-03-employee-profile-session-entry-ui-001.json`; `.agent/stages/mvp/verdicts/MVP-03-employee-profile-session-entry-ui-001.json`; `.agent/stages/mvp/problems/MVP-03-employee-profile-session-entry-ui-001.md`. |
+| MVP-03-onboarding-to-profile-session-continuity-ui-001 | agent | PASS | Connect `/onboarding/privacy` to `/profile/session` and remove unsafe `/profile/contact` token URL handoff. | `.agent/stages/mvp/evidence/MVP-03-onboarding-to-profile-session-continuity-ui-001.md`; `.agent/stages/mvp/evidence/MVP-03-onboarding-to-profile-session-continuity-ui-001.json`; `.agent/stages/mvp/verdicts/MVP-03-onboarding-to-profile-session-continuity-ui-001.json`; `.agent/stages/mvp/problems/MVP-03-onboarding-to-profile-session-continuity-ui-001.md`. |
+| MVP-03-employee-start-route-ui-001 | agent | PASS | Add neutral employee-facing `/start` route with primary handoff to privacy before profile session. | `.agent/stages/mvp/evidence/MVP-03-employee-start-route-ui-001.md`; `.agent/stages/mvp/evidence/MVP-03-employee-start-route-ui-001.json`; `.agent/stages/mvp/verdicts/MVP-03-employee-start-route-ui-001.json`; `.agent/stages/mvp/problems/MVP-03-employee-start-route-ui-001.md`. |
+| MVP-03-profile-session-legal-acceptance-ui-001 | agent | PASS | Add draft legal acknowledgement/acceptance step inside `/profile/session` before contact update. | `.agent/stages/mvp/evidence/MVP-03-profile-session-legal-acceptance-ui-001.md`; `.agent/stages/mvp/evidence/MVP-03-profile-session-legal-acceptance-ui-001.json`; `.agent/stages/mvp/verdicts/MVP-03-profile-session-legal-acceptance-ui-001.json`; `.agent/stages/mvp/problems/MVP-03-profile-session-legal-acceptance-ui-001.md`. |
 | MVP-03.05 | agent | SCOPED_PASS | Implement admin audit logs for sensitive access. | Scoped PASS via `MVP-03-admin-sensitive-access-audit-001`; human-gated production policy and full MVP-03 remain open. |
 | MVP-03-admin-sensitive-access-audit-001 | agent | PASS | Add backend-only append-only audit logging for the existing protected admin code-status access path and denied admin attempts. | `.agent/stages/mvp/evidence/MVP-03-admin-sensitive-access-audit-001.md`; `.agent/stages/mvp/evidence/MVP-03-admin-sensitive-access-audit-001.json`; `.agent/stages/mvp/verdicts/MVP-03-admin-sensitive-access-audit-001.json`; `.agent/stages/mvp/problems/MVP-03-admin-sensitive-access-audit-001.md`. |
 | MVP-03-closure-audit-001 | agent | PASS | Artifact-only closure/status audit for full `MVP-03` against immutable PASS refs and current human gates. | `.agent/stages/mvp/evidence/MVP-03-closure-audit-001.md`; `.agent/stages/mvp/evidence/MVP-03-closure-audit-001.json`; `.agent/stages/mvp/verdicts/MVP-03-closure-audit-001.json`; `.agent/stages/mvp/problems/MVP-03-closure-audit-001.md`. |
 | MVP-03-legal-drafts-001 | agent+human | PASS | Create tracked draft legal artifacts for privacy, terms, personal-data consent and financial disclaimer. | `docs/legal/mvp/drafts/privacy-policy-draft.md`; `docs/legal/mvp/drafts/terms-of-use-draft.md`; `docs/legal/mvp/drafts/personal-data-consent-draft.md`; `docs/legal/mvp/drafts/financial-disclaimer-draft.md`; `.agent/stages/mvp/evidence/MVP-03-legal-drafts-001.md`; `.agent/stages/mvp/evidence/MVP-03-legal-drafts-001.json`; `.agent/stages/mvp/verdicts/MVP-03-legal-drafts-001.json`; `.agent/stages/mvp/problems/MVP-03-legal-drafts-001.md`. |
-| MVP-03 | agent+human | OPEN | Full trust/legal consent/profile base remains open. | Legal drafts and employee contact UI now have scoped PASS, but human gates remain open; MVP stage remains open and a separate closure audit is required before any full `MVP-03` status decision. |
+| MVP-03-post-legal-acceptance-closure-audit-001 | agent | PASS | Artifact-only closure/status audit after legal-acceptance UI PASS. | `.agent/stages/mvp/evidence/MVP-03-post-legal-acceptance-closure-audit-001.md`; `.agent/stages/mvp/evidence/MVP-03-post-legal-acceptance-closure-audit-001.json`; `.agent/stages/mvp/verdicts/MVP-03-post-legal-acceptance-closure-audit-001.json`; `.agent/stages/mvp/problems/MVP-03-post-legal-acceptance-closure-audit-001.md`; latest `.agent/stages/mvp/evidence.md`; latest `.agent/stages/mvp/evidence.json`; latest `.agent/stages/mvp/verdict.json`; latest `.agent/stages/mvp/problems.md`. |
+| MVP-03 | agent+human | DONE_WITH_HUMAN_PENDING | Full trust/legal consent/profile base has no concrete non-human proof gap after fresh verifier PASS for the post-legal-acceptance closure audit. | `MVP-03-post-legal-acceptance-closure-audit-001` records full `MVP-03` as `DONE_WITH_HUMAN_PENDING` after fresh verifier `PASS`. Legal/privacy/real-data/reporting/admin/support/financial/reward human gates and the MVP stage remain open; unconditional `DONE` is not claimed. |
 
 ### Verified MVP-03 employee contact update UI slice
 
@@ -201,7 +207,7 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 
 Fresh verifier returned `PASS` for this scoped UI slice. Production profile-session handoff remains a known limitation because the current measurable handoff is local/browser-smoke-only.
 
-### Frozen MVP-03 employee profile-session entry UI slice
+### Verified MVP-03 employee profile-session entry UI slice
 
 `MVP-03-employee-profile-session-entry-ui-001` is intentionally narrower than full `MVP-03.04`:
 
@@ -213,7 +219,61 @@ Fresh verifier returned `PASS` for this scoped UI slice. Production profile-sess
 - preserve read-only `fullName`, editable `email`/`phone` only, updated/no-op/400/401/generic safe Russian states and visible privacy boundary;
 - exclude login/password setup, `User`, `OrgMembership`, organization codes, subscriptions/seats/entitlements, support tickets, HR reporting, diagnostics, points, CMS, rewards, backend/API/schema/OpenAPI changes, legal approval, real data processing, full `MVP-03` closure and MVP stage closure.
 
-This slice is frozen only. It has no builder evidence or verifier PASS yet.
+Fresh verifier returned `PASS` for this scoped UI slice. Full `MVP-03`, the MVP stage and human gates remain open.
+
+### Verified MVP-03 onboarding-to-profile-session continuity UI slice
+
+`MVP-03-onboarding-to-profile-session-continuity-ui-001` is intentionally scoped to route continuity only:
+
+- connect `/onboarding/privacy` to `/profile/session` as the safe next step;
+- preserve memory-only profile-session handling in the mounted `/profile/session` flow;
+- remove unsafe profile-session token intake from `/profile/contact` URL/query/hash/path;
+- keep direct `/profile/contact` in the safe missing-session state;
+- exclude legal approval, diagnostics/routing, auth/login, `User`, `OrgMembership`, subscriptions/seats, HR reporting, points, CMS, rewards, support/admin flows, real-data processing, full `MVP-03` closure and MVP stage closure.
+
+Fresh verifier returned `PASS` for this scoped UI slice.
+
+### Verified MVP-03 employee start route UI slice
+
+`MVP-03-employee-start-route-ui-001` is intentionally scoped to the neutral employee-facing start route only:
+
+- add `/start` as a no-input, no-API first screen;
+- make `/start -> /onboarding/privacy -> /profile/session` the primary verified path;
+- keep `/profile/session` as a secondary continuation and avoid direct `/profile/contact` token handoff;
+- explain the privacy-first order and memory-only profile-session boundary;
+- exclude auth/login, organization membership/codes, subscriptions/seats, HR reporting, diagnostics, points, CMS, rewards, merch, support/admin flows, real-data processing, final legal approval, full `MVP-03` closure and MVP stage closure.
+
+Fresh verifier returned `PASS` for this scoped UI slice.
+
+### Verified MVP-03 profile-session legal acceptance UI slice
+
+`MVP-03-profile-session-legal-acceptance-ui-001` is intentionally scoped to one legal acknowledgement/acceptance UI step:
+
+- keep `/start -> /onboarding/privacy -> /profile/session` as the verified entry path;
+- after `fetchEmployeeProfileSession`, show draft legal acknowledgement copy before opening contact update;
+- post every generated `LEGAL_DOCUMENT_TYPES` value with `LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION` through generated `fetchLegalDocumentAcceptance`;
+- use `employeeRegistrationId` only in mounted component memory for the legal acceptance path parameter;
+- keep `profileSessionToken` memory-only and never send it to legal acceptance;
+- open `ProfileContactScreen` only after legal acceptance succeeds;
+- preserve direct `/profile/contact` safe missing-session behavior;
+- exclude final legal approval, real-data processing approval, backend/API/schema/OpenAPI/generated-client source changes, auth/login, `User`, `OrgMembership`, subscriptions/seats, diagnostics, HR reporting, points, CMS, rewards, merch, support/admin flows, full `MVP-03` closure and MVP stage closure.
+
+Fresh verifier returned `PASS` for this scoped UI slice. Legal wording remains draft and human-gated.
+
+### Verified MVP-03 post-legal-acceptance closure audit slice
+
+`MVP-03-post-legal-acceptance-closure-audit-001` is intentionally scoped to status reconciliation only:
+
+- cite immutable PASS refs for all currently proven `MVP-03` scoped subunits, including latest legal-acceptance UI;
+- reconcile `MVP-03.01` legal draft artifacts as `DONE_WITH_HUMAN_PENDING`, not human-approved;
+- map full `MVP-03` acceptance criteria to evidence or exact proof gaps;
+- records full `MVP-03` as `DONE_WITH_HUMAN_PENDING` because no concrete non-human proof gap remains in tracked refs;
+- fresh verifier returned `PASS`; latest evidence/verdict/problems aliases now point to this audit;
+- preserve backend baseline: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc;
+- expected docs-sync target is `NOOP_EXPECTED`; expected Mermaid change is `NONE_EXPECTED`;
+- did not edit production code, canonical docs, prior immutable proof refs, human gates or MVP stage completion status.
+
+Builder evidence and fresh verifier artifacts are recorded. Full `MVP-03` is `DONE_WITH_HUMAN_PENDING`, while the MVP stage and all human gates remain open.
 
 ### Verified MVP-03 legal drafts slice
 
@@ -400,7 +460,8 @@ Builder evidence is now recorded:
 | MVP-04-mobile-learning-shell-001 | agent | PASS | Build the smallest mobile-first `apps/web` learning shell: direct dev/demo learning entry, `Новичок` track entry and one synthetic lesson preview with Russian neutral copy. | `.agent/stages/mvp/evidence/MVP-04-mobile-learning-shell-001.md`; `.agent/stages/mvp/evidence/MVP-04-mobile-learning-shell-001.json`; `.agent/stages/mvp/verdicts/MVP-04-mobile-learning-shell-001.json`; `.agent/stages/mvp/raw/mvp-04-mobile-learning-shell-001-screenshots-20260511/` |
 | MVP-04-design-system-tokenization-001 | agent | PASS | Tokenize the current `apps/web` learning shell and lesson renderer against draft Calm Progress Fintech design-system tokens. | `.agent/stages/mvp/evidence/MVP-04-design-system-tokenization-001.md`; `.agent/stages/mvp/evidence/MVP-04-design-system-tokenization-001.json`; `.agent/stages/mvp/verdicts/MVP-04-design-system-tokenization-001.json`; `.agent/stages/mvp/raw/stage-verifier-mvp-04-design-system-tokenization-001-screenshots-final-20260512/` |
 | MVP-04.04 | agent | PASS | Design tokens, current app shell/nav and common states are accepted for the scoped MVP-04 implementation surface after `MVP-04-mobile-learning-shell-001` and `MVP-04-design-system-tokenization-001`. | `.agent/stages/mvp/evidence/MVP-04-design-system-tokenization-001.md`; `.agent/stages/mvp/verdicts/MVP-04-design-system-tokenization-001.json`; `.agent/stages/mvp/status.json` |
-| MVP-04 | agent+human | OPEN | Full UX/UI foundation and neutral brand remain open; this slice only starts the employee learning surface. | Future builder evidence and human-gated brand/voice decisions required. Use `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md` and `docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png` as draft design inputs. |
+| MVP-04-employee-app-ia-nav-001 | agent | PASS | Build the smallest mobile-first employee app IA/navigation shell for Home, Learning, Challenges, Rewards/Store, Profile and secondary Support reachability while preserving the verified `/start -> /onboarding/privacy -> /profile/session` path. | `.agent/stages/mvp/evidence/MVP-04-employee-app-ia-nav-001.md`; `.agent/stages/mvp/evidence/MVP-04-employee-app-ia-nav-001.json`; `.agent/stages/mvp/verdicts/MVP-04-employee-app-ia-nav-001.json`; `.agent/stages/mvp/problems/MVP-04-employee-app-ia-nav-001.md`; `.agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/`. |
+| MVP-04 | agent+human | OPEN | Full UX/UI foundation and neutral brand remain open; current scoped work covers learning shell/tokenization and a verified IA/navigation slice. | Remaining MVP-04 units and human-gated brand/voice/design/accessibility decisions required. Use `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md` and `docs/product/b2b-mvp/lemanapro/references/design-system-style-board-v0.1.png` as draft design inputs. |
 
 ### Frozen mobile learning shell slice
 
@@ -415,6 +476,25 @@ Builder evidence is now recorded:
 - do not restore `cohort`, `cohortId` or `cohorts`;
 - require component/unit tests plus browser/mobile screenshot evidence;
 - do not close `MVP-03`, `MVP-04`, `MVP-06`, `MVP-07`, the MVP stage or human gates.
+
+### Verified employee app IA/navigation slice
+
+`MVP-04-employee-app-ia-nav-001` is intentionally scoped to `MVP-04.02` route reachability and mobile IA:
+
+- implement the smallest reusable employee app shell/bottom navigation needed in `apps/web`;
+- cap bottom navigation at five items from the design-system baseline: `Главная`, `Обучение` or `Маршрут`, `Челлендж`, `Награды`, `Профиль`;
+- keep Support out of bottom nav and expose it as a visible secondary entry from Home and Profile;
+- add only placeholder/hub routes where needed for Challenges, Rewards/Store and Support;
+- preserve `/learning`, `/learning/lessons/N1|N2|N3`, `/start`, `/onboarding/privacy`, `/profile/session` legal acceptance ordering and direct `/profile/contact` safe missing-session behavior;
+- use calm Russian neutral copy with no customer brand, no money/cash-equivalence wording and no financial promises;
+- first meaningful builder touch was `apps/web/components/employee-app-shell.ts`;
+- web typecheck/test/build, browser smoke/screenshots, guardrail scans and root checks passed in builder evidence;
+- fresh verifier first failed only the visual bottom-nav position; a minimal fix now anchors `.bottom-nav` to the bottom viewport edge and adds browser-smoke layout assertions;
+- post-fix web typecheck/test/build, browser smoke with 29 screenshots and independent 390x844 route layout proof passed under `.agent/stages/mvp/raw/fixer-MVP-04-employee-app-ia-nav-001-20260513/`;
+- fresh verifier re-run returned `PASS` with production-like browser smoke, route layout proof and root wrapper checks under `.agent/stages/mvp/raw/verifier-MVP-04-employee-app-ia-nav-001-20260513-fresh/`;
+- compact Mermaid IA/route map is recorded in stage evidence;
+- this is a scoped `MVP-04.02` navigation reachability PASS only and does not close full `MVP-04`;
+- exclude challenge participation, store redemption, wallet/points mutation, support ticket submission, diagnostics/routing, CMS/admin, backend/API/schema/OpenAPI/generated-client changes, full `MVP-04`, MVP stage and human-gate closure.
 
 ## MVP-05. Pedagogy, diagnostics and content factory
 
@@ -487,3 +567,33 @@ Builder evidence is now recorded:
 - do not close full `MVP-04`, full `MVP-06`, the MVP stage or human gates.
 - builder and verifier checks, browser smoke and screenshots are recorded in `.agent/stages/mvp/evidence/MVP-06-learning-n3-fixture-001.*`, `.agent/stages/mvp/verdicts/MVP-06-learning-n3-fixture-001.json` and `.agent/stages/mvp/problems/MVP-06-learning-n3-fixture-001.md`;
 - fresh scoped verifier returned `PASS` for this sprint only, and parent latest status was synchronized to this task.
+
+## MVP-07. Diagnostics and personalized route
+
+| ID | Mode | Status | Goal | Evidence |
+|----|------|--------|------|----------|
+| MVP-07-diagnostic-entry-preview-ui-001 | agent | PASS | Add the smallest `apps/web` diagnostic entry/preview flow with Q0 privacy, non-scoring `SA1-SA3`, a few synthetic routing question cards and a safe draft route preview. | `.agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.md`; `.agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.json`; `.agent/stages/mvp/verdicts/MVP-07-diagnostic-entry-preview-ui-001.json`; `.agent/stages/mvp/problems/MVP-07-diagnostic-entry-preview-ui-001.md`; verifier raw refs under `.agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/`. |
+| MVP-07.01 | agent | OPEN | Implement diagnostic test engine. | This preview slice is only a scoped prerequisite; full engine remains future work. |
+| MVP-07.02 | agent | OPEN | Implement rule-based scoring and level/route assignment. | Out of scope for the preview slice. |
+| MVP-07.03 | agent | OPEN | Implement route explanation UI. | This preview slice may show only draft/preview copy; final route explanation remains future work. |
+| MVP-07.04 | agent | OPEN | Implement safe resume/retry behavior. | Out of scope for the preview slice. |
+| MVP-07.05 | agent | OPEN | Implement aggregated diagnostic insight reporting. | Out of scope and human-gated for privacy/reporting boundaries. |
+| MVP-07 | agent+human | OPEN | Full diagnostics and personalized route remain open. | Future builder evidence, scoring correctness, privacy/HR/legal wording review and fresh verification required. |
+
+### Verified diagnostic entry preview UI slice
+
+`MVP-07-diagnostic-entry-preview-ui-001` is fresh-verified and intentionally scoped to a preview/entry UI, not a production diagnostic engine:
+
+- add `/diagnostics` reachable from the existing Home/Learning shell;
+- show Q0 privacy/expectation before any diagnostic or self-assessment question;
+- include `SA1-SA3` as non-scoring pre self-assessment;
+- include only a small synthetic preview set such as `Q1-Q3`, optionally `Q4` or `Q7`;
+- keep answers/progress in mounted component memory only;
+- show a safe draft route card with wording like `предварительный маршрут` or `черновой preview`;
+- link to `N1` or `/learning` without claiming scoring completion, final level or final `R1-R6` route assignment;
+- require browser screenshots, web checks, guardrail scans and Mermaid preview-flow evidence from the builder;
+- exclude full `Q1-Q27`, `Q28`, scoring correctness, route-rule correctness, backend/API/schema/OpenAPI/generated-client, persistence/storage/network, HR reports, CMS/admin, learning progress/completion, points/rewards and full `MVP-07` closure;
+- preserve the backend baseline: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
+- builder evidence is recorded in `.agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.md` and `.agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.json`;
+- fresh verifier returned `PASS` with web checks, browser smoke with 33 screenshots, source/scope guardrails and root wrappers under `.agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/`;
+- this is scoped PASS only; full `MVP-07.01`, `MVP-07.03`, `MVP-07`, the MVP stage and all human gates remain open.

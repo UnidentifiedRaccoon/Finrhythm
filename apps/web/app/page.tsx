@@ -1,13 +1,5 @@
-import { LearningShellScreen } from "../components/learning-shell";
-import { getLearningShellState, type LearningSearchParams } from "../lib/learning-state";
+import { EmployeeHomeScreen } from "../components/employee-home-screen";
 
-type PageProps = {
-  searchParams?: Promise<LearningSearchParams>;
-};
-
-export default async function WebHome({ searchParams }: PageProps) {
-  const resolvedSearchParams = (await searchParams) ?? {};
-  const result = getLearningShellState(resolvedSearchParams);
-
-  return <LearningShellScreen result={result} />;
+export default function WebHome() {
+  return <EmployeeHomeScreen />;
 }

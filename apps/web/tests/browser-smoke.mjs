@@ -11,7 +11,7 @@ import {
 
 const baseUrl = process.env.WEB_SMOKE_BASE_URL ?? "http://127.0.0.1:3400";
 const outputDir = process.env.WEB_SMOKE_OUTPUT_DIR ?? ".";
-const screenshotPrefix = process.env.WEB_SMOKE_SCREENSHOT_PREFIX ?? "mvp-03-employee-start-route-ui-001";
+const screenshotPrefix = process.env.WEB_SMOKE_SCREENSHOT_PREFIX ?? "mvp-04-employee-app-ia-nav-001";
 const executablePath = process.env.CHROMIUM_EXECUTABLE_PATH;
 const syntheticInviteCode = joinText("INVITE", "-", "LOCAL", "-", "001");
 const sessionFormValues = {
@@ -61,6 +61,119 @@ const legalAcceptancePath = LEGAL_DOCUMENT_ACCEPTANCE_PATH_TEMPLATE.replace(
 );
 
 const scenarios = [
+  {
+    name: "mobile-home",
+    path: "/",
+    viewport: { width: 390, height: 844 },
+    bottomNavActive: "Главная",
+    expected: [
+      "Финпульс",
+      "Ваш спокойный маршрут",
+      "Открыть preview",
+      "Открыть обучение",
+      "Открыть профиль",
+      "Челлендж",
+      "Награды",
+      "Помощь по доступу и навигации",
+      "Открыть поддержку"
+    ],
+    assertBefore: async (page) => {
+      assert.equal(await page.locator("a[href='/support']").count(), 1);
+      assert.equal(await page.locator("a[href='/diagnostics']").count(), 1);
+      assert.equal(await page.locator("nav.bottom-nav a[href='/support']").count(), 0);
+    }
+  },
+  {
+    name: "mobile-diagnostics-q0",
+    path: "/diagnostics",
+    viewport: { width: 390, height: 844 },
+    bottomNavActive: "Главная",
+    expected: [
+      "Финпульс",
+      "Спокойный вход в preview",
+      "Q0 сначала: кто что видит",
+      "Что важно знать перед стартом",
+      "Локальный progress preview",
+      "1 из 4",
+      "Продолжить к самооценке"
+    ],
+    assertBefore: async (page) => {
+      assert.equal(await page.getByText("SA1", { exact: false }).count(), 0);
+      assert.equal(await page.getByText("Q1 ·", { exact: false }).count(), 0);
+      assert.equal(await page.locator("form").count(), 0);
+    }
+  },
+  {
+    name: "mobile-diagnostics-sa",
+    path: "/diagnostics",
+    viewport: { width: 390, height: 844 },
+    bottomNavActive: "Главная",
+    expected: ["Спокойный вход в preview", "Q0 сначала: кто что видит"],
+    action: continueFromDiagnosticQ0,
+    expectedAfter: [
+      "SA1-SA3",
+      "Самооценка без scoring",
+      "не определяют маршрут",
+      "SA1 · личная уверенность",
+      "SA2 · личное спокойствие",
+      "SA3 · ясность следующего шага"
+    ],
+    assertAfter: async (page) => {
+      assert.equal(await page.getByText("Q1 ·", { exact: false }).count(), 0);
+      assert.equal(await page.locator("form").count(), 0);
+    }
+  },
+  {
+    name: "mobile-diagnostics-preview-questions",
+    path: "/diagnostics",
+    viewport: { width: 390, height: 844 },
+    bottomNavActive: "Главная",
+    expected: ["Спокойный вход в preview", "Q0 сначала: кто что видит"],
+    action: async (page) => {
+      await continueFromDiagnosticQ0(page);
+      await fillDiagnosticSelfAssessment(page);
+      await page.getByRole("button", { name: "Перейти к preview-вопросам" }).click();
+    },
+    expectedAfter: [
+      "Только несколько карточек Q1-Q3",
+      "synthetic preview будущего routing-блока",
+      "Q1 · Финансовый резерв",
+      "Q2 · Текущая опора",
+      "Q3 · Первый барьер",
+      "Показать черновой preview"
+    ],
+    assertAfter: async (page) => {
+      assert.equal(await page.getByText("Q28", { exact: false }).count(), 0);
+      assert.equal(await page.locator("form").count(), 0);
+    }
+  },
+  {
+    name: "mobile-diagnostics-route-preview",
+    path: "/diagnostics",
+    viewport: { width: 390, height: 844 },
+    bottomNavActive: "Главная",
+    expected: ["Спокойный вход в preview", "Q0 сначала: кто что видит"],
+    action: async (page) => {
+      await continueFromDiagnosticQ0(page);
+      await fillDiagnosticSelfAssessment(page);
+      await page.getByRole("button", { name: "Перейти к preview-вопросам" }).click();
+      await answerDiagnosticPreviewQuestions(page);
+      await page.getByRole("button", { name: "Показать черновой preview" }).click();
+    },
+    expectedAfter: [
+      "Черновой preview: начните с N1",
+      "не финальный результат диагностики",
+      "не назначение уровня",
+      "не раскрывает личные ответы работодателю",
+      "Открыть N1",
+      "Вернуться к обучению"
+    ],
+    assertAfter: async (page) => {
+      assert.equal(await page.locator("a[href='/learning/lessons/N1']").count(), 1);
+      assert.equal(await page.locator(".diagnostic-result-card a[href='/learning']").count(), 1);
+      assert.equal(await page.locator("form").count(), 0);
+    }
+  },
   {
     name: "mobile-start",
     path: "/start",
@@ -130,16 +243,73 @@ const scenarios = [
     name: "mobile-ready",
     path: "/learning",
     viewport: { width: 390, height: 844 },
+    bottomNavActive: "Обучение",
     expected: [
       "Финпульс",
       "Новичок",
       "План N1-N7",
       "Урок-превью N1",
+      "Открыть диагностику",
       "Открыть урок",
       "Открыть N2",
       "Открыть N3",
       "Подробнее о приватности"
     ]
+  },
+  {
+    name: "mobile-challenges",
+    path: "/challenges",
+    viewport: { width: 390, height: 844 },
+    bottomNavActive: "Челлендж",
+    expected: [
+      "Финпульс",
+      "Челлендж пока в подготовке",
+      "Сейчас это навигационная заглушка",
+      "Нельзя присоединиться к активности",
+      "Результаты не сохраняются",
+      "Вернуться к обучению"
+    ],
+    assertBefore: async (page) => {
+      assert.equal(await page.locator("form").count(), 0);
+      assert.equal(await page.locator("button").count(), 0);
+    }
+  },
+  {
+    name: "mobile-rewards",
+    path: "/rewards",
+    viewport: { width: 390, height: 844 },
+    bottomNavActive: "Награды",
+    expected: [
+      "Финпульс",
+      "Награды появятся позже",
+      "Сейчас это навигационная заглушка",
+      "Счётчики и история операций здесь не показываются",
+      "не обещает получение награды",
+      "Вернуться к обучению"
+    ],
+    assertBefore: async (page) => {
+      assert.equal(await page.locator("form").count(), 0);
+      assert.equal(await page.locator("button").count(), 0);
+    }
+  },
+  {
+    name: "mobile-support",
+    path: "/support",
+    viewport: { width: 390, height: 844 },
+    bottomNavActive: "Главная",
+    expected: [
+      "Финпульс",
+      "Помощь по приложению",
+      "доступом, маршрутом обучения, профилем и навигацией",
+      "нет формы отправки обращения",
+      "не даются личные финансовые, юридические, налоговые, кредитные или инвестиционные рекомендации",
+      "Вернуться на главную"
+    ],
+    assertBefore: async (page) => {
+      assert.equal(await page.locator("form").count(), 0);
+      assert.equal(await page.locator("button").count(), 0);
+      assert.equal(await page.locator("nav.bottom-nav a[href='/support']").count(), 0);
+    }
   },
   {
     name: "mobile-onboarding-privacy",
@@ -189,12 +359,14 @@ const scenarios = [
     name: "mobile-lesson-n1",
     path: "/learning/lessons/N1",
     viewport: { width: 390, height: 844 },
+    bottomNavActive: "Обучение",
     expected: ["Финпульс", "Финансовая опора", "N1: первый резерв", "Мини-тест", "Пример: сменный график"]
   },
   {
     name: "mobile-lesson-n2",
     path: "/learning/lessons/N2",
     viewport: { width: 390, height: 844 },
+    bottomNavActive: "Обучение",
     expected: [
       "Финпульс",
       "Челлендж накоплений",
@@ -208,6 +380,7 @@ const scenarios = [
     name: "mobile-lesson-n3",
     path: "/learning/lessons/N3",
     viewport: { width: 390, height: 844 },
+    bottomNavActive: "Обучение",
     expected: [
       "Финпульс",
       "Расхламление дома",
@@ -239,10 +412,12 @@ const scenarios = [
     name: "mobile-profile-contact-start",
     path: "/profile/contact",
     viewport: { width: 390, height: 844 },
+    bottomNavActive: "Профиль",
     expected: [
       "Финпульс",
       "Контакты для связи",
       "Граница приватности сохраняется",
+      "Помощь по доступу и навигации",
       "Нужна профильная сессия",
       "Откройте вход в профиль",
       "Короткая сессия останется только в памяти текущей вкладки",
@@ -253,12 +428,14 @@ const scenarios = [
     name: "mobile-profile-session-start",
     path: "/profile/session",
     viewport: { width: 390, height: 844 },
+    bottomNavActive: "Профиль",
     expected: [
       "Финпульс",
       "Подтвердите контактный профиль",
       "Код приглашения",
       "Имя и фамилия",
       "Граница приватности видна до входа",
+      "Помощь по доступу и навигации",
       "Открыть профиль"
     ]
   },
@@ -508,6 +685,7 @@ const browser = await chromium.launch({
   executablePath
 });
 const refs = [];
+const bottomNavLayouts = [];
 const requestEventSummaries = [];
 
 try {
@@ -533,6 +711,10 @@ try {
 
     for (const text of scenario.expected) {
       await page.getByText(text, { exact: false }).first().waitFor({ timeout: 5000 });
+    }
+
+    if (scenario.bottomNavActive) {
+      bottomNavLayouts.push(await assertBottomNav(page, scenario.bottomNavActive));
     }
 
     if (scenario.assertBefore) {
@@ -628,6 +810,7 @@ await writeFile(
   JSON.stringify(
     {
       baseUrl,
+      bottomNavLayouts,
       legalDocumentTypesCount: LEGAL_DOCUMENT_TYPES.length,
       legalDocumentDraftVersion: LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION,
       requestEventSummaries,
@@ -657,6 +840,55 @@ async function submitProfileSessionAndAcceptLegal(page) {
 
 async function acceptLegalDocuments(page) {
   await page.getByRole("button", { name: "Подтвердить принятие черновых документов" }).click();
+}
+
+async function continueFromDiagnosticQ0(page) {
+  await page.getByRole("button", { name: "Продолжить к самооценке" }).click();
+}
+
+async function fillDiagnosticSelfAssessment(page) {
+  const items = page.locator(".self-assessment-item");
+  await items.nth(0).locator("button").nth(2).click();
+  await items.nth(1).locator("button").nth(2).click();
+  await items.nth(2).locator("button").nth(2).click();
+}
+
+async function answerDiagnosticPreviewQuestions(page) {
+  const items = page.locator(".preview-question-item");
+  await items.nth(0).locator("button").nth(0).click();
+  await items.nth(1).locator("button").nth(3).click();
+  await items.nth(2).locator("button").nth(0).click();
+}
+
+async function assertBottomNav(page, activeLabel) {
+  const nav = page.getByRole("navigation", { name: "Основные разделы приложения" });
+  await nav.waitFor({ timeout: 5000 });
+
+  assert.equal(await nav.locator("a").count(), 5, "bottom nav has five links");
+  for (const label of ["Главная", "Обучение", "Челлендж", "Награды", "Профиль"]) {
+    await nav.getByText(label, { exact: true }).waitFor({ timeout: 5000 });
+  }
+  assert.equal(await nav.getByText("Поддержка", { exact: true }).count(), 0, "support is not a bottom-nav item");
+  assert.equal(await nav.locator("a[aria-current='page']").count(), 1, "one active bottom-nav item");
+  assert.match(await nav.locator("a[aria-current='page']").innerText(), new RegExp(activeLabel));
+
+  const box = await nav.boundingBox();
+  const viewport = page.viewportSize();
+  assert.ok(box, "bottom nav has a layout box");
+  assert.ok(viewport, "viewport is available");
+
+  const bottomGap = viewport.height - (box.y + box.height);
+  assert.ok(box.y > viewport.height * 0.65, `bottom nav is visually near the viewport bottom, top=${box.y}`);
+  assert.ok(bottomGap >= 0 && bottomGap <= 24, `bottom nav is anchored near the viewport bottom, gap=${bottomGap}`);
+
+  return {
+    activeLabel,
+    bottom: Math.round(box.y + box.height),
+    bottomGap: Math.round(bottomGap),
+    height: Math.round(box.height),
+    top: Math.round(box.y),
+    viewport
+  };
 }
 
 async function installProfileSessionFlowMocks(page, sessionMock, profileSessionToken, requestEvents) {
