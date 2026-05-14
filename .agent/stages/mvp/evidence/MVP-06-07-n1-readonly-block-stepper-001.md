@@ -137,16 +137,12 @@ No final scoring, final route assignment, full `Q1-Q27`, `Q28`, `R1-R6`, HR repo
 
 ## Fresh Verifier Status
 
-Fresh verifier returned `PASS` for this sprint and wrote verifier-only artifacts.
+Fresh verifier has not run for this sprint.
 
-- Latest verified sprint is now `MVP-06-07-n1-readonly-block-stepper-001`.
-- Fresh verifier verdict: `.agent/stages/mvp/verdicts/MVP-06-07-n1-readonly-block-stepper-001.json`.
-- Fresh verifier problems: `.agent/stages/mvp/problems/MVP-06-07-n1-readonly-block-stepper-001.md`.
-- Fresh verifier raw dir: `.agent/stages/mvp/raw/verifier-MVP-06-07-n1-readonly-block-stepper-001-20260514-fresh/`.
-- Current sprint status is `PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC`.
-- `publish_after_pass=true`; post-PASS publish through `$push-main` is required now.
-
-Fresh verifier reproduced web test/typecheck/build, browser/API smoke with 40 screenshots, api-client generated/OpenAPI/typecheck/build checks, root `make verify`, `make test-unit`, `make build`, JSON validation, `git diff --check` and guardrail scans. No blocking proof gaps remain.
+- Latest verified sprint remains `MVP-07-n1-readonly-status-refresh-001`.
+- Latest PASS verdict remains `.agent/stages/mvp/verdicts/MVP-07-n1-readonly-status-refresh-001.json`.
+- Current sprint status is `BUILT_AWAITING_FRESH_VERIFIER`.
+- `publish_after_pass=true`, but publish remains blocked until a fresh verifier writes PASS for `MVP-06-07-n1-readonly-block-stepper-001`.
 
 ## Known Limitations / Blockers
 

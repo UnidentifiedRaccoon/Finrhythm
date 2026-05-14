@@ -23,6 +23,7 @@ import {
   diagnosticApiQ0Options,
   diagnosticApiRoutingQuestions,
   diagnosticApiSelfAssessmentItems,
+  getSafeN1LessonBlockIndex,
   isDiagnosticApiDraftComplete
 } from "../components/diagnostic-api-flow-screen.ts";
 import {
@@ -573,6 +574,7 @@ describe("mobile learning shell", () => {
     };
 
     assert.deepEqual(buildSafeN1LessonDetail(response), response);
+    assert.deepEqual(buildSafeN1LessonDetail({ ...response, blocks: [] }), { ...response, blocks: [] });
     assert.equal(buildSafeN1LessonDetail({ ...response, lessonId: "N2" }), null);
     assert.equal(buildSafeN1LessonDetail({ ...response, review: { ...response.review, productionReady: true } }), null);
     assert.equal(buildSafeN1LessonDetail({ ...response, blocks: [{ ...response.blocks[0], displayOnly: false }] }), null);
@@ -647,6 +649,39 @@ describe("mobile learning shell", () => {
       }),
       null
     );
+  });
+
+  it("keeps the mounted N1 block stepper in memory over fetched lessonDetail.blocks only", async () => {
+    const diagnosticSource = await readFile(join(appRoot, "components", "diagnostic-api-flow-screen.ts"), "utf8");
+    const stepperStart = diagnosticSource.indexOf("function N1BackendLessonBlocks");
+    const stepperEnd = diagnosticSource.indexOf("function N1BackendLessonReviewPanel", stepperStart);
+    const stepperBlock = diagnosticSource.slice(stepperStart, stepperEnd);
+
+    assert.equal(getSafeN1LessonBlockIndex(0, 2), 0);
+    assert.equal(getSafeN1LessonBlockIndex(1, 2), 1);
+    assert.equal(getSafeN1LessonBlockIndex(4, 2), 1);
+    assert.equal(getSafeN1LessonBlockIndex(-1, 2), 0);
+    assert.equal(getSafeN1LessonBlockIndex(Number.NaN, 2), 0);
+    assert.equal(getSafeN1LessonBlockIndex(1, 0), 0);
+
+    assert.notEqual(stepperStart, -1, "mounted N1 block stepper exists");
+    assert.match(stepperBlock, /useState\(0\)/);
+    assert.match(stepperBlock, /useEffect/);
+    assert.match(stepperBlock, /const blocks = lessonDetail\.blocks/);
+    assert.match(stepperBlock, /getSafeN1LessonBlockIndex\(currentBlockIndex, blocks\.length\)/);
+    assert.match(stepperBlock, /setCurrentBlockIndex/);
+    assert.match(stepperBlock, /currentBlock/);
+    assert.match(stepperBlock, /Читайте N1 по одному блоку/);
+    assert.match(stepperBlock, /1\} из \$\{blocks\.length\}/);
+    assert.match(stepperBlock, /Переключение блоков меняет только состояние этой вкладки/);
+    assert.match(stepperBlock, /Назад/);
+    assert.match(stepperBlock, /Дальше/);
+    assert.match(stepperBlock, /Сервер не вернул блоки N1 для чтения/);
+    assert.doesNotMatch(stepperBlock, /loadSafeRouteProgress|loadSafeN1LessonDetail|startLearningMeLesson/);
+    assert.doesNotMatch(stepperBlock, /fetchDiagnostic|saveDiagnostic|submitDiagnostic|fetchLearning|XMLHttpRequest|navigator\.sendBeacon/);
+    assert.doesNotMatch(stepperBlock, /profileSessionToken|Authorization|Bearer/);
+    assert.doesNotMatch(stepperBlock, /window\.location|location\.hash|history\.pushState|history\.replaceState/);
+    assert.doesNotMatch(stepperBlock, /localStorage|sessionStorage|indexedDB|document\.cookie|cookieStore/);
   });
 
   it("builds profile-session POST payloads through generated request types without echoing invalid proof", () => {

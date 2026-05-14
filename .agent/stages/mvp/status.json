@@ -1,9 +1,9 @@
 {
   "stage_id": "mvp",
   "state": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC",
-  "active_sprint_contract_id": "MVP-07-n1-readonly-status-refresh-001",
-  "latest_verified_sprint_contract_id": "MVP-07-n1-readonly-status-refresh-001",
-  "latest_status_decision_sprint_contract_id": "MVP-07-n1-readonly-status-refresh-001",
+  "active_sprint_contract_id": "MVP-06-07-n1-readonly-block-stepper-001",
+  "latest_verified_sprint_contract_id": "MVP-06-07-n1-readonly-block-stepper-001",
+  "latest_status_decision_sprint_contract_id": "MVP-06-07-n1-readonly-block-stepper-001",
   "completed_ids": [
     "MVP-01.01",
     "MVP-01.02",
@@ -55,7 +55,8 @@
     "MVP-07-n1-route-progress-summary-001",
     "MVP-07-n1-lesson-detail-continuation-001",
     "MVP-07-n1-readonly-resume-continuation-001",
-    "MVP-07-n1-readonly-status-refresh-001"
+    "MVP-07-n1-readonly-status-refresh-001",
+    "MVP-06-07-n1-readonly-block-stepper-001"
   ],
   "done_with_human_pending_ids": [
     "MVP-02.04",
@@ -83,7 +84,7 @@
     "admin-auth-role-audit-policy-for-production-use"
   ],
   "next_recommended_ids": [
-    "post-pass-publish-MVP-07-n1-readonly-status-refresh-001",
+    "post-pass-publish-MVP-06-07-n1-readonly-block-stepper-001",
     "continue-next-high-impact-learning-diagnostics-route-progress-slice-after-main-merge",
     "preserve-proof-loop-spec-freeze-build-evidence-fresh-verify-fix-fresh-verify",
     "do-not-close-full-MVP-06-MVP-07-MVP-or-human-gates"
@@ -307,8 +308,8 @@
     "schema_scope_for_latest_verified_sprint": "MVP-07-diagnostic-entry-preview-ui-001 changes no schema, Flyway migration, OpenAPI source or generated api-client artifact.",
     "ui_scope_for_latest_verified_sprint": "MOUNTED_PROFILE_SESSION_READ_ONLY_N1_RESUME_WITHOUT_START_MUTATION",
     "generated_client_scope_for_latest_verified_sprint": "No OpenAPI or generated api-client source changed; apps/web uses existing generated route-progress and lesson-detail helpers.",
-    "active_sprint_scope": "MVP-07-n1-readonly-resume-continuation-001 has fresh verifier PASS: mounted /profile/session reopens already-started N1 through read-only route-progress + lesson-detail, with no POST /start on the resume path.",
-    "ui_scope_for_active_sprint": "MOUNTED_PROFILE_SESSION_READ_ONLY_N1_RESUME_WITHOUT_START_MUTATION",
+    "active_sprint_scope": "MVP-06-07-n1-readonly-block-stepper-001 built: in-memory read-only stepper over already-fetched N1 lessonDetail.blocks inside mounted /profile/session; no backend/API/schema/OpenAPI/generated-client changes, persistence or mutations.",
+    "ui_scope_for_active_sprint": "MOUNTED_PROFILE_SESSION_IN_MEMORY_READ_ONLY_N1_BLOCK_STEPPER_BUILT",
     "public_api_scope_for_latest_builder_sprint": false,
     "schema_scope_for_latest_builder_sprint": "MVP-03-post-legal-acceptance-closure-audit-001 is artifact-only and adds no schema, Flyway migration, OpenAPI source or generated api-client artifact.",
     "backend_baseline_for_latest_builder_sprint": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc remain unchanged.",
@@ -364,7 +365,7 @@
     "mvp_07_01_complete": false,
     "mvp_07_03_complete": false,
     "mvp_07_04_complete": false,
-    "backend_baseline_for_active_sprint": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc are mandatory for this backend/API slice.",
+    "backend_baseline_for_active_sprint": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc remain unchanged.",
     "current_mvp_07_diagnostic_entry_preview_ui_parent_alias_sync_done": true,
     "current_mvp_07_diagnostic_draft_api_contract_frozen": true,
     "current_mvp_07_diagnostic_draft_api_builder_complete": true,
@@ -418,10 +419,10 @@
     "current_mvp_07_diagnostic_n1_learning_progress_docs_sync_required": true,
     "current_mvp_07_diagnostic_n1_learning_progress_first_touch_required": "apps/api production/test files before .agent docs apps/web OpenAPI generated-client or evidence",
     "public_api_scope_for_active_sprint": "NO_BACKEND_API_CONTRACT_CHANGE_EXPECTED",
-    "schema_scope_for_active_sprint": "NO_SCHEMA_OR_FLYWAY_CHANGE_EXPECTED",
-    "generated_client_scope_for_active_sprint": "Use existing generated fetchLearningMeRouteProgress and fetchLearningMeLessonDetail helpers; no new generated helper expected.",
-    "docs_sync_for_active_sprint": "Product docs NOOP_EXPECTED; docs/architecture/access-and-subscriptions.md section 7.4 is conditional only if read-only resume detail path is not already clear.",
-    "latest_verified_sprint_preserved_before_builder": "MVP-07-n1-lesson-detail-continuation-001",
+    "schema_scope_for_active_sprint": "No backend production code, Flyway migration, OpenAPI source/snapshot or generated-client source changed.",
+    "generated_client_scope_for_active_sprint": "No OpenAPI or generated api-client source changed; apps/web uses existing generated route-progress and lesson-detail response blocks.",
+    "docs_sync_for_active_sprint": "Canonical docs NOOP_EXPECTED unless implementation changes product behavior, access/session boundaries, backend/API contract, generated-client coverage, sensitive-data rules or design-system semantics.",
+    "latest_verified_sprint_preserved_before_builder": "MVP-07-n1-readonly-status-refresh-001",
     "latest_evidence_verdict_problems_aliases_preserved_before_builder": true,
     "current_mvp_07_diagnostic_n1_learning_progress_browser_screenshots_exist": true,
     "current_mvp_07_diagnostic_n1_learning_progress_pending_fresh_verifier": false,
@@ -499,12 +500,12 @@
     "current_mvp_07_n1_readonly_resume_continuation_browser_screenshots_exist": true,
     "current_mvp_07_n1_readonly_resume_continuation_parent_alias_sync_done": true,
     "current_mvp_07_n1_readonly_status_refresh_contract_frozen": true,
-    "current_mvp_07_n1_readonly_status_refresh_active": true,
+    "current_mvp_07_n1_readonly_status_refresh_active": false,
     "current_mvp_07_n1_readonly_status_refresh_builder_complete": true,
     "current_mvp_07_n1_readonly_status_refresh_evidence_exists": true,
     "current_mvp_07_n1_readonly_status_refresh_builder_checks_pass": true,
     "current_mvp_07_n1_readonly_status_refresh_fresh_verifier_pass": true,
-    "current_mvp_07_n1_readonly_status_refresh_passes": false,
+    "current_mvp_07_n1_readonly_status_refresh_passes": true,
     "current_mvp_07_n1_readonly_status_refresh_publish_after_pass": true,
     "current_mvp_07_n1_readonly_status_refresh_generated_client_sync_required": false,
     "current_mvp_07_n1_readonly_status_refresh_docs_sync_required": "DONE: docs/architecture/access-and-subscriptions.md section 7.4 documents mounted N1 status refresh",
@@ -513,7 +514,26 @@
     "current_mvp_07_n1_readonly_status_refresh_evidence_ref": ".agent/stages/mvp/evidence/MVP-07-n1-readonly-status-refresh-001.json",
     "current_mvp_07_n1_readonly_status_refresh_raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-status-refresh-001-20260514",
     "current_mvp_07_n1_readonly_status_refresh_browser_screenshots_exist": true,
-    "current_mvp_07_n1_readonly_status_refresh_parent_alias_sync_done": true
+    "current_mvp_07_n1_readonly_status_refresh_parent_alias_sync_done": true,
+    "current_mvp_06_07_n1_readonly_block_stepper_contract_frozen": true,
+    "current_mvp_06_07_n1_readonly_block_stepper_active": true,
+    "current_mvp_06_07_n1_readonly_block_stepper_builder_complete": true,
+    "current_mvp_06_07_n1_readonly_block_stepper_evidence_exists": true,
+    "current_mvp_06_07_n1_readonly_block_stepper_builder_checks_pass": true,
+    "current_mvp_06_07_n1_readonly_block_stepper_fresh_verifier_pass": true,
+    "current_mvp_06_07_n1_readonly_block_stepper_passes": true,
+    "current_mvp_06_07_n1_readonly_block_stepper_publish_after_pass": true,
+    "current_mvp_06_07_n1_readonly_block_stepper_generated_client_sync_required": false,
+    "current_mvp_06_07_n1_readonly_block_stepper_docs_sync_required": "NOOP_EXPECTED unless implementation changes product behavior, access/session boundaries, backend/API contract, generated-client coverage, sensitive-data rules or design-system semantics",
+    "current_mvp_06_07_n1_readonly_block_stepper_first_touch_required": "apps/web production/test files before .agent docs backend OpenAPI generated-client or evidence",
+    "current_mvp_06_07_n1_readonly_block_stepper_latest_verified_preserved": "MVP-07-n1-readonly-status-refresh-001",
+    "current_mvp_06_07_n1_readonly_block_stepper_browser_screenshots_required": true,
+    "current_mvp_06_07_n1_readonly_block_stepper_backend_api_schema_openapi_generated_client_changes_expected": false,
+    "current_mvp_06_07_n1_readonly_block_stepper_browser_screenshots_exist": true,
+    "current_mvp_06_07_n1_readonly_block_stepper_verdict_ref": ".agent/stages/mvp/verdicts/MVP-06-07-n1-readonly-block-stepper-001.json",
+    "current_mvp_06_07_n1_readonly_block_stepper_problems_ref": ".agent/stages/mvp/problems/MVP-06-07-n1-readonly-block-stepper-001.md",
+    "current_mvp_06_07_n1_readonly_block_stepper_raw_ref": ".agent/stages/mvp/raw/verifier-MVP-06-07-n1-readonly-block-stepper-001-20260514-fresh",
+    "current_mvp_06_07_n1_readonly_block_stepper_parent_alias_sync_done": true
   },
   "runtime_guardrails": {
     "project_config_approval_policy_expected": "on-request",
@@ -734,24 +754,25 @@
     "mvp_07_n1_readonly_status_refresh_freeze": "Frozen on 2026-05-14 as the next slice after MVP-07-n1-readonly-resume-continuation-001 PASS. Superseded by builder evidence; fresh verifier PASS is still required before any scoped PASS or publish."
   },
   "current_status": {
-    "active_sprint": "MVP-07-n1-readonly-status-refresh-001",
-    "active_sprint_scope": "BUILT_AWAITING_FRESH_VERIFIER: web-first read-only N1 status refresh from the already-rendered mounted /profile/session N1 continuation screen.",
-    "latest_verified_sprint": "MVP-07-n1-readonly-resume-continuation-001",
+    "active_sprint": "MVP-06-07-n1-readonly-block-stepper-001",
+    "active_sprint_scope": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC: web-first in-memory read-only N1 block stepper inside the already-rendered mounted /profile/session N1 continuation screen.",
+    "latest_verified_sprint": "MVP-06-07-n1-readonly-block-stepper-001",
     "latest_evidence": ".agent/stages/mvp/evidence.json",
-    "latest_verdict": ".agent/stages/mvp/verdicts/MVP-07-n1-readonly-resume-continuation-001.json",
-    "latest_problems": ".agent/stages/mvp/problems/MVP-07-n1-readonly-resume-continuation-001.md",
-    "latest_verifier_raw": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/",
-    "fresh_verifier_required": true,
+    "latest_verdict": ".agent/stages/mvp/verdicts/MVP-06-07-n1-readonly-block-stepper-001.json",
+    "latest_problems": ".agent/stages/mvp/problems/MVP-06-07-n1-readonly-block-stepper-001.md",
+    "latest_verifier_raw": ".agent/stages/mvp/raw/verifier-MVP-06-07-n1-readonly-block-stepper-001-20260514-fresh/",
+    "fresh_verifier_required": false,
     "publish_after_pass": true,
-    "publish_status": "BLOCKED_UNTIL_FRESH_VERIFIER_PASS",
+    "publish_status": "READY_FOR_POST_PASS_PUBLISH",
     "notes": [
-      "Builder evidence exists for MVP-07-n1-readonly-status-refresh-001; fresh verifier PASS is still required.",
-      "The mounted continuation refresh uses generated GET route-progress, then generated GET lesson detail only when safe RESUME_N1/N1 STARTED remains true.",
-      "Browser/API proof shows refresh GET route-progress + GET lesson detail and no POST /learning/me/lessons/N1/start, with token kept out of URL/storage/cookie/IndexedDB surfaces.",
-      "Latest fresh verifier PASS remains MVP-07-n1-readonly-resume-continuation-001.",
+      "Builder evidence and fresh verifier PASS exist for MVP-06-07-n1-readonly-block-stepper-001.",
+      "The stepper uses existing lessonDetail.blocks already fetched by route-progress plus lesson-detail reads and changes only mounted UI state.",
+      "No backend/API/schema/OpenAPI/generated-client change was introduced.",
+      "Latest fresh verifier PASS is MVP-06-07-n1-readonly-block-stepper-001.",
       "Full MVP-06, full MVP-07, MVP stage and human gates remain open.",
-      "Post-PASS publish is required only after this new slice has a fresh verifier PASS."
-    ]
+      "Post-PASS publish is now required through $push-main."
+    ],
+    "latest_builder_evidence": ".agent/stages/mvp/evidence/MVP-06-07-n1-readonly-block-stepper-001.json"
   },
   "decisions": {
     "mvp_04_employee_app_ia_nav_builder": "Built apps/web IA/navigation slice and evidence; pending fresh verifier PASS before any scoped closure.",
@@ -774,7 +795,10 @@
     "mvp_07_n1_readonly_resume_continuation_verifier_pass": "Fresh verifier PASS accepted by parent orchestrator; latest aliases synchronized to MVP-07-n1-readonly-resume-continuation-001.",
     "mvp_07_n1_readonly_status_refresh_freeze": "Freeze one web-first read-only N1 status refresh slice from the already-rendered mounted N1 continuation; preserve backend/API/schema/generated-client changes, completion, theory completion, quiz/practice submit, points, rewards, final scoring/routing, HR reports, analytics/events and human gates as out of scope.",
     "mvp_07_n1_readonly_status_refresh_builder": "Built apps/web mounted N1 status refresh using generated route-progress and lesson-detail reads only; no start mutation on refresh; failed/unsupported refresh keeps existing content visible.",
-    "mvp_07_n1_readonly_status_refresh_verifier_pass": "Fresh verifier PASS accepted by parent orchestrator; latest aliases synchronized to MVP-07-n1-readonly-status-refresh-001."
+    "mvp_07_n1_readonly_status_refresh_verifier_pass": "Fresh verifier PASS accepted by parent orchestrator; latest aliases synchronized to MVP-07-n1-readonly-status-refresh-001.",
+    "mvp_06_07_n1_readonly_block_stepper_freeze": "Freeze one web-first in-memory read-only N1 block stepper slice after status-refresh PASS; preserve backend/API/schema/generated-client changes, completion, theory completion, quiz/practice submit, points, rewards, final scoring/routing, HR reports, analytics/events and human gates as out of scope.",
+    "mvp_06_07_n1_readonly_block_stepper_builder": "Built apps/web mounted N1 read-only block stepper from existing lessonDetail.blocks; previous/next updates only mounted state, preserves first-start/reopen/status-refresh paths, and introduces no backend/API/schema/OpenAPI/generated-client changes.",
+    "mvp_06_07_n1_readonly_block_stepper_verifier_pass": "Fresh verifier PASS accepted by parent orchestrator; latest aliases synchronized to MVP-06-07-n1-readonly-block-stepper-001."
   },
   "validation_notes": {
     "mvp_07_diagnostic_web_api_integration_builder_validation": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC: web typecheck/test/build, system-Chrome browser smoke with 34 screenshots, api-client generated/openapi-drift/typecheck, make verify, make test-unit, make build and guardrail scans passed. Fresh verifier PASS is recorded for MVP-07-diagnostic-web-api-integration-001.",
@@ -796,7 +820,11 @@
     "mvp_07_n1_readonly_status_refresh_freeze_validation": "PASS: jq empty for changed stage JSON and git diff --check for changed stage artifacts passed in the spec-freezer session. No production code, canonical docs, evidence aliases, verdict aliases, problems aliases, raw evidence or previous immutable PASS refs were intentionally changed.",
     "mvp_07_n1_readonly_status_refresh_builder_validation": "PASS: builder evidence includes web test/typecheck/build, browser smoke with 38 screenshots, backend LearningProgressControllerIT, apps/api verify, api-client generated/OpenAPI/typecheck/build, docs build, make verify, make test-unit, make build and guardrail scans.",
     "mvp_07_n1_readonly_status_refresh_verifier_validation": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC: fresh verifier passed web test/typecheck/build, browser smoke with 38 screenshots and refresh network proof, focused backend IT, apps/api verify, api-client generated/OpenAPI/typecheck/build, make verify, make test-unit, make build, jq validation, git diff --check and guardrail scans.",
-    "mvp_07_n1_readonly_status_refresh_publish_readiness": "READY_FOR_POST_PASS_PUBLISH: publish_after_pass=true and latest fresh verifier PASS exists."
+    "mvp_07_n1_readonly_status_refresh_publish_readiness": "READY_FOR_POST_PASS_PUBLISH: publish_after_pass=true and latest fresh verifier PASS exists.",
+    "mvp_06_07_n1_readonly_block_stepper_freeze_validation": "PASS: jq empty for changed stage JSON and git diff --check for changed planning artifacts passed in the spec-freezer session. Latest evidence/verdict/problems aliases remain on MVP-07-n1-readonly-status-refresh-001.",
+    "mvp_06_07_n1_readonly_block_stepper_builder_validation": "PASS: builder evidence includes focused web test, web typecheck/test/build, browser smoke with 40 screenshots and request-event proof, api-client generated/OpenAPI/typecheck/build checks, make verify, make test-unit, make build and guardrail scans.",
+    "mvp_06_07_n1_readonly_block_stepper_verifier_validation": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC: fresh verifier passed web test/typecheck/build, browser/API smoke with 40 screenshots, api-client checks, make verify, make test-unit, make build, jq validation, git diff --check and guardrail scans.",
+    "mvp_06_07_n1_readonly_block_stepper_publish_readiness": "READY_FOR_POST_PASS_PUBLISH: publish_after_pass=true and latest fresh verifier PASS exists."
   },
   "scratchpad": {
     "mvp_07_diagnostic_web_api_integration_freeze": "Frozen on 2026-05-14 and superseded by builder evidence plus fresh verifier PASS.",
@@ -812,6 +840,9 @@
     "mvp_07_n1_readonly_resume_continuation_fresh_verifier": "PASS; parent aliases synchronized; publish flow pending.",
     "mvp_07_n1_readonly_status_refresh_freeze": "Frozen on 2026-05-14 as the next slice after MVP-07-n1-readonly-resume-continuation-001 PASS and superseded by builder evidence.",
     "mvp_07_n1_readonly_status_refresh_builder_evidence": "Builder evidence exists under .agent/stages/mvp/evidence/MVP-07-n1-readonly-status-refresh-001.* and raw outputs under .agent/stages/mvp/raw/builder-MVP-07-n1-readonly-status-refresh-001-20260514/. Awaiting fresh verifier PASS.",
-    "mvp_07_n1_readonly_status_refresh_fresh_verifier": "PASS; parent aliases synchronized; publish flow pending."
+    "mvp_07_n1_readonly_status_refresh_fresh_verifier": "PASS; parent aliases synchronized; publish flow pending.",
+    "mvp_06_07_n1_readonly_block_stepper_freeze": "Frozen on 2026-05-14 as the next slice after MVP-07-n1-readonly-status-refresh-001 PASS. Superseded by builder evidence and fresh verifier PASS.",
+    "mvp_06_07_n1_readonly_block_stepper_builder_evidence": "Builder evidence exists under .agent/stages/mvp/evidence/MVP-06-07-n1-readonly-block-stepper-001.json and raw outputs under .agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/.",
+    "mvp_06_07_n1_readonly_block_stepper_fresh_verifier": "PASS; parent aliases synchronized; publish flow pending."
   }
 }

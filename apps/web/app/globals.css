@@ -1153,6 +1153,43 @@ p {
   margin-top: var(--space-md);
 }
 
+.n1-block-stepper {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.n1-block-stepper-status {
+  background: var(--color-bg-soft);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+  display: grid;
+  gap: var(--space-xs);
+  padding: var(--card-padding-md);
+}
+
+.n1-block-stepper-actions {
+  display: grid;
+  gap: var(--space-xs);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.n1-block-stepper-actions .secondary-action,
+.n1-block-stepper-actions .primary-action {
+  margin-top: 0;
+  width: 100%;
+}
+
+.lesson-empty-state {
+  background: var(--color-bg-soft);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+  padding: var(--card-padding-md);
+}
+
+.lesson-empty-state p:last-child {
+  margin-bottom: 0;
+}
+
 .lesson-block {
   padding: var(--card-padding-md);
 }

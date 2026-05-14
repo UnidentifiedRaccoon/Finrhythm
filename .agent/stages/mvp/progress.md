@@ -2,6 +2,20 @@
 
 Updated: 2026-05-14
 
+## Current session: MVP-06-07-n1-readonly-block-stepper-001 builder evidence
+
+- Built the frozen web-first in-memory read-only N1 block stepper slice after first meaningful builder write in `apps/web/components/diagnostic-api-flow-screen.ts`.
+- Mounted `/profile/session` N1 continuation now renders one current block from existing backend-owned `lessonDetail.blocks`, with `1 из N`, block type, title, body, optional display-only CTA label and `Назад` / `Дальше` controls.
+- Stepper state is mounted UI state only: `currentBlockIndex` is clamped through `getSafeN1LessonBlockIndex(...)`; previous/next clicks do not call route-progress, lesson-detail, start, diagnostic submit/save, completion, analytics, points, rewards, URL/history or browser storage APIs.
+- Empty `lessonDetail.blocks` keeps the N1 continuation visible with `Материал недоступен` and no hidden completion state.
+- Preserved existing paths: first `START_N1`, read-only reopen through `GET route-progress` + `GET lesson detail`, and explicit N1 status refresh.
+- Browser smoke passed with 40 screenshots using the already-running local `apps/web` dev server on `127.0.0.1:3404`; key proof refs are `.agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/browser-smoke-summary-2.json` and screenshots under `.agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/browser-smoke-rerun/`.
+- Checks passed: `pnpm --filter @finrhythm/web test`, web typecheck/build, browser smoke, api-client generated/OpenAPI/typecheck/build checks, `make verify`, `make test-unit`, `make build` and guardrail scans.
+- Canonical docs sync is `NOOP_EXPECTED`: no product, architecture, workflow, API, schema or generated-client boundary changed.
+- Builder evidence refs: `.agent/stages/mvp/evidence/MVP-06-07-n1-readonly-block-stepper-001.md` and `.agent/stages/mvp/evidence/MVP-06-07-n1-readonly-block-stepper-001.json`; latest evidence aliases now point to this current sprint.
+- Latest verified sprint remains `MVP-07-n1-readonly-status-refresh-001`; this current slice is `BUILT_AWAITING_FRESH_VERIFIER` and must not be treated as PASS until a fresh verifier runs.
+- Full MVP-06, full MVP-07, MVP stage and all human gates remain open; publish remains blocked until fresh verifier PASS.
+
 ## Current session: MVP-07-n1-readonly-resume-continuation-001 PASS sync
 
 - Built the frozen web-first read-only N1 resume continuation slice after first meaningful builder write in `apps/web/components/diagnostic-api-flow-screen.ts`.
@@ -1122,6 +1136,36 @@ Open:
 - Builder evidence refs: `.agent/stages/mvp/evidence/MVP-07-n1-readonly-status-refresh-001.md` and `.agent/stages/mvp/evidence/MVP-07-n1-readonly-status-refresh-001.json`.
 - Canonical doc sync: `docs/architecture/access-and-subscriptions.md` section 7.4 documents the read-only refresh boundary and failure behavior.
 - Latest evidence/verdict/problems aliases and `status.json` now point to `MVP-07-n1-readonly-status-refresh-001`.
+- Current state is `PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC`; post-PASS publish is required.
+- Full `MVP-06`, full `MVP-07`, MVP stage and human gates remain open; scoped functional pass applies only to this sprint.
+
+## Current session: MVP-06-07-n1-readonly-block-stepper-001 spec freeze
+
+- Froze `MVP-06-07-n1-readonly-block-stepper-001` as the next tiny high-impact slice after latest fresh verifier `PASS` for `MVP-07-n1-readonly-status-refresh-001`.
+- Scope is web-first and mounted-only: add an in-memory read-only N1 block reader/stepper inside the already-opened `/profile/session` backend-owned N1 continuation.
+- The stepper must use existing `lessonDetail.blocks` already fetched by `GET route-progress` + `GET lesson detail`; no backend/API/schema/OpenAPI/generated-client change is expected.
+- First meaningful builder touch must be in `apps/web` production/test files before `.agent`, canonical docs, backend, Flyway, OpenAPI, generated-client or evidence writes.
+- Stepper previous/next changes only mounted UI state; it must not call `POST /start`, diagnostic submit, completion, analytics/events, points/rewards, or any new persistence/storage path.
+- Profile-session token remains mounted component memory only: no URL/query/hash, localStorage, sessionStorage, cookies, IndexedDB, service-worker cache, logs, request echo or screenshots.
+- Required validation includes focused web tests, web typecheck/test/build, browser smoke proving stepper UI changes without new start/submit/completion/analytics/points/rewards calls or token leakage, api-client unchanged-boundary checks, backend focused regression only if needed, root `make verify`, `make test-unit`, `make build`, jq, git diff check excluding raw and guardrail scans.
+- Canonical docs target is `NOOP_EXPECTED`; stage evidence should later include a compact UI-state diagram for fetched blocks -> in-memory index -> previous/next render -> no network/storage/mutation.
+- `publish_after_pass=true`, but publish is blocked until builder evidence and fresh verifier `PASS` exist.
+- Latest evidence/verdict/problems aliases remain on `MVP-07-n1-readonly-status-refresh-001`; no production code, tests, canonical docs, evidence, verdict, problems or raw evidence were intentionally changed by this freeze.
+- Full `MVP-06`, full `MVP-07`, MVP stage and all human gates remain open; functional `passes=false` remains mandatory until evidence and fresh verification exist.
+
+## Current verified slice: MVP-06-07-n1-readonly-block-stepper-001
+
+- Built one apps/web in-memory read-only N1 block reader/stepper inside the already-mounted `/profile/session` N1 continuation.
+- The stepper renders one current block from existing backend-owned `lessonDetail.blocks`, with `1 из N`, block type, title, body and any display-only CTA label.
+- `Назад` and `Дальше` update only mounted React state. Browser/API smoke proves the clicks add no start, diagnostic submit/draft mutation, completion, analytics/events, points/rewards or storage/network mutation events.
+- Empty `lessonDetail.blocks` keeps the N1 continuation visible with neutral Russian copy and no hidden completion state.
+- Existing first-start, read-only reopen and N1 status refresh paths remain covered.
+- Profile-session token remains in mounted component memory only; browser proof checks URL, visible text, request URLs/bodies, storage, cookies, IndexedDB and service-worker surfaces.
+- No backend/API/schema/OpenAPI/generated-client files changed; canonical docs sync is `NOOP_EXPECTED`.
+- Builder checks passed: web test/typecheck/build, browser smoke with 40 screenshots, api-client generated/OpenAPI/typecheck/build checks, `make verify`, `make test-unit`, `make build`, guardrail scans, JSON validation and `git diff --check`.
+- Fresh verifier returned `PASS` after rerunning web test/typecheck/build, browser/API smoke with 40 screenshots, api-client checks, root wrappers, JSON validation, `git diff --check` and guardrail scans.
+- Fresh verifier refs: `.agent/stages/mvp/verdicts/MVP-06-07-n1-readonly-block-stepper-001.json`, `.agent/stages/mvp/problems/MVP-06-07-n1-readonly-block-stepper-001.md` and `.agent/stages/mvp/raw/verifier-MVP-06-07-n1-readonly-block-stepper-001-20260514-fresh/`.
+- Latest evidence/verdict/problems aliases and `status.json` now point to `MVP-06-07-n1-readonly-block-stepper-001`.
 - Current state is `PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC`; post-PASS publish is required.
 - Full `MVP-06`, full `MVP-07`, MVP stage and human gates remain open; scoped functional pass applies only to this sprint.
 
