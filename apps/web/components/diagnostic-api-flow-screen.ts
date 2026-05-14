@@ -666,7 +666,6 @@ export function buildSafeN1LessonDetail(response: LearningLessonDetailResponse):
     response.disclaimerType !== "education" ||
     response.review.humanReviewRequired !== true ||
     response.review.productionReady !== false ||
-    response.blocks.length === 0 ||
     !response.blocks.every((block) => block.displayOnly === true) ||
     !["C1", "C2", "C8", "C9"].every((code) => response.competencyCodes.includes(code))
   ) {
@@ -685,6 +684,14 @@ export function buildSafeN1LessonDetail(response: LearningLessonDetailResponse):
   }
 
   return response as DiagnosticN1LessonDetail;
+}
+
+export function getSafeN1LessonBlockIndex(currentIndex: number, blockCount: number): number {
+  if (!Number.isInteger(currentIndex) || currentIndex < 0 || blockCount <= 0) {
+    return 0;
+  }
+
+  return Math.min(currentIndex, blockCount - 1);
 }
 
 export function buildSafeRouteProgressSummary(
@@ -820,35 +827,93 @@ function N1BackendLessonHero({ lessonDetail }: { lessonDetail: DiagnosticN1Lesso
 }
 
 function N1BackendLessonBlocks({ lessonDetail }: { lessonDetail: DiagnosticN1LessonDetail }) {
+  const [currentBlockIndex, setCurrentBlockIndex] = useState(0);
+  const blocks = lessonDetail.blocks;
+  const safeBlockIndex = getSafeN1LessonBlockIndex(currentBlockIndex, blocks.length);
+  const currentBlock = blocks[safeBlockIndex] ?? null;
+  const blockPosition = blocks.length > 0 ? `${safeBlockIndex + 1} из ${blocks.length}` : "0 из 0";
+  const blockProgressPercent = blocks.length > 0 ? Math.round(((safeBlockIndex + 1) / blocks.length) * 100) : 0;
+
+  useEffect(() => {
+    setCurrentBlockIndex((index) => getSafeN1LessonBlockIndex(index, blocks.length));
+  }, [blocks.length]);
+
   return h(
     "section",
-    { className: "lesson-renderer", "aria-labelledby": "backend-lesson-sections-title" },
+    { className: "lesson-renderer n1-block-stepper", "aria-labelledby": "backend-lesson-sections-title" },
     h("p", { className: "section-label" }, "Материал N1"),
-    h("h2", { id: "backend-lesson-sections-title" }, `${lessonDetail.blocks.length} коротких блока`),
+    h("h2", { id: "backend-lesson-sections-title" }, "Читайте N1 по одному блоку"),
     h(
       "p",
       null,
-      "Контент пришёл из API после проверки прогресса N1. На этом шаге экран только показывает материал и не отправляет ответы."
+      "Контент пришёл из API после проверки прогресса N1. Переключение блоков меняет только состояние этой вкладки и не отправляет ответы."
     ),
-    h(
-      "div",
-      { className: "lesson-block-list" },
-      lessonDetail.blocks.map((block) =>
-        h(
-          "article",
-          { className: block.sensitiveDataNotice ? "lesson-block lesson-block-sensitive" : "lesson-block", key: block.blockId },
+    currentBlock
+      ? h(
+          Fragment,
+          null,
           h(
             "div",
-            { className: "lesson-block-header" },
-            h("span", { className: "block-type" }, backendLessonBlockLabel(block.blockType)),
-            block.sensitiveDataNotice ? h("span", { className: "sensitive-pill" }, "без точных данных") : null,
-            h("h3", null, block.title)
+            { className: "n1-block-stepper-status", "aria-label": "Прогресс чтения N1" },
+            h(
+              "div",
+              { className: "progress-copy" },
+              h("span", null, "Текущий блок"),
+              h("strong", null, blockPosition)
+            ),
+            h(
+              "div",
+              { className: "diagnostic-progress-track", "aria-hidden": "true" },
+              h("span", { style: { width: `${blockProgressPercent}%` } })
+            )
           ),
-          h("p", null, block.body),
-          block.ctaLabel ? h("button", { className: "secondary-action", disabled: true, type: "button" }, block.ctaLabel) : null
+          h(
+            "article",
+            {
+              className: currentBlock.sensitiveDataNotice ? "lesson-block lesson-block-sensitive" : "lesson-block",
+              key: currentBlock.blockId
+            },
+            h(
+              "div",
+              { className: "lesson-block-header" },
+              h("span", { className: "block-type" }, backendLessonBlockLabel(currentBlock.blockType)),
+              currentBlock.sensitiveDataNotice ? h("span", { className: "sensitive-pill" }, "без точных данных") : null,
+              h("h3", null, currentBlock.title)
+            ),
+            h("p", null, currentBlock.body),
+            currentBlock.ctaLabel ? h("button", { className: "secondary-action", disabled: true, type: "button" }, currentBlock.ctaLabel) : null
+          ),
+          h(
+            "div",
+            { className: "n1-block-stepper-actions" },
+            h(
+              "button",
+              {
+                className: "secondary-action",
+                disabled: safeBlockIndex === 0,
+                onClick: () => setCurrentBlockIndex((index) => getSafeN1LessonBlockIndex(index - 1, blocks.length)),
+                type: "button"
+              },
+              "Назад"
+            ),
+            h(
+              "button",
+              {
+                className: "primary-action n1-block-stepper-next",
+                disabled: safeBlockIndex >= blocks.length - 1,
+                onClick: () => setCurrentBlockIndex((index) => getSafeN1LessonBlockIndex(index + 1, blocks.length)),
+                type: "button"
+              },
+              "Дальше"
+            )
+          )
         )
-      )
-    )
+      : h(
+          "div",
+          { className: "lesson-empty-state", role: "status" },
+          h("p", { className: "section-label" }, "Материал недоступен"),
+          h("p", null, "Сервер не вернул блоки N1 для чтения. Продолжение урока остаётся открытым, но скрытого завершения здесь нет.")
+        )
   );
 }
 

@@ -823,6 +823,102 @@ const scenarios = [
     }
   },
   {
+    name: "mobile-profile-session-diagnostic-n1-readonly-block-stepper",
+    path: "/profile/session",
+    viewport: { width: 390, height: 844 },
+    sessionMock: {
+      sessionStatus: 200,
+      diagnosticGetResponse: diagnosticSubmittedAttemptResponse,
+      routeProgressResponses: [routeProgressAfterN1StartResponse],
+      routeProgressRequiresDiagnosticSubmit: false,
+      lessonDetailRequiresRefreshedRouteProgress: false
+    },
+    expected: [
+      "Подтвердите контактный профиль",
+      "Открыть профиль"
+    ],
+    action: async (page, requestEvents) => {
+      await submitProfileSessionAndAcceptLegal(page);
+      await page.getByText("N1 открыт из прогресса", { exact: false }).first().waitFor({ timeout: 5000 });
+      await page.getByText("Читайте N1 по одному блоку", { exact: false }).first().waitFor({ timeout: 5000 });
+      await page.getByText("1 из 2", { exact: false }).first().waitFor({ timeout: 5000 });
+      await page.getByText("Почему резерв начинается с маленького шага", { exact: false }).first().waitFor({ timeout: 5000 });
+
+      const eventsBeforeNext = [...requestEvents];
+      await page.getByRole("button", { name: "Дальше" }).click();
+      await page.getByText("2 из 2", { exact: false }).first().waitFor({ timeout: 5000 });
+      await page.getByText("Практический шаг без точных данных", { exact: false }).first().waitFor({ timeout: 5000 });
+      assert.deepEqual(requestEvents, eventsBeforeNext, "next block click does not add network events");
+
+      const eventsBeforePrevious = [...requestEvents];
+      await page.getByRole("button", { name: "Назад" }).click();
+      await page.getByText("1 из 2", { exact: false }).first().waitFor({ timeout: 5000 });
+      await page.getByText("Почему резерв начинается с маленького шага", { exact: false }).first().waitFor({ timeout: 5000 });
+      assert.deepEqual(requestEvents, eventsBeforePrevious, "previous block click does not add network events");
+    },
+    expectedAfter: [
+      "Серверный урок",
+      "Материал N1",
+      "Читайте N1 по одному блоку",
+      "Текущий блок",
+      "1 из 2",
+      "Почему резерв начинается с маленького шага",
+      "Назад",
+      "Дальше",
+      "Что не нужно для N1"
+    ],
+    assertAfter: async (page, requestEvents, profileSessionToken) => {
+      assertProfileSessionLegalSubmittedDiagnosticReadonlyResumeOrder(requestEvents);
+      assert.equal(requestEvents.includes("diagnostic-draft:put:request"), false);
+      assert.equal(requestEvents.includes("diagnostic-submit:request"), false);
+      assert.equal(requestEvents.includes("learning-start:request"), false);
+      assert.equal(requestEvents.some((event) => /completion|analytics|points|rewards/i.test(event)), false);
+      assert.equal(new URL(page.url()).pathname, "/profile/session");
+      assertNoTokenInBrowserSurfaces(await collectProfileTokenBrowserSurfaces(page), profileSessionToken);
+    }
+  },
+  {
+    name: "mobile-profile-session-diagnostic-n1-readonly-empty-blocks",
+    path: "/profile/session",
+    viewport: { width: 390, height: 844 },
+    sessionMock: {
+      sessionStatus: 200,
+      diagnosticGetResponse: diagnosticSubmittedAttemptResponse,
+      routeProgressResponses: [routeProgressAfterN1StartResponse],
+      routeProgressRequiresDiagnosticSubmit: false,
+      lessonDetailRequiresRefreshedRouteProgress: false,
+      lessonDetailResponse: {
+        ...n1LessonDetailResponse,
+        blocks: []
+      }
+    },
+    expected: [
+      "Подтвердите контактный профиль",
+      "Открыть профиль"
+    ],
+    action: async (page) => {
+      await submitProfileSessionAndAcceptLegal(page);
+      await page.getByText("N1 открыт из прогресса", { exact: false }).first().waitFor({ timeout: 5000 });
+      await page.getByText("Материал недоступен", { exact: false }).first().waitFor({ timeout: 5000 });
+    },
+    expectedAfter: [
+      "Серверный урок",
+      "Материал N1",
+      "Читайте N1 по одному блоку",
+      "Материал недоступен",
+      "Сервер не вернул блоки N1 для чтения",
+      "скрытого завершения здесь нет",
+      "Что не нужно для N1"
+    ],
+    assertAfter: async (page, requestEvents, profileSessionToken) => {
+      assertProfileSessionLegalSubmittedDiagnosticReadonlyResumeOrder(requestEvents);
+      assert.equal(requestEvents.includes("diagnostic-submit:request"), false);
+      assert.equal(requestEvents.includes("learning-start:request"), false);
+      assert.equal(await page.getByRole("button", { name: "Дальше" }).count(), 0);
+      assertNoTokenInBrowserSurfaces(await collectProfileTokenBrowserSurfaces(page), profileSessionToken);
+    }
+  },
+  {
     name: "mobile-profile-session-diagnostic-n1-readonly-refresh",
     path: "/profile/session",
     viewport: { width: 390, height: 844 },

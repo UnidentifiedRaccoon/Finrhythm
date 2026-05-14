@@ -1,60 +1,54 @@
 {
   "stage_id": "mvp",
-  "sprint_contract_id": "MVP-07-n1-readonly-status-refresh-001",
+  "sprint_contract_id": "MVP-06-07-n1-readonly-block-stepper-001",
   "updated_at": "2026-05-14",
   "publish_after_pass": true,
   "publish_status": "READY_FOR_POST_PASS_PUBLISH",
-  "latest_verified_sprint_contract_id": "MVP-07-n1-readonly-status-refresh-001",
+  "latest_verified_sprint_contract_id": "MVP-06-07-n1-readonly-block-stepper-001",
   "latest_verifier_verdict": "PASS",
   "proof_refs": {
     "active_contract": ".agent/stages/mvp/sprint_contract.md",
-    "active_task_file": ".agent/stages/mvp/task-files/MVP-07-n1-readonly-status-refresh-001.md",
-    "latest_verified_evidence": ".agent/stages/mvp/evidence/MVP-07-n1-readonly-status-refresh-001.json",
-    "latest_verified_evidence_markdown": ".agent/stages/mvp/evidence/MVP-07-n1-readonly-status-refresh-001.md",
-    "latest_verified_verdict": ".agent/stages/mvp/verdicts/MVP-07-n1-readonly-status-refresh-001.json",
-    "latest_verified_problems": ".agent/stages/mvp/problems/MVP-07-n1-readonly-status-refresh-001.md",
+    "active_task_file": ".agent/stages/mvp/task-files/MVP-06-07-n1-readonly-block-stepper-001.md",
+    "latest_verified_evidence": ".agent/stages/mvp/evidence/MVP-06-07-n1-readonly-block-stepper-001.json",
+    "latest_verified_evidence_markdown": ".agent/stages/mvp/evidence/MVP-06-07-n1-readonly-block-stepper-001.md",
+    "latest_verified_verdict": ".agent/stages/mvp/verdicts/MVP-06-07-n1-readonly-block-stepper-001.json",
+    "latest_verified_problems": ".agent/stages/mvp/problems/MVP-06-07-n1-readonly-block-stepper-001.md",
     "latest_evidence_alias": ".agent/stages/mvp/evidence.json",
     "latest_evidence_markdown_alias": ".agent/stages/mvp/evidence.md",
-    "builder_evidence": ".agent/stages/mvp/evidence/MVP-07-n1-readonly-status-refresh-001.json",
-    "builder_evidence_markdown": ".agent/stages/mvp/evidence/MVP-07-n1-readonly-status-refresh-001.md",
-    "builder_raw_dir": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-status-refresh-001-20260514/",
-    "browser_refresh_proof": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-status-refresh-001-20260514/browser-smoke-abs/MVP-07-n1-readonly-status-refresh-001-browser-smoke.json",
-    "fresh_verifier_verdict": ".agent/stages/mvp/verdicts/MVP-07-n1-readonly-status-refresh-001.json",
-    "fresh_verifier_problems": ".agent/stages/mvp/problems/MVP-07-n1-readonly-status-refresh-001.md",
-    "fresh_verifier_raw_dir": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-status-refresh-001-20260514-fresh"
+    "builder_evidence": ".agent/stages/mvp/evidence/MVP-06-07-n1-readonly-block-stepper-001.json",
+    "builder_evidence_markdown": ".agent/stages/mvp/evidence/MVP-06-07-n1-readonly-block-stepper-001.md",
+    "builder_raw_dir": ".agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/",
+    "browser_stepper_proof": ".agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/browser-smoke-summary-2.json",
+    "fresh_verifier_verdict": ".agent/stages/mvp/verdicts/MVP-06-07-n1-readonly-block-stepper-001.json",
+    "fresh_verifier_problems": ".agent/stages/mvp/problems/MVP-06-07-n1-readonly-block-stepper-001.md",
+    "fresh_verifier_raw_dir": ".agent/stages/mvp/raw/verifier-MVP-06-07-n1-readonly-block-stepper-001-20260514-fresh"
   },
   "validation": {
     "active_contract_builder_evidence": "PRESENT",
     "active_contract_fresh_verifier": "PASS",
-    "required_first_touch": "APPS_WEB_PRODUCTION_OR_TEST",
-    "backend_api_schema_openapi_generated_client_changes_expected": "NONE",
-    "canonical_doc_sync": "DONE: docs/architecture/access-and-subscriptions.md section 7.4",
+    "required_first_touch": "APPS_WEB_PRODUCTION_OR_TEST_DONE",
+    "backend_api_schema_openapi_generated_client_changes_expected": "NONE_PRESERVED",
+    "canonical_doc_sync": "NOOP_EXPECTED",
     "publish_readiness": "READY_FOR_POST_PASS_PUBLISH",
     "active_contract_passes": true,
     "builder_checks_pass": true,
     "fresh_verifier_pass": true,
-    "browser_refresh_proof_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-status-refresh-001-20260514/browser-smoke-abs/MVP-07-n1-readonly-status-refresh-001-browser-smoke.json",
-    "browser_refresh_screenshot_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-status-refresh-001-20260514/browser-smoke-abs/MVP-07-n1-readonly-status-refresh-001-mobile-profile-session-diagnostic-n1-readonly-refresh.png",
-    "browser_refresh_unsupported_screenshot_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-status-refresh-001-20260514/browser-smoke-abs/MVP-07-n1-readonly-status-refresh-001-mobile-profile-session-diagnostic-n1-readonly-refresh-unsupported.png",
-    "builder_evidence_alias_sync": "PRESENT",
-    "latest_verified_sprint_preserved": "MVP-07-n1-readonly-resume-continuation-001",
-    "fresh_verifier_verdict_ref": ".agent/stages/mvp/verdicts/MVP-07-n1-readonly-status-refresh-001.json",
-    "fresh_browser_refresh_proof_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-status-refresh-001-20260514-fresh/browser-smoke/MVP-07-n1-readonly-status-refresh-001-verifier-browser-smoke.json",
-    "fresh_browser_refresh_screenshot_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-status-refresh-001-20260514-fresh/browser-smoke/MVP-07-n1-readonly-status-refresh-001-verifier-mobile-profile-session-diagnostic-n1-readonly-refresh.png",
-    "fresh_browser_refresh_unsupported_screenshot_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-status-refresh-001-20260514-fresh/browser-smoke/MVP-07-n1-readonly-status-refresh-001-verifier-mobile-profile-session-diagnostic-n1-readonly-refresh-unsupported.png",
+    "latest_verified_sprint_preserved": "MVP-06-07-n1-readonly-block-stepper-001",
     "parent_sync": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC"
   },
   "validation_commands_required_after_build": [
-    "pnpm --filter @finrhythm/web test",
+    "focused web test for N1 block stepper state and no mutation usage",
     "pnpm --filter @finrhythm/web typecheck",
+    "pnpm --filter @finrhythm/web test",
     "pnpm --filter @finrhythm/web build",
-    "cd apps/api && ./mvnw -q -Dtest=LearningProgressControllerIT test",
-    "cd apps/api && ./mvnw -q verify",
+    "browser/API smoke proving stepper next/previous changes mounted N1 UI without new start/submit/completion/analytics/points/rewards calls and without token URL/storage leakage",
+    "browser/API smoke or focused regression proving initial read-only reopen still uses GET route-progress + GET lesson detail and no POST /start",
+    "browser/API smoke or focused regression proving first START_N1 path still works",
+    "backend focused regression only if backend/API/schema/OpenAPI/generated-client boundary is touched or verifier identifies a concrete backend risk",
     "pnpm --filter @finrhythm/api-client check:generated",
     "pnpm --filter @finrhythm/api-client check:openapi-drift",
     "pnpm --filter @finrhythm/api-client typecheck",
     "pnpm --filter @finrhythm/api-client build",
-    "browser/API smoke proving N1 refresh uses GET route-progress + GET lesson detail and no POST /start",
     "make verify",
     "make test-unit",
     "make build",
@@ -68,13 +62,12 @@
       "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md",
       "docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md",
       "docs/product/b2b-mvp/lemanapro/design-system-v0.1.md",
+      "docs/architecture/access-and-subscriptions.md",
       "packages/api-client/README.md"
     ],
-    "updated": [
-      "docs/architecture/access-and-subscriptions.md section 7.4"
-    ]
+    "updated": []
   },
-  "pr_summary_ru": "Добавлен read-only refresh статуса N1 в уже открытом mounted `/profile/session` continuation: кнопка перечитывает `GET route-progress`, затем `GET lesson detail` только для safe `RESUME_N1` / `N1 STARTED`, обновляет видимый N1 и не отправляет `POST /start`.",
+  "pr_summary_ru": "Добавить in-memory read-only stepper для уже загруженных блоков N1 в mounted `/profile/session`: переключение блоков меняет только UI state, не пишет прогресс, не отправляет start/submit/completion/analytics/points/rewards и не выводит profile-session token из mounted memory.",
   "post_pass_publish_flow": {
     "required": true,
     "skill": "$push-main",
@@ -87,7 +80,7 @@
       "git diff --check passes for publish scope excluding raw evidence pathspecs when needed"
     ],
     "preconditions_status": "SATISFIED",
-    "latest_pass_verdict": ".agent/stages/mvp/verdicts/MVP-07-n1-readonly-status-refresh-001.json"
+    "latest_pass_verdict": ".agent/stages/mvp/verdicts/MVP-06-07-n1-readonly-block-stepper-001.json"
   },
   "human_gates_open": [
     "Final N1 financial correctness and wording review",
@@ -103,7 +96,7 @@
   "out_of_scope_still_open": [
     "Full MVP-06 learning delivery and CMS/admin",
     "Full MVP-07 diagnostics and personalized route",
-    "Lesson completion, quiz, practice, points, rewards and wallet",
+    "Lesson completion, theory completion, quiz, practice, points, rewards and wallet",
     "Full Q1-Q27, Q28, C1-C10 scoring and final R1-R6 assignment",
     "HR reports and analytics/events",
     "Exact sensitive data, personal advice and real data processing",
@@ -111,16 +104,88 @@
     "Full MVP stage closure"
   ],
   "commit_placeholder_after_pass": {
-    "branch": "codex/mvp-07-n1-readonly-status-refresh",
-    "message": "feat(web): добавить read-only обновление статуса N1",
-    "pr_title": "feat(web): добавить read-only обновление статуса N1"
+    "branch": "codex/mvp-06-07-n1-readonly-block-stepper",
+    "message": "feat(web): добавить read-only stepper блоков N1",
+    "pr_title": "feat(web): добавить read-only stepper блоков N1"
   },
-  "continuation_prompt_after_future_pass": "Продолжи разработку FinPulse как stage_orchestrator в /Users/elena/cursor/FinPulse. Базовая ветка main уже обновлена после merge предыдущего PR. Latest fresh verifier PASS: MVP-07-n1-readonly-status-refresh-001. Реализовано и опубликовано: mounted /profile/session N1 continuation can refresh current N1 status via GET route-progress + GET lesson detail without POST /start; token remains only in mounted component memory. Обязательно используй repo-local $stage-launch-proof-loop: spec freeze -> build -> evidence -> fresh verify -> minimal fix -> fresh verify. Выбери следующий маленький high-impact product slice, который продолжает learning delivery / diagnostics / route-progress and проверяется тестами/browser evidence. Не делай analysis-only/doc-only работу. Запреты: не делать final scoring, final route assignment, R1-R6, HR reports, analytics/events, points, rewards, learning completion или financial advice; не добавлять customer brand в employee-facing UI; не закрывать full MVP-06, MVP-07, MVP stage или human gates; diagnostic/profile-session token должен оставаться только в mounted component memory: без URL/query/hash/localStorage/sessionStorage/cookies/IndexedDB. После fresh PASS снова выполни post-PASS publish flow: branch codex/..., commit only this slice, PR to main, wait checks, merge when allowed, switch local workspace to main, git pull --ff-only, затем напечатай следующий copyable continuation prompt.",
+  "continuation_prompt_after_future_pass": "Продолжи разработку FinPulse как stage_orchestrator в /Users/elena/cursor/FinPulse. Базовая ветка main уже обновлена после merge предыдущего PR. Latest fresh verifier PASS: MVP-06-07-n1-readonly-block-stepper-001. Реализовано и опубликовано: mounted /profile/session N1 continuation can render an in-memory read-only stepper over fetched N1 lessonDetail.blocks; stepper next/previous changes mounted UI only, with no start/submit/completion/analytics/points/rewards calls and token remains only in mounted component memory. Обязательно используй repo-local $stage-launch-proof-loop: spec freeze -> build -> evidence -> fresh verify -> minimal fix -> fresh verify. Выбери следующий маленький high-impact product slice, который продолжает learning delivery / diagnostics / route-progress and проверяется тестами/browser evidence. Не делай analysis-only/doc-only работу. Запреты: не делать final scoring, final route assignment, R1-R6, HR reports, analytics/events, points, rewards, learning completion или financial advice; не добавлять customer brand в employee-facing UI; не закрывать full MVP-06, MVP-07, MVP stage или human gates; diagnostic/profile-session token должен оставаться только в mounted component memory: без URL/query/hash/localStorage/sessionStorage/cookies/IndexedDB. После fresh PASS снова выполни post-PASS publish flow: branch codex/..., commit only this slice, PR to main, wait checks, merge when allowed, switch local workspace to main, git pull --ff-only, затем напечатай следующий copyable continuation prompt.",
   "commit": {
-    "branch": "codex/mvp-07-n1-readonly-status-refresh",
-    "message": "feat(web): добавить read-only обновление статуса N1",
-    "pr_title": "feat(web): добавить read-only обновление статуса N1"
+    "branch": "codex/mvp-06-07-n1-readonly-block-stepper",
+    "message": "feat(web): добавить read-only stepper блоков N1",
+    "pr_title": "feat(web): добавить read-only stepper блоков N1"
   },
-  "pr_body_ru": "## Цель\n- Дать сотруднику безопасно перечитать текущий статус уже открытого N1 внутри mounted `/profile/session`.\n- Не создавать новый прогресс и не отправлять повторный `POST /api/v1/learning/me/lessons/N1/start` при refresh.\n\n## Что сделано\n- В N1 continuation добавлена кнопка `Проверить статус N1`.\n- Refresh вызывает generated `fetchLearningMeRouteProgress`, затем generated `fetchLearningMeLessonDetail` только если summary остаётся safe `RESUME_N1` / `N1 STARTED`.\n- Mounted `routeProgress`, read-only `lessonProgress` и `lessonDetail` обновляются из backend-owned reads.\n- Unsupported/failed refresh показывает нейтральное сообщение и оставляет уже открытый материал N1 видимым.\n- `START_N1` first-start и read-only reopen paths сохранены.\n- Token remains only in mounted component memory; no URL/storage/cookie/IndexedDB/service-worker leakage.\n- `docs/architecture/access-and-subscriptions.md` 7.4 обновлён для read-only refresh boundary.\n\n## Как проверить\n- `pnpm --filter @finrhythm/web test`\n- `pnpm --filter @finrhythm/web typecheck`\n- `pnpm --filter @finrhythm/web build`\n- `WEB_SMOKE_BASE_URL=http://127.0.0.1:3404 ... pnpm --filter @finrhythm/web smoke:browser`\n- `cd apps/api && JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q -Dtest=LearningProgressControllerIT test`\n- `cd apps/api && JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q verify`\n- `pnpm --filter @finrhythm/api-client check:generated`\n- `pnpm --filter @finrhythm/api-client check:openapi-drift`\n- `pnpm --filter @finrhythm/api-client typecheck`\n- `pnpm --filter @finrhythm/api-client build`\n- `make verify`\n- `make test-unit`\n- `make build`\n- Fresh verifier PASS: `.agent/stages/mvp/verdicts/MVP-07-n1-readonly-status-refresh-001.json`\n- Browser refresh proof: `.agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-status-refresh-001-20260514-fresh/browser-smoke/MVP-07-n1-readonly-status-refresh-001-verifier-browser-smoke.json`\n\n## Риски и границы\n- Full MVP-06, full MVP-07, MVP stage and human gates remain open.\n- No backend/API/schema/OpenAPI/generated-client changes.\n- No final scoring, R1-R6, HR reports, analytics/events, points/rewards, learning completion, quiz/practice submission, advice, exact sensitive data or customer brand.",
-  "continuation_prompt": "Продолжи разработку FinPulse как stage_orchestrator в /Users/elena/cursor/FinPulse. Базовая ветка main уже обновлена после merge предыдущего PR. Latest fresh verifier PASS: MVP-07-n1-readonly-status-refresh-001. Реализовано и опубликовано: mounted /profile/session N1 continuation can refresh current N1 status via GET route-progress + GET lesson detail without POST /start; token remains only in mounted component memory. Обязательно используй repo-local $stage-launch-proof-loop: spec freeze -> build -> evidence -> fresh verify -> minimal fix -> fresh verify. Выбери следующий маленький high-impact product slice, который продолжает learning delivery / diagnostics / route-progress and проверяется тестами/browser evidence. Не делай analysis-only/doc-only работу. Запреты: не делать final scoring, final route assignment, R1-R6, HR reports, analytics/events, points, rewards, learning completion или financial advice; не добавлять customer brand в employee-facing UI; не закрывать full MVP-06, MVP-07, MVP stage или human gates; diagnostic/profile-session token должен оставаться только в mounted component memory: без URL/query/hash/localStorage/sessionStorage/cookies/IndexedDB. После fresh PASS снова выполни post-PASS publish flow: branch codex/..., commit only this slice, PR to main, wait checks, merge when allowed, switch local workspace to main, git pull --ff-only, затем напечатай следующий copyable continuation prompt."
+  "pr_body_ru": "## Цель\n- Добавить in-memory read-only stepper для уже загруженных блоков N1 в mounted `/profile/session`.\n- Не создавать прогресс, не отправлять start/submit/completion/analytics/points/rewards и не менять backend/API contract.\n\n## Scope после PASS\n- Stepper рендерится из существующего `lessonDetail.blocks`.\n- Previous/next меняют только mounted UI state.\n- First-start, read-only reopen и status refresh остаются рабочими.\n- Token remains only in mounted component memory.\n- Canonical docs: NOOP_EXPECTED.\n\n## Проверки\n- web test/typecheck/build\n- browser/API smoke with 40 screenshots and request-event proof\n- api-client generated/OpenAPI/typecheck/build checks\n- make verify, make test-unit, make build\n- guardrail scans, jq, git diff --check\n- Fresh verifier PASS: `.agent/stages/mvp/verdicts/MVP-06-07-n1-readonly-block-stepper-001.json`\n- Browser stepper proof: `.agent/stages/mvp/raw/verifier-MVP-06-07-n1-readonly-block-stepper-001-20260514-fresh/browser-smoke/MVP-06-07-n1-readonly-block-stepper-001-verifier-browser-smoke.json`\n\n## Границы\n- Full MVP-06, full MVP-07, MVP stage and human gates remain open.\n- No backend/API/schema/OpenAPI/generated-client changes.\n- No scoring, R1-R6, HR reports, analytics/events, points/rewards, learning completion, quiz/practice submission, advice, exact sensitive data or customer brand.",
+  "continuation_prompt": "Продолжи разработку FinPulse как stage_orchestrator в /Users/elena/cursor/FinPulse. Базовая ветка main уже обновлена после merge предыдущего PR. Latest fresh verifier PASS: MVP-06-07-n1-readonly-block-stepper-001. Реализовано и опубликовано: mounted /profile/session N1 continuation can render an in-memory read-only stepper over fetched N1 lessonDetail.blocks; stepper next/previous changes mounted UI only, with no start/submit/completion/analytics/points/rewards calls and token remains only in mounted component memory. Обязательно используй repo-local $stage-launch-proof-loop: spec freeze -> build -> evidence -> fresh verify -> minimal fix -> fresh verify. Выбери следующий маленький high-impact product slice, который продолжает learning delivery / diagnostics / route-progress and проверяется тестами/browser evidence. Не делай analysis-only/doc-only работу. Запреты: не делать final scoring, final route assignment, R1-R6, HR reports, analytics/events, points, rewards, learning completion или financial advice; не добавлять customer brand в employee-facing UI; не закрывать full MVP-06, MVP-07, MVP stage или human gates; diagnostic/profile-session token должен оставаться только в mounted component memory: без URL/query/hash/localStorage/sessionStorage/cookies/IndexedDB. После fresh PASS снова выполни post-PASS publish flow: branch codex/..., commit only this slice, PR to main, wait checks, merge when allowed, switch local workspace to main, git pull --ff-only, затем напечатай следующий copyable continuation prompt.",
+  "validation_commands_after_build": [
+    {
+      "command": "pnpm --filter @finrhythm/web test",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/web-test-2.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/web typecheck",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/web-typecheck-1.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/web build",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/web-build-1.txt"
+    },
+    {
+      "command": "WEB_SMOKE_BASE_URL=http://127.0.0.1:3404 WEB_SMOKE_OUTPUT_DIR=$PWD/.agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/browser-smoke-rerun WEB_SMOKE_SCREENSHOT_PREFIX=MVP-06-07-n1-readonly-block-stepper-001-rerun CHROMIUM_EXECUTABLE_PATH=/Applications/Google Chrome.app/Contents/MacOS/Google Chrome pnpm --filter @finrhythm/web smoke:browser",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/web-browser-smoke-2.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/api-client check:generated",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/api-client-check-generated-1.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/api-client check:openapi-drift",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/api-client-check-openapi-drift-1.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/api-client typecheck",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/api-client-typecheck-1.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/api-client build",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/api-client-build-1.txt"
+    },
+    {
+      "command": "make verify",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/make-verify-1.txt"
+    },
+    {
+      "command": "make test-unit",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/make-test-unit-1.txt"
+    },
+    {
+      "command": "make build",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/make-build-1.txt"
+    },
+    {
+      "command": "guardrail scans",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/guardrail-scans-final.txt"
+    },
+    {
+      "command": "jq empty changed JSON artifacts",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/jq-empty-final.txt"
+    },
+    {
+      "command": "git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-06-07-n1-readonly-block-stepper-001-20260514/git-diff-check-final.txt"
+    }
+  ]
 }
