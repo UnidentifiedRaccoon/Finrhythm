@@ -2,6 +2,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+HARNESS_PROFILE="${HARNESS_PROFILE:-lite}"
 
 if ! python3 - "$ROOT" <<'PY'
 import json
@@ -25,6 +26,6 @@ then
   exit 1
 fi
 
-python3 "$ROOT/.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py" --bootstrap-only
+python3 "$ROOT/.agents/skills/stage-launch-proof-loop/scripts/verify_harness.py" --bootstrap-only --harness-profile "$HARNESS_PROFILE"
 
-echo "validate-bootstrap.sh: PASS"
+echo "validate-bootstrap.sh: PASS ($HARNESS_PROFILE)"

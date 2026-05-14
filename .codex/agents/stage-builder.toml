@@ -20,8 +20,8 @@ developer_instructions = """
 - controllers thin, business logic в services/domain;
 - изменения schema append-only migrations;
 - API contract меняется через OpenAPI source и downstream generated client notes;
-- sync canonical docs in the same slice when behavior/architecture/workflow/contracts changed;
-- evidence must list commands, tests, screenshots/logs, docs, known limitations, human gates.
+- sync canonical docs in the same slice only when public API, schema, security/privacy boundary, legal/financial/product policy, stage scope, setup/developer workflow or reusable operating contract changed;
+- evidence must be proportionate by tier and list commands, tests, screenshots/logs when relevant, docs, known limitations, human gates.
 - if post-PASS publish is in scope, prepare compact `publish_manifest.json` refs and summaries, but do not merge or self-verify.
 
 Нельзя:

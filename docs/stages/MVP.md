@@ -9,7 +9,7 @@ task_execution_mode: stage-launch-proof-loop
 product_foundation: docs/product/b2b-mvp/lemanapro/product-foundation-v1.md
 product_methodology: docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md
 product_design_system: docs/product/b2b-mvp/lemanapro/design-system-v0.1.md
-last_updated: 2026-05-12
+last_updated: 2026-05-14
 language: ru
 ---
 
@@ -27,7 +27,7 @@ Stage artifacts, progress, evidence, verdicts and audits must live in `.agent/st
 - Исполнять MVP как B2B-first corporate pilot, not as B2C/public-launch product.
 - Не расширять scope за пределы `In scope`; disputed product intent возвращать в product foundation/stage docs before implementation.
 - Любую крупную задачу нормализовать в execution unit with `TASK_ID`.
-- Каждую execution unit выполнять через proof loop: `spec -> build -> evidence -> fresh verify -> fix -> fresh verify`.
+- Каждую execution unit сначала классифицировать Tier C/B/A. Tier C выполняется code-first with focused tests and compact proof; Tier B uses compact integration proof; Tier A uses full proof loop: `spec -> build -> evidence -> fresh verify -> fix -> fresh verify`.
 - Параллелить только независимые задачи без shared files, schemas, API contracts, docs or configs.
 - Все user-visible, privacy-sensitive, reward and B2B-reporting changes подтверждать evidence, tests and human-gate status.
 
@@ -204,10 +204,10 @@ For code/API/schema units:
 
 - changed files and migration notes;
 - OpenAPI/generated client notes if contract changed;
-- root or package commands: `make verify`, relevant `make test-unit`, relevant `make build`, or exact available substitutes;
+- root or package commands by tier: `make proof-lite`, `make verify-web`, `make verify-api`, `make verify-full`, relevant `make test-unit`, relevant `make build`, or exact available substitutes;
 - unit/integration tests for invite code activation, diagnostics scoring, points ledger, redemption, reporting privacy and merch lifecycle;
 - screenshot/browser evidence for employee/admin/HR-visible screens;
-- docs/evidence updates and fresh verifier verdict.
+- docs/evidence updates when required by tier and fresh verifier verdict for Tier A/stage-close.
 
 For content/product units:
 

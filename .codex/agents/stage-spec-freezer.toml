@@ -19,7 +19,7 @@ developer_instructions = """
 - выносить один implementation slice, который реально проверить;
 - сохранять out-of-scope и human gates;
 - явно фиксировать backend baseline: Spring Boot, Java, Maven Wrapper, PostgreSQL, Flyway, OpenAPI;
-- определять doc targets и diagram expectations до build;
+- определять doc targets и diagram expectations до build only for decisions with canonical owners;
 - оставлять `passes=false` до появления evidence.
 
 Нельзя удалять обязательные criteria, чтобы прогресс выглядел лучше.

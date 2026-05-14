@@ -1,6 +1,6 @@
 ---
 name: stage-launch-proof-loop
-description: Repo-local FinLit workflow skill for executing docs/stages/MVP.md, v1.md and v2.md with durable stage artifacts, bounded gpt-5.5/xhigh subagents, evidence, documentation sync and mandatory fresh verification.
+description: Repo-local FinLit workflow skill for executing docs/stages/MVP.md, v1.md and v2.md with risk-tiered stage artifacts, bounded gpt-5.5/xhigh agents, compact evidence and fresh verification where risk requires it.
 license: Apache-2.0
 compatibility: Codex-compatible coding agents with project-scoped subagents.
 metadata:
@@ -10,7 +10,7 @@ metadata:
 
 # Stage Launch Proof Loop
 
-Use this skill when FinLit work is a stage or a non-trivial stage execution unit, not a tiny one-file edit.
+Use this skill when FinLit work is a stage or a non-trivial stage execution unit. Tiny Tier C edits can use code-first workflow with compact proof and focused tests.
 
 This skill is self-contained: it includes stage-level orchestration and task-level proof loop rules. It does not require any external task-loop skill.
 
@@ -33,7 +33,17 @@ For parent and custom subagents:
 - `model_reasoning_effort = "xhigh"`;
 - `approval_policy = "on-request"` in Codex config/profiles.
 
-Do not optimize by dropping proof. Optimize for correctness, durable handoff and read-gating: use `references/READ_MATRIX.md` to read the target stage/task, current evidence index and exact raw refs needed for the current proof question.
+Do not optimize by hiding risk. Optimize by classifying the slice, keeping proof proportional and using read-gating: use `references/READ_MATRIX.md` to read the target stage/task, current evidence index and exact raw refs needed for the current proof question.
+
+## Risk tiers
+
+Classify the slice before freezing scope:
+
+- Tier C — code-first low-risk: small UI/copy/test/refactor/component behavior without API, schema, security/privacy, legal/financial, content/CMS publish, points/rewards, destructive admin or access-control impact. Use current-session build, focused tests, compact final proof, no default subagents and no canonical doc update unless a real doc owner changed.
+- Tier B — integration: Web/API/client or endpoint work without regulated boundary changes. Use compact sprint/proof/verdict artifacts, focused integration checks and fresh verifier or explicit compact independent verification.
+- Tier A — regulated/high-risk: schema, auth/session/access, diagnostics scoring, HR/privacy/reporting, legal/financial wording, content/CMS publish approval, points/rewards/redemption, real data, destructive admin or production operations. Use the full proof loop.
+
+Escalate immediately to Tier A when changed files, test findings or implementation decisions touch a Tier A surface.
 
 ## Supported commands
 
@@ -83,8 +93,15 @@ Each stage lives under:
   audits/
 ```
 
-These files are the source of truth for cross-session handoff. Session-local todo UI is not authoritative.
-Latest aliases (`evidence.json`, `evidence.md`, `verdict.json`, `problems.md`) describe the current/latest sprint. Historical proof refs should use immutable per-contract files under `evidence/`, `verdicts/` and `problems/` when available.
+Tier A may use the full directory. Tier B/C should prefer compact current-state artifacts:
+
+```text
+.agent/stages/<stage_id>/status.json
+.agent/stages/<stage_id>/proof/<SPRINT_ID>.json
+.agent/stages/<stage_id>/verdict/<SPRINT_ID>.json
+```
+
+Legacy latest aliases (`evidence.json`, `evidence.md`, `verdict.json`, `problems.md`) describe the current/latest sprint when present. Historical proof refs should use immutable per-contract files under `evidence/`, `verdicts/` and `problems/` when available. Session-local todo UI is not authoritative.
 
 ## Compact proof policy
 
@@ -96,6 +113,9 @@ The proof loop must stay durable without flooding commits:
 - record command names, exit status, short outcome, and exact local raw path in tracked evidence, not full stdout/stderr;
 - track only curated UI screenshots when they are needed for review or PR handoff; repeated loading/error/success captures stay in ignored `raw/`;
 - update latest aliases once per meaningful phase boundary, not after every command rerun.
+- for Tier C, prefer no tracked `.agent` files unless the task needs cross-session state;
+- for Tier B, prefer one compact proof JSON plus one verifier summary;
+- for Tier C/B, treat `.agent` additions above product/test additions as a warning and run `node scripts/check-code-first-slice.mjs` before publish.
 
 If an auditor needs a raw transcript in Git, add only that exact file with a written reason in `evidence.md` or `problems.md`.
 
@@ -120,13 +140,13 @@ For content, CMS, lesson adaptation, import/export, diagnostic/reporting or word
 
 ### 2. Freeze scope before implementation
 
-If stage spec, backlog or sprint contract is missing/stale/ambiguous:
+If Tier A stage spec, backlog or sprint contract is missing/stale/ambiguous:
 
 - optionally use up to 3 read-only explorers;
 - use exactly 1 spec freezer;
 - update `stage_spec.md`, `backlog.md`, `feature_list.json`, `sprint_contract.md`, task files as needed.
 
-Spec freezer reduces ambiguity. It must not expand stage scope.
+Spec freezer reduces ambiguity. It must not expand stage scope. For Tier B/C, skip spec freezer when the task is already clear and code-first execution is safer than planning churn.
 
 For FinLit MVP, `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md` is the current product-intent baseline. Spec freezer must reconcile it with `docs/stages/MVP.md` before selecting or writing a sprint contract. Binary files under product `references/` are supporting artifacts only until normalized into markdown.
 
@@ -134,12 +154,12 @@ For content, learning methodology, diagnostic, CMS, support or reporting slices,
 
 ### 3. Build one sprint contract at a time
 
-After scope is frozen:
+After scope is frozen or the Tier C task is clear:
 
 - use exactly 1 builder as integration owner;
 - optionally use domain workers only when ownership is explicit and disjoint;
 - builder owns evidence bundle;
-- builder updates canonical docs if behavior, architecture, workflow or API contract changed.
+- builder updates canonical docs only if public API, schema, security/privacy boundary, legal/financial/product policy, stage scope, setup/developer workflow or reusable operating contract changed.
 
 Backend slices must respect Spring Boot + Java + Maven + PostgreSQL baseline.
 
@@ -152,32 +172,32 @@ After implementation:
 - gather commands run;
 - store full raw outputs under ignored `raw/` and summarize them in tracked evidence;
 - record screenshots for UI/user-visible behavior;
-- update `evidence.md` and `evidence.json`;
+- update compact proof artifacts only when needed by tier; for Tier C a final command list in chat/PR body can be sufficient;
 - map acceptance criteria to evidence;
 - list docs updated and human gates.
 
 Never mark a criterion as passing based on code inspection alone.
 
-### 5. Documentation sync is mandatory
+### 5. Documentation sync is targeted
 
 Before verification:
 
-- update canonical docs that own changed decisions;
+- update canonical docs only when the slice changes public API, schema, security/privacy boundary, legal/financial/product policy, stage scope, setup/developer workflow or reusable operating contract;
 - add/refresh Mermaid diagrams for non-trivial flows/states/interactions;
 - keep stage artifacts as proof and handoff, not canonical docs replacement.
 
-Material documentation drift is a proof gap.
+Material documentation drift is a proof gap. Pure implementation details and behavior already covered by canonical docs belong in PR/proof notes.
 
 ### 6. Fresh verification is mandatory
 
-For each verification pass:
+For each Tier A or stage-close verification pass:
 
 - use exactly 1 fresh verifier;
 - verifier may write only verification artifacts;
 - verifier writes `verdict.json` and `problems.md` if not PASS;
 - verifier treats missing evidence, stale docs, API/schema drift and unresolved human gates as proof gaps.
 
-Fresh means a new verifier session, not a resumed implementation context.
+Fresh means a new verifier session, not a resumed implementation context. Tier B may use a fresh verifier or explicit compact independent verification; Tier C may use focused tests plus compact proof unless risk escalates.
 
 ### 7. Fix minimally, then verify again
 
@@ -194,19 +214,19 @@ Repeat until PASS, WAITING_HUMAN, BLOCKED or honest partial state.
 
 At the end of each session:
 
-- update `progress.md`, `decisions.md`, `risks.md`, `status.json`;
+- update `progress.md`, `decisions.md`, `risks.md`, `status.json` only when the tier and handoff need them; otherwise keep proof in compact current-state artifacts or PR notes;
 - update only truly proven `passes=true` entries in `feature_list.json`;
 - leave docs consistent;
 - leave repo in a clean mergeable state or record exact blocker.
 
 ### 9. Publish and hand off after PASS when requested
 
-If the active prompt, sprint contract or `publish_manifest.json` sets `publish_after_pass=true`, run post-PASS publish after the fresh verifier returns `PASS` by invoking the repo-local `$push-main` skill.
+If the active prompt, sprint contract or `publish_manifest.json` explicitly sets `publish_after_pass=true`, run post-PASS publish after the fresh verifier returns `PASS` by invoking the repo-local `$push-main` skill. Do not set publish/merge automatically for every micro-slice.
 
 Preconditions:
 
-- evidence, docs and stage status are current;
-- `publish_manifest.json` summarizes the intended branch, PR title/body, validation and proof refs;
+- evidence, docs when required and stage status/current proof are current;
+- `publish_manifest.json` or the PR body summarizes the intended branch, PR title/body, validation and proof refs;
 - only current-slice files are staged/committed;
 - human-gated work is represented honestly;
 - `git diff --check` passes for the publish scope, excluding raw evidence paths if needed.
@@ -217,7 +237,7 @@ Responsibility split:
 - `$push-main` owns publish-only git/GitHub mechanics: separate branch, commit, PR into `main`, merge when allowed, local switch to `main`, `git pull --ff-only`;
 - if `$push-main` reports permissions, checks, conflicts or branch protection blocker, record/report that exact blocker and do not bypass protection rules.
 
-The final chat response must include a copyable continuation prompt for the next run. It must tell the next `stage_orchestrator` to continue from updated `main`, select the next highest-impact verified slice, use bounded leaf subagents, preserve the proof loop, repeat post-PASS publish when requested and print the next continuation prompt.
+The final chat response includes a copyable continuation prompt only when publish/stage handoff requested it. It must tell the next `stage_orchestrator` to continue from updated `main`, select the next highest-impact verified slice, use bounded leaf subagents only as needed, preserve the tiered proof loop, repeat post-PASS publish when requested and print the next continuation prompt.
 
 ## Hard rules
 

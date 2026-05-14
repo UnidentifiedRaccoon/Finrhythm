@@ -11,13 +11,14 @@
 
 Агент обязан обновить документацию в том же logical slice, если он:
 
-- изменил user behavior, business rule, product contract or operating flow;
+- изменил public API, schema, security/privacy boundary, legal/financial/product policy, stage scope, setup/developer workflow or reusable operating contract;
+- изменил user-visible behavior that is not already covered by canonical docs and changes product expectations;
 - уточнил неоднозначность и фактически принял новое решение по architecture, integration, status model, workflow or data;
-- изменил API contract, setup/runtime expectations or developer workflow;
 - добавил важный module, boundary, integration path or proof policy;
 - обнаружил contradiction между текущей документацией и реализованным решением.
 
 Молчаливый documentation drift считается workflow defect.
+Pure implementation details, already-covered behavior tweaks and Tier C UI/test/refactor changes belong in PR body or compact proof notes, not canonical docs.
 
 ## Куда писать canonical changes
 
@@ -47,13 +48,15 @@ Rules:
 
 ## Что должно попадать в evidence
 
-Every non-trivial slice must record:
+Every non-trivial Tier A/B slice must record:
 
 - canonical docs updated;
 - decisions made or clarified;
 - Mermaid diagram refs added/refreshed;
 - explicit note when docs did not need changes;
 - any deferred doc debt with exact reason.
+
+For Tier C, the final report or PR body can be the proof location for "docs not changed: no canonical owner affected".
 
 ## Диаграммы
 

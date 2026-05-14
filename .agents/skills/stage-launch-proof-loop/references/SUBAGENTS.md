@@ -9,12 +9,21 @@ All custom agents in this workflow use:
 
 Keep the tree shallow. Parent orchestrates. Child agents are leaf roles.
 
+Default lite profile requires only:
+
+- `stage_orchestrator`;
+- `stage_builder`;
+- `stage_verifier`;
+- `stage_fixer`.
+
+`task_explorer`, `stage_spec_freezer` and domain workers are opt-in. Use them only when the slice risk, ambiguity or file ownership makes the extra context worthwhile.
+
 ## `stage_orchestrator`
 
 Purpose: parent controller for one stage run.
 
 Must maintain `.agent/stages/<stage_id>/`, choose next slice, enforce proof loop, and never self-certify.
-After fresh verifier `PASS`, invokes `$push-main` and owns continuation handoff when the prompt, sprint contract or `publish_manifest.json` requests post-PASS publish.
+After fresh verifier `PASS`, invokes `$push-main` and owns continuation handoff only when the prompt, sprint contract or `publish_manifest.json` explicitly requests post-PASS publish.
 
 ## `task_explorer`
 
@@ -33,7 +42,7 @@ Must return findings with exact paths and proof checks.
 
 Purpose: freeze next slice into testable contract.
 
-Owns `stage_spec.md`, `backlog.md`, `feature_list.json`, `sprint_contract.md`, task files.
+Owns `stage_spec.md`, `backlog.md`, `feature_list.json`, `sprint_contract.md`, task files when Tier A or ambiguous Tier B scope requires formal freeze.
 
 Must preserve scope, non-goals, human gates and doc targets.
 
@@ -41,7 +50,7 @@ Must preserve scope, non-goals, human gates and doc targets.
 
 Purpose: integration owner for implementation.
 
-Owns implementation coherence and `evidence.*`. Must sync docs and record real commands/tests.
+Owns implementation coherence and proportionate evidence. Must sync docs only when public API, schema, security/privacy boundary, legal/financial/product policy, stage scope, setup/developer workflow or reusable operating contract changed, and must record real commands/tests.
 If post-PASS publish is in scope, prepares compact `publish_manifest.json` proof refs and PR summary inputs; it does not merge or verify.
 
 ## Domain workers
@@ -57,7 +66,7 @@ Workers do not own final evidence or verdict.
 
 Purpose: fresh proof check.
 
-Owns `verdict.json` and `problems.md`. May write only verification artifacts. Treats docs drift and missing evidence as proof gaps.
+Owns `verdict.json` and `problems.md` for Tier A/stage-close verification. May write only verification artifacts. Treats material docs drift and missing required evidence as proof gaps.
 
 ## `stage_fixer`
 

@@ -24,6 +24,12 @@ For MVP/stage execution:
 codex --profile mvp-autonomy
 ```
 
+For code-first low-risk slices:
+
+```bash
+codex --profile code-fast
+```
+
 For audit without production writes:
 
 ```bash
@@ -36,6 +42,7 @@ Expected runtime settings:
 - `model_reasoning_effort = "xhigh"`;
 - `approval_policy = "on-request"`;
 - shallow subagents with max depth 1.
+- all profiles and custom agents keep `gpt-5.5` + `xhigh`; `code-fast` changes workflow expectations, not reasoning level.
 - project config does not pin `service_tier`; unsupported fixed tiers must not block subagent startup.
 
 ## 4. Self-check
@@ -59,7 +66,7 @@ For v1: `prompts/run-v1.prompt.md`
 For v2: `prompts/run-v2.prompt.md`
 
 The prompt invokes `$stage-launch-proof-loop`; no external task-loop skill is required.
-Current run prompts also request post-PASS publish: after a fresh verifier `PASS`, the agent updates `publish_manifest.json`, invokes repo-local `$push-main` for branch/commit/PR/merge/local-main update, and prints the next copyable continuation prompt.
+Current run prompts classify Tier A/B/C first. Post-PASS publish is opt-in: only when the user, prompt or sprint contract explicitly sets `publish_after_pass=true`, the agent prepares compact publish proof, invokes repo-local `$push-main` for branch/commit/PR/merge/local-main update, and prints the next copyable continuation prompt when requested.
 
 ## 6. Что проверять после настройки
 
@@ -77,6 +84,10 @@ Root wrappers:
 
 ```bash
 make install
+make proof-lite
+make verify-web
+make verify-api
+make verify-full
 make verify
 make test-unit
 make test-e2e

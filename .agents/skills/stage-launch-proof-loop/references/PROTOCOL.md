@@ -10,7 +10,17 @@ This protocol combines:
 - explicit proof before completion;
 - a single integration owner;
 - fresh verifier on every verification pass;
-- mandatory documentation sync.
+- targeted documentation sync.
+
+## Risk tiers
+
+Classify before workflow selection:
+
+- Tier C: code-first low-risk UI/copy/test/refactor/component behavior with no API/schema/security/privacy/legal/financial/content-publish/reward/admin-sensitive/access-control impact. Use focused tests and compact proof.
+- Tier B: integration work across web/API/client or an endpoint without regulated boundary changes. Use compact proof and independent/fresh verification proportional to risk.
+- Tier A: schema, auth/session/access, diagnostics scoring, HR/privacy/reporting, legal/financial wording, content/CMS publish, points/rewards/redemption, real data, destructive admin or production operations. Use full proof loop.
+
+Escalate to Tier A as soon as implementation touches a Tier A surface.
 
 ## Session start protocol
 
@@ -56,9 +66,9 @@ Not allowed:
 
 Before spec freeze: up to 3 read-only explorers for disjoint questions.
 
-After spec freeze: exactly 1 builder as integration owner. Domain workers may be used only when ownership is explicit and non-overlapping.
+After spec freeze: exactly 1 builder as integration owner. Domain workers may be used only when ownership is explicit and non-overlapping. Tier C should usually use no child agents; Tier B should use only the smallest useful subset.
 
-Verification: exactly 1 fresh verifier per pass.
+Verification: exactly 1 fresh verifier per Tier A/stage-close pass. Tier B may use a fresh verifier or compact independent verification. Tier C uses focused tests plus compact proof unless risk escalates.
 
 Fix: exactly 1 fixer per failure cycle.
 
@@ -82,11 +92,13 @@ For `content/`, CMS and lesson adaptation work, load and follow `profiles/CONTEN
 A slice is complete only if:
 
 1. acceptance criteria are proven;
-2. latest `verdict.json` is PASS or status is honestly blocked/human-pending;
+2. Tier A/stage-close latest `verdict.json` is PASS, or Tier B/C compact proof is present, or status is honestly blocked/human-pending;
 3. evidence bundle is current;
-4. canonical docs are synchronized;
+4. canonical docs are synchronized when the slice changed public API, schema, security/privacy boundary, legal/financial/product policy, stage scope, setup/developer workflow or reusable operating contract;
 5. human gates are explicitly represented;
 6. repo is mergeable or exact blocker is recorded.
+
+For Tier C/B, `verdict.json` and stage evidence files can be replaced by compact PR/final-report proof when no cross-session stage handoff is needed.
 
 Before publishing, check the proof diff for churn. If a slice adds many raw logs or duplicate screenshots, replace them with compact tracked summaries and leave full raw files ignored locally unless an auditor explicitly asked for those exact artifacts.
 
@@ -98,7 +110,7 @@ Required preconditions:
 
 1. evidence bundle, immutable proof refs and latest aliases point to the verified sprint contract;
 2. canonical docs are synchronized or exact deferred gaps are recorded;
-3. `progress.md`, `status.json` and `publish_manifest.json` are current;
+3. `status.json`/current proof and publish inputs are current; `progress.md` and `publish_manifest.json` are required only when the tier/handoff needs them;
 4. human gates are represented honestly;
 5. worktree scope contains only the completed slice or an exact blocker is recorded;
 6. `git diff --check` passes for the publish scope, excluding `.agent/stages/**/raw/**` and `.agent/tasks/**/raw/**` when needed.
@@ -113,7 +125,7 @@ Responsibility split:
 Final response requirements:
 
 - report PR URL, merge status, local `main` HEAD and skipped/blocked steps;
-- print a copyable continuation prompt directly in chat;
+- print a copyable continuation prompt directly in chat only when publish/stage handoff requested it;
 - the prompt must tell the next run to continue from updated `main`, use `stage_orchestrator` with bounded leaf subagents, pick the next highest-impact verified slice, run `spec freeze -> build -> evidence -> fresh verify -> minimal fix -> fresh verify`, update docs/evidence, repeat post-PASS publish when requested and print the next continuation prompt.
 
 ## Scope guardrails
