@@ -1,0 +1,247 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-07-n1-readonly-resume-continuation-001",
+  "updated_at": "2026-05-14",
+  "status": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC",
+  "verification_status": "PASS",
+  "functional_passes": true,
+  "builder_checks_pass": true,
+  "publish_after_pass": true,
+  "first_touch": {
+    "status": "SATISFIED",
+    "path": "apps/web/components/diagnostic-api-flow-screen.ts",
+    "note": "First meaningful builder write was in apps/web production code before docs, backend, OpenAPI, generated client or evidence writes."
+  },
+  "changed_files": {
+    "production": [
+      "apps/web/components/diagnostic-api-flow-screen.ts"
+    ],
+    "tests": [
+      "apps/web/tests/learning-shell.test.mjs",
+      "apps/web/tests/browser-smoke.mjs"
+    ],
+    "docs": [
+      "docs/architecture/access-and-subscriptions.md"
+    ],
+    "stage_artifacts": [
+      ".agent/stages/mvp/evidence/MVP-07-n1-readonly-resume-continuation-001.md",
+      ".agent/stages/mvp/evidence/MVP-07-n1-readonly-resume-continuation-001.json",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/evidence.json",
+      ".agent/stages/mvp/progress.md",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/feature_list.json",
+      ".agent/stages/mvp/publish_manifest.json"
+    ]
+  },
+  "implementation_summary": [
+    "On already-submitted diagnostic reload, RESUME_N1 route-progress now fetches backend-owned N1 detail through generated fetchLearningMeLessonDetail and renders continuation without startLearningMeLesson.",
+    "START_N1 first-start path remains a user-click mutation through generated startLearningMeLesson, followed by route-progress refresh and lesson detail fetch.",
+    "Profile-session token remains in mounted component memory and generated helper params only; no URL/query/hash/localStorage/sessionStorage/cookies/IndexedDB/log transport was added."
+  ],
+  "generated_helpers": [
+    "fetchLearningMeRouteProgress",
+    "fetchLearningMeLessonDetail",
+    "startLearningMeLesson"
+  ],
+  "browser_proof": {
+    "summary_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-browser-smoke.json",
+    "screenshot_count": 36,
+    "resume_screenshot": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-mobile-profile-session-diagnostic-n1-readonly-resume.png",
+    "start_path_screenshot": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-mobile-start-to-profile-session-diagnostic-n1-progress.png",
+    "readonly_resume_request_events": [
+      "profile-session:request",
+      "profile-session:response:200",
+      "legal-acceptance:request",
+      "legal-acceptance:response:200",
+      "diagnostic-draft:get:request",
+      "diagnostic-draft:get:response:200",
+      "route-progress:request:1",
+      "route-progress:response:200:1",
+      "lesson-detail:request",
+      "lesson-detail:response:200"
+    ],
+    "readonly_resume_absent_events": [
+      "diagnostic-submit:request",
+      "learning-start:request"
+    ]
+  },
+  "commands": [
+    {
+      "command": "pnpm --filter @finrhythm/web test",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/web-test-1.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/web typecheck",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/web-typecheck-1.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/web build",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/web-build-1.txt"
+    },
+    {
+      "command": "cd apps/api && ./mvnw -q -Dtest=LearningProgressControllerIT test",
+      "status": "blocked_retried",
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/backend-learning-progress-focused-test-1.txt",
+      "note": "Direct macOS Java stub reported no runtime and hung; command was stopped and retried with explicit Java 21 environment."
+    },
+    {
+      "command": "JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=$JAVA_HOME/bin:$PATH cd apps/api && ./mvnw -q -Dtest=LearningProgressControllerIT test",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/backend-learning-progress-focused-test-2-java21.txt"
+    },
+    {
+      "command": "JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=$JAVA_HOME/bin:$PATH cd apps/api && ./mvnw -q verify",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/backend-mvn-verify-1.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/api-client check:generated",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/api-client-check-generated-1.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/api-client check:openapi-drift",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/api-client-check-openapi-drift-1.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/api-client typecheck",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/api-client-typecheck-1.txt"
+    },
+    {
+      "command": "pnpm --filter @finrhythm/api-client build",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/api-client-build-1.txt"
+    },
+    {
+      "command": "CHROMIUM_EXECUTABLE_PATH=/Applications/Google Chrome.app/Contents/MacOS/Google Chrome WEB_SMOKE_BASE_URL=http://127.0.0.1:3400 WEB_SMOKE_OUTPUT_DIR=/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/browser-smoke WEB_SMOKE_SCREENSHOT_PREFIX=MVP-07-n1-readonly-resume-continuation-001 pnpm --filter @finrhythm/web smoke:browser",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/web-browser-smoke-4-absolute-output.txt"
+    },
+    {
+      "command": "make verify",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/make-verify-1.txt"
+    },
+    {
+      "command": "make test-unit",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/make-test-unit-1.txt"
+    },
+    {
+      "command": "make build",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/make-build-1.txt"
+    },
+    {
+      "command": "guardrail scans",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/guardrail-scans-2.txt"
+    },
+    {
+      "command": "jq empty for changed JSON artifacts",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/jq-empty-2.txt"
+    },
+    {
+      "command": "git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'",
+      "status": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/git-diff-check-3.txt",
+      "note": "git-diff-check-1 caught trailing whitespace in evidence markdown; fixed and final rerun passed."
+    }
+  ],
+  "docs": {
+    "updated": [
+      "docs/architecture/access-and-subscriptions.md"
+    ],
+    "noop": [
+      "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md",
+      "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md",
+      "docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md",
+      "docs/product/b2b-mvp/lemanapro/design-system-v0.1.md",
+      "packages/api-client/README.md"
+    ],
+    "diagram": "Stage evidence Mermaid plus docs/architecture/access-and-subscriptions.md section 7.4 flow/state update."
+  },
+  "guardrails": {
+    "no_backend_production_code_changes": true,
+    "no_flyway_migration_changes": true,
+    "no_openapi_or_generated_client_source_changes": true,
+    "no_handwritten_lesson_detail_fetch_or_dto": true,
+    "no_start_mutation_on_readonly_resume": true,
+    "start_n1_path_preserved": true,
+    "token_memory_only": true,
+    "no_n2_plus_scope": true,
+    "no_completion_theory_quiz_practice_points_rewards": true,
+    "no_scoring_r1_r6_hr_reports_analytics_events": true,
+    "no_exact_sensitive_data_advice_customer_brand_or_real_data": true
+  },
+  "backend_baseline": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc remain baseline. No backend/API/schema changes were introduced.",
+  "human_gates_open": [
+    "Final N1 financial correctness and wording review",
+    "Final Q0/SA/Q diagnostic wording review",
+    "Scoring correctness and route-rule correctness",
+    "HR/privacy wording and reporting-boundary approval",
+    "Legal/privacy boundaries and real employee/customer data processing approval",
+    "Production content approval and methodologist publish approval",
+    "Points/reward economy and real fulfillment decisions",
+    "Admin/support production access policy for sensitive diagnostic/learning data",
+    "Design/accessibility QA on real mobile screens"
+  ],
+  "out_of_scope_still_open": [
+    "Full MVP-06",
+    "Full MVP-07",
+    "Full MVP stage closure",
+    "Lesson completion, theory completion, quiz/practice submission",
+    "Points, rewards, wallet, merch and fulfillment",
+    "Final scoring, final route assignment, Q1-Q27, Q28 and R1-R6",
+    "HR reports and analytics/events",
+    "Exact sensitive data, advice and real data",
+    "User, OrgMembership, subscriptions, seats, entitlements, SSO/SCIM and billing"
+  ],
+  "known_limitations": [
+    "Fresh verifier has not run yet; this is not PASS.",
+    "Direct Maven wrapper without JAVA_HOME hit local macOS Java stub; Java 21 retry passed.",
+    "Default Playwright Chromium cache was missing; local Google Chrome fallback passed browser smoke.",
+    "Post-PASS publish remains blocked until fresh verifier PASS."
+  ],
+  "latest_verified_sprint_preserved": "MVP-07-n1-lesson-detail-continuation-001",
+  "expected_fresh_verifier_refs": {
+    "verdict": ".agent/stages/mvp/verdicts/MVP-07-n1-readonly-resume-continuation-001.json",
+    "problems": ".agent/stages/mvp/problems/MVP-07-n1-readonly-resume-continuation-001.md"
+  },
+  "latest_verified_sprint_contract_id": "MVP-07-n1-readonly-resume-continuation-001",
+  "fresh_verifier_required": false,
+  "fresh_verifier_pass": true,
+  "fresh_verifier_verdict": ".agent/stages/mvp/verdicts/MVP-07-n1-readonly-resume-continuation-001.json",
+  "fresh_verifier_problems": ".agent/stages/mvp/problems/MVP-07-n1-readonly-resume-continuation-001.md",
+  "fresh_verifier_raw_dir": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh",
+  "next_required": "post-PASS publish through $push-main",
+  "browser": {
+    "verifier_summary_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-verifier-browser-smoke.json",
+    "verifier_readonly_resume_screenshot": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-verifier-mobile-profile-session-diagnostic-n1-readonly-resume.png"
+  },
+  "verifier_raw_refs": [
+    ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/web-test.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/web-typecheck.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/web-build.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/backend-learning-progress-controller-it.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/backend-mvn-verify.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/api-client-check-generated.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/api-client-check-openapi-drift.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/api-client-typecheck.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/api-client-build.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/web-browser-smoke-existing-3404.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/make-verify.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/make-test-unit.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/make-build.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/jq-empty.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/git-diff-check.txt",
+    ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/guardrail-scans.txt"
+  ]
+}

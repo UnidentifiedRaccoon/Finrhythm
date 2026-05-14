@@ -2,6 +2,20 @@
 
 Updated: 2026-05-14
 
+## Current session: MVP-07-n1-readonly-resume-continuation-001 PASS sync
+
+- Built the frozen web-first read-only N1 resume continuation slice after first meaningful builder write in `apps/web/components/diagnostic-api-flow-screen.ts`.
+- Mounted `/profile/session` now handles an already-submitted diagnostic with generated route-progress `N1 STARTED` / `RESUME_N1` by reading existing route-progress, fetching generated `fetchLearningMeLessonDetail` and rendering backend-owned N1 continuation without generated `startLearningMeLesson` or `POST /api/v1/learning/me/lessons/N1/start`.
+- Preserved the first-start path: `START_N1` user click still calls generated `startLearningMeLesson`, refreshes route-progress and then fetches N1 detail.
+- Added focused web test coverage for deriving read-only N1 continuation from `RESUME_N1` route-progress, and browser smoke coverage for profile-session creation -> legal acceptance -> already-submitted diagnostic draft -> `GET route-progress` -> `GET lesson detail` with no diagnostic submit and no learning-start request.
+- Browser smoke passed with 36 screenshots using local Google Chrome fallback; key read-only resume refs are `.agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-browser-smoke.json` and `.agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-mobile-profile-session-diagnostic-n1-readonly-resume.png`.
+- Canonical docs updated narrowly in `docs/architecture/access-and-subscriptions.md` section 7.4 because it previously implied N1 detail render always followed `POST /start`; product docs and `packages/api-client/README.md` are `NOOP`.
+- Checks passed: web typecheck/test/build, focused backend `LearningProgressControllerIT` with explicit Java 21 env, `apps/api ./mvnw -q verify`, api-client generated/OpenAPI drift/typecheck/build, browser smoke, `make verify`, `make test-unit`, `make build` and guardrail scans.
+- Direct backend Maven attempt without `JAVA_HOME` hit the macOS `/usr/bin/java` stub and was retried with `/opt/homebrew/opt/openjdk@21`; default Playwright Chromium cache was missing and browser smoke used `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`.
+- Fresh verifier returned `PASS`; refs are `.agent/stages/mvp/verdicts/MVP-07-n1-readonly-resume-continuation-001.json`, `.agent/stages/mvp/problems/MVP-07-n1-readonly-resume-continuation-001.md` and `.agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/`.
+- Parent evidence/verdict/problems/status aliases now point to `MVP-07-n1-readonly-resume-continuation-001`.
+- Full MVP-06, full MVP-07, MVP stage and all human gates remain open; post-PASS publish is now required because `publish_after_pass=true`.
+
 ## Current session: MVP-07-n1-lesson-detail-continuation-001 PASS sync
 
 - Fresh `stage_verifier` returned scoped `PASS` for `MVP-07-n1-lesson-detail-continuation-001`.

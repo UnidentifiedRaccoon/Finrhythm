@@ -58,6 +58,7 @@ export type DiagnosticN1LessonProgress = {
   startedAt: string;
   lastOpenedAt: string;
   idempotentResume: boolean;
+  readOnlyResume?: boolean;
 };
 
 export type DiagnosticN1LessonDetail = LearningLessonDetailResponse & {
@@ -251,6 +252,31 @@ export function DiagnosticApiFlowScreen({
             setNotice(buildDiagnosticFailureNotice("API не вернул безопасную сводку маршрута. Откройте экран позже."));
             return;
           }
+          if (safeRouteProgress.nextAction === "RESUME_N1") {
+            const safeProgress = buildReadOnlyN1LessonProgressFromRouteProgress(safeRouteProgress);
+            const safeDetail = safeProgress
+              ? await loadSafeN1LessonDetail(profileSessionToken, safeTransferResult.recommendedFirstLessonId)
+              : null;
+            if (cancelled) {
+              return;
+            }
+            if (!safeProgress || !safeDetail) {
+              setPhase("error");
+              setNotice(
+                buildDiagnosticFailureNotice(
+                  "Не удалось открыть уже начатый N1 через текущий прогресс. Попробуйте обновить шаг позже."
+                )
+              );
+              return;
+            }
+
+            setSafeTransfer(safeTransferResult);
+            setRouteProgress(safeRouteProgress);
+            setLessonProgress(safeProgress);
+            setLessonDetail(safeDetail);
+            setPhase("submitted");
+            return;
+          }
 
           setSafeTransfer(safeTransferResult);
           setRouteProgress(safeRouteProgress);
@@ -393,24 +419,28 @@ export function DiagnosticApiFlowScreen({
     setLessonStartNotice(null);
 
     try {
-      const response = await startLearningMeLesson(getBrowserApiBaseUrl(), {
-        profileSessionToken,
-        lessonId: safeTransfer.recommendedFirstLessonId
-      });
-      const safeProgress = buildSafeN1LessonProgress(response);
-      if (!safeProgress) {
-        throw new Error("Неподдержанный ответ прогресса N1.");
+      let safeProgress: DiagnosticN1LessonProgress | null = null;
+      let safeRouteProgress: DiagnosticRouteProgressSummary | null = routeProgress;
+
+      if (routeProgress?.nextAction === "RESUME_N1") {
+        safeProgress = buildReadOnlyN1LessonProgressFromRouteProgress(routeProgress);
+      } else {
+        const response = await startLearningMeLesson(getBrowserApiBaseUrl(), {
+          profileSessionToken,
+          lessonId: safeTransfer.recommendedFirstLessonId
+        });
+        safeProgress = buildSafeN1LessonProgress(response);
+        if (!safeProgress) {
+          throw new Error("Неподдержанный ответ прогресса N1.");
+        }
+        safeRouteProgress = await loadSafeRouteProgress(profileSessionToken);
+        if (!safeRouteProgress || safeRouteProgress.n1.status !== "STARTED") {
+          throw new Error("Неподдержанная обновлённая сводка маршрута.");
+        }
       }
-      const safeRouteProgress = await loadSafeRouteProgress(profileSessionToken);
-      if (!safeRouteProgress || safeRouteProgress.n1.status !== "STARTED") {
-        throw new Error("Неподдержанная обновлённая сводка маршрута.");
-      }
-      const detailResponse = await fetchLearningMeLessonDetail(getBrowserApiBaseUrl(), {
-        profileSessionToken,
-        lessonId: safeTransfer.recommendedFirstLessonId
-      });
-      const safeDetail = buildSafeN1LessonDetail(detailResponse);
-      if (!safeDetail) {
+
+      const safeDetail = await loadSafeN1LessonDetail(profileSessionToken, safeTransfer.recommendedFirstLessonId);
+      if (!safeProgress || !safeRouteProgress || !safeDetail) {
         throw new Error("Неподдержанный ответ урока N1.");
       }
 
@@ -557,6 +587,31 @@ export function buildSafeN1LessonProgress(response: LessonProgressResponse): Dia
   };
 }
 
+export function buildReadOnlyN1LessonProgressFromRouteProgress(
+  routeProgress: DiagnosticRouteProgressSummary
+): DiagnosticN1LessonProgress | null {
+  if (
+    routeProgress.diagnosticState !== "SUBMITTED" ||
+    routeProgress.routePreview !== true ||
+    routeProgress.recommendedFirstLessonId !== "N1" ||
+    routeProgress.nextAction !== "RESUME_N1" ||
+    routeProgress.n1.status !== "STARTED" ||
+    !routeProgress.n1.startedAt ||
+    !routeProgress.n1.lastOpenedAt
+  ) {
+    return null;
+  }
+
+  return {
+    lessonId: "N1",
+    status: "STARTED",
+    startedAt: routeProgress.n1.startedAt,
+    lastOpenedAt: routeProgress.n1.lastOpenedAt,
+    idempotentResume: true,
+    readOnlyResume: true
+  };
+}
+
 export function buildSafeN1LessonDetail(response: LearningLessonDetailResponse): DiagnosticN1LessonDetail | null {
   if (
     response.lessonId !== "N1" ||
@@ -686,7 +741,7 @@ function N1BackendLessonBlocks({ lessonDetail }: { lessonDetail: DiagnosticN1Les
     h(
       "p",
       null,
-      "Контент пришёл из API после старта N1. На этом шаге экран только показывает материал и не отправляет ответы."
+      "Контент пришёл из API после проверки прогресса N1. На этом шаге экран только показывает материал и не отправляет ответы."
     ),
     h(
       "div",
@@ -784,6 +839,17 @@ function backendLessonBlockLabel(blockType: string): string {
 async function loadSafeRouteProgress(profileSessionToken: string): Promise<DiagnosticRouteProgressSummary | null> {
   const response = await fetchLearningMeRouteProgress(getBrowserApiBaseUrl(), { profileSessionToken });
   return buildSafeRouteProgressSummary(response);
+}
+
+async function loadSafeN1LessonDetail(
+  profileSessionToken: string,
+  lessonId: "N1"
+): Promise<DiagnosticN1LessonDetail | null> {
+  const response = await fetchLearningMeLessonDetail(getBrowserApiBaseUrl(), {
+    profileSessionToken,
+    lessonId
+  });
+  return buildSafeN1LessonDetail(response);
 }
 
 function DiagnosticApiHero() {
@@ -1075,7 +1141,7 @@ function DiagnosticSubmittedHandoff({
     h(
       "p",
       null,
-        "API вернул только предварительный признак маршрута для первого урока. Перед открытием N1 мы отдельно запишем старт или возврат к уроку на сервере без передачи сессионного секрета через адрес."
+      "API вернул безопасную сводку маршрута для первого урока. Если N1 уже начат, откроем урок чтением текущего прогресса и детали без повторной записи старта."
     ),
     lessonStartNotice ? h(DiagnosticNoticePanel, { notice: lessonStartNotice }) : null,
     routeProgress ? h(RouteProgressSummaryPanel, { routeProgress }) : null,
@@ -1094,7 +1160,8 @@ function DiagnosticSubmittedHandoff({
       { className: "diagnostic-boundary-list" },
       h("li", null, "Итоговая оценка, уровень и полный маршрут не назначаются на этом шаге."),
       h("li", null, "Личные ответы не показываются в передаче к уроку."),
-      h("li", null, "Сервер фиксирует только старт или возврат к N1, без завершения, теста, практики, баллов или наград."),
+      h("li", null, "Сервер фиксирует старт только при первом открытии N1; уже начатый N1 читается без повторной записи старта."),
+      h("li", null, "Завершение, тест, практика, баллы и награды на этом шаге не фиксируются."),
       h("li", null, "Переход к N1 не является финансовым, налоговым, кредитным или инвестиционным советом.")
     ),
     h(
@@ -1151,11 +1218,17 @@ function N1ProgressBanner({
       "div",
       null,
       h("p", { className: "section-label" }, "Прогресс на сервере"),
-      h("h2", { id: "n1-progress-title" }, progress.idempotentResume ? "N1 продолжен" : "N1 начат"),
+      h(
+        "h2",
+        { id: "n1-progress-title" },
+        progress.readOnlyResume ? "N1 открыт из прогресса" : progress.idempotentResume ? "N1 продолжен" : "N1 начат"
+      ),
       h(
         "p",
         null,
-        "Записан только старт или возврат к уроку. Прохождение блоков, мини-тест, практика, баллы и награды на этом шаге не фиксируются."
+        progress.readOnlyResume
+          ? "Урок открыт через чтение сводки маршрута и детали N1. Повторная запись старта не отправлялась."
+          : "Записан только старт или возврат к уроку. Прохождение блоков, мини-тест, практика, баллы и награды на этом шаге не фиксируются."
       )
     ),
     routeProgress ? h(RouteProgressSummaryPanel, { routeProgress }) : null,
