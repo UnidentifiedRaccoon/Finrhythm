@@ -1,6 +1,6 @@
 # MVP risks
 
-Updated: 2026-05-13
+Updated: 2026-05-14
 
 | ID | Risk | Status | Mitigation |
 |----|------|--------|------------|
@@ -46,4 +46,6 @@ Updated: 2026-05-13
 | R-040 | Current shell cannot run Java-backed root verification for frontend-only N3 proof. | Active environment note | Builder and verifier recorded unqualified `java -version` blocker and did not run or claim Java-backed `make verify`; web typecheck/test/build and browser smoke are the scoped proof. |
 | R-041 | Draft privacy screen could be mistaken for legal consent acceptance or final legal approval. | Active until human legal review | `/onboarding/privacy` visibly states the text requires legal review and does not accept/log consent; full `MVP-03`, consent version logging and legal/privacy human gates remain open. |
 | R-042 | Diagnostic preview UI could be mistaken for production diagnostic scoring, route assignment or financial advice. | Mitigated for current slice; human gates ongoing | `/diagnostics` is recorded as preview-only and non-scoring, uses local component state only, and avoids final advice claims; Q/SA wording, scoring correctness, route decisions and financial correctness remain human-gated. |
-| R-043 | A UI-only diagnostic preview cannot prove saved diagnostic drafts, route persistence or learning progress. | Active for next slice | Next product slice should freeze backend diagnostic draft/progress persistence or learning progress foundation with schema/API/tests and fresh verification before any completion claim. |
+| R-043 | A UI-only diagnostic preview cannot prove saved diagnostic drafts, route persistence or learning progress. | Mitigated by current freeze; active for build | Backend diagnostic draft, N1 start/resume and now a frozen read-only route/progress summary slice address this incrementally, but each still needs scoped evidence and fresh verification before any completion claim. |
+| R-044 | A route/progress summary could be mistaken for final route assignment or lesson completion. | Mitigated for current slice; ongoing for future route work | Fresh verifier PASS accepted only safe diagnostic state, N1 routePreview readiness and `N1` `NOT_STARTED|STARTED` summary; final scoring, `R1-R6`, completion, quiz/practice, points and rewards remain out of scope. |
+| R-045 | A read endpoint could leak diagnostic answers, scope identifiers, token material or exact sensitive values. | Mitigated for current slice; ongoing for future read models | Fresh verifier PASS covered no request body, server-side scope resolution, no response scope IDs/answers/scores/token data, read-only no-persistence behavior, generated-client usage and source/browser guardrail scans. |

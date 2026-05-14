@@ -88,6 +88,10 @@ class LearningProgressControllerIT {
     @BeforeEach
     void configureSubjectRefs() {
         jdbcTemplate.update("delete from employee_lesson_progress");
+        jdbcTemplate.update("delete from diagnostic_attempt_routing_answers");
+        jdbcTemplate.update("delete from diagnostic_attempt_self_assessment_answers");
+        jdbcTemplate.update("delete from diagnostic_attempt_q0_metadata");
+        jdbcTemplate.update("delete from diagnostic_attempts");
 
         reset(subjectRefGenerator);
         given(subjectRefGenerator.generate()).willAnswer(invocation -> subjectRef(SUBJECT_SEQUENCE.getAndIncrement()));
@@ -155,6 +159,111 @@ class LearningProgressControllerIT {
         assertThat(countLessonProgress()).isEqualTo(2);
         assertThat(countLessonProgress(first.employeeRegistrationId())).isEqualTo(1);
         assertThat(countLessonProgress(second.employeeRegistrationId())).isEqualTo(1);
+    }
+
+    @Test
+    void routeProgressSummaryReturnsSafeDiagnosticAndN1StatesWithoutPersistence() throws Exception {
+        RegisteredEmployee employee = registeredEmployee("+70000002007");
+
+        routeProgress(employee.profileSessionToken())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.diagnosticState").value("NOT_STARTED"))
+                .andExpect(jsonPath("$.routePreview").value(false))
+                .andExpect(jsonPath("$.recommendedFirstLessonId").doesNotExist())
+                .andExpect(jsonPath("$.n1.status").value("NOT_STARTED"))
+                .andExpect(jsonPath("$.n1.startedAt").doesNotExist())
+                .andExpect(jsonPath("$.n1.lastOpenedAt").doesNotExist())
+                .andExpect(jsonPath("$.nextAction").value("COMPLETE_DIAGNOSTIC"))
+                .andExpect(jsonPath("$.employeeRegistrationId").doesNotExist())
+                .andExpect(jsonPath("$.tenantId").doesNotExist())
+                .andExpect(jsonPath("$.pilotLaunchId").doesNotExist())
+                .andExpect(jsonPath("$.accessPoolId").doesNotExist())
+                .andExpect(jsonPath("$.attemptId").doesNotExist());
+        assertThat(countDiagnosticAttempts()).isZero();
+        assertThat(countLessonProgress()).isZero();
+
+        saveCompleteDiagnosticDraft(employee.profileSessionToken())
+                .andExpect(status().isOk());
+
+        routeProgress(employee.profileSessionToken())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.diagnosticState").value("DRAFT"))
+                .andExpect(jsonPath("$.routePreview").value(false))
+                .andExpect(jsonPath("$.recommendedFirstLessonId").doesNotExist())
+                .andExpect(jsonPath("$.n1.status").value("NOT_STARTED"))
+                .andExpect(jsonPath("$.nextAction").value("COMPLETE_DIAGNOSTIC"));
+        assertThat(countDiagnosticAttempts()).isEqualTo(1);
+        assertThat(countLessonProgress()).isZero();
+
+        submitDiagnostic(employee.profileSessionToken())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.routePreview").value(true))
+                .andExpect(jsonPath("$.recommendedFirstLessonId").value("N1"));
+
+        routeProgress(employee.profileSessionToken())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.diagnosticState").value("SUBMITTED"))
+                .andExpect(jsonPath("$.routePreview").value(true))
+                .andExpect(jsonPath("$.recommendedFirstLessonId").value("N1"))
+                .andExpect(jsonPath("$.n1.status").value("NOT_STARTED"))
+                .andExpect(jsonPath("$.n1.startedAt").doesNotExist())
+                .andExpect(jsonPath("$.n1.lastOpenedAt").doesNotExist())
+                .andExpect(jsonPath("$.nextAction").value("START_N1"));
+        assertThat(countDiagnosticAttempts()).isEqualTo(1);
+        assertThat(countLessonProgress()).isZero();
+
+        JsonNode started = startLesson(employee.profileSessionToken(), "N1")
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("STARTED"))
+                .andReturnJson();
+        Map<String, Object> rowBeforeSummary = lessonProgressRow(employee.employeeRegistrationId(), "N1");
+
+        routeProgress(employee.profileSessionToken())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.diagnosticState").value("SUBMITTED"))
+                .andExpect(jsonPath("$.routePreview").value(true))
+                .andExpect(jsonPath("$.recommendedFirstLessonId").value("N1"))
+                .andExpect(jsonPath("$.n1.status").value("STARTED"))
+                .andExpect(jsonPath("$.n1.startedAt").value(started.get("startedAt").asText()))
+                .andExpect(jsonPath("$.n1.lastOpenedAt").value(started.get("lastOpenedAt").asText()))
+                .andExpect(jsonPath("$.nextAction").value("RESUME_N1"))
+                .andExpect(jsonPath("$.n1.lessonId").doesNotExist());
+
+        assertThat(countDiagnosticAttempts()).isEqualTo(1);
+        assertThat(countLessonProgress()).isEqualTo(1);
+        assertThat(lessonProgressRow(employee.employeeRegistrationId(), "N1"))
+                .containsAllEntriesOf(rowBeforeSummary);
+    }
+
+    @Test
+    void routeProgressSummaryIsIsolatedByRegistration() throws Exception {
+        RegisteredEmployee first = registeredEmployee("+70000002008");
+        RegisteredEmployee second = registeredEmployee("+70000002009");
+
+        saveCompleteDiagnosticDraft(first.profileSessionToken()).andExpect(status().isOk());
+        submitDiagnostic(first.profileSessionToken()).andExpect(status().isOk());
+        startLesson(first.profileSessionToken(), "N1").andExpect(status().isOk());
+
+        routeProgress(first.profileSessionToken())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.diagnosticState").value("SUBMITTED"))
+                .andExpect(jsonPath("$.routePreview").value(true))
+                .andExpect(jsonPath("$.recommendedFirstLessonId").value("N1"))
+                .andExpect(jsonPath("$.n1.status").value("STARTED"))
+                .andExpect(jsonPath("$.nextAction").value("RESUME_N1"));
+
+        routeProgress(second.profileSessionToken())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.diagnosticState").value("NOT_STARTED"))
+                .andExpect(jsonPath("$.routePreview").value(false))
+                .andExpect(jsonPath("$.recommendedFirstLessonId").doesNotExist())
+                .andExpect(jsonPath("$.n1.status").value("NOT_STARTED"))
+                .andExpect(jsonPath("$.nextAction").value("COMPLETE_DIAGNOSTIC"));
+
+        assertThat(countDiagnosticAttempts(first.employeeRegistrationId())).isEqualTo(1);
+        assertThat(countDiagnosticAttempts(second.employeeRegistrationId())).isZero();
+        assertThat(countLessonProgress(first.employeeRegistrationId())).isEqualTo(1);
+        assertThat(countLessonProgress(second.employeeRegistrationId())).isZero();
     }
 
     @Test
@@ -230,6 +339,66 @@ class LearningProgressControllerIT {
     }
 
     @Test
+    void routeProgressAuthenticationFailuresReturn401AndDoNotPersistDiagnosticOrLearningData() throws Exception {
+        routeProgressWithoutToken()
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("PROFILE_SESSION_AUTHENTICATION_REQUIRED"));
+
+        String malformedToken = "bad.profile.session.token";
+        String malformedResponse = routeProgress(malformedToken)
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("PROFILE_SESSION_AUTHENTICATION_REQUIRED"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        assertThat(malformedResponse).doesNotContain(malformedToken);
+
+        String unknownToken = "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD";
+        String unknownResponse = routeProgress(unknownToken)
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("PROFILE_SESSION_AUTHENTICATION_REQUIRED"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        assertThat(unknownResponse).doesNotContain(unknownToken);
+
+        RegisteredEmployee expiredEmployee = registeredEmployee("+70000002010");
+        saveCompleteDiagnosticDraft(expiredEmployee.profileSessionToken()).andExpect(status().isOk());
+        submitDiagnostic(expiredEmployee.profileSessionToken()).andExpect(status().isOk());
+        startLesson(expiredEmployee.profileSessionToken(), "N1").andExpect(status().isOk());
+        expireProfileSessions(expiredEmployee.employeeRegistrationId());
+        Map<String, Object> expiredProgressRow = lessonProgressRow(expiredEmployee.employeeRegistrationId(), "N1");
+
+        String expiredResponse = routeProgress(expiredEmployee.profileSessionToken())
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("PROFILE_SESSION_AUTHENTICATION_REQUIRED"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        assertThat(expiredResponse).doesNotContain(expiredEmployee.profileSessionToken());
+        assertThat(lessonProgressRow(expiredEmployee.employeeRegistrationId(), "N1"))
+                .containsAllEntriesOf(expiredProgressRow);
+
+        RegisteredEmployee revokedEmployee = registeredEmployee("+70000002011");
+        String revokedToken = revokedEmployee.profileSessionToken();
+        String activeToken = createProfileSession(revokedEmployee);
+        String revokedResponse = routeProgress(revokedToken)
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("PROFILE_SESSION_AUTHENTICATION_REQUIRED"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        assertThat(revokedResponse).doesNotContain(revokedToken);
+        routeProgress(activeToken)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.diagnosticState").value("NOT_STARTED"))
+                .andExpect(jsonPath("$.n1.status").value("NOT_STARTED"));
+
+        assertThat(countDiagnosticAttempts()).isEqualTo(1);
+        assertThat(countLessonProgress()).isEqualTo(1);
+    }
+
+    @Test
     void openApiExposesLearningEndpointSchemaAndProfileSessionSecurity() throws Exception {
         String spec = mockMvc.perform(get("/v3/api-docs"))
                 .andExpect(status().isOk())
@@ -240,9 +409,14 @@ class LearningProgressControllerIT {
 
         assertThat(spec)
                 .contains("/api/v1/learning/me/lessons/{lessonId}/start")
+                .contains("/api/v1/learning/me/route-progress")
                 .contains("LessonProgressResponse")
+                .contains("LearningRouteProgressResponse")
                 .contains("employeeProfileSessionBearerAuth")
                 .contains("idempotentResume")
+                .contains("COMPLETE_DIAGNOSTIC")
+                .contains("START_N1")
+                .contains("RESUME_N1")
                 .doesNotContain("lessonCompleted")
                 .doesNotContain("quiz")
                 .doesNotContain("points")
@@ -267,6 +441,41 @@ class LearningProgressControllerIT {
         assertThat(responseProperties.has("tenantId")).isFalse();
         assertThat(responseProperties.has("pilotLaunchId")).isFalse();
         assertThat(responseProperties.has("accessPoolId")).isFalse();
+
+        JsonNode routeProgressOperation = openApi.at("/paths/~1api~1v1~1learning~1me~1route-progress/get");
+        assertThat(routeProgressOperation.isMissingNode()).isFalse();
+        assertThat(routeProgressOperation.at("/responses/200/content/*~1*/schema/$ref").asText())
+                .isEqualTo("#/components/schemas/LearningRouteProgressResponse");
+        assertThat(routeProgressOperation.at("/requestBody").isMissingNode()).isTrue();
+        JsonNode routeProgressParameters = routeProgressOperation.at("/parameters");
+        assertThat(routeProgressParameters).hasSize(1);
+        assertThat(routeProgressParameters.get(0).get("name").asText()).isEqualTo("Authorization");
+        assertThat(routeProgressParameters.get(0).get("in").asText()).isEqualTo("header");
+        assertThat(routeProgressParameters.toString())
+                .doesNotContain("employeeRegistrationId")
+                .doesNotContain("tenantId")
+                .doesNotContain("pilotLaunchId")
+                .doesNotContain("accessPoolId")
+                .doesNotContain("organization")
+                .doesNotContain("subscription")
+                .doesNotContain("seat");
+        assertThat(routeProgressOperation.at("/security/0/employeeProfileSessionBearerAuth").isArray()).isTrue();
+
+        JsonNode routeProgressProperties = openApi.at("/components/schemas/LearningRouteProgressResponse/properties");
+        assertThat(routeProgressProperties.has("diagnosticState")).isTrue();
+        assertThat(routeProgressProperties.at("/diagnosticState/enum").toString())
+                .contains("NOT_STARTED")
+                .contains("DRAFT")
+                .contains("SUBMITTED");
+        assertThat(routeProgressProperties.has("routePreview")).isTrue();
+        assertThat(routeProgressProperties.has("recommendedFirstLessonId")).isTrue();
+        assertThat(routeProgressProperties.has("n1")).isTrue();
+        assertThat(routeProgressProperties.has("nextAction")).isTrue();
+        assertThat(routeProgressProperties.has("employeeRegistrationId")).isFalse();
+        assertThat(routeProgressProperties.has("tenantId")).isFalse();
+        assertThat(routeProgressProperties.has("pilotLaunchId")).isFalse();
+        assertThat(routeProgressProperties.has("accessPoolId")).isFalse();
+        assertThat(routeProgressProperties.has("attemptId")).isFalse();
     }
 
     private RegisteredEmployee registeredEmployee(String phone) throws Exception {
@@ -330,6 +539,32 @@ class LearningProgressControllerIT {
                 .content(json)));
     }
 
+    private Result saveCompleteDiagnosticDraft(String token) throws Exception {
+        return new Result(mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put("/api/v1/diagnostics/me/draft")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                        {
+                          "q0": {"selectedOptionIds": ["READY_TO_START"]},
+                          "selfAssessment": [
+                            {"id": "SA1", "value": 3},
+                            {"id": "SA2", "value": 4},
+                            {"id": "SA3", "value": 2}
+                          ],
+                          "routingAnswers": [
+                            {"id": "Q1", "optionId": "A"},
+                            {"id": "Q2", "optionId": "B"},
+                            {"id": "Q3", "optionId": "C"}
+                          ]
+                        }
+                        """)));
+    }
+
+    private Result submitDiagnostic(String token) throws Exception {
+        return new Result(mockMvc.perform(post("/api/v1/diagnostics/me/submit")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)));
+    }
+
     private Result startLesson(String token, String lessonId) throws Exception {
         return new Result(mockMvc.perform(post("/api/v1/learning/me/lessons/{lessonId}/start", lessonId)
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)));
@@ -337,6 +572,15 @@ class LearningProgressControllerIT {
 
     private Result startLessonWithoutToken(String lessonId) throws Exception {
         return new Result(mockMvc.perform(post("/api/v1/learning/me/lessons/{lessonId}/start", lessonId)));
+    }
+
+    private Result routeProgress(String token) throws Exception {
+        return new Result(mockMvc.perform(get("/api/v1/learning/me/route-progress")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)));
+    }
+
+    private Result routeProgressWithoutToken() throws Exception {
+        return new Result(mockMvc.perform(get("/api/v1/learning/me/route-progress")));
     }
 
     private Tenant seedTenant() {
@@ -367,6 +611,18 @@ class LearningProgressControllerIT {
     private int countLessonProgress(UUID employeeRegistrationId) {
         return jdbcTemplate.queryForObject(
                 "select count(*) from employee_lesson_progress where employee_registration_id = ?",
+                Integer.class,
+                employeeRegistrationId
+        );
+    }
+
+    private int countDiagnosticAttempts() {
+        return jdbcTemplate.queryForObject("select count(*) from diagnostic_attempts", Integer.class);
+    }
+
+    private int countDiagnosticAttempts(UUID employeeRegistrationId) {
+        return jdbcTemplate.queryForObject(
+                "select count(*) from diagnostic_attempts where employee_registration_id = ?",
                 Integer.class,
                 employeeRegistrationId
         );

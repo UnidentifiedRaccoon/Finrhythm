@@ -5,6 +5,7 @@ import { join } from "node:path";
 import { createElement as h } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import {
+  fetchLearningMeRouteProgress,
   LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION,
   LEGAL_DOCUMENT_TYPES,
   startLearningMeLesson
@@ -13,7 +14,8 @@ import { EmployeeHomeScreen } from "../components/employee-home-screen.ts";
 import {
   buildDiagnosticApiDraftUpdateRequest,
   buildSafeN1LessonProgress,
-  buildSafeDiagnosticHandoff,
+  buildSafeDiagnosticTransfer,
+  buildSafeRouteProgressSummary,
   DiagnosticApiFlowScreen,
   diagnosticApiQ0Options,
   diagnosticApiRoutingQuestions,
@@ -130,7 +132,7 @@ describe("mobile learning shell", () => {
 
     assert.match(html, /Ваш спокойный маршрут/);
     assert.match(html, /href="\/diagnostics"/);
-    assert.match(html, /Открыть preview/);
+    assert.match(html, /Открыть диагностику/);
     assert.match(html, /href="\/learning"/);
     assert.match(html, /Открыть обучение/);
     assert.match(html, /href="\/profile\/session"/);
@@ -181,7 +183,7 @@ describe("mobile learning shell", () => {
   it("renders diagnostic preview with Q0 privacy before any SA or routing-preview question", () => {
     const html = renderToStaticMarkup(h(DiagnosticPreviewScreen));
 
-    assert.match(html, /Спокойный вход в preview/);
+    assert.match(html, /Спокойный вход в диагностику/);
     assert.match(html, /Q0 сначала: кто что видит/);
     assert.match(html, /Личные ответы, слабые зоны, точные суммы и детали рефлексии/);
     assert.match(html, /Что важно знать перед стартом/);
@@ -192,7 +194,7 @@ describe("mobile learning shell", () => {
     assert.doesNotMatch(html, /Q1 ·/);
     assert.doesNotMatch(html, /Q2 ·/);
     assert.doesNotMatch(html, /Q3 ·/);
-    assert.doesNotMatch(html, /Черновой preview: начните с N1/);
+    assert.doesNotMatch(html, /Черновой маршрут: начните с N1/);
   });
 
   it("defines the diagnostic preview sequence without full routing, scoring or final route assignment", () => {
@@ -486,7 +488,7 @@ describe("mobile learning shell", () => {
       submittedAt: "2026-05-14T09:02:00Z"
     };
 
-    assert.deepEqual(buildSafeDiagnosticHandoff(response), {
+    assert.deepEqual(buildSafeDiagnosticTransfer(response), {
       state: "SUBMITTED",
       routePreview: true,
       recommendedFirstLessonId: "N1",
@@ -494,8 +496,8 @@ describe("mobile learning shell", () => {
       updatedAt: "2026-05-14T09:01:00Z",
       submittedAt: "2026-05-14T09:02:00Z"
     });
-    assert.equal(buildSafeDiagnosticHandoff({ ...response, recommendedFirstLessonId: "N2" }), null);
-    assert.equal(buildSafeDiagnosticHandoff({ ...response, routePreview: false }), null);
+    assert.equal(buildSafeDiagnosticTransfer({ ...response, recommendedFirstLessonId: "N2" }), null);
+    assert.equal(buildSafeDiagnosticTransfer({ ...response, routePreview: false }), null);
   });
 
   it("accepts only safe N1 backend progress before rendering the lesson continuation", () => {
@@ -512,6 +514,45 @@ describe("mobile learning shell", () => {
     assert.deepEqual(buildSafeN1LessonProgress(response), response);
     assert.equal(buildSafeN1LessonProgress({ ...response, lessonId: "N2" }), null);
     assert.equal(buildSafeN1LessonProgress({ ...response, status: "COMPLETED" }), null);
+  });
+
+  it("accepts only generated route-progress summaries for submitted N1 handoff", () => {
+    assert.equal(typeof fetchLearningMeRouteProgress, "function");
+
+    const beforeStart = {
+      diagnosticState: "SUBMITTED",
+      routePreview: true,
+      recommendedFirstLessonId: "N1",
+      n1: { status: "NOT_STARTED" },
+      nextAction: "START_N1"
+    };
+    const afterStart = {
+      diagnosticState: "SUBMITTED",
+      routePreview: true,
+      recommendedFirstLessonId: "N1",
+      n1: {
+        status: "STARTED",
+        startedAt: "2026-05-14T09:14:00Z",
+        lastOpenedAt: "2026-05-14T09:15:00Z"
+      },
+      nextAction: "RESUME_N1"
+    };
+
+    assert.deepEqual(buildSafeRouteProgressSummary(beforeStart), beforeStart);
+    assert.deepEqual(buildSafeRouteProgressSummary(afterStart), afterStart);
+    assert.equal(buildSafeRouteProgressSummary({ ...beforeStart, recommendedFirstLessonId: "N2" }), null);
+    assert.equal(buildSafeRouteProgressSummary({ ...beforeStart, n1: { status: "STARTED" } }), null);
+    assert.equal(buildSafeRouteProgressSummary({ ...afterStart, nextAction: "START_N1" }), null);
+    assert.equal(
+      buildSafeRouteProgressSummary({
+        ...beforeStart,
+        diagnosticState: "DRAFT",
+        routePreview: false,
+        recommendedFirstLessonId: undefined,
+        nextAction: "COMPLETE_DIAGNOSTIC"
+      }),
+      null
+    );
   });
 
   it("builds profile-session POST payloads through generated request types without echoing invalid proof", () => {
@@ -679,11 +720,14 @@ describe("mobile learning shell", () => {
     assert.match(diagnosticSource, /fetchDiagnosticMeDraft/);
     assert.match(diagnosticSource, /saveDiagnosticMeDraft/);
     assert.match(diagnosticSource, /submitDiagnosticMeDraft/);
+    assert.match(diagnosticSource, /fetchLearningMeRouteProgress/);
     assert.match(diagnosticSource, /startLearningMeLesson/);
     assert.match(diagnosticSource, /DiagnosticDraftUpdateRequest/);
     assert.match(diagnosticSource, /DiagnosticAttemptResponse/);
     assert.match(diagnosticSource, /DiagnosticSubmitResponse/);
+    assert.match(diagnosticSource, /LearningRouteProgressResponse/);
     assert.match(diagnosticSource, /LessonProgressResponse/);
+    assert.match(diagnosticSource, /buildSafeRouteProgressSummary/);
     assert.match(diagnosticSource, /buildSafeN1LessonProgress/);
     assert.match(diagnosticSource, /syntheticN1LessonFixture/);
     assert.match(diagnosticSource, /LessonRendererScreen/);
@@ -693,7 +737,7 @@ describe("mobile learning shell", () => {
     assert.match(diagnosticSource, /recommendedFirstLessonId: "N1"/);
     assert.doesNotMatch(
       diagnosticSource,
-      /DIAGNOSTIC_ME_DRAFT_PATH|DIAGNOSTIC_ME_SUBMIT_PATH|LEARNING_ME_LESSON_START_PATH_TEMPLATE/
+      /DIAGNOSTIC_ME_DRAFT_PATH|DIAGNOSTIC_ME_SUBMIT_PATH|LEARNING_ME_ROUTE_PROGRESS_PATH|LEARNING_ME_LESSON_START_PATH_TEMPLATE/
     );
     assert.doesNotMatch(diagnosticSource, /\/api\/v1\/diagnostics|\/api\/v1\/learning/);
     assert.doesNotMatch(diagnosticSource, /XMLHttpRequest|navigator\.sendBeacon|console\./);

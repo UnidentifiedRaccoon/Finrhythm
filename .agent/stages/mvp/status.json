@@ -1,9 +1,9 @@
 {
   "stage_id": "mvp",
-  "state": "SCOPED_PASS",
-  "active_sprint_contract_id": "MVP-07-diagnostic-n1-learning-progress-001",
-  "latest_verified_sprint_contract_id": "MVP-07-diagnostic-n1-learning-progress-001",
-  "latest_status_decision_sprint_contract_id": "MVP-07-diagnostic-n1-learning-progress-001",
+  "state": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC",
+  "active_sprint_contract_id": "MVP-07-n1-route-progress-summary-001",
+  "latest_verified_sprint_contract_id": "MVP-07-n1-route-progress-summary-001",
+  "latest_status_decision_sprint_contract_id": "MVP-07-n1-route-progress-summary-001",
   "completed_ids": [
     "MVP-01.01",
     "MVP-01.02",
@@ -51,7 +51,8 @@
     "MVP-07-diagnostic-entry-preview-ui-001",
     "MVP-07-diagnostic-draft-api-001",
     "MVP-07-diagnostic-web-api-integration-001",
-    "MVP-07-diagnostic-n1-learning-progress-001"
+    "MVP-07-diagnostic-n1-learning-progress-001",
+    "MVP-07-n1-route-progress-summary-001"
   ],
   "done_with_human_pending_ids": [
     "MVP-02.04",
@@ -79,10 +80,9 @@
     "admin-auth-role-audit-policy-for-production-use"
   ],
   "next_recommended_ids": [
-    "publish-MVP-07-diagnostic-n1-learning-progress-001-after-fresh-PASS",
-    "preserve-latest-PASS-MVP-07-diagnostic-n1-learning-progress-001",
-    "switch-main-and-pull-after-merge",
-    "continue-next-high-impact-MVP-product-slice-after-publish",
+    "post-pass-publish-MVP-07-n1-route-progress-summary-001",
+    "continue-next-high-impact-learning-diagnostics-route-progress-slice-after-main-merge",
+    "preserve-proof-loop-spec-freeze-build-evidence-fresh-verify-fix-fresh-verify",
     "do-not-close-full-MVP-06-MVP-07-MVP-or-human-gates"
   ],
   "last_updated": "2026-05-14",
@@ -305,7 +305,7 @@
     "ui_scope_for_latest_verified_sprint": "MVP-07-diagnostic-entry-preview-ui-001 verifies apps/web /diagnostics preview with Q0 privacy, SA1-SA3 non-scoring self-assessment, synthetic Q1-Q3 preview cards, local component state only and safe draft route preview.",
     "generated_client_scope_for_latest_verified_sprint": "No OpenAPI or generated api-client source changed by the latest verified sprint.",
     "active_sprint_scope": "Frozen active sprint MVP-07-diagnostic-n1-learning-progress-001: backend-owned N1 lesson start/resume progress after diagnostic submit handoff, profile-session bearer auth, generated api-client sync and web continuation with token in mounted component memory only.",
-    "ui_scope_for_active_sprint": "Integrate diagnostic GET/PUT/POST via generated @finrhythm/api-client after profile-session creation and legal acceptance; preserve /diagnostics preview honesty and existing /start, /onboarding/privacy, /profile/session, profile/contact and N1/N2/N3 route behavior unless directly scoped.",
+    "ui_scope_for_active_sprint": "MOUNTED_PROFILE_SESSION_ROUTE_PROGRESS_PANEL_AFTER_DIAGNOSTIC_N1_HANDOFF",
     "public_api_scope_for_latest_builder_sprint": false,
     "schema_scope_for_latest_builder_sprint": "MVP-03-post-legal-acceptance-closure-audit-001 is artifact-only and adds no schema, Flyway migration, OpenAPI source or generated api-client artifact.",
     "backend_baseline_for_latest_builder_sprint": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc remain unchanged.",
@@ -414,11 +414,11 @@
     "current_mvp_07_diagnostic_n1_learning_progress_generated_client_sync_required": true,
     "current_mvp_07_diagnostic_n1_learning_progress_docs_sync_required": true,
     "current_mvp_07_diagnostic_n1_learning_progress_first_touch_required": "apps/api production/test files before .agent docs apps/web OpenAPI generated-client or evidence",
-    "public_api_scope_for_active_sprint": true,
-    "schema_scope_for_active_sprint": "Append-only Flyway expected as V012__employee_lesson_progress.sql if the repository has not advanced.",
-    "generated_client_scope_for_active_sprint": "OpenAPI and packages/api-client generated learning helper(s) must be synchronized after backend source changes.",
-    "docs_sync_for_active_sprint": "docs/architecture/access-and-subscriptions.md must document the profile-session learning progress boundary with compact Mermaid unless existing docs already cover it.",
-    "latest_verified_sprint_preserved_before_builder": "MVP-07-diagnostic-web-api-integration-001",
+    "public_api_scope_for_active_sprint": "BUILT_READ_ONLY_LEARNING_ROUTE_PROGRESS_SUMMARY_AWAITING_VERIFIER",
+    "schema_scope_for_active_sprint": "NO_MIGRATION_EXPECTED_APPEND_ONLY_V013_ONLY_IF_PROVEN_NEEDED",
+    "generated_client_scope_for_active_sprint": "OpenAPI and packages/api-client generated route-progress helper were synchronized by builder evidence.",
+    "docs_sync_for_active_sprint": "docs/architecture/access-and-subscriptions.md section 7.4 documents the profile-session learning route/progress boundary with compact Mermaid.",
+    "latest_verified_sprint_preserved_before_builder": "MVP-07-diagnostic-n1-learning-progress-001",
     "latest_evidence_verdict_problems_aliases_preserved_before_builder": true,
     "current_mvp_07_diagnostic_n1_learning_progress_browser_screenshots_exist": true,
     "current_mvp_07_diagnostic_n1_learning_progress_pending_fresh_verifier": false,
@@ -443,7 +443,18 @@
     "current_mvp_07_diagnostic_n1_learning_progress_browser_screenshots_fresh_verifier_count": 34,
     "current_mvp_07_diagnostic_n1_learning_progress_token_memory_only_verified": true,
     "current_mvp_07_diagnostic_n1_learning_progress_openapi_generated_client_sync_verified": true,
-    "current_mvp_07_diagnostic_n1_learning_progress_docs_sync_verified": true
+    "current_mvp_07_diagnostic_n1_learning_progress_docs_sync_verified": true,
+    "current_mvp_07_n1_route_progress_summary_contract_frozen": true,
+    "current_mvp_07_n1_route_progress_summary_builder_complete": true,
+    "current_mvp_07_n1_route_progress_summary_evidence_exists": true,
+    "current_mvp_07_n1_route_progress_summary_fresh_verifier_pass": true,
+    "current_mvp_07_n1_route_progress_summary_publish_after_pass": true,
+    "current_mvp_07_n1_route_progress_summary_builder_checks_pass": true,
+    "current_mvp_07_n1_route_progress_summary_browser_screenshots_exist": true,
+    "current_mvp_07_n1_route_progress_summary_first_verifier_fail": true,
+    "current_mvp_07_n1_route_progress_summary_fixer_complete": true,
+    "current_mvp_07_n1_route_progress_summary_fixer_checks_pass": true,
+    "current_mvp_07_n1_route_progress_summary_parent_alias_sync_done": true
   },
   "runtime_guardrails": {
     "project_config_approval_policy_expected": "on-request",
@@ -475,12 +486,12 @@
     "ui_scope_for_latest_verified_sprint": "MVP-07-diagnostic-entry-preview-ui-001 verifies apps/web /diagnostics preview with Q0 privacy, SA1-SA3 non-scoring self-assessment, synthetic Q1-Q3 preview cards, local component state only and safe draft route preview.",
     "admin_scope_for_latest_verified_sprint": "No admin behavior change in the latest verified UI sprint; previous admin sensitive-access audit PASS remains preserved.",
     "generated_client_scope_for_latest_verified_sprint": "No generated api-client source or OpenAPI artifact was changed by the latest verified UI sprint.",
-    "active_sprint_scope": "Frozen active sprint MVP-07-diagnostic-n1-learning-progress-001: backend-first N1 progress start/resume plus generated-client web continuation.",
-    "ui_scope_for_active_sprint": "Browser/mobile screenshots are required for the mounted profile-session diagnostic API integration path.",
+    "active_sprint_scope": "BUILT_AWAITING_VERIFIER_READ_ONLY_N1_ROUTE_PROGRESS_SUMMARY",
+    "ui_scope_for_active_sprint": "Mounted profile-session route/progress panel only; token remains component-memory-only.",
     "public_api_scope_for_latest_builder_sprint": true,
     "schema_scope_for_latest_builder_sprint": "MVP-07-diagnostic-draft-api-001 adds append-only Flyway V011 diagnostic attempt storage with separated Q0 metadata, self-assessment answers and routing answers.",
-    "generated_client_scope_for_latest_builder_sprint": "OpenAPI snapshot and packages/api-client generated contracts/dist/scripts were synchronized for diagnostic draft/update/submit endpoints.",
-    "docs_sync_for_latest_builder_sprint": "docs/architecture/access-and-subscriptions.md section 7.3 documents the profile-session diagnostic attempt boundary and Mermaid flow/state diagrams.",
+    "generated_client_scope_for_latest_builder_sprint": "OpenAPI snapshot and packages/api-client generated contracts/dist/scripts were synchronized for learning route-progress summary.",
+    "docs_sync_for_latest_builder_sprint": "docs/architecture/access-and-subscriptions.md section 7.4 documents the profile-session N1 route/progress summary and Mermaid flow/state diagrams.",
     "content_spec_status": "draft_with_human_gates",
     "content_runtime_source_of_truth": "No production content source change; existing synthetic apps/web fixtures include demo-only N1, N2 and N3 lessons.",
     "pii_guardrails_for_latest_verified_sprint": [
@@ -501,12 +512,13 @@
     "mvp_03_employee_start_route_ui_builder_harness_validation": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC",
     "mvp_07_diagnostic_entry_preview_ui_builder_validation": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC: web typecheck/test/build, system-Chrome browser smoke with 33 screenshots, guardrail scans, make verify, make test-unit and make build passed. Fresh verifier PASS is recorded in verdict/problems aliases for MVP-07-diagnostic-entry-preview-ui-001.",
     "mvp_07_diagnostic_draft_api_builder_validation": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC: focused backend diagnostic test, apps/api mvnw verify, api-client generate/build/check-generated/check-openapi-drift/typecheck, make verify, make test-unit, make build and guardrail scans passed. First verifier failed only the submit response boundary; fixer added DiagnosticSubmitResponse; fresh post-fix verifier PASS is recorded.",
-    "backend_baseline_for_active_sprint": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.",
+    "backend_baseline_for_active_sprint": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc are mandatory.",
     "mvp_07_diagnostic_n1_learning_progress_freeze_validation": "JSON validation and git diff --check are recorded under .agent/stages/mvp/raw/spec-freezer-MVP-07-diagnostic-n1-learning-progress-001-20260514. Latest evidence/verdict/problems aliases intentionally remain on MVP-07-diagnostic-web-api-integration-001 until builder evidence and fresh verification.",
     "mvp_07_diagnostic_n1_learning_progress_validation_raw_refs": [
       ".agent/stages/mvp/raw/spec-freezer-MVP-07-diagnostic-n1-learning-progress-001-20260514/jq-empty.txt",
       ".agent/stages/mvp/raw/spec-freezer-MVP-07-diagnostic-n1-learning-progress-001-20260514/git-diff-check.txt"
-    ]
+    ],
+    "mvp_07_n1_route_progress_summary_freeze_validation": "PASS: changed files are stage artifacts under .agent/stages/mvp only."
   },
   "handoff": {
     "what_is_proven": [
@@ -607,15 +619,16 @@
       "MVP-03-post-legal-acceptance-closure-audit-001 has fresh verifier PASS and parent alias sync; full MVP-03 is DONE_WITH_HUMAN_PENDING.",
       "MVP-07-diagnostic-entry-preview-ui-001 has scoped fresh verifier PASS, but full MVP-07.01, MVP-07.03 and MVP-07 remain open.",
       "MVP-07-diagnostic-draft-api-001 has scoped fresh post-fix verifier PASS, but full MVP-07.01, MVP-07.04 and MVP-07 remain open.",
-      "MVP-07-diagnostic-n1-learning-progress-001 does not implement lesson completion, quiz/practice submission, points, rewards, final diagnostic scoring/routing, final R1-R6, HR reports, analytics/events, personal financial advice, full MVP-06, full MVP-07, MVP stage or human-gate closure."
+      "MVP-07-diagnostic-n1-learning-progress-001 does not implement lesson completion, quiz/practice submission, points, rewards, final diagnostic scoring/routing, final R1-R6, HR reports, analytics/events, personal financial advice, full MVP-06, full MVP-07, MVP stage or human-gate closure.",
+      "MVP-07-n1-route-progress-summary-001 has builder evidence and passing builder checks for the scoped read-only route/progress summary, but no fresh verifier PASS yet; it does not prove full MVP-06, full MVP-07, MVP stage or any human gate."
     ],
-    "next_slice": "Post-PASS publish MVP-07-diagnostic-n1-learning-progress-001, then continue with the next highest-impact verified MVP product slice from updated main.",
-    "active_sprint_scope": "MVP-07-diagnostic-n1-learning-progress-001 is scoped PASS and ready for post-PASS publish.",
-    "documentation_decision": "docs/architecture/access-and-subscriptions.md section 7.4 is synchronized for the N1 learning progress boundary; product docs remain NOOP_EXPECTED."
+    "next_slice": "Fresh-verify MVP-07-n1-route-progress-summary-001, then apply minimal fixes only for verifier-reported proof gaps.",
+    "active_sprint_scope": "MVP-07-n1-route-progress-summary-001 has builder evidence; functional pass remains false until fresh verifier PASS.",
+    "documentation_decision": "Required canonical doc target for builder: docs/architecture/access-and-subscriptions.md section 7.4; product docs NOOP_EXPECTED if existing assumptions are followed."
   },
   "notes": {
     "mvp_03_onboarding_to_profile_session_continuity_ui_builder_evidence": "Builder evidence is ready for the route continuity slice. Latest evidence aliases now point to builder evidence; latest verified sprint remains MVP-03-employee-profile-session-entry-ui-001 until a fresh verifier runs.",
-    "active_sprint_scope": "MVP-07-diagnostic-n1-learning-progress-001 has scoped fresh verifier PASS for backend-owned N1 progress and web continuation.",
+    "active_sprint_scope": "MVP-07-n1-route-progress-summary-001 has builder evidence for a read-only profile-session N1 route/progress summary and mounted web panel; fresh verifier PASS is still required.",
     "backend_baseline_for_latest_builder_sprint": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc remain unchanged.",
     "mvp_03_onboarding_to_profile_session_continuity_ui_verifier_verdict": "PASS",
     "mvp_03_onboarding_to_profile_session_continuity_ui_parent_alias_sync": "PASS_AFTER_PARENT_SYNC",
@@ -623,7 +636,7 @@
     "generated_client_scope_for_latest_verified_sprint": "apps/web /profile/session consumes generated profile-session and legal acceptance helpers/types/constants from @finrhythm/api-client; no OpenAPI or generated api-client source changed.",
     "mvp_03_employee_start_route_ui_builder_evidence": "Builder evidence is complete for the /start route slice.",
     "ui_scope_for_latest_builder_sprint": "No UI integration in latest builder sprint; browser screenshots are not required for MVP-07-diagnostic-draft-api-001.",
-    "generated_client_scope_for_latest_builder_sprint": "OpenAPI snapshot and packages/api-client generated contracts/dist/scripts were synchronized for diagnostic draft/update/submit endpoints.",
+    "generated_client_scope_for_latest_builder_sprint": "OpenAPI snapshot and packages/api-client generated contracts/dist/scripts were synchronized for the route-progress summary endpoint.",
     "mvp_03_employee_start_route_ui_verifier_verdict": "PASS",
     "mvp_03_employee_start_route_ui_parent_alias_sync": "PASS_AFTER_PARENT_SYNC",
     "mvp_03_profile_session_legal_acceptance_ui_builder_evidence": "Builder evidence is complete for the legal acceptance UI slice.",
@@ -652,23 +665,29 @@
     "mvp_07_diagnostic_n1_learning_progress_freeze": "Frozen on 2026-05-14 as the next slice after MVP-07-diagnostic-web-api-integration-001 PASS. No production code, tests, schemas, OpenAPI/generated client, canonical docs, evidence aliases, verdict aliases, problems aliases or immutable PASS refs were intentionally changed by the freeze.",
     "mvp_07_diagnostic_n1_learning_progress_publish_after_pass": true,
     "mvp_07_diagnostic_n1_learning_progress_verifier_verdict": "PASS",
-    "mvp_07_diagnostic_n1_learning_progress_parent_alias_sync": "PASS_AFTER_PARENT_SYNC"
+    "mvp_07_diagnostic_n1_learning_progress_parent_alias_sync": "PASS_AFTER_PARENT_SYNC",
+    "mvp_07_n1_route_progress_summary_freeze": "Frozen on 2026-05-14 as the next slice after MVP-07-diagnostic-n1-learning-progress-001 PASS. No production code, tests, schemas, OpenAPI/generated client, canonical docs, evidence aliases, verdict aliases, problems aliases or immutable PASS refs were intentionally changed by the freeze.",
+    "mvp_07_n1_route_progress_summary_publish_after_pass": true,
+    "mvp_07_n1_route_progress_summary_builder_evidence": "Builder, fixer and fresh verifier rerun PASS are complete for read-only GET /api/v1/learning/me/route-progress, generated api-client sync, mounted web route/progress panel and docs sync.",
+    "mvp_07_n1_route_progress_summary_fixer_evidence": "First fresh verifier FAIL was limited to English/mixed-language route/progress UI copy. Fixer replaced route/progress panel and adjacent smoke-tested diagnostic labels with Russian neutral wording; web typecheck/test/build, browser smoke, Russian-copy guard, token storage guard and git diff --check passed under .agent/stages/mvp/raw/fixer-MVP-07-n1-route-progress-summary-001-20260514/.",
+    "mvp_07_n1_route_progress_summary_verifier_verdict": "PASS",
+    "mvp_07_n1_route_progress_summary_parent_alias_sync": "PASS_AFTER_PARENT_SYNC"
   },
   "current_status": {
-    "active_sprint": "MVP-07-diagnostic-n1-learning-progress-001",
-    "active_sprint_scope": "SCOPED_PASS: backend-owned N1 lesson start/resume progress after diagnostic N1 handoff, generated-client web continuation and memory-only profile-session token handling.",
-    "latest_verified_sprint": "MVP-07-diagnostic-n1-learning-progress-001",
+    "active_sprint": "MVP-07-n1-route-progress-summary-001",
+    "active_sprint_scope": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC: read-only backend-owned N1 route/progress summary for the mounted profile-session diagnostic/N1 flow, including Russian route/progress panel copy after fixer.",
+    "latest_verified_sprint": "MVP-07-n1-route-progress-summary-001",
     "latest_evidence": ".agent/stages/mvp/evidence.json",
-    "latest_verdict": ".agent/stages/mvp/verdicts/MVP-07-diagnostic-n1-learning-progress-001.json",
-    "latest_problems": ".agent/stages/mvp/problems/MVP-07-diagnostic-n1-learning-progress-001.md",
-    "latest_verifier_raw": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-n1-learning-progress-001-20260514-fresh/",
+    "latest_verdict": ".agent/stages/mvp/verdicts/MVP-07-n1-route-progress-summary-001.json",
+    "latest_problems": ".agent/stages/mvp/problems/MVP-07-n1-route-progress-summary-001.md",
+    "latest_verifier_raw": ".agent/stages/mvp/raw/verifier-MVP-07-n1-route-progress-summary-001-20260514-fresh-rerun/",
     "fresh_verifier_required": false,
     "publish_after_pass": true,
     "publish_status": "READY_FOR_POST_PASS_PUBLISH",
     "notes": [
-      "Fresh verifier PASS exists for MVP-07-diagnostic-n1-learning-progress-001.",
-      "Evidence/verdict/problems aliases are synchronized to the current slice after parent PASS sync.",
-      "Post-PASS publish is required by the active contract/user request and is now allowed.",
+      "Fresh verifier rerun PASS is recorded for the active sprint.",
+      "First verifier FAIL was limited to mixed-language UI copy and is fixed.",
+      "Profile-session token remains mounted component memory only.",
       "Full MVP-06, full MVP-07, MVP stage and human gates remain open."
     ]
   },
@@ -686,7 +705,8 @@
     "mvp_07_diagnostic_web_api_integration_freeze": "Freeze one apps/web integration slice; preserve token only in mounted component memory; use generated diagnostic GET/PUT/POST; keep final scoring/routing, HR reports, analytics/events, points, learning completion and human gates out of scope.",
     "mvp_07_diagnostic_web_api_integration_builder": "Built apps/web mounted /profile/session diagnostic API integration with generated diagnostic GET/PUT/POST, memory-only profile-session token, separated Q0/SA/routing payloads and safe N1 routePreview handoff.",
     "mvp_07_diagnostic_web_api_integration_verifier_pass": "Fresh verifier PASS accepted by parent orchestrator; latest aliases synchronized to MVP-07-diagnostic-web-api-integration-001.",
-    "mvp_07_diagnostic_n1_learning_progress_freeze": "Freeze one backend-first N1 learning progress slice after safe diagnostic handoff; preserve completion, quiz, practice, points, rewards, scoring, HR reports, analytics/events and human gates out of scope."
+    "mvp_07_diagnostic_n1_learning_progress_freeze": "Freeze one backend-first N1 learning progress slice after safe diagnostic handoff; preserve completion, quiz, practice, points, rewards, scoring, HR reports, analytics/events and human gates out of scope.",
+    "mvp_07_n1_route_progress_summary_freeze": "Freeze one backend-first read-only route/progress summary for the mounted profile-session diagnostic/N1 flow; preserve final scoring/routing, R1-R6, HR reports, analytics/events, completion, points, rewards and human gates as out of scope."
   },
   "validation_notes": {
     "mvp_07_diagnostic_web_api_integration_builder_validation": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC: web typecheck/test/build, system-Chrome browser smoke with 34 screenshots, api-client generated/openapi-drift/typecheck, make verify, make test-unit, make build and guardrail scans passed. Fresh verifier PASS is recorded for MVP-07-diagnostic-web-api-integration-001.",
@@ -694,12 +714,22 @@
     "mvp_07_diagnostic_n1_learning_progress_builder_validation": "PASS: builder evidence includes focused backend, api-client, web, browser and root checks.",
     "mvp_07_diagnostic_n1_learning_progress_verifier_validation": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC: fresh verifier ran backend focused test, apps/api verify, api-client checks, web typecheck/test/build, browser smoke with 34 screenshots, make verify, make test-unit, make build, guardrail scans, jq validation and git diff --check. Raw refs under .agent/stages/mvp/raw/verifier-MVP-07-diagnostic-n1-learning-progress-001-20260514-fresh/.",
     "mvp_07_diagnostic_n1_learning_progress_publish_readiness": "READY_FOR_POST_PASS_PUBLISH: publish_after_pass=true and latest fresh verifier PASS exists.",
-    "mvp_07_diagnostic_n1_learning_progress_parent_sync_validation": "PASS: jq, git diff --check and verify_harness passed after parent alias sync. Raw refs: .agent/stages/mvp/raw/verifier-MVP-07-diagnostic-n1-learning-progress-001-20260514-fresh/parent-sync-jq-empty.txt, .agent/stages/mvp/raw/verifier-MVP-07-diagnostic-n1-learning-progress-001-20260514-fresh/parent-sync-git-diff-check.txt, .agent/stages/mvp/raw/verifier-MVP-07-diagnostic-n1-learning-progress-001-20260514-fresh/parent-sync-verify-harness.txt."
+    "mvp_07_diagnostic_n1_learning_progress_parent_sync_validation": "PASS: jq, git diff --check and verify_harness passed after parent alias sync. Raw refs: .agent/stages/mvp/raw/verifier-MVP-07-diagnostic-n1-learning-progress-001-20260514-fresh/parent-sync-jq-empty.txt, .agent/stages/mvp/raw/verifier-MVP-07-diagnostic-n1-learning-progress-001-20260514-fresh/parent-sync-git-diff-check.txt, .agent/stages/mvp/raw/verifier-MVP-07-diagnostic-n1-learning-progress-001-20260514-fresh/parent-sync-verify-harness.txt.",
+    "mvp_07_n1_route_progress_summary_freeze_validation": "PASS: jq empty for changed stage JSON and git diff --check excluding raw evidence paths passed in the spec-freezer session; no raw refs were written.",
+    "mvp_07_n1_route_progress_summary_builder_validation": "PASS: builder evidence includes focused backend route-progress tests, apps/api verify, api-client generate/build/checks/typecheck, web typecheck/test/build, browser smoke with 35 screenshots, make verify/test-unit/build, guardrail scans, jq validation and git diff --check. First verifier FAIL was limited to Russian-copy and has fixer evidence pending fresh rerun.",
+    "mvp_07_n1_route_progress_summary_fixer_validation": "PASS: web typecheck/test/build, browser smoke with 35 screenshots, Russian-copy guard, token-storage guard and git diff --check passed after the first verifier-reported copy gap fix.",
+    "mvp_07_n1_route_progress_summary_verifier_validation": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC: fresh verifier rerun passed focused backend IT, apps/api verify, api-client generated/OpenAPI/typecheck/build checks, web typecheck/test/build, browser smoke with 35 screenshots, make verify, make test-unit, make build, guardrails, jq validation and git diff --check.",
+    "mvp_07_n1_route_progress_summary_publish_readiness": "READY_FOR_POST_PASS_PUBLISH: publish_after_pass=true and latest fresh verifier PASS exists.",
+    "mvp_07_n1_route_progress_summary_parent_sync_validation": "PASS: jq, git diff --check and verify_harness passed after parent PASS sync. Raw refs: .agent/stages/mvp/raw/orchestrator-MVP-07-n1-route-progress-summary-001-parent-sync-20260514/jq-empty.txt, .agent/stages/mvp/raw/orchestrator-MVP-07-n1-route-progress-summary-001-parent-sync-20260514/git-diff-check.txt, .agent/stages/mvp/raw/orchestrator-MVP-07-n1-route-progress-summary-001-parent-sync-20260514/verify-harness.txt."
   },
   "scratchpad": {
     "mvp_07_diagnostic_web_api_integration_freeze": "Frozen on 2026-05-14 and superseded by builder evidence plus fresh verifier PASS.",
     "mvp_07_diagnostic_web_api_integration_builder_evidence": "Builder implemented apps/web mounted /profile/session diagnostic API integration with generated-client GET/PUT/POST, memory-only token handling, separated Q0/SA/routing payloads and safe N1 handoff.",
     "mvp_07_diagnostic_web_api_integration_verifier_verdict": "PASS",
-    "mvp_07_diagnostic_n1_learning_progress_freeze": "Frozen on 2026-05-14; awaiting builder evidence and fresh verifier PASS."
+    "mvp_07_diagnostic_n1_learning_progress_freeze": "Frozen on 2026-05-14; awaiting builder evidence and fresh verifier PASS.",
+    "mvp_07_n1_route_progress_summary_freeze": "Frozen on 2026-05-14 and superseded by builder evidence; awaiting fresh verifier PASS.",
+    "mvp_07_n1_route_progress_summary_builder_evidence": "Builder evidence exists; latest verified sprint remains MVP-07-diagnostic-n1-learning-progress-001 until fresh verifier PASS.",
+    "mvp_07_n1_route_progress_summary_fixer": "Russian-copy fixer complete; fresh verifier rerun pending.",
+    "mvp_07_n1_route_progress_summary_fresh_verifier": "PASS; parent aliases synchronized; publish flow pending."
   }
 }

@@ -261,6 +261,29 @@ export type LessonProgressResponse = {
   idempotentResume: boolean;
 };
 
+export const LEARNING_ROUTE_DIAGNOSTIC_STATES = ["NOT_STARTED","DRAFT","SUBMITTED"] as const;
+export type LearningRouteDiagnosticState = (typeof LEARNING_ROUTE_DIAGNOSTIC_STATES)[number];
+
+export const LEARNING_ROUTE_N1_STATUSES = ["NOT_STARTED","STARTED"] as const;
+export type LearningRouteN1Status = (typeof LEARNING_ROUTE_N1_STATUSES)[number];
+
+export const LEARNING_ROUTE_NEXT_ACTIONS = ["COMPLETE_DIAGNOSTIC","START_N1","RESUME_N1"] as const;
+export type LearningRouteNextAction = (typeof LEARNING_ROUTE_NEXT_ACTIONS)[number];
+
+export type LearningRouteN1ProgressResponse = {
+  status: LearningRouteN1Status;
+  startedAt?: string;
+  lastOpenedAt?: string;
+};
+
+export type LearningRouteProgressResponse = {
+  diagnosticState: LearningRouteDiagnosticState;
+  routePreview: boolean;
+  recommendedFirstLessonId?: string;
+  n1: LearningRouteN1ProgressResponse;
+  nextAction: LearningRouteNextAction;
+};
+
 export type AdminCodeStatusPathParams = {
   tenantId: string;
   pilotLaunchId: string;
@@ -570,6 +593,31 @@ export async function submitDiagnosticMeDraft(
     throw new Error(`POST ${url.pathname} failed with HTTP ${response.status}.`);
   }
   return (await response.json()) as DiagnosticSubmitResponse;
+}
+
+export const LEARNING_ME_ROUTE_PROGRESS_PATH = "/api/v1/learning/me/route-progress";
+
+export function buildLearningMeRouteProgressUrl(baseUrl: string | URL): URL {
+  return new URL(LEARNING_ME_ROUTE_PROGRESS_PATH, baseUrl);
+}
+
+export async function fetchLearningMeRouteProgress(
+  baseUrl: string | URL,
+  params: DiagnosticMeAuthRequest,
+  init: ApiClientRequestInit = {}
+): Promise<LearningRouteProgressResponse> {
+  const url = buildLearningMeRouteProgressUrl(baseUrl);
+  const headers = new Headers(init.headers);
+  headers.set("authorization", `Bearer ${params.profileSessionToken}`);
+  const response = await fetch(url, {
+    ...init,
+    method: "GET",
+    headers
+  });
+  if (!response.ok) {
+    throw new Error(`GET ${url.pathname} failed with HTTP ${response.status}.`);
+  }
+  return (await response.json()) as LearningRouteProgressResponse;
 }
 
 export type LearningMeLessonStartClientRequest = DiagnosticMeAuthRequest & {

@@ -10,6 +10,7 @@ import {
 } from "react";
 import {
   fetchDiagnosticMeDraft,
+  fetchLearningMeRouteProgress,
   startLearningMeLesson,
   saveDiagnosticMeDraft,
   submitDiagnosticMeDraft,
@@ -17,6 +18,7 @@ import {
   type DiagnosticAttemptState,
   type DiagnosticDraftUpdateRequest,
   type DiagnosticSubmitResponse,
+  type LearningRouteProgressResponse,
   type LessonProgressResponse
 } from "@finrhythm/api-client";
 import { EmployeeAppHeader, EmployeeBottomNav, SecondarySupportEntry } from "./employee-app-shell.ts";
@@ -41,7 +43,7 @@ export type DiagnosticApiDraftState = {
   routingAnswers: Partial<Record<RoutingQuestionId, RoutingOptionId>>;
 };
 
-export type DiagnosticSafeHandoff = {
+export type DiagnosticSafeTransfer = {
   state: DiagnosticAttemptState;
   routePreview: true;
   recommendedFirstLessonId: "N1";
@@ -56,6 +58,18 @@ export type DiagnosticN1LessonProgress = {
   startedAt: string;
   lastOpenedAt: string;
   idempotentResume: boolean;
+};
+
+export type DiagnosticRouteProgressSummary = {
+  diagnosticState: "SUBMITTED";
+  routePreview: true;
+  recommendedFirstLessonId: "N1";
+  n1: {
+    status: "NOT_STARTED" | "STARTED";
+    startedAt?: string;
+    lastOpenedAt?: string;
+  };
+  nextAction: "START_N1" | "RESUME_N1";
 };
 
 type DiagnosticNotice = {
@@ -184,7 +198,8 @@ export function DiagnosticApiFlowScreen({
   const [phase, setPhase] = useState<DiagnosticApiPhase>("loading");
   const [draft, setDraft] = useState<DiagnosticApiDraftState>(emptyDiagnosticApiDraftState);
   const [notice, setNotice] = useState<DiagnosticNotice | null>(null);
-  const [handoff, setHandoff] = useState<DiagnosticSafeHandoff | null>(null);
+  const [safeTransfer, setSafeTransfer] = useState<DiagnosticSafeTransfer | null>(null);
+  const [routeProgress, setRouteProgress] = useState<DiagnosticRouteProgressSummary | null>(null);
   const [lessonProgress, setLessonProgress] = useState<DiagnosticN1LessonProgress | null>(null);
   const [lessonStartBusy, setLessonStartBusy] = useState(false);
   const [lessonStartNotice, setLessonStartNotice] = useState<DiagnosticNotice | null>(null);
@@ -199,26 +214,39 @@ export function DiagnosticApiFlowScreen({
     setPhase("loading");
     setDraft(emptyDiagnosticApiDraftState());
     setNotice(null);
-    setHandoff(null);
+    setSafeTransfer(null);
+    setRouteProgress(null);
     setLessonProgress(null);
     setLessonStartBusy(false);
     setLessonStartNotice(null);
 
-    fetchDiagnosticMeDraft(getBrowserApiBaseUrl(), { profileSessionToken })
-      .then((response) => {
+    async function loadDiagnosticAndRouteProgress() {
+      try {
+        const response = await fetchDiagnosticMeDraft(getBrowserApiBaseUrl(), { profileSessionToken });
         if (cancelled) {
           return;
         }
 
         if (response.state === "SUBMITTED") {
-          const safeHandoff = buildSafeDiagnosticHandoff(response);
-          if (!safeHandoff) {
+          const safeTransferResult = buildSafeDiagnosticTransfer(response);
+          if (!safeTransferResult) {
             setPhase("error");
-            setNotice(buildDiagnosticFailureNotice("API вернул неподдержанный handoff. Откройте экран позже."));
+            setNotice(buildDiagnosticFailureNotice("API вернул неподдержанную передачу к уроку. Откройте экран позже."));
             return;
           }
 
-          setHandoff(safeHandoff);
+          const safeRouteProgress = await loadSafeRouteProgress(profileSessionToken);
+          if (cancelled) {
+            return;
+          }
+          if (!safeRouteProgress) {
+            setPhase("error");
+            setNotice(buildDiagnosticFailureNotice("API не вернул безопасную сводку маршрута. Откройте экран позже."));
+            return;
+          }
+
+          setSafeTransfer(safeTransferResult);
+          setRouteProgress(safeRouteProgress);
           setPhase("submitted");
           return;
         }
@@ -227,15 +255,17 @@ export function DiagnosticApiFlowScreen({
         setDraft(restoredDraft);
         setNotice(hasDiagnosticDraftContent(restoredDraft) ? buildResumeNotice() : buildEmptyDraftNotice());
         setPhase("draft");
-      })
-      .catch(() => {
+      } catch (_error: unknown) {
         if (cancelled) {
           return;
         }
 
         setPhase("error");
         setNotice(buildDiagnosticFailureNotice("Не удалось открыть черновик диагностики. Попробуйте обновить шаг."));
-      });
+      }
+    }
+
+    void loadDiagnosticAndRouteProgress();
 
     return () => {
       cancelled = true;
@@ -277,12 +307,12 @@ export function DiagnosticApiFlowScreen({
       });
 
       if (response.state === "SUBMITTED") {
-        const safeHandoff = buildSafeDiagnosticHandoff(response);
-        if (!safeHandoff) {
-          throw new Error("Unsupported diagnostic handoff.");
+        const safeTransferResult = buildSafeDiagnosticTransfer(response);
+        if (!safeTransferResult) {
+          throw new Error("Неподдержанная передача диагностики.");
         }
 
-        setHandoff(safeHandoff);
+        setSafeTransfer(safeTransferResult);
         setPhase("submitted");
         return;
       }
@@ -324,12 +354,17 @@ export function DiagnosticApiFlowScreen({
       });
 
       const response = await submitDiagnosticMeDraft(getBrowserApiBaseUrl(), { profileSessionToken });
-      const safeHandoff = buildSafeDiagnosticHandoff(response);
-      if (!safeHandoff) {
-        throw new Error("Unsupported diagnostic handoff.");
+      const safeTransferResult = buildSafeDiagnosticTransfer(response);
+      if (!safeTransferResult) {
+        throw new Error("Неподдержанная передача диагностики.");
+      }
+      const safeRouteProgress = await loadSafeRouteProgress(profileSessionToken);
+      if (!safeRouteProgress) {
+        throw new Error("Неподдержанная сводка маршрута.");
       }
 
-      setHandoff(safeHandoff);
+      setSafeTransfer(safeTransferResult);
+      setRouteProgress(safeRouteProgress);
       setPhase("submitted");
       setLessonStartNotice(null);
     } catch (_error: unknown) {
@@ -343,7 +378,7 @@ export function DiagnosticApiFlowScreen({
   }
 
   async function startFirstLesson() {
-    if (!handoff || lessonStartBusy) {
+    if (!safeTransfer || lessonStartBusy) {
       return;
     }
 
@@ -353,19 +388,22 @@ export function DiagnosticApiFlowScreen({
     try {
       const response = await startLearningMeLesson(getBrowserApiBaseUrl(), {
         profileSessionToken,
-        lessonId: handoff.recommendedFirstLessonId
+        lessonId: safeTransfer.recommendedFirstLessonId
       });
       const safeProgress = buildSafeN1LessonProgress(response);
       if (!safeProgress) {
-        throw new Error("Unsupported N1 lesson progress response.");
+        throw new Error("Неподдержанный ответ прогресса N1.");
+      }
+      const safeRouteProgress = await loadSafeRouteProgress(profileSessionToken);
+      if (!safeRouteProgress || safeRouteProgress.n1.status !== "STARTED") {
+        throw new Error("Неподдержанная обновлённая сводка маршрута.");
       }
 
+      setRouteProgress(safeRouteProgress);
       setLessonProgress(safeProgress);
     } catch (_error: unknown) {
       setLessonStartNotice(
-        buildDiagnosticFailureNotice(
-          "Не удалось открыть N1 через backend progress. Попробуйте ещё раз, пока эта вкладка открыта."
-        )
+        buildDiagnosticFailureNotice("Не удалось открыть N1 через серверный прогресс. Попробуйте ещё раз, пока эта вкладка открыта.")
       );
     } finally {
       setLessonStartBusy(false);
@@ -375,7 +413,7 @@ export function DiagnosticApiFlowScreen({
   if (lessonProgress) {
     return h(LessonRendererScreen, {
       lesson: syntheticN1LessonFixture,
-      progressBanner: h(N1BackendProgressBanner, { progress: lessonProgress })
+      progressBanner: h(N1ProgressBanner, { progress: lessonProgress, routeProgress })
     });
   }
 
@@ -403,13 +441,14 @@ export function DiagnosticApiFlowScreen({
               notice,
               onRetry: () => setRetryIndex((current) => current + 1)
             })
-          : phase === "submitted" && handoff
+          : phase === "submitted" && safeTransfer
             ? h(DiagnosticSubmittedHandoff, {
-                handoff,
+                safeTransfer,
                 lessonStartBusy,
                 lessonStartNotice,
                 onContinueToContact,
-                onStartLesson: startFirstLesson
+                onStartLesson: startFirstLesson,
+                routeProgress
               })
             : h(DiagnosticDraftPanel, {
                 draft,
@@ -463,9 +502,9 @@ export function isDiagnosticApiDraftComplete(draft: DiagnosticApiDraftState): bo
   );
 }
 
-export function buildSafeDiagnosticHandoff(
+export function buildSafeDiagnosticTransfer(
   response: DiagnosticAttemptResponse | DiagnosticSubmitResponse
-): DiagnosticSafeHandoff | null {
+): DiagnosticSafeTransfer | null {
   if (
     response.state !== "SUBMITTED" ||
     response.routePreview !== true ||
@@ -499,6 +538,59 @@ export function buildSafeN1LessonProgress(response: LessonProgressResponse): Dia
     lastOpenedAt: response.lastOpenedAt,
     idempotentResume: response.idempotentResume
   };
+}
+
+export function buildSafeRouteProgressSummary(
+  response: LearningRouteProgressResponse
+): DiagnosticRouteProgressSummary | null {
+  if (
+    response.diagnosticState !== "SUBMITTED" ||
+    response.routePreview !== true ||
+    response.recommendedFirstLessonId !== "N1" ||
+    (response.nextAction !== "START_N1" && response.nextAction !== "RESUME_N1")
+  ) {
+    return null;
+  }
+
+  if (response.n1.status === "NOT_STARTED") {
+    if (response.n1.startedAt || response.n1.lastOpenedAt || response.nextAction !== "START_N1") {
+      return null;
+    }
+
+    return {
+      diagnosticState: "SUBMITTED",
+      routePreview: true,
+      recommendedFirstLessonId: "N1",
+      n1: { status: "NOT_STARTED" },
+      nextAction: "START_N1"
+    };
+  }
+
+  if (
+    response.n1.status !== "STARTED" ||
+    !response.n1.startedAt ||
+    !response.n1.lastOpenedAt ||
+    response.nextAction !== "RESUME_N1"
+  ) {
+    return null;
+  }
+
+  return {
+    diagnosticState: "SUBMITTED",
+    routePreview: true,
+    recommendedFirstLessonId: "N1",
+    n1: {
+      status: "STARTED",
+      startedAt: response.n1.startedAt,
+      lastOpenedAt: response.n1.lastOpenedAt
+    },
+    nextAction: "RESUME_N1"
+  };
+}
+
+async function loadSafeRouteProgress(profileSessionToken: string): Promise<DiagnosticRouteProgressSummary | null> {
+  const response = await fetchLearningMeRouteProgress(getBrowserApiBaseUrl(), { profileSessionToken });
+  return buildSafeRouteProgressSummary(response);
 }
 
 function DiagnosticApiHero() {
@@ -572,7 +664,7 @@ function DiagnosticDraftPanel({
       h(
         "p",
         null,
-        "Сохранение отправляет только Q0, SA1-SA3 и Q1-Q3. Завершение показывает безопасный handoff к N1 без раскрытия ответов."
+        "Сохранение отправляет только Q0, SA1-SA3 и Q1-Q3. Завершение показывает безопасную передачу к N1 без раскрытия ответов."
       ),
       h(
         "div",
@@ -607,7 +699,7 @@ function DiagnosticApiProgressCard({ progress }: { progress: { completed: number
     h(
       "div",
       { className: "progress-copy" },
-      h("span", { id: "diagnostic-api-progress-title" }, "API-backed progress"),
+    h("span", { id: "diagnostic-api-progress-title" }, "Прогресс через API"),
       h("strong", null, `${progress.completed} из ${progress.total}`)
     ),
     h(
@@ -618,7 +710,7 @@ function DiagnosticApiProgressCard({ progress }: { progress: { completed: number
     h(
       "p",
       null,
-      "Q0, самооценка и маршрутные ответы хранятся раздельно. На этом шаге нет полного scoring, уровня или HR-отчёта."
+      "Q0, самооценка и маршрутные ответы хранятся раздельно. На этом шаге нет итоговой оценки, уровня или HR-отчёта."
     )
   );
 }
@@ -637,7 +729,7 @@ function Q0ApiStep({
     { className: "diagnostic-panel", "aria-labelledby": "diagnostic-api-q0-title" },
     h("p", { className: "section-label" }, "Q0"),
     h("h2", { id: "diagnostic-api-q0-title" }, "Что важно знать перед стартом?"),
-    h("p", null, "Можно выбрать несколько пунктов. Этот блок не входит в scoring и хранится как metadata."),
+    h("p", null, "Можно выбрать несколько пунктов. Этот блок не входит в итоговую оценку и хранится как метаданные."),
     h(
       "div",
       { className: "choice-grid", "aria-label": "Темы Q0 перед диагностикой" },
@@ -673,7 +765,7 @@ function SelfAssessmentApiStep({
     "section",
     { className: "diagnostic-panel", "aria-labelledby": "diagnostic-api-sa-title" },
     h("p", { className: "section-label" }, "SA1-SA3"),
-    h("h2", { id: "diagnostic-api-sa-title" }, "Самооценка без scoring"),
+    h("h2", { id: "diagnostic-api-sa-title" }, "Самооценка без оценки"),
     h(
       "p",
       null,
@@ -731,7 +823,7 @@ function RoutingQuestionsApiStep({
     h(
       "p",
       null,
-      "Это только стартовый backend scope. Здесь нет расширенного блока, финального уровня, баллов или персонального отчёта."
+      "Это только стартовый серверный контур. Здесь нет расширенного блока, финального уровня, баллов или персонального отчёта."
     ),
     h(
       "div",
@@ -768,45 +860,48 @@ function RoutingQuestionsApiStep({
 }
 
 function DiagnosticSubmittedHandoff({
-  handoff,
+  safeTransfer,
   lessonStartBusy,
   lessonStartNotice,
   onContinueToContact,
-  onStartLesson
+  onStartLesson,
+  routeProgress
 }: {
-  handoff: DiagnosticSafeHandoff;
+  safeTransfer: DiagnosticSafeTransfer;
   lessonStartBusy: boolean;
   lessonStartNotice: DiagnosticNotice | null;
   onContinueToContact?: () => void;
   onStartLesson: () => void;
+  routeProgress: DiagnosticRouteProgressSummary | null;
 }) {
   return h(
     "section",
     { className: "diagnostic-result-card", "aria-labelledby": "diagnostic-api-result-title" },
-    h("p", { className: "section-label" }, "Безопасный handoff"),
+    h("p", { className: "section-label" }, "Безопасная передача"),
     h("h2", { id: "diagnostic-api-result-title" }, "Диагностика записана: начните с N1"),
     h(
       "p",
       null,
-      "API вернул только routePreview для первого урока. Перед открытием N1 мы отдельно запишем start/resume progress на backend без передачи сессионного секрета через адрес."
+        "API вернул только предварительный признак маршрута для первого урока. Перед открытием N1 мы отдельно запишем старт или возврат к уроку на сервере без передачи сессионного секрета через адрес."
     ),
     lessonStartNotice ? h(DiagnosticNoticePanel, { notice: lessonStartNotice }) : null,
+    routeProgress ? h(RouteProgressSummaryPanel, { routeProgress }) : null,
     h(
       "dl",
-      { className: "diagnostic-handoff-list", "aria-label": "Безопасные поля handoff" },
-      h("div", null, h("dt", null, "Состояние"), h("dd", null, handoff.state)),
-      h("div", null, h("dt", null, "Route preview"), h("dd", null, handoff.routePreview ? "включён" : "выключен")),
-      h("div", null, h("dt", null, "Первый урок"), h("dd", null, handoff.recommendedFirstLessonId)),
-      h("div", null, h("dt", null, "Создано"), h("dd", null, formatDiagnosticTimestamp(handoff.createdAt))),
-      h("div", null, h("dt", null, "Обновлено"), h("dd", null, formatDiagnosticTimestamp(handoff.updatedAt))),
-      h("div", null, h("dt", null, "Отправлено"), h("dd", null, formatDiagnosticTimestamp(handoff.submittedAt)))
+      { className: "diagnostic-transfer-list", "aria-label": "Безопасные поля передачи" },
+      h("div", null, h("dt", null, "Состояние"), h("dd", null, safeTransfer.state)),
+      h("div", null, h("dt", null, "Предварительный маршрут"), h("dd", null, safeTransfer.routePreview ? "включён" : "выключен")),
+      h("div", null, h("dt", null, "Первый урок"), h("dd", null, safeTransfer.recommendedFirstLessonId)),
+      h("div", null, h("dt", null, "Создано"), h("dd", null, formatDiagnosticTimestamp(safeTransfer.createdAt))),
+      h("div", null, h("dt", null, "Обновлено"), h("dd", null, formatDiagnosticTimestamp(safeTransfer.updatedAt))),
+      h("div", null, h("dt", null, "Отправлено"), h("dd", null, formatDiagnosticTimestamp(safeTransfer.submittedAt)))
     ),
     h(
       "ul",
       { className: "diagnostic-boundary-list" },
-      h("li", null, "Финальный scoring, уровень и полный маршрут не назначаются в этом sprint."),
-      h("li", null, "Личные ответы не показываются в handoff."),
-      h("li", null, "Backend фиксирует только старт или возврат к N1, без завершения, теста, практики, баллов или наград."),
+      h("li", null, "Итоговая оценка, уровень и полный маршрут не назначаются на этом шаге."),
+      h("li", null, "Личные ответы не показываются в передаче к уроку."),
+      h("li", null, "Сервер фиксирует только старт или возврат к N1, без завершения, теста, практики, баллов или наград."),
       h("li", null, "Переход к N1 не является финансовым, налоговым, кредитным или инвестиционным советом.")
     ),
     h(
@@ -815,7 +910,11 @@ function DiagnosticSubmittedHandoff({
       h(
         "button",
         { className: "primary-action", disabled: lessonStartBusy, onClick: onStartLesson, type: "button" },
-        lessonStartBusy ? "Открываем N1..." : "Начать или продолжить N1"
+        lessonStartBusy
+          ? "Открываем N1..."
+          : routeProgress?.nextAction === "RESUME_N1"
+            ? "Продолжить N1"
+            : "Начать N1"
       ),
       onContinueToContact
         ? h(
@@ -828,30 +927,61 @@ function DiagnosticSubmittedHandoff({
   );
 }
 
-function N1BackendProgressBanner({ progress }: { progress: DiagnosticN1LessonProgress }) {
+function RouteProgressSummaryPanel({ routeProgress }: { routeProgress: DiagnosticRouteProgressSummary }) {
   return h(
     "section",
-    { className: "lesson-progress-card", "aria-labelledby": "n1-backend-progress-title" },
+    { className: "route-progress-panel", "aria-labelledby": "route-progress-title" },
+    h("p", { className: "section-label" }, "Прогресс маршрута"),
+    h("h3", { id: "route-progress-title" }, "Следующий шаг готов"),
+    h(
+      "dl",
+      { className: "route-progress-grid", "aria-label": "Краткая сводка маршрута" },
+      h("div", null, h("dt", null, "Диагностика"), h("dd", null, routeProgress.diagnosticState)),
+      h("div", null, h("dt", null, "Предварительно"), h("dd", null, routeProgress.routePreview ? "N1" : "нет")),
+      h("div", null, h("dt", null, "N1"), h("dd", null, n1ProgressStatusLabel(routeProgress))),
+      h("div", null, h("dt", null, "Действие"), h("dd", null, routeProgress.nextAction === "RESUME_N1" ? "продолжить" : "начать"))
+    )
+  );
+}
+
+function N1ProgressBanner({
+  progress,
+  routeProgress
+}: {
+  progress: DiagnosticN1LessonProgress;
+  routeProgress: DiagnosticRouteProgressSummary | null;
+}) {
+  return h(
+    "section",
+    { className: "lesson-progress-card", "aria-labelledby": "n1-progress-title" },
     h(
       "div",
       null,
-      h("p", { className: "section-label" }, "Backend progress"),
-      h("h2", { id: "n1-backend-progress-title" }, progress.idempotentResume ? "N1 продолжен" : "N1 начат"),
+      h("p", { className: "section-label" }, "Прогресс на сервере"),
+      h("h2", { id: "n1-progress-title" }, progress.idempotentResume ? "N1 продолжен" : "N1 начат"),
       h(
         "p",
         null,
-        "Записан только старт или возврат к уроку. Прохождение блоков, мини-тест, практика, баллы и награды в этом sprint не фиксируются."
+        "Записан только старт или возврат к уроку. Прохождение блоков, мини-тест, практика, баллы и награды на этом шаге не фиксируются."
       )
     ),
+    routeProgress ? h(RouteProgressSummaryPanel, { routeProgress }) : null,
     h(
       "dl",
-      { className: "diagnostic-handoff-list", "aria-label": "Поля прогресса N1" },
+      { className: "diagnostic-transfer-list", "aria-label": "Поля прогресса N1" },
       h("div", null, h("dt", null, "Урок"), h("dd", null, progress.lessonId)),
       h("div", null, h("dt", null, "Статус"), h("dd", null, progress.status)),
       h("div", null, h("dt", null, "Старт"), h("dd", null, formatDiagnosticTimestamp(progress.startedAt))),
       h("div", null, h("dt", null, "Открыто"), h("dd", null, formatDiagnosticTimestamp(progress.lastOpenedAt)))
     )
   );
+}
+
+function n1ProgressStatusLabel(routeProgress: DiagnosticRouteProgressSummary): string {
+  if (routeProgress.n1.status === "NOT_STARTED") {
+    return "не начат";
+  }
+  return routeProgress.n1.lastOpenedAt ? `начат · ${formatDiagnosticTimestamp(routeProgress.n1.lastOpenedAt)}` : "начат";
 }
 
 function DiagnosticApiErrorPanel({

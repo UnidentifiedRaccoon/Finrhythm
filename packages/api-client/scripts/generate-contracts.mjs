@@ -14,7 +14,10 @@ const enumConstNames = new Map([
   ["AccessPoolStatus", "ACCESS_POOL_STATUSES"],
   ["PilotLaunchStatus", "PILOT_LAUNCH_STATUSES"],
   ["LegalDocumentType", "LEGAL_DOCUMENT_TYPES"],
-  ["LessonProgressStatus", "LESSON_PROGRESS_STATUSES"]
+  ["LessonProgressStatus", "LESSON_PROGRESS_STATUSES"],
+  ["LearningRouteDiagnosticState", "LEARNING_ROUTE_DIAGNOSTIC_STATES"],
+  ["LearningRouteN1Status", "LEARNING_ROUTE_N1_STATUSES"],
+  ["LearningRouteNextAction", "LEARNING_ROUTE_NEXT_ACTIONS"]
 ]);
 
 const openApi = JSON.parse(await readFile(openApiPath, "utf8"));
@@ -48,6 +51,7 @@ function generateContracts(document, schemaMap) {
     ...emitEmployeeMeContactUpdateClient(document),
     ...emitDiagnosticMeDraftClient(document),
     ...emitDiagnosticMeSubmitClient(document),
+    ...emitLearningMeRouteProgressClient(document),
     ...emitLearningMeLessonStartClient(document),
     ""
   ];
@@ -475,6 +479,42 @@ function emitDiagnosticMeSubmitClient(document) {
     "    throw new Error(`POST ${url.pathname} failed with HTTP ${response.status}.`);",
     "  }",
     "  return (await response.json()) as DiagnosticSubmitResponse;",
+    "}",
+    ""
+  ];
+}
+
+function emitLearningMeRouteProgressClient(document) {
+  const path = "/api/v1/learning/me/route-progress";
+  const operation = document.paths?.[path]?.get;
+  if (!operation) {
+    throw new Error(`Missing OpenAPI operation for ${path}`);
+  }
+
+  return [
+    `export const LEARNING_ME_ROUTE_PROGRESS_PATH = ${JSON.stringify(path)};`,
+    "",
+    "export function buildLearningMeRouteProgressUrl(baseUrl: string | URL): URL {",
+    "  return new URL(LEARNING_ME_ROUTE_PROGRESS_PATH, baseUrl);",
+    "}",
+    "",
+    "export async function fetchLearningMeRouteProgress(",
+    "  baseUrl: string | URL,",
+    "  params: DiagnosticMeAuthRequest,",
+    "  init: ApiClientRequestInit = {}",
+    "): Promise<LearningRouteProgressResponse> {",
+    "  const url = buildLearningMeRouteProgressUrl(baseUrl);",
+    "  const headers = new Headers(init.headers);",
+    "  headers.set(\"authorization\", `Bearer ${params.profileSessionToken}`);",
+    "  const response = await fetch(url, {",
+    "    ...init,",
+    "    method: \"GET\",",
+    "    headers",
+    "  });",
+    "  if (!response.ok) {",
+    "    throw new Error(`GET ${url.pathname} failed with HTTP ${response.status}.`);",
+    "  }",
+    "  return (await response.json()) as LearningRouteProgressResponse;",
     "}",
     ""
   ];

@@ -639,6 +639,39 @@
           }
         }
       }
+    },
+    "/api/v1/learning/me/route-progress": {
+      "get": {
+        "operationId": "routeProgress",
+        "summary": "Read diagnostic route and N1 progress summary",
+        "security": [
+          {
+            "employeeProfileSessionBearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read-only route/progress summary.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LearningRouteProgressResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Profile session token is missing, malformed, expired, revoked or unknown.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1665,6 +1698,84 @@
           "idempotentResume": {
             "type": "boolean",
             "description": "True when the call resumed an existing N1 progress row instead of creating one."
+          }
+        }
+      },
+      "LearningRouteDiagnosticState": {
+        "type": "string",
+        "description": "Diagnostic state exposed by the safe route/progress summary.",
+        "enum": [
+          "NOT_STARTED",
+          "DRAFT",
+          "SUBMITTED"
+        ]
+      },
+      "LearningRouteN1Status": {
+        "type": "string",
+        "description": "N1 response-level progress state. NOT_STARTED is not persisted.",
+        "enum": [
+          "NOT_STARTED",
+          "STARTED"
+        ]
+      },
+      "LearningRouteNextAction": {
+        "type": "string",
+        "description": "Safe next action for the mounted profile-session UI.",
+        "enum": [
+          "COMPLETE_DIAGNOSTIC",
+          "START_N1",
+          "RESUME_N1"
+        ]
+      },
+      "LearningRouteN1ProgressResponse": {
+        "type": "object",
+        "description": "Safe N1 progress summary for the profile-session route panel.",
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "$ref": "#/components/schemas/LearningRouteN1Status"
+          },
+          "startedAt": {
+            "type": "string",
+            "description": "First successful N1 start timestamp. Omitted until a progress row exists.",
+            "format": "date-time"
+          },
+          "lastOpenedAt": {
+            "type": "string",
+            "description": "Most recent N1 start/resume timestamp. Omitted until a progress row exists.",
+            "format": "date-time"
+          }
+        }
+      },
+      "LearningRouteProgressResponse": {
+        "type": "object",
+        "description": "Read-only safe route/progress summary for the authenticated employee.",
+        "required": [
+          "diagnosticState",
+          "routePreview",
+          "n1",
+          "nextAction"
+        ],
+        "properties": {
+          "diagnosticState": {
+            "$ref": "#/components/schemas/LearningRouteDiagnosticState"
+          },
+          "routePreview": {
+            "type": "boolean",
+            "description": "True only when a submitted diagnostic safely exposes the N1 handoff."
+          },
+          "recommendedFirstLessonId": {
+            "type": "string",
+            "description": "Safe first lesson handoff. Omitted until diagnostic submit safely recommends N1.",
+            "example": "N1"
+          },
+          "n1": {
+            "$ref": "#/components/schemas/LearningRouteN1ProgressResponse"
+          },
+          "nextAction": {
+            "$ref": "#/components/schemas/LearningRouteNextAction"
           }
         }
       }

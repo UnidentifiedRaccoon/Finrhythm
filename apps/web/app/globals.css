@@ -627,7 +627,7 @@ p {
   cursor: wait;
 }
 
-.diagnostic-handoff-list {
+.diagnostic-transfer-list {
   background: var(--color-surface-primary);
   border: 1px solid var(--card-completed-border);
   border-radius: var(--radius-md);
@@ -637,23 +637,23 @@ p {
   padding: var(--card-padding-md);
 }
 
-.diagnostic-handoff-list div {
+.diagnostic-transfer-list div {
   border-bottom: 1px solid var(--color-divider);
   display: grid;
   gap: 4px;
   padding: var(--space-xs) 0;
 }
 
-.diagnostic-handoff-list div:first-child {
+.diagnostic-transfer-list div:first-child {
   padding-top: 0;
 }
 
-.diagnostic-handoff-list div:last-child {
+.diagnostic-transfer-list div:last-child {
   border-bottom: 0;
   padding-bottom: 0;
 }
 
-.diagnostic-handoff-list dt {
+.diagnostic-transfer-list dt {
   color: var(--color-text-muted);
   font-size: var(--text-caption-size);
   font-weight: 700;
@@ -661,7 +661,7 @@ p {
   text-transform: uppercase;
 }
 
-.diagnostic-handoff-list dd {
+.diagnostic-transfer-list dd {
   color: var(--color-text-primary);
   font-size: var(--text-body-md-size);
   font-weight: 700;
@@ -785,6 +785,48 @@ p {
   display: grid;
   gap: var(--space-xs);
   margin-top: var(--space-md);
+}
+
+.route-progress-panel {
+  background: var(--color-bg-soft);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--card-radius);
+  display: grid;
+  gap: var(--space-sm);
+  margin: var(--space-md) 0;
+  padding: var(--space-md);
+}
+
+.route-progress-panel h3 {
+  font-size: var(--text-body-size);
+  line-height: var(--text-body-line);
+  margin: 0;
+}
+
+.route-progress-grid {
+  display: grid;
+  gap: var(--space-xs);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+}
+
+.route-progress-grid div {
+  min-width: 0;
+}
+
+.route-progress-grid dt {
+  color: var(--color-text-muted);
+  font-size: var(--text-caption-size);
+  line-height: var(--text-caption-line);
+}
+
+.route-progress-grid dd {
+  color: var(--color-text-primary);
+  font-size: var(--text-body-sm-size);
+  font-weight: 700;
+  line-height: var(--text-body-sm-line);
+  margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .progress-copy {

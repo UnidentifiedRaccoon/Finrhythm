@@ -1,9 +1,9 @@
-# Sprint contract: MVP-07-diagnostic-n1-learning-progress-001
+# Sprint contract: MVP-07-n1-route-progress-summary-001
 
 Stage: `mvp`
-Parent unit: scoped prerequisite across `MVP-07` safe diagnostic handoff and `MVP-06.04` / N1 learning delivery
-Status: `SCOPED_PASS`
-Proof status: `FRESH_VERIFIER_PASS`
+Parent unit: scoped prerequisite across `MVP-07.04` safe resume/retry and `MVP-06.04` N1 progress visibility
+Status: `PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC`
+Proof status: `PASS`
 Functional passes: `true`
 Created: 2026-05-14
 Owner role: `stage_builder`
@@ -11,39 +11,34 @@ Publish after pass: `true`
 
 ## Purpose
 
-After the verified diagnostic submit flow returns `recommendedFirstLessonId="N1"`, add the smallest backend-owned lesson start/resume progress foundation for synthetic N1 and wire the web continuation to that backend through generated `@finrhythm/api-client` helpers.
+After the verified `MVP-07-diagnostic-n1-learning-progress-001` slice, the product has diagnostic submit -> backend-owned `N1` start/resume progress -> mounted web `N1` continuation.
 
-This is a narrow handoff slice. It makes the N1 continuation durable enough to prove that a profile-session authenticated employee can start or resume N1 after diagnostics, while keeping the profile-session token only in mounted component memory.
+The next high-impact slice is a read-only backend-owned route/progress summary for the same mounted profile-session flow. It should answer: "is diagnostic handoff ready, and can this employee start or resume `N1`?" without mutating progress, without final scoring/routing and without moving the profile-session token out of component memory.
 
-It is not full `MVP-06`, not full `MVP-07`, not a scoring/routing engine, not lesson completion, not quiz/practice submission, not points/rewards and not a human-gate closure.
+This is not full `MVP-06`, not full `MVP-07`, not final route assignment, not lesson completion, not analytics, not points/rewards and not a human-gate closure.
 
 ## Baseline And Source Refs
 
-- Previous fresh verifier `PASS` before this contract: `MVP-07-diagnostic-web-api-integration-001`.
+- Latest fresh verifier `PASS`: `MVP-07-diagnostic-n1-learning-progress-001`.
 - Current immutable PASS proof refs:
   - `.agent/stages/mvp/evidence/MVP-07-diagnostic-n1-learning-progress-001.md`
   - `.agent/stages/mvp/evidence/MVP-07-diagnostic-n1-learning-progress-001.json`
   - `.agent/stages/mvp/verdicts/MVP-07-diagnostic-n1-learning-progress-001.json`
   - `.agent/stages/mvp/problems/MVP-07-diagnostic-n1-learning-progress-001.md`
-- Previous immutable proof refs:
-  - `.agent/stages/mvp/evidence/MVP-07-diagnostic-web-api-integration-001.md`
-  - `.agent/stages/mvp/evidence/MVP-07-diagnostic-web-api-integration-001.json`
-  - `.agent/stages/mvp/verdicts/MVP-07-diagnostic-web-api-integration-001.json`
-  - `.agent/stages/mvp/problems/MVP-07-diagnostic-web-api-integration-001.md`
-- Latest aliases `evidence.json`, `verdict.json` and `problems.md` now point to `MVP-07-diagnostic-n1-learning-progress-001` after parent PASS sync.
+- Latest aliases `evidence.json`, `verdict.json` and `problems.md` now point to `MVP-07-n1-route-progress-summary-001` after builder/fixer evidence and a fresh verifier rerun `PASS`.
 - Backend baseline is mandatory: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
-- Known repo baseline before builder:
-  - no `apps/api/src/main/java/com/finrhythm/api/learning/**` package exists yet;
-  - latest migration is `V011__diagnostic_draft_attempt.sql`;
-  - existing web flow has `DiagnosticApiFlowScreen` in mounted `/profile/session` after legal acceptance;
-  - existing diagnostic submit handoff renders safe N1;
-  - existing web N1 lesson renderer/fixture is synthetic and display-only.
+- Repo state confirmed by spec freeze:
+  - existing learning backend exposes `POST /api/v1/learning/me/lessons/{lessonId}/start`;
+  - existing generated client exposes `startLearningMeLesson`;
+  - no read-only route/progress summary endpoint or generated helper exists yet;
+  - `apps/web/components/diagnostic-api-flow-screen.ts` keeps `profileSessionToken` in mounted state/props and starts `N1` through the generated helper;
+  - `apps/web` renders synthetic `N1` display content only after backend start/resume succeeds.
 
 Do not read `.agent/stages/**/raw/**` unless a current evidence/problem/audit question names an exact raw ref.
 
 ## Required Inputs For Builder
 
-Use read-gating from `READ_MATRIX.md` and read only current sources needed for the implementation:
+Use read-gating from `READ_MATRIX.md` and read only current sources needed for implementation:
 
 - `AGENTS.md`;
 - `apps/api/AGENTS.md`;
@@ -52,13 +47,11 @@ Use read-gating from `READ_MATRIX.md` and read only current sources needed for t
 - `docs/architecture/documentation-workflow.md`;
 - `docs/stages/MVP.md` relevant `MVP-06` and `MVP-07` sections;
 - `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md` learning loop and privacy/reporting snippets;
-- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` N1, lesson status, diagnostic handoff, sensitive-data and analytics snippets;
-- `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md` route result, lesson, progress and privacy patterns;
-- `docs/architecture/access-and-subscriptions.md` current profile-session and diagnostic draft boundaries;
+- `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` N1, status, diagnostic handoff, sensitive-data and reporting snippets;
+- `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md` progress, route result, lesson and privacy patterns;
 - `.agents/skills/stage-launch-proof-loop/profiles/CONTENT_PROFILE.md`;
-- current diagnostic/profile-session code under `apps/web`;
-- current synthetic N1 renderer/fixture files under `apps/web`;
-- current diagnostic/profile-session backend code under `apps/api`;
+- current diagnostic/profile-session/learning code under `apps/api`;
+- current mounted profile-session diagnostic/N1 code under `apps/web`;
 - current generated api-client contract surface.
 
 ## Builder First Touch
@@ -67,40 +60,46 @@ The first meaningful builder touch must be in `apps/api` production or test file
 
 Preferred first-touch targets:
 
-- `apps/api/src/main/resources/db/migration/V012__employee_lesson_progress.sql`;
-- new `apps/api/src/main/java/com/finrhythm/api/learning/**`;
-- focused backend integration test under `apps/api/src/test/java/com/finrhythm/api/learning/**` or an equivalent focused IT.
+- `apps/api/src/main/java/com/finrhythm/api/learning/service/**`;
+- `apps/api/src/main/java/com/finrhythm/api/learning/persistence/**`;
+- `apps/api/src/main/java/com/finrhythm/api/learning/web/**`;
+- focused backend integration test under `apps/api/src/test/java/com/finrhythm/api/learning/**`.
 
-Stage artifacts, docs, generated client and web integration come only after backend production/test work exists.
+No migration is expected. If the builder proves a migration is required, it must be append-only and use the next available Flyway version, likely `V013`.
 
 ## In Scope
 
-- Add append-only Flyway migration for employee lesson progress for N1 only.
-- Add backend `learning` service/repository/controller surface under existing employee profile-session bearer auth.
-- Resolve `employee_registration_id`, `tenant_id`, `pilot_launch_id` and `access_pool_id` server-side from the authenticated profile session; do not accept those values from request bodies.
-- Implement idempotent N1 start/resume progress. Preferred API surface:
-  - `POST /api/v1/learning/me/lessons/{lessonId}/start` for idempotent start/resume;
-  - optional `GET /api/v1/learning/me/lessons/{lessonId}/progress` if it makes resume clearer.
-- Restrict `lessonId` to `N1` for this contract. `N2+`, full lesson catalogs and CMS-backed lesson lookup remain out of scope.
-- Persist only minimal progress fields needed to prove start/resume, for example lesson id, status `NOT_STARTED|STARTED`, timestamps and registration/scope references.
-- Repeated start/resume for the same profile-session registration and `N1` must be safe and non-duplicating.
-- A different employee registration must not see or mutate another registration's N1 progress.
-- Keep raw profile-session token, raw invite code, token hash, lookup hash, contact proof, diagnostic answers, exact sums, free-form personal finance reports and request/response bodies out of lesson-progress storage and logs.
-- Update OpenAPI from backend source and regenerate/synchronize `packages/api-client` so web uses generated learning helper(s), not hand-written fetch calls or duplicate DTOs.
-- Wire the web continuation after diagnostic submit to call the generated learning helper(s) with the profile-session token kept only in mounted component memory.
-- Prefer rendering or continuing N1 inside the same mounted profile-session component tree after successful backend start/resume. If the builder uses `/learning/lessons/N1`, it must prove the token is not transferred through URL/storage/cookies and that progress start/resume happened before navigation while the token was still in memory.
-- Reuse the existing synthetic N1 `LessonRendererScreen`/fixture as display content; backend owns progress state, not lesson content.
-- Keep standalone `/diagnostics` as preview-only unless a narrower safe replacement is proven.
-- Preserve existing `/start`, `/onboarding/privacy`, `/profile/session`, legal acceptance, profile contact, diagnostic draft GET/PUT/POST and `/learning/lessons/N1|N2|N3` behavior unless directly scoped.
+- Add a read-only backend route/progress summary endpoint under existing employee profile-session bearer auth. Preferred shape:
+  - `GET /api/v1/learning/me/route-progress`.
+- The endpoint must accept no request body and must resolve registration/scope server-side from the authenticated profile session.
+- Compose only existing safe state:
+  - diagnostic state: `NOT_STARTED`, `DRAFT` or `SUBMITTED`;
+  - `routePreview=true` and `recommendedFirstLessonId=N1` only when the current diagnostic attempt is safely submitted;
+  - `N1` progress status: `NOT_STARTED` or `STARTED`;
+  - `startedAt` and `lastOpenedAt` only when an `N1` progress row exists;
+  - safe next action such as `COMPLETE_DIAGNOSTIC`, `START_N1` or `RESUME_N1`.
+- The read endpoint must not create, update or delete diagnostic attempts or lesson progress.
+- Cross-registration isolation must hold: one employee sees only their own diagnostic/progress summary.
+- Missing, malformed, unknown, expired and revoked profile-session tokens must return safe `401` without persistence.
+- Update OpenAPI from backend source and regenerate/synchronize `packages/api-client`.
+- Add a generated client helper for the route/progress summary; web must consume that helper, not hand-written URLs/fetches/DTOs.
+- Wire the mounted `/profile/session` diagnostic/N1 flow to render a compact route/progress panel:
+  - after a submitted diagnostic handoff is detected;
+  - before starting `N1`, showing that `N1` has not started yet;
+  - after successful start/resume, showing the backend-owned `STARTED` summary.
+- Keep `N1` display content synthetic and draft/human-review-required.
+- Preserve existing `/start`, `/onboarding/privacy`, `/profile/session`, legal acceptance, profile contact update, diagnostic draft GET/PUT/POST, diagnostic submit and `POST /learning/me/lessons/N1/start` behavior unless directly scoped.
+- Keep standalone `/diagnostics` preview-only.
+- Profile-session token must remain only in mounted component memory: no URL path/query/hash, `localStorage`, `sessionStorage`, cookies, `document.cookie`, `cookieStore`, IndexedDB, service-worker caches, console logs, request/response echoes or tracked screenshots.
 
 ## Out Of Scope
 
 - Full `MVP-06`, full `MVP-07`, full MVP stage or human-gate closure.
-- Learning completion, theory-completed state, quiz submission/scoring, practice submission, `completed`, `mastered` or `needs_reinforcement` state.
-- Points, rewards, wallet, ledger, anti-farm rewards, challenge progress, merch or store behavior.
-- Final diagnostic scoring/routing, full `Q1-Q27`, `Q28`, final `R1-R6`, weak zones, final level, HR diagnostic insights, HR reports or analytics/events.
+- Learning completion, theory-completed state, quiz submission/scoring, practice submission, `completed`, `mastered`, `needs_reinforcement` or unlocking `N2+`.
+- Points, rewards, wallet, ledger, anti-farm rewards, challenge progress, store, merch or fulfillment.
+- Final diagnostic scoring/routing, full `Q1-Q27`, `Q28`, final `R1-R6`, weak zones, final level, route explanation correctness, HR diagnostic insights, HR reports or analytics/events.
 - Production CMS/admin lesson publishing, content states, publish validation, lesson CRUD, production content approval or methodologist workflow closure.
-- `N2+` backend progress, route ordering beyond safe N1 handoff, optional `Z1/Z4/Z9`, support handoff or question forms.
+- `N2+` backend progress, optional `Z1/Z4/Z9`, support handoff or question forms.
 - Exact income, debt, balance, account numbers, photos, documents, bank screenshots, exact-sum requirements or free-form personal finance reports.
 - Personal financial, investment, tax, credit, debt or legal advice.
 - Customer brand in employee-facing UI, real employee/customer/personal/financial data or production legal/privacy wording approval.
@@ -109,31 +108,31 @@ Stage artifacts, docs, generated client and web integration come only after back
 ## Acceptance Checklist
 
 - First meaningful builder touch is in `apps/api` production/test files.
-- Migration is append-only and uses the next available version, expected `V012__employee_lesson_progress.sql` if the repository has not advanced.
-- Backend code lives in a focused learning package/service/repository/controller shape; controllers stay thin.
-- All new learning endpoints require `employeeProfileSessionBearerAuth`.
-- Request bodies do not accept employee registration, tenant, pilot launch, access pool, user, organization, subscription, seat or entitlement identifiers.
-- Only `N1` is allowed; unsupported lesson ids return a safe client error and do not persist progress.
-- Start/resume is idempotent for the same authenticated registration and N1.
-- Cross-registration isolation is covered by tests.
-- Expired, revoked, missing, malformed and unknown profile-session tokens return safe `401` without lesson progress persistence.
-- No raw profile-session token, raw invite code, token hash, lookup hash, contact proof, diagnostic answers, exact sensitive values, request bodies or response bodies are persisted.
-- OpenAPI snapshot reflects the new learning endpoint(s), auth and response DTOs.
+- Backend controller remains thin; route/progress composition lives in service/repository code.
+- New endpoint requires `employeeProfileSessionBearerAuth`.
+- Endpoint is read-only and persists nothing in all success and failure states.
+- Request body is absent; request does not accept employee registration, tenant, pilot launch, access pool, user, organization, subscription, seat or entitlement identifiers.
+- Response includes only safe summary fields and no internal scope IDs, attempt IDs, progress IDs, raw tokens, token hashes, raw invite codes, lookup hashes, diagnostic answers, score, final level, `R1-R6`, weak zones, HR insight fields, request body echo, response body echo or exact sensitive values.
+- `NOT_STARTED` is response-level only unless a migration explicitly and safely introduces it; the existing `employee_lesson_progress` table must not be polluted by read-only checks.
+- Diagnostic `DRAFT` and `SUBMITTED` states are distinguished without exposing answers.
+- `N1` status is `NOT_STARTED` when no progress row exists and `STARTED` after the prior start/resume endpoint succeeds.
+- Cross-registration isolation is covered by backend tests.
+- Missing, malformed, unknown, expired and revoked profile-session tokens return safe `401` without diagnostic or learning persistence.
+- OpenAPI snapshot reflects the new read endpoint, auth and response DTOs.
 - `packages/api-client` generated contracts/helpers are synchronized from OpenAPI/source.
-- Web continuation uses generated `@finrhythm/api-client` learning helper(s); no hand-written learning endpoint URLs/fetches/DTOs are introduced.
-- Profile-session token remains only in mounted component memory and is not written to URL path/query/hash, `localStorage`, `sessionStorage`, cookies, `document.cookie`, `cookieStore`, IndexedDB, service-worker caches or logs.
-- Diagnostic submit still renders only safe N1 handoff fields and does not gain score, level, weak-zone, HR report, points or completion claims.
-- N1 rendering/continuation stays Russian, neutral, privacy-first, mobile-first and aligned with design-system v0.1.
-- Existing synthetic N1 content remains draft/synthetic and does not claim financial/legal approval or production content approval.
-- Browser/mobile evidence covers profile-session creation, legal acceptance, diagnostic GET/PUT/POST, N1 progress start/resume API call and N1 continuation.
-- Browser/source evidence confirms no token appears in URL before, during or after the N1 progress continuation.
-- Scoped functional pass is allowed only for this contract after builder evidence and fresh verifier PASS.
+- Web route/progress panel uses generated helper(s); no hand-written learning route-progress endpoint URLs/fetches/DTOs are introduced.
+- Web panel copy is Russian, neutral, privacy-first and mobile-first.
+- Browser evidence covers profile-session creation, legal acceptance, diagnostic submitted handoff, route/progress summary before `N1` start, `N1` start/resume and route/progress summary after start.
+- Browser/source evidence confirms no token appears in URL before, during or after route-progress summary and N1 continuation.
+- Existing safe diagnostic handoff still exposes only `routePreview=true`, `recommendedFirstLessonId=N1`, state and timestamps.
+- No final scoring, final route assignment, `R1-R6`, HR reporting, analytics/events, points, rewards, lesson completion, quiz/practice submission, exact sensitive data, advice, customer brand or real data is introduced.
+- Scoped functional pass is allowed only after builder evidence and fresh verifier `PASS`.
 
 ## Required Validation
 
 The builder must run and record command evidence with exit status and raw refs:
 
-- focused backend learning integration test, for example `cd apps/api && ./mvnw -q -Dtest=*Learning* test` or exact available substitute;
+- focused backend learning route/progress test, for example `cd apps/api && ./mvnw -q -Dtest=*RouteProgress* test` or exact available substitute;
 - `cd apps/api && ./mvnw -q verify`;
 - OpenAPI generation/check command used by this repo;
 - `pnpm --filter @finrhythm/api-client build`;
@@ -143,25 +142,25 @@ The builder must run and record command evidence with exit status and raw refs:
 - `pnpm --filter @finrhythm/web typecheck`;
 - `pnpm --filter @finrhythm/web test`;
 - `pnpm --filter @finrhythm/web build`;
-- browser smoke covering diagnostic N1 start/resume continuation, with screenshots;
+- browser smoke covering route/progress summary before and after `N1` start/resume, with screenshots;
 - `make verify`;
 - `make test-unit`;
 - `make build`;
 - `jq empty` for changed JSON artifacts;
 - `git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'`;
-- guardrail scans for first touch, no token storage/URL leakage, no hand-written learning fetch/DTOs, N1-only scope, no completion/quiz/practice/points/rewards, no scoring/R1-R6/HR reports/analytics, no exact sensitive data/advice and no real data.
+- guardrail scans for first touch, read-only endpoint behavior, no token storage/URL leakage, no hand-written route-progress fetch/DTOs, no response scope/answer/scoring leaks, N1-only scope, no completion/quiz/practice/points/rewards, no scoring/R1-R6/HR reports/analytics, no exact sensitive data/advice and no real data.
 
 ## Evidence Handoff Required
 
 The builder must record:
 
 - changed production/test files, with first-touch proof;
-- migration summary and table/index/constraint shape;
-- learning endpoint request/response/auth summary;
-- service/repository idempotency and isolation behavior;
+- endpoint request/response/auth summary;
+- explicit read-only/no-persistence proof for success and failure states;
+- service/repository isolation behavior;
 - OpenAPI and generated-client sync notes;
-- generated learning helper(s) used by web;
-- exact diagnostic-to-N1 progress continuation flow;
+- generated route/progress helper(s) used by web;
+- exact diagnostic-to-route-progress-to-N1 flow;
 - proof that the profile-session token stays in mounted component memory only;
 - browser screenshots and smoke raw refs;
 - command raw refs and outcomes;
@@ -169,16 +168,15 @@ The builder must record:
 - docs updated and diagram refs;
 - backend baseline note: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc;
 - explicit out-of-scope confirmation for completion, quiz, practice, points, rewards, scoring, `R1-R6`, HR reports, analytics/events, exact sensitive data, advice and full MVP closure;
-- immutable evidence/verdict/problems refs for `MVP-07-diagnostic-n1-learning-progress-001` after builder and fresh verifier phases.
+- immutable evidence/verdict/problems refs for `MVP-07-n1-route-progress-summary-001` after builder and fresh verifier phases.
 
 ## Doc Targets And Diagram Expectations
 
-- Required canonical doc target: `docs/architecture/access-and-subscriptions.md`, because the profile-session bearer boundary expands from profile/contact/diagnostics to N1 learning progress. Add or refresh a compact Mermaid learning progress handoff/state diagram unless the builder proves existing docs already cover this exact boundary.
-- Product docs target: `NOOP_EXPECTED` for `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`, `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` and `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md` if existing N1, progress, privacy and mobile patterns are followed.
+- Required canonical doc target: `docs/architecture/access-and-subscriptions.md`, because the profile-session learning boundary expands from `N1` start/resume mutation to a read-only route/progress summary. Refresh section 7.4 with the GET summary endpoint and a compact Mermaid flow/state diagram.
+- Product docs target: `NOOP_EXPECTED` for `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`, `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md` and `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md` if existing N1, progress, privacy, route-preview and mobile patterns are followed.
 - Update product docs only if the builder changes N1 lesson semantics, methodology statuses, sensitive-data rules, route-handoff assumptions, UI copy rules or design-system behavior.
 - API/generated-client docs target: update generated-client notes only if the repo has a relevant generated-client README/notes path or generator behavior changes.
-- Stage evidence diagram expectation: required compact Mermaid flow from diagnostic submit to N1 progress start/resume and N1 continuation.
-- Canonical Mermaid expectation: required in `docs/architecture/access-and-subscriptions.md` unless existing canonical docs already cover this exact learning-progress profile-session boundary.
+- Stage evidence diagram expectation: required compact Mermaid flow from submitted diagnostic to route-progress summary, optional `N1` start/resume and refreshed summary.
 
 ## Human Gates That Remain Open
 
@@ -194,6 +192,6 @@ The builder must record:
 
 ## Current Limitation
 
-`MVP-07-diagnostic-n1-learning-progress-001` has scoped fresh verifier `PASS`.
+`MVP-07-n1-route-progress-summary-001` is frozen only. It has no builder evidence, no fresh verifier verdict and no functional PASS.
 
-This does not close full `MVP-06`, full `MVP-07`, the MVP stage or any human gate. Post-PASS publish is required because `publish_after_pass=true`.
+Latest verified sprint remains `MVP-07-diagnostic-n1-learning-progress-001`. This new slice must keep `passes=false` until implementation evidence and fresh verification exist.

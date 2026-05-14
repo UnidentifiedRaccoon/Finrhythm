@@ -25,7 +25,7 @@ export const diagnosticQ0Options = [
   "кто увидит мои ответы",
   "сколько времени занимает старт",
   "можно ли не указывать точные суммы",
-  "что будет после preview",
+  "что будет после чернового маршрута",
   "всё понятно, хочу начать"
 ] as const;
 
@@ -102,9 +102,9 @@ const scaleOptions = [
 
 const phaseLabels: Record<DiagnosticPhase, string> = {
   q0: "Приватность до вопросов",
-  self_assessment: "Самооценка без scoring",
-  preview_questions: "Preview-вопросы",
-  route_preview: "Черновой preview"
+  self_assessment: "Самооценка без оценки",
+  preview_questions: "Пробные вопросы",
+  route_preview: "Черновой маршрут"
 };
 
 export function buildDiagnosticPreviewProgress(phase: DiagnosticPhase): DiagnosticProgress {
@@ -151,7 +151,7 @@ export function DiagnosticPreviewScreen() {
 
   return h(
     EmployeePageFrame,
-    { active: "home", className: "diagnostic-page", pill: "Диагностика preview" },
+    { active: "home", className: "diagnostic-page", pill: "Диагностика" },
     h(DiagnosticHero),
     h(DiagnosticProgressCard, { progress }),
     phase === "q0"
@@ -188,7 +188,7 @@ function DiagnosticHero() {
     "section",
     { className: "diagnostic-hero", "aria-labelledby": "diagnostic-title" },
     h("p", { className: "section-label" }, "Диагностика"),
-    h("h1", { id: "diagnostic-title" }, "Спокойный вход в preview"),
+    h("h1", { id: "diagnostic-title" }, "Спокойный вход в диагностику"),
     h(
       "p",
       null,
@@ -204,7 +204,7 @@ function DiagnosticProgressCard({ progress }: { progress: DiagnosticProgress }) 
     h(
       "div",
       { className: "progress-copy" },
-      h("span", { id: "diagnostic-progress-title" }, "Локальный progress preview"),
+      h("span", { id: "diagnostic-progress-title" }, "Локальный прогресс диагностики"),
       h("strong", null, `${progress.current} из ${progress.total}`)
     ),
     h(
@@ -215,7 +215,7 @@ function DiagnosticProgressCard({ progress }: { progress: DiagnosticProgress }) 
     h(
       "p",
       null,
-      `${progress.label}. Ответы живут только в памяти открытого экрана и не означают завершение production-диагностики.`
+      `${progress.label}. Ответы живут только в памяти открытого экрана и не означают завершение рабочей диагностики.`
     )
   );
 }
@@ -243,7 +243,7 @@ function Q0PrivacyStep({
         h(
           "p",
           null,
-          "Личные ответы, слабые зоны, точные суммы и детали рефлексии не становятся персональным HR-отчётом по умолчанию. В этом preview ничего не отправляется и не сохраняется."
+          "Личные ответы, слабые зоны, точные суммы и детали рефлексии не становятся персональным HR-отчётом по умолчанию. В этом черновике ничего не отправляется и не сохраняется."
         )
       )
     ),
@@ -252,7 +252,7 @@ function Q0PrivacyStep({
       { className: "diagnostic-panel", "aria-labelledby": "diagnostic-q0-title" },
       h("p", { className: "section-label" }, "Q0"),
       h("h2", { id: "diagnostic-q0-title" }, "Что важно знать перед стартом?"),
-      h("p", null, "Можно выбрать один или несколько пунктов. Это не маршрутный вопрос и не scoring."),
+      h("p", null, "Можно выбрать один или несколько пунктов. Это не маршрутный вопрос и не итоговая оценка."),
       h(
         "div",
         { className: "choice-grid", "aria-label": "Темы ожиданий перед диагностикой" },
@@ -296,7 +296,7 @@ function SelfAssessmentStep({
     "section",
     { className: "diagnostic-panel", "aria-labelledby": "diagnostic-sa-title" },
     h("p", { className: "section-label" }, "SA1-SA3"),
-    h("h2", { id: "diagnostic-sa-title" }, "Самооценка без scoring"),
+    h("h2", { id: "diagnostic-sa-title" }, "Самооценка без оценки"),
     h(
       "p",
       null,
@@ -334,7 +334,7 @@ function SelfAssessmentStep({
     ),
     h(DiagnosticActionRow, {
       canContinue,
-      continueLabel: "Перейти к preview-вопросам",
+      continueLabel: "Перейти к пробным вопросам",
       disabledHint: "Выберите оценку по SA1, SA2 и SA3.",
       onBack,
       onContinue
@@ -358,12 +358,12 @@ function PreviewQuestionsStep({
   return h(
     "section",
     { className: "diagnostic-panel", "aria-labelledby": "diagnostic-preview-questions-title" },
-    h("p", { className: "section-label" }, "Методологический preview"),
+    h("p", { className: "section-label" }, "Методологическая проверка"),
     h("h2", { id: "diagnostic-preview-questions-title" }, "Только несколько карточек Q1-Q3"),
     h(
       "p",
       null,
-      "Это synthetic preview будущего routing-блока. Здесь нет полного набора вопросов, финального scoring и production-маршрутизации."
+      "Это синтетический черновик будущего маршрутного блока. Здесь нет полного набора вопросов, итоговой оценки и рабочей маршрутизации."
     ),
     h(
       "div",
@@ -396,7 +396,7 @@ function PreviewQuestionsStep({
     ),
     h(DiagnosticActionRow, {
       canContinue,
-      continueLabel: "Показать черновой preview",
+      continueLabel: "Показать черновой маршрут",
       disabledHint: "Выберите вариант в Q1, Q2 и Q3.",
       onBack,
       onContinue
@@ -409,18 +409,18 @@ function RoutePreviewStep({ onBack, onRestart }: { onBack: () => void; onRestart
     "section",
     { className: "diagnostic-result-card", "aria-labelledby": "diagnostic-result-title" },
     h("p", { className: "section-label" }, "Предварительный маршрут"),
-    h("h2", { id: "diagnostic-result-title" }, "Черновой preview: начните с N1"),
+    h("h2", { id: "diagnostic-result-title" }, "Черновой маршрут: начните с N1"),
     h(
       "p",
       null,
-      "Для демонстрации безопасный handoff ведёт к уроку N1 про первую финансовую опору. Это не финальный результат диагностики, не назначение уровня и не персональный совет."
+      "Для демонстрации безопасная передача ведёт к уроку N1 про первую финансовую опору. Это не финальный результат диагностики, не назначение уровня и не персональный совет."
     ),
     h(
       "ul",
       { className: "diagnostic-boundary-list" },
       h("li", null, "Ответы не отправлялись в API и не сохранялись в браузере."),
       h("li", null, "Карточка не раскрывает личные ответы работодателю и не является персональным отчётом."),
-      h("li", null, "Preview не обещает баллы, награды, прогресс урока или готовый маршрут.")
+      h("li", null, "Черновик не обещает баллы, награды, прогресс урока или готовый маршрут.")
     ),
     h(
       "div",
@@ -432,7 +432,7 @@ function RoutePreviewStep({ onBack, onRestart }: { onBack: () => void; onRestart
       "div",
       { className: "diagnostic-action-row" },
       h("button", { className: "secondary-action", onClick: onBack, type: "button" }, "Назад"),
-      h("button", { className: "secondary-action", onClick: onRestart, type: "button" }, "Начать preview заново")
+      h("button", { className: "secondary-action", onClick: onRestart, type: "button" }, "Начать заново")
     )
   );
 }

@@ -44,6 +44,18 @@ async function checkEnums() {
       label: "LessonProgressStatus",
       enumSchema: schemas.LessonProgressResponse?.properties?.status,
       file: "apps/api/src/main/java/com/finrhythm/api/learning/domain/LessonProgressStatus.java"
+    },
+    {
+      schema: "LearningRouteDiagnosticState",
+      file: "apps/api/src/main/java/com/finrhythm/api/learning/domain/LearningRouteDiagnosticState.java"
+    },
+    {
+      schema: "LearningRouteN1Status",
+      file: "apps/api/src/main/java/com/finrhythm/api/learning/domain/LearningRouteN1Status.java"
+    },
+    {
+      schema: "LearningRouteNextAction",
+      file: "apps/api/src/main/java/com/finrhythm/api/learning/domain/LearningRouteNextAction.java"
     }
   ];
 
@@ -147,6 +159,16 @@ async function checkRecords() {
     {
       schema: "LessonProgressResponse",
       file: "apps/api/src/main/java/com/finrhythm/api/learning/web/LessonProgressResponse.java"
+    },
+    {
+      schema: "LearningRouteN1ProgressResponse",
+      file: "apps/api/src/main/java/com/finrhythm/api/learning/web/LearningRouteN1ProgressResponse.java",
+      requiredFields: ["status"]
+    },
+    {
+      schema: "LearningRouteProgressResponse",
+      file: "apps/api/src/main/java/com/finrhythm/api/learning/web/LearningRouteProgressResponse.java",
+      requiredFields: ["diagnosticState", "routePreview", "n1", "nextAction"]
     },
     {
       schema: "LegalDocumentVersionRequest",
@@ -380,6 +402,26 @@ function checkOperations() {
   }
   if (!learningStartOperation.security?.some((requirement) => requirement.employeeProfileSessionBearerAuth)) {
     throw new Error("Learning lesson start operation is missing employeeProfileSessionBearerAuth security.");
+  }
+
+  const learningRouteProgressPath = "/api/v1/learning/me/route-progress";
+  const learningRouteProgressOperation = openApi.paths?.[learningRouteProgressPath]?.get;
+  if (!learningRouteProgressOperation) {
+    throw new Error(`Missing learning route-progress operation at ${learningRouteProgressPath}`);
+  }
+  assertRef(
+    "learning route-progress 200 response",
+    learningRouteProgressOperation.responses?.["200"]?.content?.["application/json"]?.schema,
+    "#/components/schemas/LearningRouteProgressResponse"
+  );
+  if (learningRouteProgressOperation.requestBody) {
+    throw new Error("Learning route-progress operation must not accept a request body.");
+  }
+  if ((learningRouteProgressOperation.parameters ?? []).some((parameter) => parameter.in !== "header")) {
+    throw new Error("Learning route-progress operation must not accept path or query parameters.");
+  }
+  if (!learningRouteProgressOperation.security?.some((requirement) => requirement.employeeProfileSessionBearerAuth)) {
+    throw new Error("Learning route-progress operation is missing employeeProfileSessionBearerAuth security.");
   }
 
   const legalAcceptancePath = "/api/v1/employee-registrations/{employeeRegistrationId}/legal-acceptances";
