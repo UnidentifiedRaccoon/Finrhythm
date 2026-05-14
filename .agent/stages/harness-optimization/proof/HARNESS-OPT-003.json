@@ -1,0 +1,64 @@
+{
+  "stage_id": "harness-optimization",
+  "sprint_contract_id": "HARNESS-OPT-003",
+  "tier": "A",
+  "summary": "Applied harness-lite recommendations: risk tiers, compact proof defaults, code-first guardrails, lighter context search, optional publish handoff, focused validation targets and compact MVP status.",
+  "changed_product_paths": [],
+  "changed_harness_paths": [
+    "AGENTS.md",
+    ".codex/config.toml",
+    ".codex/agents/*.toml",
+    ".agents/skills/stage-launch-proof-loop/**",
+    "scripts/check-code-first-slice.mjs",
+    "scripts/validate-bootstrap.sh",
+    "Makefile",
+    ".rgignore",
+    ".gitignore",
+    ".gitattributes",
+    "docs/**",
+    "prompts/**",
+    ".agent/stages/mvp/status.json"
+  ],
+  "commands": [
+    {
+      "cmd": "./scripts/validate-bootstrap.sh",
+      "status": 0
+    },
+    {
+      "cmd": "HARNESS_PROFILE=full ./scripts/validate-bootstrap.sh",
+      "status": 0
+    },
+    {
+      "cmd": "python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id mvp --harness-profile lite",
+      "status": 0
+    },
+    {
+      "cmd": "python3 .agents/skills/stage-launch-proof-loop/scripts/verify_harness.py --stage-id harness-optimization --harness-profile lite",
+      "status": 0
+    },
+    {
+      "cmd": "make proof-lite",
+      "status": 0
+    },
+    {
+      "cmd": "node scripts/verify-bootstrap.mjs --quiet",
+      "status": 0
+    },
+    {
+      "cmd": "node --check scripts/check-code-first-slice.mjs",
+      "status": 0
+    },
+    {
+      "cmd": "node scripts/check-code-first-slice.mjs --task-kind harness --tier A",
+      "status": 0
+    },
+    {
+      "cmd": "git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'",
+      "status": 0
+    }
+  ],
+  "docs": "Updated canonical harness, DoD, documentation workflow, stage prompts and setup/contributing docs because this slice changes reusable operating contract.",
+  "human_gates": "unchanged",
+  "verdict": "PASS",
+  "updated_at": "2026-05-14"
+}

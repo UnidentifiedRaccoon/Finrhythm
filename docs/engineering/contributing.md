@@ -8,8 +8,8 @@
 - Любые изменения идут через Pull Request.
 - Один PR = одна логическая задача.
 - Один PR не должен смешивать feature, refactor, formatting, deps update и unrelated docs changes.
-- Stage не считается завершённым без evidence и verifier pass.
-- Если PR меняет product behavior, architecture/workflow contract или API expectations, canonical docs нужно обновить в том же PR.
+- Stage/Tier A work не считается завершённым без evidence и verifier pass.
+- Если PR меняет public API, schema, security/privacy boundary, legal/financial/product policy, stage scope, setup/developer workflow or reusable operating contract, canonical docs нужно обновить в том же PR.
 
 ## 2. Source of truth перед работой
 
@@ -126,10 +126,15 @@
 
 ## 7. Минимальная проверка перед PR
 
-Для code changes ожидается минимум:
-- `make verify`
-- релевантный `make test-unit`
-- релевантный `make build`
+Для Tier C/B code changes ожидается focused verification:
+- `make proof-lite`;
+- relevant package/Maven/browser checks, например `make verify-web` or `make verify-api`;
+- `node scripts/check-code-first-slice.mjs` for product Tier C/B slices when proof churn is possible.
+
+Для Tier A or pre-merge full validation:
+- `make verify-full` or `make verify`;
+- релевантный `make test-unit`;
+- релевантный `make build`.
 
 Для user-facing flows:
 - browser smoke или `make test-e2e`
@@ -203,16 +208,16 @@ Raw evidence policy для publish-only:
 
 ## 10. Agent post-PASS publish workflow
 
-Этот режим применяется к stage/task execution, где prompt, sprint contract или `publish_manifest.json` явно задаёт `publish_after_pass=true`. Stage harness отвечает за PASS-readiness and handoff, а git/GitHub publish mechanics выполняет repo-local skill `$push-main`.
+Этот режим применяется только к stage/task execution, где prompt, sprint contract или `publish_manifest.json` явно задаёт `publish_after_pass=true`. Stage harness отвечает за PASS-readiness and handoff, а git/GitHub publish mechanics выполняет repo-local skill `$push-main`.
 
 Порядок:
 
 1. Довести slice до fresh verifier `PASS`.
-2. Обновить evidence, docs, stage status and `publish_manifest.json`.
+2. Обновить evidence/proof, docs when required, stage status and `publish_manifest.json` or PR body publish proof.
 3. Проверить publish scope через `git diff --check`, исключая raw evidence pathspecs when needed.
 4. Вызвать `$push-main` for publish-only branch/commit/PR/merge/local-main update.
 5. Если `$push-main` reports blocker по permissions, conflicts, checks or branch protection, остановиться после последнего успешного publish step and record blocker.
-6. В финальном ответе указать PR URL, merge status, локальный `main` HEAD and next copyable continuation prompt.
+6. В финальном ответе указать PR URL, merge status, локальный `main` HEAD and next copyable continuation prompt only when continuation handoff was requested.
 
 Protection rules не обходить, unrelated work не включать, stage harness повторно не запускать внутри `$push-main`.
 

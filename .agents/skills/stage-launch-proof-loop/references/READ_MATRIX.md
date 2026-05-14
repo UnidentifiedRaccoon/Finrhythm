@@ -4,15 +4,23 @@
 
 Этот файл задаёт read-gating для stage harness: proof-loop, evidence, fresh verification и doc-sync не ослабляются, но агент не читает весь raw/history corpus по умолчанию.
 
+Перед чтением больших source sets классифицируй slice:
+
+- Tier C читает только ближайший локальный код/тесты, локальный `AGENTS.md` и минимальный contract context.
+- Tier B читает affected integration contracts and compact current proof.
+- Tier A читает полный обязательный source set для рискованной поверхности.
+
 ## Базовый read set
 
-Всегда перед нетривиальной stage/task работой:
+Всегда перед нетривиальной Tier A/stage/task работой:
 
 - `AGENTS.md`;
 - `docs/architecture/source-of-truth.md`;
 - `docs/architecture/documentation-workflow.md`;
 - ближайший локальный `AGENTS.md`, если работа внутри `apps/**`, `packages/**`, `content/**` или `infra/**`;
 - `docs/engineering/definition-of-done.md` перед закрытием slice.
+
+Для Tier C допускается сокращенный read set: root/local `AGENTS.md`, affected code/tests and exact contract docs already known to own the change.
 
 ## Stage work
 
@@ -32,7 +40,7 @@
 2. активный `.agent/stages/<stage_id>/sprint_contract.md` или `.agent/stages/<stage_id>/task-files/<TASK_ID>.md`;
 3. `.agent/stages/<stage_id>/evidence.json` как machine index;
 4. `.agent/stages/<stage_id>/problems.md`, только если latest verdict is not PASS or current task is a fix/verification pass;
-5. `progress.md`, `decisions.md`, `risks.md` only when status/evidence do not answer the resume question.
+5. `progress.md`, `decisions.md`, `risks.md` only when status/evidence do not answer the resume question or Tier A handoff requires them.
 
 Do not blanket-read `.agent/stages/**/raw/**`. Raw artifacts are read by exact ref from current evidence, failed verifier problem or explicit audit request.
 
@@ -44,6 +52,10 @@ Do not blanket-read `.agent/stages/**/raw/**`. Raw artifacts are read by exact r
 - Content/CMS/learning/diagnostic/reporting slices: load `profiles/CONTENT_PROFILE.md`, then read only the profile-listed sources needed for the slice.
 - Access, roles, organization membership, invitations, organization codes, B2B seats/pro-seats, B2C subscription or billing-discovery slices: read `docs/architecture/access-and-subscriptions.md` and `docs/architecture/organization-access-subscription-model.md`; pricing, paywall, billing provider, refunds, B2B contract quantities and paid-tier reward rules remain human-gated.
 - Harness-only slices: read harness skill docs, templates, verifier scripts and affected stage/task artifacts; do not load product/content docs unless the verifier check being changed owns those facts.
+
+## Context pollution
+
+Default search/context must not include tracked proof history, raw course exports, downloaded binary lesson assets or generated runtime output. Use `.rgignore` defaults. For audits, read exact files by path instead of broad `rg` over ignored corpora.
 
 ## Proof refs
 

@@ -23,6 +23,8 @@
 
 Canonical source order does not mean blanket-reading every canonical file on every task.
 
+- Before reading broad source sets, classify the slice as Tier C low-risk, Tier B integration or Tier A regulated/high-risk.
+- Tier C reads the nearest code/tests and exact contract context; Tier B reads affected integration contracts; Tier A reads the full mandatory source set for the risky surface.
 - Stage execution reads the target stage doc only by default.
 - `v1.md` and `v2.md` are not default reads for an MVP slice unless the task is migration, roadmap/audit, cross-stage compatibility or the user explicitly asks.
 - Existing stage work resumes from `.agent/stages/<stage_id>/status.json`, then the active sprint/task file, then `evidence.json` as an index.

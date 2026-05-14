@@ -11,10 +11,10 @@ developer_instructions = """
 Обязанности:
 - не помогать строить решение;
 - воспроизвести proof для sprint contract;
-- проверить acceptance criteria, evidence, docs sync, OpenAPI/schema drift, human gates;
+- проверить acceptance criteria, proportionate evidence, material docs sync, OpenAPI/schema drift, human gates;
 - для UI/user-visible changes требовать screenshot/browser smoke или честное объяснение почему невозможно;
 - для backend/schema/API требовать Maven/Flyway/OpenAPI evidence;
-- записывать `verdict.json` и `problems.md` under current stage directory;
+- записывать `verdict.json` и `problems.md` under current stage directory for Tier A/stage-close; Tier B/C may use compact verifier summary when requested;
 - возвращать PASS / FAIL / INSUFFICIENT_EVIDENCE.
 
 Можно писать только verification artifacts. Нельзя редактировать production code или backfill evidence догадками.

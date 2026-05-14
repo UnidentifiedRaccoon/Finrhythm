@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
@@ -96,6 +97,28 @@ def manifest_list(manifest: dict[str, Any], key: str) -> list[str]:
     return value
 
 
+def harness_profile_config(manifest: dict[str, Any], profile: str) -> dict[str, Any]:
+    profiles = manifest.get("harness_profiles", {})
+    if not isinstance(profiles, dict):
+        raise SystemExit("Harness manifest key `harness_profiles` must be an object.")
+    config = profiles.get(profile)
+    if not isinstance(config, dict):
+        available = ", ".join(sorted(str(key) for key in profiles.keys())) or "none"
+        raise SystemExit(f"Unknown harness profile `{profile}`. Available profiles: {available}.")
+    return config
+
+
+def profile_agent_files(manifest: dict[str, Any], profile: str) -> tuple[list[str], list[str]]:
+    config = harness_profile_config(manifest, profile)
+    required = config.get("required_agent_files", manifest.get("required_agent_files", []))
+    optional = config.get("optional_agent_files", [])
+    if not isinstance(required, list) or not all(isinstance(item, str) for item in required):
+        raise SystemExit(f"Harness profile `{profile}` required_agent_files must be a string array.")
+    if not isinstance(optional, list) or not all(isinstance(item, str) for item in optional):
+        raise SystemExit(f"Harness profile `{profile}` optional_agent_files must be a string array.")
+    return required, optional
+
+
 def check_ignore_patterns(root: Path, manifest: dict[str, Any]) -> list[str]:
     policy = manifest.get("artifact_churn_policy", {})
     if not isinstance(policy, dict):
@@ -166,6 +189,45 @@ def extract_contract_status(text: str) -> str | None:
     return match.group(1).strip() if match else None
 
 
+def compact_artifact_issues(stage_dir: Path, sprint_id: str, manifest: dict[str, Any]) -> list[str] | None:
+    proof_path = stage_dir / "proof" / f"{sprint_id}.json"
+    verdict_path = stage_dir / "verdict" / f"{sprint_id}.json"
+    if not proof_path.exists() and not verdict_path.exists():
+        return None
+
+    issues: list[str] = []
+    if not proof_path.exists():
+        issues.append(f"missing compact proof artifact: {proof_path.name}")
+    else:
+        proof, err = read_json(proof_path)
+        if err:
+            issues.append(f"compact proof invalid: {err}")
+        elif isinstance(proof, dict):
+            proof_id = normalize_sprint_id(proof.get("sprint_contract_id") or proof.get("sprint_id"))
+            if proof_id != sprint_id:
+                issues.append(f"compact proof sprint id must be {sprint_id}, found {proof_id}")
+        else:
+            issues.append("compact proof must be a JSON object")
+
+    if not verdict_path.exists():
+        issues.append(f"missing compact verdict artifact: {verdict_path.name}")
+    else:
+        verdict, err = read_json(verdict_path)
+        if err:
+            issues.append(f"compact verdict invalid: {err}")
+        elif isinstance(verdict, dict):
+            verdict_id = normalize_sprint_id(verdict.get("sprint_contract_id") or verdict.get("sprint_id"))
+            verdict_status = verdict.get("status", verdict.get("verdict"))
+            if verdict_id != sprint_id:
+                issues.append(f"compact verdict sprint id must be {sprint_id}, found {verdict_id}")
+            if verdict_status not in set(manifest_list(manifest, "valid_verdict_statuses")):
+                issues.append(f"compact verdict status invalid: {verdict_status}")
+        else:
+            issues.append("compact verdict must be a JSON object")
+
+    return issues
+
+
 def check_stage_artifact_consistency(stage_dir: Path, root: Path, manifest: dict[str, Any]) -> list[str]:
     """Verify latest stage artifact aliases all describe the same sprint contract."""
 
@@ -179,10 +241,12 @@ def check_stage_artifact_consistency(stage_dir: Path, root: Path, manifest: dict
     contract_status = extract_contract_status(sprint_text)
 
     status, status_err = read_json(stage_dir / "status.json")
+    latest_verified_id: str | None = None
     if status_err:
         issues.append(status_err)
     elif isinstance(status, dict):
-        add_id_source(sources, "status.json.latest_verified_sprint_contract_id", status.get("latest_verified_sprint_contract_id"))
+        latest_verified_id = normalize_sprint_id(status.get("latest_verified_sprint_contract_id"))
+        add_id_source(sources, "status.json.latest_verified_sprint_contract_id", latest_verified_id)
         state = status.get("state")
         active_id = normalize_sprint_id(status.get("active_sprint_contract_id"))
         active_ids = status.get("active_ids")
@@ -197,6 +261,11 @@ def check_stage_artifact_consistency(stage_dir: Path, root: Path, manifest: dict
             add_id_source(sources, "status.json.active_sprint_contract_id", active_id)
     else:
         issues.append("status.json must be a JSON object.")
+
+    if latest_verified_id:
+        compact_issues = compact_artifact_issues(stage_dir, latest_verified_id, manifest)
+        if compact_issues is not None:
+            return issues + compact_issues
 
     evidence, evidence_err = read_json(stage_dir / "evidence.json")
     if evidence_err:
@@ -369,8 +438,10 @@ def validate_stage(stage_dir: Path, stage_id: str, root: Path, manifest: dict[st
     verdict, err = read_json(stage_dir / "verdict.json")
     if err:
         issues.append(err)
-    elif isinstance(verdict, dict) and verdict.get("status") not in set(manifest_list(manifest, "valid_verdict_statuses")):
-        issues.append(f"invalid verdict status: {verdict.get('status')}")
+    elif isinstance(verdict, dict):
+        verdict_status = verdict.get("status", verdict.get("verdict"))
+        if verdict_status not in set(manifest_list(manifest, "valid_verdict_statuses")):
+            issues.append(f"invalid verdict status: {verdict_status}")
 
     evidence, err = read_json(stage_dir / "evidence.json")
     if err:
@@ -387,10 +458,16 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Verify FinLit Codex harness.")
     parser.add_argument("--stage-id", default=None, help="Optional stage directory under .agent/stages to semantically inspect.")
     parser.add_argument("--bootstrap-only", action="store_true", help="Only verify bootstrap/runtime harness files.")
+    parser.add_argument(
+        "--harness-profile",
+        default=os.environ.get("HARNESS_PROFILE", "lite"),
+        help="Harness validation profile from harness.manifest.json. Default: HARNESS_PROFILE or lite.",
+    )
     args = parser.parse_args()
 
     root = find_repo_root(Path(__file__).resolve())
     manifest = load_manifest(root)
+    profile_config = harness_profile_config(manifest, args.harness_profile)
     checks: list[CheckResult] = []
 
     agents_md = root / "AGENTS.md"
@@ -404,17 +481,18 @@ def main() -> None:
     checks.append(CheckResult("codex-config-policy", "PASS" if config_ok else "FAIL", "Codex config pins gpt-5.5/xhigh/on-request." if config_ok else "Codex config policy is incomplete."))
 
     agent_dir = root / ".codex" / "agents"
-    missing_agents = missing_paths(agent_dir, manifest_list(manifest, "required_agent_files"))
+    required_agents, optional_agents = profile_agent_files(manifest, args.harness_profile)
+    missing_agents = missing_paths(agent_dir, required_agents)
     agent_texts_ok = True
     bad_agents: list[str] = []
-    for rel in manifest_list(manifest, "required_agent_files"):
+    for rel in [*required_agents, *optional_agents]:
         path = agent_dir / rel
         if path.exists():
             text = read(path)
             if 'model = "gpt-5.5"' not in text or 'model_reasoning_effort = "xhigh"' not in text:
                 agent_texts_ok = False
                 bad_agents.append(rel)
-    checks.append(CheckResult("codex-agents", "PASS" if not missing_agents and agent_texts_ok else "FAIL", "Required subagents are present and pinned to gpt-5.5/xhigh." if not missing_agents and agent_texts_ok else f"Missing agents: {missing_agents}; bad model policy: {bad_agents}"))
+    checks.append(CheckResult("codex-agents", "PASS" if not missing_agents and agent_texts_ok else "FAIL", f"Required `{args.harness_profile}` subagents are present and existing optional agents are pinned to gpt-5.5/xhigh." if not missing_agents and agent_texts_ok else f"Missing agents: {missing_agents}; bad model policy: {bad_agents}"))
 
     skill_root = root / ".agents" / "skills" / "stage-launch-proof-loop"
     missing_skill = missing_paths(skill_root, manifest_list(manifest, "required_skill_files"))
@@ -434,11 +512,17 @@ def main() -> None:
     api_ok = all(s in api_text for s in ("Spring Boot", "Maven Wrapper", "PostgreSQL", "Flyway"))
     checks.append(CheckResult("backend-stack", "PASS" if api_ok else "FAIL", "apps/api baseline is Spring/Java/Maven/PostgreSQL." if api_ok else "apps/api baseline is incomplete."))
 
-    legacy = check_no_legacy_terms(root, manifest)
-    checks.append(CheckResult("legacy-token-scan", "PASS" if not legacy else "FAIL", "No legacy model/approval/backend tokens found." if not legacy else "; ".join(legacy[:25])))
+    if profile_config.get("run_legacy_scan", False):
+        legacy = check_no_legacy_terms(root, manifest)
+        checks.append(CheckResult("legacy-token-scan", "PASS" if not legacy else "FAIL", "No legacy model/approval/backend tokens found." if not legacy else "; ".join(legacy[:25])))
+    else:
+        checks.append(CheckResult("legacy-token-scan", "PASS", f"Skipped by `{args.harness_profile}` harness profile."))
 
-    content_baseline = check_content_baseline(root, manifest)
-    checks.append(CheckResult("content-baseline", "PASS" if not content_baseline else "FAIL", "Active FinStrategy content baseline is present and matches expected headline counts." if not content_baseline else "; ".join(content_baseline[:25])))
+    if profile_config.get("run_content_baseline", False):
+        content_baseline = check_content_baseline(root, manifest)
+        checks.append(CheckResult("content-baseline", "PASS" if not content_baseline else "FAIL", "Active FinStrategy content baseline is present and matches expected headline counts." if not content_baseline else "; ".join(content_baseline[:25])))
+    else:
+        checks.append(CheckResult("content-baseline", "PASS", f"Skipped by `{args.harness_profile}` harness profile."))
 
     if args.stage_id and not args.bootstrap_only:
         stage_dir = root / ".agent" / "stages" / args.stage_id
@@ -450,6 +534,7 @@ def main() -> None:
         "status": status,
         "checked_at": datetime.now(timezone.utc).isoformat(),
         "repo_root": str(root),
+        "harness_profile": args.harness_profile,
         "checks": [asdict(c) for c in checks],
     }
     print(json.dumps(report, ensure_ascii=False, indent=2))

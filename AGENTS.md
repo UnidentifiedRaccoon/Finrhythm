@@ -8,15 +8,16 @@
 Core rules:
 - durable stage artifacts: `.agent/stages/<stage_id>/`;
 - one top-level `stage_orchestrator` per stage run;
-- bounded leaf subagents only; no recursive child orchestration;
-- `stage_spec_freezer` freezes scope before implementation;
-- one integration `stage_builder` owns implementation + evidence for a slice;
-- every verify pass uses a fresh `stage_verifier`;
+- classify every slice before choosing workflow: Tier C low-risk, Tier B integration, Tier A regulated/high-risk;
+- bounded leaf subagents only when useful; no recursive child orchestration;
+- `stage_spec_freezer` is required for Tier A and optional for Tier B/C when scope is already clear;
+- one integration `stage_builder` or current-session builder owns implementation + evidence for a slice;
+- every Tier A/stage-close verify pass uses a fresh `stage_verifier`; Tier B uses fresh verifier or explicit compact verifier summary; Tier C may use focused tests plus compact final proof;
 - verifier must not edit production code;
 - fixer changes only concrete verifier-reported proof gaps;
-- no feature, execution unit, sprint contract, or stage is DONE without evidence;
-- if implementation or clarified decisions drift from canonical docs, update docs in the same slice;
-- substantial work closes only after doc-sync, evidence update, and fresh verification;
+- no feature, execution unit, sprint contract, or stage is DONE without proportionate evidence;
+- canonical docs update only when the slice changes public API, schema, security/privacy boundary, legal/financial/product policy, stage scope, setup/developer workflow, or reusable operating contract;
+- substantial Tier A work closes only after doc-sync, evidence update, and fresh verification; Tier B/C use compact proof unless risk escalates;
 - model policy for parent and custom subagents: `gpt-5.5` + `xhigh`.
 <!-- END FINLIT STAGE HARNESS -->
 
@@ -45,15 +46,19 @@ Read-gating: не читать все stage docs, product docs или `.agent/st
 - Project-scoped `.codex/config.toml` должен использовать `approval_policy = "on-request"`.
 - Нельзя менять project/profile away from `approval_policy = "on-request"` без прямой команды пользователя.
 - Parent session and custom subagents use `model = "gpt-5.5"` and `model_reasoning_effort = "xhigh"`.
-- `.codex/agents` держит shallow tree: max depth 1, child agents are leaf roles.
+- `.codex/agents` держит shallow tree: max depth 1, child agents are leaf roles; default max concurrent agent threads is 2.
 - Для risky commands, network, destructive ops, migrations against non-local DB, secrets, and deployment actions agent must ask approval.
 
 ## 3. Обязательная маршрутизация workflow
 
 - Для исполнения stage-файлов использовать `$stage-launch-proof-loop`.
-- Для любой нетривиальной задачи, которая меняет код, тесты, конфиги, схемы БД, контент, admin-потоки, аналитику или публичную документацию, использовать integrated proof loop: `spec freeze -> build -> evidence -> fresh verify -> minimal fix -> fresh verify`.
+- Перед выбором workflow классифицировать slice:
+  - Tier C — code-first low-risk: small UI/copy/test/refactor/component behavior without API/schema/security/privacy/legal/financial/content-publish/reward/admin-sensitive/access-control impact. Workflow: code first, focused tests, compact proof in final report or `.agent/tasks`, no default subagents, no default canonical doc update.
+  - Tier B — integration: Web/API/client or endpoint work without regulated boundary changes. Workflow: compact sprint/proof/verdict, focused integration checks, fresh verifier or explicit compact independent verification.
+  - Tier A — regulated/high-risk: schema, auth/session/access, diagnostics scoring, HR/privacy/reporting, legal/financial wording, content/CMS publish approval, points/rewards/redemption, real data, destructive admin or production operations. Workflow: full proof loop `spec freeze -> build -> evidence -> fresh verify -> minimal fix -> fresh verify`.
+- Для stage-level work and Tier A tasks использовать integrated proof loop. Tier B/C escalate to full loop immediately if touched files or findings cross Tier A boundaries.
 - Все stage/task artifacts хранить только внутри репозитория.
-- Нельзя self-certify кодовую задачу без fresh verification.
+- Нельзя self-certify Tier A/stage-close кодовую задачу без fresh verification. Tier B/C must still have focused test evidence and an honest limitation note.
 - Нельзя помечать `agent+human` и `human-gate` задачи как полностью закрытые только агентной работой.
 
 ## 3.1 Fast publish mode
@@ -78,7 +83,7 @@ Fast publish mode не ослабляет требования для измен
 
 Preconditions:
 - latest fresh verifier verdict is `PASS`;
-- evidence, docs, `progress.md`, `status.json` and `publish_manifest.json` актуальны;
+- evidence/proof summary, docs when required, `status.json`/current state and publish inputs are актуальны;
 - human-gated items не объявлены полностью закрытыми без человека;
 - worktree diff содержит только файлы текущего slice или точный blocker recorded;
 - `git diff --check` проходит для publish scope, excluding raw evidence pathspecs when needed.
@@ -86,13 +91,13 @@ Preconditions:
 Delegation:
 - stage harness owns PASS preconditions, evidence/doc/status consistency and continuation prompt;
 - `$push-main` owns publish mechanics: branch, commit, PR to `main`, merge when allowed, local switch to `main`, `git pull --ff-only`;
-- `publish_manifest.json` must provide compact PR/validation/proof refs for `$push-main`;
+- `publish_manifest.json` may provide compact PR/validation/proof refs for `$push-main`; for Tier C/B publish-only flows the PR body can carry the same compact proof instead of tracking a manifest file;
 - if `$push-main` reports push, PR, merge, branch protection, checks or permission blocker, stage harness records/reports that blocker and does not bypass protection rules.
 
 `$push-main` must not publish unrelated changes, rerun the stage harness, create subagents, or blanket-read raw evidence.
 
 Final chat handoff:
-- последний ответ после publish flow должен содержать copyable continuation prompt для следующего запуска;
+- последний ответ после publish flow содержит copyable continuation prompt только если stage prompt or publish request explicitly asked for continuation handoff;
 - prompt должен instruct `stage_orchestrator` and bounded leaf subagents to continue product development from updated `main`;
 - prompt must preserve the proof loop: `spec freeze -> build -> evidence -> fresh verify -> minimal fix -> fresh verify`;
 - prompt must ask for significant product progress on the next highest-impact verified slice, not analysis-only work;
@@ -101,6 +106,7 @@ Final chat handoff:
 ## 4. Рабочий стиль по умолчанию
 
 - Маленькие, верифицируемые slices.
+- First meaningful diff for product slices should be in `apps/**`, `packages/**` or tests before `.agent/**`/docs proof churn. Use `node scripts/check-code-first-slice.mjs` for Tier B/C guardrails when the slice changes product code.
 - Один write-unit за раз, если нет явной независимости.
 - Safe parallelism: максимум 1–2 параллельных write-unit, только если они не делят файлы, схемы, API contracts, общие docs или общие configs.
 - Перед изменениями читать stage-file, sprint/task file и ближайший `AGENTS.md`.
@@ -133,6 +139,10 @@ Final chat handoff:
 - `make install` — JS dependencies and Java/Maven toolchain;
 - `make init` — migrations + versioned local bootstrap + demo seed;
 - `make dev` — local infrastructure and dev services;
+- `make proof-lite` — lightweight harness/bootstrap and diff hygiene checks;
+- `make verify-web` — focused employee web type/test/build checks;
+- `make verify-api` — backend Maven verify + API client contract checks;
+- `make verify-full` — full harness/bootstrap, web/admin and backend checks;
 - `make verify` — lint + typecheck + backend quick verification;
 - `make test-unit` — unit/integration checks without browser e2e layer;
 - `make test-e2e` — e2e/smoke user scenarios;
@@ -213,10 +223,10 @@ Final chat handoff:
 Before closing substantial product, architecture, workflow, API, setup or integration work, read `docs/architecture/documentation-workflow.md`.
 
 Rules:
-- update the narrowest canonical doc that owns the changed decision;
+- update the narrowest canonical doc that owns the changed decision only when the slice changes public API, schema, security/privacy boundary, legal/financial/product policy, stage scope, setup/developer workflow, or reusable operating contract;
 - stage artifacts are proof/handoff, not canonical docs replacement;
 - add or refresh Mermaid diagrams for non-trivial flows, state machines and cross-module interactions;
-- material documentation drift is a verifier proof gap;
+- material documentation drift is a verifier proof gap; pure implementation details and already-covered behavior belong in PR body/proof notes, not canonical docs;
 - if doc update is deferred, record exact gap and reason in stage artifacts.
 
 ## 10. Языковая политика
@@ -234,8 +244,8 @@ Rules:
 - UI changes include screenshots or explicit limitation;
 - schema/API changes include migrations, OpenAPI notes, generated client notes;
 - content changes include entity IDs and wording review status;
-- docs are synchronized if behavior/workflow/contract/operating guide changed;
-- latest fresh verifier verdict is PASS or honest non-pass status is recorded.
+- docs are synchronized if public API, schema, security/privacy boundary, legal/financial/product policy, stage scope, setup/developer workflow or reusable operating contract changed;
+- Tier A/stage-close latest fresh verifier verdict is PASS or honest non-pass status is recorded; Tier B/C use compact proof and focused verification unless risk escalates.
 
 См. `docs/engineering/definition-of-done.md`.
 

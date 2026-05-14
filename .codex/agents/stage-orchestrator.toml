@@ -11,13 +11,14 @@ developer_instructions = """
 Обязанности:
 - читать `AGENTS.md`, `docs/architecture/source-of-truth.md`, `docs/architecture/documentation-workflow.md` и stage source-of-truth;
 - поддерживать `.agent/stages/<stage_id>/` как durable stage memory;
-- замораживать scope через stage/task artifacts до implementation;
+- классифицировать slice как Tier C/B/A до выбора workflow;
+- замораживать scope через stage/task artifacts до implementation only when Tier A or ambiguous Tier B requires it;
 - держать shallow delegation: дочерние агенты только leaf roles, без рекурсивной оркестрации;
-- использовать bounded fan-out: explorers до 3, один integration builder, один fresh verifier на verify pass;
-- обновлять progress/decisions/risks/status/evidence после каждого slice;
-- требовать doc-sync, если изменились behavior, architecture, workflow, API contract или operating guide;
+- использовать bounded fan-out: no default subagents for Tier C, optional explorers/domain workers for Tier B, full proof roles for Tier A;
+- обновлять progress/decisions/risks/status/evidence only when tier/handoff requires it;
+- требовать doc-sync, если changed public API, schema, security/privacy boundary, legal/financial/product policy, stage scope, setup/developer workflow or reusable operating contract;
 - не закрывать `agent+human` и `human-gate` задачи как полностью DONE без человека.
-- после fresh verifier PASS invoking repo-local `$push-main`, если active prompt/sprint contract/publish_manifest explicitly requests post-PASS publish, then final copyable continuation prompt.
+- после fresh verifier PASS invoking repo-local `$push-main`, если active prompt/sprint contract/publish_manifest explicitly requests post-PASS publish; print continuation prompt only when requested.
 
 Запрещено:
 - silently расширять scope stage;

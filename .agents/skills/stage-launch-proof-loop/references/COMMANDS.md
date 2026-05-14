@@ -6,7 +6,7 @@ Create `.agent/stages/<stage_id>/` with templates, copy/pointer to source, norma
 
 ## `run-stage <stage_id> <stage_file>`
 
-Initialize if needed, freeze or refresh scope, pick one ready sprint contract, build, collect evidence, fresh verify, update stage memory.
+Initialize if needed, classify Tier A/B/C, freeze or refresh scope only when risk/ambiguity requires it, pick one ready slice, build, collect proportionate evidence, verify by tier, update stage memory when handoff needs it.
 
 ## `resume-stage <stage_id>`
 
@@ -31,14 +31,14 @@ Close only if exit gates are proven or explicitly human-pending/blocked. Never c
 ## Recommended parent prompt
 
 ```text
-Spawn subagents. Use $stage-launch-proof-loop to run stage from this repository.
+Use $stage-launch-proof-loop to run stage from this repository. Spawn only the subagents needed by the slice risk.
 
 Stage file: docs/stages/MVP.md
 Stage ID: mvp
 
 Use model gpt-5.5 with xhigh reasoning. Keep approval_policy on-request.
-Work one sprint contract at a time. Require doc-sync, evidence and fresh verification.
-When the active sprint reaches fresh verifier PASS, set/update publish_manifest.json with publish_after_pass=true and merge_after_pr=true if publishing is in scope, then invoke repo-local $push-main for branch/commit/PR/merge/local-main update. Print the next copyable continuation prompt in the final chat response.
+Classify Tier A/B/C first. Work one slice at a time. Use full proof and fresh verifier for Tier A/stage-close; use compact proof for Tier B/C unless risk escalates.
+Do not set publish_after_pass=true or merge_after_pr=true unless the user/stage prompt explicitly asks to publish. If publishing is in scope, invoke repo-local $push-main for branch/commit/PR/merge/local-main update and print a continuation prompt only when requested.
 ```
 
 ## Continuation prompt template
@@ -61,19 +61,20 @@ After post-PASS publish flow, print this prompt in the final chat response with 
 
 Обязательный workflow:
 1. Подними один top-level `stage_orchestrator` на `gpt-5.5` + `xhigh`.
-2. Используй только bounded leaf subagents: `stage_spec_freezer`, `stage_builder`, `stage_verifier`, `stage_fixer` and relevant domain workers when needed.
-3. Сначала заморозь конкретный sprint/task contract.
-4. Реализуй один substantial slice end-to-end.
-5. Обнови evidence, docs and canonical notes, если behavior, API, UI, setup or workflow changed.
-6. Проведи fresh verification новым `stage_verifier`.
-7. Исправь только concrete verifier-reported proof gaps.
-8. Проведи повторную fresh verification when fixes were needed.
-9. Не объявляй DONE без evidence and PASS verifier.
-10. Если есть human-gate, зафиксируй статус честно: `DONE_WITH_HUMAN_PENDING`, `WAITING_HUMAN` или `BLOCKED`.
+2. Сначала классифицируй Tier A/B/C.
+3. Используй только bounded leaf subagents when needed: `stage_builder`, `stage_verifier`, `stage_fixer`; `stage_spec_freezer` and domain workers are opt-in for ambiguous/high-risk slices.
+4. Заморозь sprint/task contract only when tier/risk requires it.
+5. Реализуй один substantial slice end-to-end, code-first for Tier C.
+6. Обнови compact/full evidence by tier and canonical docs only for public API, schema, security/privacy boundary, legal/financial/product policy, stage scope, setup/developer workflow or reusable operating contract changes.
+7. Проведи fresh verification новым `stage_verifier` for Tier A/stage-close; use compact independent verification/focused tests for Tier B/C unless risk escalates.
+8. Исправь только concrete verifier-reported proof gaps.
+9. Проведи повторную fresh verification when Tier A fixes were needed.
+10. Не объявляй DONE без proportionate evidence and required verifier/proof.
+11. Если есть human-gate, зафиксируй статус честно: `DONE_WITH_HUMAN_PENDING`, `WAITING_HUMAN` или `BLOCKED`.
 
-После PASS выполни post-PASS publish через repo-local `$push-main`:
+Если explicit publish requested после PASS, выполни post-PASS publish через repo-local `$push-main`:
 - передай publish scope только verified slice;
-- используй `publish_manifest.json` for PR summary, validation and proof refs;
+- используй `publish_manifest.json` or PR body for PR summary, validation and proof refs;
 - вызови `$push-main` для отдельной ветки, commit, PR в `main`, merge when allowed and local `main` update;
 - если `$push-main` сообщает blocker по checks/protection/permissions/conflicts, зафиксируй blocker and stop after the last successful publish step;
 - в финальном ответе снова выдай следующий copyable continuation prompt.

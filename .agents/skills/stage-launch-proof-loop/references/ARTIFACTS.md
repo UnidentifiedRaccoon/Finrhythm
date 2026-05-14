@@ -8,6 +8,16 @@ Each stage uses:
 .agent/stages/<stage_id>/
 ```
 
+## Risk-tier artifact policy
+
+Use the smallest durable artifact set that still proves the slice:
+
+- Tier C: no default tracked `.agent` files for one-session low-risk code slices; final chat/PR body may carry changed paths, commands and limitations.
+- Tier B: at most three tracked harness files by default: current status plus compact proof and verifier summary.
+- Tier A: full stage artifact set is allowed for regulated/high-risk work.
+
+Tier B/C should not write `progress.md`, `decisions.md`, `risks.md`, task files, latest evidence aliases or `publish_manifest.json` unless those files are truly needed for cross-session handoff.
+
 ## Required files
 
 ### `source.md`
@@ -85,6 +95,7 @@ Tracked evidence should be compact. Command entries should include command, work
 ### `publish_manifest.json` (optional)
 
 Short publish-ready index for commit/PR/merge agents. Use this only after implementation evidence exists; it does not replace `evidence.json`.
+For Tier B/C, prefer PR body validation/proof notes over tracking `publish_manifest.json` unless post-PASS handoff explicitly needs it.
 
 Purpose:
 - let publish-only agents avoid reading raw logs or full stage history;
@@ -163,7 +174,13 @@ Raw outputs only: `maven-verify.txt`, `unit-tests.txt`, `smoke.txt`, `playwright
 
 ## Churn budget
 
-For a normal slice, the tracked proof diff should usually fit inside:
+For Tier C/B slices, the tracked proof diff should usually fit inside three files:
+
+- current compact status when needed;
+- compact proof JSON;
+- compact verifier summary/verdict JSON.
+
+For Tier A slices, the tracked proof diff may include:
 
 - active task or sprint contract;
 - `evidence.json`, `evidence.md` and immutable `evidence/<SPRINT_CONTRACT_ID>.*`;
@@ -172,7 +189,7 @@ For a normal slice, the tracked proof diff should usually fit inside:
 - narrowly changed `status.json`, `progress.md`, `feature_list.json`, `decisions.md` or `risks.md` only when their content actually changed;
 - `publish_manifest.json` when a publish-only agent needs a short PR handoff.
 
-Treat more than 18 tracked proof files for one slice as a smell. It may be justified for UI review assets or content inventory, but the reason must be explicit in `evidence.md`.
+Treat more than 3 tracked proof files for Tier B/C as a proof-churn smell. Tier A can exceed this, but the reason must be explicit in evidence.
 
 ## Ownership rules
 

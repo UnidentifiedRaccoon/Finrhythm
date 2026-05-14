@@ -9,17 +9,27 @@
 - acceptance criteria закрыты and mapped to evidence;
 - diff is focused and does not contain unrelated changes;
 - relevant verification commands were run or limitations are explicit;
-- fresh verifier pass is PASS, or non-pass status is honestly recorded;
-- canonical docs are updated if behavior, contract, architecture, setup or workflow changed;
+- Tier A/stage-close fresh verifier pass is PASS, or non-pass status is honestly recorded;
+- Tier B/C have focused test evidence and compact proof unless risk escalates;
+- canonical docs are updated if public API, schema, security/privacy boundary, legal/financial/product policy, stage scope, setup/developer workflow or reusable operating contract changed;
 - human gates are represented with honest status.
+
+## 1.1 Risk tiers
+
+- Tier C: low-risk code-first UI/copy/test/refactor/component behavior without API/schema/security/privacy/legal/financial/content-publish/reward/admin-sensitive/access-control impact.
+- Tier B: integration work across web/API/client or endpoints without regulated boundary changes.
+- Tier A: schema, auth/session/access, diagnostics scoring, HR/privacy/reporting, legal/financial wording, content/CMS publish approval, points/rewards/redemption, real data, destructive admin or production operations.
 
 ## 2. Minimum for code changes
 
-Expected minimum:
+Expected minimum for Tier A or pre-merge full validation:
 
 - `make verify`;
 - relevant `make test-unit`;
 - relevant `make build`.
+
+For Tier C/B, run affected package/Maven/browser checks first. Root `make build` is not required unless CI/pre-merge policy, changed scope or reviewer asks for it.
+Useful focused wrappers: `make proof-lite`, `make verify-web`, `make verify-api`. Use `make verify-full`/`make verify` for Tier A or pre-merge full validation.
 
 For backend/API/schema changes, include relevant Maven command evidence, for example:
 
@@ -53,7 +63,7 @@ If the repository does not yet have wrappers, record exact available package/Mav
 
 ## 6. Docs/workflow changes
 
-- canonical docs updated;
+- canonical docs updated when the changed decision has a canonical owner;
 - no contradiction with `AGENTS.md`, source-of-truth, stage docs and local `AGENTS.md`;
 - product foundation docs and stage docs are synchronized when product intent changed;
 - diagrams updated when text alone is not enough;

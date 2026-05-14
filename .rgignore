@@ -3,14 +3,34 @@
 .agent/tasks/**/raw/**
 apps/*/.agent/**
 
+# Agent proof history: not default search/context material.
+.agent/stages/**/evidence/**
+.agent/stages/**/proof/**
+.agent/stages/**/verdict/**
+.agent/stages/**/verdicts/**
+.agent/stages/**/problems/**
+.agent/stages/**/task-files/**
+.agent/stages/**/audits/**
+.agent/stages/**/progress.md
+.agent/stages/**/decisions.md
+.agent/stages/**/risks.md
+.agent/stages/**/feature_list.json
+.agent/stages/**/publish_manifest.json
+
 # Dependency and build output.
 node_modules/**
 .pnpm-store/**
 apps/*/.next/**
 apps/*/tsconfig.tsbuildinfo
 apps/api/target/**
+packages/api-client/dist/**
+packages/api-client/src/generated/**
 
 # Local export/debug noise.
+course-export/**
 course-export/debug/**
 course-export/**/debug/**
 course-export/.auth/**
+content/getcourse-finstrategy/downloads/**
+!content/getcourse-finstrategy/downloads/README.md
+content/getcourse-finstrategy/[0-9][0-9]-lesson-*.md

@@ -2,3 +2,10 @@
 *.pdf binary
 *.docx binary
 *.xlsx binary
+packages/api-client/dist/** linguist-generated=true
+packages/api-client/src/generated/** linguist-generated=true
+packages/api-client/openapi/*.json linguist-generated=true
+packages/api-client/openapi/*.json -diff
+course-export/** linguist-generated=true
+content/getcourse-finstrategy/[0-9][0-9]-lesson-*.md linguist-generated=true
+content/getcourse-finstrategy/downloads/** linguist-generated=true

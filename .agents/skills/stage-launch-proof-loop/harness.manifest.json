@@ -1,16 +1,61 @@
 {
-  "required_agent_files": [
+  "core_agent_files": [
     "stage-orchestrator.toml",
-    "task-explorer.toml",
-    "stage-spec-freezer.toml",
     "stage-builder.toml",
     "stage-verifier.toml",
-    "stage-fixer.toml",
+    "stage-fixer.toml"
+  ],
+  "optional_agent_files": [
+    "task-explorer.toml",
+    "stage-spec-freezer.toml",
     "api-worker.toml",
     "web-worker.toml",
     "admin-worker.toml",
     "content-worker.toml"
   ],
+  "required_agent_files": [
+    "stage-orchestrator.toml",
+    "stage-builder.toml",
+    "stage-verifier.toml",
+    "stage-fixer.toml"
+  ],
+  "harness_profiles": {
+    "lite": {
+      "required_agent_files": [
+        "stage-orchestrator.toml",
+        "stage-builder.toml",
+        "stage-verifier.toml",
+        "stage-fixer.toml"
+      ],
+      "optional_agent_files": [
+        "task-explorer.toml",
+        "stage-spec-freezer.toml",
+        "api-worker.toml",
+        "web-worker.toml",
+        "admin-worker.toml",
+        "content-worker.toml"
+      ],
+      "run_legacy_scan": false,
+      "run_content_baseline": false
+    },
+    "full": {
+      "required_agent_files": [
+        "stage-orchestrator.toml",
+        "task-explorer.toml",
+        "stage-spec-freezer.toml",
+        "stage-builder.toml",
+        "stage-verifier.toml",
+        "stage-fixer.toml",
+        "api-worker.toml",
+        "web-worker.toml",
+        "admin-worker.toml",
+        "content-worker.toml"
+      ],
+      "optional_agent_files": [],
+      "run_legacy_scan": true,
+      "run_content_baseline": true
+    }
+  },
   "required_skill_files": [
     "SKILL.md",
     "harness.manifest.json",
@@ -44,6 +89,11 @@
     "task-files",
     "audits"
   ],
+  "compact_stage_files": [
+    "status.json",
+    "proof",
+    "verdict"
+  ],
   "valid_verdict_statuses": [
     "PENDING",
     "FAIL",
@@ -60,15 +110,103 @@
     "required_gitignore_patterns": [
       ".agent/stages/**/raw/**",
       ".agent/tasks/**/raw/**",
-      "apps/*/.agent/**"
+      "apps/*/.agent/**",
+      "course-export/**",
+      "content/exports/*",
+      "content/imports/*"
     ],
     "required_rgignore_patterns": [
       ".agent/stages/**/raw/**",
       ".agent/tasks/**/raw/**",
-      "apps/*/.agent/**"
+      "apps/*/.agent/**",
+      ".agent/stages/**/evidence/**",
+      ".agent/stages/**/proof/**",
+      ".agent/stages/**/verdict/**",
+      ".agent/stages/**/verdicts/**",
+      ".agent/stages/**/problems/**",
+      ".agent/stages/**/task-files/**",
+      ".agent/stages/**/audits/**",
+      ".agent/stages/**/progress.md",
+      ".agent/stages/**/decisions.md",
+      ".agent/stages/**/risks.md",
+      ".agent/stages/**/feature_list.json",
+      ".agent/stages/**/publish_manifest.json",
+      "course-export/**",
+      "content/getcourse-finstrategy/downloads/**",
+      "content/getcourse-finstrategy/[0-9][0-9]-lesson-*.md",
+      "packages/api-client/dist/**",
+      "packages/api-client/src/generated/**"
     ],
-    "tracked_slice_budget_files": 18,
+    "tracked_slice_budget_files": 3,
     "raw_default": "local_untracked"
+  },
+  "workflow_tiers": {
+    "C": {
+      "name": "code-first low-risk",
+      "description": "Small UI/copy/test/refactor changes without API, schema, privacy/security, legal/financial, content/CMS publish, rewards/points, destructive admin or access-control impact.",
+      "agent_additions_max": 80,
+      "docs_additions_max": 30,
+      "generated_allowed_only_when_api_changed": true,
+      "full_proof_required": false,
+      "root_make_build_required": false
+    },
+    "B": {
+      "name": "integration",
+      "description": "Web/API/client integration or endpoint work without regulated privacy/legal/financial/reward/security boundary changes.",
+      "agent_additions_max": 250,
+      "docs_additions_max": 80,
+      "generated_allowed_only_when_api_changed": true,
+      "full_proof_required": false,
+      "root_make_build_required": false
+    },
+    "A": {
+      "name": "regulated high-risk",
+      "description": "Schema, auth/session, access/subscription, diagnostics scoring, HR/privacy/reporting, legal/financial wording, content publish approval, points/rewards/redemption, real data, destructive admin or production operations.",
+      "agent_additions_max": null,
+      "docs_additions_max": null,
+      "generated_allowed_only_when_api_changed": false,
+      "full_proof_required": true,
+      "root_make_build_required": true
+    }
+  },
+  "risk_surfaces": {
+    "schema": [
+      "apps/api/src/main/resources/db/migration/**"
+    ],
+    "api_contract": [
+      "apps/api/src/main/java/**/web/**",
+      "apps/api/src/main/java/**/config/OpenApiConfig.java",
+      "packages/api-client/openapi/**",
+      "packages/api-client/src/generated/**"
+    ],
+    "auth_session_access": [
+      "apps/api/src/main/java/**/SecurityConfig.java",
+      "apps/api/src/main/java/**/registration/**",
+      "apps/api/src/main/java/**/profile/**",
+      "apps/api/src/main/java/**/tenant/**",
+      "docs/architecture/access-and-subscriptions.md",
+      "docs/architecture/organization-access-subscription-model.md"
+    ],
+    "points_rewards_redemption": [
+      "apps/api/src/main/java/**/points/**",
+      "apps/api/src/main/java/**/rewards/**",
+      "apps/web/app/rewards/**"
+    ],
+    "content_cms_publish": [
+      "apps/api/src/main/java/**/cms/**",
+      "apps/admin/**/cms/**",
+      "content/**",
+      "docs/product/**/content-*.md"
+    ],
+    "admin_sensitive_ops": [
+      "apps/api/src/main/java/**/admin/**",
+      "apps/admin/**"
+    ],
+    "privacy_hr_reporting": [
+      "apps/api/src/main/java/**/reporting/**",
+      "apps/admin/**/reports/**",
+      "docs/architecture/production-readiness-contract.md"
+    ]
   },
   "legacy_scan": {
     "ignored_dirs": [
@@ -102,12 +240,9 @@
     "AGENTS.md",
     ".codex/config.toml",
     ".codex/agents/stage-orchestrator.toml",
-    ".codex/agents/task-explorer.toml",
-    ".codex/agents/stage-spec-freezer.toml",
     ".codex/agents/stage-builder.toml",
     ".codex/agents/stage-verifier.toml",
     ".codex/agents/stage-fixer.toml",
-    ".codex/agents/api-worker.toml",
     ".agents/skills/stage-launch-proof-loop/SKILL.md",
     ".agents/skills/stage-launch-proof-loop/harness.manifest.json",
     ".agents/skills/stage-launch-proof-loop/references/PROTOCOL.md",

@@ -6,9 +6,14 @@ apps/*/tsconfig.tsbuildinfo
 .env
 .env.*
 .local/
+course-export/**
 course-export/debug/
 course-export/**/debug/
 course-export/.auth/
+content/exports/*
+!content/exports/.gitkeep
+content/imports/*
+!content/imports/.gitkeep
 apps/api/target/
 
 # Stage proof transcripts are local audit material by default.
