@@ -18,6 +18,7 @@ import {
   type LegalDocumentAcceptanceRequest,
   type LegalDocumentAcceptanceResponse
 } from "@finrhythm/api-client";
+import { DiagnosticApiFlowScreen } from "./diagnostic-api-flow-screen.ts";
 import { ProfileContactScreen, type ProfileContactScreenProps } from "./profile-contact-screen.ts";
 import { classifyApiClientError } from "../lib/profile-contact-state.ts";
 import {
@@ -30,7 +31,7 @@ import {
 } from "../lib/profile-session-state.ts";
 import { EmployeeAppHeader, EmployeeBottomNav, SecondarySupportEntry } from "./employee-app-shell.ts";
 
-type EntryPhase = "entry" | "creating" | "legal" | "accepting" | "ready";
+type EntryPhase = "entry" | "creating" | "legal" | "accepting" | "diagnostic" | "contact";
 
 type EntryNotice =
   | { kind: "validation"; title: string; body: string }
@@ -136,20 +137,27 @@ export function ProfileSessionEntryScreen() {
         throw new Error("Legal acceptance response did not include all current draft documents.");
       }
 
-      setPhase("ready");
+      setPhase("diagnostic");
     } catch (_error: unknown) {
       setPhase("legal");
       setLegalNotice(buildLegalAcceptanceFailureNotice());
     }
   }
 
-  if (phase === "ready" && profileSessionToken) {
+  if (phase === "diagnostic" && profileSessionToken) {
+    return h(DiagnosticApiFlowScreen, {
+      profileSessionToken,
+      onContinueToContact: () => setPhase("contact")
+    });
+  }
+
+  if (phase === "contact" && profileSessionToken) {
     return h<ProfileContactScreenProps>(ProfileContactScreen, {
       initialProfileSessionToken: profileSessionToken,
       sessionReadyNotice: {
-        title: "Документы зафиксированы",
+        title: "Документы и диагностика зафиксированы",
         body:
-          "Контактный профиль открыт в этой вкладке после записи текущих черновых версий. Сессионный секрет остаётся только в памяти компонента и не переносится через адрес."
+          "Контактный профиль открыт в этой вкладке после legal acceptance и безопасного handoff к N1. Сессионный секрет остаётся только в памяти компонента и не переносится через адрес."
       }
     });
   }

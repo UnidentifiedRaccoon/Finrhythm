@@ -249,6 +249,40 @@ stateDiagram-v2
     Expired --> [*]
 ```
 
+### 7.3 Current MVP diagnostic draft boundary
+
+Пока нет полноценной модели `User`, employee login/password setup и `OrgMembership`, входная диагностика для employee-facing MVP работает внутри той же profile-session boundary. `GET /api/v1/diagnostics/me/draft`, `PUT /api/v1/diagnostics/me/draft` and `POST /api/v1/diagnostics/me/submit` принимают только короткоживущий `employeeProfileSessionBearerAuth`; `employee_registration_id`, `tenant_id`, `pilot_launch_id` and `access_pool_id` always resolve server-side from the authenticated profile session and are not accepted from request bodies.
+
+The current slice stores one current diagnostic attempt per `employee_registration`. Storage is intentionally split: `Q0` privacy/expectation metadata, `SA1-SA3` self-assessment and `Q1-Q3` routing-preview answers are separate data sections. The request allowlist rejects unknown diagnostic IDs and score/report/advice/sensitive-data fields; this boundary must not persist raw profile-session bearer tokens, token hashes, raw invite codes, exact income/debt/balance/account values, photos, documents, bank screenshots or free-form personal finance reports.
+
+Submission is a safe handoff only: state moves from `DRAFT` to `SUBMITTED`, repeated submit for the same submitted attempt is idempotent, and the response may expose only `routePreview=true`, `recommendedFirstLessonId=N1`, state and timestamps. It does not calculate or expose final score, final level, final route profile, weak-zone details, HR insight fields, analytics/events, points, learning completion or reward state. A submitted attempt is immutable for this boundary; draft mutation after submit returns a safe conflict.
+
+```mermaid
+flowchart LR
+    TOKEN["Bearer profile-session token"] --> AUTH["Validate hash, expiry, revocation"]
+    AUTH --> REG["Resolve employee_registration scope"]
+    REG --> GET["GET /diagnostics/me/draft"]
+    REG --> PUT["PUT /diagnostics/me/draft"]
+    PUT --> DRAFT["diagnostic_attempt: DRAFT"]
+    DRAFT --> Q0["Q0 metadata table"]
+    DRAFT --> SA["SA1-SA3 self-assessment table"]
+    DRAFT --> Q["Q1-Q3 routing-answer table"]
+    REG --> SUBMIT["POST /diagnostics/me/submit"]
+    SUBMIT --> SAFE["SUBMITTED + routePreview + N1"]
+    AUTH -->|missing, malformed, unknown, expired, revoked| DENY["401 without diagnostic persistence"]
+```
+
+```mermaid
+stateDiagram-v2
+    [*] --> EmptyShell: no attempt for registration
+    EmptyShell --> DRAFT: save allowlisted draft
+    DRAFT --> DRAFT: replace draft
+    DRAFT --> SUBMITTED: submit complete draft
+    SUBMITTED --> SUBMITTED: repeated submit
+    SUBMITTED --> Conflict: draft mutation attempt
+    Conflict --> SUBMITTED
+```
+
 ## 8. MVP boundary
 
 MVP остаётся B2B-first пилотом без in-app подписки и платежей. Текущий MVP может реализовывать `tenant`, `pilotLaunch`, `accessPool`, invite codes and registration без полной subscription/seat модели.

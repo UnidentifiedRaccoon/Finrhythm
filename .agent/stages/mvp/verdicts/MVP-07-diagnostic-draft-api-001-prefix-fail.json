@@ -1,0 +1,123 @@
+{
+  "verdict": "FAIL",
+  "sprint_contract_id": "MVP-07-diagnostic-draft-api-001",
+  "stage_id": "mvp",
+  "checked_at": "2026-05-13T20:30:34Z",
+  "scope_summary": "Fresh verifier for the backend/API-only diagnostic draft/submission foundation for Q0, SA1-SA3 and Q1-Q3 under employee profile-session bearer auth. Full MVP-07.01, MVP-07.04, MVP-07, MVP stage and human gates remain open.",
+  "commands": [
+    {
+      "cmd": "env JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q -Dtest=DiagnosticAttemptControllerIT test",
+      "workdir": "apps/api",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-fresh/focused-backend-diagnostic-test.txt"
+    },
+    {
+      "cmd": "env JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q verify",
+      "workdir": "apps/api",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-fresh/api-mvn-verify.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client check:generated",
+      "workdir": ".",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-fresh/api-client-check-generated.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client check:openapi-drift",
+      "workdir": ".",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-fresh/api-client-check-openapi-drift.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client typecheck",
+      "workdir": ".",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-fresh/api-client-typecheck.txt"
+    },
+    {
+      "cmd": "jq empty .agent/stages/mvp/status.json .agent/stages/mvp/feature_list.json .agent/stages/mvp/evidence.json .agent/stages/mvp/evidence/MVP-07-diagnostic-draft-api-001.json .agent/stages/mvp/publish_manifest.json packages/api-client/openapi/finrhythm-api.openapi.json",
+      "workdir": ".",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-fresh/jq-empty.txt"
+    },
+    {
+      "cmd": "git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'",
+      "workdir": ".",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-fresh/git-diff-check.txt"
+    },
+    {
+      "cmd": "jq diagnostic OpenAPI surface check",
+      "workdir": ".",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-fresh/openapi-diagnostic-surface.txt"
+    },
+    {
+      "cmd": "rg prohibited final-scoring/sensitive response fields in diagnostic production/OpenAPI/generated files",
+      "workdir": ".",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-fresh/prohibited-field-scan.txt"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "blocking",
+      "status": "open",
+      "title": "POST /api/v1/diagnostics/me/submit does not satisfy the safe-handoff-only response contract.",
+      "evidence": [
+        ".agent/stages/mvp/sprint_contract.md requires submit to return safe handoff fields only: routePreview=true, recommendedFirstLessonId=N1 and submitted state/timestamps.",
+        "docs/architecture/access-and-subscriptions.md:258 says submit response may expose only routePreview=true, recommendedFirstLessonId=N1, state and timestamps.",
+        "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticAttemptController.java:121 returns toResponse(diagnosticAttemptService.submit(...)); the shared toResponse method includes employeeRegistrationId, tenantId, pilotLaunchId, accessPoolId, allowedAnswerIds, q0, selfAssessment and routingAnswers at lines 130-156.",
+        "packages/api-client/openapi/finrhythm-api.openapi.json exposes the submit 200 response as DiagnosticAttemptResponse; verifier raw openapi-diagnostic-surface.txt shows that schema contains accessPoolId, allowedAnswerIds, attemptId, employeeRegistrationId, pilotLaunchId, q0, routingAnswers, selfAssessment and tenantId in addition to the safe handoff fields."
+      ],
+      "impact": "The scoped API behavior, OpenAPI snapshot, generated client and canonical docs are internally inconsistent with the sprint acceptance wording. The current tests only prove absence of final scoring/HR/points fields, not the stricter handoff-only response boundary.",
+      "minimal_required_fix": "Either implement a dedicated submit response DTO/schema/client contract limited to state, routePreview, recommendedFirstLessonId and timestamps, with focused tests proving no answer/scope echo on submit, or explicitly revise the frozen contract/canonical docs to allow the full attempt echo and then refresh evidence with fresh verification."
+    },
+    {
+      "severity": "info",
+      "status": "accepted",
+      "title": "Independent command evidence passed.",
+      "evidence": [
+        "Focused DiagnosticAttemptControllerIT passed with Flyway v011 applied.",
+        "apps/api ./mvnw verify passed with Java 21.",
+        "api-client generated check, OpenAPI drift check and typecheck passed.",
+        "JSON validation and git diff whitespace check passed."
+      ]
+    },
+    {
+      "severity": "info",
+      "status": "accepted",
+      "title": "No browser evidence is required for this scoped backend/API-only slice.",
+      "evidence": [
+        ".agent/stages/mvp/sprint_contract.md marks UI integration and browser screenshots out of scope.",
+        ".agent/stages/mvp/status.json records current_mvp_07_diagnostic_draft_api_ui_screenshots_required=false."
+      ]
+    },
+    {
+      "severity": "info",
+      "status": "accepted",
+      "title": "Full MVP-07 and human gates remain open.",
+      "evidence": [
+        ".agent/stages/mvp/backlog.md keeps MVP-07.01, MVP-07.04 and MVP-07 open.",
+        ".agent/stages/mvp/status.json keeps mvp_07_complete=false and human_gates_open=true.",
+        ".agent/stages/mvp/publish_manifest.json has publish_after_pass=false."
+      ]
+    }
+  ],
+  "human_gates_open": [
+    "Final Q0/SA/Q wording review",
+    "Scoring correctness and route-rule correctness",
+    "Final financial correctness of diagnostic questions and explanations",
+    "HR/privacy wording and reporting-boundary approval",
+    "Legal/privacy boundaries and real employee/customer data processing approval",
+    "Admin/support production access policy for sensitive diagnostic data",
+    "Design/accessibility QA on real mobile screens for later UI integration"
+  ],
+  "full_mvp7_closed": false,
+  "notes": [
+    "Verifier wrote only immutable verifier artifacts and raw verifier outputs for this contract.",
+    "No production code, tests, generated client files, canonical docs, sprint contract, evidence aliases, status, backlog, progress, feature_list or publish_manifest were edited by this verifier.",
+    "Product docs remain unchanged in the current worktree, which matches the contract expectation for this backend/API-only slice."
+  ]
+}

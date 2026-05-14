@@ -6,6 +6,7 @@ export const INVITE_CODE_STATUSES = ["CREATED", "ISSUED", "RESERVED", "ACTIVATED
 export const ACCESS_POOL_STATUSES = ["PLANNED", "ACTIVE", "CLOSED", "ARCHIVED"];
 export const PILOT_LAUNCH_STATUSES = ["PLANNED", "ACTIVE", "CLOSED", "ARCHIVED"];
 export const LEGAL_DOCUMENT_TYPES = ["PRIVACY_POLICY", "PERSONAL_DATA_CONSENT", "TERMS_OF_USE", "FINANCIAL_DISCLAIMER"];
+export const DIAGNOSTIC_ATTEMPT_STATES = ["DRAFT", "SUBMITTED"];
 export const ADMIN_CODE_STATUS_PATH_TEMPLATE = "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status";
 export function buildAdminCodeStatusUrl(baseUrl, params) {
     const url = new URL(ADMIN_CODE_STATUS_PATH_TEMPLATE
@@ -135,6 +136,60 @@ export async function fetchEmployeeMeContactUpdate(baseUrl, params, init = {}) {
     });
     if (!response.ok) {
         throw new Error(`PATCH ${url.pathname} failed with HTTP ${response.status}.`);
+    }
+    return (await response.json());
+}
+export const DIAGNOSTIC_ME_DRAFT_PATH = "/api/v1/diagnostics/me/draft";
+export function buildDiagnosticMeDraftUrl(baseUrl) {
+    return new URL(DIAGNOSTIC_ME_DRAFT_PATH, baseUrl);
+}
+export async function fetchDiagnosticMeDraft(baseUrl, params, init = {}) {
+    const url = buildDiagnosticMeDraftUrl(baseUrl);
+    const headers = new Headers(init.headers);
+    headers.set("authorization", `Bearer ${params.profileSessionToken}`);
+    const response = await fetch(url, {
+        ...init,
+        method: "GET",
+        headers
+    });
+    if (!response.ok) {
+        throw new Error(`GET ${url.pathname} failed with HTTP ${response.status}.`);
+    }
+    return (await response.json());
+}
+export async function saveDiagnosticMeDraft(baseUrl, params, init = {}) {
+    const url = buildDiagnosticMeDraftUrl(baseUrl);
+    const headers = new Headers(init.headers);
+    if (!headers.has("content-type")) {
+        headers.set("content-type", "application/json");
+    }
+    headers.set("authorization", `Bearer ${params.profileSessionToken}`);
+    const response = await fetch(url, {
+        ...init,
+        method: "PUT",
+        headers,
+        body: JSON.stringify(params.body)
+    });
+    if (!response.ok) {
+        throw new Error(`PUT ${url.pathname} failed with HTTP ${response.status}.`);
+    }
+    return (await response.json());
+}
+export const DIAGNOSTIC_ME_SUBMIT_PATH = "/api/v1/diagnostics/me/submit";
+export function buildDiagnosticMeSubmitUrl(baseUrl) {
+    return new URL(DIAGNOSTIC_ME_SUBMIT_PATH, baseUrl);
+}
+export async function submitDiagnosticMeDraft(baseUrl, params, init = {}) {
+    const url = buildDiagnosticMeSubmitUrl(baseUrl);
+    const headers = new Headers(init.headers);
+    headers.set("authorization", `Bearer ${params.profileSessionToken}`);
+    const response = await fetch(url, {
+        ...init,
+        method: "POST",
+        headers
+    });
+    if (!response.ok) {
+        throw new Error(`POST ${url.pathname} failed with HTTP ${response.status}.`);
     }
     return (await response.json());
 }

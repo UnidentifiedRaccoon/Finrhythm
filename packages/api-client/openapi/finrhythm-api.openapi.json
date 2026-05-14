@@ -447,6 +447,143 @@
           }
         }
       }
+    },
+    "/api/v1/diagnostics/me/draft": {
+      "get": {
+        "operationId": "currentDraft",
+        "summary": "Read the current employee diagnostic draft",
+        "security": [
+          {
+            "employeeProfileSessionBearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current diagnostic attempt or empty shell.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiagnosticAttemptResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Profile session token is missing, malformed, expired, revoked or unknown.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "saveDraft",
+        "summary": "Create or replace the current employee diagnostic draft",
+        "security": [
+          {
+            "employeeProfileSessionBearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DiagnosticDraftUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Draft created or replaced.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiagnosticAttemptResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Payload is outside the strict diagnostic allowlist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Profile session token is missing, malformed, expired, revoked or unknown.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Submitted diagnostic attempt cannot be changed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/diagnostics/me/submit": {
+      "post": {
+        "operationId": "submit",
+        "summary": "Submit the current employee diagnostic draft",
+        "security": [
+          {
+            "employeeProfileSessionBearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Draft submitted or idempotent repeat for the same submitted attempt.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DiagnosticSubmitResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Draft is missing or incomplete.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Profile session token is missing, malformed, expired, revoked or unknown.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1139,6 +1276,301 @@
           },
           "contactVerifiedByProfileSession": {
             "type": "boolean"
+          }
+        }
+      },
+      "DiagnosticAttemptState": {
+        "type": "string",
+        "enum": [
+          "DRAFT",
+          "SUBMITTED"
+        ]
+      },
+      "DiagnosticQ0MetadataRequest": {
+        "type": "object",
+        "properties": {
+          "selectedOptionIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "DiagnosticSelfAssessmentAnswerRequest": {
+        "type": "object",
+        "required": [
+          "id",
+          "value"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "value": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "maximum": 5
+          }
+        }
+      },
+      "DiagnosticRoutingAnswerRequest": {
+        "type": "object",
+        "required": [
+          "id",
+          "optionId"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "optionId": {
+            "type": "string"
+          }
+        }
+      },
+      "DiagnosticDraftUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "q0": {
+            "$ref": "#/components/schemas/DiagnosticQ0MetadataRequest"
+          },
+          "selfAssessment": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DiagnosticSelfAssessmentAnswerRequest"
+            }
+          },
+          "routingAnswers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DiagnosticRoutingAnswerRequest"
+            }
+          }
+        }
+      },
+      "DiagnosticAllowedRoutingOptionsResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "optionIds"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "optionIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "DiagnosticAllowedAnswerIdsResponse": {
+        "type": "object",
+        "required": [
+          "q0QuestionIds",
+          "q0OptionIds",
+          "selfAssessmentQuestionIds",
+          "routingQuestionOptions"
+        ],
+        "properties": {
+          "q0QuestionIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "q0OptionIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "selfAssessmentQuestionIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "routingQuestionOptions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DiagnosticAllowedRoutingOptionsResponse"
+            }
+          }
+        }
+      },
+      "DiagnosticQ0MetadataResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "selectedOptionIds"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "selectedOptionIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "DiagnosticSelfAssessmentAnswerResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "value"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "value": {
+            "type": "integer",
+            "format": "int32",
+            "minimum": 1,
+            "maximum": 5
+          }
+        }
+      },
+      "DiagnosticRoutingAnswerResponse": {
+        "type": "object",
+        "required": [
+          "id",
+          "optionId"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "optionId": {
+            "type": "string"
+          }
+        }
+      },
+      "DiagnosticAttemptResponse": {
+        "type": "object",
+        "required": [
+          "attemptId",
+          "employeeRegistrationId",
+          "tenantId",
+          "pilotLaunchId",
+          "accessPoolId",
+          "state",
+          "allowedAnswerIds",
+          "q0",
+          "selfAssessment",
+          "routingAnswers",
+          "routePreview",
+          "recommendedFirstLessonId",
+          "createdAt",
+          "updatedAt",
+          "submittedAt"
+        ],
+        "properties": {
+          "attemptId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "employeeRegistrationId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tenantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pilotLaunchId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "accessPoolId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "state": {
+            "$ref": "#/components/schemas/DiagnosticAttemptState"
+          },
+          "allowedAnswerIds": {
+            "$ref": "#/components/schemas/DiagnosticAllowedAnswerIdsResponse"
+          },
+          "q0": {
+            "$ref": "#/components/schemas/DiagnosticQ0MetadataResponse"
+          },
+          "selfAssessment": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DiagnosticSelfAssessmentAnswerResponse"
+            }
+          },
+          "routingAnswers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DiagnosticRoutingAnswerResponse"
+            }
+          },
+          "routePreview": {
+            "type": "boolean"
+          },
+          "recommendedFirstLessonId": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "submittedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "DiagnosticSubmitResponse": {
+        "type": "object",
+        "required": [
+          "state",
+          "routePreview",
+          "recommendedFirstLessonId",
+          "createdAt",
+          "updatedAt",
+          "submittedAt"
+        ],
+        "properties": {
+          "state": {
+            "$ref": "#/components/schemas/DiagnosticAttemptState"
+          },
+          "routePreview": {
+            "type": "boolean"
+          },
+          "recommendedFirstLessonId": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "submittedAt": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       }

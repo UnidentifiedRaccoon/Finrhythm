@@ -573,10 +573,12 @@ Builder evidence is now recorded:
 | ID | Mode | Status | Goal | Evidence |
 |----|------|--------|------|----------|
 | MVP-07-diagnostic-entry-preview-ui-001 | agent | PASS | Add the smallest `apps/web` diagnostic entry/preview flow with Q0 privacy, non-scoring `SA1-SA3`, a few synthetic routing question cards and a safe draft route preview. | `.agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.md`; `.agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.json`; `.agent/stages/mvp/verdicts/MVP-07-diagnostic-entry-preview-ui-001.json`; `.agent/stages/mvp/problems/MVP-07-diagnostic-entry-preview-ui-001.md`; verifier raw refs under `.agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/`. |
-| MVP-07.01 | agent | OPEN | Implement diagnostic test engine. | This preview slice is only a scoped prerequisite; full engine remains future work. |
+| MVP-07-diagnostic-draft-api-001 | agent | PASS | Add backend/API diagnostic draft/submission foundation for `Q0`, `SA1-SA3` and `Q1-Q3`, authenticated by employee profile-session bearer token, with safe N1 routePreview handoff and no final scoring/routing. | `.agent/stages/mvp/task-files/MVP-07-diagnostic-draft-api-001.md`; `.agent/stages/mvp/evidence/MVP-07-diagnostic-draft-api-001.md`; `.agent/stages/mvp/evidence/MVP-07-diagnostic-draft-api-001.json`; first verifier FAIL archived at `.agent/stages/mvp/verdicts/MVP-07-diagnostic-draft-api-001-prefix-fail.json`; fresh post-fix PASS at `.agent/stages/mvp/verdicts/MVP-07-diagnostic-draft-api-001.json` and `.agent/stages/mvp/problems/MVP-07-diagnostic-draft-api-001.md`. |
+| MVP-07-diagnostic-web-api-integration-001 | agent | PASS | Integrate the already verified diagnostic draft API into the employee-facing mounted `/profile/session` flow using generated `@finrhythm/api-client`, with the profile-session token only in component memory and Q0/SA1-SA3/Q1-Q3 only. | `.agent/stages/mvp/evidence/MVP-07-diagnostic-web-api-integration-001.md`; `.agent/stages/mvp/evidence/MVP-07-diagnostic-web-api-integration-001.json`; fresh verifier PASS at `.agent/stages/mvp/verdicts/MVP-07-diagnostic-web-api-integration-001.json` and `.agent/stages/mvp/problems/MVP-07-diagnostic-web-api-integration-001.md`. |
+| MVP-07.01 | agent | OPEN | Implement diagnostic test engine. | Preview UI has scoped PASS; draft API has builder evidence as a scoped prerequisite. Full engine remains future work. |
 | MVP-07.02 | agent | OPEN | Implement rule-based scoring and level/route assignment. | Out of scope for the preview slice. |
 | MVP-07.03 | agent | OPEN | Implement route explanation UI. | This preview slice may show only draft/preview copy; final route explanation remains future work. |
-| MVP-07.04 | agent | OPEN | Implement safe resume/retry behavior. | Out of scope for the preview slice. |
+| MVP-07.04 | agent | OPEN | Implement safe resume/retry behavior. | Draft API builder evidence covers one small attempt resume boundary; full retry behavior remains future work and fresh verification is pending. |
 | MVP-07.05 | agent | OPEN | Implement aggregated diagnostic insight reporting. | Out of scope and human-gated for privacy/reporting boundaries. |
 | MVP-07 | agent+human | OPEN | Full diagnostics and personalized route remain open. | Future builder evidence, scoring correctness, privacy/HR/legal wording review and fresh verification required. |
 
@@ -597,3 +599,34 @@ Builder evidence is now recorded:
 - builder evidence is recorded in `.agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.md` and `.agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.json`;
 - fresh verifier returned `PASS` with web checks, browser smoke with 33 screenshots, source/scope guardrails and root wrappers under `.agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/`;
 - this is scoped PASS only; full `MVP-07.01`, `MVP-07.03`, `MVP-07`, the MVP stage and all human gates remain open.
+
+### Verified diagnostic draft API slice
+
+`MVP-07-diagnostic-draft-api-001` now has scoped fresh post-fix verifier `PASS` as a backend/API prerequisite for `MVP-07.01` and `MVP-07.04`:
+
+- added backend-owned diagnostic attempt persistence/API for exactly `Q0`, `SA1-SA3` and `Q1-Q3`;
+- authenticates only by existing employee profile-session bearer token;
+- keeps Q0/privacy metadata, self-assessment and routing answers separate in schema and response sections;
+- persists draft and submitted state with safe resume for the same employee registration;
+- returns only safe route preview handoff, `routePreview=true` and `recommendedFirstLessonId=N1`;
+- uses append-only Flyway, Spring Boot Java 21, Maven Wrapper, PostgreSQL, OpenAPI/springdoc and generated client sync;
+- focused backend integration tests, API client checks, root wrappers, guardrail scans and docs-sync are recorded in `.agent/stages/mvp/evidence/MVP-07-diagnostic-draft-api-001.*`;
+- required doc target `docs/architecture/access-and-subscriptions.md` now includes the Mermaid profile-session diagnostic attempt flow/state diagrams;
+- exclude final scoring, full `Q1-Q27`, `Q28`, final `R1-R6`, HR reports, analytics/events, exact sums/photos/docs/bank screenshots, advice, points, learning completion, UI integration and full `MVP-07` closure;
+- `publish_after_pass=false`; no commit or PR is allowed without a separate user command;
+- first fresh verifier failed the submit response boundary because submit returned the full attempt response;
+- minimal fixer added handoff-only `DiagnosticSubmitResponse`, focused tests proving no answer/scope echo, and refreshed OpenAPI/generated client;
+- fresh post-fix verifier returned `PASS` for this scoped sprint only; full `MVP-07.01`, `MVP-07.04`, `MVP-07`, the MVP stage and all human gates remain open.
+
+### Verified diagnostic web/API integration slice
+
+`MVP-07-diagnostic-web-api-integration-001` now has scoped fresh verifier `PASS` as the employee-facing web integration prerequisite for `MVP-07.01`, `MVP-07.03` and `MVP-07.04`:
+
+- first meaningful builder touch was in `apps/web` production/test files, not `.agent`, docs, backend, schema or generated-client files;
+- the already verified diagnostic draft API is mounted inside the existing `/profile/session` flow after profile-session creation and legal acceptance;
+- profile-session token remains only in mounted React component memory: no URL path/query/hash, `localStorage`, `sessionStorage`, cookies, IndexedDB, service-worker cache or logs;
+- generated `@finrhythm/api-client` helpers are used for diagnostic GET/PUT/POST: `fetchDiagnosticMeDraft`, `saveDiagnosticMeDraft` and `submitDiagnosticMeDraft`;
+- only `Q0`, `SA1-SA3` and `Q1-Q3` are persisted/submitted, with Q0/privacy metadata, self-assessment and routing answers kept separate;
+- submit renders only safe N1 routePreview handoff, without final score, final level, final `R1-R6`, weak zones, HR insight, points or learning completion;
+- focused web tests, browser/mobile screenshots, token/storage/URL guardrail scans, generated-client drift checks, root wrappers, docs-sync decision, stage evidence and fresh verifier PASS are recorded;
+- `publish_after_pass=false`; no commit/PR/publish action was run. Full `MVP-07.01`, `MVP-07.03`, `MVP-07.04`, full `MVP-07`, MVP stage and human gates remain open.

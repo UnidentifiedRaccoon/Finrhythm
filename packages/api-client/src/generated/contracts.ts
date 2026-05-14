@@ -176,6 +176,83 @@ export type EmployeeContactUpdateResponse = {
   contactVerifiedByProfileSession: boolean;
 };
 
+export const DIAGNOSTIC_ATTEMPT_STATES = ["DRAFT","SUBMITTED"] as const;
+export type DiagnosticAttemptState = (typeof DIAGNOSTIC_ATTEMPT_STATES)[number];
+
+export type DiagnosticQ0MetadataRequest = {
+  selectedOptionIds?: string[];
+};
+
+export type DiagnosticSelfAssessmentAnswerRequest = {
+  id: string;
+  value: number;
+};
+
+export type DiagnosticRoutingAnswerRequest = {
+  id: string;
+  optionId: string;
+};
+
+export type DiagnosticDraftUpdateRequest = {
+  q0?: DiagnosticQ0MetadataRequest;
+  selfAssessment?: DiagnosticSelfAssessmentAnswerRequest[];
+  routingAnswers?: DiagnosticRoutingAnswerRequest[];
+};
+
+export type DiagnosticAllowedRoutingOptionsResponse = {
+  id: string;
+  optionIds: string[];
+};
+
+export type DiagnosticAllowedAnswerIdsResponse = {
+  q0QuestionIds: string[];
+  q0OptionIds: string[];
+  selfAssessmentQuestionIds: string[];
+  routingQuestionOptions: DiagnosticAllowedRoutingOptionsResponse[];
+};
+
+export type DiagnosticQ0MetadataResponse = {
+  id: string;
+  selectedOptionIds: string[];
+};
+
+export type DiagnosticSelfAssessmentAnswerResponse = {
+  id: string;
+  value: number;
+};
+
+export type DiagnosticRoutingAnswerResponse = {
+  id: string;
+  optionId: string;
+};
+
+export type DiagnosticAttemptResponse = {
+  attemptId: string | null;
+  employeeRegistrationId: string;
+  tenantId: string;
+  pilotLaunchId: string;
+  accessPoolId: string;
+  state: DiagnosticAttemptState;
+  allowedAnswerIds: DiagnosticAllowedAnswerIdsResponse;
+  q0: DiagnosticQ0MetadataResponse;
+  selfAssessment: DiagnosticSelfAssessmentAnswerResponse[];
+  routingAnswers: DiagnosticRoutingAnswerResponse[];
+  routePreview: boolean;
+  recommendedFirstLessonId: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+  submittedAt: string | null;
+};
+
+export type DiagnosticSubmitResponse = {
+  state: DiagnosticAttemptState;
+  routePreview: boolean;
+  recommendedFirstLessonId: string;
+  createdAt: string;
+  updatedAt: string;
+  submittedAt: string;
+};
+
 export type AdminCodeStatusPathParams = {
   tenantId: string;
   pilotLaunchId: string;
@@ -404,4 +481,85 @@ export async function fetchEmployeeMeContactUpdate(
     throw new Error(`PATCH ${url.pathname} failed with HTTP ${response.status}.`);
   }
   return (await response.json()) as EmployeeContactUpdateResponse;
+}
+
+export type DiagnosticMeAuthRequest = {
+  profileSessionToken: string;
+};
+
+export type DiagnosticMeDraftUpdateClientRequest = DiagnosticMeAuthRequest & {
+  body: DiagnosticDraftUpdateRequest;
+};
+
+export const DIAGNOSTIC_ME_DRAFT_PATH = "/api/v1/diagnostics/me/draft";
+
+export function buildDiagnosticMeDraftUrl(baseUrl: string | URL): URL {
+  return new URL(DIAGNOSTIC_ME_DRAFT_PATH, baseUrl);
+}
+
+export async function fetchDiagnosticMeDraft(
+  baseUrl: string | URL,
+  params: DiagnosticMeAuthRequest,
+  init: ApiClientRequestInit = {}
+): Promise<DiagnosticAttemptResponse> {
+  const url = buildDiagnosticMeDraftUrl(baseUrl);
+  const headers = new Headers(init.headers);
+  headers.set("authorization", `Bearer ${params.profileSessionToken}`);
+  const response = await fetch(url, {
+    ...init,
+    method: "GET",
+    headers
+  });
+  if (!response.ok) {
+    throw new Error(`GET ${url.pathname} failed with HTTP ${response.status}.`);
+  }
+  return (await response.json()) as DiagnosticAttemptResponse;
+}
+
+export async function saveDiagnosticMeDraft(
+  baseUrl: string | URL,
+  params: DiagnosticMeDraftUpdateClientRequest,
+  init: ApiJsonClientRequestInit = {}
+): Promise<DiagnosticAttemptResponse> {
+  const url = buildDiagnosticMeDraftUrl(baseUrl);
+  const headers = new Headers(init.headers);
+  if (!headers.has("content-type")) {
+    headers.set("content-type", "application/json");
+  }
+  headers.set("authorization", `Bearer ${params.profileSessionToken}`);
+  const response = await fetch(url, {
+    ...init,
+    method: "PUT",
+    headers,
+    body: JSON.stringify(params.body)
+  });
+  if (!response.ok) {
+    throw new Error(`PUT ${url.pathname} failed with HTTP ${response.status}.`);
+  }
+  return (await response.json()) as DiagnosticAttemptResponse;
+}
+
+export const DIAGNOSTIC_ME_SUBMIT_PATH = "/api/v1/diagnostics/me/submit";
+
+export function buildDiagnosticMeSubmitUrl(baseUrl: string | URL): URL {
+  return new URL(DIAGNOSTIC_ME_SUBMIT_PATH, baseUrl);
+}
+
+export async function submitDiagnosticMeDraft(
+  baseUrl: string | URL,
+  params: DiagnosticMeAuthRequest,
+  init: ApiClientRequestInit = {}
+): Promise<DiagnosticSubmitResponse> {
+  const url = buildDiagnosticMeSubmitUrl(baseUrl);
+  const headers = new Headers(init.headers);
+  headers.set("authorization", `Bearer ${params.profileSessionToken}`);
+  const response = await fetch(url, {
+    ...init,
+    method: "POST",
+    headers
+  });
+  if (!response.ok) {
+    throw new Error(`POST ${url.pathname} failed with HTTP ${response.status}.`);
+  }
+  return (await response.json()) as DiagnosticSubmitResponse;
 }

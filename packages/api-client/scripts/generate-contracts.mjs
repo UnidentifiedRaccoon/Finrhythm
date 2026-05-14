@@ -45,6 +45,8 @@ function generateContracts(document, schemaMap) {
     ...emitEmployeeProfileSessionClient(document),
     ...emitEmployeeMeProfileSummaryClient(document),
     ...emitEmployeeMeContactUpdateClient(document),
+    ...emitDiagnosticMeDraftClient(document),
+    ...emitDiagnosticMeSubmitClient(document),
     ""
   ];
   return `${lines.join("\n").trimEnd()}\n`;
@@ -365,6 +367,112 @@ function emitEmployeeMeContactUpdateClient(document) {
     "    throw new Error(`PATCH ${url.pathname} failed with HTTP ${response.status}.`);",
     "  }",
     "  return (await response.json()) as EmployeeContactUpdateResponse;",
+    "}",
+    ""
+  ];
+}
+
+function emitDiagnosticMeDraftClient(document) {
+  const path = "/api/v1/diagnostics/me/draft";
+  const operations = document.paths?.[path];
+  if (!operations?.get) {
+    throw new Error(`Missing OpenAPI GET operation for ${path}`);
+  }
+  if (!operations?.put) {
+    throw new Error(`Missing OpenAPI PUT operation for ${path}`);
+  }
+
+  return [
+    "export type DiagnosticMeAuthRequest = {",
+    "  profileSessionToken: string;",
+    "};",
+    "",
+    "export type DiagnosticMeDraftUpdateClientRequest = DiagnosticMeAuthRequest & {",
+    "  body: DiagnosticDraftUpdateRequest;",
+    "};",
+    "",
+    `export const DIAGNOSTIC_ME_DRAFT_PATH = ${JSON.stringify(path)};`,
+    "",
+    "export function buildDiagnosticMeDraftUrl(baseUrl: string | URL): URL {",
+    "  return new URL(DIAGNOSTIC_ME_DRAFT_PATH, baseUrl);",
+    "}",
+    "",
+    "export async function fetchDiagnosticMeDraft(",
+    "  baseUrl: string | URL,",
+    "  params: DiagnosticMeAuthRequest,",
+    "  init: ApiClientRequestInit = {}",
+    "): Promise<DiagnosticAttemptResponse> {",
+    "  const url = buildDiagnosticMeDraftUrl(baseUrl);",
+    "  const headers = new Headers(init.headers);",
+    "  headers.set(\"authorization\", `Bearer ${params.profileSessionToken}`);",
+    "  const response = await fetch(url, {",
+    "    ...init,",
+    "    method: \"GET\",",
+    "    headers",
+    "  });",
+    "  if (!response.ok) {",
+    "    throw new Error(`GET ${url.pathname} failed with HTTP ${response.status}.`);",
+    "  }",
+    "  return (await response.json()) as DiagnosticAttemptResponse;",
+    "}",
+    "",
+    "export async function saveDiagnosticMeDraft(",
+    "  baseUrl: string | URL,",
+    "  params: DiagnosticMeDraftUpdateClientRequest,",
+    "  init: ApiJsonClientRequestInit = {}",
+    "): Promise<DiagnosticAttemptResponse> {",
+    "  const url = buildDiagnosticMeDraftUrl(baseUrl);",
+    "  const headers = new Headers(init.headers);",
+    "  if (!headers.has(\"content-type\")) {",
+    "    headers.set(\"content-type\", \"application/json\");",
+    "  }",
+    "  headers.set(\"authorization\", `Bearer ${params.profileSessionToken}`);",
+    "  const response = await fetch(url, {",
+    "    ...init,",
+    "    method: \"PUT\",",
+    "    headers,",
+    "    body: JSON.stringify(params.body)",
+    "  });",
+    "  if (!response.ok) {",
+    "    throw new Error(`PUT ${url.pathname} failed with HTTP ${response.status}.`);",
+    "  }",
+    "  return (await response.json()) as DiagnosticAttemptResponse;",
+    "}",
+    ""
+  ];
+}
+
+function emitDiagnosticMeSubmitClient(document) {
+  const path = "/api/v1/diagnostics/me/submit";
+  const operation = document.paths?.[path]?.post;
+  if (!operation) {
+    throw new Error(`Missing OpenAPI operation for ${path}`);
+  }
+
+  return [
+    `export const DIAGNOSTIC_ME_SUBMIT_PATH = ${JSON.stringify(path)};`,
+    "",
+    "export function buildDiagnosticMeSubmitUrl(baseUrl: string | URL): URL {",
+    "  return new URL(DIAGNOSTIC_ME_SUBMIT_PATH, baseUrl);",
+    "}",
+    "",
+    "export async function submitDiagnosticMeDraft(",
+    "  baseUrl: string | URL,",
+    "  params: DiagnosticMeAuthRequest,",
+    "  init: ApiClientRequestInit = {}",
+    "): Promise<DiagnosticSubmitResponse> {",
+    "  const url = buildDiagnosticMeSubmitUrl(baseUrl);",
+    "  const headers = new Headers(init.headers);",
+    "  headers.set(\"authorization\", `Bearer ${params.profileSessionToken}`);",
+    "  const response = await fetch(url, {",
+    "    ...init,",
+    "    method: \"POST\",",
+    "    headers",
+    "  });",
+    "  if (!response.ok) {",
+    "    throw new Error(`POST ${url.pathname} failed with HTTP ${response.status}.`);",
+    "  }",
+    "  return (await response.json()) as DiagnosticSubmitResponse;",
     "}",
     ""
   ];

@@ -35,6 +35,10 @@ async function checkEnums() {
     {
       schema: "LegalDocumentType",
       file: "apps/api/src/main/java/com/finrhythm/api/consent/domain/LegalDocumentType.java"
+    },
+    {
+      schema: "DiagnosticAttemptState",
+      file: "apps/api/src/main/java/com/finrhythm/api/diagnostic/domain/DiagnosticAttemptState.java"
     }
   ];
 
@@ -88,6 +92,52 @@ async function checkRecords() {
     {
       schema: "EmployeeContactUpdateResponse",
       file: "apps/api/src/main/java/com/finrhythm/api/registration/web/EmployeeContactUpdateResponse.java"
+    },
+    {
+      schema: "DiagnosticQ0MetadataRequest",
+      file: "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticQ0MetadataRequest.java",
+      requiredFields: []
+    },
+    {
+      schema: "DiagnosticSelfAssessmentAnswerRequest",
+      file: "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticSelfAssessmentAnswerRequest.java"
+    },
+    {
+      schema: "DiagnosticRoutingAnswerRequest",
+      file: "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticRoutingAnswerRequest.java"
+    },
+    {
+      schema: "DiagnosticDraftUpdateRequest",
+      file: "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticDraftUpdateRequest.java",
+      requiredFields: []
+    },
+    {
+      schema: "DiagnosticAllowedRoutingOptionsResponse",
+      file: "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticAllowedRoutingOptionsResponse.java"
+    },
+    {
+      schema: "DiagnosticAllowedAnswerIdsResponse",
+      file: "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticAllowedAnswerIdsResponse.java"
+    },
+    {
+      schema: "DiagnosticQ0MetadataResponse",
+      file: "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticQ0MetadataResponse.java"
+    },
+    {
+      schema: "DiagnosticSelfAssessmentAnswerResponse",
+      file: "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticSelfAssessmentAnswerResponse.java"
+    },
+    {
+      schema: "DiagnosticRoutingAnswerResponse",
+      file: "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticRoutingAnswerResponse.java"
+    },
+    {
+      schema: "DiagnosticAttemptResponse",
+      file: "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticAttemptResponse.java"
+    },
+    {
+      schema: "DiagnosticSubmitResponse",
+      file: "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticSubmitResponse.java"
     },
     {
       schema: "LegalDocumentVersionRequest",
@@ -258,6 +308,52 @@ function checkOperations() {
   );
   if (!meContactOperation.security?.some((requirement) => requirement.employeeProfileSessionBearerAuth)) {
     throw new Error("Employee me contact update operation is missing employeeProfileSessionBearerAuth security.");
+  }
+
+  const diagnosticDraftPath = "/api/v1/diagnostics/me/draft";
+  const diagnosticDraftGetOperation = openApi.paths?.[diagnosticDraftPath]?.get;
+  if (!diagnosticDraftGetOperation) {
+    throw new Error(`Missing diagnostic draft read operation at ${diagnosticDraftPath}`);
+  }
+  assertRef(
+    "diagnostic draft GET 200 response",
+    diagnosticDraftGetOperation.responses?.["200"]?.content?.["application/json"]?.schema,
+    "#/components/schemas/DiagnosticAttemptResponse"
+  );
+  if (!diagnosticDraftGetOperation.security?.some((requirement) => requirement.employeeProfileSessionBearerAuth)) {
+    throw new Error("Diagnostic draft GET operation is missing employeeProfileSessionBearerAuth security.");
+  }
+
+  const diagnosticDraftPutOperation = openApi.paths?.[diagnosticDraftPath]?.put;
+  if (!diagnosticDraftPutOperation) {
+    throw new Error(`Missing diagnostic draft update operation at ${diagnosticDraftPath}`);
+  }
+  assertRef(
+    "diagnostic draft PUT request",
+    diagnosticDraftPutOperation.requestBody?.content?.["application/json"]?.schema,
+    "#/components/schemas/DiagnosticDraftUpdateRequest"
+  );
+  assertRef(
+    "diagnostic draft PUT 200 response",
+    diagnosticDraftPutOperation.responses?.["200"]?.content?.["application/json"]?.schema,
+    "#/components/schemas/DiagnosticAttemptResponse"
+  );
+  if (!diagnosticDraftPutOperation.security?.some((requirement) => requirement.employeeProfileSessionBearerAuth)) {
+    throw new Error("Diagnostic draft PUT operation is missing employeeProfileSessionBearerAuth security.");
+  }
+
+  const diagnosticSubmitPath = "/api/v1/diagnostics/me/submit";
+  const diagnosticSubmitOperation = openApi.paths?.[diagnosticSubmitPath]?.post;
+  if (!diagnosticSubmitOperation) {
+    throw new Error(`Missing diagnostic submit operation at ${diagnosticSubmitPath}`);
+  }
+  assertRef(
+    "diagnostic submit 200 response",
+    diagnosticSubmitOperation.responses?.["200"]?.content?.["application/json"]?.schema,
+    "#/components/schemas/DiagnosticSubmitResponse"
+  );
+  if (!diagnosticSubmitOperation.security?.some((requirement) => requirement.employeeProfileSessionBearerAuth)) {
+    throw new Error("Diagnostic submit operation is missing employeeProfileSessionBearerAuth security.");
   }
 
   const legalAcceptancePath = "/api/v1/employee-registrations/{employeeRegistrationId}/legal-acceptances";

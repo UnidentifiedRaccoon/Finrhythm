@@ -10,6 +10,15 @@ import {
 } from "@finrhythm/api-client";
 import { EmployeeHomeScreen } from "../components/employee-home-screen.ts";
 import {
+  buildDiagnosticApiDraftUpdateRequest,
+  buildSafeDiagnosticHandoff,
+  DiagnosticApiFlowScreen,
+  diagnosticApiQ0Options,
+  diagnosticApiRoutingQuestions,
+  diagnosticApiSelfAssessmentItems,
+  isDiagnosticApiDraftComplete
+} from "../components/diagnostic-api-flow-screen.ts";
+import {
   buildDiagnosticPreviewProgress,
   DiagnosticPreviewScreen,
   diagnosticPreviewPhases,
@@ -357,6 +366,20 @@ describe("mobile learning shell", () => {
     assert.doesNotMatch(html, /password/i);
   });
 
+  it("renders the diagnostic API flow as a mounted memory-token loading step", () => {
+    const profileSessionToken = "memory-only-profile-session-token";
+    const html = renderToStaticMarkup(h(DiagnosticApiFlowScreen, { profileSessionToken }));
+
+    assert.match(html, /Короткая диагностика старта/);
+    assert.match(html, /Граница данных сохраняется/);
+    assert.match(html, /Открываем диагностику/);
+    assert.match(html, /Сначала проверяем текущий черновик через API/);
+    assert.doesNotMatch(html, new RegExp(profileSessionToken));
+    assert.doesNotMatch(html, /name="inviteCode"/);
+    assert.doesNotMatch(html, /name="email"/);
+    assert.doesNotMatch(html, /name="phone"/);
+  });
+
   it("builds legal acceptance POST payloads from generated current draft constants", () => {
     const request = buildProfileSessionLegalAcceptanceRequest();
 
@@ -392,6 +415,85 @@ describe("mobile learning shell", () => {
       }),
       false
     );
+  });
+
+  it("builds diagnostic API draft payloads with separated Q0, SA and routing sections", () => {
+    const completeDraft = {
+      q0SelectedOptionIds: ["WHO_SEES_ANSWERS", "READY_TO_START"],
+      selfAssessment: {
+        SA1: 3,
+        SA2: 4,
+        SA3: 5
+      },
+      routingAnswers: {
+        Q1: "B",
+        Q2: "E",
+        Q3: "A"
+      }
+    };
+
+    assert.deepEqual(
+      diagnosticApiQ0Options.map((option) => option.id),
+      ["WHO_SEES_ANSWERS", "TRAINING_TIME", "ASSIGNMENTS_REQUIRED", "POINTS_ACCRUAL", "READY_TO_START"]
+    );
+    assert.deepEqual(
+      diagnosticApiSelfAssessmentItems.map((item) => item.id),
+      ["SA1", "SA2", "SA3"]
+    );
+    assert.deepEqual(
+      diagnosticApiRoutingQuestions.map((question) => [question.id, question.options.map((option) => option.id)]),
+      [
+        ["Q1", ["A", "B", "C", "D"]],
+        ["Q2", ["A", "B", "C", "D", "E"]],
+        ["Q3", ["A", "B", "C", "D"]]
+      ]
+    );
+    assert.equal(isDiagnosticApiDraftComplete(completeDraft), true);
+    assert.deepEqual(buildDiagnosticApiDraftUpdateRequest(completeDraft), {
+      q0: {
+        selectedOptionIds: ["WHO_SEES_ANSWERS", "READY_TO_START"]
+      },
+      selfAssessment: [
+        { id: "SA1", value: 3 },
+        { id: "SA2", value: 4 },
+        { id: "SA3", value: 5 }
+      ],
+      routingAnswers: [
+        { id: "Q1", optionId: "B" },
+        { id: "Q2", optionId: "E" },
+        { id: "Q3", optionId: "A" }
+      ]
+    });
+
+    assert.equal(
+      isDiagnosticApiDraftComplete({
+        ...completeDraft,
+        q0SelectedOptionIds: []
+      }),
+      false
+    );
+  });
+
+  it("accepts only the safe N1 diagnostic handoff fields", () => {
+    const response = {
+      state: "SUBMITTED",
+      routePreview: true,
+      recommendedFirstLessonId: "N1",
+      createdAt: "2026-05-14T09:00:00Z",
+      updatedAt: "2026-05-14T09:01:00Z",
+      submittedAt: "2026-05-14T09:02:00Z"
+    };
+
+    assert.deepEqual(buildSafeDiagnosticHandoff(response), {
+      state: "SUBMITTED",
+      routePreview: true,
+      recommendedFirstLessonId: "N1",
+      createdAt: "2026-05-14T09:00:00Z",
+      updatedAt: "2026-05-14T09:01:00Z",
+      submittedAt: "2026-05-14T09:02:00Z"
+    });
+    assert.equal(buildSafeDiagnosticHandoff({ ...response, recommendedFirstLessonId: "N2" }), null);
+    assert.equal(buildSafeDiagnosticHandoff({ ...response, routePreview: false }), null);
   });
 
   it("builds profile-session POST payloads through generated request types without echoing invalid proof", () => {
@@ -486,15 +588,17 @@ describe("mobile learning shell", () => {
     assert.match(profileStateSource, /ApiErrorResponse/);
     assert.match(profileSource, /initialProfileSessionToken/);
     assert.match(profileSessionSource, /initialProfileSessionToken/);
+    assert.match(profileSessionSource, /DiagnosticApiFlowScreen/);
     assert.match(profileSessionSource, /setPhase\("legal"\)/);
-    assert.match(profileSessionSource, /setPhase\("ready"\)/);
+    assert.match(profileSessionSource, /setPhase\("diagnostic"\)/);
+    assert.match(profileSessionSource, /setPhase\("contact"\)/);
     assert.equal(profileSessionSource.includes(joinText("/", "legal", "-", "acceptances")), false);
     const profileSessionSuccessBlock = profileSessionSource.slice(
       profileSessionSource.indexOf("const response = await fetchEmployeeProfileSession"),
       profileSessionSource.indexOf("} catch (error: unknown)")
     );
     assert.match(profileSessionSuccessBlock, /setPhase\("legal"\)/);
-    assert.doesNotMatch(profileSessionSuccessBlock, /setPhase\("ready"\)/);
+    assert.doesNotMatch(profileSessionSuccessBlock, /setPhase\("diagnostic"\)/);
     const legalAcceptanceBlock = profileSessionSource.slice(
       profileSessionSource.indexOf("const response = await fetchLegalDocumentAcceptance"),
       profileSessionSource.indexOf("function ProfileSessionHero")
@@ -505,7 +609,10 @@ describe("mobile learning shell", () => {
     );
     assert.match(legalAcceptanceBlock, /employeeRegistrationId/);
     assert.match(legalAcceptanceBlock, /body: buildProfileSessionLegalAcceptanceRequest\(\)/);
-    assert.match(legalAcceptanceBlock, /setPhase\("ready"\)/);
+    assert.match(legalAcceptanceBlock, /setPhase\("diagnostic"\)/);
+    assert.match(legalAcceptanceBlock, /profileSessionToken/);
+    assert.match(legalAcceptanceBlock, /onContinueToContact/);
+    assert.match(legalAcceptanceBlock, /ProfileContactScreen/);
     assert.doesNotMatch(legalAcceptanceFetchBlock, /profileSessionToken/);
     assert.match(profileSessionSource, /Не удалось записать принятие документов/);
     assert.match(profileSessionSource, /не показываются код приглашения, сессионный секрет, идентификаторы или контактные поля/);
@@ -542,6 +649,40 @@ describe("mobile learning shell", () => {
       `${profileSource}\n${profileSessionSource}`,
       new RegExp(`${joinText("document", "\\.", "cookie")}|${joinText("cookie", "Store")}`)
     );
+  });
+
+  it("uses generated diagnostic client helpers and avoids unsafe diagnostic token transport", async () => {
+    const profileSessionSource = await readFile(join(appRoot, "components", "profile-session-entry-screen.ts"), "utf8");
+    const diagnosticSource = await readFile(join(appRoot, "components", "diagnostic-api-flow-screen.ts"), "utf8");
+
+    assert.match(profileSessionSource, /DiagnosticApiFlowScreen/);
+    assert.match(profileSessionSource, /profileSessionToken,/);
+    assert.match(profileSessionSource, /onContinueToContact/);
+    assert.match(diagnosticSource, /fetchDiagnosticMeDraft/);
+    assert.match(diagnosticSource, /saveDiagnosticMeDraft/);
+    assert.match(diagnosticSource, /submitDiagnosticMeDraft/);
+    assert.match(diagnosticSource, /DiagnosticDraftUpdateRequest/);
+    assert.match(diagnosticSource, /DiagnosticAttemptResponse/);
+    assert.match(diagnosticSource, /DiagnosticSubmitResponse/);
+    assert.match(diagnosticSource, /q0SelectedOptionIds/);
+    assert.match(diagnosticSource, /selfAssessment/);
+    assert.match(diagnosticSource, /routingAnswers/);
+    assert.match(diagnosticSource, /recommendedFirstLessonId: "N1"/);
+    assert.doesNotMatch(diagnosticSource, /DIAGNOSTIC_ME_DRAFT_PATH|DIAGNOSTIC_ME_SUBMIT_PATH/);
+    assert.doesNotMatch(diagnosticSource, /\/api\/v1\/diagnostics/);
+    assert.doesNotMatch(diagnosticSource, /XMLHttpRequest|navigator\.sendBeacon|console\./);
+    assert.doesNotMatch(diagnosticSource, /useSearchParams|searchParams|window\.location\.search|location\.hash/);
+    assert.doesNotMatch(diagnosticSource, /history\.replaceState|history\.pushState/);
+    assert.doesNotMatch(
+      diagnosticSource,
+      new RegExp(`${joinText("local", "Storage")}|${joinText("session", "Storage")}|indexedDB`)
+    );
+    assert.doesNotMatch(diagnosticSource, new RegExp(`${joinText("document", "\\.", "cookie")}|${joinText("cookie", "Store")}`));
+    assert.doesNotMatch(
+      diagnosticSource,
+      /attemptId|employeeRegistrationId|tenantId|pilotLaunchId|accessPoolId|allowedAnswerIds/
+    );
+    assert.doesNotMatch(diagnosticSource, /Q4|Q27|Q28|R1\.|R2\.|R3\.|R4\.|R5\.|R6\./);
   });
 
   it("keeps managed web source free of customer brand, active old access terms and forbidden claims", async () => {

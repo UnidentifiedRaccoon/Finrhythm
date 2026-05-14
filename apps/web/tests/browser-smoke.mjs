@@ -4,6 +4,8 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { chromium } from "playwright";
 import {
+  DIAGNOSTIC_ME_DRAFT_PATH,
+  DIAGNOSTIC_ME_SUBMIT_PATH,
   LEGAL_DOCUMENT_ACCEPTANCE_PATH_TEMPLATE,
   LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION,
   LEGAL_DOCUMENT_TYPES
@@ -59,6 +61,61 @@ const legalAcceptancePath = LEGAL_DOCUMENT_ACCEPTANCE_PATH_TEMPLATE.replace(
   "{employeeRegistrationId}",
   profileSummary.employeeRegistrationId
 );
+
+const diagnosticAttemptBase = {
+  attemptId: "50000000-0000-4000-8000-000000000001",
+  employeeRegistrationId: profileSummary.employeeRegistrationId,
+  tenantId: profileSummary.tenantId,
+  pilotLaunchId: profileSummary.pilotLaunchId,
+  accessPoolId: profileSummary.accessPoolId,
+  state: "DRAFT",
+  allowedAnswerIds: {
+    q0QuestionIds: ["Q0"],
+    q0OptionIds: ["WHO_SEES_ANSWERS", "TRAINING_TIME", "ASSIGNMENTS_REQUIRED", "POINTS_ACCRUAL", "READY_TO_START"],
+    selfAssessmentQuestionIds: ["SA1", "SA2", "SA3"],
+    routingQuestionOptions: [
+      { id: "Q1", optionIds: ["A", "B", "C", "D"] },
+      { id: "Q2", optionIds: ["A", "B", "C", "D", "E"] },
+      { id: "Q3", optionIds: ["A", "B", "C", "D"] }
+    ]
+  },
+  q0: {
+    id: "Q0",
+    selectedOptionIds: []
+  },
+  selfAssessment: [],
+  routingAnswers: [],
+  routePreview: false,
+  recommendedFirstLessonId: null,
+  createdAt: "2026-05-14T09:10:00Z",
+  updatedAt: "2026-05-14T09:10:00Z",
+  submittedAt: null
+};
+
+const expectedDiagnosticDraftBody = {
+  q0: {
+    selectedOptionIds: ["WHO_SEES_ANSWERS", "READY_TO_START"]
+  },
+  selfAssessment: [
+    { id: "SA1", value: 3 },
+    { id: "SA2", value: 3 },
+    { id: "SA3", value: 3 }
+  ],
+  routingAnswers: [
+    { id: "Q1", optionId: "B" },
+    { id: "Q2", optionId: "E" },
+    { id: "Q3", optionId: "A" }
+  ]
+};
+
+const diagnosticSubmitResponse = {
+  state: "SUBMITTED",
+  routePreview: true,
+  recommendedFirstLessonId: "N1",
+  createdAt: "2026-05-14T09:10:00Z",
+  updatedAt: "2026-05-14T09:12:00Z",
+  submittedAt: "2026-05-14T09:13:00Z"
+};
 
 const scenarios = [
   {
@@ -240,6 +297,55 @@ const scenarios = [
     }
   },
   {
+    name: "mobile-start-to-profile-session-diagnostic-api-handoff",
+    path: "/start",
+    viewport: { width: 390, height: 844 },
+    sessionMock: {
+      sessionStatus: 200,
+      summaryStatus: 200,
+      expectedDiagnosticDraftBody
+    },
+    expected: ["Начните с приватности", "Перейти к приватности"],
+    action: async (page) => {
+      await page.getByRole("link", { name: "Перейти к приватности" }).click();
+      await page.waitForURL("**/onboarding/privacy", { timeout: 5000 });
+      await page.getByRole("link", { name: "Открыть вход в профиль" }).click();
+      await page.waitForURL("**/profile/session", { timeout: 5000 });
+      await submitProfileSessionAcceptLegalAndCompleteDiagnostic(page);
+    },
+    expectedAfter: [
+      "Диагностика записана: начните с N1",
+      "Route preview",
+      "Первый урок",
+      "N1",
+      "Открыть N1",
+      "Перейти к контактам"
+    ],
+    assertAfter: async (page, requestEvents) => {
+      assertProfileSessionLegalAndDiagnosticSubmitOrder(requestEvents);
+      assert.equal(new URL(page.url()).pathname, "/profile/session");
+      assert.equal(await page.locator("a[href='/learning/lessons/N1']").count(), 1);
+
+      const visibleText = await page.locator("body").innerText();
+      for (const token of [
+        "WHO_SEES_ANSWERS",
+        "READY_TO_START",
+        "SA1 ·",
+        "SA2 ·",
+        "SA3 ·",
+        "Q1 ·",
+        "Q2 ·",
+        "Q3 ·",
+        diagnosticAttemptBase.attemptId,
+        profileSummary.tenantId,
+        profileSummary.pilotLaunchId,
+        profileSummary.accessPoolId
+      ]) {
+        assert.equal(visibleText.includes(token), false, `handoff does not render ${token}`);
+      }
+    }
+  },
+  {
     name: "mobile-ready",
     path: "/learning",
     viewport: { width: 390, height: 844 },
@@ -271,7 +377,7 @@ const scenarios = [
     ],
     assertBefore: async (page) => {
       assert.equal(await page.locator("form").count(), 0);
-      assert.equal(await page.locator("button").count(), 0);
+      assert.equal(await page.locator("main button").count(), 0);
     }
   },
   {
@@ -289,7 +395,7 @@ const scenarios = [
     ],
     assertBefore: async (page) => {
       assert.equal(await page.locator("form").count(), 0);
-      assert.equal(await page.locator("button").count(), 0);
+      assert.equal(await page.locator("main button").count(), 0);
     }
   },
   {
@@ -307,7 +413,7 @@ const scenarios = [
     ],
     assertBefore: async (page) => {
       assert.equal(await page.locator("form").count(), 0);
-      assert.equal(await page.locator("button").count(), 0);
+      assert.equal(await page.locator("main button").count(), 0);
       assert.equal(await page.locator("nav.bottom-nav a[href='/support']").count(), 0);
     }
   },
@@ -485,7 +591,7 @@ const scenarios = [
     }
   },
   {
-    name: "mobile-profile-session-loaded",
+    name: "mobile-profile-session-diagnostic-loaded",
     path: "/profile/session",
     viewport: { width: 390, height: 844 },
     sessionMock: { sessionStatus: 200, summaryStatus: 200 },
@@ -495,16 +601,17 @@ const scenarios = [
     ],
     action: submitProfileSessionAndAcceptLegal,
     expectedAfter: [
-      "Документы зафиксированы",
-      "Проверьте контактные поля",
-      "Синтетический Участник",
-      "Email",
-      "Телефон",
-      "Сохранить контакты"
+      "Короткая диагностика старта",
+      "Граница данных сохраняется",
+      "Черновик открыт",
+      "Что важно знать перед стартом",
+      "Самооценка без scoring",
+      "Первые вопросы про резерв",
+      "Сохранить черновик"
     ],
-    assertAfter: async (page, requestEvents) => {
-      await assertLoadedProfileFields(page);
-      assertLegalAcceptanceBeforeContactSummary(requestEvents);
+    assertAfter: async (_page, requestEvents) => {
+      assertLegalAcceptanceBeforeDiagnosticDraft(requestEvents);
+      assert.equal(requestEvents.includes("contact-summary:request"), false);
     }
   },
   {
@@ -528,7 +635,7 @@ const scenarios = [
     },
     expected: ["Подтвердите контактный профиль", "Открыть профиль"],
     action: async (page) => {
-      await submitProfileSessionAndAcceptLegal(page);
+      await submitProfileSessionAcceptLegalAndContinueToContact(page);
       await page.getByText("Проверьте контактные поля", { exact: false }).first().waitFor({ timeout: 5000 });
       await page.getByLabel("Email").fill("updated.profile@example.test");
       await page.getByLabel("Телефон").fill("+70000000001");
@@ -555,7 +662,7 @@ const scenarios = [
     },
     expected: ["Подтвердите контактный профиль", "Открыть профиль"],
     action: async (page) => {
-      await submitProfileSessionAndAcceptLegal(page);
+      await submitProfileSessionAcceptLegalAndContinueToContact(page);
       await page.getByText("Проверьте контактные поля", { exact: false }).first().waitFor({ timeout: 5000 });
       await page.getByLabel("Email").fill("SYNTHETIC.PROFILE@example.test");
       await page.getByRole("button", { name: "Сохранить контакты" }).click();
@@ -579,7 +686,7 @@ const scenarios = [
     },
     expected: ["Подтвердите контактный профиль", "Открыть профиль"],
     action: async (page) => {
-      await submitProfileSessionAndAcceptLegal(page);
+      await submitProfileSessionAcceptLegalAndContinueToContact(page);
       await page.getByText("Проверьте контактные поля", { exact: false }).first().waitFor({ timeout: 5000 });
       await page.getByLabel("Телефон").fill("");
       await page.getByRole("button", { name: "Сохранить контакты" }).click();
@@ -650,7 +757,7 @@ const scenarios = [
       }
     },
     expected: ["Подтвердите контактный профиль", "Открыть профиль"],
-    action: submitProfileSessionAndAcceptLegal,
+    action: submitProfileSessionAcceptLegalAndContinueToContact,
     expectedAfter: [
       "Сессия истекла",
       "Нужна новая профильная сессия",
@@ -838,6 +945,21 @@ async function submitProfileSessionAndAcceptLegal(page) {
   await acceptLegalDocuments(page);
 }
 
+async function submitProfileSessionAcceptLegalAndCompleteDiagnostic(page) {
+  await submitProfileSessionAndAcceptLegal(page);
+  await page.getByText("Короткая диагностика старта", { exact: false }).first().waitFor({ timeout: 5000 });
+  await fillDiagnosticApiDraft(page);
+  await page.getByRole("button", { name: "Сохранить черновик" }).click();
+  await page.getByText("Черновик сохранён", { exact: false }).first().waitFor({ timeout: 5000 });
+  await page.getByRole("button", { name: "Завершить диагностику" }).click();
+  await page.getByText("Диагностика записана: начните с N1", { exact: false }).first().waitFor({ timeout: 5000 });
+}
+
+async function submitProfileSessionAcceptLegalAndContinueToContact(page) {
+  await submitProfileSessionAcceptLegalAndCompleteDiagnostic(page);
+  await page.getByRole("button", { name: "Перейти к контактам" }).click();
+}
+
 async function acceptLegalDocuments(page) {
   await page.getByRole("button", { name: "Подтвердить принятие черновых документов" }).click();
 }
@@ -858,6 +980,21 @@ async function answerDiagnosticPreviewQuestions(page) {
   await items.nth(0).locator("button").nth(0).click();
   await items.nth(1).locator("button").nth(3).click();
   await items.nth(2).locator("button").nth(0).click();
+}
+
+async function fillDiagnosticApiDraft(page) {
+  await page.getByRole("button", { name: /Кто увидит мои ответы/ }).click();
+  await page.getByRole("button", { name: /Всё понятно, хочу начать/ }).click();
+
+  const selfAssessmentItems = page.locator(".self-assessment-item");
+  await selfAssessmentItems.nth(0).locator("button").nth(2).click();
+  await selfAssessmentItems.nth(1).locator("button").nth(2).click();
+  await selfAssessmentItems.nth(2).locator("button").nth(2).click();
+
+  const routingItems = page.locator(".preview-question-item");
+  await routingItems.nth(0).locator("button").nth(1).click();
+  await routingItems.nth(1).locator("button").nth(4).click();
+  await routingItems.nth(2).locator("button").nth(0).click();
 }
 
 async function assertBottomNav(page, activeLabel) {
@@ -959,11 +1096,96 @@ async function installProfileSessionFlowMocks(page, sessionMock, profileSessionT
     requestEvents.push(`legal-acceptance:response:${legalStatus}`);
   });
 
-  if (sessionMock.summaryStatus !== undefined) {
-    await installProfileContactMocks(page, sessionMock, profileSessionToken, requestEvents, {
-      requireLegalAcceptance: sessionMock.sessionStatus === 200
+  if (sessionMock.sessionStatus === 200) {
+    await installDiagnosticMocks(page, sessionMock, profileSessionToken, requestEvents, {
+      requireLegalAcceptance: true
     });
   }
+
+  if (sessionMock.summaryStatus !== undefined) {
+    await installProfileContactMocks(page, sessionMock, profileSessionToken, requestEvents, {
+      requireDiagnosticSubmit: sessionMock.sessionStatus === 200
+    });
+  }
+}
+
+async function installDiagnosticMocks(
+  page,
+  sessionMock,
+  profileSessionToken,
+  requestEvents,
+  { requireLegalAcceptance = false } = {}
+) {
+  await page.route(`**${DIAGNOSTIC_ME_DRAFT_PATH}`, async (route) => {
+    const request = route.request();
+    const url = new URL(request.url());
+
+    assert.equal(url.pathname, DIAGNOSTIC_ME_DRAFT_PATH);
+    assert.equal(request.url().includes(profileSessionToken), false, "diagnostic draft URL does not leak token");
+    assert.equal(request.headers().authorization, `Bearer ${profileSessionToken}`);
+    if (requireLegalAcceptance) {
+      assert.equal(
+        requestEvents.includes("legal-acceptance:response:200"),
+        true,
+        "diagnostic draft starts only after successful legal acceptance"
+      );
+    }
+
+    if (request.method() === "GET") {
+      requestEvents.push("diagnostic-draft:get:request");
+      await route.fulfill({
+        contentType: "application/json",
+        status: sessionMock.diagnosticGetStatus ?? 200,
+        body: JSON.stringify(sessionMock.diagnosticGetResponse ?? diagnosticAttemptBase)
+      });
+      requestEvents.push(`diagnostic-draft:get:response:${sessionMock.diagnosticGetStatus ?? 200}`);
+      return;
+    }
+
+    if (request.method() === "PUT") {
+      const body = JSON.parse(request.postData() ?? "{}");
+      requestEvents.push("diagnostic-draft:put:request");
+      assert.deepEqual(Object.keys(body).sort(), ["q0", "routingAnswers", "selfAssessment"]);
+      assert.deepEqual(body, sessionMock.expectedDiagnosticDraftBody ?? expectedDiagnosticDraftBody);
+      assert.equal(JSON.stringify(body).includes(profileSessionToken), false, "diagnostic draft body does not leak token");
+      assert.equal(JSON.stringify(body).includes(syntheticInviteCode), false, "diagnostic draft body does not leak invite code");
+      assert.equal(
+        JSON.stringify(body).includes(profileSummary.employeeRegistrationId),
+        false,
+        "diagnostic draft body does not duplicate employee registration id"
+      );
+
+      await route.fulfill({
+        contentType: "application/json",
+        status: sessionMock.diagnosticPutStatus ?? 200,
+        body: JSON.stringify(diagnosticAttemptFromDraftBody(body))
+      });
+      requestEvents.push(`diagnostic-draft:put:response:${sessionMock.diagnosticPutStatus ?? 200}`);
+      return;
+    }
+
+    throw new Error(`Unexpected diagnostic draft method: ${request.method()}`);
+  });
+
+  await page.route(`**${DIAGNOSTIC_ME_SUBMIT_PATH}`, async (route) => {
+    const request = route.request();
+    const url = new URL(request.url());
+
+    requestEvents.push("diagnostic-submit:request");
+    assert.equal(request.method(), "POST");
+    assert.equal(url.pathname, DIAGNOSTIC_ME_SUBMIT_PATH);
+    assert.equal(request.url().includes(profileSessionToken), false, "diagnostic submit URL does not leak token");
+    assert.equal(request.headers().authorization, `Bearer ${profileSessionToken}`);
+    assert.equal(requestEvents.includes("diagnostic-draft:get:response:200"), true, "diagnostic submit starts after GET");
+    assert.equal(requestEvents.includes("diagnostic-draft:put:response:200"), true, "diagnostic submit starts after PUT");
+
+    await route.fulfill({
+      contentType: "application/json",
+      status: sessionMock.diagnosticSubmitStatus ?? 200,
+      body: JSON.stringify(sessionMock.diagnosticSubmitResponse ?? diagnosticSubmitResponse)
+    });
+    requestEvents.push(`diagnostic-submit:response:${sessionMock.diagnosticSubmitStatus ?? 200}`);
+  });
 }
 
 async function installProfileContactMocks(
@@ -971,7 +1193,7 @@ async function installProfileContactMocks(
   profileMock,
   profileSessionToken,
   requestEvents,
-  { requireLegalAcceptance = false } = {}
+  { requireDiagnosticSubmit = false } = {}
 ) {
   await page.route("**/api/v1/employee-registrations/me/profile-summary", async (route) => {
     const request = route.request();
@@ -979,11 +1201,11 @@ async function installProfileContactMocks(
     assert.equal(request.method(), "GET");
     assert.equal(request.url().includes(profileSessionToken), false, "summary request does not leak token in URL");
     assert.equal(request.headers().authorization, `Bearer ${profileSessionToken}`);
-    if (requireLegalAcceptance) {
+    if (requireDiagnosticSubmit) {
       assert.equal(
-        requestEvents.includes("legal-acceptance:response:200"),
+        requestEvents.includes("diagnostic-submit:response:200"),
         true,
-        "summary request starts only after successful legal acceptance"
+        "summary request starts only after diagnostic submit"
       );
     }
 
@@ -1043,6 +1265,48 @@ function assertLegalAcceptanceBeforeContactSummary(requestEvents) {
   assert.notEqual(legalResponseIndex, -1, "legal acceptance response exists");
   assert.notEqual(summaryRequestIndex, -1, "contact summary request exists");
   assert.equal(legalResponseIndex < summaryRequestIndex, true, "contact summary starts after legal acceptance");
+}
+
+function assertLegalAcceptanceBeforeDiagnosticDraft(requestEvents) {
+  assertProfileSessionBeforeLegalAcceptance(requestEvents);
+
+  const legalResponseIndex = requestEvents.indexOf("legal-acceptance:response:200");
+  const diagnosticGetIndex = requestEvents.indexOf("diagnostic-draft:get:request");
+
+  assert.notEqual(legalResponseIndex, -1, "legal acceptance response exists");
+  assert.notEqual(diagnosticGetIndex, -1, "diagnostic draft GET request exists");
+  assert.equal(legalResponseIndex < diagnosticGetIndex, true, "diagnostic draft starts after legal acceptance");
+}
+
+function assertProfileSessionLegalAndDiagnosticSubmitOrder(requestEvents) {
+  assertLegalAcceptanceBeforeDiagnosticDraft(requestEvents);
+
+  const diagnosticGetResponseIndex = requestEvents.indexOf("diagnostic-draft:get:response:200");
+  const diagnosticPutRequestIndex = requestEvents.indexOf("diagnostic-draft:put:request");
+  const diagnosticPutResponseIndex = requestEvents.indexOf("diagnostic-draft:put:response:200");
+  const diagnosticSubmitRequestIndex = requestEvents.indexOf("diagnostic-submit:request");
+  const diagnosticSubmitResponseIndex = requestEvents.indexOf("diagnostic-submit:response:200");
+
+  assert.notEqual(diagnosticGetResponseIndex, -1, "diagnostic draft GET response exists");
+  assert.notEqual(diagnosticPutRequestIndex, -1, "diagnostic draft PUT request exists");
+  assert.notEqual(diagnosticPutResponseIndex, -1, "diagnostic draft PUT response exists");
+  assert.notEqual(diagnosticSubmitRequestIndex, -1, "diagnostic submit request exists");
+  assert.notEqual(diagnosticSubmitResponseIndex, -1, "diagnostic submit response exists");
+  assert.equal(diagnosticGetResponseIndex < diagnosticPutRequestIndex, true, "diagnostic PUT starts after GET");
+  assert.equal(diagnosticPutResponseIndex < diagnosticSubmitRequestIndex, true, "diagnostic submit starts after PUT");
+}
+
+function diagnosticAttemptFromDraftBody(body) {
+  return {
+    ...diagnosticAttemptBase,
+    q0: {
+      id: "Q0",
+      selectedOptionIds: body.q0?.selectedOptionIds ?? []
+    },
+    selfAssessment: body.selfAssessment ?? [],
+    routingAnswers: body.routingAnswers ?? [],
+    updatedAt: "2026-05-14T09:12:00Z"
+  };
 }
 
 function joinText(...parts) {
