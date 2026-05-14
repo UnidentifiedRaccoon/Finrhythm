@@ -2,9 +2,16 @@ package com.finrhythm.api.learning.web;
 
 import com.finrhythm.api.common.config.OpenApiConfig;
 import com.finrhythm.api.common.web.ApiErrorResponse;
+import com.finrhythm.api.learning.domain.LearningLessonBlock;
+import com.finrhythm.api.learning.domain.LearningLessonDetail;
+import com.finrhythm.api.learning.domain.LearningLessonProvenance;
+import com.finrhythm.api.learning.domain.LearningLessonReview;
+import com.finrhythm.api.learning.domain.LearningLessonSensitiveDataPolicy;
+import com.finrhythm.api.learning.domain.LearningLessonSourceRef;
 import com.finrhythm.api.learning.domain.LessonProgress;
 import com.finrhythm.api.learning.domain.LearningRouteN1Progress;
 import com.finrhythm.api.learning.domain.LearningRouteProgressSummary;
+import com.finrhythm.api.learning.service.LearningLessonDetailService;
 import com.finrhythm.api.learning.service.LearningProgressService;
 import com.finrhythm.api.learning.service.LearningRouteProgressService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,6 +39,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/learning/me")
 public class LessonProgressController {
+    private final LearningLessonDetailService learningLessonDetailService;
     private final LearningProgressService learningProgressService;
     private final LearningRouteProgressService learningRouteProgressService;
 
@@ -57,6 +65,42 @@ public class LessonProgressController {
             @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorizationHeader
     ) {
         return toResponse(learningRouteProgressService.currentSummary(authorizationHeader));
+    }
+
+    @Operation(
+            summary = "Read N1 lesson detail for mounted continuation",
+            description = "Reads backend-owned N1 draft lesson detail only after submitted diagnostic N1 handoff and an existing N1 STARTED progress row. No request body or client-provided scope identifiers are accepted, and the read persists nothing.",
+            security = @SecurityRequirement(name = OpenApiConfig.PROFILE_SESSION_BEARER_AUTH)
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Read-only N1 lesson detail.",
+                    content = @Content(schema = @Schema(implementation = LearningLessonDetailResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Only lesson id N1 is supported by this MVP slice.",
+                    content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Profile session token is missing, malformed, expired, revoked or unknown.",
+                    content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Lesson detail is not ready because diagnostic handoff or N1 started progress is missing.",
+                    content = @Content(schema = @Schema(implementation = ApiErrorResponse.class))
+            )
+    })
+    @GetMapping("/lessons/{lessonId}")
+    public LearningLessonDetailResponse lessonDetail(
+            @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorizationHeader,
+            @Parameter(description = "N1 is the only supported lesson id in this MVP slice.", example = "N1")
+            @PathVariable String lessonId
+    ) {
+        return toResponse(learningLessonDetailService.currentDetail(authorizationHeader, lessonId));
     }
 
     @Operation(
@@ -115,6 +159,74 @@ public class LessonProgressController {
                 progress.status(),
                 progress.startedAt(),
                 progress.lastOpenedAt()
+        );
+    }
+
+    private static LearningLessonDetailResponse toResponse(LearningLessonDetail detail) {
+        return new LearningLessonDetailResponse(
+                detail.lessonId(),
+                detail.displayTitle(),
+                detail.shortTitle(),
+                detail.trackTitle(),
+                detail.userPromise(),
+                detail.estimatedTime(),
+                detail.competencyCodes(),
+                detail.disclaimerType(),
+                toResponse(detail.review()),
+                toResponse(detail.provenance()),
+                toResponse(detail.sensitiveDataPolicy()),
+                detail.blocks().stream().map(LessonProgressController::toResponse).toList()
+        );
+    }
+
+    private static LearningLessonReviewResponse toResponse(LearningLessonReview review) {
+        return new LearningLessonReviewResponse(
+                review.reviewStatus(),
+                review.humanReviewRequired(),
+                review.productionReady(),
+                review.wordingReviewStatus(),
+                review.financialReviewStatus(),
+                review.legalReviewStatus(),
+                review.hrWordingReviewStatus(),
+                review.notes()
+        );
+    }
+
+    private static LearningLessonProvenanceResponse toResponse(LearningLessonProvenance provenance) {
+        return new LearningLessonProvenanceResponse(
+                provenance.methodologyRef(),
+                provenance.activeSourceRoot(),
+                provenance.contentBriefRef(),
+                provenance.sourceManifestRef(),
+                provenance.sourceRefs().stream().map(LessonProgressController::toResponse).toList()
+        );
+    }
+
+    private static LearningLessonSourceRefResponse toResponse(LearningLessonSourceRef sourceRef) {
+        return new LearningLessonSourceRefResponse(
+                sourceRef.path(),
+                sourceRef.title(),
+                sourceRef.humanReview()
+        );
+    }
+
+    private static LearningLessonSensitiveDataPolicyResponse toResponse(LearningLessonSensitiveDataPolicy policy) {
+        return new LearningLessonSensitiveDataPolicyResponse(
+                policy.notRequired(),
+                policy.hrReportingBoundary(),
+                policy.adviceBoundary()
+        );
+    }
+
+    private static LearningLessonBlockResponse toResponse(LearningLessonBlock block) {
+        return new LearningLessonBlockResponse(
+                block.blockId(),
+                block.blockType(),
+                block.title(),
+                block.body(),
+                block.displayOnly(),
+                block.sensitiveDataNotice(),
+                block.ctaLabel()
         );
     }
 }

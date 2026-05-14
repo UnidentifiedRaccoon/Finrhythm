@@ -267,6 +267,127 @@ class LearningProgressControllerIT {
     }
 
     @Test
+    void lessonDetailRequiresSubmittedDiagnosticAndStartedN1WithoutPersistence() throws Exception {
+        RegisteredEmployee employee = registeredEmployee("+70000002012");
+
+        lessonDetail(employee.profileSessionToken(), "N1")
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("LESSON_DETAIL_NOT_READY"))
+                .andExpect(jsonPath("$.lessonId").doesNotExist())
+                .andExpect(jsonPath("$.blocks").doesNotExist());
+        assertThat(countDiagnosticAttempts()).isZero();
+        assertThat(countLessonProgress()).isZero();
+
+        saveCompleteDiagnosticDraft(employee.profileSessionToken())
+                .andExpect(status().isOk());
+
+        lessonDetail(employee.profileSessionToken(), "N1")
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("LESSON_DETAIL_NOT_READY"))
+                .andExpect(jsonPath("$.lessonId").doesNotExist())
+                .andExpect(jsonPath("$.blocks").doesNotExist());
+        assertThat(countDiagnosticAttempts()).isEqualTo(1);
+        assertThat(countLessonProgress()).isZero();
+
+        submitDiagnostic(employee.profileSessionToken())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.recommendedFirstLessonId").value("N1"));
+
+        lessonDetail(employee.profileSessionToken(), "N1")
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("LESSON_DETAIL_NOT_READY"))
+                .andExpect(jsonPath("$.lessonId").doesNotExist())
+                .andExpect(jsonPath("$.blocks").doesNotExist());
+        assertThat(countDiagnosticAttempts()).isEqualTo(1);
+        assertThat(countLessonProgress()).isZero();
+
+        startLesson(employee.profileSessionToken(), "N1")
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("STARTED"));
+        Map<String, Object> rowBeforeDetail = lessonProgressRow(employee.employeeRegistrationId(), "N1");
+
+        String response = lessonDetail(employee.profileSessionToken(), "N1")
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.lessonId").value("N1"))
+                .andExpect(jsonPath("$.displayTitle").value("N1: первый резерв"))
+                .andExpect(jsonPath("$.shortTitle").value("Первый резерв"))
+                .andExpect(jsonPath("$.estimatedTime").value("7-9 минут"))
+                .andExpect(jsonPath("$.competencyCodes[0]").value("C1"))
+                .andExpect(jsonPath("$.competencyCodes[1]").value("C2"))
+                .andExpect(jsonPath("$.competencyCodes[2]").value("C8"))
+                .andExpect(jsonPath("$.competencyCodes[3]").value("C9"))
+                .andExpect(jsonPath("$.disclaimerType").value("education"))
+                .andExpect(jsonPath("$.review.humanReviewRequired").value(true))
+                .andExpect(jsonPath("$.review.productionReady").value(false))
+                .andExpect(jsonPath("$.review.reviewStatus").value("method_adapted"))
+                .andExpect(jsonPath("$.provenance.methodologyRef").value("docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md#n1"))
+                .andExpect(jsonPath("$.provenance.sourceRefs[0].path").value("content/getcourse-finstrategy/24-lesson-235010163.md"))
+                .andExpect(jsonPath("$.sensitiveDataPolicy.notRequired").isArray())
+                .andExpect(jsonPath("$.blocks[0].blockType").value("situation"))
+                .andExpect(jsonPath("$.blocks[0].displayOnly").value(true))
+                .andExpect(jsonPath("$.employeeRegistrationId").doesNotExist())
+                .andExpect(jsonPath("$.tenantId").doesNotExist())
+                .andExpect(jsonPath("$.pilotLaunchId").doesNotExist())
+                .andExpect(jsonPath("$.accessPoolId").doesNotExist())
+                .andExpect(jsonPath("$.attemptId").doesNotExist())
+                .andExpect(jsonPath("$.progressId").doesNotExist())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertThat(response)
+                .doesNotContain("correctOptionId")
+                .doesNotContain("answerKey")
+                .doesNotContain("score")
+                .doesNotContain("finalLevel")
+                .doesNotContain("R1")
+                .doesNotContain("weakZones")
+                .doesNotContain("hrInsights")
+                .doesNotContain("diagnosticAnswers")
+                .doesNotContain("token")
+                .doesNotContain(employee.profileSessionToken())
+                .doesNotContain(employee.inviteCode())
+                .doesNotContain("points")
+                .doesNotContain("reward")
+                .doesNotContain("completion");
+        assertThat(countDiagnosticAttempts()).isEqualTo(1);
+        assertThat(countLessonProgress()).isEqualTo(1);
+        assertThat(lessonProgressRow(employee.employeeRegistrationId(), "N1"))
+                .containsAllEntriesOf(rowBeforeDetail);
+    }
+
+    @Test
+    void lessonDetailIsN1OnlyAndIsolatedByRegistration() throws Exception {
+        RegisteredEmployee first = registeredEmployee("+70000002013");
+        RegisteredEmployee second = registeredEmployee("+70000002014");
+
+        saveCompleteDiagnosticDraft(first.profileSessionToken()).andExpect(status().isOk());
+        submitDiagnostic(first.profileSessionToken()).andExpect(status().isOk());
+        startLesson(first.profileSessionToken(), "N1").andExpect(status().isOk());
+
+        lessonDetail(first.profileSessionToken(), "N1")
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.lessonId").value("N1"));
+
+        lessonDetail(second.profileSessionToken(), "N1")
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.code").value("LESSON_DETAIL_NOT_READY"))
+                .andExpect(jsonPath("$.lessonId").doesNotExist())
+                .andExpect(jsonPath("$.blocks").doesNotExist());
+
+        lessonDetail(first.profileSessionToken(), "N2")
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("UNSUPPORTED_LESSON_ID"))
+                .andExpect(jsonPath("$.lessonId").doesNotExist())
+                .andExpect(jsonPath("$.blocks").doesNotExist());
+
+        assertThat(countDiagnosticAttempts(first.employeeRegistrationId())).isEqualTo(1);
+        assertThat(countDiagnosticAttempts(second.employeeRegistrationId())).isZero();
+        assertThat(countLessonProgress(first.employeeRegistrationId())).isEqualTo(1);
+        assertThat(countLessonProgress(second.employeeRegistrationId())).isZero();
+    }
+
+    @Test
     void unsupportedLessonIdReturnsSafeClientErrorWithoutPersistence() throws Exception {
         RegisteredEmployee employee = registeredEmployee("+70000002004");
 
@@ -343,6 +464,9 @@ class LearningProgressControllerIT {
         routeProgressWithoutToken()
                 .andExpect(status().isUnauthorized())
                 .andExpect(jsonPath("$.code").value("PROFILE_SESSION_AUTHENTICATION_REQUIRED"));
+        lessonDetailWithoutToken("N1")
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("PROFILE_SESSION_AUTHENTICATION_REQUIRED"));
 
         String malformedToken = "bad.profile.session.token";
         String malformedResponse = routeProgress(malformedToken)
@@ -352,6 +476,13 @@ class LearningProgressControllerIT {
                 .getResponse()
                 .getContentAsString();
         assertThat(malformedResponse).doesNotContain(malformedToken);
+        String malformedDetailResponse = lessonDetail(malformedToken, "N1")
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("PROFILE_SESSION_AUTHENTICATION_REQUIRED"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        assertThat(malformedDetailResponse).doesNotContain(malformedToken);
 
         String unknownToken = "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD";
         String unknownResponse = routeProgress(unknownToken)
@@ -361,6 +492,13 @@ class LearningProgressControllerIT {
                 .getResponse()
                 .getContentAsString();
         assertThat(unknownResponse).doesNotContain(unknownToken);
+        String unknownDetailResponse = lessonDetail(unknownToken, "N1")
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("PROFILE_SESSION_AUTHENTICATION_REQUIRED"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        assertThat(unknownDetailResponse).doesNotContain(unknownToken);
 
         RegisteredEmployee expiredEmployee = registeredEmployee("+70000002010");
         saveCompleteDiagnosticDraft(expiredEmployee.profileSessionToken()).andExpect(status().isOk());
@@ -378,6 +516,15 @@ class LearningProgressControllerIT {
         assertThat(expiredResponse).doesNotContain(expiredEmployee.profileSessionToken());
         assertThat(lessonProgressRow(expiredEmployee.employeeRegistrationId(), "N1"))
                 .containsAllEntriesOf(expiredProgressRow);
+        String expiredDetailResponse = lessonDetail(expiredEmployee.profileSessionToken(), "N1")
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("PROFILE_SESSION_AUTHENTICATION_REQUIRED"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        assertThat(expiredDetailResponse).doesNotContain(expiredEmployee.profileSessionToken());
+        assertThat(lessonProgressRow(expiredEmployee.employeeRegistrationId(), "N1"))
+                .containsAllEntriesOf(expiredProgressRow);
 
         RegisteredEmployee revokedEmployee = registeredEmployee("+70000002011");
         String revokedToken = revokedEmployee.profileSessionToken();
@@ -389,6 +536,13 @@ class LearningProgressControllerIT {
                 .getResponse()
                 .getContentAsString();
         assertThat(revokedResponse).doesNotContain(revokedToken);
+        String revokedDetailResponse = lessonDetail(revokedToken, "N1")
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.code").value("PROFILE_SESSION_AUTHENTICATION_REQUIRED"))
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+        assertThat(revokedDetailResponse).doesNotContain(revokedToken);
         routeProgress(activeToken)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.diagnosticState").value("NOT_STARTED"))
@@ -409,11 +563,15 @@ class LearningProgressControllerIT {
 
         assertThat(spec)
                 .contains("/api/v1/learning/me/lessons/{lessonId}/start")
+                .contains("/api/v1/learning/me/lessons/{lessonId}")
                 .contains("/api/v1/learning/me/route-progress")
                 .contains("LessonProgressResponse")
+                .contains("LearningLessonDetailResponse")
                 .contains("LearningRouteProgressResponse")
                 .contains("employeeProfileSessionBearerAuth")
                 .contains("idempotentResume")
+                .contains("humanReviewRequired")
+                .contains("productionReady")
                 .contains("COMPLETE_DIAGNOSTIC")
                 .contains("START_N1")
                 .contains("RESUME_N1")
@@ -476,6 +634,38 @@ class LearningProgressControllerIT {
         assertThat(routeProgressProperties.has("pilotLaunchId")).isFalse();
         assertThat(routeProgressProperties.has("accessPoolId")).isFalse();
         assertThat(routeProgressProperties.has("attemptId")).isFalse();
+
+        JsonNode lessonDetailOperation = openApi.at("/paths/~1api~1v1~1learning~1me~1lessons~1{lessonId}/get");
+        assertThat(lessonDetailOperation.isMissingNode()).isFalse();
+        assertThat(lessonDetailOperation.at("/responses/200/content/*~1*/schema/$ref").asText())
+                .isEqualTo("#/components/schemas/LearningLessonDetailResponse");
+        assertThat(lessonDetailOperation.at("/requestBody").isMissingNode()).isTrue();
+        JsonNode lessonDetailParameters = lessonDetailOperation.at("/parameters");
+        assertThat(lessonDetailParameters).hasSize(2);
+        assertThat(lessonDetailParameters.toString())
+                .contains("Authorization")
+                .contains("lessonId")
+                .doesNotContain("employeeRegistrationId")
+                .doesNotContain("tenantId")
+                .doesNotContain("pilotLaunchId")
+                .doesNotContain("accessPoolId")
+                .doesNotContain("organization")
+                .doesNotContain("subscription")
+                .doesNotContain("seat");
+        assertThat(lessonDetailOperation.at("/security/0/employeeProfileSessionBearerAuth").isArray()).isTrue();
+
+        JsonNode lessonDetailProperties = openApi.at("/components/schemas/LearningLessonDetailResponse/properties");
+        assertThat(lessonDetailProperties.has("lessonId")).isTrue();
+        assertThat(lessonDetailProperties.has("displayTitle")).isTrue();
+        assertThat(lessonDetailProperties.has("review")).isTrue();
+        assertThat(lessonDetailProperties.has("provenance")).isTrue();
+        assertThat(lessonDetailProperties.has("sensitiveDataPolicy")).isTrue();
+        assertThat(lessonDetailProperties.has("blocks")).isTrue();
+        assertThat(lessonDetailProperties.has("employeeRegistrationId")).isFalse();
+        assertThat(lessonDetailProperties.has("tenantId")).isFalse();
+        assertThat(lessonDetailProperties.has("pilotLaunchId")).isFalse();
+        assertThat(lessonDetailProperties.has("accessPoolId")).isFalse();
+        assertThat(lessonDetailProperties.has("attemptId")).isFalse();
     }
 
     private RegisteredEmployee registeredEmployee(String phone) throws Exception {
@@ -581,6 +771,15 @@ class LearningProgressControllerIT {
 
     private Result routeProgressWithoutToken() throws Exception {
         return new Result(mockMvc.perform(get("/api/v1/learning/me/route-progress")));
+    }
+
+    private Result lessonDetail(String token, String lessonId) throws Exception {
+        return new Result(mockMvc.perform(get("/api/v1/learning/me/lessons/{lessonId}", lessonId)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)));
+    }
+
+    private Result lessonDetailWithoutToken(String lessonId) throws Exception {
+        return new Result(mockMvc.perform(get("/api/v1/learning/me/lessons/{lessonId}", lessonId)));
     }
 
     private Tenant seedTenant() {

@@ -6,6 +6,7 @@ import { chromium } from "playwright";
 import {
   DIAGNOSTIC_ME_DRAFT_PATH,
   DIAGNOSTIC_ME_SUBMIT_PATH,
+  LEARNING_ME_LESSON_DETAIL_PATH_TEMPLATE,
   LEARNING_ME_ROUTE_PROGRESS_PATH,
   LEARNING_ME_LESSON_START_PATH_TEMPLATE,
   LEGAL_DOCUMENT_ACCEPTANCE_PATH_TEMPLATE,
@@ -120,6 +121,7 @@ const diagnosticSubmitResponse = {
 };
 
 const n1LessonStartPath = LEARNING_ME_LESSON_START_PATH_TEMPLATE.replace("{lessonId}", "N1");
+const n1LessonDetailPath = LEARNING_ME_LESSON_DETAIL_PATH_TEMPLATE.replace("{lessonId}", "N1");
 
 const n1LessonProgressResponse = {
   lessonId: "N1",
@@ -147,6 +149,69 @@ const routeProgressAfterN1StartResponse = {
     lastOpenedAt: n1LessonProgressResponse.lastOpenedAt
   },
   nextAction: "RESUME_N1"
+};
+
+const n1LessonDetailResponse = {
+  lessonId: "N1",
+  displayTitle: "N1: первый резерв",
+  shortTitle: "Первый резерв",
+  trackTitle: "Новичок: финансовая опора",
+  userPromise: "После урока вы сможете выбрать маленький первый шаг для резерва без раскрытия точных сумм.",
+  estimatedTime: "7-9 минут",
+  competencyCodes: ["C1", "C2", "C8", "C9"],
+  disclaimerType: "education",
+  review: {
+    reviewStatus: "method_adapted",
+    humanReviewRequired: true,
+    productionReady: false,
+    wordingReviewStatus: "required",
+    financialReviewStatus: "required",
+    legalReviewStatus: "required",
+    hrWordingReviewStatus: "required",
+    notes: ["Материал требует human review и не помечен как production-ready."]
+  },
+  provenance: {
+    methodologyRef: "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md#n1",
+    activeSourceRoot: "content/getcourse-finstrategy/",
+    contentBriefRef: "content/getcourse-finstrategy/CONTENT_BRIEF.md",
+    sourceManifestRef: "content/getcourse-finstrategy/content-baseline.manifest.json",
+    sourceRefs: [
+      {
+        path: "content/getcourse-finstrategy/24-lesson-235010163.md",
+        title: "04.02 Формирование резервного фонда",
+        humanReview: "required"
+      }
+    ]
+  },
+  sensitiveDataPolicy: {
+    notRequired: [
+      "точные доходы, долги, остатки на счетах и номера счетов",
+      "фото, документы и банковские скриншоты",
+      "названия финансовых сервисов, которыми вы пользуетесь"
+    ],
+    hrReportingBoundary: "Личные ответы диагностики и учебные выборы не становятся персональным HR-отчётом.",
+    adviceBoundary: "Материал является образовательным и не заменяет консультацию."
+  },
+  blocks: [
+    {
+      blockId: "N1-SITUATION",
+      blockType: "situation",
+      title: "Почему резерв начинается с маленького шага",
+      body: "Резерв нужен для спокойного первого запаса на неожиданную ситуацию.",
+      displayOnly: true,
+      sensitiveDataNotice: false,
+      ctaLabel: null
+    },
+    {
+      blockId: "N1-PRACTICE-PREVIEW",
+      blockType: "practice",
+      title: "Практический шаг без точных данных",
+      body: "Выберите категорию стартового резерва и правило пополнения. Точный доход, банк или скриншот не нужны.",
+      displayOnly: true,
+      sensitiveDataNotice: true,
+      ctaLabel: "Выбрать правило позже"
+    }
+  ]
 };
 
 const scenarios = [
@@ -346,13 +411,15 @@ const scenarios = [
       await submitProfileSessionAcceptLegalCompleteDiagnosticAndStartN1(page);
     },
     expectedAfter: [
+      "Серверный урок",
       "Прогресс маршрута",
       "Прогресс на сервере",
       "N1 начат",
       "Записан только старт или возврат к уроку",
       "N1: первый резерв",
-      "Мини-тест",
-      "Что этот урок не делает"
+      "Материал N1",
+      "Черновой статус материала",
+      "Что не нужно для N1"
     ],
     assertAfter: async (page, requestEvents) => {
       assertProfileSessionLegalDiagnosticRouteProgressAndLearningStartOrder(requestEvents);
@@ -1330,6 +1397,33 @@ async function installLearningProgressMocks(page, sessionMock, profileSessionTok
     });
     requestEvents.push(`learning-start:response:${learningStatus}`);
   });
+
+  await page.route(`**${n1LessonDetailPath}`, async (route) => {
+    const request = route.request();
+    const url = new URL(request.url());
+    const lessonDetailStatus = sessionMock.lessonDetailStatus ?? 200;
+    const postData = request.postData();
+
+    requestEvents.push("lesson-detail:request");
+    assert.equal(request.method(), "GET");
+    assert.equal(url.pathname, n1LessonDetailPath);
+    assert.equal(request.url().includes(profileSessionToken), false, "N1 detail URL does not leak token");
+    assert.equal(request.url().includes(syntheticInviteCode), false, "N1 detail URL does not leak invite code");
+    assert.equal(request.headers().authorization, `Bearer ${profileSessionToken}`);
+    assert.equal(postData === null || postData === "", true, "N1 detail request has no body");
+    assert.equal(
+      requestEvents.includes("route-progress:response:200:2"),
+      true,
+      "N1 detail starts only after refreshed route-progress summary"
+    );
+
+    await route.fulfill({
+      contentType: "application/json",
+      status: lessonDetailStatus,
+      body: JSON.stringify(sessionMock.lessonDetailResponse ?? n1LessonDetailResponse)
+    });
+    requestEvents.push(`lesson-detail:response:${lessonDetailStatus}`);
+  });
 }
 
 async function installProfileContactMocks(
@@ -1464,11 +1558,15 @@ function assertProfileSessionLegalDiagnosticRouteProgressAndLearningStartOrder(r
   const learningStartResponseIndex = requestEvents.indexOf("learning-start:response:200");
   const refreshedRouteProgressRequestIndex = requestEvents.indexOf("route-progress:request:2");
   const refreshedRouteProgressResponseIndex = requestEvents.indexOf("route-progress:response:200:2");
+  const lessonDetailRequestIndex = requestEvents.indexOf("lesson-detail:request");
+  const lessonDetailResponseIndex = requestEvents.indexOf("lesson-detail:response:200");
 
   assert.notEqual(learningStartRequestIndex, -1, "N1 learning start request exists");
   assert.notEqual(learningStartResponseIndex, -1, "N1 learning start response exists");
   assert.notEqual(refreshedRouteProgressRequestIndex, -1, "refreshed route-progress request exists");
   assert.notEqual(refreshedRouteProgressResponseIndex, -1, "refreshed route-progress response exists");
+  assert.notEqual(lessonDetailRequestIndex, -1, "N1 lesson detail request exists");
+  assert.notEqual(lessonDetailResponseIndex, -1, "N1 lesson detail response exists");
   assert.equal(
     routeProgressResponseIndex < learningStartRequestIndex,
     true,
@@ -1478,6 +1576,11 @@ function assertProfileSessionLegalDiagnosticRouteProgressAndLearningStartOrder(r
     learningStartResponseIndex < refreshedRouteProgressRequestIndex,
     true,
     "refreshed route-progress happens after N1 start response"
+  );
+  assert.equal(
+    refreshedRouteProgressResponseIndex < lessonDetailRequestIndex,
+    true,
+    "N1 lesson detail happens after refreshed route-progress response"
   );
 }
 

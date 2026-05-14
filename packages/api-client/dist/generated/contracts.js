@@ -214,6 +214,24 @@ export async function fetchLearningMeRouteProgress(baseUrl, params, init = {}) {
     }
     return (await response.json());
 }
+export const LEARNING_ME_LESSON_DETAIL_PATH_TEMPLATE = "/api/v1/learning/me/lessons/{lessonId}";
+export function buildLearningMeLessonDetailUrl(baseUrl, params) {
+    return new URL(LEARNING_ME_LESSON_DETAIL_PATH_TEMPLATE.replace("{lessonId}", encodeURIComponent(params.lessonId)), baseUrl);
+}
+export async function fetchLearningMeLessonDetail(baseUrl, params, init = {}) {
+    const url = buildLearningMeLessonDetailUrl(baseUrl, params);
+    const headers = new Headers(init.headers);
+    headers.set("authorization", `Bearer ${params.profileSessionToken}`);
+    const response = await fetch(url, {
+        ...init,
+        method: "GET",
+        headers
+    });
+    if (!response.ok) {
+        throw new Error(`GET ${url.pathname} failed with HTTP ${response.status}.`);
+    }
+    return (await response.json());
+}
 export const LEARNING_ME_LESSON_START_PATH_TEMPLATE = "/api/v1/learning/me/lessons/{lessonId}/start";
 export function buildLearningMeLessonStartUrl(baseUrl, params) {
     return new URL(LEARNING_ME_LESSON_START_PATH_TEMPLATE.replace("{lessonId}", encodeURIComponent(params.lessonId)), baseUrl);

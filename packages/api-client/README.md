@@ -9,7 +9,7 @@
 - Generated TypeScript contract/client: `packages/api-client/src/generated/contracts.ts`.
 - Runtime package output for workspace consumers: `packages/api-client/dist/**`.
 
-Этот пакет намеренно покрывает только текущие публичные/admin DTO, admin code-status, legal document acceptance, profile-session diagnostic, read-only route/progress summary and N1 learning progress helpers. Он не является универсальным генератором всего будущего API.
+Этот пакет намеренно покрывает только текущие публичные/admin DTO, admin code-status, legal document acceptance, profile-session diagnostic, read-only route/progress summary, N1 learning progress and N1 lesson-detail helpers. Он не является универсальным генератором всего будущего API.
 
 Для текущего draft legal acceptance контракт экспортирует `LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION`; drift check сверяет его с backend `LegalAcceptanceService.CURRENT_DRAFT_VERSION`.
 

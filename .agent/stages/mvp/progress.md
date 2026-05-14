@@ -2,6 +2,48 @@
 
 Updated: 2026-05-14
 
+## Current session: MVP-07-n1-lesson-detail-continuation-001 PASS sync
+
+- Fresh `stage_verifier` returned scoped `PASS` for `MVP-07-n1-lesson-detail-continuation-001`.
+- Verified scope: backend-owned read-only N1 lesson detail under profile-session bearer auth, readiness after submitted diagnostic N1 handoff and existing `N1 STARTED` progress, OpenAPI/generated client sync, mounted web backend-owned N1 continuation, memory-only token handling and doc sync.
+- Verifier proof includes focused backend `LearningProgressControllerIT`, `apps/api ./mvnw verify`, api-client generated/OpenAPI/typecheck/build checks, web typecheck/test/build, browser smoke with 35 screenshots, `make verify`, `make test-unit`, `make test-e2e`, `make build`, JSON validation, `git diff --check` and guardrail scans.
+- Fresh verifier refs: `.agent/stages/mvp/verdicts/MVP-07-n1-lesson-detail-continuation-001.json`, `.agent/stages/mvp/problems/MVP-07-n1-lesson-detail-continuation-001.md` and `.agent/stages/mvp/raw/verifier-MVP-07-n1-lesson-detail-continuation-001-20260514-fresh/`.
+- Parent evidence/verdict/problems/status aliases now point to `MVP-07-n1-lesson-detail-continuation-001`.
+- `publish_after_pass=true`; post-PASS publish is now allowed and required.
+- Full MVP-06, full MVP-07, MVP stage and all human gates remain open.
+
+## Current session: MVP-07-n1-lesson-detail-continuation-001 builder evidence
+
+- Built the frozen backend-first read-only N1 lesson detail continuation slice after the stage_builder reported first meaningful touch in `apps/api` production/test files.
+- Added `GET /api/v1/learning/me/lessons/{lessonId}` under existing employee profile-session bearer auth; the endpoint accepts no body, no client scope identifiers and persists nothing on success or failure reads.
+- The endpoint is N1-only and returns detail only after the authenticated registration has submitted diagnostic N1 handoff and an existing `N1 STARTED` progress row. Before readiness it returns `409 LESSON_DETAIL_NOT_READY` without lesson content.
+- Backend N1 detail includes only safe display payload: draft title, estimated time, competencies `C1/C2/C8/C9`, `disclaimerType=education`, `humanReviewRequired=true`, `productionReady=false`, active methodology/GetCourse provenance and sensitive-data boundary.
+- Backend and guardrail evidence confirms no quiz answer keys, scoring, final level, `R1-R6`, weak zones, HR insight payloads, diagnostic answers, internal scope IDs, tokens/hashes/raw invite codes, completion, quiz/practice submission, points, rewards, analytics/events, exact sensitive values or advice were introduced.
+- Updated OpenAPI snapshot, generated `@finrhythm/api-client` helper `fetchLearningMeLessonDetail`, generator/drift checks, dist contracts and api-client README.
+- Updated mounted `/profile/session` continuation so after N1 start/resume and refreshed route-progress it fetches lesson detail through the generated helper and renders backend-owned N1 payload. The mounted continuation no longer imports/renders `syntheticN1LessonFixture`; standalone `/learning` demo fixture routes remain unchanged.
+- Browser smoke fallback with local Chrome passed with 35 screenshots. Request events include `lesson-detail:request` and `lesson-detail:response:200` after refreshed route-progress; the key continuation screenshot is under `.agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/browser-smoke/`.
+- Canonical docs updated: `docs/architecture/access-and-subscriptions.md` section 7.4 now covers the read-only N1 detail endpoint, readiness gates and mounted-memory-only token boundary with a compact Mermaid update.
+- Checks passed: focused backend `LearningProgressControllerIT`, `apps/api ./mvnw verify`, api-client generate/build/check-generated/check-openapi-drift/typecheck, web typecheck/test/build, browser smoke, `make verify`, `make test-unit`, `make build`, JSON validation, `git diff --check` and guardrail scans.
+- Builder evidence refs: `.agent/stages/mvp/evidence/MVP-07-n1-lesson-detail-continuation-001.md` and `.agent/stages/mvp/evidence/MVP-07-n1-lesson-detail-continuation-001.json`; latest evidence aliases now point to this current sprint.
+- Latest verified sprint remains `MVP-07-n1-route-progress-summary-001`; this current slice is `BUILT_AWAITING_FRESH_VERIFIER` and must not be treated as PASS until a fresh verifier runs.
+- Full MVP-06, full MVP-07, MVP stage and all human gates remain open; publish remains blocked until fresh verifier PASS.
+
+## Current session: MVP-07-n1-lesson-detail-continuation-001 spec freeze
+
+- Froze `MVP-07-n1-lesson-detail-continuation-001` as the next small product slice after fresh verifier `PASS` for `MVP-07-n1-route-progress-summary-001`.
+- Parent scope is a scoped prerequisite across `MVP-06.03`, `MVP-06.04` and `MVP-07.04`: backend-owned read-only N1 lesson detail/continuation after submitted diagnostic handoff, route-progress summary and N1 start/resume.
+- Repo state confirms the previous slice added `GET /api/v1/learning/me/route-progress`, `POST /api/v1/learning/me/lessons/{lessonId}/start`, generated helpers and mounted route-progress/N1 start flow, but mounted N1 content still comes from `apps/web` synthetic fixture data.
+- Frozen purpose: add a read-only backend N1 lesson detail endpoint, preferred `GET /api/v1/learning/me/lessons/{lessonId}`, sync OpenAPI/generated client and render backend-owned N1 detail in the mounted `/profile/session` continuation.
+- Required builder first meaningful touch is `apps/api` production/test files, not `.agent`, docs, `apps/web`, generated client or OpenAPI.
+- Backend baseline is explicit: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
+- Scope includes profile-session bearer auth, server-side registration/scope resolution, N1-only detail, no request body, no mutation, readiness gate after submitted diagnostic N1 handoff and `N1 STARTED`, draft review/provenance fields, generated client helper, browser evidence and memory-only token proof.
+- Scope excludes completion, quiz/practice submission, points, rewards, final scoring/routing, full `Q1-Q27`, `Q28`, final `R1-R6`, weak zones, HR reports, analytics/events, `N2+`, exact sensitive data, advice, customer brand, real data, account/org/subscription models and full MVP closure.
+- Canonical doc sync is required in `docs/architecture/access-and-subscriptions.md` section 7.4 because the learning profile-session boundary expands to a read-only lesson detail endpoint; product docs are `NOOP_EXPECTED` if existing N1 semantics, review statuses and sensitive-data policy are followed.
+- `publish_after_pass=true` is set in the active sprint contract and publish manifest for the post-PASS publish flow after a future fresh verifier `PASS`.
+- Updated planning artifacts only: `.agent/stages/mvp/sprint_contract.md`, `.agent/stages/mvp/task-files/MVP-07-n1-lesson-detail-continuation-001.md`, `.agent/stages/mvp/backlog.md`, `.agent/stages/mvp/progress.md`, `.agent/stages/mvp/status.json`, `.agent/stages/mvp/feature_list.json` and `.agent/stages/mvp/publish_manifest.json`.
+- No production code, tests, schemas, API/OpenAPI/generated client, canonical docs, evidence aliases, verdict aliases, problems aliases, raw evidence or prior immutable PASS refs were intentionally changed by this freeze.
+- Latest verified sprint and latest evidence/verdict/problems aliases remain `MVP-07-n1-route-progress-summary-001`; functional `passes=false` remains required until builder evidence and fresh verifier PASS exist for the new slice.
+
 ## Current session: MVP-07-n1-route-progress-summary-001 PASS sync
 
 - Fresh verifier rerun returned scoped `PASS` for `MVP-07-n1-route-progress-summary-001`.

@@ -1,0 +1,290 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-07-n1-lesson-detail-continuation-001",
+  "parent_stage_unit": "scoped prerequisite across MVP-06.03 lesson renderer, MVP-06.04 N1 progress visibility and MVP-07.04 safe resume/continuation",
+  "updated_at": "2026-05-14",
+  "status": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC",
+  "verification_status": "PASS",
+  "functional_passes": true,
+  "builder_checks_pass": true,
+  "publish_after_pass": true,
+  "latest_verified_sprint_contract_id": "MVP-07-n1-lesson-detail-continuation-001",
+  "summary": "Backend-owned read-only N1 lesson detail continuation implemented after submitted diagnostic handoff, route-progress summary and N1 start/resume. Mounted web uses generated api-client helper and renders backend payload while profile-session token remains only in mounted component memory. Full MVP-06, full MVP-07, MVP stage and human gates remain open.",
+  "changed_files": {
+    "backend": [
+      "apps/api/src/main/java/com/finrhythm/api/learning/domain/LearningLessonBlock.java",
+      "apps/api/src/main/java/com/finrhythm/api/learning/domain/LearningLessonDetail.java",
+      "apps/api/src/main/java/com/finrhythm/api/learning/domain/LearningLessonProvenance.java",
+      "apps/api/src/main/java/com/finrhythm/api/learning/domain/LearningLessonReview.java",
+      "apps/api/src/main/java/com/finrhythm/api/learning/domain/LearningLessonSensitiveDataPolicy.java",
+      "apps/api/src/main/java/com/finrhythm/api/learning/domain/LearningLessonSourceRef.java",
+      "apps/api/src/main/java/com/finrhythm/api/learning/domain/LearningN1LessonDetailDraft.java",
+      "apps/api/src/main/java/com/finrhythm/api/learning/service/LearningLessonDetailService.java",
+      "apps/api/src/main/java/com/finrhythm/api/learning/service/LearningProgressFailureReason.java",
+      "apps/api/src/main/java/com/finrhythm/api/learning/web/LearningLessonBlockResponse.java",
+      "apps/api/src/main/java/com/finrhythm/api/learning/web/LearningLessonDetailResponse.java",
+      "apps/api/src/main/java/com/finrhythm/api/learning/web/LearningLessonProvenanceResponse.java",
+      "apps/api/src/main/java/com/finrhythm/api/learning/web/LearningLessonReviewResponse.java",
+      "apps/api/src/main/java/com/finrhythm/api/learning/web/LearningLessonSensitiveDataPolicyResponse.java",
+      "apps/api/src/main/java/com/finrhythm/api/learning/web/LearningLessonSourceRefResponse.java",
+      "apps/api/src/main/java/com/finrhythm/api/learning/web/LessonProgressController.java",
+      "apps/api/src/test/java/com/finrhythm/api/learning/LearningProgressControllerIT.java"
+    ],
+    "web_and_client": [
+      "apps/web/components/diagnostic-api-flow-screen.ts",
+      "apps/web/tests/browser-smoke.mjs",
+      "apps/web/tests/learning-shell.test.mjs",
+      "packages/api-client/README.md",
+      "packages/api-client/openapi/finrhythm-api.openapi.json",
+      "packages/api-client/scripts/check-openapi-drift.mjs",
+      "packages/api-client/scripts/generate-contracts.mjs",
+      "packages/api-client/src/generated/contracts.ts",
+      "packages/api-client/dist/generated/contracts.js",
+      "packages/api-client/dist/generated/contracts.d.ts"
+    ],
+    "docs": [
+      "docs/architecture/access-and-subscriptions.md"
+    ],
+    "stage_artifacts": [
+      ".agent/stages/mvp/evidence/MVP-07-n1-lesson-detail-continuation-001.md",
+      ".agent/stages/mvp/evidence/MVP-07-n1-lesson-detail-continuation-001.json",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/evidence.json",
+      ".agent/stages/mvp/progress.md",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/feature_list.json",
+      ".agent/stages/mvp/publish_manifest.json"
+    ]
+  },
+  "implementation": {
+    "backend_endpoint": "GET /api/v1/learning/me/lessons/{lessonId}",
+    "profile_session_auth": true,
+    "supported_lesson_ids": [
+      "N1"
+    ],
+    "request_body": "none",
+    "client_scope_identifiers": "none",
+    "server_side_scope_resolution": [
+      "employee_registration_id",
+      "tenant_id",
+      "pilot_launch_id",
+      "access_pool_id"
+    ],
+    "readiness_gate": [
+      "diagnosticState=SUBMITTED",
+      "routePreview=true",
+      "recommendedFirstLessonId=N1",
+      "existing N1 progress status STARTED"
+    ],
+    "non_ready_response": "409 LESSON_DETAIL_NOT_READY without lesson content",
+    "persistence_on_success": false,
+    "persistence_on_failure": false,
+    "review_status": {
+      "reviewStatus": "method_adapted",
+      "humanReviewRequired": true,
+      "productionReady": false,
+      "wordingReviewStatus": "required",
+      "financialReviewStatus": "required",
+      "legalReviewStatus": "required",
+      "hrWordingReviewStatus": "required"
+    },
+    "provenance": {
+      "methodologyRef": "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md#n1",
+      "activeSourceRoot": "content/getcourse-finstrategy/",
+      "contentBriefRef": "content/getcourse-finstrategy/CONTENT_BRIEF.md",
+      "sourceManifestRef": "content/getcourse-finstrategy/content-baseline.manifest.json",
+      "sourceRef": "content/getcourse-finstrategy/24-lesson-235010163.md"
+    },
+    "generated_lesson_detail_helper": "fetchLearningMeLessonDetail",
+    "generated_route_progress_helper": "fetchLearningMeRouteProgress",
+    "generated_start_resume_helper": "startLearningMeLesson",
+    "mounted_web_payload": "backend-owned N1 detail response",
+    "mounted_web_fixture_payload_removed": true,
+    "no_migration_added": true
+  },
+  "commands": [
+    {
+      "cmd": "cd apps/api && JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q -Dtest=LearningProgressControllerIT test",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/backend-learning-lesson-detail-focused-test-1.txt"
+    },
+    {
+      "cmd": "cd apps/api && JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q verify",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/backend-mvn-verify-1.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client generate",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/api-client-generate-1.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client build",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/api-client-build-1.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client check:generated",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/api-client-check-generated-1.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client check:openapi-drift",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/api-client-check-openapi-drift-1.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client typecheck",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/api-client-typecheck-1.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/web typecheck",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/web-typecheck-1.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/web test",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/web-test-1.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/web build",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/web-build-1.txt"
+    },
+    {
+      "cmd": "Browser plugin attempt",
+      "exit_code": 1,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/browser-plugin-limitation-1.txt",
+      "note": "Browser plugin reported iab unavailable; repo smoke fallback with local Chrome passed."
+    },
+    {
+      "cmd": "CHROMIUM_EXECUTABLE_PATH=/Applications/Google Chrome.app/Contents/MacOS/Google Chrome WEB_SMOKE_BASE_URL=http://127.0.0.1:3404 WEB_SMOKE_OUTPUT_DIR=.agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/browser-smoke WEB_SMOKE_SCREENSHOT_PREFIX=MVP-07-n1-lesson-detail-continuation-001 pnpm --filter @finrhythm/web smoke:browser",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/web-browser-smoke-2.txt"
+    },
+    {
+      "cmd": "make verify",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/make-verify-1.txt"
+    },
+    {
+      "cmd": "make test-unit",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/make-test-unit-1.txt"
+    },
+    {
+      "cmd": "make build",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/make-build-1.txt"
+    },
+    {
+      "cmd": "jq empty pre-evidence JSON validation",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-n1-lesson-detail-continuation-001-evidence-sync-20260514/jq-empty-pre-evidence.txt"
+    },
+    {
+      "cmd": "git diff --check excluding raw evidence pathspecs",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-n1-lesson-detail-continuation-001-evidence-sync-20260514/git-diff-check.txt"
+    }
+  ],
+  "guardrails": [
+    {
+      "name": "token storage/cookie/console",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-n1-lesson-detail-continuation-001-evidence-sync-20260514/token-storage-guard.txt"
+    },
+    {
+      "name": "generated helper and no mounted fixture-owned N1 payload",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-n1-lesson-detail-continuation-001-evidence-sync-20260514/web-generated-helper-guard.txt"
+    },
+    {
+      "name": "backend lesson detail read-only",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-n1-lesson-detail-continuation-001-evidence-sync-20260514/backend-readonly-guard.txt"
+    },
+    {
+      "name": "safe response excludes forbidden fields",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-n1-lesson-detail-continuation-001-evidence-sync-20260514/backend-safe-response-guard-refined.txt",
+      "note": "Initial broad scan hit only a no-scoring Schema description and is superseded by refined scan."
+    },
+    {
+      "name": "N1-only and no route profiles",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-n1-lesson-detail-continuation-001-evidence-sync-20260514/n1-only-route-guard.txt"
+    },
+    {
+      "name": "browser event order",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-n1-lesson-detail-continuation-001-evidence-sync-20260514/browser-event-order-guard.txt"
+    },
+    {
+      "name": "brand real-data advice wording",
+      "status": "PASS",
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-n1-lesson-detail-continuation-001-evidence-sync-20260514/brand-real-data-advice-guard.txt"
+    }
+  ],
+  "browser": {
+    "summary_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/browser-smoke/MVP-07-n1-lesson-detail-continuation-001-browser-smoke.json",
+    "screenshot_count": 35,
+    "before_lesson_detail_screenshot": ".agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/browser-smoke/MVP-07-n1-lesson-detail-continuation-001-mobile-profile-session-diagnostic-route-progress.png",
+    "after_lesson_detail_screenshot": ".agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/browser-smoke/MVP-07-n1-lesson-detail-continuation-001-mobile-start-to-profile-session-diagnostic-n1-progress.png",
+    "request_events_include": [
+      "lesson-detail:request",
+      "lesson-detail:response:200"
+    ],
+    "browser_plugin_limitation_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-lesson-detail-continuation-001-20260514/browser-plugin-limitation-1.txt",
+    "limitation": "Codex in-app Browser plugin reported iab unavailable; repo smoke script passed with local Google Chrome."
+  },
+  "docs": {
+    "updated": [
+      "docs/architecture/access-and-subscriptions.md"
+    ],
+    "product_docs": "NOOP_EXPECTED: existing N1 semantics, draft review status, sensitive-data policy and mobile lesson patterns were followed.",
+    "diagram_refs": [
+      "docs/architecture/access-and-subscriptions.md section 7.4 Mermaid flow/state diagram",
+      ".agent/stages/mvp/evidence/MVP-07-n1-lesson-detail-continuation-001.md Mermaid flow"
+    ]
+  },
+  "human_gates_open": [
+    "Final N1 financial correctness and wording review",
+    "Final Q0/SA/Q diagnostic wording review",
+    "Scoring correctness and route-rule correctness",
+    "HR/privacy wording and reporting-boundary approval",
+    "Legal/privacy boundaries and real employee/customer data processing approval",
+    "Production content approval and methodologist publish approval",
+    "Points/reward economy and real fulfillment decisions",
+    "Admin/support production access policy for sensitive diagnostic/learning data",
+    "Design/accessibility QA on real mobile screens"
+  ],
+  "out_of_scope_confirmed": [
+    "Full MVP-06",
+    "Full MVP-07",
+    "Full MVP stage closure",
+    "Learning completion",
+    "Quiz submission/scoring",
+    "Practice submission",
+    "Points/rewards/wallet",
+    "Final scoring/routing/R1-R6",
+    "HR reports",
+    "Analytics/events",
+    "Exact sensitive data",
+    "Advice",
+    "Customer brand",
+    "Real data",
+    "User/OrgMembership/subscriptions/seats/entitlements/billing"
+  ],
+  "next_required": [
+    "fresh stage_verifier for MVP-07-n1-lesson-detail-continuation-001",
+    "minimal fix only if verifier reports concrete proof gaps",
+    "post-PASS publish flow only after fresh verifier PASS"
+  ],
+  "fresh_verifier_pass": true,
+  "fresh_verifier_verdict": ".agent/stages/mvp/verdicts/MVP-07-n1-lesson-detail-continuation-001.json",
+  "fresh_verifier_problems": ".agent/stages/mvp/problems/MVP-07-n1-lesson-detail-continuation-001.md",
+  "fresh_verifier_raw_dir": ".agent/stages/mvp/raw/verifier-MVP-07-n1-lesson-detail-continuation-001-20260514-fresh"
+}

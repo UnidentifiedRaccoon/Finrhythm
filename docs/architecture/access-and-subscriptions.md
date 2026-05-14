@@ -283,15 +283,17 @@ stateDiagram-v2
     Conflict --> SUBMITTED
 ```
 
-### 7.4 Current MVP N1 learning progress boundary
+### 7.4 Current MVP N1 learning progress and detail boundary
 
-После safe diagnostic handoff та же `employeeProfileSessionBearerAuth` boundary расширяется только на read-only route/progress summary and минимальный старт/возврат к N1. `GET /api/v1/learning/me/route-progress` принимает только короткоживущий profile-session bearer token, не принимает body, query/path scope identifiers or client-supplied employee/tenant/pilot/access identifiers, and server-side resolves `employee_registration_id`, `tenant_id`, `pilot_launch_id` and `access_pool_id` from the authenticated profile session. This read endpoint persists nothing on success or authentication failure.
+После safe diagnostic handoff та же `employeeProfileSessionBearerAuth` boundary расширяется только на read-only route/progress summary, минимальный старт/возврат к N1 and read-only N1 lesson detail. `GET /api/v1/learning/me/route-progress` принимает только короткоживущий profile-session bearer token, не принимает body, query/path scope identifiers or client-supplied employee/tenant/pilot/access identifiers, and server-side resolves `employee_registration_id`, `tenant_id`, `pilot_launch_id` and `access_pool_id` from the authenticated profile session. This read endpoint persists nothing on success or authentication failure.
 
 The route/progress summary may expose only safe state: diagnostic state `NOT_STARTED`, `DRAFT` or `SUBMITTED`; `routePreview=true` and `recommendedFirstLessonId=N1` only after a safely submitted diagnostic attempt; N1 status `NOT_STARTED` or `STARTED`; `startedAt` and `lastOpenedAt` only when an existing N1 progress row exists; and next action `COMPLETE_DIAGNOSTIC`, `START_N1` or `RESUME_N1`. It must not expose internal scope IDs, attempt/progress IDs, diagnostic answers, scores, final level, `R1-R6`, weak zones, HR insight fields, request/response echoes, raw tokens or hashes.
 
 `POST /api/v1/learning/me/lessons/{lessonId}/start` keeps its existing mutation boundary: it accepts the same bearer token, server-side resolves scope, не принимает body and rejects every `lessonId` except `N1`. Storage keeps one row per `employee_registration` and `lesson_id=N1` with status `STARTED`, first start timestamp and last opened timestamp. No raw profile-session token, token hash, raw invite code, lookup hash, diagnostic answers, request/response bodies, exact financial values, free-form reports, completion state, quiz/practice submission, points, rewards, HR insight or analytics event payload is stored by this boundary. Repeated start is idempotent and updates only last-opened metadata for the same authenticated registration; another registration gets its own isolated N1 row.
 
-Employee web continuation must call generated API-client helpers for both route-progress summary and N1 start/resume while the profile-session token remains in mounted component memory. N1 may render only after backend start/resume succeeds and the summary is refreshed; the token must not be transferred through URL path/query/hash, browser storage, cookies, IndexedDB, service-worker caches or logs.
+`GET /api/v1/learning/me/lessons/{lessonId}` is read-only and also accepts only the same bearer token plus `lessonId`. It rejects every `lessonId` except `N1` and returns backend-owned draft N1 detail only after both conditions are true for the authenticated registration: diagnostic state is `SUBMITTED` with safe N1 handoff, and an existing N1 progress row is `STARTED`. Before that, it returns a safe non-success response without lesson content. The response may include display title, estimated time, competencies `C1/C2/C8/C9`, `disclaimerType=education`, draft review flags, active methodology/GetCourse source refs, display-only lesson blocks and sensitive-data policy. It must not expose quiz answer keys, scoring, diagnostic answers, internal scope IDs, token/hash/code values, final level, `R1-R6`, weak zones, HR fields, completion, quiz/practice submission, points, rewards, analytics/events, exact sensitive data or advice.
+
+Employee web continuation must call generated API-client helpers for route-progress summary, N1 start/resume and N1 lesson detail while the profile-session token remains in mounted component memory. N1 may render only after backend start/resume succeeds, route-progress is refreshed and lesson detail is fetched from the backend; the token must not be transferred through URL path/query/hash, browser storage, cookies, IndexedDB, service-worker caches or logs.
 
 ```mermaid
 flowchart LR
@@ -305,10 +307,14 @@ flowchart LR
     SCOPE --> START["POST /learning/me/lessons/N1/start"]
     START --> UPSERT["Upsert one N1 STARTED progress row per registration"]
     UPSERT --> REFRESH["GET /learning/me/route-progress refresh"]
-    REFRESH --> RENDER["Render synthetic N1 display content in same mounted tree"]
+    REFRESH --> DETAIL["GET /learning/me/lessons/N1"]
+    DETAIL --> READY["Backend-owned draft N1 detail: review + provenance + privacy policy"]
+    READY --> RENDER["Render mounted N1 continuation from backend payload"]
     AUTH -->|missing, malformed, unknown, expired, revoked| DENY["401 without learning progress persistence"]
     SUMMARY_REQ -->|missing, malformed, unknown, expired, revoked| DENY
+    DETAIL -->|not submitted or no N1 STARTED row| WAIT["Safe non-success without lesson content"]
     START -->|lessonId != N1| REJECT["400 without persistence"]
+    DETAIL -->|lessonId != N1| REJECT
 ```
 
 ```mermaid
@@ -317,8 +323,10 @@ stateDiagram-v2
     DiagnosticNotSubmitted --> DiagnosticNotSubmitted: GET route-progress / COMPLETE_DIAGNOSTIC
     DiagnosticNotSubmitted --> SubmittedNoN1: diagnostic submit
     SubmittedNoN1 --> SubmittedNoN1: GET route-progress / START_N1
+    SubmittedNoN1 --> SubmittedNoN1: GET lesson detail / non-success without content
     SubmittedNoN1 --> StartedN1: valid N1 start
     StartedN1 --> StartedN1: GET route-progress / RESUME_N1
+    StartedN1 --> StartedN1: GET lesson detail / backend N1 detail
     StartedN1 --> StartedN1: repeated start/resume updates last_opened_at
     SubmittedNoN1 --> Rejected: unsupported lesson id
     Rejected --> SubmittedNoN1

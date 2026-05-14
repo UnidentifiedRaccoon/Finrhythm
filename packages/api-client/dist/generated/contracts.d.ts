@@ -238,6 +238,56 @@ export type LearningRouteProgressResponse = {
     n1: LearningRouteN1ProgressResponse;
     nextAction: LearningRouteNextAction;
 };
+export type LearningLessonBlockResponse = {
+    blockId: string;
+    blockType: string;
+    title: string;
+    body: string;
+    displayOnly: boolean;
+    sensitiveDataNotice: boolean;
+    ctaLabel: string | null;
+};
+export type LearningLessonSourceRefResponse = {
+    path: string;
+    title: string;
+    humanReview: string;
+};
+export type LearningLessonProvenanceResponse = {
+    methodologyRef: string;
+    activeSourceRoot: string;
+    contentBriefRef: string;
+    sourceManifestRef: string;
+    sourceRefs: LearningLessonSourceRefResponse[];
+};
+export type LearningLessonReviewResponse = {
+    reviewStatus: string;
+    humanReviewRequired: boolean;
+    productionReady: boolean;
+    wordingReviewStatus: string;
+    financialReviewStatus: string;
+    legalReviewStatus: string;
+    hrWordingReviewStatus: string;
+    notes: string[];
+};
+export type LearningLessonSensitiveDataPolicyResponse = {
+    notRequired: string[];
+    hrReportingBoundary: string;
+    adviceBoundary: string;
+};
+export type LearningLessonDetailResponse = {
+    lessonId: string;
+    displayTitle: string;
+    shortTitle: string;
+    trackTitle: string;
+    userPromise: string;
+    estimatedTime: string;
+    competencyCodes: string[];
+    disclaimerType: string;
+    review: LearningLessonReviewResponse;
+    provenance: LearningLessonProvenanceResponse;
+    sensitiveDataPolicy: LearningLessonSensitiveDataPolicyResponse;
+    blocks: LearningLessonBlockResponse[];
+};
 export type AdminCodeStatusPathParams = {
     tenantId: string;
     pilotLaunchId: string;
@@ -305,6 +355,12 @@ export declare function submitDiagnosticMeDraft(baseUrl: string | URL, params: D
 export declare const LEARNING_ME_ROUTE_PROGRESS_PATH = "/api/v1/learning/me/route-progress";
 export declare function buildLearningMeRouteProgressUrl(baseUrl: string | URL): URL;
 export declare function fetchLearningMeRouteProgress(baseUrl: string | URL, params: DiagnosticMeAuthRequest, init?: ApiClientRequestInit): Promise<LearningRouteProgressResponse>;
+export type LearningMeLessonDetailClientRequest = DiagnosticMeAuthRequest & {
+    lessonId: string;
+};
+export declare const LEARNING_ME_LESSON_DETAIL_PATH_TEMPLATE = "/api/v1/learning/me/lessons/{lessonId}";
+export declare function buildLearningMeLessonDetailUrl(baseUrl: string | URL, params: Pick<LearningMeLessonDetailClientRequest, "lessonId">): URL;
+export declare function fetchLearningMeLessonDetail(baseUrl: string | URL, params: LearningMeLessonDetailClientRequest, init?: ApiClientRequestInit): Promise<LearningLessonDetailResponse>;
 export type LearningMeLessonStartClientRequest = DiagnosticMeAuthRequest & {
     lessonId: string;
 };

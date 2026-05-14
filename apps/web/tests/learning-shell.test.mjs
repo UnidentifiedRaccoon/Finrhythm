@@ -5,6 +5,7 @@ import { join } from "node:path";
 import { createElement as h } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import {
+  fetchLearningMeLessonDetail,
   fetchLearningMeRouteProgress,
   LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION,
   LEGAL_DOCUMENT_TYPES,
@@ -13,6 +14,7 @@ import {
 import { EmployeeHomeScreen } from "../components/employee-home-screen.ts";
 import {
   buildDiagnosticApiDraftUpdateRequest,
+  buildSafeN1LessonDetail,
   buildSafeN1LessonProgress,
   buildSafeDiagnosticTransfer,
   buildSafeRouteProgressSummary,
@@ -516,6 +518,66 @@ describe("mobile learning shell", () => {
     assert.equal(buildSafeN1LessonProgress({ ...response, status: "COMPLETED" }), null);
   });
 
+  it("accepts only generated backend-owned N1 lesson detail for mounted continuation", () => {
+    assert.equal(typeof fetchLearningMeLessonDetail, "function");
+
+    const response = {
+      lessonId: "N1",
+      displayTitle: "N1: первый резерв",
+      shortTitle: "Первый резерв",
+      trackTitle: "Новичок: финансовая опора",
+      userPromise: "Выберите маленький первый шаг без раскрытия точных сумм.",
+      estimatedTime: "7-9 минут",
+      competencyCodes: ["C1", "C2", "C8", "C9"],
+      disclaimerType: "education",
+      review: {
+        reviewStatus: "method_adapted",
+        humanReviewRequired: true,
+        productionReady: false,
+        wordingReviewStatus: "required",
+        financialReviewStatus: "required",
+        legalReviewStatus: "required",
+        hrWordingReviewStatus: "required",
+        notes: ["Требуется human review."]
+      },
+      provenance: {
+        methodologyRef: "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md#n1",
+        activeSourceRoot: "content/getcourse-finstrategy/",
+        contentBriefRef: "content/getcourse-finstrategy/CONTENT_BRIEF.md",
+        sourceManifestRef: "content/getcourse-finstrategy/content-baseline.manifest.json",
+        sourceRefs: [
+          {
+            path: "content/getcourse-finstrategy/24-lesson-235010163.md",
+            title: "04.02 Формирование резервного фонда",
+            humanReview: "required"
+          }
+        ]
+      },
+      sensitiveDataPolicy: {
+        notRequired: ["точные суммы", "фото", "документы", "банковские скриншоты", "названия сервисов"],
+        hrReportingBoundary: "Личные ответы не становятся персональным HR-отчётом.",
+        adviceBoundary: "Материал образовательный и не является советом."
+      },
+      blocks: [
+        {
+          blockId: "N1-SITUATION",
+          blockType: "situation",
+          title: "Ситуация",
+          body: "Короткий образовательный блок.",
+          displayOnly: true,
+          sensitiveDataNotice: false,
+          ctaLabel: null
+        }
+      ]
+    };
+
+    assert.deepEqual(buildSafeN1LessonDetail(response), response);
+    assert.equal(buildSafeN1LessonDetail({ ...response, lessonId: "N2" }), null);
+    assert.equal(buildSafeN1LessonDetail({ ...response, review: { ...response.review, productionReady: true } }), null);
+    assert.equal(buildSafeN1LessonDetail({ ...response, blocks: [{ ...response.blocks[0], displayOnly: false }] }), null);
+    assert.equal(buildSafeN1LessonDetail({ ...response, answerKey: ["A"] }), null);
+  });
+
   it("accepts only generated route-progress summaries for submitted N1 handoff", () => {
     assert.equal(typeof fetchLearningMeRouteProgress, "function");
 
@@ -721,23 +783,26 @@ describe("mobile learning shell", () => {
     assert.match(diagnosticSource, /saveDiagnosticMeDraft/);
     assert.match(diagnosticSource, /submitDiagnosticMeDraft/);
     assert.match(diagnosticSource, /fetchLearningMeRouteProgress/);
+    assert.match(diagnosticSource, /fetchLearningMeLessonDetail/);
     assert.match(diagnosticSource, /startLearningMeLesson/);
     assert.match(diagnosticSource, /DiagnosticDraftUpdateRequest/);
     assert.match(diagnosticSource, /DiagnosticAttemptResponse/);
     assert.match(diagnosticSource, /DiagnosticSubmitResponse/);
+    assert.match(diagnosticSource, /LearningLessonDetailResponse/);
     assert.match(diagnosticSource, /LearningRouteProgressResponse/);
     assert.match(diagnosticSource, /LessonProgressResponse/);
     assert.match(diagnosticSource, /buildSafeRouteProgressSummary/);
     assert.match(diagnosticSource, /buildSafeN1LessonProgress/);
-    assert.match(diagnosticSource, /syntheticN1LessonFixture/);
-    assert.match(diagnosticSource, /LessonRendererScreen/);
+    assert.match(diagnosticSource, /buildSafeN1LessonDetail/);
+    assert.doesNotMatch(diagnosticSource, /syntheticN1LessonFixture/);
+    assert.doesNotMatch(diagnosticSource, /LessonRendererScreen/);
     assert.match(diagnosticSource, /q0SelectedOptionIds/);
     assert.match(diagnosticSource, /selfAssessment/);
     assert.match(diagnosticSource, /routingAnswers/);
     assert.match(diagnosticSource, /recommendedFirstLessonId: "N1"/);
     assert.doesNotMatch(
       diagnosticSource,
-      /DIAGNOSTIC_ME_DRAFT_PATH|DIAGNOSTIC_ME_SUBMIT_PATH|LEARNING_ME_ROUTE_PROGRESS_PATH|LEARNING_ME_LESSON_START_PATH_TEMPLATE/
+      /DIAGNOSTIC_ME_DRAFT_PATH|DIAGNOSTIC_ME_SUBMIT_PATH|LEARNING_ME_ROUTE_PROGRESS_PATH|LEARNING_ME_LESSON_DETAIL_PATH_TEMPLATE|LEARNING_ME_LESSON_START_PATH_TEMPLATE/
     );
     assert.doesNotMatch(diagnosticSource, /\/api\/v1\/diagnostics|\/api\/v1\/learning/);
     assert.doesNotMatch(diagnosticSource, /XMLHttpRequest|navigator\.sendBeacon|console\./);
