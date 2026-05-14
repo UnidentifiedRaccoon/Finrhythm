@@ -193,9 +193,6 @@
     "full MVP stage",
     "human-gate closure"
   ],
-  "alias_for": ".agent/stages/mvp/evidence/MVP-07-diagnostic-n1-learning-progress-001.json",
-  "latest_verified_sprint_contract_id_before_builder": "MVP-07-diagnostic-web-api-integration-001",
-  "latest_verified_sprint_contract_id": "MVP-07-diagnostic-web-api-integration-001",
   "artifact_status_sync": {
     "jq_empty_raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-n1-learning-progress-001-20260514/jq-empty-after-artifact-status-sync.txt",
     "git_diff_check_raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-n1-learning-progress-001-20260514/git-diff-check-after-trailing-whitespace-fix.txt",

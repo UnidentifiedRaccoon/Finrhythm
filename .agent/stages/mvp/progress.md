@@ -2,6 +2,45 @@
 
 Updated: 2026-05-14
 
+## Current session: MVP-07-diagnostic-n1-learning-progress-001 PASS sync
+
+- Fresh `stage_verifier` returned scoped `PASS` for `MVP-07-diagnostic-n1-learning-progress-001`.
+- Verified scope: backend-owned N1 start/resume progress after diagnostic N1 handoff, generated `@finrhythm/api-client` sync, mounted web continuation and memory-only profile-session token handling.
+- Verifier passed focused backend learning tests, `apps/api ./mvnw verify`, api-client generated/OpenAPI/typecheck/build checks, web typecheck/test/build, browser smoke with 34 screenshots, `make verify`, `make test-unit`, `make build`, JSON validation, `git diff --check` and guardrail scans.
+- Fresh verifier refs: `.agent/stages/mvp/verdicts/MVP-07-diagnostic-n1-learning-progress-001.json`, `.agent/stages/mvp/problems/MVP-07-diagnostic-n1-learning-progress-001.md` and `.agent/stages/mvp/raw/verifier-MVP-07-diagnostic-n1-learning-progress-001-20260514-fresh/`.
+- Parent evidence/verdict/problems/status aliases now point to `MVP-07-diagnostic-n1-learning-progress-001`.
+- `publish_after_pass=true`; post-PASS publish is now allowed and required.
+- Full MVP-06, full MVP-07, MVP stage and all human gates remain open.
+
+## Current session: MVP-07-diagnostic-n1-learning-progress-001 builder evidence
+
+- Built the frozen backend-first N1 learning progress handoff slice after the single stage_builder reported first meaningful touch in apps/api production/test files.
+- Added append-only Flyway V012 and a focused apps/api learning package for profile-session scoped POST /api/v1/learning/me/lessons/{lessonId}/start.
+- Scope is N1-only STARTED progress: one row per employee registration/lesson, idempotent start/resume, server-side tenant/pilot/access scope resolution, no request body and no employee/scope IDs in response.
+- Updated OpenAPI snapshot, generated @finrhythm/api-client helper startLearningMeLesson, generator/drift checks and api-client README.
+- Updated apps/web diagnostic handoff so the user clicks "Начать или продолжить N1", backend progress is started/resumed through the generated helper while the profile-session token stays in mounted component memory, and synthetic N1 renders in the same mounted tree with a backend progress banner.
+- Updated official browser smoke to cover diagnostic submit -> N1 progress start -> N1 continuation; rerun passed with 34 screenshots plus summary JSON under root .agent raw.
+- Updated docs/architecture/access-and-subscriptions.md section 7.4 with compact Mermaid flow/state diagrams for the N1 learning progress boundary.
+- Checks passed: focused backend LearningProgressControllerIT, apps/api mvnw verify, api-client build/check-generated/check-openapi-drift/typecheck, web typecheck/test/build, official browser smoke, make verify, make test-unit, make build, jq validation and git diff --check.
+- Evidence aliases initially pointed to builder evidence; fresh verifier PASS and parent sync now supersede that pending state.
+- Full MVP-06, MVP-07, MVP stage and all human gates remain open; publish is now allowed because fresh verifier PASS exists and `publish_after_pass=true`.
+
+## Current session: MVP-07-diagnostic-n1-learning-progress-001 spec freeze
+
+- Froze `MVP-07-diagnostic-n1-learning-progress-001` as the next product slice after fresh verifier `PASS` for `MVP-07-diagnostic-web-api-integration-001`.
+- Parent scope is a scoped prerequisite across `MVP-07` safe diagnostic handoff and `MVP-06.04` / N1 learning delivery; it is not full `MVP-06`, full `MVP-07`, full MVP or a human-gate closure.
+- Purpose: after diagnostic submit returns `recommendedFirstLessonId=N1`, add minimal backend-owned N1 lesson start/resume progress and wire web continuation through generated `@finrhythm/api-client`.
+- Required builder first meaningful touch is `apps/api` production/test files, preferably `V012__employee_lesson_progress.sql`, a new `com.finrhythm.api.learning` package or a focused learning IT.
+- Backend baseline is explicit: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
+- Scope includes append-only Flyway, profile-session bearer auth, server-side registration/scope resolution, N1-only idempotent start/resume, OpenAPI/generated-client sync, generated learning helper consumption in web, memory-only profile-session token handling and browser evidence.
+- Scope excludes completion, quiz, practice, points, rewards, final scoring/routing, full `Q1-Q27`, `Q28`, final `R1-R6`, HR reports, analytics/events, exact sensitive data, advice, customer brand, real data, account/org/subscription models and full MVP closure.
+- Canonical doc sync is required because the API/access boundary expands: builder must update `docs/architecture/access-and-subscriptions.md` with a compact Mermaid learning progress handoff/state diagram unless existing docs already cover the exact boundary.
+- `publish_after_pass=true` is set in the active sprint contract and publish manifest for the post-PASS publish flow.
+- Updated planning artifacts only: `.agent/stages/mvp/stage_spec.md`, `.agent/stages/mvp/sprint_contract.md`, `.agent/stages/mvp/task-files/MVP-07-diagnostic-n1-learning-progress-001.md`, `.agent/stages/mvp/backlog.md`, `.agent/stages/mvp/progress.md`, `.agent/stages/mvp/status.json`, `.agent/stages/mvp/feature_list.json` and `.agent/stages/mvp/publish_manifest.json`.
+- Initial freeze kept latest evidence/verdict/problems aliases on `MVP-07-diagnostic-web-api-integration-001`; this is superseded by builder evidence, fresh verifier PASS and parent alias sync for `MVP-07-diagnostic-n1-learning-progress-001`.
+- Functional `passes=false` was mandatory during freeze/build only; current status is scoped `PASS`.
+- Freeze validation raw refs: `.agent/stages/mvp/raw/spec-freezer-MVP-07-diagnostic-n1-learning-progress-001-20260514/jq-empty.txt` and `.agent/stages/mvp/raw/spec-freezer-MVP-07-diagnostic-n1-learning-progress-001-20260514/git-diff-check.txt`.
+
 ## Current session: MVP-07-diagnostic-web-api-integration-001 PASS sync
 
 - Fresh verifier returned scoped `PASS` for `MVP-07-diagnostic-web-api-integration-001`.

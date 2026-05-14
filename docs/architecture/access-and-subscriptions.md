@@ -283,6 +283,40 @@ stateDiagram-v2
     Conflict --> SUBMITTED
 ```
 
+### 7.4 Current MVP N1 learning progress boundary
+
+После safe diagnostic handoff та же `employeeProfileSessionBearerAuth` boundary расширяется только на минимальный старт/возврат к N1. `POST /api/v1/learning/me/lessons/{lessonId}/start` принимает короткоживущий profile-session bearer token, server-side resolves `employee_registration_id`, `tenant_id`, `pilot_launch_id` and `access_pool_id`, не принимает body and rejects every `lessonId` except `N1`.
+
+Storage keeps one row per `employee_registration` and `lesson_id=N1` with status `STARTED`, first start timestamp and last opened timestamp. No raw profile-session token, token hash, raw invite code, lookup hash, diagnostic answers, request/response bodies, exact financial values, free-form reports, completion state, quiz/practice submission, points, rewards, HR insight or analytics event payload is stored by this boundary. Repeated start is idempotent and updates only last-opened metadata for the same authenticated registration; another registration gets its own isolated N1 row.
+
+Employee web continuation must call the generated API-client helper while the profile-session token remains in mounted component memory. N1 may render only after backend start/resume succeeds; the token must not be transferred through URL path/query/hash, browser storage, cookies, IndexedDB, service-worker caches or logs.
+
+```mermaid
+flowchart LR
+    SUBMIT["POST /diagnostics/me/submit"] --> HANDOFF["Safe handoff: routePreview + N1"]
+    HANDOFF --> BUTTON["Employee clicks start/resume N1"]
+    BUTTON --> TOKEN["Bearer profile-session token in mounted memory"]
+    TOKEN --> AUTH["Validate hash, expiry and revocation"]
+    AUTH --> SCOPE["Resolve employee_registration + tenant/pilot/access scope"]
+    SCOPE --> START["POST /learning/me/lessons/N1/start"]
+    START --> UPSERT["Upsert one N1 STARTED progress row per registration"]
+    UPSERT --> RENDER["Render synthetic N1 display content in same mounted tree"]
+    AUTH -->|missing, malformed, unknown, expired, revoked| DENY["401 without learning progress persistence"]
+    START -->|lessonId != N1| REJECT["400 without persistence"]
+```
+
+```mermaid
+stateDiagram-v2
+    [*] --> NoProgress: no N1 row for registration
+    NoProgress --> STARTED: valid N1 start
+    STARTED --> STARTED: repeated start/resume updates last_opened_at
+    NoProgress --> Rejected: unsupported lesson id
+    Rejected --> NoProgress
+    NoProgress --> Unauthorized: invalid profile session
+    STARTED --> Unauthorized: invalid profile session
+    Unauthorized --> [*]
+```
+
 ## 8. MVP boundary
 
 MVP остаётся B2B-first пилотом без in-app подписки и платежей. Текущий MVP может реализовывать `tenant`, `pilotLaunch`, `accessPool`, invite codes and registration без полной subscription/seat модели.

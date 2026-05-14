@@ -13,7 +13,8 @@ const enumConstNames = new Map([
   ["InviteCodeStatus", "INVITE_CODE_STATUSES"],
   ["AccessPoolStatus", "ACCESS_POOL_STATUSES"],
   ["PilotLaunchStatus", "PILOT_LAUNCH_STATUSES"],
-  ["LegalDocumentType", "LEGAL_DOCUMENT_TYPES"]
+  ["LegalDocumentType", "LEGAL_DOCUMENT_TYPES"],
+  ["LessonProgressStatus", "LESSON_PROGRESS_STATUSES"]
 ]);
 
 const openApi = JSON.parse(await readFile(openApiPath, "utf8"));
@@ -47,6 +48,7 @@ function generateContracts(document, schemaMap) {
     ...emitEmployeeMeContactUpdateClient(document),
     ...emitDiagnosticMeDraftClient(document),
     ...emitDiagnosticMeSubmitClient(document),
+    ...emitLearningMeLessonStartClient(document),
     ""
   ];
   return `${lines.join("\n").trimEnd()}\n`;
@@ -473,6 +475,52 @@ function emitDiagnosticMeSubmitClient(document) {
     "    throw new Error(`POST ${url.pathname} failed with HTTP ${response.status}.`);",
     "  }",
     "  return (await response.json()) as DiagnosticSubmitResponse;",
+    "}",
+    ""
+  ];
+}
+
+function emitLearningMeLessonStartClient(document) {
+  const path = "/api/v1/learning/me/lessons/{lessonId}/start";
+  const operation = document.paths?.[path]?.post;
+  if (!operation) {
+    throw new Error(`Missing OpenAPI operation for ${path}`);
+  }
+
+  return [
+    "export type LearningMeLessonStartClientRequest = DiagnosticMeAuthRequest & {",
+    "  lessonId: string;",
+    "};",
+    "",
+    `export const LEARNING_ME_LESSON_START_PATH_TEMPLATE = ${JSON.stringify(path)};`,
+    "",
+    "export function buildLearningMeLessonStartUrl(",
+    "  baseUrl: string | URL,",
+    "  params: Pick<LearningMeLessonStartClientRequest, \"lessonId\">",
+    "): URL {",
+    "  return new URL(",
+    "    LEARNING_ME_LESSON_START_PATH_TEMPLATE.replace(\"{lessonId}\", encodeURIComponent(params.lessonId)),",
+    "    baseUrl",
+    "  );",
+    "}",
+    "",
+    "export async function startLearningMeLesson(",
+    "  baseUrl: string | URL,",
+    "  params: LearningMeLessonStartClientRequest,",
+    "  init: ApiClientRequestInit = {}",
+    "): Promise<LessonProgressResponse> {",
+    "  const url = buildLearningMeLessonStartUrl(baseUrl, params);",
+    "  const headers = new Headers(init.headers);",
+    "  headers.set(\"authorization\", `Bearer ${params.profileSessionToken}`);",
+    "  const response = await fetch(url, {",
+    "    ...init,",
+    "    method: \"POST\",",
+    "    headers",
+    "  });",
+    "  if (!response.ok) {",
+    "    throw new Error(`POST ${url.pathname} failed with HTTP ${response.status}.`);",
+    "  }",
+    "  return (await response.json()) as LessonProgressResponse;",
     "}",
     ""
   ];

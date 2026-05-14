@@ -6,6 +6,7 @@ import { chromium } from "playwright";
 import {
   DIAGNOSTIC_ME_DRAFT_PATH,
   DIAGNOSTIC_ME_SUBMIT_PATH,
+  LEARNING_ME_LESSON_START_PATH_TEMPLATE,
   LEGAL_DOCUMENT_ACCEPTANCE_PATH_TEMPLATE,
   LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION,
   LEGAL_DOCUMENT_TYPES
@@ -115,6 +116,16 @@ const diagnosticSubmitResponse = {
   createdAt: "2026-05-14T09:10:00Z",
   updatedAt: "2026-05-14T09:12:00Z",
   submittedAt: "2026-05-14T09:13:00Z"
+};
+
+const n1LessonStartPath = LEARNING_ME_LESSON_START_PATH_TEMPLATE.replace("{lessonId}", "N1");
+
+const n1LessonProgressResponse = {
+  lessonId: "N1",
+  status: "STARTED",
+  startedAt: "2026-05-14T09:14:00Z",
+  lastOpenedAt: "2026-05-14T09:14:00Z",
+  idempotentResume: false
 };
 
 const scenarios = [
@@ -297,7 +308,7 @@ const scenarios = [
     }
   },
   {
-    name: "mobile-start-to-profile-session-diagnostic-api-handoff",
+    name: "mobile-start-to-profile-session-diagnostic-n1-progress",
     path: "/start",
     viewport: { width: 390, height: 844 },
     sessionMock: {
@@ -311,20 +322,21 @@ const scenarios = [
       await page.waitForURL("**/onboarding/privacy", { timeout: 5000 });
       await page.getByRole("link", { name: "Открыть вход в профиль" }).click();
       await page.waitForURL("**/profile/session", { timeout: 5000 });
-      await submitProfileSessionAcceptLegalAndCompleteDiagnostic(page);
+      await submitProfileSessionAcceptLegalCompleteDiagnosticAndStartN1(page);
     },
     expectedAfter: [
-      "Диагностика записана: начните с N1",
-      "Route preview",
-      "Первый урок",
-      "N1",
-      "Открыть N1",
-      "Перейти к контактам"
+      "Backend progress",
+      "N1 начат",
+      "Записан только старт или возврат к уроку",
+      "N1: первый резерв",
+      "Мини-тест",
+      "Что этот урок не делает"
     ],
     assertAfter: async (page, requestEvents) => {
-      assertProfileSessionLegalAndDiagnosticSubmitOrder(requestEvents);
+      assertProfileSessionLegalDiagnosticAndLearningStartOrder(requestEvents);
       assert.equal(new URL(page.url()).pathname, "/profile/session");
-      assert.equal(await page.locator("a[href='/learning/lessons/N1']").count(), 1);
+      assert.equal(await page.locator("a[href='/learning/lessons/N1']").count(), 0);
+      assert.equal(await page.getByText("Backend progress", { exact: false }).count(), 1);
 
       const visibleText = await page.locator("body").innerText();
       for (const token of [
@@ -339,9 +351,10 @@ const scenarios = [
         diagnosticAttemptBase.attemptId,
         profileSummary.tenantId,
         profileSummary.pilotLaunchId,
-        profileSummary.accessPoolId
+        profileSummary.accessPoolId,
+        profileSummary.employeeRegistrationId
       ]) {
-        assert.equal(visibleText.includes(token), false, `handoff does not render ${token}`);
+        assert.equal(visibleText.includes(token), false, `N1 continuation does not render ${token}`);
       }
     }
   },
@@ -955,6 +968,12 @@ async function submitProfileSessionAcceptLegalAndCompleteDiagnostic(page) {
   await page.getByText("Диагностика записана: начните с N1", { exact: false }).first().waitFor({ timeout: 5000 });
 }
 
+async function submitProfileSessionAcceptLegalCompleteDiagnosticAndStartN1(page) {
+  await submitProfileSessionAcceptLegalAndCompleteDiagnostic(page);
+  await page.getByRole("button", { name: "Начать или продолжить N1" }).click();
+  await page.getByText("Backend progress", { exact: false }).first().waitFor({ timeout: 5000 });
+}
+
 async function submitProfileSessionAcceptLegalAndContinueToContact(page) {
   await submitProfileSessionAcceptLegalAndCompleteDiagnostic(page);
   await page.getByRole("button", { name: "Перейти к контактам" }).click();
@@ -1100,6 +1119,7 @@ async function installProfileSessionFlowMocks(page, sessionMock, profileSessionT
     await installDiagnosticMocks(page, sessionMock, profileSessionToken, requestEvents, {
       requireLegalAcceptance: true
     });
+    await installLearningProgressMocks(page, sessionMock, profileSessionToken, requestEvents);
   }
 
   if (sessionMock.summaryStatus !== undefined) {
@@ -1185,6 +1205,35 @@ async function installDiagnosticMocks(
       body: JSON.stringify(sessionMock.diagnosticSubmitResponse ?? diagnosticSubmitResponse)
     });
     requestEvents.push(`diagnostic-submit:response:${sessionMock.diagnosticSubmitStatus ?? 200}`);
+  });
+}
+
+async function installLearningProgressMocks(page, sessionMock, profileSessionToken, requestEvents) {
+  await page.route(`**${n1LessonStartPath}`, async (route) => {
+    const request = route.request();
+    const url = new URL(request.url());
+    const learningStatus = sessionMock.learningStartStatus ?? 200;
+    const postData = request.postData();
+
+    requestEvents.push("learning-start:request");
+    assert.equal(request.method(), "POST");
+    assert.equal(url.pathname, n1LessonStartPath);
+    assert.equal(request.url().includes(profileSessionToken), false, "N1 start URL does not leak token");
+    assert.equal(request.url().includes(syntheticInviteCode), false, "N1 start URL does not leak invite code");
+    assert.equal(request.headers().authorization, `Bearer ${profileSessionToken}`);
+    assert.equal(postData === null || postData === "", true, "N1 start request has no body");
+    assert.equal(
+      requestEvents.includes("diagnostic-submit:response:200"),
+      true,
+      "N1 start happens only after diagnostic submit handoff"
+    );
+
+    await route.fulfill({
+      contentType: "application/json",
+      status: learningStatus,
+      body: JSON.stringify(sessionMock.learningStartResponse ?? n1LessonProgressResponse)
+    });
+    requestEvents.push(`learning-start:response:${learningStatus}`);
   });
 }
 
@@ -1294,6 +1343,22 @@ function assertProfileSessionLegalAndDiagnosticSubmitOrder(requestEvents) {
   assert.notEqual(diagnosticSubmitResponseIndex, -1, "diagnostic submit response exists");
   assert.equal(diagnosticGetResponseIndex < diagnosticPutRequestIndex, true, "diagnostic PUT starts after GET");
   assert.equal(diagnosticPutResponseIndex < diagnosticSubmitRequestIndex, true, "diagnostic submit starts after PUT");
+}
+
+function assertProfileSessionLegalDiagnosticAndLearningStartOrder(requestEvents) {
+  assertProfileSessionLegalAndDiagnosticSubmitOrder(requestEvents);
+
+  const diagnosticSubmitResponseIndex = requestEvents.indexOf("diagnostic-submit:response:200");
+  const learningStartRequestIndex = requestEvents.indexOf("learning-start:request");
+  const learningStartResponseIndex = requestEvents.indexOf("learning-start:response:200");
+
+  assert.notEqual(learningStartRequestIndex, -1, "N1 learning start request exists");
+  assert.notEqual(learningStartResponseIndex, -1, "N1 learning start response exists");
+  assert.equal(
+    diagnosticSubmitResponseIndex < learningStartRequestIndex,
+    true,
+    "N1 learning start happens after diagnostic submit response"
+  );
 }
 
 function diagnosticAttemptFromDraftBody(body) {

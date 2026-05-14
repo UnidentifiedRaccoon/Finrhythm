@@ -66,6 +66,9 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 
 `MVP-07-diagnostic-entry-preview-ui-001` is frozen as the next functional `apps/web` UI-only prerequisite for `MVP-07.01` and `MVP-07.03`. It must add a `/diagnostics` preview flow with Q0 privacy, non-scoring `SA1-SA3`, several synthetic methodology question cards and a safe draft route preview. It must not implement full diagnostic scoring/routing, persistence, backend/API/schema/generated-client changes or close full `MVP-07`.
 
+
+`MVP-07-diagnostic-n1-learning-progress-001` has scoped fresh verifier `PASS`. It adds backend-owned N1 start/resume progress after safe diagnostic handoff, generated api-client sync and mounted web N1 continuation. It does not close full MVP-06, MVP-07, MVP or any human gate.
+
 ## MVP-02. Corporate tenant and invite access
 
 | ID | Mode | Status | Goal | Evidence |
@@ -575,6 +578,7 @@ Builder evidence is now recorded:
 | MVP-07-diagnostic-entry-preview-ui-001 | agent | PASS | Add the smallest `apps/web` diagnostic entry/preview flow with Q0 privacy, non-scoring `SA1-SA3`, a few synthetic routing question cards and a safe draft route preview. | `.agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.md`; `.agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.json`; `.agent/stages/mvp/verdicts/MVP-07-diagnostic-entry-preview-ui-001.json`; `.agent/stages/mvp/problems/MVP-07-diagnostic-entry-preview-ui-001.md`; verifier raw refs under `.agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/`. |
 | MVP-07-diagnostic-draft-api-001 | agent | PASS | Add backend/API diagnostic draft/submission foundation for `Q0`, `SA1-SA3` and `Q1-Q3`, authenticated by employee profile-session bearer token, with safe N1 routePreview handoff and no final scoring/routing. | `.agent/stages/mvp/task-files/MVP-07-diagnostic-draft-api-001.md`; `.agent/stages/mvp/evidence/MVP-07-diagnostic-draft-api-001.md`; `.agent/stages/mvp/evidence/MVP-07-diagnostic-draft-api-001.json`; first verifier FAIL archived at `.agent/stages/mvp/verdicts/MVP-07-diagnostic-draft-api-001-prefix-fail.json`; fresh post-fix PASS at `.agent/stages/mvp/verdicts/MVP-07-diagnostic-draft-api-001.json` and `.agent/stages/mvp/problems/MVP-07-diagnostic-draft-api-001.md`. |
 | MVP-07-diagnostic-web-api-integration-001 | agent | PASS | Integrate the already verified diagnostic draft API into the employee-facing mounted `/profile/session` flow using generated `@finrhythm/api-client`, with the profile-session token only in component memory and Q0/SA1-SA3/Q1-Q3 only. | `.agent/stages/mvp/evidence/MVP-07-diagnostic-web-api-integration-001.md`; `.agent/stages/mvp/evidence/MVP-07-diagnostic-web-api-integration-001.json`; fresh verifier PASS at `.agent/stages/mvp/verdicts/MVP-07-diagnostic-web-api-integration-001.json` and `.agent/stages/mvp/problems/MVP-07-diagnostic-web-api-integration-001.md`. |
+| MVP-07-diagnostic-n1-learning-progress-001 | agent | PASS | Add backend-owned N1 lesson start/resume progress after the safe diagnostic N1 handoff and wire the web continuation through generated `@finrhythm/api-client` while keeping the profile-session token only in mounted component memory. | `.agent/stages/mvp/evidence/MVP-07-diagnostic-n1-learning-progress-001.md`; `.agent/stages/mvp/evidence/MVP-07-diagnostic-n1-learning-progress-001.json`; fresh verifier PASS at `.agent/stages/mvp/verdicts/MVP-07-diagnostic-n1-learning-progress-001.json` and `.agent/stages/mvp/problems/MVP-07-diagnostic-n1-learning-progress-001.md`. |
 | MVP-07.01 | agent | OPEN | Implement diagnostic test engine. | Preview UI has scoped PASS; draft API has builder evidence as a scoped prerequisite. Full engine remains future work. |
 | MVP-07.02 | agent | OPEN | Implement rule-based scoring and level/route assignment. | Out of scope for the preview slice. |
 | MVP-07.03 | agent | OPEN | Implement route explanation UI. | This preview slice may show only draft/preview copy; final route explanation remains future work. |
@@ -630,3 +634,22 @@ Builder evidence is now recorded:
 - submit renders only safe N1 routePreview handoff, without final score, final level, final `R1-R6`, weak zones, HR insight, points or learning completion;
 - focused web tests, browser/mobile screenshots, token/storage/URL guardrail scans, generated-client drift checks, root wrappers, docs-sync decision, stage evidence and fresh verifier PASS are recorded;
 - `publish_after_pass=false`; no commit/PR/publish action was run. Full `MVP-07.01`, `MVP-07.03`, `MVP-07.04`, full `MVP-07`, MVP stage and human gates remain open.
+
+### Verified diagnostic to N1 learning progress slice
+
+`MVP-07-diagnostic-n1-learning-progress-001` has scoped fresh verifier `PASS`:
+
+- parent scope is a prerequisite across safe diagnostic handoff and `MVP-06.04` / N1 learning delivery, not full `MVP-06`, `MVP-07` or MVP;
+- first meaningful builder touch must be in `apps/api` production/test files, preferably `V012__employee_lesson_progress.sql`, `com.finrhythm.api.learning/**` or a focused learning IT;
+- add append-only N1 lesson progress storage and idempotent start/resume endpoint(s) under existing employee profile-session bearer auth;
+- resolve registration and pilot scope server-side from the token; do not accept employee/scope ids from requests;
+- restrict backend progress to synthetic N1 only;
+- update OpenAPI and generated `packages/api-client` after backend source changes;
+- wire the web continuation after diagnostic submit through generated learning helper(s);
+- keep profile-session token only in mounted component memory with no URL/storage/cookie/cache/log transfer;
+- require browser evidence for diagnostic submit -> N1 progress start/resume -> N1 continuation;
+- require canonical doc sync in `docs/architecture/access-and-subscriptions.md` with compact Mermaid handoff/state diagram unless existing docs already cover this exact boundary;
+- `publish_after_pass=true`;
+- latest evidence/verdict/problems aliases now point to this slice;
+- fresh verifier accepted backend/API, generated-client, web, browser, root-wrapper and guardrail proof;
+- `publish_after_pass=true`, so post-PASS publish is required before continuation work.

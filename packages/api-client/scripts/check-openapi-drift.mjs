@@ -39,14 +39,19 @@ async function checkEnums() {
     {
       schema: "DiagnosticAttemptState",
       file: "apps/api/src/main/java/com/finrhythm/api/diagnostic/domain/DiagnosticAttemptState.java"
+    },
+    {
+      label: "LessonProgressStatus",
+      enumSchema: schemas.LessonProgressResponse?.properties?.status,
+      file: "apps/api/src/main/java/com/finrhythm/api/learning/domain/LessonProgressStatus.java"
     }
   ];
 
   for (const check of checks) {
     const source = await readFile(resolve(repoRoot, check.file), "utf8");
-    const actual = readJavaEnumValues(source, check.schema);
-    const expected = schemas[check.schema]?.enum ?? [];
-    assertSameArray(`${check.schema} enum`, actual, expected);
+    const actual = readJavaEnumValues(source, check.schema ?? check.label);
+    const expected = (check.enumSchema ?? schemas[check.schema])?.enum ?? [];
+    assertSameArray(`${check.schema ?? check.label} enum`, actual, expected);
   }
 }
 
@@ -138,6 +143,10 @@ async function checkRecords() {
     {
       schema: "DiagnosticSubmitResponse",
       file: "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticSubmitResponse.java"
+    },
+    {
+      schema: "LessonProgressResponse",
+      file: "apps/api/src/main/java/com/finrhythm/api/learning/web/LessonProgressResponse.java"
     },
     {
       schema: "LegalDocumentVersionRequest",
@@ -354,6 +363,23 @@ function checkOperations() {
   );
   if (!diagnosticSubmitOperation.security?.some((requirement) => requirement.employeeProfileSessionBearerAuth)) {
     throw new Error("Diagnostic submit operation is missing employeeProfileSessionBearerAuth security.");
+  }
+
+  const learningStartPath = "/api/v1/learning/me/lessons/{lessonId}/start";
+  const learningStartOperation = openApi.paths?.[learningStartPath]?.post;
+  if (!learningStartOperation) {
+    throw new Error(`Missing learning lesson start operation at ${learningStartPath}`);
+  }
+  assertRef(
+    "learning lesson start 200 response",
+    learningStartOperation.responses?.["200"]?.content?.["application/json"]?.schema,
+    "#/components/schemas/LessonProgressResponse"
+  );
+  if (learningStartOperation.requestBody) {
+    throw new Error("Learning lesson start operation must not accept a request body.");
+  }
+  if (!learningStartOperation.security?.some((requirement) => requirement.employeeProfileSessionBearerAuth)) {
+    throw new Error("Learning lesson start operation is missing employeeProfileSessionBearerAuth security.");
   }
 
   const legalAcceptancePath = "/api/v1/employee-registrations/{employeeRegistrationId}/legal-acceptances";

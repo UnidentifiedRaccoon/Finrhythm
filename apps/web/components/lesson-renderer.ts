@@ -1,9 +1,10 @@
-import { createElement as h, Fragment } from "react";
+import { createElement as h, Fragment, type ReactNode } from "react";
 import type { FixtureLesson, LessonBlock, LessonExampleVariant, LessonQuizItem } from "../lib/learning-types";
 import { EmployeeAppHeader, EmployeeBottomNav } from "./employee-app-shell.ts";
 
 type LessonRendererProps = {
   lesson: FixtureLesson;
+  progressBanner?: ReactNode;
 };
 
 const blockLabels: Record<LessonBlock["blockType"], string> = {
@@ -16,7 +17,7 @@ const blockLabels: Record<LessonBlock["blockType"], string> = {
   reward: "Награда"
 };
 
-export function LessonRendererScreen({ lesson }: LessonRendererProps) {
+export function LessonRendererScreen({ lesson, progressBanner }: LessonRendererProps) {
   return h(
     "main",
     { className: "learning-page lesson-renderer-page" },
@@ -26,6 +27,7 @@ export function LessonRendererScreen({ lesson }: LessonRendererProps) {
       h(EmployeeAppHeader, { pill: `${lesson.routeId} · демо` }),
       h(EmployeeBottomNav, { active: "learning" }),
       h(LessonHero, { lesson }),
+      progressBanner ?? null,
       h(LessonProgressCard, { lesson }),
       h(
         "section",
