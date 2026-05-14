@@ -1,9 +1,9 @@
 {
   "stage_id": "mvp",
   "state": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC",
-  "active_sprint_contract_id": "MVP-07-n1-readonly-resume-continuation-001",
-  "latest_verified_sprint_contract_id": "MVP-07-n1-readonly-resume-continuation-001",
-  "latest_status_decision_sprint_contract_id": "MVP-07-n1-readonly-resume-continuation-001",
+  "active_sprint_contract_id": "MVP-07-n1-readonly-status-refresh-001",
+  "latest_verified_sprint_contract_id": "MVP-07-n1-readonly-status-refresh-001",
+  "latest_status_decision_sprint_contract_id": "MVP-07-n1-readonly-status-refresh-001",
   "completed_ids": [
     "MVP-01.01",
     "MVP-01.02",
@@ -54,7 +54,8 @@
     "MVP-07-diagnostic-n1-learning-progress-001",
     "MVP-07-n1-route-progress-summary-001",
     "MVP-07-n1-lesson-detail-continuation-001",
-    "MVP-07-n1-readonly-resume-continuation-001"
+    "MVP-07-n1-readonly-resume-continuation-001",
+    "MVP-07-n1-readonly-status-refresh-001"
   ],
   "done_with_human_pending_ids": [
     "MVP-02.04",
@@ -82,7 +83,7 @@
     "admin-auth-role-audit-policy-for-production-use"
   ],
   "next_recommended_ids": [
-    "post-pass-publish-MVP-07-n1-readonly-resume-continuation-001",
+    "post-pass-publish-MVP-07-n1-readonly-status-refresh-001",
     "continue-next-high-impact-learning-diagnostics-route-progress-slice-after-main-merge",
     "preserve-proof-loop-spec-freeze-build-evidence-fresh-verify-fix-fresh-verify",
     "do-not-close-full-MVP-06-MVP-07-MVP-or-human-gates"
@@ -482,12 +483,12 @@
     "current_mvp_07_n1_lesson_detail_continuation_verdict_ref": ".agent/stages/mvp/verdicts/MVP-07-n1-lesson-detail-continuation-001.json",
     "current_mvp_07_n1_lesson_detail_continuation_problems_ref": ".agent/stages/mvp/problems/MVP-07-n1-lesson-detail-continuation-001.md",
     "current_mvp_07_n1_readonly_resume_continuation_contract_frozen": true,
-    "current_mvp_07_n1_readonly_resume_continuation_active": true,
+    "current_mvp_07_n1_readonly_resume_continuation_active": false,
     "current_mvp_07_n1_readonly_resume_continuation_builder_complete": true,
     "current_mvp_07_n1_readonly_resume_continuation_evidence_exists": true,
     "current_mvp_07_n1_readonly_resume_continuation_builder_checks_pass": true,
     "current_mvp_07_n1_readonly_resume_continuation_fresh_verifier_pass": true,
-    "current_mvp_07_n1_readonly_resume_continuation_passes": false,
+    "current_mvp_07_n1_readonly_resume_continuation_passes": true,
     "current_mvp_07_n1_readonly_resume_continuation_publish_after_pass": true,
     "current_mvp_07_n1_readonly_resume_continuation_generated_client_sync_required": false,
     "current_mvp_07_n1_readonly_resume_continuation_docs_sync_required": "DONE: docs/architecture/access-and-subscriptions.md section 7.4",
@@ -496,7 +497,23 @@
     "current_mvp_07_n1_readonly_resume_continuation_first_touch_required": "apps/web production/test files before .agent docs backend OpenAPI generated-client or evidence",
     "current_mvp_07_n1_readonly_resume_continuation_latest_verified_preserved": "MVP-07-n1-lesson-detail-continuation-001",
     "current_mvp_07_n1_readonly_resume_continuation_browser_screenshots_exist": true,
-    "current_mvp_07_n1_readonly_resume_continuation_parent_alias_sync_done": true
+    "current_mvp_07_n1_readonly_resume_continuation_parent_alias_sync_done": true,
+    "current_mvp_07_n1_readonly_status_refresh_contract_frozen": true,
+    "current_mvp_07_n1_readonly_status_refresh_active": true,
+    "current_mvp_07_n1_readonly_status_refresh_builder_complete": true,
+    "current_mvp_07_n1_readonly_status_refresh_evidence_exists": true,
+    "current_mvp_07_n1_readonly_status_refresh_builder_checks_pass": true,
+    "current_mvp_07_n1_readonly_status_refresh_fresh_verifier_pass": true,
+    "current_mvp_07_n1_readonly_status_refresh_passes": false,
+    "current_mvp_07_n1_readonly_status_refresh_publish_after_pass": true,
+    "current_mvp_07_n1_readonly_status_refresh_generated_client_sync_required": false,
+    "current_mvp_07_n1_readonly_status_refresh_docs_sync_required": "DONE: docs/architecture/access-and-subscriptions.md section 7.4 documents mounted N1 status refresh",
+    "current_mvp_07_n1_readonly_status_refresh_first_touch_required": "apps/web production/test files before .agent docs backend OpenAPI generated-client or evidence",
+    "current_mvp_07_n1_readonly_status_refresh_latest_verified_preserved": "MVP-07-n1-readonly-resume-continuation-001",
+    "current_mvp_07_n1_readonly_status_refresh_evidence_ref": ".agent/stages/mvp/evidence/MVP-07-n1-readonly-status-refresh-001.json",
+    "current_mvp_07_n1_readonly_status_refresh_raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-status-refresh-001-20260514",
+    "current_mvp_07_n1_readonly_status_refresh_browser_screenshots_exist": true,
+    "current_mvp_07_n1_readonly_status_refresh_parent_alias_sync_done": true
   },
   "runtime_guardrails": {
     "project_config_approval_policy_expected": "on-request",
@@ -713,25 +730,27 @@
     "mvp_07_n1_route_progress_summary_builder_evidence": "Builder, fixer and fresh verifier rerun PASS are complete for read-only GET /api/v1/learning/me/route-progress, generated api-client sync, mounted web route/progress panel and docs sync.",
     "mvp_07_n1_route_progress_summary_fixer_evidence": "First fresh verifier FAIL was limited to English/mixed-language route/progress UI copy. Fixer replaced route/progress panel and adjacent smoke-tested diagnostic labels with Russian neutral wording; web typecheck/test/build, browser smoke, Russian-copy guard, token storage guard and git diff --check passed under .agent/stages/mvp/raw/fixer-MVP-07-n1-route-progress-summary-001-20260514/.",
     "mvp_07_n1_route_progress_summary_verifier_verdict": "PASS",
-    "mvp_07_n1_route_progress_summary_parent_alias_sync": "PASS_AFTER_PARENT_SYNC"
+    "mvp_07_n1_route_progress_summary_parent_alias_sync": "PASS_AFTER_PARENT_SYNC",
+    "mvp_07_n1_readonly_status_refresh_freeze": "Frozen on 2026-05-14 as the next slice after MVP-07-n1-readonly-resume-continuation-001 PASS. Superseded by builder evidence; fresh verifier PASS is still required before any scoped PASS or publish."
   },
   "current_status": {
-    "active_sprint": "MVP-07-n1-readonly-resume-continuation-001",
-    "active_sprint_scope": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC: web-first read-only N1 resume continuation for mounted /profile/session when route-progress already says N1 STARTED / RESUME_N1.",
+    "active_sprint": "MVP-07-n1-readonly-status-refresh-001",
+    "active_sprint_scope": "BUILT_AWAITING_FRESH_VERIFIER: web-first read-only N1 status refresh from the already-rendered mounted /profile/session N1 continuation screen.",
     "latest_verified_sprint": "MVP-07-n1-readonly-resume-continuation-001",
     "latest_evidence": ".agent/stages/mvp/evidence.json",
     "latest_verdict": ".agent/stages/mvp/verdicts/MVP-07-n1-readonly-resume-continuation-001.json",
     "latest_problems": ".agent/stages/mvp/problems/MVP-07-n1-readonly-resume-continuation-001.md",
     "latest_verifier_raw": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/",
-    "fresh_verifier_required": false,
+    "fresh_verifier_required": true,
     "publish_after_pass": true,
-    "publish_status": "READY_FOR_POST_PASS_PUBLISH",
+    "publish_status": "BLOCKED_UNTIL_FRESH_VERIFIER_PASS",
     "notes": [
-      "Fresh verifier PASS is recorded for MVP-07-n1-readonly-resume-continuation-001.",
-      "The implemented resume path renders from GET route-progress plus GET lesson detail and browser proof shows no POST /learning/me/lessons/N1/start.",
-      "The slice keeps profile-session token in mounted component memory only; browser proof checks URL/storage/cookie/IndexedDB surfaces.",
+      "Builder evidence exists for MVP-07-n1-readonly-status-refresh-001; fresh verifier PASS is still required.",
+      "The mounted continuation refresh uses generated GET route-progress, then generated GET lesson detail only when safe RESUME_N1/N1 STARTED remains true.",
+      "Browser/API proof shows refresh GET route-progress + GET lesson detail and no POST /learning/me/lessons/N1/start, with token kept out of URL/storage/cookie/IndexedDB surfaces.",
+      "Latest fresh verifier PASS remains MVP-07-n1-readonly-resume-continuation-001.",
       "Full MVP-06, full MVP-07, MVP stage and human gates remain open.",
-      "Post-PASS publish is required because publish_after_pass=true."
+      "Post-PASS publish is required only after this new slice has a fresh verifier PASS."
     ]
   },
   "decisions": {
@@ -752,7 +771,10 @@
     "mvp_07_n1_route_progress_summary_freeze": "Freeze one backend-first read-only route/progress summary for the mounted profile-session diagnostic/N1 flow; preserve final scoring/routing, R1-R6, HR reports, analytics/events, completion, points, rewards and human gates as out of scope.",
     "mvp_07_n1_lesson_detail_continuation_freeze": "Freeze one backend-first read-only N1 lesson detail/continuation for the mounted profile-session flow after route-progress and N1 start/resume; preserve completion, quiz/practice submit, points, rewards, final scoring/routing, HR reports, analytics/events and human gates as out of scope.",
     "mvp_07_n1_readonly_resume_continuation_freeze": "Freeze one web-first read-only N1 resume continuation slice after backend lesson detail PASS; preserve schema/API changes, completion, theory completion, quiz/practice submit, points, rewards, final scoring/routing, HR reports, analytics/events and human gates as out of scope.",
-    "mvp_07_n1_readonly_resume_continuation_verifier_pass": "Fresh verifier PASS accepted by parent orchestrator; latest aliases synchronized to MVP-07-n1-readonly-resume-continuation-001."
+    "mvp_07_n1_readonly_resume_continuation_verifier_pass": "Fresh verifier PASS accepted by parent orchestrator; latest aliases synchronized to MVP-07-n1-readonly-resume-continuation-001.",
+    "mvp_07_n1_readonly_status_refresh_freeze": "Freeze one web-first read-only N1 status refresh slice from the already-rendered mounted N1 continuation; preserve backend/API/schema/generated-client changes, completion, theory completion, quiz/practice submit, points, rewards, final scoring/routing, HR reports, analytics/events and human gates as out of scope.",
+    "mvp_07_n1_readonly_status_refresh_builder": "Built apps/web mounted N1 status refresh using generated route-progress and lesson-detail reads only; no start mutation on refresh; failed/unsupported refresh keeps existing content visible.",
+    "mvp_07_n1_readonly_status_refresh_verifier_pass": "Fresh verifier PASS accepted by parent orchestrator; latest aliases synchronized to MVP-07-n1-readonly-status-refresh-001."
   },
   "validation_notes": {
     "mvp_07_diagnostic_web_api_integration_builder_validation": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC: web typecheck/test/build, system-Chrome browser smoke with 34 screenshots, api-client generated/openapi-drift/typecheck, make verify, make test-unit, make build and guardrail scans passed. Fresh verifier PASS is recorded for MVP-07-diagnostic-web-api-integration-001.",
@@ -770,7 +792,11 @@
     "mvp_07_n1_lesson_detail_continuation_freeze_validation": "PASS: jq empty for changed stage JSON and git diff --check excluding raw evidence paths passed in the spec-freezer session; new task file whitespace was checked with git diff --no-index --check. No production code, canonical docs, evidence aliases, verdict aliases, problems aliases, raw evidence or previous immutable PASS refs were intentionally changed.",
     "mvp_07_n1_readonly_resume_continuation_freeze_validation": "PASS: jq empty for changed stage JSON and git diff --check for changed stage artifacts passed after replacing the earlier broader draft with the read-only resume slice. No production code, canonical docs, evidence aliases, verdict aliases, problems aliases, raw evidence or previous immutable PASS refs were intentionally changed.",
     "mvp_07_n1_readonly_resume_continuation_verifier_validation": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC: fresh verifier passed web test/typecheck/build, focused LearningProgressControllerIT, apps/api verify, api-client generated/OpenAPI/typecheck/build checks, browser smoke with 36 screenshots, make verify, make test-unit, make build, guardrails, jq validation and git diff --check.",
-    "mvp_07_n1_readonly_resume_continuation_publish_readiness": "READY_FOR_POST_PASS_PUBLISH: publish_after_pass=true and latest fresh verifier PASS exists."
+    "mvp_07_n1_readonly_resume_continuation_publish_readiness": "READY_FOR_POST_PASS_PUBLISH: publish_after_pass=true and latest fresh verifier PASS exists.",
+    "mvp_07_n1_readonly_status_refresh_freeze_validation": "PASS: jq empty for changed stage JSON and git diff --check for changed stage artifacts passed in the spec-freezer session. No production code, canonical docs, evidence aliases, verdict aliases, problems aliases, raw evidence or previous immutable PASS refs were intentionally changed.",
+    "mvp_07_n1_readonly_status_refresh_builder_validation": "PASS: builder evidence includes web test/typecheck/build, browser smoke with 38 screenshots, backend LearningProgressControllerIT, apps/api verify, api-client generated/OpenAPI/typecheck/build, docs build, make verify, make test-unit, make build and guardrail scans.",
+    "mvp_07_n1_readonly_status_refresh_verifier_validation": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC: fresh verifier passed web test/typecheck/build, browser smoke with 38 screenshots and refresh network proof, focused backend IT, apps/api verify, api-client generated/OpenAPI/typecheck/build, make verify, make test-unit, make build, jq validation, git diff --check and guardrail scans.",
+    "mvp_07_n1_readonly_status_refresh_publish_readiness": "READY_FOR_POST_PASS_PUBLISH: publish_after_pass=true and latest fresh verifier PASS exists."
   },
   "scratchpad": {
     "mvp_07_diagnostic_web_api_integration_freeze": "Frozen on 2026-05-14 and superseded by builder evidence plus fresh verifier PASS.",
@@ -783,6 +809,9 @@
     "mvp_07_n1_route_progress_summary_fresh_verifier": "PASS; parent aliases synchronized; publish flow pending.",
     "mvp_07_n1_lesson_detail_continuation_freeze": "Frozen on 2026-05-14 as the next slice after MVP-07-n1-route-progress-summary-001 PASS and superseded by builder evidence plus fresh verifier PASS.",
     "mvp_07_n1_readonly_resume_continuation_freeze": "Frozen on 2026-05-14 as the next slice after MVP-07-n1-lesson-detail-continuation-001 PASS; awaiting builder evidence and fresh verifier PASS.",
-    "mvp_07_n1_readonly_resume_continuation_fresh_verifier": "PASS; parent aliases synchronized; publish flow pending."
+    "mvp_07_n1_readonly_resume_continuation_fresh_verifier": "PASS; parent aliases synchronized; publish flow pending.",
+    "mvp_07_n1_readonly_status_refresh_freeze": "Frozen on 2026-05-14 as the next slice after MVP-07-n1-readonly-resume-continuation-001 PASS and superseded by builder evidence.",
+    "mvp_07_n1_readonly_status_refresh_builder_evidence": "Builder evidence exists under .agent/stages/mvp/evidence/MVP-07-n1-readonly-status-refresh-001.* and raw outputs under .agent/stages/mvp/raw/builder-MVP-07-n1-readonly-status-refresh-001-20260514/. Awaiting fresh verifier PASS.",
+    "mvp_07_n1_readonly_status_refresh_fresh_verifier": "PASS; parent aliases synchronized; publish flow pending."
   }
 }

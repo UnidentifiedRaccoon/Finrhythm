@@ -210,6 +210,8 @@ export function DiagnosticApiFlowScreen({
   const [lessonDetail, setLessonDetail] = useState<DiagnosticN1LessonDetail | null>(null);
   const [lessonStartBusy, setLessonStartBusy] = useState(false);
   const [lessonStartNotice, setLessonStartNotice] = useState<DiagnosticNotice | null>(null);
+  const [lessonRefreshBusy, setLessonRefreshBusy] = useState(false);
+  const [lessonRefreshNotice, setLessonRefreshNotice] = useState<DiagnosticNotice | null>(null);
   const [retryIndex, setRetryIndex] = useState(0);
   const progress = useMemo(() => buildDiagnosticApiProgress(draft, phase), [draft, phase]);
   const isBusy = phase === "saving" || phase === "submitting";
@@ -227,6 +229,8 @@ export function DiagnosticApiFlowScreen({
     setLessonDetail(null);
     setLessonStartBusy(false);
     setLessonStartNotice(null);
+    setLessonRefreshBusy(false);
+    setLessonRefreshNotice(null);
 
     async function loadDiagnosticAndRouteProgress() {
       try {
@@ -456,10 +460,54 @@ export function DiagnosticApiFlowScreen({
     }
   }
 
+  async function refreshStartedN1Status() {
+    if (lessonRefreshBusy) {
+      return;
+    }
+
+    setLessonRefreshBusy(true);
+    setLessonRefreshNotice(null);
+
+    try {
+      const safeRouteProgress = await loadSafeRouteProgress(profileSessionToken);
+      const safeProgress = safeRouteProgress
+        ? buildReadOnlyN1LessonProgressFromRouteProgress(safeRouteProgress)
+        : null;
+      if (!safeRouteProgress || !safeProgress) {
+        throw new Error("Неподдержанная сводка маршрута N1.");
+      }
+
+      const safeDetail = await loadSafeN1LessonDetail(profileSessionToken, safeProgress.lessonId);
+      if (!safeDetail) {
+        throw new Error("Неподдержанная деталь урока N1.");
+      }
+
+      setRouteProgress(safeRouteProgress);
+      setLessonProgress(safeProgress);
+      setLessonDetail(safeDetail);
+      setLessonRefreshNotice({
+        kind: "info",
+        title: "Статус N1 обновлён",
+        body: "Мы перечитали сводку маршрута и материал N1 без повторной записи старта. Урок остаётся только для чтения."
+      });
+    } catch (_error: unknown) {
+      setLessonRefreshNotice({
+        kind: "info",
+        title: "Не удалось обновить статус",
+        body: "Показываем уже открытый материал N1. Попробуйте проверить статус позже, когда связь восстановится."
+      });
+    } finally {
+      setLessonRefreshBusy(false);
+    }
+  }
+
   if (lessonProgress && lessonDetail) {
     return h(N1BackendLessonContinuationScreen, {
       lessonDetail,
+      onRefreshStatus: refreshStartedN1Status,
       progress: lessonProgress,
+      refreshBusy: lessonRefreshBusy,
+      refreshNotice: lessonRefreshNotice,
       routeProgress
     });
   }
@@ -689,11 +737,17 @@ export function buildSafeRouteProgressSummary(
 
 function N1BackendLessonContinuationScreen({
   lessonDetail,
+  onRefreshStatus,
   progress,
+  refreshBusy,
+  refreshNotice,
   routeProgress
 }: {
   lessonDetail: DiagnosticN1LessonDetail;
+  onRefreshStatus: () => void;
   progress: DiagnosticN1LessonProgress;
+  refreshBusy: boolean;
+  refreshNotice: DiagnosticNotice | null;
   routeProgress: DiagnosticRouteProgressSummary | null;
 }) {
   return h(
@@ -706,10 +760,43 @@ function N1BackendLessonContinuationScreen({
       h(EmployeeBottomNav, { active: "learning" }),
       h(N1BackendLessonHero, { lessonDetail }),
       h(N1ProgressBanner, { progress, routeProgress }),
+      h(N1StatusRefreshPanel, { onRefreshStatus, refreshBusy, refreshNotice }),
       h(N1BackendLessonBlocks, { lessonDetail }),
       h(N1BackendLessonReviewPanel, { lessonDetail }),
       h(N1BackendLessonPolicyPanel, { lessonDetail }),
       h("button", { className: "primary-action", disabled: true, type: "button" }, "Продолжение без отправки ответов")
+    )
+  );
+}
+
+function N1StatusRefreshPanel({
+  onRefreshStatus,
+  refreshBusy,
+  refreshNotice
+}: {
+  onRefreshStatus: () => void;
+  refreshBusy: boolean;
+  refreshNotice: DiagnosticNotice | null;
+}) {
+  return h(
+    "section",
+    { className: "lesson-progress-card", "aria-labelledby": "n1-refresh-title" },
+    h(
+      "div",
+      null,
+      h("p", { className: "section-label" }, "Проверка статуса"),
+      h("h2", { id: "n1-refresh-title" }, "Обновить N1 без записи старта"),
+      h(
+        "p",
+        null,
+        "Кнопка перечитывает только сводку маршрута и материал N1. Если сервер не подтвердит безопасное продолжение, этот урок останется на экране."
+      )
+    ),
+    refreshNotice ? h(DiagnosticNoticePanel, { notice: refreshNotice }) : null,
+    h(
+      "button",
+      { className: "secondary-action diagnostic-secondary-button", disabled: refreshBusy, onClick: onRefreshStatus, type: "button" },
+      refreshBusy ? "Проверяем..." : "Проверить статус N1"
     )
   );
 }

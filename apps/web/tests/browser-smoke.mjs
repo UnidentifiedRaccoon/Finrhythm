@@ -170,6 +170,15 @@ const routeProgressAfterN1StartResponse = {
   nextAction: "RESUME_N1"
 };
 
+const routeProgressAfterN1RefreshResponse = {
+  ...routeProgressAfterN1StartResponse,
+  n1: {
+    status: "STARTED",
+    startedAt: n1LessonProgressResponse.startedAt,
+    lastOpenedAt: "2026-05-14T09:20:00Z"
+  }
+};
+
 const n1LessonDetailResponse = {
   lessonId: "N1",
   displayTitle: "N1: первый резерв",
@@ -231,6 +240,18 @@ const n1LessonDetailResponse = {
       ctaLabel: "Выбрать правило позже"
     }
   ]
+};
+
+const n1LessonDetailRefreshResponse = {
+  ...n1LessonDetailResponse,
+  blocks: n1LessonDetailResponse.blocks.map((block) =>
+    block.blockId === "N1-SITUATION"
+      ? {
+          ...block,
+          body: "Проверенный материал N1 остался доступен после повторной проверки статуса."
+        }
+      : block
+  )
 };
 
 const scenarios = [
@@ -793,6 +814,91 @@ const scenarios = [
     ],
     assertAfter: async (page, requestEvents, profileSessionToken) => {
       assertProfileSessionLegalSubmittedDiagnosticReadonlyResumeOrder(requestEvents);
+      assert.equal(requestEvents.includes("diagnostic-draft:put:request"), false);
+      assert.equal(requestEvents.includes("diagnostic-submit:request"), false);
+      assert.equal(requestEvents.includes("learning-start:request"), false);
+      assert.equal(new URL(page.url()).pathname, "/profile/session");
+      assert.equal(await page.locator("a[href='/learning/lessons/N1']").count(), 0);
+      assertNoTokenInBrowserSurfaces(await collectProfileTokenBrowserSurfaces(page), profileSessionToken);
+    }
+  },
+  {
+    name: "mobile-profile-session-diagnostic-n1-readonly-refresh",
+    path: "/profile/session",
+    viewport: { width: 390, height: 844 },
+    sessionMock: {
+      sessionStatus: 200,
+      diagnosticGetResponse: diagnosticSubmittedAttemptResponse,
+      routeProgressResponses: [routeProgressAfterN1StartResponse, routeProgressAfterN1RefreshResponse],
+      routeProgressPrerequisiteEvents: ["diagnostic-draft:get:response:200", "lesson-detail:response:200:1"],
+      routeProgressRequiresDiagnosticSubmit: false,
+      routeProgressSecondCallRequiresLearningStart: false,
+      lessonDetailResponses: [n1LessonDetailResponse, n1LessonDetailRefreshResponse],
+      lessonDetailRouteProgressEvents: ["route-progress:response:200:1", "route-progress:response:200:2"]
+    },
+    expected: [
+      "Подтвердите контактный профиль",
+      "Открыть профиль"
+    ],
+    action: async (page) => {
+      await submitProfileSessionAndAcceptLegal(page);
+      await page.getByText("N1 открыт из прогресса", { exact: false }).first().waitFor({ timeout: 5000 });
+      await page.getByRole("button", { name: "Проверить статус N1" }).click();
+      await page.getByText("Статус N1 обновлён", { exact: false }).first().waitFor({ timeout: 5000 });
+    },
+    expectedAfter: [
+      "Серверный урок",
+      "Проверка статуса",
+      "Обновить N1 без записи старта",
+      "Статус N1 обновлён",
+      "Проверенный материал N1 остался доступен",
+      "Повторная запись старта не отправлялась",
+      "Что не нужно для N1"
+    ],
+    assertAfter: async (page, requestEvents, profileSessionToken) => {
+      assertProfileSessionLegalSubmittedDiagnosticReadonlyRefreshOrder(requestEvents);
+      assert.equal(requestEvents.includes("diagnostic-draft:put:request"), false);
+      assert.equal(requestEvents.includes("diagnostic-submit:request"), false);
+      assert.equal(requestEvents.includes("learning-start:request"), false);
+      assert.equal(new URL(page.url()).pathname, "/profile/session");
+      assert.equal(await page.locator("a[href='/learning/lessons/N1']").count(), 0);
+      assertNoTokenInBrowserSurfaces(await collectProfileTokenBrowserSurfaces(page), profileSessionToken);
+    }
+  },
+  {
+    name: "mobile-profile-session-diagnostic-n1-readonly-refresh-unsupported",
+    path: "/profile/session",
+    viewport: { width: 390, height: 844 },
+    sessionMock: {
+      sessionStatus: 200,
+      diagnosticGetResponse: diagnosticSubmittedAttemptResponse,
+      routeProgressResponses: [routeProgressAfterN1StartResponse, routeProgressBeforeN1StartResponse],
+      routeProgressPrerequisiteEvents: ["diagnostic-draft:get:response:200", "lesson-detail:response:200:1"],
+      routeProgressRequiresDiagnosticSubmit: false,
+      routeProgressSecondCallRequiresLearningStart: false,
+      lessonDetailRouteProgressEvents: ["route-progress:response:200:1"]
+    },
+    expected: [
+      "Подтвердите контактный профиль",
+      "Открыть профиль"
+    ],
+    action: async (page) => {
+      await submitProfileSessionAndAcceptLegal(page);
+      await page.getByText("N1 открыт из прогресса", { exact: false }).first().waitFor({ timeout: 5000 });
+      await page.getByRole("button", { name: "Проверить статус N1" }).click();
+      await page.getByText("Не удалось обновить статус", { exact: false }).first().waitFor({ timeout: 5000 });
+    },
+    expectedAfter: [
+      "Серверный урок",
+      "Не удалось обновить статус",
+      "Показываем уже открытый материал N1",
+      "N1: первый резерв",
+      "Материал N1",
+      "Почему резерв начинается с маленького шага",
+      "Что не нужно для N1"
+    ],
+    assertAfter: async (page, requestEvents, profileSessionToken) => {
+      assertProfileSessionLegalSubmittedDiagnosticReadonlyRefreshUnsupportedOrder(requestEvents);
       assert.equal(requestEvents.includes("diagnostic-draft:put:request"), false);
       assert.equal(requestEvents.includes("diagnostic-submit:request"), false);
       assert.equal(requestEvents.includes("learning-start:request"), false);
@@ -1385,6 +1491,7 @@ async function installDiagnosticMocks(
 
 async function installLearningProgressMocks(page, sessionMock, profileSessionToken, requestEvents) {
   let routeProgressCallCount = 0;
+  let lessonDetailCallCount = 0;
 
   await page.route(`**${LEARNING_ME_ROUTE_PROGRESS_PATH}`, async (route) => {
     const request = route.request();
@@ -1404,17 +1511,20 @@ async function installLearningProgressMocks(page, sessionMock, profileSessionTok
     assert.equal(request.headers().authorization, `Bearer ${profileSessionToken}`);
     assert.equal(postData === null || postData === "", true, "route-progress request has no body");
     const routeProgressPrerequisite =
-      sessionMock.routeProgressRequiresDiagnosticSubmit === false
+      sessionMock.routeProgressPrerequisiteEvents?.[routeProgressCallCount] ??
+      (sessionMock.routeProgressRequiresDiagnosticSubmit === false
         ? "diagnostic-draft:get:response:200"
-        : "diagnostic-submit:response:200";
+        : "diagnostic-submit:response:200");
     assert.equal(
       requestEvents.includes(routeProgressPrerequisite),
       true,
-      sessionMock.routeProgressRequiresDiagnosticSubmit === false
+      sessionMock.routeProgressPrerequisiteEvents?.[routeProgressCallCount]
+        ? `route-progress call ${nextCallNumber} starts after ${routeProgressPrerequisite}`
+        : sessionMock.routeProgressRequiresDiagnosticSubmit === false
         ? "route-progress starts only after already-submitted diagnostic draft load"
         : "route-progress starts only after diagnostic submit handoff"
     );
-    if (nextCallNumber > 1) {
+    if (nextCallNumber > 1 && sessionMock.routeProgressSecondCallRequiresLearningStart !== false) {
       assert.equal(
         requestEvents.includes("learning-start:response:200"),
         true,
@@ -1468,8 +1578,11 @@ async function installLearningProgressMocks(page, sessionMock, profileSessionTok
     const url = new URL(request.url());
     const lessonDetailStatus = sessionMock.lessonDetailStatus ?? 200;
     const postData = request.postData();
+    const responseBody = sessionMock.lessonDetailResponses?.[lessonDetailCallCount] ?? sessionMock.lessonDetailResponse ?? n1LessonDetailResponse;
+    const nextCallNumber = lessonDetailCallCount + 1;
 
     requestEvents.push("lesson-detail:request");
+    requestEvents.push(`lesson-detail:request:${nextCallNumber}`);
     assert.equal(request.method(), "GET");
     assert.equal(url.pathname, n1LessonDetailPath);
     assert.equal(request.url().includes(profileSessionToken), false, "N1 detail URL does not leak token");
@@ -1477,23 +1590,28 @@ async function installLearningProgressMocks(page, sessionMock, profileSessionTok
     assert.equal(request.headers().authorization, `Bearer ${profileSessionToken}`);
     assert.equal(postData === null || postData === "", true, "N1 detail request has no body");
     const lessonDetailRouteProgressEvent =
-      sessionMock.lessonDetailRequiresRefreshedRouteProgress === false
+      sessionMock.lessonDetailRouteProgressEvents?.[lessonDetailCallCount] ??
+      (sessionMock.lessonDetailRequiresRefreshedRouteProgress === false
         ? "route-progress:response:200:1"
-        : "route-progress:response:200:2";
+        : "route-progress:response:200:2");
     assert.equal(
       requestEvents.includes(lessonDetailRouteProgressEvent),
       true,
-      sessionMock.lessonDetailRequiresRefreshedRouteProgress === false
+      sessionMock.lessonDetailRouteProgressEvents?.[lessonDetailCallCount]
+        ? `N1 detail call ${nextCallNumber} starts after ${lessonDetailRouteProgressEvent}`
+        : sessionMock.lessonDetailRequiresRefreshedRouteProgress === false
         ? "N1 detail starts after read-only route-progress summary"
         : "N1 detail starts only after refreshed route-progress summary"
     );
 
+    lessonDetailCallCount = nextCallNumber;
     await route.fulfill({
       contentType: "application/json",
       status: lessonDetailStatus,
-      body: JSON.stringify(sessionMock.lessonDetailResponse ?? n1LessonDetailResponse)
+      body: JSON.stringify(responseBody)
     });
     requestEvents.push(`lesson-detail:response:${lessonDetailStatus}`);
+    requestEvents.push(`lesson-detail:response:${lessonDetailStatus}:${nextCallNumber}`);
   });
 }
 
@@ -1644,6 +1762,50 @@ function assertProfileSessionLegalSubmittedDiagnosticReadonlyResumeOrder(request
     true,
     "read-only lesson detail happens after RESUME_N1 route-progress"
   );
+}
+
+function assertProfileSessionLegalSubmittedDiagnosticReadonlyRefreshOrder(requestEvents) {
+  assertProfileSessionLegalSubmittedDiagnosticReadonlyResumeOrder(requestEvents);
+
+  const initialLessonDetailResponseIndex = requestEvents.indexOf("lesson-detail:response:200:1");
+  const refreshedRouteProgressRequestIndex = requestEvents.indexOf("route-progress:request:2");
+  const refreshedRouteProgressResponseIndex = requestEvents.indexOf("route-progress:response:200:2");
+  const refreshedLessonDetailRequestIndex = requestEvents.indexOf("lesson-detail:request:2");
+  const refreshedLessonDetailResponseIndex = requestEvents.indexOf("lesson-detail:response:200:2");
+
+  assert.notEqual(initialLessonDetailResponseIndex, -1, "initial read-only N1 lesson detail response exists");
+  assert.notEqual(refreshedRouteProgressRequestIndex, -1, "refresh route-progress request exists");
+  assert.notEqual(refreshedRouteProgressResponseIndex, -1, "refresh route-progress response exists");
+  assert.notEqual(refreshedLessonDetailRequestIndex, -1, "refresh N1 lesson detail request exists");
+  assert.notEqual(refreshedLessonDetailResponseIndex, -1, "refresh N1 lesson detail response exists");
+  assert.equal(
+    initialLessonDetailResponseIndex < refreshedRouteProgressRequestIndex,
+    true,
+    "mounted refresh route-progress starts after existing N1 detail is visible"
+  );
+  assert.equal(
+    refreshedRouteProgressResponseIndex < refreshedLessonDetailRequestIndex,
+    true,
+    "mounted refresh reads N1 lesson detail after safe RESUME_N1 route-progress"
+  );
+}
+
+function assertProfileSessionLegalSubmittedDiagnosticReadonlyRefreshUnsupportedOrder(requestEvents) {
+  assertProfileSessionLegalSubmittedDiagnosticReadonlyResumeOrder(requestEvents);
+
+  const initialLessonDetailResponseIndex = requestEvents.indexOf("lesson-detail:response:200:1");
+  const refreshedRouteProgressRequestIndex = requestEvents.indexOf("route-progress:request:2");
+  const refreshedRouteProgressResponseIndex = requestEvents.indexOf("route-progress:response:200:2");
+
+  assert.notEqual(initialLessonDetailResponseIndex, -1, "initial read-only N1 lesson detail response exists");
+  assert.notEqual(refreshedRouteProgressRequestIndex, -1, "unsupported refresh route-progress request exists");
+  assert.notEqual(refreshedRouteProgressResponseIndex, -1, "unsupported refresh route-progress response exists");
+  assert.equal(
+    initialLessonDetailResponseIndex < refreshedRouteProgressRequestIndex,
+    true,
+    "unsupported mounted refresh starts after existing N1 detail is visible"
+  );
+  assert.equal(requestEvents.includes("lesson-detail:request:2"), false, "unsupported refresh does not fetch lesson detail again");
 }
 
 function assertProfileSessionLegalDiagnosticRouteProgressAndLearningStartOrder(requestEvents) {

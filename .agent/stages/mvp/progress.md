@@ -1107,3 +1107,30 @@ Open:
 - Fresh verifier returned `PASS`; latest evidence/verdict/problems aliases now point to `MVP-07-diagnostic-web-api-integration-001`.
 - Canonical docs sync is `NOOP_EXPECTED`; this slice consumes the already documented backend/API diagnostic boundary and does not change product/access/backend/API/schema/setup/workflow decisions.
 - Full `MVP-07`, MVP stage and human gates remain open; scoped `functional_passes=true` applies only to this sprint.
+
+## Current verified slice: MVP-07-n1-readonly-status-refresh-001
+
+- Built one mounted `/profile/session` N1 continuation refresh action in `apps/web`.
+- Refresh calls generated `fetchLearningMeRouteProgress`, then generated `fetchLearningMeLessonDetail` only when the safe `RESUME_N1` / `N1 STARTED` summary is still returned.
+- Refresh updates mounted `routeProgress`, read-only `lessonProgress` and `lessonDetail`; it does not call generated `startLearningMeLesson` or `POST /api/v1/learning/me/lessons/N1/start`.
+- Failed or unsupported refresh shows neutral Russian notice and keeps the already visible N1 content mounted.
+- START_N1 first-start and existing read-only reopen behavior are preserved.
+- Profile-session token remains in mounted component memory only; browser proof checks URL, visible text, request URLs/bodies, storage, cookies, IndexedDB and service-worker surfaces.
+- Builder checks passed: web test/typecheck/build, browser smoke with 38 screenshots, backend `LearningProgressControllerIT`, apps/api `mvnw verify`, api-client generated/OpenAPI/typecheck/build checks, docs build, root `make verify`, `make test-unit`, `make build`, and guardrail scans.
+- Fresh verifier returned `PASS` after rerunning web test/typecheck/build, browser smoke with refresh network proof, backend Java 21 checks, api-client checks, root wrappers, JSON validation, `git diff --check` and guardrail scans.
+- Raw builder outputs are under `.agent/stages/mvp/raw/builder-MVP-07-n1-readonly-status-refresh-001-20260514/`.
+- Builder evidence refs: `.agent/stages/mvp/evidence/MVP-07-n1-readonly-status-refresh-001.md` and `.agent/stages/mvp/evidence/MVP-07-n1-readonly-status-refresh-001.json`.
+- Canonical doc sync: `docs/architecture/access-and-subscriptions.md` section 7.4 documents the read-only refresh boundary and failure behavior.
+- Latest evidence/verdict/problems aliases and `status.json` now point to `MVP-07-n1-readonly-status-refresh-001`.
+- Current state is `PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC`; post-PASS publish is required.
+- Full `MVP-06`, full `MVP-07`, MVP stage and human gates remain open; scoped functional pass applies only to this sprint.
+
+## Frozen slice: MVP-07-n1-readonly-status-refresh-001
+
+- Frozen one web-first continuation slice after `MVP-07-n1-readonly-resume-continuation-001` fresh verifier `PASS`.
+- Chosen scope: add a user-triggered N1 status refresh from the already-rendered mounted `/profile/session` N1 continuation.
+- Required behavior: refresh uses existing generated `fetchLearningMeRouteProgress` and `fetchLearningMeLessonDetail` only, updates mounted N1 progress/detail on safe `RESUME_N1`, and never calls `startLearningMeLesson` or `POST /api/v1/learning/me/lessons/N1/start`.
+- First meaningful builder touch must be in `apps/web` production/test files.
+- No production code, canonical docs, evidence aliases, verdict aliases, problems aliases, raw evidence or previous immutable PASS refs were intentionally changed by this spec freeze.
+- `publish_after_pass=true`, but publish is blocked until a fresh verifier `PASS`.
+- Latest verified sprint remains `MVP-07-n1-readonly-resume-continuation-001`; full `MVP-06`, full `MVP-07`, MVP stage and all human gates remain open.
