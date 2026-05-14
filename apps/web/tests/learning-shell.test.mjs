@@ -6,11 +6,13 @@ import { createElement as h } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import {
   LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION,
-  LEGAL_DOCUMENT_TYPES
+  LEGAL_DOCUMENT_TYPES,
+  startLearningMeLesson
 } from "@finrhythm/api-client";
 import { EmployeeHomeScreen } from "../components/employee-home-screen.ts";
 import {
   buildDiagnosticApiDraftUpdateRequest,
+  buildSafeN1LessonProgress,
   buildSafeDiagnosticHandoff,
   DiagnosticApiFlowScreen,
   diagnosticApiQ0Options,
@@ -496,6 +498,22 @@ describe("mobile learning shell", () => {
     assert.equal(buildSafeDiagnosticHandoff({ ...response, routePreview: false }), null);
   });
 
+  it("accepts only safe N1 backend progress before rendering the lesson continuation", () => {
+    assert.equal(typeof startLearningMeLesson, "function");
+
+    const response = {
+      lessonId: "N1",
+      status: "STARTED",
+      startedAt: "2026-05-14T09:03:00Z",
+      lastOpenedAt: "2026-05-14T09:04:00Z",
+      idempotentResume: false
+    };
+
+    assert.deepEqual(buildSafeN1LessonProgress(response), response);
+    assert.equal(buildSafeN1LessonProgress({ ...response, lessonId: "N2" }), null);
+    assert.equal(buildSafeN1LessonProgress({ ...response, status: "COMPLETED" }), null);
+  });
+
   it("builds profile-session POST payloads through generated request types without echoing invalid proof", () => {
     const syntheticInviteCode = joinText("INVITE", "-", "LOCAL", "-", "001");
     const request = buildEmployeeProfileSessionRequest({
@@ -661,15 +679,23 @@ describe("mobile learning shell", () => {
     assert.match(diagnosticSource, /fetchDiagnosticMeDraft/);
     assert.match(diagnosticSource, /saveDiagnosticMeDraft/);
     assert.match(diagnosticSource, /submitDiagnosticMeDraft/);
+    assert.match(diagnosticSource, /startLearningMeLesson/);
     assert.match(diagnosticSource, /DiagnosticDraftUpdateRequest/);
     assert.match(diagnosticSource, /DiagnosticAttemptResponse/);
     assert.match(diagnosticSource, /DiagnosticSubmitResponse/);
+    assert.match(diagnosticSource, /LessonProgressResponse/);
+    assert.match(diagnosticSource, /buildSafeN1LessonProgress/);
+    assert.match(diagnosticSource, /syntheticN1LessonFixture/);
+    assert.match(diagnosticSource, /LessonRendererScreen/);
     assert.match(diagnosticSource, /q0SelectedOptionIds/);
     assert.match(diagnosticSource, /selfAssessment/);
     assert.match(diagnosticSource, /routingAnswers/);
     assert.match(diagnosticSource, /recommendedFirstLessonId: "N1"/);
-    assert.doesNotMatch(diagnosticSource, /DIAGNOSTIC_ME_DRAFT_PATH|DIAGNOSTIC_ME_SUBMIT_PATH/);
-    assert.doesNotMatch(diagnosticSource, /\/api\/v1\/diagnostics/);
+    assert.doesNotMatch(
+      diagnosticSource,
+      /DIAGNOSTIC_ME_DRAFT_PATH|DIAGNOSTIC_ME_SUBMIT_PATH|LEARNING_ME_LESSON_START_PATH_TEMPLATE/
+    );
+    assert.doesNotMatch(diagnosticSource, /\/api\/v1\/diagnostics|\/api\/v1\/learning/);
     assert.doesNotMatch(diagnosticSource, /XMLHttpRequest|navigator\.sendBeacon|console\./);
     assert.doesNotMatch(diagnosticSource, /useSearchParams|searchParams|window\.location\.search|location\.hash/);
     assert.doesNotMatch(diagnosticSource, /history\.replaceState|history\.pushState/);
@@ -682,7 +708,10 @@ describe("mobile learning shell", () => {
       diagnosticSource,
       /attemptId|employeeRegistrationId|tenantId|pilotLaunchId|accessPoolId|allowedAnswerIds/
     );
-    assert.doesNotMatch(diagnosticSource, /Q4|Q27|Q28|R1\.|R2\.|R3\.|R4\.|R5\.|R6\./);
+    assert.doesNotMatch(
+      diagnosticSource,
+      /Q4|Q27|Q28|R1\.|R2\.|R3\.|R4\.|R5\.|R6\.|COMPLETED|lessonCompleted|quizSubmission|practiceSubmission|pointsLedger|rewardGranted/
+    );
   });
 
   it("keeps managed web source free of customer brand, active old access terms and forbidden claims", async () => {

@@ -213,6 +213,13 @@ export type DiagnosticSubmitResponse = {
     updatedAt: string;
     submittedAt: string;
 };
+export type LessonProgressResponse = {
+    lessonId: string;
+    status: "STARTED";
+    startedAt: string;
+    lastOpenedAt: string;
+    idempotentResume: boolean;
+};
 export type AdminCodeStatusPathParams = {
     tenantId: string;
     pilotLaunchId: string;
@@ -277,3 +284,9 @@ export declare function saveDiagnosticMeDraft(baseUrl: string | URL, params: Dia
 export declare const DIAGNOSTIC_ME_SUBMIT_PATH = "/api/v1/diagnostics/me/submit";
 export declare function buildDiagnosticMeSubmitUrl(baseUrl: string | URL): URL;
 export declare function submitDiagnosticMeDraft(baseUrl: string | URL, params: DiagnosticMeAuthRequest, init?: ApiClientRequestInit): Promise<DiagnosticSubmitResponse>;
+export type LearningMeLessonStartClientRequest = DiagnosticMeAuthRequest & {
+    lessonId: string;
+};
+export declare const LEARNING_ME_LESSON_START_PATH_TEMPLATE = "/api/v1/learning/me/lessons/{lessonId}/start";
+export declare function buildLearningMeLessonStartUrl(baseUrl: string | URL, params: Pick<LearningMeLessonStartClientRequest, "lessonId">): URL;
+export declare function startLearningMeLesson(baseUrl: string | URL, params: LearningMeLessonStartClientRequest, init?: ApiClientRequestInit): Promise<LessonProgressResponse>;

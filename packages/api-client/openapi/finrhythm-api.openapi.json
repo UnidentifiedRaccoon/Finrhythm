@@ -584,6 +584,61 @@
           }
         }
       }
+    },
+    "/api/v1/learning/me/lessons/{lessonId}/start": {
+      "post": {
+        "operationId": "startOrResume",
+        "summary": "Start or resume N1 lesson progress",
+        "security": [
+          {
+            "employeeProfileSessionBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lessonId",
+            "in": "path",
+            "required": true,
+            "description": "N1 is the only supported lesson id in this MVP slice.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "N1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "N1 progress was created or resumed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LessonProgressResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Only lesson id N1 is supported by this MVP slice.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Profile session token is missing, malformed, expired, revoked or unknown.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1571,6 +1626,45 @@
           "submittedAt": {
             "type": "string",
             "format": "date-time"
+          }
+        }
+      },
+      "LessonProgressResponse": {
+        "type": "object",
+        "description": "Profile-session scoped MVP N1 start/resume progress.",
+        "required": [
+          "lessonId",
+          "status",
+          "startedAt",
+          "lastOpenedAt",
+          "idempotentResume"
+        ],
+        "properties": {
+          "lessonId": {
+            "type": "string",
+            "description": "N1-only lesson id supported by this MVP slice.",
+            "example": "N1"
+          },
+          "status": {
+            "type": "string",
+            "description": "Minimal start/resume progress status. Completion is out of scope.",
+            "enum": [
+              "STARTED"
+            ]
+          },
+          "startedAt": {
+            "type": "string",
+            "description": "First successful N1 start timestamp.",
+            "format": "date-time"
+          },
+          "lastOpenedAt": {
+            "type": "string",
+            "description": "Most recent N1 start/resume timestamp.",
+            "format": "date-time"
+          },
+          "idempotentResume": {
+            "type": "boolean",
+            "description": "True when the call resumed an existing N1 progress row instead of creating one."
           }
         }
       }

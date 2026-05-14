@@ -193,3 +193,21 @@ export async function submitDiagnosticMeDraft(baseUrl, params, init = {}) {
     }
     return (await response.json());
 }
+export const LEARNING_ME_LESSON_START_PATH_TEMPLATE = "/api/v1/learning/me/lessons/{lessonId}/start";
+export function buildLearningMeLessonStartUrl(baseUrl, params) {
+    return new URL(LEARNING_ME_LESSON_START_PATH_TEMPLATE.replace("{lessonId}", encodeURIComponent(params.lessonId)), baseUrl);
+}
+export async function startLearningMeLesson(baseUrl, params, init = {}) {
+    const url = buildLearningMeLessonStartUrl(baseUrl, params);
+    const headers = new Headers(init.headers);
+    headers.set("authorization", `Bearer ${params.profileSessionToken}`);
+    const response = await fetch(url, {
+        ...init,
+        method: "POST",
+        headers
+    });
+    if (!response.ok) {
+        throw new Error(`POST ${url.pathname} failed with HTTP ${response.status}.`);
+    }
+    return (await response.json());
+}

@@ -10,14 +10,18 @@ import {
 } from "react";
 import {
   fetchDiagnosticMeDraft,
+  startLearningMeLesson,
   saveDiagnosticMeDraft,
   submitDiagnosticMeDraft,
   type DiagnosticAttemptResponse,
   type DiagnosticAttemptState,
   type DiagnosticDraftUpdateRequest,
-  type DiagnosticSubmitResponse
+  type DiagnosticSubmitResponse,
+  type LessonProgressResponse
 } from "@finrhythm/api-client";
 import { EmployeeAppHeader, EmployeeBottomNav, SecondarySupportEntry } from "./employee-app-shell.ts";
+import { LessonRendererScreen } from "./lesson-renderer.ts";
+import { syntheticN1LessonFixture } from "../lib/learning-fixtures.ts";
 
 type DiagnosticApiPhase = "loading" | "draft" | "saving" | "submitting" | "submitted" | "error";
 type DiagnosticNoticeKind = "info" | "validation" | "error" | "success";
@@ -44,6 +48,14 @@ export type DiagnosticSafeHandoff = {
   createdAt: string;
   updatedAt: string;
   submittedAt: string;
+};
+
+export type DiagnosticN1LessonProgress = {
+  lessonId: "N1";
+  status: "STARTED";
+  startedAt: string;
+  lastOpenedAt: string;
+  idempotentResume: boolean;
 };
 
 type DiagnosticNotice = {
@@ -173,6 +185,9 @@ export function DiagnosticApiFlowScreen({
   const [draft, setDraft] = useState<DiagnosticApiDraftState>(emptyDiagnosticApiDraftState);
   const [notice, setNotice] = useState<DiagnosticNotice | null>(null);
   const [handoff, setHandoff] = useState<DiagnosticSafeHandoff | null>(null);
+  const [lessonProgress, setLessonProgress] = useState<DiagnosticN1LessonProgress | null>(null);
+  const [lessonStartBusy, setLessonStartBusy] = useState(false);
+  const [lessonStartNotice, setLessonStartNotice] = useState<DiagnosticNotice | null>(null);
   const [retryIndex, setRetryIndex] = useState(0);
   const progress = useMemo(() => buildDiagnosticApiProgress(draft, phase), [draft, phase]);
   const isBusy = phase === "saving" || phase === "submitting";
@@ -185,6 +200,9 @@ export function DiagnosticApiFlowScreen({
     setDraft(emptyDiagnosticApiDraftState());
     setNotice(null);
     setHandoff(null);
+    setLessonProgress(null);
+    setLessonStartBusy(false);
+    setLessonStartNotice(null);
 
     fetchDiagnosticMeDraft(getBrowserApiBaseUrl(), { profileSessionToken })
       .then((response) => {
@@ -313,6 +331,7 @@ export function DiagnosticApiFlowScreen({
 
       setHandoff(safeHandoff);
       setPhase("submitted");
+      setLessonStartNotice(null);
     } catch (_error: unknown) {
       setNotice(
         buildDiagnosticFailureNotice(
@@ -321,6 +340,43 @@ export function DiagnosticApiFlowScreen({
       );
       setPhase("draft");
     }
+  }
+
+  async function startFirstLesson() {
+    if (!handoff || lessonStartBusy) {
+      return;
+    }
+
+    setLessonStartBusy(true);
+    setLessonStartNotice(null);
+
+    try {
+      const response = await startLearningMeLesson(getBrowserApiBaseUrl(), {
+        profileSessionToken,
+        lessonId: handoff.recommendedFirstLessonId
+      });
+      const safeProgress = buildSafeN1LessonProgress(response);
+      if (!safeProgress) {
+        throw new Error("Unsupported N1 lesson progress response.");
+      }
+
+      setLessonProgress(safeProgress);
+    } catch (_error: unknown) {
+      setLessonStartNotice(
+        buildDiagnosticFailureNotice(
+          "Не удалось открыть N1 через backend progress. Попробуйте ещё раз, пока эта вкладка открыта."
+        )
+      );
+    } finally {
+      setLessonStartBusy(false);
+    }
+  }
+
+  if (lessonProgress) {
+    return h(LessonRendererScreen, {
+      lesson: syntheticN1LessonFixture,
+      progressBanner: h(N1BackendProgressBanner, { progress: lessonProgress })
+    });
   }
 
   return h(
@@ -348,7 +404,13 @@ export function DiagnosticApiFlowScreen({
               onRetry: () => setRetryIndex((current) => current + 1)
             })
           : phase === "submitted" && handoff
-            ? h(DiagnosticSubmittedHandoff, { handoff, onContinueToContact })
+            ? h(DiagnosticSubmittedHandoff, {
+                handoff,
+                lessonStartBusy,
+                lessonStartNotice,
+                onContinueToContact,
+                onStartLesson: startFirstLesson
+              })
             : h(DiagnosticDraftPanel, {
                 draft,
                 isBusy,
@@ -422,6 +484,20 @@ export function buildSafeDiagnosticHandoff(
     createdAt: response.createdAt,
     updatedAt: response.updatedAt,
     submittedAt: response.submittedAt
+  };
+}
+
+export function buildSafeN1LessonProgress(response: LessonProgressResponse): DiagnosticN1LessonProgress | null {
+  if (response.lessonId !== "N1" || response.status !== "STARTED" || !response.startedAt || !response.lastOpenedAt) {
+    return null;
+  }
+
+  return {
+    lessonId: "N1",
+    status: "STARTED",
+    startedAt: response.startedAt,
+    lastOpenedAt: response.lastOpenedAt,
+    idempotentResume: response.idempotentResume
   };
 }
 
@@ -693,10 +769,16 @@ function RoutingQuestionsApiStep({
 
 function DiagnosticSubmittedHandoff({
   handoff,
-  onContinueToContact
+  lessonStartBusy,
+  lessonStartNotice,
+  onContinueToContact,
+  onStartLesson
 }: {
   handoff: DiagnosticSafeHandoff;
+  lessonStartBusy: boolean;
+  lessonStartNotice: DiagnosticNotice | null;
   onContinueToContact?: () => void;
+  onStartLesson: () => void;
 }) {
   return h(
     "section",
@@ -706,8 +788,9 @@ function DiagnosticSubmittedHandoff({
     h(
       "p",
       null,
-      "API вернул только routePreview для первого урока. На этом экране нет ваших ответов, идентификаторов попытки или персонального HR-отчёта."
+      "API вернул только routePreview для первого урока. Перед открытием N1 мы отдельно запишем start/resume progress на backend без передачи сессионного секрета через адрес."
     ),
+    lessonStartNotice ? h(DiagnosticNoticePanel, { notice: lessonStartNotice }) : null,
     h(
       "dl",
       { className: "diagnostic-handoff-list", "aria-label": "Безопасные поля handoff" },
@@ -723,12 +806,17 @@ function DiagnosticSubmittedHandoff({
       { className: "diagnostic-boundary-list" },
       h("li", null, "Финальный scoring, уровень и полный маршрут не назначаются в этом sprint."),
       h("li", null, "Личные ответы не показываются в handoff."),
+      h("li", null, "Backend фиксирует только старт или возврат к N1, без завершения, теста, практики, баллов или наград."),
       h("li", null, "Переход к N1 не является финансовым, налоговым, кредитным или инвестиционным советом.")
     ),
     h(
       "div",
       { className: "diagnostic-result-actions" },
-      h("a", { className: "primary-action", href: "/learning/lessons/N1" }, "Открыть N1"),
+      h(
+        "button",
+        { className: "primary-action", disabled: lessonStartBusy, onClick: onStartLesson, type: "button" },
+        lessonStartBusy ? "Открываем N1..." : "Начать или продолжить N1"
+      ),
       onContinueToContact
         ? h(
             "button",
@@ -736,6 +824,32 @@ function DiagnosticSubmittedHandoff({
             "Перейти к контактам"
           )
         : null
+    )
+  );
+}
+
+function N1BackendProgressBanner({ progress }: { progress: DiagnosticN1LessonProgress }) {
+  return h(
+    "section",
+    { className: "lesson-progress-card", "aria-labelledby": "n1-backend-progress-title" },
+    h(
+      "div",
+      null,
+      h("p", { className: "section-label" }, "Backend progress"),
+      h("h2", { id: "n1-backend-progress-title" }, progress.idempotentResume ? "N1 продолжен" : "N1 начат"),
+      h(
+        "p",
+        null,
+        "Записан только старт или возврат к уроку. Прохождение блоков, мини-тест, практика, баллы и награды в этом sprint не фиксируются."
+      )
+    ),
+    h(
+      "dl",
+      { className: "diagnostic-handoff-list", "aria-label": "Поля прогресса N1" },
+      h("div", null, h("dt", null, "Урок"), h("dd", null, progress.lessonId)),
+      h("div", null, h("dt", null, "Статус"), h("dd", null, progress.status)),
+      h("div", null, h("dt", null, "Старт"), h("dd", null, formatDiagnosticTimestamp(progress.startedAt))),
+      h("div", null, h("dt", null, "Открыто"), h("dd", null, formatDiagnosticTimestamp(progress.lastOpenedAt)))
     )
   );
 }
