@@ -7,6 +7,9 @@ export const ACCESS_POOL_STATUSES = ["PLANNED", "ACTIVE", "CLOSED", "ARCHIVED"];
 export const PILOT_LAUNCH_STATUSES = ["PLANNED", "ACTIVE", "CLOSED", "ARCHIVED"];
 export const LEGAL_DOCUMENT_TYPES = ["PRIVACY_POLICY", "PERSONAL_DATA_CONSENT", "TERMS_OF_USE", "FINANCIAL_DISCLAIMER"];
 export const DIAGNOSTIC_ATTEMPT_STATES = ["DRAFT", "SUBMITTED"];
+export const LEARNING_ROUTE_DIAGNOSTIC_STATES = ["NOT_STARTED", "DRAFT", "SUBMITTED"];
+export const LEARNING_ROUTE_N1_STATUSES = ["NOT_STARTED", "STARTED"];
+export const LEARNING_ROUTE_NEXT_ACTIONS = ["COMPLETE_DIAGNOSTIC", "START_N1", "RESUME_N1"];
 export const ADMIN_CODE_STATUS_PATH_TEMPLATE = "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status";
 export function buildAdminCodeStatusUrl(baseUrl, params) {
     const url = new URL(ADMIN_CODE_STATUS_PATH_TEMPLATE
@@ -190,6 +193,24 @@ export async function submitDiagnosticMeDraft(baseUrl, params, init = {}) {
     });
     if (!response.ok) {
         throw new Error(`POST ${url.pathname} failed with HTTP ${response.status}.`);
+    }
+    return (await response.json());
+}
+export const LEARNING_ME_ROUTE_PROGRESS_PATH = "/api/v1/learning/me/route-progress";
+export function buildLearningMeRouteProgressUrl(baseUrl) {
+    return new URL(LEARNING_ME_ROUTE_PROGRESS_PATH, baseUrl);
+}
+export async function fetchLearningMeRouteProgress(baseUrl, params, init = {}) {
+    const url = buildLearningMeRouteProgressUrl(baseUrl);
+    const headers = new Headers(init.headers);
+    headers.set("authorization", `Bearer ${params.profileSessionToken}`);
+    const response = await fetch(url, {
+        ...init,
+        method: "GET",
+        headers
+    });
+    if (!response.ok) {
+        throw new Error(`GET ${url.pathname} failed with HTTP ${response.status}.`);
     }
     return (await response.json());
 }

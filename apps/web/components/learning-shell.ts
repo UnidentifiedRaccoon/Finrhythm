@@ -71,7 +71,7 @@ function ReadyLearningView({ fixture }: { fixture: LearningFixture }) {
         h(
           "p",
           { className: "hero-copy" },
-          "Демо-вход ведет сразу к обучению: короткий трек, список уроков и безопасное превью без личных данных."
+          "Демо-вход ведет сразу к обучению: короткий трек, список уроков и безопасный черновик без личных данных."
         )
       ),
       h(PrivacyCard, {
@@ -91,11 +91,11 @@ function DiagnosticEntryCard() {
     "section",
     { className: "diagnostic-entry-card", "aria-labelledby": "learning-diagnostic-entry-title" },
     h("p", { className: "section-label" }, "Перед маршрутом"),
-    h("h2", { id: "learning-diagnostic-entry-title" }, "Открыть diagnostic preview"),
+    h("h2", { id: "learning-diagnostic-entry-title" }, "Открыть диагностику"),
     h(
       "p",
       null,
-      "Можно пройти короткий черновик входной диагностики: Q0 про приватность, SA1-SA3 без scoring и несколько карточек Q1-Q3."
+      "Можно пройти короткий черновик входной диагностики: Q0 про приватность, SA1-SA3 без итоговой оценки и несколько карточек Q1-Q3."
     ),
     h("a", { className: "secondary-action", href: "/diagnostics" }, "Открыть диагностику")
   );

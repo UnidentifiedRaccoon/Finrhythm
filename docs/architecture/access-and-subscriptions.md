@@ -285,35 +285,46 @@ stateDiagram-v2
 
 ### 7.4 Current MVP N1 learning progress boundary
 
-После safe diagnostic handoff та же `employeeProfileSessionBearerAuth` boundary расширяется только на минимальный старт/возврат к N1. `POST /api/v1/learning/me/lessons/{lessonId}/start` принимает короткоживущий profile-session bearer token, server-side resolves `employee_registration_id`, `tenant_id`, `pilot_launch_id` and `access_pool_id`, не принимает body and rejects every `lessonId` except `N1`.
+После safe diagnostic handoff та же `employeeProfileSessionBearerAuth` boundary расширяется только на read-only route/progress summary and минимальный старт/возврат к N1. `GET /api/v1/learning/me/route-progress` принимает только короткоживущий profile-session bearer token, не принимает body, query/path scope identifiers or client-supplied employee/tenant/pilot/access identifiers, and server-side resolves `employee_registration_id`, `tenant_id`, `pilot_launch_id` and `access_pool_id` from the authenticated profile session. This read endpoint persists nothing on success or authentication failure.
 
-Storage keeps one row per `employee_registration` and `lesson_id=N1` with status `STARTED`, first start timestamp and last opened timestamp. No raw profile-session token, token hash, raw invite code, lookup hash, diagnostic answers, request/response bodies, exact financial values, free-form reports, completion state, quiz/practice submission, points, rewards, HR insight or analytics event payload is stored by this boundary. Repeated start is idempotent and updates only last-opened metadata for the same authenticated registration; another registration gets its own isolated N1 row.
+The route/progress summary may expose only safe state: diagnostic state `NOT_STARTED`, `DRAFT` or `SUBMITTED`; `routePreview=true` and `recommendedFirstLessonId=N1` only after a safely submitted diagnostic attempt; N1 status `NOT_STARTED` or `STARTED`; `startedAt` and `lastOpenedAt` only when an existing N1 progress row exists; and next action `COMPLETE_DIAGNOSTIC`, `START_N1` or `RESUME_N1`. It must not expose internal scope IDs, attempt/progress IDs, diagnostic answers, scores, final level, `R1-R6`, weak zones, HR insight fields, request/response echoes, raw tokens or hashes.
 
-Employee web continuation must call the generated API-client helper while the profile-session token remains in mounted component memory. N1 may render only after backend start/resume succeeds; the token must not be transferred through URL path/query/hash, browser storage, cookies, IndexedDB, service-worker caches or logs.
+`POST /api/v1/learning/me/lessons/{lessonId}/start` keeps its existing mutation boundary: it accepts the same bearer token, server-side resolves scope, не принимает body and rejects every `lessonId` except `N1`. Storage keeps one row per `employee_registration` and `lesson_id=N1` with status `STARTED`, first start timestamp and last opened timestamp. No raw profile-session token, token hash, raw invite code, lookup hash, diagnostic answers, request/response bodies, exact financial values, free-form reports, completion state, quiz/practice submission, points, rewards, HR insight or analytics event payload is stored by this boundary. Repeated start is idempotent and updates only last-opened metadata for the same authenticated registration; another registration gets its own isolated N1 row.
+
+Employee web continuation must call generated API-client helpers for both route-progress summary and N1 start/resume while the profile-session token remains in mounted component memory. N1 may render only after backend start/resume succeeds and the summary is refreshed; the token must not be transferred through URL path/query/hash, browser storage, cookies, IndexedDB, service-worker caches or logs.
 
 ```mermaid
 flowchart LR
     SUBMIT["POST /diagnostics/me/submit"] --> HANDOFF["Safe handoff: routePreview + N1"]
-    HANDOFF --> BUTTON["Employee clicks start/resume N1"]
+    HANDOFF --> SUMMARY_REQ["GET /learning/me/route-progress"]
+    SUMMARY_REQ --> SUMMARY["Safe summary: diagnostic state + N1 status + nextAction"]
+    SUMMARY --> BUTTON["Employee clicks start/resume N1"]
     BUTTON --> TOKEN["Bearer profile-session token in mounted memory"]
     TOKEN --> AUTH["Validate hash, expiry and revocation"]
     AUTH --> SCOPE["Resolve employee_registration + tenant/pilot/access scope"]
     SCOPE --> START["POST /learning/me/lessons/N1/start"]
     START --> UPSERT["Upsert one N1 STARTED progress row per registration"]
-    UPSERT --> RENDER["Render synthetic N1 display content in same mounted tree"]
+    UPSERT --> REFRESH["GET /learning/me/route-progress refresh"]
+    REFRESH --> RENDER["Render synthetic N1 display content in same mounted tree"]
     AUTH -->|missing, malformed, unknown, expired, revoked| DENY["401 without learning progress persistence"]
+    SUMMARY_REQ -->|missing, malformed, unknown, expired, revoked| DENY
     START -->|lessonId != N1| REJECT["400 without persistence"]
 ```
 
 ```mermaid
 stateDiagram-v2
-    [*] --> NoProgress: no N1 row for registration
-    NoProgress --> STARTED: valid N1 start
-    STARTED --> STARTED: repeated start/resume updates last_opened_at
-    NoProgress --> Rejected: unsupported lesson id
-    Rejected --> NoProgress
-    NoProgress --> Unauthorized: invalid profile session
-    STARTED --> Unauthorized: invalid profile session
+    [*] --> DiagnosticNotSubmitted: NOT_STARTED or DRAFT
+    DiagnosticNotSubmitted --> DiagnosticNotSubmitted: GET route-progress / COMPLETE_DIAGNOSTIC
+    DiagnosticNotSubmitted --> SubmittedNoN1: diagnostic submit
+    SubmittedNoN1 --> SubmittedNoN1: GET route-progress / START_N1
+    SubmittedNoN1 --> StartedN1: valid N1 start
+    StartedN1 --> StartedN1: GET route-progress / RESUME_N1
+    StartedN1 --> StartedN1: repeated start/resume updates last_opened_at
+    SubmittedNoN1 --> Rejected: unsupported lesson id
+    Rejected --> SubmittedNoN1
+    DiagnosticNotSubmitted --> Unauthorized: invalid profile session
+    SubmittedNoN1 --> Unauthorized: invalid profile session
+    StartedN1 --> Unauthorized: invalid profile session
     Unauthorized --> [*]
 ```
 

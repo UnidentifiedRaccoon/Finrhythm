@@ -220,6 +220,24 @@ export type LessonProgressResponse = {
     lastOpenedAt: string;
     idempotentResume: boolean;
 };
+export declare const LEARNING_ROUTE_DIAGNOSTIC_STATES: readonly ["NOT_STARTED", "DRAFT", "SUBMITTED"];
+export type LearningRouteDiagnosticState = (typeof LEARNING_ROUTE_DIAGNOSTIC_STATES)[number];
+export declare const LEARNING_ROUTE_N1_STATUSES: readonly ["NOT_STARTED", "STARTED"];
+export type LearningRouteN1Status = (typeof LEARNING_ROUTE_N1_STATUSES)[number];
+export declare const LEARNING_ROUTE_NEXT_ACTIONS: readonly ["COMPLETE_DIAGNOSTIC", "START_N1", "RESUME_N1"];
+export type LearningRouteNextAction = (typeof LEARNING_ROUTE_NEXT_ACTIONS)[number];
+export type LearningRouteN1ProgressResponse = {
+    status: LearningRouteN1Status;
+    startedAt?: string;
+    lastOpenedAt?: string;
+};
+export type LearningRouteProgressResponse = {
+    diagnosticState: LearningRouteDiagnosticState;
+    routePreview: boolean;
+    recommendedFirstLessonId?: string;
+    n1: LearningRouteN1ProgressResponse;
+    nextAction: LearningRouteNextAction;
+};
 export type AdminCodeStatusPathParams = {
     tenantId: string;
     pilotLaunchId: string;
@@ -284,6 +302,9 @@ export declare function saveDiagnosticMeDraft(baseUrl: string | URL, params: Dia
 export declare const DIAGNOSTIC_ME_SUBMIT_PATH = "/api/v1/diagnostics/me/submit";
 export declare function buildDiagnosticMeSubmitUrl(baseUrl: string | URL): URL;
 export declare function submitDiagnosticMeDraft(baseUrl: string | URL, params: DiagnosticMeAuthRequest, init?: ApiClientRequestInit): Promise<DiagnosticSubmitResponse>;
+export declare const LEARNING_ME_ROUTE_PROGRESS_PATH = "/api/v1/learning/me/route-progress";
+export declare function buildLearningMeRouteProgressUrl(baseUrl: string | URL): URL;
+export declare function fetchLearningMeRouteProgress(baseUrl: string | URL, params: DiagnosticMeAuthRequest, init?: ApiClientRequestInit): Promise<LearningRouteProgressResponse>;
 export type LearningMeLessonStartClientRequest = DiagnosticMeAuthRequest & {
     lessonId: string;
 };

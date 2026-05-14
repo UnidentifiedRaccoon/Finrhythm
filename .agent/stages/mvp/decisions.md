@@ -1,6 +1,18 @@
 # MVP decisions
 
-Updated: 2026-05-13
+Updated: 2026-05-14
+
+## D-2026-05-14-001: Freeze read-only N1 route/progress summary after N1 start/resume PASS
+
+Decision: the next sprint contract is `MVP-07-n1-route-progress-summary-001`, scoped to a backend-first read-only profile-session route/progress summary and a compact mounted web panel.
+Why: the latest verified slice already proves diagnostic submit -> N1 start/resume mutation; the next smallest product gap is safe visibility/resume context without creating progress as a side effect or introducing completion/scoring.
+Impact: the builder may add a read-only learning summary endpoint, OpenAPI/generated-client sync and web generated-helper usage. It must not add final scoring/routing, `R1-R6`, HR reports, analytics/events, points/rewards, lesson completion, `N2+`, exact sensitive data, advice, real data or full MVP closure.
+
+## D-2026-05-14-002: Keep route-progress summary response safe and non-final
+
+Decision: `MVP-07-n1-route-progress-summary-001` may return diagnostic state, safe `N1` routePreview readiness, `N1` `NOT_STARTED|STARTED` state and safe next action, but not route profile IDs, scores, weak zones, answers, scope IDs or HR insight fields.
+Why: this keeps the read model useful for employee resume UX while preserving the product boundary that final diagnostic scoring/routing and reporting are not implemented yet.
+Impact: verifier should treat any final level, final `R1-R6`, score, weak-zone, answer echo, HR/reporting field or read-side persistence as a scope gap unless a new spec freeze explicitly changes the contract.
 
 ## D-2026-05-12-003: Build MVP-03 privacy screen as route-only employee UI
 
@@ -235,3 +247,9 @@ Impact: no backend/API/schema/OpenAPI/generated-client changes are part of this 
 Decision: `.agent/stages/mvp/publish_manifest.json` records `publish_after_pass=false`, `publish_status=NOT_REQUESTED` and the user-requested publish blocker.
 Why: the user explicitly requested post-PASS sync but no commit/PR/publish without a separate command.
 Impact: proof artifacts and implementation remain local in the working tree; a later publish-only command can use the manifest, verifier verdict and evidence refs without rerunning the full stage loop unless the scope changes.
+
+## D-2026-05-14-003: Accept scoped route/progress summary PASS after Russian-copy fixer
+
+Decision: parent orchestrator accepts the fresh verifier rerun `PASS` for `MVP-07-n1-route-progress-summary-001` and synchronizes latest evidence/verdict/problems aliases to this sprint.
+Why: independent verifier reran backend/API, generated-client, web, browser, root wrapper and guardrail checks after the first verifier-reported mixed-language UI copy gap was fixed.
+Impact: `publish_after_pass=true` is now ready for post-PASS publish. Full MVP-06, full MVP-07, the MVP stage and all human gates remain open; final scoring/routing, `R1-R6`, HR reports, analytics/events, completion, points/rewards and financial advice remain out of scope.

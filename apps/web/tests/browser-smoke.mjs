@@ -6,6 +6,7 @@ import { chromium } from "playwright";
 import {
   DIAGNOSTIC_ME_DRAFT_PATH,
   DIAGNOSTIC_ME_SUBMIT_PATH,
+  LEARNING_ME_ROUTE_PROGRESS_PATH,
   LEARNING_ME_LESSON_START_PATH_TEMPLATE,
   LEGAL_DOCUMENT_ACCEPTANCE_PATH_TEMPLATE,
   LEGAL_DOCUMENT_CURRENT_DRAFT_VERSION,
@@ -128,6 +129,26 @@ const n1LessonProgressResponse = {
   idempotentResume: false
 };
 
+const routeProgressBeforeN1StartResponse = {
+  diagnosticState: "SUBMITTED",
+  routePreview: true,
+  recommendedFirstLessonId: "N1",
+  n1: { status: "NOT_STARTED" },
+  nextAction: "START_N1"
+};
+
+const routeProgressAfterN1StartResponse = {
+  diagnosticState: "SUBMITTED",
+  routePreview: true,
+  recommendedFirstLessonId: "N1",
+  n1: {
+    status: "STARTED",
+    startedAt: n1LessonProgressResponse.startedAt,
+    lastOpenedAt: n1LessonProgressResponse.lastOpenedAt
+  },
+  nextAction: "RESUME_N1"
+};
+
 const scenarios = [
   {
     name: "mobile-home",
@@ -137,7 +158,7 @@ const scenarios = [
     expected: [
       "Финпульс",
       "Ваш спокойный маршрут",
-      "Открыть preview",
+      "Открыть диагностику",
       "Открыть обучение",
       "Открыть профиль",
       "Челлендж",
@@ -158,10 +179,10 @@ const scenarios = [
     bottomNavActive: "Главная",
     expected: [
       "Финпульс",
-      "Спокойный вход в preview",
+      "Спокойный вход в диагностику",
       "Q0 сначала: кто что видит",
       "Что важно знать перед стартом",
-      "Локальный progress preview",
+      "Локальный прогресс диагностики",
       "1 из 4",
       "Продолжить к самооценке"
     ],
@@ -176,11 +197,11 @@ const scenarios = [
     path: "/diagnostics",
     viewport: { width: 390, height: 844 },
     bottomNavActive: "Главная",
-    expected: ["Спокойный вход в preview", "Q0 сначала: кто что видит"],
+    expected: ["Спокойный вход в диагностику", "Q0 сначала: кто что видит"],
     action: continueFromDiagnosticQ0,
     expectedAfter: [
       "SA1-SA3",
-      "Самооценка без scoring",
+      "Самооценка без оценк",
       "не определяют маршрут",
       "SA1 · личная уверенность",
       "SA2 · личное спокойствие",
@@ -196,19 +217,19 @@ const scenarios = [
     path: "/diagnostics",
     viewport: { width: 390, height: 844 },
     bottomNavActive: "Главная",
-    expected: ["Спокойный вход в preview", "Q0 сначала: кто что видит"],
+    expected: ["Спокойный вход в диагностику", "Q0 сначала: кто что видит"],
     action: async (page) => {
       await continueFromDiagnosticQ0(page);
       await fillDiagnosticSelfAssessment(page);
-      await page.getByRole("button", { name: "Перейти к preview-вопросам" }).click();
+      await page.getByRole("button", { name: "Перейти к пробным вопросам" }).click();
     },
     expectedAfter: [
       "Только несколько карточек Q1-Q3",
-      "synthetic preview будущего routing-блока",
+      "синтетический черновик будущего маршрутного блока",
       "Q1 · Финансовый резерв",
       "Q2 · Текущая опора",
       "Q3 · Первый барьер",
-      "Показать черновой preview"
+      "Показать черновой маршрут"
     ],
     assertAfter: async (page) => {
       assert.equal(await page.getByText("Q28", { exact: false }).count(), 0);
@@ -220,16 +241,16 @@ const scenarios = [
     path: "/diagnostics",
     viewport: { width: 390, height: 844 },
     bottomNavActive: "Главная",
-    expected: ["Спокойный вход в preview", "Q0 сначала: кто что видит"],
+    expected: ["Спокойный вход в диагностику", "Q0 сначала: кто что видит"],
     action: async (page) => {
       await continueFromDiagnosticQ0(page);
       await fillDiagnosticSelfAssessment(page);
-      await page.getByRole("button", { name: "Перейти к preview-вопросам" }).click();
+      await page.getByRole("button", { name: "Перейти к пробным вопросам" }).click();
       await answerDiagnosticPreviewQuestions(page);
-      await page.getByRole("button", { name: "Показать черновой preview" }).click();
+      await page.getByRole("button", { name: "Показать черновой маршрут" }).click();
     },
     expectedAfter: [
-      "Черновой preview: начните с N1",
+      "Черновой маршрут: начните с N1",
       "не финальный результат диагностики",
       "не назначение уровня",
       "не раскрывает личные ответы работодателю",
@@ -325,7 +346,8 @@ const scenarios = [
       await submitProfileSessionAcceptLegalCompleteDiagnosticAndStartN1(page);
     },
     expectedAfter: [
-      "Backend progress",
+      "Прогресс маршрута",
+      "Прогресс на сервере",
       "N1 начат",
       "Записан только старт или возврат к уроку",
       "N1: первый резерв",
@@ -333,10 +355,10 @@ const scenarios = [
       "Что этот урок не делает"
     ],
     assertAfter: async (page, requestEvents) => {
-      assertProfileSessionLegalDiagnosticAndLearningStartOrder(requestEvents);
+      assertProfileSessionLegalDiagnosticRouteProgressAndLearningStartOrder(requestEvents);
       assert.equal(new URL(page.url()).pathname, "/profile/session");
       assert.equal(await page.locator("a[href='/learning/lessons/N1']").count(), 0);
-      assert.equal(await page.getByText("Backend progress", { exact: false }).count(), 1);
+      assert.equal(await page.getByText("Прогресс на сервере", { exact: false }).count(), 1);
 
       const visibleText = await page.locator("body").innerText();
       for (const token of [
@@ -618,13 +640,39 @@ const scenarios = [
       "Граница данных сохраняется",
       "Черновик открыт",
       "Что важно знать перед стартом",
-      "Самооценка без scoring",
+      "Самооценка без оценк",
       "Первые вопросы про резерв",
       "Сохранить черновик"
     ],
     assertAfter: async (_page, requestEvents) => {
       assertLegalAcceptanceBeforeDiagnosticDraft(requestEvents);
       assert.equal(requestEvents.includes("contact-summary:request"), false);
+    }
+  },
+  {
+    name: "mobile-profile-session-diagnostic-route-progress",
+    path: "/profile/session",
+    viewport: { width: 390, height: 844 },
+    sessionMock: {
+      sessionStatus: 200,
+      summaryStatus: 200,
+      expectedDiagnosticDraftBody
+    },
+    expected: [
+      "Подтвердите контактный профиль",
+      "Открыть профиль"
+    ],
+    action: submitProfileSessionAcceptLegalAndCompleteDiagnostic,
+    expectedAfter: [
+      "Диагностика записана: начните с N1",
+      "Прогресс маршрута",
+      "Следующий шаг готов",
+      "не начат",
+      "Начать N1"
+    ],
+    assertAfter: async (_page, requestEvents) => {
+      assertProfileSessionLegalDiagnosticAndRouteProgressBeforeStartOrder(requestEvents);
+      assert.equal(requestEvents.includes("learning-start:request"), false);
     }
   },
   {
@@ -966,12 +1014,13 @@ async function submitProfileSessionAcceptLegalAndCompleteDiagnostic(page) {
   await page.getByText("Черновик сохранён", { exact: false }).first().waitFor({ timeout: 5000 });
   await page.getByRole("button", { name: "Завершить диагностику" }).click();
   await page.getByText("Диагностика записана: начните с N1", { exact: false }).first().waitFor({ timeout: 5000 });
+  await page.getByText("Прогресс маршрута", { exact: false }).first().waitFor({ timeout: 5000 });
 }
 
 async function submitProfileSessionAcceptLegalCompleteDiagnosticAndStartN1(page) {
   await submitProfileSessionAcceptLegalAndCompleteDiagnostic(page);
-  await page.getByRole("button", { name: "Начать или продолжить N1" }).click();
-  await page.getByText("Backend progress", { exact: false }).first().waitFor({ timeout: 5000 });
+  await page.getByRole("button", { name: "Начать N1" }).click();
+  await page.getByText("Прогресс на сервере", { exact: false }).first().waitFor({ timeout: 5000 });
 }
 
 async function submitProfileSessionAcceptLegalAndContinueToContact(page) {
@@ -1209,6 +1258,47 @@ async function installDiagnosticMocks(
 }
 
 async function installLearningProgressMocks(page, sessionMock, profileSessionToken, requestEvents) {
+  let routeProgressCallCount = 0;
+
+  await page.route(`**${LEARNING_ME_ROUTE_PROGRESS_PATH}`, async (route) => {
+    const request = route.request();
+    const url = new URL(request.url());
+    const routeProgressStatus = sessionMock.routeProgressStatus ?? 200;
+    const postData = request.postData();
+    const responseBody =
+      sessionMock.routeProgressResponses?.[routeProgressCallCount] ??
+      (routeProgressCallCount === 0 ? routeProgressBeforeN1StartResponse : routeProgressAfterN1StartResponse);
+    const nextCallNumber = routeProgressCallCount + 1;
+
+    requestEvents.push(`route-progress:request:${nextCallNumber}`);
+    assert.equal(request.method(), "GET");
+    assert.equal(url.pathname, LEARNING_ME_ROUTE_PROGRESS_PATH);
+    assert.equal(request.url().includes(profileSessionToken), false, "route-progress URL does not leak token");
+    assert.equal(request.url().includes(syntheticInviteCode), false, "route-progress URL does not leak invite code");
+    assert.equal(request.headers().authorization, `Bearer ${profileSessionToken}`);
+    assert.equal(postData === null || postData === "", true, "route-progress request has no body");
+    assert.equal(
+      requestEvents.includes("diagnostic-submit:response:200"),
+      true,
+      "route-progress starts only after diagnostic submit handoff"
+    );
+    if (nextCallNumber > 1) {
+      assert.equal(
+        requestEvents.includes("learning-start:response:200"),
+        true,
+        "refreshed route-progress starts only after N1 start/resume response"
+      );
+    }
+
+    routeProgressCallCount = nextCallNumber;
+    await route.fulfill({
+      contentType: "application/json",
+      status: routeProgressStatus,
+      body: JSON.stringify(responseBody)
+    });
+    requestEvents.push(`route-progress:response:${routeProgressStatus}:${nextCallNumber}`);
+  });
+
   await page.route(`**${n1LessonStartPath}`, async (route) => {
     const request = route.request();
     const url = new URL(request.url());
@@ -1226,6 +1316,11 @@ async function installLearningProgressMocks(page, sessionMock, profileSessionTok
       requestEvents.includes("diagnostic-submit:response:200"),
       true,
       "N1 start happens only after diagnostic submit handoff"
+    );
+    assert.equal(
+      requestEvents.includes("route-progress:response:200:1"),
+      true,
+      "N1 start happens only after route-progress summary"
     );
 
     await route.fulfill({
@@ -1345,19 +1440,44 @@ function assertProfileSessionLegalAndDiagnosticSubmitOrder(requestEvents) {
   assert.equal(diagnosticPutResponseIndex < diagnosticSubmitRequestIndex, true, "diagnostic submit starts after PUT");
 }
 
-function assertProfileSessionLegalDiagnosticAndLearningStartOrder(requestEvents) {
+function assertProfileSessionLegalDiagnosticAndRouteProgressBeforeStartOrder(requestEvents) {
   assertProfileSessionLegalAndDiagnosticSubmitOrder(requestEvents);
 
   const diagnosticSubmitResponseIndex = requestEvents.indexOf("diagnostic-submit:response:200");
+  const routeProgressRequestIndex = requestEvents.indexOf("route-progress:request:1");
+  const routeProgressResponseIndex = requestEvents.indexOf("route-progress:response:200:1");
+
+  assert.notEqual(routeProgressRequestIndex, -1, "route-progress summary request exists");
+  assert.notEqual(routeProgressResponseIndex, -1, "route-progress summary response exists");
+  assert.equal(
+    diagnosticSubmitResponseIndex < routeProgressRequestIndex,
+    true,
+    "route-progress summary happens after diagnostic submit response"
+  );
+}
+
+function assertProfileSessionLegalDiagnosticRouteProgressAndLearningStartOrder(requestEvents) {
+  assertProfileSessionLegalDiagnosticAndRouteProgressBeforeStartOrder(requestEvents);
+
+  const routeProgressResponseIndex = requestEvents.indexOf("route-progress:response:200:1");
   const learningStartRequestIndex = requestEvents.indexOf("learning-start:request");
   const learningStartResponseIndex = requestEvents.indexOf("learning-start:response:200");
+  const refreshedRouteProgressRequestIndex = requestEvents.indexOf("route-progress:request:2");
+  const refreshedRouteProgressResponseIndex = requestEvents.indexOf("route-progress:response:200:2");
 
   assert.notEqual(learningStartRequestIndex, -1, "N1 learning start request exists");
   assert.notEqual(learningStartResponseIndex, -1, "N1 learning start response exists");
+  assert.notEqual(refreshedRouteProgressRequestIndex, -1, "refreshed route-progress request exists");
+  assert.notEqual(refreshedRouteProgressResponseIndex, -1, "refreshed route-progress response exists");
   assert.equal(
-    diagnosticSubmitResponseIndex < learningStartRequestIndex,
+    routeProgressResponseIndex < learningStartRequestIndex,
     true,
-    "N1 learning start happens after diagnostic submit response"
+    "N1 learning start happens after route-progress summary"
+  );
+  assert.equal(
+    learningStartResponseIndex < refreshedRouteProgressRequestIndex,
+    true,
+    "refreshed route-progress happens after N1 start response"
   );
 }
 

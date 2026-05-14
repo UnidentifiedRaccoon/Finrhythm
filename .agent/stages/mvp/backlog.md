@@ -1,7 +1,7 @@
 # MVP backlog
 
 Stage ID: `mvp`
-Updated: 2026-05-13
+Updated: 2026-05-14
 
 ## MVP-01. Product/stage foundation and repo baseline
 
@@ -68,6 +68,8 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 
 
 `MVP-07-diagnostic-n1-learning-progress-001` has scoped fresh verifier `PASS`. It adds backend-owned N1 start/resume progress after safe diagnostic handoff, generated api-client sync and mounted web N1 continuation. It does not close full MVP-06, MVP-07, MVP or any human gate.
+
+`MVP-07-n1-route-progress-summary-001` has scoped fresh verifier `PASS`. It adds a read-only profile-session authenticated N1 route/progress summary, generated api-client helper and mounted web panel before/after N1 start/resume, with token kept only in component memory. It does not create progress from reads, implement final scoring/routing, completion, points, rewards, HR reports, analytics/events or close human gates.
 
 ## MVP-02. Corporate tenant and invite access
 
@@ -579,10 +581,11 @@ Builder evidence is now recorded:
 | MVP-07-diagnostic-draft-api-001 | agent | PASS | Add backend/API diagnostic draft/submission foundation for `Q0`, `SA1-SA3` and `Q1-Q3`, authenticated by employee profile-session bearer token, with safe N1 routePreview handoff and no final scoring/routing. | `.agent/stages/mvp/task-files/MVP-07-diagnostic-draft-api-001.md`; `.agent/stages/mvp/evidence/MVP-07-diagnostic-draft-api-001.md`; `.agent/stages/mvp/evidence/MVP-07-diagnostic-draft-api-001.json`; first verifier FAIL archived at `.agent/stages/mvp/verdicts/MVP-07-diagnostic-draft-api-001-prefix-fail.json`; fresh post-fix PASS at `.agent/stages/mvp/verdicts/MVP-07-diagnostic-draft-api-001.json` and `.agent/stages/mvp/problems/MVP-07-diagnostic-draft-api-001.md`. |
 | MVP-07-diagnostic-web-api-integration-001 | agent | PASS | Integrate the already verified diagnostic draft API into the employee-facing mounted `/profile/session` flow using generated `@finrhythm/api-client`, with the profile-session token only in component memory and Q0/SA1-SA3/Q1-Q3 only. | `.agent/stages/mvp/evidence/MVP-07-diagnostic-web-api-integration-001.md`; `.agent/stages/mvp/evidence/MVP-07-diagnostic-web-api-integration-001.json`; fresh verifier PASS at `.agent/stages/mvp/verdicts/MVP-07-diagnostic-web-api-integration-001.json` and `.agent/stages/mvp/problems/MVP-07-diagnostic-web-api-integration-001.md`. |
 | MVP-07-diagnostic-n1-learning-progress-001 | agent | PASS | Add backend-owned N1 lesson start/resume progress after the safe diagnostic N1 handoff and wire the web continuation through generated `@finrhythm/api-client` while keeping the profile-session token only in mounted component memory. | `.agent/stages/mvp/evidence/MVP-07-diagnostic-n1-learning-progress-001.md`; `.agent/stages/mvp/evidence/MVP-07-diagnostic-n1-learning-progress-001.json`; fresh verifier PASS at `.agent/stages/mvp/verdicts/MVP-07-diagnostic-n1-learning-progress-001.json` and `.agent/stages/mvp/problems/MVP-07-diagnostic-n1-learning-progress-001.md`. |
+| MVP-07-n1-route-progress-summary-001 | agent | FROZEN | Add a read-only backend-owned N1 route/progress summary for the mounted profile-session flow, then show the summary in web through generated `@finrhythm/api-client` while keeping the token memory-only. | `.agent/stages/mvp/sprint_contract.md`; `.agent/stages/mvp/task-files/MVP-07-n1-route-progress-summary-001.md`; no builder evidence or verifier PASS yet. |
 | MVP-07.01 | agent | OPEN | Implement diagnostic test engine. | Preview UI has scoped PASS; draft API has builder evidence as a scoped prerequisite. Full engine remains future work. |
 | MVP-07.02 | agent | OPEN | Implement rule-based scoring and level/route assignment. | Out of scope for the preview slice. |
 | MVP-07.03 | agent | OPEN | Implement route explanation UI. | This preview slice may show only draft/preview copy; final route explanation remains future work. |
-| MVP-07.04 | agent | OPEN | Implement safe resume/retry behavior. | Draft API builder evidence covers one small attempt resume boundary; full retry behavior remains future work and fresh verification is pending. |
+| MVP-07.04 | agent | OPEN | Implement safe resume/retry behavior. | Draft API and N1 start/resume have scoped PASS; `MVP-07-n1-route-progress-summary-001` is frozen for the next read-only summary prerequisite. Full retry behavior remains future work. |
 | MVP-07.05 | agent | OPEN | Implement aggregated diagnostic insight reporting. | Out of scope and human-gated for privacy/reporting boundaries. |
 | MVP-07 | agent+human | OPEN | Full diagnostics and personalized route remain open. | Future builder evidence, scoring correctness, privacy/HR/legal wording review and fresh verification required. |
 
@@ -653,3 +656,17 @@ Builder evidence is now recorded:
 - latest evidence/verdict/problems aliases now point to this slice;
 - fresh verifier accepted backend/API, generated-client, web, browser, root-wrapper and guardrail proof;
 - `publish_after_pass=true`, so post-PASS publish is required before continuation work.
+
+### Frozen N1 route/progress summary slice
+
+`MVP-07-n1-route-progress-summary-001` is intentionally narrower than full route explanation, full diagnostic routing or learning completion:
+
+- add a read-only profile-session authenticated route/progress summary, preferred `GET /api/v1/learning/me/route-progress`;
+- summarize only diagnostic state, safe N1 routePreview handoff readiness, `N1` `NOT_STARTED|STARTED` state and safe next action;
+- do not create/update diagnostic attempts or lesson progress from the read endpoint;
+- update OpenAPI/generated api-client and use generated helper(s) in the mounted `/profile/session` flow;
+- show a compact mobile route/progress panel before and after `N1` start/resume;
+- keep profile-session token only in mounted component memory;
+- exclude completion, quiz/practice submission, points, rewards, final scoring, final `R1-R6`, HR reports, analytics/events, exact sensitive data, advice, full MVP closure and human-gate closure.
+
+No builder evidence or fresh verifier PASS exists yet; `passes=false` remains mandatory.

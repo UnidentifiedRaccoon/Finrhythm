@@ -2,6 +2,56 @@
 
 Updated: 2026-05-14
 
+## Current session: MVP-07-n1-route-progress-summary-001 PASS sync
+
+- Fresh verifier rerun returned scoped `PASS` for `MVP-07-n1-route-progress-summary-001`.
+- The first verifier blocker is fixed: the mounted route/progress panel now uses Russian, neutral, privacy-first visible copy and aria labels.
+- Verified proof includes focused backend route-progress IT, `apps/api ./mvnw verify`, api-client generated/OpenAPI drift/typecheck/build checks, web typecheck/test/build, browser smoke with 35 screenshots, `make verify`, `make test-unit`, `make build`, guardrail scans, JSON validation and `git diff --check`.
+- Parent aliases now point to `MVP-07-n1-route-progress-summary-001` evidence/verdict/problems.
+- `publish_after_pass=true`; post-PASS publish is now required and ready.
+- Full MVP-06, full MVP-07, MVP stage and all human gates remain open.
+
+## Current session: MVP-07-n1-route-progress-summary-001 verifier gap fixer
+
+- First fresh verifier returned `FAIL` for one blocking proof gap: the mounted route/progress panel still had English or mixed-language UI copy (`handoff`, `Route preview`, `Route progress`, `Backend progress`, `summary`, `scoring`, `sprint`).
+- Technical backend/API/OpenAPI/generated-client/browser/root proof was otherwise reproduced by the verifier; no schema/API/security/token-storage blocker was reported.
+- Applied a minimal fixer in `apps/web` copy and test expectations: route/progress panel labels are now Russian neutral wording, adjacent smoke-tested diagnostic labels no longer depend on English `preview/scoring/handoff` copy, and the profile-session token remains only in mounted component memory.
+- Fixer checks passed: `pnpm --filter @finrhythm/web typecheck`, `pnpm --filter @finrhythm/web test`, `pnpm --filter @finrhythm/web build`, browser smoke with 35 screenshots, Russian-copy guard, profile-session token-storage guard and `git diff --check`.
+- Fixer raw refs are under `.agent/stages/mvp/raw/fixer-MVP-07-n1-route-progress-summary-001-20260514/`; browser screenshots were relocated to the repo-root raw directory.
+- Current state is `FIXED_AWAITING_FRESH_VERIFIER`; latest verified sprint remains `MVP-07-diagnostic-n1-learning-progress-001` until a fresh verifier rerun returns `PASS`.
+- Full MVP-06, full MVP-07, MVP stage and all human gates remain open; publish remains blocked until fresh verifier `PASS`.
+
+## Current session: MVP-07-n1-route-progress-summary-001 builder evidence
+
+- Built the frozen backend-first read-only route/progress summary slice without subagents and without running verifier.
+- First meaningful implementation touch was in `apps/api/src/test/java/com/finrhythm/api/learning/LearningProgressControllerIT.java`, before OpenAPI, generated client, web, docs or stage evidence.
+- Added `GET /api/v1/learning/me/route-progress` under existing employee profile-session bearer auth; the endpoint accepts no body, no client scope identifiers and persists nothing on success or failure.
+- Summary response is limited to safe fields: diagnostic state `NOT_STARTED|DRAFT|SUBMITTED`, N1 route preview/recommended lesson only after safe submitted diagnostic handoff, N1 `NOT_STARTED|STARTED`, timestamps only for an existing progress row and next action `COMPLETE_DIAGNOSTIC|START_N1|RESUME_N1`.
+- No migration was added because existing diagnostic attempt and N1 lesson progress tables cover the read model.
+- Updated OpenAPI snapshot, generated `@finrhythm/api-client` helper `fetchLearningMeRouteProgress`, generator/drift checks and api-client README.
+- Updated mounted `/profile/session` flow to render a compact Russian route/progress panel before N1 start and refresh the summary after generated N1 start/resume, while keeping the profile-session token only in mounted component memory.
+- Browser smoke passed with 35 screenshots; key refs are the before-start route/progress panel and refreshed post-start N1 summary under `.agent/stages/mvp/raw/builder-MVP-07-n1-route-progress-summary-001-20260514/browser-smoke/`.
+- Canonical docs updated: `docs/architecture/access-and-subscriptions.md` section 7.4 now covers the read-only summary endpoint and generated-client/memory-only token boundary.
+- Checks passed: focused backend route/progress test, `apps/api ./mvnw verify`, api-client generate/build/check-generated/check-openapi-drift/typecheck, web typecheck/test/build, browser smoke, `make verify`, `make test-unit`, `make build`, guard scans, JSON validation and `git diff --check`.
+- Latest verified sprint remains `MVP-07-diagnostic-n1-learning-progress-001`; this current slice is `BUILT_AWAITING_FRESH_VERIFIER` and must not be treated as PASS until a fresh verifier runs.
+- Full MVP-06, full MVP-07, MVP stage and all human gates remain open; publish remains blocked until fresh verifier PASS.
+
+## Current session: MVP-07-n1-route-progress-summary-001 spec freeze
+
+- Froze `MVP-07-n1-route-progress-summary-001` as the next small high-impact product slice after fresh verifier `PASS` for `MVP-07-diagnostic-n1-learning-progress-001`.
+- Parent scope is a scoped prerequisite across `MVP-07.04` safe resume/retry and `MVP-06.04` N1 progress visibility; it is not full `MVP-06`, full `MVP-07`, full MVP or a human-gate closure.
+- Repo state confirms the previous slice added backend-owned `POST /api/v1/learning/me/lessons/{lessonId}/start`, generated `startLearningMeLesson` and mounted web N1 continuation, but no read-only route/progress summary endpoint exists yet.
+- Frozen purpose: add a read-only backend route/progress summary, preferred `GET /api/v1/learning/me/route-progress`, and show it in the mounted `/profile/session` diagnostic/N1 flow through generated `@finrhythm/api-client`.
+- Required builder first meaningful touch is `apps/api` production/test files, not `.agent`, docs, `apps/web`, generated client or OpenAPI.
+- Backend baseline is explicit: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
+- Scope includes profile-session bearer auth, server-side registration/scope resolution, no request body, no mutation, diagnostic state `NOT_STARTED|DRAFT|SUBMITTED`, safe N1 routePreview readiness, `N1` `NOT_STARTED|STARTED` summary, OpenAPI/generated-client sync, web route/progress panel, browser evidence and memory-only token proof.
+- Scope excludes final scoring/routing, full `Q1-Q27`, `Q28`, final `R1-R6`, weak zones, HR reports, analytics/events, completion, quiz, practice, points, rewards, `N2+`, exact sensitive data, advice, customer brand, real data, account/org/subscription models and full MVP closure.
+- Canonical doc sync is required in `docs/architecture/access-and-subscriptions.md` section 7.4 because the learning profile-session boundary expands to a read-only summary endpoint; product docs are `NOOP_EXPECTED` if existing assumptions are followed.
+- `publish_after_pass=true` is set in the active sprint contract and publish manifest for the post-PASS publish flow after a future fresh verifier `PASS`.
+- Updated planning artifacts only: `.agent/stages/mvp/stage_spec.md`, `.agent/stages/mvp/sprint_contract.md`, `.agent/stages/mvp/task-files/MVP-07-n1-route-progress-summary-001.md`, `.agent/stages/mvp/backlog.md`, `.agent/stages/mvp/progress.md`, `.agent/stages/mvp/status.json`, `.agent/stages/mvp/feature_list.json`, `.agent/stages/mvp/decisions.md`, `.agent/stages/mvp/risks.md` and `.agent/stages/mvp/publish_manifest.json`.
+- No production code, tests, schemas, API/OpenAPI/generated client, canonical docs, evidence aliases, verdict aliases, problems aliases, raw evidence or prior immutable PASS refs were intentionally changed by this freeze.
+- Latest verified sprint and latest evidence/verdict/problems aliases remain `MVP-07-diagnostic-n1-learning-progress-001`; functional `passes=false` remains required until builder evidence and fresh verifier PASS exist for the new slice.
+
 ## Current session: MVP-07-diagnostic-n1-learning-progress-001 PASS sync
 
 - Fresh `stage_verifier` returned scoped `PASS` for `MVP-07-diagnostic-n1-learning-progress-001`.
