@@ -1,0 +1,256 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-07-n1-readonly-resume-continuation-001",
+  "verdict": "PASS",
+  "checked_at": "2026-05-14T14:56:44Z",
+  "verifier_role": "fresh_stage_verifier",
+  "raw_dir": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh",
+  "checked_scope": [
+    "Frozen sprint contract and task file for MVP-07-n1-readonly-resume-continuation-001.",
+    "Mounted apps/web /profile/session already-submitted diagnostic reopen path for N1 STARTED / RESUME_N1.",
+    "Generated helper usage for fetchLearningMeRouteProgress, fetchLearningMeLessonDetail and startLearningMeLesson.",
+    "No POST /api/v1/learning/me/lessons/N1/start on the read-only resume path.",
+    "Preserved START_N1 first-start mutation path.",
+    "Profile-session token memory-only guardrails.",
+    "No backend/API/schema/OpenAPI/generated-client changes for this web-first slice.",
+    "Docs sync in docs/architecture/access-and-subscriptions.md section 7.4.",
+    "Human-gate and full MVP-06/MVP-07/MVP non-closure."
+  ],
+  "verdict_summary": "PASS. Fresh verifier reproduced the focused web, backend, api-client, root wrapper and browser/network proof for the scoped read-only N1 resume continuation. No blocking proof gaps remain for this sprint contract.",
+  "blocking_problems": [],
+  "acceptance_results": [
+    {
+      "criterion": "When diagnostic is already SUBMITTED and route-progress returns RESUME_N1 with N1 STARTED, mounted /profile/session renders backend-owned N1 through generated read endpoints.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/components/diagnostic-api-flow-screen.ts",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/resume-start-static-scan.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/web-test.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/web-browser-smoke-existing-3404.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/browser-readonly-resume-summary.txt"
+      ]
+    },
+    {
+      "criterion": "Read-only resume path uses generated fetchLearningMeRouteProgress and fetchLearningMeLessonDetail only; startLearningMeLesson / POST /start is not called on resume.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/components/diagnostic-api-flow-screen.ts",
+        "apps/web/tests/browser-smoke.mjs",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/resume-start-static-scan.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/browser-readonly-resume-assertions.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-verifier-browser-smoke.json"
+      ],
+      "observed_readonly_resume_events": [
+        "profile-session:request",
+        "profile-session:response:200",
+        "legal-acceptance:request",
+        "legal-acceptance:response:200",
+        "diagnostic-draft:get:request",
+        "diagnostic-draft:get:response:200",
+        "route-progress:request:1",
+        "route-progress:response:200:1",
+        "lesson-detail:request",
+        "lesson-detail:response:200"
+      ],
+      "observed_absent_events": [
+        "diagnostic-submit:request",
+        "learning-start:request"
+      ]
+    },
+    {
+      "criterion": "First-start START_N1 path still works and may use the start mutation before route-progress refresh and lesson detail fetch.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/components/diagnostic-api-flow-screen.ts",
+        "apps/web/tests/browser-smoke.mjs",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/web-browser-smoke-existing-3404.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-verifier-browser-smoke.json",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-verifier-mobile-start-to-profile-session-diagnostic-n1-progress.png"
+      ]
+    },
+    {
+      "criterion": "Profile-session token remains mounted-memory-only: no URL/query/hash/localStorage/sessionStorage/cookies/IndexedDB/service-worker/log transport.",
+      "status": "PASS",
+      "evidence": [
+        "apps/web/components/diagnostic-api-flow-screen.ts",
+        "apps/web/tests/browser-smoke.mjs",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/token-production-scan.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/browser-readonly-resume-assertions.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/web-browser-smoke-existing-3404.txt"
+      ],
+      "note": "Added localStorage/sessionStorage/cookie/IndexedDB references are confined to browser-smoke assertions that inspect empty browser surfaces; production component scan found no persistence/log APIs."
+    },
+    {
+      "criterion": "No backend production code, Flyway migration, OpenAPI snapshot or generated-client source changes are introduced.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/no-backend-api-schema-generated-diff.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/backend-learning-progress-controller-it.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/backend-mvn-verify.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/api-client-check-generated.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/api-client-check-openapi-drift.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/api-client-typecheck.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/api-client-build.txt"
+      ]
+    },
+    {
+      "criterion": "Focused and root verification commands pass.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/web-test.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/web-typecheck.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/web-build.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/backend-learning-progress-controller-it.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/backend-mvn-verify.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/make-verify.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/make-test-unit.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/make-build.txt"
+      ]
+    },
+    {
+      "criterion": "Browser/user-visible proof exists with screenshot and structured network evidence for read-only resume.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/browser-existing-server-3404.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/web-browser-smoke-existing-3404.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-verifier-browser-smoke.json",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-verifier-mobile-profile-session-diagnostic-n1-readonly-resume.png"
+      ],
+      "note": "Verifier-owned dev-server start on 3407 was blocked by an existing Next dev lock for apps/web at 3404. The fresh browser smoke was run against the existing local apps/web server at http://127.0.0.1:3404 and passed."
+    },
+    {
+      "criterion": "No final scoring, R1-R6, HR reports, analytics/events, completion/theory/quiz/practice, points/rewards, exact sensitive data, advice, customer brand or real data introduced.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/guardrail-scans.txt",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/guardrail-added-lines-scan.txt",
+        ".agent/stages/mvp/evidence/MVP-07-n1-readonly-resume-continuation-001.json",
+        ".agent/stages/mvp/evidence/MVP-07-n1-readonly-resume-continuation-001.md"
+      ],
+      "note": "Guardrail keyword hits in added lines are limited to browser-smoke token-surface assertions. Other out-of-scope mentions are negative guardrails, docs, evidence, or pre-existing legacy tests."
+    },
+    {
+      "criterion": "Docs sync and stage evidence are coherent for scoped PASS; product docs and API-client README NOOP are justified.",
+      "status": "PASS",
+      "evidence": [
+        "docs/architecture/access-and-subscriptions.md",
+        ".agent/stages/mvp/evidence/MVP-07-n1-readonly-resume-continuation-001.json",
+        ".agent/stages/mvp/evidence/MVP-07-n1-readonly-resume-continuation-001.md",
+        ".agent/stages/mvp/publish_manifest.json"
+      ]
+    },
+    {
+      "criterion": "Full MVP-06, full MVP-07, full MVP stage and human gates are not closed.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/status.json",
+        ".agent/stages/mvp/feature_list.json",
+        ".agent/stages/mvp/evidence/MVP-07-n1-readonly-resume-continuation-001.json",
+        ".agent/stages/mvp/publish_manifest.json",
+        ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/feature-status-scan.txt"
+      ]
+    }
+  ],
+  "commands": [
+    {
+      "cmd": "pnpm --filter @finrhythm/web test",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/web-test.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/web typecheck",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/web-typecheck.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/web build",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/web-build.txt"
+    },
+    {
+      "cmd": "cd apps/api && JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q -Dtest=LearningProgressControllerIT test",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/backend-learning-progress-controller-it.txt"
+    },
+    {
+      "cmd": "cd apps/api && JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q verify",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/backend-mvn-verify.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client check:generated",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/api-client-check-generated.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client check:openapi-drift",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/api-client-check-openapi-drift.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client typecheck",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/api-client-typecheck.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client build",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/api-client-build.txt"
+    },
+    {
+      "cmd": "CHROMIUM_EXECUTABLE_PATH=/Applications/Google Chrome.app/Contents/MacOS/Google Chrome WEB_SMOKE_BASE_URL=http://127.0.0.1:3404 WEB_SMOKE_OUTPUT_DIR=/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/browser-smoke WEB_SMOKE_SCREENSHOT_PREFIX=MVP-07-n1-readonly-resume-continuation-001-verifier pnpm --filter @finrhythm/web smoke:browser",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/web-browser-smoke-existing-3404.txt"
+    },
+    {
+      "cmd": "make verify",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/make-verify.txt"
+    },
+    {
+      "cmd": "make test-unit",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/make-test-unit.txt"
+    },
+    {
+      "cmd": "make build",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/make-build.txt"
+    },
+    {
+      "cmd": "jq empty changed JSON artifacts",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/jq-empty.txt"
+    },
+    {
+      "cmd": "git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/git-diff-check.txt"
+    },
+    {
+      "cmd": "guardrail scans",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/guardrail-scans.txt"
+    }
+  ],
+  "non_blocking_attempts": [
+    {
+      "cmd": "pnpm --filter @finrhythm/web dev --hostname 127.0.0.1 --port 3407",
+      "exit_code": 1,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/web-dev-server-3407.txt",
+      "reason": "Next reported an existing apps/web dev server lock at http://localhost:3404; verifier did not kill an existing local process."
+    },
+    {
+      "cmd": "WEB_SMOKE_BASE_URL=http://127.0.0.1:3407 pnpm --filter @finrhythm/web smoke:browser",
+      "exit_code": 1,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/web-browser-smoke-3407.txt",
+      "reason": "Expected connection refused after the verifier-owned 3407 dev server could not start."
+    }
+  ],
+  "post_pass_publish_readiness": {
+    "publish_after_pass": true,
+    "publish_manifest_ref": ".agent/stages/mvp/publish_manifest.json",
+    "status": "READY_FOR_PARENT_POST_PASS_SYNC_AND_PUBLISH",
+    "note": "Verifier may write only verifier artifacts; status/progress/publish_manifest still describe the pre-verifier state and should be parent-synced before invoking post-PASS publish."
+  }
+}

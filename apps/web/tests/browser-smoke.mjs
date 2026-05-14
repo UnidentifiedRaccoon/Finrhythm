@@ -120,6 +120,25 @@ const diagnosticSubmitResponse = {
   submittedAt: "2026-05-14T09:13:00Z"
 };
 
+const diagnosticSubmittedAttemptResponse = {
+  ...diagnosticAttemptBase,
+  ...diagnosticSubmitResponse,
+  q0: {
+    id: "Q0",
+    selectedOptionIds: ["WHO_SEES_ANSWERS", "READY_TO_START"]
+  },
+  selfAssessment: [
+    { id: "SA1", value: 3 },
+    { id: "SA2", value: 3 },
+    { id: "SA3", value: 3 }
+  ],
+  routingAnswers: [
+    { id: "Q1", optionId: "B" },
+    { id: "Q2", optionId: "E" },
+    { id: "Q3", optionId: "A" }
+  ]
+};
+
 const n1LessonStartPath = LEARNING_ME_LESSON_START_PATH_TEMPLATE.replace("{lessonId}", "N1");
 const n1LessonDetailPath = LEARNING_ME_LESSON_DETAIL_PATH_TEMPLATE.replace("{lessonId}", "N1");
 
@@ -743,6 +762,46 @@ const scenarios = [
     }
   },
   {
+    name: "mobile-profile-session-diagnostic-n1-readonly-resume",
+    path: "/profile/session",
+    viewport: { width: 390, height: 844 },
+    sessionMock: {
+      sessionStatus: 200,
+      diagnosticGetResponse: diagnosticSubmittedAttemptResponse,
+      routeProgressResponses: [routeProgressAfterN1StartResponse],
+      routeProgressRequiresDiagnosticSubmit: false,
+      lessonDetailRequiresRefreshedRouteProgress: false
+    },
+    expected: [
+      "Подтвердите контактный профиль",
+      "Открыть профиль"
+    ],
+    action: async (page) => {
+      await submitProfileSessionAndAcceptLegal(page);
+      await page.getByText("N1 открыт из прогресса", { exact: false }).first().waitFor({ timeout: 5000 });
+    },
+    expectedAfter: [
+      "Серверный урок",
+      "Прогресс маршрута",
+      "Прогресс на сервере",
+      "N1 открыт из прогресса",
+      "Повторная запись старта не отправлялась",
+      "N1: первый резерв",
+      "Материал N1",
+      "Черновой статус материала",
+      "Что не нужно для N1"
+    ],
+    assertAfter: async (page, requestEvents, profileSessionToken) => {
+      assertProfileSessionLegalSubmittedDiagnosticReadonlyResumeOrder(requestEvents);
+      assert.equal(requestEvents.includes("diagnostic-draft:put:request"), false);
+      assert.equal(requestEvents.includes("diagnostic-submit:request"), false);
+      assert.equal(requestEvents.includes("learning-start:request"), false);
+      assert.equal(new URL(page.url()).pathname, "/profile/session");
+      assert.equal(await page.locator("a[href='/learning/lessons/N1']").count(), 0);
+      assertNoTokenInBrowserSurfaces(await collectProfileTokenBrowserSurfaces(page), profileSessionToken);
+    }
+  },
+  {
     name: "mobile-profile-session-updated",
     path: "/profile/session",
     viewport: { width: 390, height: 844 },
@@ -965,7 +1024,7 @@ try {
     }
 
     if (scenario.assertAfter) {
-      await scenario.assertAfter(page, requestEvents);
+      await scenario.assertAfter(page, requestEvents, profileSessionToken);
     }
     requestEventSummaries.push({ scenario: scenario.name, requestEvents });
 
@@ -1344,10 +1403,16 @@ async function installLearningProgressMocks(page, sessionMock, profileSessionTok
     assert.equal(request.url().includes(syntheticInviteCode), false, "route-progress URL does not leak invite code");
     assert.equal(request.headers().authorization, `Bearer ${profileSessionToken}`);
     assert.equal(postData === null || postData === "", true, "route-progress request has no body");
+    const routeProgressPrerequisite =
+      sessionMock.routeProgressRequiresDiagnosticSubmit === false
+        ? "diagnostic-draft:get:response:200"
+        : "diagnostic-submit:response:200";
     assert.equal(
-      requestEvents.includes("diagnostic-submit:response:200"),
+      requestEvents.includes(routeProgressPrerequisite),
       true,
-      "route-progress starts only after diagnostic submit handoff"
+      sessionMock.routeProgressRequiresDiagnosticSubmit === false
+        ? "route-progress starts only after already-submitted diagnostic draft load"
+        : "route-progress starts only after diagnostic submit handoff"
     );
     if (nextCallNumber > 1) {
       assert.equal(
@@ -1411,10 +1476,16 @@ async function installLearningProgressMocks(page, sessionMock, profileSessionTok
     assert.equal(request.url().includes(syntheticInviteCode), false, "N1 detail URL does not leak invite code");
     assert.equal(request.headers().authorization, `Bearer ${profileSessionToken}`);
     assert.equal(postData === null || postData === "", true, "N1 detail request has no body");
+    const lessonDetailRouteProgressEvent =
+      sessionMock.lessonDetailRequiresRefreshedRouteProgress === false
+        ? "route-progress:response:200:1"
+        : "route-progress:response:200:2";
     assert.equal(
-      requestEvents.includes("route-progress:response:200:2"),
+      requestEvents.includes(lessonDetailRouteProgressEvent),
       true,
-      "N1 detail starts only after refreshed route-progress summary"
+      sessionMock.lessonDetailRequiresRefreshedRouteProgress === false
+        ? "N1 detail starts after read-only route-progress summary"
+        : "N1 detail starts only after refreshed route-progress summary"
     );
 
     await route.fulfill({
@@ -1550,6 +1621,31 @@ function assertProfileSessionLegalDiagnosticAndRouteProgressBeforeStartOrder(req
   );
 }
 
+function assertProfileSessionLegalSubmittedDiagnosticReadonlyResumeOrder(requestEvents) {
+  assertLegalAcceptanceBeforeDiagnosticDraft(requestEvents);
+
+  const diagnosticGetResponseIndex = requestEvents.indexOf("diagnostic-draft:get:response:200");
+  const routeProgressRequestIndex = requestEvents.indexOf("route-progress:request:1");
+  const routeProgressResponseIndex = requestEvents.indexOf("route-progress:response:200:1");
+  const lessonDetailRequestIndex = requestEvents.indexOf("lesson-detail:request");
+  const lessonDetailResponseIndex = requestEvents.indexOf("lesson-detail:response:200");
+
+  assert.notEqual(routeProgressRequestIndex, -1, "read-only route-progress request exists");
+  assert.notEqual(routeProgressResponseIndex, -1, "read-only route-progress response exists");
+  assert.notEqual(lessonDetailRequestIndex, -1, "read-only N1 lesson detail request exists");
+  assert.notEqual(lessonDetailResponseIndex, -1, "read-only N1 lesson detail response exists");
+  assert.equal(
+    diagnosticGetResponseIndex < routeProgressRequestIndex,
+    true,
+    "read-only route-progress happens after already-submitted diagnostic load"
+  );
+  assert.equal(
+    routeProgressResponseIndex < lessonDetailRequestIndex,
+    true,
+    "read-only lesson detail happens after RESUME_N1 route-progress"
+  );
+}
+
 function assertProfileSessionLegalDiagnosticRouteProgressAndLearningStartOrder(requestEvents) {
   assertProfileSessionLegalDiagnosticAndRouteProgressBeforeStartOrder(requestEvents);
 
@@ -1582,6 +1678,37 @@ function assertProfileSessionLegalDiagnosticRouteProgressAndLearningStartOrder(r
     true,
     "N1 lesson detail happens after refreshed route-progress response"
   );
+}
+
+async function collectProfileTokenBrowserSurfaces(page) {
+  return page.evaluate(async () => {
+    const indexedDbNames =
+      typeof indexedDB !== "undefined" && typeof indexedDB.databases === "function"
+        ? (await indexedDB.databases()).map((database) => database.name ?? "")
+        : [];
+    const serviceWorkerScopes =
+      "serviceWorker" in navigator
+        ? (await navigator.serviceWorker.getRegistrations()).map((registration) => registration.scope)
+        : [];
+
+    return {
+      url: window.location.href,
+      hash: window.location.hash,
+      localStorageEntries: Object.entries(window.localStorage),
+      sessionStorageEntries: Object.entries(window.sessionStorage),
+      cookies: document.cookie,
+      indexedDbNames,
+      serviceWorkerScopes
+    };
+  });
+}
+
+function assertNoTokenInBrowserSurfaces(surfaces, profileSessionToken) {
+  assert.equal(JSON.stringify(surfaces).includes(profileSessionToken), false, "browser surfaces do not persist profile-session token");
+  assert.equal(JSON.stringify(surfaces).includes(syntheticInviteCode), false, "browser surfaces do not persist raw invite code");
+  assert.deepEqual(surfaces.localStorageEntries, []);
+  assert.deepEqual(surfaces.sessionStorageEntries, []);
+  assert.equal(surfaces.cookies, "");
 }
 
 function diagnosticAttemptFromDraftBody(body) {

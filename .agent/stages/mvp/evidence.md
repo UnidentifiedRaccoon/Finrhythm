@@ -1,30 +1,27 @@
-# Evidence: MVP-07-n1-lesson-detail-continuation-001
+# Evidence: MVP-07-n1-readonly-resume-continuation-001
 
-Latest evidence alias for current sprint. Immutable refs:
+Latest evidence alias for the active sprint. Immutable refs:
 
-- `.agent/stages/mvp/evidence/MVP-07-n1-lesson-detail-continuation-001.md`
-- `.agent/stages/mvp/evidence/MVP-07-n1-lesson-detail-continuation-001.json`
+- `.agent/stages/mvp/evidence/MVP-07-n1-readonly-resume-continuation-001.md`
+- `.agent/stages/mvp/evidence/MVP-07-n1-readonly-resume-continuation-001.json`
 
 Status: `PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC`
 Functional passes: `true`
-Updated: 2026-05-14
+Builder checks: passed
+Fresh verifier: `PASS`
+Publish after pass: `true`, ready for post-PASS publish
 
-## Summary
+Summary: mounted `/profile/session` now renders already-started N1 from generated `GET route-progress` plus generated `GET lesson detail` when route-progress says `RESUME_N1`, without calling generated `startLearningMeLesson` or `POST /api/v1/learning/me/lessons/N1/start`. `START_N1` first-start path remains working through the existing start mutation.
 
-Backend-owned read-only `GET /api/v1/learning/me/lessons/{lessonId}` is implemented for N1 continuation after submitted diagnostic handoff, route-progress summary and N1 start/resume. Mounted `/profile/session` now renders N1 from the backend lesson-detail payload through generated `fetchLearningMeLessonDetail`, while keeping the profile-session token only in mounted component memory.
+Key proof:
 
-This slice does not close full `MVP-06`, full `MVP-07`, the MVP stage or any human gate.
+- Browser network summary: `.agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-browser-smoke.json`
+- Read-only resume screenshot: `.agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-mobile-profile-session-diagnostic-n1-readonly-resume.png`
+- Guardrails: `.agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/guardrail-scans-2.txt`
+- Fresh verifier verdict: `.agent/stages/mvp/verdicts/MVP-07-n1-readonly-resume-continuation-001.json`
+- Fresh verifier problems: `.agent/stages/mvp/problems/MVP-07-n1-readonly-resume-continuation-001.md`
+- Fresh verifier browser summary: `.agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-verifier-browser-smoke.json`
+- Fresh verifier read-only resume screenshot: `.agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-verifier-mobile-profile-session-diagnostic-n1-readonly-resume.png`
+- Full command refs and human gates are listed in the immutable evidence file above.
 
-## Key Proof
-
-- Focused backend lesson detail/readiness/isolation test: PASS.
-- `apps/api ./mvnw -q verify`: PASS.
-- API client generate/build/check-generated/check-openapi-drift/typecheck: PASS.
-- Web typecheck/test/build: PASS.
-- Browser smoke fallback with local Chrome: PASS, 35 screenshots, includes `lesson-detail:request` and `lesson-detail:response:200`.
-- `make verify`, `make test-unit`, `make build`: PASS.
-- Final `git diff --check` excluding raw evidence paths: PASS.
-- Guardrails for token storage, generated helper usage, read-only endpoint, safe response, N1-only scope, browser event order, customer-brand/real-data/advice wording: PASS.
-- Fresh verifier verdict: PASS.
-
-See full details in `.agent/stages/mvp/evidence/MVP-07-n1-lesson-detail-continuation-001.md`.
+Latest verified sprint is now `MVP-07-n1-readonly-resume-continuation-001`; full MVP-06, full MVP-07, MVP stage and human gates remain open.

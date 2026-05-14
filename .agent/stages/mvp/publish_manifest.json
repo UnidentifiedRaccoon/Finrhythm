@@ -1,44 +1,74 @@
 {
   "stage_id": "mvp",
-  "sprint_contract_id": "MVP-07-n1-lesson-detail-continuation-001",
+  "sprint_contract_id": "MVP-07-n1-readonly-resume-continuation-001",
   "updated_at": "2026-05-14",
   "publish_after_pass": true,
   "publish_status": "READY_FOR_POST_PASS_PUBLISH",
-  "latest_verified_sprint_contract_id": "MVP-07-n1-lesson-detail-continuation-001",
+  "latest_verified_sprint_contract_id": "MVP-07-n1-readonly-resume-continuation-001",
   "latest_verifier_verdict": "PASS",
   "proof_refs": {
     "active_contract": ".agent/stages/mvp/sprint_contract.md",
-    "active_task_file": ".agent/stages/mvp/task-files/MVP-07-n1-lesson-detail-continuation-001.md",
-    "builder_evidence": ".agent/stages/mvp/evidence/MVP-07-n1-lesson-detail-continuation-001.json",
-    "builder_evidence_markdown": ".agent/stages/mvp/evidence/MVP-07-n1-lesson-detail-continuation-001.md",
-    "latest_evidence_alias_preserved": ".agent/stages/mvp/evidence.json",
-    "latest_evidence_markdown_alias_preserved": ".agent/stages/mvp/evidence.md",
-    "latest_verified_evidence_before_builder": ".agent/stages/mvp/evidence/MVP-07-n1-route-progress-summary-001.json",
-    "latest_verified_evidence_markdown_before_builder": ".agent/stages/mvp/evidence/MVP-07-n1-route-progress-summary-001.md",
-    "latest_verified_verdict_before_builder": ".agent/stages/mvp/verdicts/MVP-07-n1-route-progress-summary-001.json",
-    "latest_verified_problems_before_builder": ".agent/stages/mvp/problems/MVP-07-n1-route-progress-summary-001.md",
-    "fresh_verifier_verdict": ".agent/stages/mvp/verdicts/MVP-07-n1-lesson-detail-continuation-001.json",
-    "fresh_verifier_problems": ".agent/stages/mvp/problems/MVP-07-n1-lesson-detail-continuation-001.md",
+    "active_task_file": ".agent/stages/mvp/task-files/MVP-07-n1-readonly-resume-continuation-001.md",
+    "builder_evidence": ".agent/stages/mvp/evidence/MVP-07-n1-readonly-resume-continuation-001.json",
+    "builder_evidence_markdown": ".agent/stages/mvp/evidence/MVP-07-n1-readonly-resume-continuation-001.md",
     "latest_evidence_alias": ".agent/stages/mvp/evidence.json",
     "latest_evidence_markdown_alias": ".agent/stages/mvp/evidence.md",
-    "fresh_verifier_raw_dir": ".agent/stages/mvp/raw/verifier-MVP-07-n1-lesson-detail-continuation-001-20260514-fresh"
+    "latest_verified_evidence_before_builder": ".agent/stages/mvp/evidence/MVP-07-n1-lesson-detail-continuation-001.json",
+    "latest_verified_verdict_before_builder": ".agent/stages/mvp/verdicts/MVP-07-n1-lesson-detail-continuation-001.json",
+    "latest_verified_problems_before_builder": ".agent/stages/mvp/problems/MVP-07-n1-lesson-detail-continuation-001.md",
+    "fresh_verifier_verdict": ".agent/stages/mvp/verdicts/MVP-07-n1-readonly-resume-continuation-001.json",
+    "fresh_verifier_problems": ".agent/stages/mvp/problems/MVP-07-n1-readonly-resume-continuation-001.md",
+    "fresh_verifier_raw_dir": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh"
   },
   "validation": {
     "active_contract_builder_evidence": "READY",
     "active_contract_fresh_verifier": "PASS",
-    "required_first_touch": "BUILDER_REPORTED_APPS_API_PRODUCTION_OR_TEST_FIRST_TOUCH",
-    "backend_api_schema_openapi_generated_client_changes_by_builder": "DONE",
-    "canonical_doc_sync_required": "DONE: docs/architecture/access-and-subscriptions.md section 7.4",
+    "required_first_touch": "APPS_WEB_PRODUCTION",
+    "backend_api_schema_openapi_generated_client_changes_by_builder": "NONE",
+    "canonical_doc_sync": "DONE: docs/architecture/access-and-subscriptions.md section 7.4",
     "publish_readiness": "READY_FOR_POST_PASS_PUBLISH",
     "active_contract_passes": true,
     "builder_checks_pass": true,
     "fresh_verifier_pass": true,
-    "parent_sync": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC"
+    "browser_resume_proof_ref": ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-browser-smoke.json",
+    "parent_sync": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC",
+    "fresh_browser_resume_proof_ref": ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-verifier-browser-smoke.json"
   },
-  "pr_summary_ru": "Добавлен backend-owned read-only N1 lesson detail/continuation under profile-session auth, с generated api-client sync и mounted web rendering backend lesson detail after route-progress + N1 start/resume. Token remains only in mounted component memory; full MVP-06/MVP-07/MVP and human gates remain open.",
+  "validation_commands": [
+    "pnpm --filter @finrhythm/web test",
+    "pnpm --filter @finrhythm/web typecheck",
+    "pnpm --filter @finrhythm/web build",
+    "JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=$JAVA_HOME/bin:$PATH cd apps/api && ./mvnw -q -Dtest=LearningProgressControllerIT test",
+    "JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=$JAVA_HOME/bin:$PATH cd apps/api && ./mvnw -q verify",
+    "pnpm --filter @finrhythm/api-client check:generated",
+    "pnpm --filter @finrhythm/api-client check:openapi-drift",
+    "pnpm --filter @finrhythm/api-client typecheck",
+    "pnpm --filter @finrhythm/api-client build",
+    "CHROMIUM_EXECUTABLE_PATH=/Applications/Google Chrome.app/Contents/MacOS/Google Chrome WEB_SMOKE_BASE_URL=http://127.0.0.1:3400 WEB_SMOKE_OUTPUT_DIR=/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/browser-smoke WEB_SMOKE_SCREENSHOT_PREFIX=MVP-07-n1-readonly-resume-continuation-001 pnpm --filter @finrhythm/web smoke:browser",
+    "make verify",
+    "make test-unit",
+    "make build",
+    "guardrail scans",
+    "jq empty changed JSON artifacts",
+    "git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'"
+  ],
+  "doc_sync": {
+    "updated": [
+      "docs/architecture/access-and-subscriptions.md"
+    ],
+    "noop": [
+      "docs/product/b2b-mvp/lemanapro/product-foundation-v1.md",
+      "docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md",
+      "docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md",
+      "docs/product/b2b-mvp/lemanapro/design-system-v0.1.md",
+      "packages/api-client/README.md"
+    ]
+  },
+  "pr_summary_ru": "Добавлен web read-only resume для уже начатого N1: mounted /profile/session при RESUME_N1 читает route-progress и lesson detail, не отправляя повторный POST /start. START_N1 первый старт сохранён. Token остаётся только в mounted memory; full MVP-06/MVP-07/MVP and human gates remain open.",
   "post_pass_publish_flow": {
     "required": true,
     "skill": "$push-main",
+    "status": "READY_FOR_POST_PASS_PUBLISH",
     "preconditions": [
       "latest fresh verifier verdict for active sprint is PASS",
       "evidence, docs, progress, status and publish_manifest are current",
@@ -46,9 +76,8 @@
       "worktree diff contains only current-slice files or exact blocker is recorded",
       "git diff --check passes for publish scope excluding raw evidence pathspecs when needed"
     ],
-    "status": "READY_FOR_POST_PASS_PUBLISH",
     "preconditions_status": "SATISFIED",
-    "latest_pass_verdict": ".agent/stages/mvp/verdicts/MVP-07-n1-lesson-detail-continuation-001.json"
+    "latest_pass_verdict": ".agent/stages/mvp/verdicts/MVP-07-n1-readonly-resume-continuation-001.json"
   },
   "human_gates_open": [
     "Final N1 financial correctness and wording review",
@@ -72,9 +101,10 @@
     "Full MVP stage closure"
   ],
   "commit": {
-    "branch": "codex/mvp-07-n1-lesson-detail-continuation",
-    "message": "feat(mvp): добавить серверную детализацию урока N1",
-    "pr_title": "feat(mvp): добавить серверную детализацию урока N1"
+    "branch": "codex/mvp-07-n1-readonly-resume-continuation",
+    "message": "feat(web): добавить read-only продолжение N1",
+    "pr_title": "feat(web): добавить read-only продолжение N1"
   },
-  "pr_body_ru": "## Цель\n- Продолжить learning delivery после verified N1 route/progress summary.\n- Дать mounted `/profile/session` backend-owned read-only N1 lesson detail после diagnostic submit -> route-progress -> N1 start/resume.\n\n## Что сделано\n- Добавлен `GET /api/v1/learning/me/lessons/{lessonId}` под profile-session bearer auth.\n- Endpoint N1-only, no-body, read-only, gated by submitted N1 diagnostic handoff + existing `N1 STARTED` progress.\n- OpenAPI и `@finrhythm/api-client` синхронизированы, web использует generated `fetchLearningMeLessonDetail`.\n- Mounted continuation больше не использует `syntheticN1LessonFixture` как payload; token остаётся только в mounted component memory.\n- Обновлён `docs/architecture/access-and-subscriptions.md` section 7.4 и stage evidence/verdict refs.\n\n## Как проверить\n- `cd apps/api && JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q -Dtest=LearningProgressControllerIT test`\n- `cd apps/api && JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q verify`\n- `pnpm --filter @finrhythm/api-client check:generated`\n- `pnpm --filter @finrhythm/api-client check:openapi-drift`\n- `pnpm --filter @finrhythm/web test`\n- `pnpm --filter @finrhythm/web build`\n- `make verify`\n- `make test-unit`\n- `make test-e2e`\n- `make build`\n- Fresh verifier PASS: `.agent/stages/mvp/verdicts/MVP-07-n1-lesson-detail-continuation-001.json`\n\n## Риски и примечания\n- Full MVP-06, full MVP-07, MVP stage and human gates remain open.\n- Не добавлены final scoring, R1-R6, HR reports, analytics/events, points/rewards, learning completion, quiz/practice submission, advice, exact sensitive data or customer brand.\n- Browser plugin was unavailable; verifier used repository Playwright/Chrome smoke fallback."
+  "pr_body_ru": "## Цель\n- Закрыть web gap для повторного открытия mounted `/profile/session`, когда сервер уже знает `N1 STARTED` / `RESUME_N1`.\n- Не отправлять повторный `POST /api/v1/learning/me/lessons/N1/start` ради render existing continuation.\n\n## Что сделано\n- `/profile/session` при `RESUME_N1` читает generated route-progress и generated N1 lesson detail, затем рендерит backend-owned continuation.\n- `START_N1` первый старт сохранён: user click вызывает generated `startLearningMeLesson`, refresh route-progress and fetch lesson detail.\n- Добавлены focused web test and browser smoke scenario with structured network proof: no diagnostic submit and no learning-start request on read-only resume.\n- Token remains only in mounted component memory; browser smoke checks URL/storage/cookie/IndexedDB surfaces.\n- `docs/architecture/access-and-subscriptions.md` 7.4 updated for read-only reopen/resume boundary.\n\n## Как проверить\n- `pnpm --filter @finrhythm/web test`\n- `pnpm --filter @finrhythm/web typecheck`\n- `pnpm --filter @finrhythm/web build`\n- `JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=$JAVA_HOME/bin:$PATH cd apps/api && ./mvnw -q -Dtest=LearningProgressControllerIT test`\n- `JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=$JAVA_HOME/bin:$PATH cd apps/api && ./mvnw -q verify`\n- `pnpm --filter @finrhythm/api-client check:generated`\n- `pnpm --filter @finrhythm/api-client check:openapi-drift`\n- `pnpm --filter @finrhythm/api-client typecheck`\n- `pnpm --filter @finrhythm/api-client build`\n- `make verify`\n- `make test-unit`\n- `make build`\n- Builder browser proof: `.agent/stages/mvp/raw/builder-MVP-07-n1-readonly-resume-continuation-001-20260514/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-browser-smoke.json`\n- Verifier browser proof: `.agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/browser-smoke/MVP-07-n1-readonly-resume-continuation-001-verifier-browser-smoke.json`\n\n## Риски и примечания\n- Fresh verifier PASS: `.agent/stages/mvp/verdicts/MVP-07-n1-readonly-resume-continuation-001.json`.\n- Full MVP-06, full MVP-07, MVP stage and human gates remain open.\n- No backend/API/schema/OpenAPI/generated-client changes were introduced.\n- No final scoring, R1-R6, HR reports, analytics/events, points/rewards, learning completion, quiz/practice submission, advice, exact sensitive data or customer brand.",
+  "continuation_prompt": "Продолжи разработку FinPulse как stage_orchestrator в /Users/elena/cursor/FinPulse. Базовая ветка main уже обновлена после merge предыдущего PR. Latest fresh verifier PASS: MVP-07-n1-readonly-resume-continuation-001. Реализовано и опубликовано: mounted /profile/session read-only N1 resume continuation; when route-progress already returns N1 STARTED / RESUME_N1, web renders backend-owned N1 through GET route-progress + GET lesson detail without POST /start; token remains only in mounted component memory. Обязательно используй repo-local $stage-launch-proof-loop: spec freeze -> build -> evidence -> fresh verify -> minimal fix -> fresh verify. Выбери следующий маленький high-impact product slice, который продолжает learning delivery / diagnostics / route-progress after read-only N1 resume and проверяется тестами/browser evidence. Не делай analysis-only/doc-only работу. Запреты: не делать final scoring, final route assignment, R1-R6, HR reports, analytics/events, points, rewards, learning completion или financial advice; не добавлять customer brand в employee-facing UI; не закрывать full MVP-06, MVP-07, MVP stage или human gates; diagnostic/profile-session token должен оставаться только в mounted component memory: без URL/query/hash/localStorage/sessionStorage/cookies/IndexedDB. После fresh PASS снова выполни post-PASS publish flow: branch codex/..., commit only this slice, PR to main, wait checks, merge when allowed, switch local workspace to main, git pull --ff-only, затем напечатай следующий copyable continuation prompt."
 }

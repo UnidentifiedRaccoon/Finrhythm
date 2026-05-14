@@ -71,7 +71,9 @@ MVP-01-bootstrap-001 has fresh verifier `PASS`. `MVP-02-tenant-domain-001` has f
 
 `MVP-07-n1-route-progress-summary-001` has scoped fresh verifier `PASS`. It adds a read-only profile-session authenticated N1 route/progress summary, generated api-client helper and mounted web panel before/after N1 start/resume, with token kept only in component memory. It does not create progress from reads, implement final scoring/routing, completion, points, rewards, HR reports, analytics/events or close human gates.
 
-`MVP-07-n1-lesson-detail-continuation-001` is frozen as the next functional slice after `MVP-07-n1-route-progress-summary-001` PASS. It must add a read-only backend-owned N1 lesson detail/continuation endpoint and generated-client mounted web integration after route-progress and N1 start/resume. It must keep the token memory-only and must not implement completion, quiz/practice submission, points, rewards, final scoring/routing, HR reports, analytics/events, `N2+`, customer brand, exact sensitive data, advice, full MVP-06/MVP-07/MVP or any human-gate closure.
+`MVP-07-n1-lesson-detail-continuation-001` has scoped fresh verifier `PASS`. It adds a read-only backend-owned N1 lesson detail/continuation endpoint and generated-client mounted web integration after route-progress and N1 start/resume. It keeps the token memory-only and does not implement completion, quiz/practice submission, points, rewards, final scoring/routing, HR reports, analytics/events, `N2+`, customer brand, exact sensitive data, advice, full MVP-06/MVP-07/MVP or any human-gate closure.
+
+`MVP-07-n1-readonly-resume-continuation-001` is frozen as the next functional slice after `MVP-07-n1-lesson-detail-continuation-001` PASS. It must make the mounted `/profile/session` reopen path render backend-owned N1 continuation from existing `GET route-progress` + `GET lesson detail` when route-progress already says `N1 STARTED` / `RESUME_N1`, without calling `POST /learning/me/lessons/N1/start` again. It must keep the token memory-only and must not implement schema/API changes, completion, theory completion, quiz/practice submission, points, rewards, final scoring/routing, HR reports, analytics/events, `N2+`, customer brand, exact sensitive data, advice, full MVP-06/MVP-07/MVP or any human-gate closure.
 
 ## MVP-02. Corporate tenant and invite access
 
@@ -584,11 +586,12 @@ Builder evidence is now recorded:
 | MVP-07-diagnostic-web-api-integration-001 | agent | PASS | Integrate the already verified diagnostic draft API into the employee-facing mounted `/profile/session` flow using generated `@finrhythm/api-client`, with the profile-session token only in component memory and Q0/SA1-SA3/Q1-Q3 only. | `.agent/stages/mvp/evidence/MVP-07-diagnostic-web-api-integration-001.md`; `.agent/stages/mvp/evidence/MVP-07-diagnostic-web-api-integration-001.json`; fresh verifier PASS at `.agent/stages/mvp/verdicts/MVP-07-diagnostic-web-api-integration-001.json` and `.agent/stages/mvp/problems/MVP-07-diagnostic-web-api-integration-001.md`. |
 | MVP-07-diagnostic-n1-learning-progress-001 | agent | PASS | Add backend-owned N1 lesson start/resume progress after the safe diagnostic N1 handoff and wire the web continuation through generated `@finrhythm/api-client` while keeping the profile-session token only in mounted component memory. | `.agent/stages/mvp/evidence/MVP-07-diagnostic-n1-learning-progress-001.md`; `.agent/stages/mvp/evidence/MVP-07-diagnostic-n1-learning-progress-001.json`; fresh verifier PASS at `.agent/stages/mvp/verdicts/MVP-07-diagnostic-n1-learning-progress-001.json` and `.agent/stages/mvp/problems/MVP-07-diagnostic-n1-learning-progress-001.md`. |
 | MVP-07-n1-route-progress-summary-001 | agent | PASS | Add a read-only backend-owned N1 route/progress summary for the mounted profile-session flow, then show the summary in web through generated `@finrhythm/api-client` while keeping the token memory-only. | `.agent/stages/mvp/evidence/MVP-07-n1-route-progress-summary-001.md`; `.agent/stages/mvp/evidence/MVP-07-n1-route-progress-summary-001.json`; fresh verifier PASS at `.agent/stages/mvp/verdicts/MVP-07-n1-route-progress-summary-001.json` and `.agent/stages/mvp/problems/MVP-07-n1-route-progress-summary-001.md`. |
-| MVP-07-n1-lesson-detail-continuation-001 | agent | FROZEN | Add read-only backend-owned N1 lesson detail/continuation after route-progress and N1 start/resume, then render it in the mounted profile-session flow through generated `@finrhythm/api-client` while keeping the token memory-only. | `.agent/stages/mvp/sprint_contract.md`; `.agent/stages/mvp/task-files/MVP-07-n1-lesson-detail-continuation-001.md`; no builder evidence or verifier PASS yet. |
+| MVP-07-n1-lesson-detail-continuation-001 | agent | PASS | Add read-only backend-owned N1 lesson detail/continuation after route-progress and N1 start/resume, then render it in the mounted profile-session flow through generated `@finrhythm/api-client` while keeping the token memory-only. | `.agent/stages/mvp/evidence/MVP-07-n1-lesson-detail-continuation-001.md`; `.agent/stages/mvp/evidence/MVP-07-n1-lesson-detail-continuation-001.json`; fresh verifier PASS at `.agent/stages/mvp/verdicts/MVP-07-n1-lesson-detail-continuation-001.json` and `.agent/stages/mvp/problems/MVP-07-n1-lesson-detail-continuation-001.md`. |
+| MVP-07-n1-readonly-resume-continuation-001 | agent | PASS | Make the mounted `/profile/session` reopen path render backend-owned N1 continuation from existing read endpoints when route-progress says `N1 STARTED` / `RESUME_N1`, without calling the N1 start/resume mutation again. | `.agent/stages/mvp/evidence/MVP-07-n1-readonly-resume-continuation-001.md`; `.agent/stages/mvp/evidence/MVP-07-n1-readonly-resume-continuation-001.json`; fresh verifier PASS at `.agent/stages/mvp/verdicts/MVP-07-n1-readonly-resume-continuation-001.json` and `.agent/stages/mvp/problems/MVP-07-n1-readonly-resume-continuation-001.md`. |
 | MVP-07.01 | agent | OPEN | Implement diagnostic test engine. | Preview UI has scoped PASS; draft API has builder evidence as a scoped prerequisite. Full engine remains future work. |
 | MVP-07.02 | agent | OPEN | Implement rule-based scoring and level/route assignment. | Out of scope for the preview slice. |
 | MVP-07.03 | agent | OPEN | Implement route explanation UI. | This preview slice may show only draft/preview copy; final route explanation remains future work. |
-| MVP-07.04 | agent | OPEN | Implement safe resume/retry behavior. | Draft API, N1 start/resume and N1 route/progress summary have scoped PASS; `MVP-07-n1-lesson-detail-continuation-001` is frozen for the next read-only lesson continuation prerequisite. Full retry behavior remains future work. |
+| MVP-07.04 | agent | OPEN | Implement safe resume/retry behavior. | Draft API, N1 start/resume, N1 route/progress summary and N1 lesson detail have scoped PASS; `MVP-07-n1-readonly-resume-continuation-001` is frozen for the next read-only resume prerequisite. Full retry behavior remains future work. |
 | MVP-07.05 | agent | OPEN | Implement aggregated diagnostic insight reporting. | Out of scope and human-gated for privacy/reporting boundaries. |
 | MVP-07 | agent+human | OPEN | Full diagnostics and personalized route remain open. | Future builder evidence, scoring correctness, privacy/HR/legal wording review and fresh verification required. |
 
@@ -674,7 +677,7 @@ Builder evidence is now recorded:
 
 Scoped builder/fixer evidence and fresh verifier `PASS` are recorded. Full MVP-06, full MVP-07, MVP stage and all human gates remain open.
 
-### Frozen N1 lesson detail continuation slice
+### Verified N1 lesson detail continuation slice
 
 `MVP-07-n1-lesson-detail-continuation-001` is intentionally narrower than CMS publishing, full lesson completion or full route explanation:
 
@@ -687,4 +690,17 @@ Scoped builder/fixer evidence and fresh verifier `PASS` are recorded. Full MVP-0
 - keep profile-session token only in mounted component memory;
 - exclude completion, quiz/practice submission, points, rewards, final scoring, final `R1-R6`, HR reports, analytics/events, exact sensitive data, advice, full MVP closure and human-gate closure.
 
-No builder evidence or fresh verifier PASS exists yet; `passes=false` remains mandatory.
+Scoped builder evidence and fresh verifier `PASS` are recorded. Full MVP-06, full MVP-07, MVP stage and all human gates remain open.
+
+### Frozen N1 read-only resume continuation slice
+
+`MVP-07-n1-readonly-resume-continuation-001` is intentionally narrower than schema/API work, lesson completion, theory completion, quiz/practice submission or full route explanation:
+
+- when route-progress already returns submitted N1 handoff plus `N1 STARTED` / `RESUME_N1`, fetch existing N1 lesson detail with generated `fetchLearningMeLessonDetail`;
+- render backend-owned N1 continuation from read endpoints on reopen without calling generated `startLearningMeLesson`;
+- preserve first-start behavior for `START_N1`;
+- prove browser/API or test evidence for `GET route-progress` + `GET lesson detail` and no `POST /learning/me/lessons/N1/start` on the resume path;
+- keep profile-session token only in mounted component memory;
+- exclude schema migration, new endpoints, new generated helpers, completion, theory completion, quiz/practice submission, points, rewards, final scoring, final `R1-R6`, HR reports, analytics/events, exact sensitive data, advice, full MVP closure and human-gate closure.
+
+Scoped builder evidence and fresh verifier `PASS` are recorded. Full MVP-06, full MVP-07, MVP stage and all human gates remain open.

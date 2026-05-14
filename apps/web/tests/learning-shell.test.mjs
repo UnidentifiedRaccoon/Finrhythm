@@ -14,6 +14,7 @@ import {
 import { EmployeeHomeScreen } from "../components/employee-home-screen.ts";
 import {
   buildDiagnosticApiDraftUpdateRequest,
+  buildReadOnlyN1LessonProgressFromRouteProgress,
   buildSafeN1LessonDetail,
   buildSafeN1LessonProgress,
   buildSafeDiagnosticTransfer,
@@ -617,6 +618,37 @@ describe("mobile learning shell", () => {
     );
   });
 
+  it("builds a read-only N1 continuation from RESUME_N1 route-progress without a start response", () => {
+    const startedRouteProgress = {
+      diagnosticState: "SUBMITTED",
+      routePreview: true,
+      recommendedFirstLessonId: "N1",
+      n1: {
+        status: "STARTED",
+        startedAt: "2026-05-14T09:14:00Z",
+        lastOpenedAt: "2026-05-14T09:20:00Z"
+      },
+      nextAction: "RESUME_N1"
+    };
+
+    assert.deepEqual(buildReadOnlyN1LessonProgressFromRouteProgress(startedRouteProgress), {
+      lessonId: "N1",
+      status: "STARTED",
+      startedAt: "2026-05-14T09:14:00Z",
+      lastOpenedAt: "2026-05-14T09:20:00Z",
+      idempotentResume: true,
+      readOnlyResume: true
+    });
+    assert.equal(
+      buildReadOnlyN1LessonProgressFromRouteProgress({
+        ...startedRouteProgress,
+        n1: { status: "NOT_STARTED" },
+        nextAction: "START_N1"
+      }),
+      null
+    );
+  });
+
   it("builds profile-session POST payloads through generated request types without echoing invalid proof", () => {
     const syntheticInviteCode = joinText("INVITE", "-", "LOCAL", "-", "001");
     const request = buildEmployeeProfileSessionRequest({
@@ -792,8 +824,10 @@ describe("mobile learning shell", () => {
     assert.match(diagnosticSource, /LearningRouteProgressResponse/);
     assert.match(diagnosticSource, /LessonProgressResponse/);
     assert.match(diagnosticSource, /buildSafeRouteProgressSummary/);
+    assert.match(diagnosticSource, /buildReadOnlyN1LessonProgressFromRouteProgress/);
     assert.match(diagnosticSource, /buildSafeN1LessonProgress/);
     assert.match(diagnosticSource, /buildSafeN1LessonDetail/);
+    assert.match(diagnosticSource, /loadSafeN1LessonDetail/);
     assert.doesNotMatch(diagnosticSource, /syntheticN1LessonFixture/);
     assert.doesNotMatch(diagnosticSource, /LessonRendererScreen/);
     assert.match(diagnosticSource, /q0SelectedOptionIds/);
