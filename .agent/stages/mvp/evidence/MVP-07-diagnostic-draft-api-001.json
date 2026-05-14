@@ -1,0 +1,382 @@
+{
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-07-diagnostic-draft-api-001",
+  "parent_stage_unit": "scoped prerequisite for MVP-07.01 + MVP-07.04",
+  "updated_at": "2026-05-13",
+  "status": "SCOPED_PASS",
+  "verification_status": "PASS",
+  "functional_passes": true,
+  "summary": "Scoped fresh verifier PASS recorded for the backend/API diagnostic draft/submission foundation for Q0, SA1-SA3 and Q1-Q3 with employee profile-session bearer auth, separated persistence tables, safe DRAFT/SUBMITTED state and N1 routePreview handoff. First fresh verifier found submit returned the full attempt response; minimal fixer replaced submit with dedicated handoff-only DiagnosticSubmitResponse and refreshed tests/OpenAPI/generated client; fresh post-fix verifier returned PASS.",
+  "changed_files": {
+    "production": [
+      "apps/api/src/main/resources/db/migration/V011__diagnostic_draft_attempt.sql",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/domain/DiagnosticAllowedIds.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/domain/DiagnosticAttempt.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/domain/DiagnosticAttemptState.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/domain/DiagnosticDraft.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/domain/DiagnosticQ0Metadata.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/domain/DiagnosticRoutingAnswer.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/domain/DiagnosticRoutingOptions.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/domain/DiagnosticSelfAssessmentAnswer.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/persistence/DiagnosticAttemptRepository.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/service/DiagnosticAttemptException.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/service/DiagnosticAttemptFailureReason.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/service/DiagnosticAttemptService.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticAllowedAnswerIdsResponse.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticAllowedRoutingOptionsResponse.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticAttemptController.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticAttemptResponse.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticDraftUpdateRequest.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticQ0MetadataRequest.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticQ0MetadataResponse.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticRoutingAnswerRequest.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticRoutingAnswerResponse.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticSelfAssessmentAnswerRequest.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticSelfAssessmentAnswerResponse.java",
+      "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticSubmitResponse.java",
+      "apps/api/src/main/java/com/finrhythm/api/registration/service/AuthenticatedEmployeeProfileSession.java",
+      "apps/api/src/main/java/com/finrhythm/api/registration/service/EmployeeRegistrationService.java"
+    ],
+    "tests": [
+      "apps/api/src/test/java/com/finrhythm/api/diagnostic/DiagnosticAttemptControllerIT.java"
+    ],
+    "generated_client": [
+      "packages/api-client/openapi/finrhythm-api.openapi.json",
+      "packages/api-client/scripts/generate-contracts.mjs",
+      "packages/api-client/scripts/check-openapi-drift.mjs",
+      "packages/api-client/src/generated/contracts.ts",
+      "packages/api-client/dist/generated/contracts.js",
+      "packages/api-client/dist/generated/contracts.d.ts"
+    ],
+    "docs": [
+      "docs/architecture/access-and-subscriptions.md"
+    ],
+    "stage_artifacts": [
+      ".agent/stages/mvp/evidence/MVP-07-diagnostic-draft-api-001.md",
+      ".agent/stages/mvp/evidence/MVP-07-diagnostic-draft-api-001.json",
+      ".agent/stages/mvp/evidence.md",
+      ".agent/stages/mvp/evidence.json",
+      ".agent/stages/mvp/backlog.md",
+      ".agent/stages/mvp/progress.md",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/feature_list.json",
+      ".agent/stages/mvp/publish_manifest.json"
+    ]
+  },
+  "api_surface": {
+    "endpoints": [
+      "GET /api/v1/diagnostics/me/draft",
+      "PUT /api/v1/diagnostics/me/draft",
+      "POST /api/v1/diagnostics/me/submit"
+    ],
+    "security": "employeeProfileSessionBearerAuth",
+    "state": [
+      "DRAFT",
+      "SUBMITTED"
+    ],
+    "safe_handoff": {
+      "routePreview": true,
+      "recommendedFirstLessonId": "N1"
+    },
+    "submit_response_schema": "DiagnosticSubmitResponse",
+    "submit_response_fields": [
+      "state",
+      "routePreview",
+      "recommendedFirstLessonId",
+      "createdAt",
+      "updatedAt",
+      "submittedAt"
+    ],
+    "excluded_response_fields": [
+      "overallScore",
+      "competencyScores",
+      "level",
+      "finalRouteId",
+      "R1-R6",
+      "weakZones",
+      "hrInsight"
+    ]
+  },
+  "commands": [
+    {
+      "cmd": "env JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q -Dtest=DiagnosticAttemptControllerIT test",
+      "workdir": "apps/api",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-finalize-20260513/focused-backend-diagnostic-test.txt"
+    },
+    {
+      "cmd": "env JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q verify",
+      "workdir": "apps/api",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-finalize-20260513/api-mvn-verify.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client generate",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-finalize-20260513/api-client-generate.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client build",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-finalize-20260513/api-client-build.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client check:generated",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-finalize-20260513/api-client-check-generated-final.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client check:openapi-drift",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-finalize-20260513/api-client-check-openapi-drift.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client typecheck",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-finalize-20260513/api-client-typecheck.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client build",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-finalize-20260513/api-client-build-rerun.txt"
+    },
+    {
+      "cmd": "make verify",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-finalize-20260513/make-verify.txt"
+    },
+    {
+      "cmd": "make test-unit",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-finalize-20260513/make-test-unit.txt"
+    },
+    {
+      "cmd": "make build",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-finalize-20260513/make-build.txt"
+    },
+    {
+      "cmd": "guardrail scans",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-finalize-20260513/guardrail-scans.txt"
+    },
+    {
+      "cmd": "first fresh stage_verifier",
+      "exit_code": 1,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-fresh/"
+    },
+    {
+      "cmd": "env JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q -Dtest=DiagnosticAttemptControllerIT test",
+      "workdir": "apps/api",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-07-diagnostic-draft-api-001-20260513/mvn-diagnostic-attempt-controller-it.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client generate",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-07-diagnostic-draft-api-001-20260513/pnpm-api-client-generate.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client build",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-07-diagnostic-draft-api-001-20260513/pnpm-api-client-build.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client check:generated",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-07-diagnostic-draft-api-001-20260513/pnpm-api-client-check-generated.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client check:openapi-drift",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-07-diagnostic-draft-api-001-20260513/pnpm-api-client-check-openapi-drift.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client typecheck",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-07-diagnostic-draft-api-001-20260513/pnpm-api-client-typecheck.txt"
+    },
+    {
+      "cmd": "jq empty packages/api-client/openapi/finrhythm-api.openapi.json",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-07-diagnostic-draft-api-001-20260513/jq-openapi-empty.txt"
+    },
+    {
+      "cmd": "git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/fixer-MVP-07-diagnostic-draft-api-001-20260513/git-diff-check.txt"
+    },
+    {
+      "cmd": "env JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q verify",
+      "workdir": "apps/api",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-postfix-20260513/api-mvn-verify.txt"
+    },
+    {
+      "cmd": "make verify",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-postfix-20260513/make-verify.txt"
+    },
+    {
+      "cmd": "make test-unit",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-postfix-20260513/make-test-unit.txt"
+    },
+    {
+      "cmd": "make build",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-postfix-20260513/make-build.txt"
+    },
+    {
+      "cmd": "fresh post-fix stage_verifier",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-postfix-fresh/"
+    }
+  ],
+  "acceptance": [
+    {
+      "criterion": "Append-only Flyway migration separates diagnostic attempts, Q0 metadata, self-assessment and routing answers.",
+      "status": "BUILT",
+      "evidence": [
+        "apps/api/src/main/resources/db/migration/V011__diagnostic_draft_attempt.sql"
+      ]
+    },
+    {
+      "criterion": "New endpoints require employee profile-session bearer auth and resolve scope server-side.",
+      "status": "BUILT",
+      "evidence": [
+        "apps/api/src/main/java/com/finrhythm/api/diagnostic/DiagnosticAttemptController.java",
+        "apps/api/src/main/java/com/finrhythm/api/diagnostic/DiagnosticAttemptService.java",
+        "apps/api/src/test/java/com/finrhythm/api/diagnostic/DiagnosticAttemptControllerIT.java"
+      ]
+    },
+    {
+      "criterion": "Missing, malformed, expired, revoked and unknown tokens return safe 401 and do not persist diagnostic data.",
+      "status": "BUILT",
+      "evidence": [
+        "apps/api/src/test/java/com/finrhythm/api/diagnostic/DiagnosticAttemptControllerIT.java",
+        ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-finalize-20260513/focused-backend-diagnostic-test.txt"
+      ]
+    },
+    {
+      "criterion": "Draft save/get/submit/resume/cross-registration isolation and post-submit conflict are covered.",
+      "status": "FIXED",
+      "evidence": [
+        "apps/api/src/test/java/com/finrhythm/api/diagnostic/DiagnosticAttemptControllerIT.java"
+      ]
+    },
+    {
+      "criterion": "Invalid IDs, full-bank markers, scoring/final-route fields, advice-like fields and exact-sensitive-data payloads are rejected by allowlist.",
+      "status": "BUILT",
+      "evidence": [
+        "apps/api/src/main/java/com/finrhythm/api/diagnostic/DiagnosticAttemptService.java",
+        "apps/api/src/test/java/com/finrhythm/api/diagnostic/DiagnosticAttemptControllerIT.java",
+        ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-finalize-20260513/guardrail-scans.txt"
+      ]
+    },
+    {
+      "criterion": "OpenAPI snapshot and generated api-client artifacts are synchronized.",
+      "status": "BUILT",
+      "evidence": [
+        "packages/api-client/openapi/finrhythm-api.openapi.json",
+        "packages/api-client/src/generated/contracts.ts",
+        ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-finalize-20260513/api-client-check-generated-final.txt",
+        ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-draft-api-001-finalize-20260513/api-client-check-openapi-drift.txt"
+      ]
+    },
+    {
+      "criterion": "Canonical docs updated with profile-session diagnostic boundary and Mermaid diagrams.",
+      "status": "BUILT",
+      "evidence": [
+        "docs/architecture/access-and-subscriptions.md"
+      ]
+    },
+    {
+      "criterion": "Fresh verifier PASS exists.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/verdicts/MVP-07-diagnostic-draft-api-001.json",
+        ".agent/stages/mvp/problems/MVP-07-diagnostic-draft-api-001.md",
+        ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-postfix-fresh/"
+      ]
+    },
+    {
+      "criterion": "First fresh verifier submit-response gap is fixed.",
+      "status": "PASS",
+      "evidence": [
+        ".agent/stages/mvp/verdicts/MVP-07-diagnostic-draft-api-001-prefix-fail.json",
+        ".agent/stages/mvp/problems/MVP-07-diagnostic-draft-api-001-prefix-fail.md",
+        "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticSubmitResponse.java",
+        "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticAttemptController.java",
+        "apps/api/src/test/java/com/finrhythm/api/diagnostic/DiagnosticAttemptControllerIT.java",
+        "packages/api-client/openapi/finrhythm-api.openapi.json"
+      ]
+    }
+  ],
+  "docs_sync": {
+    "canonical": "UPDATED",
+    "canonical_refs": [
+      "docs/architecture/access-and-subscriptions.md"
+    ],
+    "product_docs": "NOOP_EXPECTED",
+    "reason": "The implementation follows existing diagnostic IDs, privacy boundary and sensitive-data constraints, and does not approve final wording, scoring correctness or final route semantics."
+  },
+  "guardrails": {
+    "no_final_scoring_or_route": true,
+    "no_full_q_bank_or_q28": true,
+    "no_hr_reports_or_analytics": true,
+    "no_points_or_learning_completion": true,
+    "no_exact_sensitive_financial_inputs": true,
+    "no_personal_advice": true,
+    "no_raw_bearer_token_or_invite_code_persistence": true,
+    "no_ui_integration": true
+  },
+  "backend_baseline": [
+    "Spring Boot",
+    "Java 21",
+    "Maven Wrapper",
+    "PostgreSQL",
+    "Flyway",
+    "OpenAPI/springdoc"
+  ],
+  "human_gates_open": [
+    "Final Q0/SA/Q wording review",
+    "Scoring correctness and route-rule correctness",
+    "Final financial correctness of diagnostic questions and explanations",
+    "HR/privacy wording and reporting-boundary approval",
+    "Legal/privacy boundaries and real employee/customer data processing approval",
+    "Admin/support production access policy for sensitive diagnostic data",
+    "Design/accessibility QA on real mobile screens for later UI integration"
+  ],
+  "out_of_scope_still_open": [
+    "Full production diagnostic engine",
+    "Full Q1-Q27, Q28, C1-C10, final R1-R6, scoring correctness, level assignment and final route assignment",
+    "HR reports, analytics/events and aggregated diagnostic insights",
+    "apps/web integration and browser screenshots",
+    "Lesson progress/completion, scored quiz submission, practice submission, points and rewards",
+    "Exact sensitive financial inputs and personal advice",
+    "Full MVP-07.01, full MVP-07.04, full MVP-07, MVP stage and human-gate closure"
+  ],
+  "verification": {
+    "fresh_verifier_required": false,
+    "first_fresh_verifier_verdict": "FAIL_SUBMIT_RESPONSE_NOT_HANDOFF_ONLY",
+    "first_fresh_verifier_refs": [
+      ".agent/stages/mvp/verdicts/MVP-07-diagnostic-draft-api-001-prefix-fail.json",
+      ".agent/stages/mvp/problems/MVP-07-diagnostic-draft-api-001-prefix-fail.md"
+    ],
+    "fixer_status": "FIXED_AND_VERIFIED",
+    "latest_verified_sprint_contract_id_before_verifier": "MVP-07-diagnostic-entry-preview-ui-001",
+    "latest_verified_sprint_contract_id_after_verifier": "MVP-07-diagnostic-draft-api-001",
+    "verdict": {
+      "raw": ".agent/stages/mvp/verdicts/MVP-07-diagnostic-draft-api-001.json",
+      "problems": ".agent/stages/mvp/problems/MVP-07-diagnostic-draft-api-001.md",
+      "status": "PASS"
+    },
+    "verdict_ref": ".agent/stages/mvp/verdicts/MVP-07-diagnostic-draft-api-001.json",
+    "problems_ref": ".agent/stages/mvp/problems/MVP-07-diagnostic-draft-api-001.md"
+  },
+  "notes": [
+    "This is a scoped PASS only for MVP-07-diagnostic-draft-api-001.",
+    "The earlier parallel api-client check:generated race is superseded by the final serial pass recorded in api-client-check-generated-final.txt."
+  ]
+}

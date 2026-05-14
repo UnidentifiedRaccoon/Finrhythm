@@ -148,6 +148,71 @@ export type EmployeeContactUpdateResponse = {
     changedFields: string[];
     contactVerifiedByProfileSession: boolean;
 };
+export declare const DIAGNOSTIC_ATTEMPT_STATES: readonly ["DRAFT", "SUBMITTED"];
+export type DiagnosticAttemptState = (typeof DIAGNOSTIC_ATTEMPT_STATES)[number];
+export type DiagnosticQ0MetadataRequest = {
+    selectedOptionIds?: string[];
+};
+export type DiagnosticSelfAssessmentAnswerRequest = {
+    id: string;
+    value: number;
+};
+export type DiagnosticRoutingAnswerRequest = {
+    id: string;
+    optionId: string;
+};
+export type DiagnosticDraftUpdateRequest = {
+    q0?: DiagnosticQ0MetadataRequest;
+    selfAssessment?: DiagnosticSelfAssessmentAnswerRequest[];
+    routingAnswers?: DiagnosticRoutingAnswerRequest[];
+};
+export type DiagnosticAllowedRoutingOptionsResponse = {
+    id: string;
+    optionIds: string[];
+};
+export type DiagnosticAllowedAnswerIdsResponse = {
+    q0QuestionIds: string[];
+    q0OptionIds: string[];
+    selfAssessmentQuestionIds: string[];
+    routingQuestionOptions: DiagnosticAllowedRoutingOptionsResponse[];
+};
+export type DiagnosticQ0MetadataResponse = {
+    id: string;
+    selectedOptionIds: string[];
+};
+export type DiagnosticSelfAssessmentAnswerResponse = {
+    id: string;
+    value: number;
+};
+export type DiagnosticRoutingAnswerResponse = {
+    id: string;
+    optionId: string;
+};
+export type DiagnosticAttemptResponse = {
+    attemptId: string | null;
+    employeeRegistrationId: string;
+    tenantId: string;
+    pilotLaunchId: string;
+    accessPoolId: string;
+    state: DiagnosticAttemptState;
+    allowedAnswerIds: DiagnosticAllowedAnswerIdsResponse;
+    q0: DiagnosticQ0MetadataResponse;
+    selfAssessment: DiagnosticSelfAssessmentAnswerResponse[];
+    routingAnswers: DiagnosticRoutingAnswerResponse[];
+    routePreview: boolean;
+    recommendedFirstLessonId: string | null;
+    createdAt: string | null;
+    updatedAt: string | null;
+    submittedAt: string | null;
+};
+export type DiagnosticSubmitResponse = {
+    state: DiagnosticAttemptState;
+    routePreview: boolean;
+    recommendedFirstLessonId: string;
+    createdAt: string;
+    updatedAt: string;
+    submittedAt: string;
+};
 export type AdminCodeStatusPathParams = {
     tenantId: string;
     pilotLaunchId: string;
@@ -199,3 +264,16 @@ export type EmployeeMeContactUpdateClientRequest = {
 export declare const EMPLOYEE_ME_CONTACT_PATH = "/api/v1/employee-registrations/me/contact";
 export declare function buildEmployeeMeContactUrl(baseUrl: string | URL): URL;
 export declare function fetchEmployeeMeContactUpdate(baseUrl: string | URL, params: EmployeeMeContactUpdateClientRequest, init?: ApiJsonClientRequestInit): Promise<EmployeeContactUpdateResponse>;
+export type DiagnosticMeAuthRequest = {
+    profileSessionToken: string;
+};
+export type DiagnosticMeDraftUpdateClientRequest = DiagnosticMeAuthRequest & {
+    body: DiagnosticDraftUpdateRequest;
+};
+export declare const DIAGNOSTIC_ME_DRAFT_PATH = "/api/v1/diagnostics/me/draft";
+export declare function buildDiagnosticMeDraftUrl(baseUrl: string | URL): URL;
+export declare function fetchDiagnosticMeDraft(baseUrl: string | URL, params: DiagnosticMeAuthRequest, init?: ApiClientRequestInit): Promise<DiagnosticAttemptResponse>;
+export declare function saveDiagnosticMeDraft(baseUrl: string | URL, params: DiagnosticMeDraftUpdateClientRequest, init?: ApiJsonClientRequestInit): Promise<DiagnosticAttemptResponse>;
+export declare const DIAGNOSTIC_ME_SUBMIT_PATH = "/api/v1/diagnostics/me/submit";
+export declare function buildDiagnosticMeSubmitUrl(baseUrl: string | URL): URL;
+export declare function submitDiagnosticMeDraft(baseUrl: string | URL, params: DiagnosticMeAuthRequest, init?: ApiClientRequestInit): Promise<DiagnosticSubmitResponse>;

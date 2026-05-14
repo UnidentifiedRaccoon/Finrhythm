@@ -99,6 +99,20 @@ public class EmployeeRegistrationService {
         return toProfileSummary(authenticateProfileSession(authorizationHeader).registration());
     }
 
+    @Transactional(readOnly = true)
+    public AuthenticatedEmployeeProfileSession authenticateProfileSessionBearer(String authorizationHeader) {
+        AuthenticatedProfileSession authenticated = authenticateProfileSession(authorizationHeader);
+        EmployeeRegistration registration = authenticated.registration();
+        return new AuthenticatedEmployeeProfileSession(
+                authenticated.session().getId(),
+                registration.getId(),
+                registration.getTenantId(),
+                registration.getPilotLaunchId(),
+                registration.getAccessPoolId(),
+                registration.getRegisteredAt()
+        );
+    }
+
     @Transactional
     public EmployeeContactUpdateResult updateContactForSession(
             String authorizationHeader,

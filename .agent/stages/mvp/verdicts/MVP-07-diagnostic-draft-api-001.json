@@ -1,0 +1,155 @@
+{
+  "verdict": "PASS",
+  "sprint_contract_id": "MVP-07-diagnostic-draft-api-001",
+  "stage_id": "mvp",
+  "checked_at": "2026-05-13T20:52:54Z",
+  "scope_summary": "Second fresh post-fix verifier for the backend/API-only diagnostic draft/submission foundation for Q0, SA1-SA3 and Q1-Q3 under employee profile-session bearer auth. Verified the prior submit-response gap is fixed by a handoff-only DiagnosticSubmitResponse. Full MVP-07.01, MVP-07.04, MVP-07, the MVP stage and human gates remain open.",
+  "commands": [
+    {
+      "cmd": "env JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q -Dtest=DiagnosticAttemptControllerIT test",
+      "workdir": "apps/api",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-postfix-fresh/focused-backend-diagnostic-test.txt"
+    },
+    {
+      "cmd": "env JAVA_HOME=/opt/homebrew/opt/openjdk@21 PATH=/opt/homebrew/opt/openjdk@21/bin:$PATH ./mvnw -q verify",
+      "workdir": "apps/api",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-postfix-fresh/api-mvn-verify.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client check:generated",
+      "workdir": ".",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-postfix-fresh/api-client-check-generated.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client check:openapi-drift",
+      "workdir": ".",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-postfix-fresh/api-client-check-openapi-drift.txt"
+    },
+    {
+      "cmd": "pnpm --filter @finrhythm/api-client typecheck",
+      "workdir": ".",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-postfix-fresh/api-client-typecheck.txt"
+    },
+    {
+      "cmd": "jq empty .agent/stages/mvp/status.json .agent/stages/mvp/feature_list.json .agent/stages/mvp/evidence.json .agent/stages/mvp/evidence/MVP-07-diagnostic-draft-api-001.json .agent/stages/mvp/publish_manifest.json packages/api-client/openapi/finrhythm-api.openapi.json",
+      "workdir": ".",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-postfix-fresh/jq-empty.txt"
+    },
+    {
+      "cmd": "git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'",
+      "workdir": ".",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-postfix-fresh/git-diff-check.txt"
+    },
+    {
+      "cmd": "jq diagnostic OpenAPI submit-response surface check",
+      "workdir": ".",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-postfix-fresh/openapi-diagnostic-surface.txt"
+    },
+    {
+      "cmd": "git diff --name-status -- docs/product/b2b-mvp/lemanapro",
+      "workdir": ".",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-postfix-fresh/product-docs-diff.txt"
+    },
+    {
+      "cmd": "jq stage status gate check",
+      "workdir": ".",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-postfix-fresh/status-gates.txt"
+    },
+    {
+      "cmd": "rg prohibited final-scoring/sensitive response fields in diagnostic production/OpenAPI/generated files",
+      "workdir": ".",
+      "exit_code": 0,
+      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-postfix-fresh/prohibited-field-scan.txt"
+    }
+  ],
+  "findings": [
+    {
+      "severity": "info",
+      "status": "accepted",
+      "title": "Prior submit-response proof gap is fixed.",
+      "evidence": [
+        "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticSubmitResponse.java defines only state, routePreview, recommendedFirstLessonId, createdAt, updatedAt and submittedAt.",
+        "apps/api/src/main/java/com/finrhythm/api/diagnostic/web/DiagnosticAttemptController.java maps POST /api/v1/diagnostics/me/submit through toSubmitResponse instead of the full DiagnosticAttemptResponse.",
+        "apps/api/src/test/java/com/finrhythm/api/diagnostic/DiagnosticAttemptControllerIT.java asserts submit and repeated submit do not expose attemptId, employeeRegistrationId, tenantId, pilotLaunchId, accessPoolId, allowedAnswerIds, q0, selfAssessment or routingAnswers.",
+        ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-draft-api-001-20260513-postfix-fresh/openapi-diagnostic-surface.txt shows submit 200 references DiagnosticSubmitResponse and no forbidden submit fields are present."
+      ]
+    },
+    {
+      "severity": "info",
+      "status": "accepted",
+      "title": "Backend/API acceptance is covered by independent execution.",
+      "evidence": [
+        "Focused DiagnosticAttemptControllerIT passed with Java 21, Testcontainers PostgreSQL and Flyway v011 applied.",
+        "apps/api ./mvnw -q verify passed with Java 21.",
+        "The integration test covers profile-session bearer auth failures, same-registration resume through a new token, cross-registration isolation, separated Q0/SA/routing persistence, post-submit immutability, invalid ID/sensitive-field rejection and handoff-only submit."
+      ]
+    },
+    {
+      "severity": "info",
+      "status": "accepted",
+      "title": "OpenAPI snapshot and generated client are synchronized.",
+      "evidence": [
+        "pnpm --filter @finrhythm/api-client check:generated passed.",
+        "pnpm --filter @finrhythm/api-client check:openapi-drift passed.",
+        "pnpm --filter @finrhythm/api-client typecheck passed.",
+        "packages/api-client/openapi/finrhythm-api.openapi.json maps submit 200 to DiagnosticSubmitResponse; packages/api-client/src/generated/contracts.ts exposes submitDiagnosticMeDraft as Promise<DiagnosticSubmitResponse>."
+      ]
+    },
+    {
+      "severity": "info",
+      "status": "accepted",
+      "title": "Docs sync and product-doc no-op are consistent.",
+      "evidence": [
+        "docs/architecture/access-and-subscriptions.md documents the profile-session diagnostic draft boundary and includes Mermaid flow/state diagrams.",
+        "docs/architecture/access-and-subscriptions.md states submit may expose only routePreview=true, recommendedFirstLessonId=N1, state and timestamps.",
+        "product-docs-diff raw output is empty, matching the contract expectation that product docs remain unchanged for this backend/API-only slice."
+      ]
+    },
+    {
+      "severity": "info",
+      "status": "accepted",
+      "title": "No browser evidence is required for this scoped slice.",
+      "evidence": [
+        ".agent/stages/mvp/sprint_contract.md marks UI integration and browser screenshots out of scope.",
+        "No apps/web or apps/admin integration was required by this backend/API-only verification."
+      ]
+    },
+    {
+      "severity": "info",
+      "status": "accepted",
+      "title": "Full MVP-07 and human gates remain open.",
+      "evidence": [
+        ".agent/stages/mvp/backlog.md keeps MVP-07.01, MVP-07.04 and MVP-07 open.",
+        ".agent/stages/mvp/status.json keeps mvp_07_complete=false and human_gates_open=true.",
+        ".agent/stages/mvp/feature_list.json keeps active diagnostic-draft-api entries passes=false before parent status sync.",
+        ".agent/stages/mvp/publish_manifest.json has publish_after_pass=false."
+      ]
+    }
+  ],
+  "human_gates_open": [
+    "Final Q0/SA/Q wording review",
+    "Scoring correctness and route-rule correctness",
+    "Final financial correctness of diagnostic questions and explanations",
+    "HR/privacy wording and reporting-boundary approval",
+    "Legal/privacy boundaries and real employee/customer data processing approval",
+    "Admin/support production access policy for sensitive diagnostic data",
+    "Design/accessibility QA on real mobile screens for later UI integration"
+  ],
+  "full_mvp7_closed": false,
+  "notes": [
+    "Verifier wrote only the requested current post-fix verdict/problems artifacts plus raw verifier outputs under the allowed raw directory.",
+    "No production code, tests, generated client files, canonical docs, sprint contract, evidence aliases, status, backlog, progress, feature_list or publish_manifest were edited by this verifier.",
+    "This PASS is scoped to MVP-07-diagnostic-draft-api-001 only and does not mark full MVP-07.01, MVP-07.04, MVP-07, the MVP stage or any human gate complete.",
+    "The first fresh verifier FAIL remains preserved separately at the prefix-fail verdict/problems refs."
+  ]
+}

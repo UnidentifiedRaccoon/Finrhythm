@@ -1,131 +1,16 @@
 {
-  "stage_id": "mvp",
-  "sprint_contract_id": "MVP-07-diagnostic-entry-preview-ui-001",
   "verdict": "PASS",
-  "verifier_role": "stage_verifier",
-  "fresh": true,
-  "verified_at": "2026-05-13T18:16:43Z",
-  "raw_dir": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/",
-  "summary": "Fresh verification passed for the scoped apps/web diagnostic entry/preview UI slice. This PASS is limited to the sprint contract and does not close full MVP-07.01, MVP-07.03, MVP-07, the MVP stage, or any human gate.",
-  "acceptance": {
-    "diagnostics_route_renders": "PASS",
-    "reachable_from_home_and_learning": "PASS",
-    "q0_before_sa_and_preview_questions": "PASS",
-    "q0_privacy_boundary_copy": "PASS",
-    "sa1_sa3_non_scoring_non_route_determining": "PASS",
-    "preview_questions_q1_q3_only": "PASS",
-    "no_full_q1_q27_q28_final_scoring_level_or_r1_r6_assignment": "PASS",
-    "component_memory_only_no_storage_url_network_backend_or_generated_client_handoff": "PASS",
-    "no_exact_income_debt_balance_account_photo_document_or_bank_screenshot_request": "PASS",
-    "no_hr_personal_report_claim": "PASS",
-    "no_points_progress_rewards_claim_or_personal_financial_advice": "PASS",
-    "start_privacy_profile_legal_contact_path_preserved": "PASS",
-    "learning_and_lessons_n1_n2_n3_render": "PASS",
-    "no_backend_api_schema_openapi_generated_client_admin_package_content_infra_or_canonical_doc_drift": "PASS",
-    "docs_sync_noop_expected_with_mermaid_evidence": "PASS",
-    "human_gates_remain_open_full_stage_not_closed": "PASS"
-  },
-  "independent_checks": [
-    {
-      "cmd": "jq empty .agent/stages/mvp/status.json .agent/stages/mvp/feature_list.json .agent/stages/mvp/evidence.json .agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.json",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/jq-json-artifacts.txt"
-    },
-    {
-      "cmd": "git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/git-diff-check.txt"
-    },
-    {
-      "cmd": "pnpm --filter @finrhythm/web typecheck",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/pnpm-web-typecheck.txt"
-    },
-    {
-      "cmd": "pnpm --filter @finrhythm/web test",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/pnpm-web-test.txt"
-    },
-    {
-      "cmd": "pnpm --filter @finrhythm/web build",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/pnpm-web-build.txt"
-    },
-    {
-      "cmd": "CHROMIUM_EXECUTABLE_PATH=\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" WEB_SMOKE_BASE_URL=http://127.0.0.1:3471 WEB_SMOKE_OUTPUT_DIR=/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh WEB_SMOKE_SCREENSHOT_PREFIX=MVP-07-diagnostic-entry-preview-ui-001-verifier pnpm --filter @finrhythm/web smoke:browser",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/pnpm-web-smoke-browser-system-chrome.txt",
-      "summary_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/MVP-07-diagnostic-entry-preview-ui-001-verifier-browser-smoke.json",
-      "screenshot_count": 33
-    },
-    {
-      "cmd": "source acceptance scans for diagnostics route, Q0/SA/Q1-Q3, storage/network/url/API/generated-client, sensitive-data/advice and reachability guardrails",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/source-acceptance-scans.txt"
-    },
-    {
-      "cmd": "git status --short -- apps/api packages/api-client apps/admin packages/ui packages/config content infra docs/architecture docs/product docs/engineering package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json Makefile README.md",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/scope-guardrail-status.txt"
-    },
-    {
-      "cmd": "git diff --name-only -- apps/api packages/api-client apps/admin packages/ui packages/config content infra docs/architecture docs/product docs/engineering package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json Makefile README.md",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/scope-guardrail-diff-name-only.txt"
-    },
-    {
-      "cmd": "make verify",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/make-verify.txt"
-    },
-    {
-      "cmd": "make test-unit",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/make-test-unit.txt"
-    },
-    {
-      "cmd": "make build",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/make-build.txt"
-    }
-  ],
-  "evidence_checked": [
-    ".agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.json",
-    ".agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.md",
-    ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/pnpm-web-typecheck.txt",
-    ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/pnpm-web-test.txt",
-    ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/pnpm-web-build.txt",
-    ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/guardrail-scans.txt",
-    ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/MVP-07-diagnostic-entry-preview-ui-001-browser-smoke.json"
-  ],
-  "docs_sync": {
-    "decision": "NOOP_EXPECTED",
-    "accepted": true,
-    "reason": "Implementation is UI-only preview behavior within existing MVP stage, methodology and design-system baselines; no canonical product, architecture, API, schema or workflow decision changed. Builder evidence contains the required Mermaid preview flow."
-  },
-  "backend_api_schema_openapi": {
-    "changed": false,
-    "evidence": [
-      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/scope-guardrail-status.txt",
-      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/scope-guardrail-diff-name-only.txt",
-      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/make-verify.txt",
-      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/make-test-unit.txt",
-      ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/make-build.txt"
-    ]
-  },
-  "human_gates": {
-    "closed_by_this_verdict": false,
-    "remain_open": [
-      "Final Q/SA wording review",
-      "Scoring correctness and route-rule correctness",
-      "Final financial correctness of diagnostic questions and explanations",
-      "HR/privacy wording and reporting-boundary approval",
-      "Legal/privacy boundaries and real employee/customer data processing approval",
-      "Design/accessibility QA on real mobile screens"
-    ]
-  },
-  "problems_ref": ".agent/stages/mvp/problems/MVP-07-diagnostic-entry-preview-ui-001.md",
-  "status_artifacts_updated": false,
-  "status_update_note": "Per verifier instruction, status/evidence/progress/backlog/feature_list were not updated.",
-  "status": "PASS"
+  "stage_id": "mvp",
+  "sprint_contract_id": "MVP-07-diagnostic-web-api-integration-001",
+  "checked_at": "2026-05-13T22:12:23Z",
+  "scope": "apps/web diagnostic API integration inside mounted /profile/session flow after legal acceptance",
+  "raw_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-web-api-integration-001-20260514-fresh/",
+  "problems_ref": ".agent/stages/mvp/problems/MVP-07-diagnostic-web-api-integration-001.md",
+  "immutable_verdict_ref": ".agent/stages/mvp/verdicts/MVP-07-diagnostic-web-api-integration-001.json",
+  "summary": "Fresh verifier PASS for the scoped web diagnostic API integration. Full MVP-07, MVP stage and human gates remain open.",
+  "notes": [
+    "Latest alias points to the immutable PASS verifier for MVP-07-diagnostic-web-api-integration-001.",
+    "Previous PASS for MVP-07-diagnostic-draft-api-001 remains preserved in its immutable verdict/problems/evidence refs.",
+    "Full MVP-07 and human gates remain open."
+  ]
 }

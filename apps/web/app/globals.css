@@ -493,6 +493,23 @@ p {
   width: 100%;
 }
 
+.choice-card {
+  display: grid;
+  gap: 4px;
+}
+
+.choice-card small {
+  color: var(--color-text-secondary);
+  font-size: var(--text-body-sm-size);
+  line-height: var(--text-body-sm-line);
+}
+
+.choice-card:disabled,
+.scale-choice:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
 .choice-card-selected,
 .scale-choice-selected {
   background: var(--card-active-bg);
@@ -596,6 +613,61 @@ p {
 .diagnostic-result-actions {
   display: grid;
   gap: var(--space-xs);
+}
+
+.diagnostic-secondary-button {
+  cursor: pointer;
+  margin-top: 0;
+  width: 100%;
+}
+
+.diagnostic-secondary-button:disabled {
+  background: var(--color-disabled-bg);
+  color: var(--color-disabled-text);
+  cursor: wait;
+}
+
+.diagnostic-handoff-list {
+  background: var(--color-surface-primary);
+  border: 1px solid var(--card-completed-border);
+  border-radius: var(--radius-md);
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: var(--card-padding-md);
+}
+
+.diagnostic-handoff-list div {
+  border-bottom: 1px solid var(--color-divider);
+  display: grid;
+  gap: 4px;
+  padding: var(--space-xs) 0;
+}
+
+.diagnostic-handoff-list div:first-child {
+  padding-top: 0;
+}
+
+.diagnostic-handoff-list div:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.diagnostic-handoff-list dt {
+  color: var(--color-text-muted);
+  font-size: var(--text-caption-size);
+  font-weight: 700;
+  line-height: var(--text-caption-line);
+  text-transform: uppercase;
+}
+
+.diagnostic-handoff-list dd {
+  color: var(--color-text-primary);
+  font-size: var(--text-body-md-size);
+  font-weight: 700;
+  line-height: var(--text-body-md-line);
+  margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .placeholder-boundary {

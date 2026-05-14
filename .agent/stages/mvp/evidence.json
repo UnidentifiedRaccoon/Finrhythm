@@ -1,288 +1,37 @@
 {
   "stage_id": "mvp",
-  "sprint_contract_id": "MVP-07-diagnostic-entry-preview-ui-001",
-  "parent_stage_unit": "scoped prerequisite for MVP-07.01 + MVP-07.03",
-  "updated_at": "2026-05-13",
+  "sprint_contract_id": "MVP-07-diagnostic-web-api-integration-001",
+  "alias_for": ".agent/stages/mvp/evidence/MVP-07-diagnostic-web-api-integration-001.json",
+  "updated_at": "2026-05-14",
   "status": "SCOPED_PASS",
   "verification_status": "PASS",
   "functional_passes": true,
-  "summary": "Fresh verifier PASS recorded for the scoped apps/web diagnostic entry/preview UI slice: /diagnostics renders Q0 privacy before SA1-SA3 and Q1-Q3 preview cards, keeps answers in mounted component memory only, exposes a safe draft route preview, and preserves the verified profile/legal and N1-N3 learning paths. Full MVP-07 and human gates remain open.",
-  "changed_files": {
-    "production": [
-      "apps/web/app/diagnostics/page.tsx",
-      "apps/web/components/diagnostic-preview-screen.ts",
-      "apps/web/components/employee-home-screen.ts",
-      "apps/web/components/learning-shell.ts",
-      "apps/web/app/globals.css"
-    ],
-    "tests": [
-      "apps/web/tests/learning-shell.test.mjs",
-      "apps/web/tests/browser-smoke.mjs"
-    ],
-    "stage_artifacts": [
-      ".agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.md",
-      ".agent/stages/mvp/evidence/MVP-07-diagnostic-entry-preview-ui-001.json",
-      ".agent/stages/mvp/evidence.md",
-      ".agent/stages/mvp/evidence.json",
-      ".agent/stages/mvp/status.json",
-      ".agent/stages/mvp/backlog.md",
-      ".agent/stages/mvp/progress.md",
-      ".agent/stages/mvp/feature_list.json"
-    ]
+  "summary": "Scoped fresh verifier PASS recorded for the apps/web profile-session diagnostic API integration: mounted /profile/session now performs generated-client diagnostic GET/PUT/POST after legal acceptance, keeps the profile-session token in React memory props/state only, persists separated Q0/SA/routing payloads for Q0, SA1-SA3 and Q1-Q3, and renders only safe N1 routePreview handoff fields. Full MVP-07, full MVP stage and human gates remain open.",
+  "immutable_evidence_refs": {
+    "markdown": ".agent/stages/mvp/evidence/MVP-07-diagnostic-web-api-integration-001.md",
+    "json": ".agent/stages/mvp/evidence/MVP-07-diagnostic-web-api-integration-001.json"
   },
-  "commands": [
-    {
-      "cmd": "pnpm --filter @finrhythm/web typecheck",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/pnpm-web-typecheck.txt"
-    },
-    {
-      "cmd": "pnpm --filter @finrhythm/web test",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/pnpm-web-test.txt"
-    },
-    {
-      "cmd": "pnpm --filter @finrhythm/web build",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/pnpm-web-build.txt"
-    },
-    {
-      "cmd": "CHROMIUM_EXECUTABLE_PATH=\"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome\" WEB_SMOKE_BASE_URL=http://127.0.0.1:3470 WEB_SMOKE_OUTPUT_DIR=/Users/elena/cursor/FinPulse/.agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513 WEB_SMOKE_SCREENSHOT_PREFIX=MVP-07-diagnostic-entry-preview-ui-001 pnpm --filter @finrhythm/web smoke:browser",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/pnpm-web-smoke-browser-system-chrome.txt"
-    },
-    {
-      "cmd": "guardrail scans",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/guardrail-scans.txt"
-    },
-    {
-      "cmd": "git status --short -- apps/api packages/api-client apps/admin packages/ui infra content docs/architecture docs/product docs/engineering",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/no-backend-api-generated-client-status.txt"
-    },
-    {
-      "cmd": "make verify",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/make-verify.txt"
-    },
-    {
-      "cmd": "make test-unit",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/make-test-unit.txt"
-    },
-    {
-      "cmd": "make build",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/make-build.txt"
-    },
-    {
-      "cmd": "Parent jq validation after evidence whitespace cleanup",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-entry-preview-ui-001-parent-checks-20260513/jq-json-artifacts-post-evidence-whitespace-fix.txt"
-    },
-    {
-      "cmd": "Parent git diff --check after evidence whitespace cleanup",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-entry-preview-ui-001-parent-checks-20260513/git-diff-check-post-evidence-whitespace-fix.txt"
-    },
-    {
-      "cmd": "Parent final jq validation after verdict/problems alias sync",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-entry-preview-ui-001-parent-sync-20260513/jq-json-artifacts-final.txt"
-    },
-    {
-      "cmd": "Parent final git diff --check after verdict/problems alias sync",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-entry-preview-ui-001-parent-sync-20260513/git-diff-check-final.txt"
-    },
-    {
-      "cmd": "Parent final stage harness validation after alias sync",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-entry-preview-ui-001-parent-sync-20260513/verify-harness-final.txt"
-    },
-    {
-      "cmd": "Parent stale MVP-07 preview string scan after alias sync",
-      "exit_code": 0,
-      "raw_ref": ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-entry-preview-ui-001-parent-sync-20260513/stale-mvp07-preview-strings-after-alias-sync.txt"
-    }
-  ],
-  "browser": {
-    "summary_ref": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/MVP-07-diagnostic-entry-preview-ui-001-browser-smoke.json",
-    "screenshot_count": 33,
-    "scenarios": [
-      "mobile-home",
-      "mobile-diagnostics-q0",
-      "mobile-diagnostics-sa",
-      "mobile-diagnostics-preview-questions",
-      "mobile-diagnostics-route-preview",
-      "mobile-ready",
-      "mobile-lesson-n1",
-      "mobile-lesson-n2",
-      "mobile-lesson-n3",
-      "mobile-start-to-profile-session",
-      "mobile-profile-session-legal-acknowledgement",
-      "mobile-profile-session-loaded"
-    ],
-    "key_screenshots": {
-      "home": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/MVP-07-diagnostic-entry-preview-ui-001-mobile-home.png",
-      "diagnostics_q0": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/MVP-07-diagnostic-entry-preview-ui-001-mobile-diagnostics-q0.png",
-      "diagnostics_sa": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/MVP-07-diagnostic-entry-preview-ui-001-mobile-diagnostics-sa.png",
-      "diagnostics_preview_questions": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/MVP-07-diagnostic-entry-preview-ui-001-mobile-diagnostics-preview-questions.png",
-      "diagnostics_route_preview": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/MVP-07-diagnostic-entry-preview-ui-001-mobile-diagnostics-route-preview.png",
-      "learning": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/MVP-07-diagnostic-entry-preview-ui-001-mobile-ready.png",
-      "lesson_n1": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/MVP-07-diagnostic-entry-preview-ui-001-mobile-lesson-n1.png",
-      "lesson_n2": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/MVP-07-diagnostic-entry-preview-ui-001-mobile-lesson-n2.png",
-      "lesson_n3": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/MVP-07-diagnostic-entry-preview-ui-001-mobile-lesson-n3.png",
-      "start_to_profile_session": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/MVP-07-diagnostic-entry-preview-ui-001-mobile-start-to-profile-session.png"
-    }
+  "latest_verified_sprint_contract_id_before_builder": "MVP-07-diagnostic-draft-api-001",
+  "latest_verified_sprint_contract_id": "MVP-07-diagnostic-web-api-integration-001",
+  "fresh_verifier_required": false,
+  "fresh_verifier_status": "PASS",
+  "verdict": {
+    "raw": ".agent/stages/mvp/verdicts/MVP-07-diagnostic-web-api-integration-001.json",
+    "problems": ".agent/stages/mvp/problems/MVP-07-diagnostic-web-api-integration-001.md",
+    "status": "PASS"
   },
-  "acceptance": [
-    {
-      "criterion": "/diagnostics renders a Russian mobile-first diagnostic preview/entry flow reachable from Home and Learning.",
-      "status": "BUILT",
-      "evidence": [
-        "apps/web/app/diagnostics/page.tsx",
-        "apps/web/components/diagnostic-preview-screen.ts",
-        "apps/web/components/employee-home-screen.ts",
-        "apps/web/components/learning-shell.ts",
-        ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/MVP-07-diagnostic-entry-preview-ui-001-browser-smoke.json"
-      ]
-    },
-    {
-      "criterion": "Q0 privacy/expectation screen precedes SA1-SA3 and all Q1-Q3 preview questions.",
-      "status": "BUILT",
-      "evidence": [
-        "apps/web/tests/learning-shell.test.mjs",
-        "apps/web/tests/browser-smoke.mjs",
-        ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/guardrail-scans.txt",
-        ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/MVP-07-diagnostic-entry-preview-ui-001-mobile-diagnostics-q0.png"
-      ]
-    },
-    {
-      "criterion": "SA1-SA3 are non-scoring self-assessment and not route-determining.",
-      "status": "BUILT",
-      "evidence": [
-        "apps/web/components/diagnostic-preview-screen.ts",
-        ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/MVP-07-diagnostic-entry-preview-ui-001-mobile-diagnostics-sa.png",
-        ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/guardrail-scans.txt"
-      ]
-    },
-    {
-      "criterion": "Preview uses only synthetic Q1-Q3 cards; no full Q1-Q27, no Q28, no final R1-R6 route assignment.",
-      "status": "BUILT",
-      "evidence": [
-        "apps/web/components/diagnostic-preview-screen.ts",
-        "apps/web/tests/learning-shell.test.mjs",
-        ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/guardrail-scans.txt"
-      ]
-    },
-    {
-      "criterion": "Answers and progress are component-memory only, with no storage, URL handoff, network/backend submission or generated-client dependency.",
-      "status": "BUILT",
-      "evidence": [
-        "apps/web/components/diagnostic-preview-screen.ts",
-        "apps/web/tests/learning-shell.test.mjs",
-        ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/guardrail-scans.txt"
-      ]
-    },
-    {
-      "criterion": "Draft result card links to N1 / learning without claiming final scoring completion, final level, points, HR report or advice.",
-      "status": "BUILT",
-      "evidence": [
-        ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/MVP-07-diagnostic-entry-preview-ui-001-mobile-diagnostics-route-preview.png",
-        ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/guardrail-scans.txt"
-      ]
-    },
-    {
-      "criterion": "Existing start/privacy/profile-session/legal/contact path and learning N1/N2/N3 render remain preserved.",
-      "status": "BUILT",
-      "evidence": [
-        "apps/web/tests/browser-smoke.mjs",
-        ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/MVP-07-diagnostic-entry-preview-ui-001-browser-smoke.json"
-      ]
-    },
-    {
-      "criterion": "No backend/API/schema/OpenAPI/generated-client changes.",
-      "status": "BUILT",
-      "evidence": [
-        ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/no-backend-api-generated-client-status.txt",
-        ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/guardrail-scans.txt"
-      ]
-    },
-    {
-      "criterion": "Fresh verifier PASS exists.",
-      "status": "PASS",
-      "evidence": [
-        ".agent/stages/mvp/verdicts/MVP-07-diagnostic-entry-preview-ui-001.json",
-        ".agent/stages/mvp/problems/MVP-07-diagnostic-entry-preview-ui-001.md"
-      ]
-    }
-  ],
-  "guardrails": {
-    "raw_ref": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-entry-preview-ui-001-20260513/guardrail-scans.txt",
-    "passed": [
-      "Q0 before SA/questions",
-      "SA1-SA3 non-scoring and non-route-determining",
-      "no full Q bank, Q28 or R1-R6 final assignment in diagnostic implementation",
-      "no storage/url/network/backend/API/generated-client answer handoff",
-      "no exact income/debt/balance/account/photo/document/bank screenshot request",
-      "no personal financial/legal/tax/credit/investment advice",
-      "no HR personal report claim",
-      "no raw invite/session token/customer brand/real data",
-      "no money/cash-equivalence or forbidden financial claims",
-      "no backend/API/schema/OpenAPI/generated-client/admin/shared package/content/infra/canonical-doc diff"
-    ]
+  "raw_roots": {
+    "builder": ".agent/stages/mvp/raw/builder-MVP-07-diagnostic-web-api-integration-001-20260514/",
+    "verifier": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-web-api-integration-001-20260514-fresh/"
   },
-  "docs_sync": {
-    "decision": "NOOP_EXPECTED",
-    "reason": "The slice follows existing MVP stage, learning-methodology and design-system baselines and implements only a non-persistent preview UI. No product privacy/reporting, methodology/scoring, architecture, API contract, schema or workflow decision changed.",
-    "mermaid_in_evidence_md": true
-  },
-  "backend_baseline": {
-    "unchanged": true,
-    "note": "Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc remain unchanged. No apps/api, Flyway, OpenAPI or packages/api-client source changed."
-  },
-  "human_gates": {
-    "preserved_open": [
-      "Final Q/SA wording review",
-      "Scoring correctness and route-rule correctness",
-      "Final financial correctness of diagnostic questions and explanations",
-      "HR/privacy wording and reporting-boundary approval",
-      "Legal/privacy boundaries and real employee/customer data processing approval",
-      "Design/accessibility QA on real mobile screens"
-    ]
-  },
-  "out_of_scope_confirmed": [
-    "full diagnostic engine",
-    "full Q1-Q27 and Q28",
-    "C1-C10 scoring and final R1-R6 assignment",
-    "backend persistence, browser storage, saved answers, resume/retry, network submission, analytics/event tracking",
-    "backend/API/schema/Flyway/OpenAPI/generated-client changes",
-    "HR reports, personal HR reports, admin/CMS/operator surfaces or diagnostic bank management",
-    "lesson progress/completion, scored quiz submission, practice submission, points/wallet/rewards/store/challenge operations",
-    "personal financial, investment, tax, credit, debt or legal advice",
-    "exact income/debt/balance/account/photo/document/bank screenshot requests",
-    "customer brand, real employee/customer/personal/financial data",
-    "full MVP-07.01, MVP-07.03, MVP-07, MVP stage or human-gate closure"
-  ],
-  "known_limitations": [
-    "Fresh verifier has not run yet; this builder does not claim PASS.",
-    "Latest verified sprint remains MVP-04-employee-app-ia-nav-001.",
-    "The preview result is intentionally non-final and not a production diagnostic completion state.",
-    "A pre-existing unrelated Next dev server on port 3404 was observed in ps output; no MVP-07 dev server remains running."
-  ],
-  "verifier": {
-    "verdict": "PASS",
-    "verdict_ref": ".agent/stages/mvp/verdicts/MVP-07-diagnostic-entry-preview-ui-001.json",
-    "problems_ref": ".agent/stages/mvp/problems/MVP-07-diagnostic-entry-preview-ui-001.md",
-    "raw_dir": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/",
-    "browser_summary_ref": ".agent/stages/mvp/raw/verifier-MVP-07-diagnostic-entry-preview-ui-001-20260513-fresh/MVP-07-diagnostic-entry-preview-ui-001-verifier-browser-smoke.json",
-    "screenshot_count": 33,
-    "root_checks_passed": [
-      "make verify",
-      "make test-unit",
-      "make build"
+  "human_gates_open": true,
+  "publish_after_pass": false,
+  "parent_alias_sync": {
+    "status": "DONE",
+    "raw_refs": [
+      ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-web-api-integration-001-parent-sync-20260514/jq-empty.txt",
+      ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-web-api-integration-001-parent-sync-20260514/git-diff-check.txt",
+      ".agent/stages/mvp/raw/orchestrator-MVP-07-diagnostic-web-api-integration-001-parent-sync-20260514/git-status-name-status.txt"
     ]
   }
 }
