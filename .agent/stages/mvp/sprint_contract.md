@@ -1,7 +1,7 @@
-# Sprint contract: MVP-07-n1-readonly-resume-continuation-001
+# Sprint contract: MVP-07-n1-readonly-status-refresh-001
 
 Stage: `mvp`
-Parent unit: scoped continuation across `MVP-06.04` N1 progress visibility and `MVP-07.04` safe resume/retry
+Parent unit: scoped continuation across `MVP-06.04` N1 learning delivery and `MVP-07.04` safe route-progress continuation
 Status: `PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC`
 Proof status: `PASS`
 Functional passes: `true`
@@ -11,27 +11,29 @@ Publish after pass: `true`
 
 ## Purpose
 
-After the verified `MVP-07-n1-lesson-detail-continuation-001` slice, the mounted `/profile/session` flow can submit the safe diagnostic handoff, read route/progress, start/resume `N1`, fetch backend-owned N1 lesson detail and render display-only N1 blocks. The remaining smaller product gap is resume behavior on reopen: if server state already says `N1 STARTED` and `RESUME_N1`, the web continuation should render the backend-owned N1 detail through read endpoints instead of calling the start/resume mutation again.
+After `MVP-07-n1-readonly-resume-continuation-001`, mounted `/profile/session` can reopen an already-started N1 continuation from backend-owned reads only: `GET /api/v1/learning/me/route-progress` plus `GET /api/v1/learning/me/lessons/N1`, with no repeat `POST /start`.
 
-The next slice makes the backend-owned N1 continuation truly resumable from existing server state. It is a web-first/product integration slice, not a backend schema/API slice.
+The next tiny product slice lets the employee re-check N1 status from inside the already-rendered N1 continuation screen. The refresh must read the current backend-owned route-progress and N1 lesson detail again, update the visible progress timestamp/detail if the server still returns `RESUME_N1`, and keep the existing lesson visible if the refresh fails. It must not create progress, submit diagnostics, complete learning, persist answers or expand routing.
 
-This is not full `MVP-06`, not full `MVP-07`, not final route assignment, not lesson completion, not theory completion, not quiz/practice submission, not analytics, not points/rewards and not a human-gate closure.
+This was chosen over a broader learning/diagnostic slice because the current code already has the exact read endpoints, generated helpers and mounted N1 continuation surface; the missing user value is a safe "check current status" action on that surface itself. That is smaller and more verifiable than adding new lesson states, completion, quiz/practice, scoring or route assignment.
+
+This is not full `MVP-06`, not full `MVP-07`, not final route assignment, not lesson completion, not theory completion, not quiz/practice submission, not analytics/events, not points/rewards and not a human-gate closure.
 
 ## Baseline And Source Refs
 
-- Latest fresh verifier `PASS`: `MVP-07-n1-lesson-detail-continuation-001`.
-- Current immutable PASS proof refs:
-  - `.agent/stages/mvp/evidence/MVP-07-n1-lesson-detail-continuation-001.md`
-  - `.agent/stages/mvp/evidence/MVP-07-n1-lesson-detail-continuation-001.json`
-  - `.agent/stages/mvp/verdicts/MVP-07-n1-lesson-detail-continuation-001.json`
-  - `.agent/stages/mvp/problems/MVP-07-n1-lesson-detail-continuation-001.md`
-- Latest aliases `evidence.json`, `verdict.json` and `problems.md` remain on the previous PASS until this new sprint has builder evidence and a fresh verifier verdict.
+- Latest fresh verifier `PASS`: `MVP-07-n1-readonly-resume-continuation-001`.
+- Immutable PASS proof refs:
+  - `.agent/stages/mvp/evidence/MVP-07-n1-readonly-resume-continuation-001.md`
+  - `.agent/stages/mvp/evidence/MVP-07-n1-readonly-resume-continuation-001.json`
+  - `.agent/stages/mvp/verdicts/MVP-07-n1-readonly-resume-continuation-001.json`
+  - `.agent/stages/mvp/problems/MVP-07-n1-readonly-resume-continuation-001.md`
+- Latest aliases `evidence.json`, `evidence.md`, `verdict.json` and `problems.md` remain on the previous PASS until this new sprint has builder evidence and a fresh verifier verdict.
 - Backend baseline remains mandatory for validation: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc.
 - Repo state confirmed by spec freeze:
-  - existing learning backend exposes `GET /api/v1/learning/me/route-progress`, `GET /api/v1/learning/me/lessons/{lessonId}` and `POST /api/v1/learning/me/lessons/{lessonId}/start`;
-  - existing generated client exposes `fetchLearningMeRouteProgress`, `fetchLearningMeLessonDetail` and `startLearningMeLesson`;
-  - `apps/web/components/diagnostic-api-flow-screen.ts` keeps `profileSessionToken` in mounted state/props;
-  - current mounted flow fetches N1 lesson detail after `startLearningMeLesson`; the resume/reopen path still needs explicit proof that `RESUME_N1` renders from read-only route-progress + lesson-detail without `POST /start`.
+  - `apps/web/components/diagnostic-api-flow-screen.ts` renders `N1BackendLessonContinuationScreen` only after safe N1 progress and lesson detail are loaded.
+  - Existing web code already uses generated `fetchLearningMeRouteProgress`, `fetchLearningMeLessonDetail` and `startLearningMeLesson`.
+  - Existing browser smoke proves read-only reopen with no `POST /api/v1/learning/me/lessons/N1/start`.
+  - No N1 continuation refresh control is currently rendered inside the N1 screen itself.
 
 Do not read `.agent/stages/**/raw/**` unless a current evidence/problem/audit question names an exact raw ref.
 
@@ -66,22 +68,27 @@ Preferred first-touch targets:
 - `apps/web/tests/browser-smoke.mjs`;
 - a new focused `apps/web` test file if that matches existing patterns.
 
-No backend migration, endpoint, OpenAPI operation or generated-client helper is expected. If the builder proves a backend contract change is required, stop and re-freeze; do not silently expand this contract.
+No backend migration, endpoint, DTO, OpenAPI operation or generated-client helper is expected. If the builder proves a backend contract change is required, stop and re-freeze; do not silently expand this contract.
 
 ## In Scope
 
-- Detect the already-started N1 resume state from generated route-progress response:
+- Add one employee-visible refresh/re-check action inside the mounted N1 continuation screen after N1 is already rendered.
+- The refresh action must call generated `fetchLearningMeRouteProgress` first.
+- If route-progress still returns the safe N1 resume state:
   - `diagnosticState=SUBMITTED`;
   - `routePreview=true`;
   - `recommendedFirstLessonId=N1`;
   - `n1.status=STARTED`;
-  - `nextAction=RESUME_N1`.
-- On that reopen/resume path, fetch backend-owned N1 detail with generated `fetchLearningMeLessonDetail`.
-- Render the existing backend-owned N1 continuation from the fetched detail.
-- Do not call generated `startLearningMeLesson` or `POST /api/v1/learning/me/lessons/N1/start` on the read-only reopen/resume path.
-- Preserve the first-start path: when route-progress says `START_N1`, clicking the start action may still call `startLearningMeLesson`, then route-progress refresh, then lesson-detail read.
-- Add or update focused web tests proving the `RESUME_N1` path renders from `GET route-progress` + `GET lesson detail` only and does not invoke start/resume mutation.
-- Add browser/API smoke evidence or an equivalent browser-backed test that records network/mocked API calls and proves no `POST /start` on reopen.
+  - `nextAction=RESUME_N1`;
+  then refresh must derive read-only progress from that response and call generated `fetchLearningMeLessonDetail` for `N1`.
+- The refresh must update mounted `routeProgress`, read-only `lessonProgress` and `lessonDetail` from those backend reads.
+- The refresh must not call generated `startLearningMeLesson` or `POST /api/v1/learning/me/lessons/N1/start`.
+- The existing first-open paths must remain working:
+  - `START_N1` may still call `startLearningMeLesson`, then refresh route-progress, then read lesson detail.
+  - already-started reopen may still render from `GET route-progress` + `GET lesson detail` with no `POST /start`.
+- If refresh returns unsupported state or a non-success response, render a neutral Russian notice and keep the previously loaded N1 detail visible; do not downgrade into completion, restart, scoring or hidden state.
+- Add or update focused web tests proving the refresh action uses generated read helpers only and does not invoke start/resume mutation.
+- Add browser/API smoke evidence or equivalent browser-backed test proving the click produces `GET route-progress` + `GET lesson detail` and no `POST /start`.
 - Keep profile-session token only in mounted component memory: no URL path/query/hash, localStorage, sessionStorage, cookies, IndexedDB, service-worker caches, console logs, request/response echoes or tracked screenshots.
 - User-visible copy must be Russian, neutral, privacy-first and mobile-first.
 
@@ -89,7 +96,7 @@ No backend migration, endpoint, OpenAPI operation or generated-client helper is 
 
 - Backend schema migration, new endpoint, new backend DTO, new generated helper or new OpenAPI operation.
 - Full `MVP-06`, full `MVP-07`, full MVP stage or human-gate closure.
-- Learning completion, theory completion, `completed`, `mastered`, `needs_reinforcement`, progress percent that implies completion, unlocking `N2+` or next-lesson eligibility.
+- Learning completion, theory completion, `completed`, `mastered`, `needs_reinforcement`, completion progress percent, unlocking `N2+` or next-lesson eligibility.
 - Quiz submission/scoring, practice submission, answer keys, attempt history or mini-test result storage.
 - Points, rewards, wallet, ledger, anti-farm rewards, challenge progress, store, merch or fulfillment.
 - Final diagnostic scoring/routing, full `Q1-Q27`, `Q28`, final `R1-R6`, weak zones, final level, route explanation correctness, HR diagnostic insights, HR reports or analytics/events.
@@ -103,22 +110,23 @@ No backend migration, endpoint, OpenAPI operation or generated-client helper is 
 
 - First meaningful builder touch is in `apps/web` production/test files.
 - No backend production code, Flyway migration, OpenAPI operation or generated-client source changes are introduced unless the builder stops and re-freezes first.
-- Existing generated `fetchLearningMeRouteProgress` and `fetchLearningMeLessonDetail` are used for the read-only resume path.
-- Existing generated `startLearningMeLesson` is not called when route-progress already says `RESUME_N1`.
-- `POST /api/v1/learning/me/lessons/N1/start` is absent from reopen/resume-path browser/API proof.
-- First-start path for `START_N1` remains working and may still call start/resume mutation before lesson detail.
-- Mounted N1 continuation renders backend-owned lesson detail after read-only resume.
-- Existing route/progress summary, N1 start/resume and lesson detail behavior remain passing.
+- Existing generated `fetchLearningMeRouteProgress` is used for the N1-screen refresh.
+- Existing generated `fetchLearningMeLessonDetail` is used after the safe `RESUME_N1` refresh summary.
+- Existing generated `startLearningMeLesson` is not called by the N1-screen refresh.
+- `POST /api/v1/learning/me/lessons/N1/start` is absent from refresh-path browser/API proof.
+- Existing `START_N1` first-start behavior remains working.
+- Existing read-only reopen behavior remains working.
+- Mounted N1 continuation stays visible during and after a failed/unsupported refresh, with a safe non-sensitive notice.
 - User-visible copy is Russian, neutral, privacy-first and mobile-first.
-- Browser/source evidence confirms no token appears in URL before, during or after read-only resume and no token is stored in `localStorage`, `sessionStorage`, cookies, IndexedDB or service-worker caches.
+- Browser/source evidence confirms no token appears in URL before, during or after refresh and no token is stored in `localStorage`, `sessionStorage`, cookies, IndexedDB or service-worker caches.
 - No final scoring, final route assignment, `R1-R6`, HR reporting, analytics/events, points, rewards, lesson completion, theory completion, quiz/practice submission, exact sensitive data, advice, customer brand or real data is introduced.
-- Scoped functional pass is allowed only after builder evidence and fresh verifier `PASS`.
+- Scoped functional pass is allowed only after builder evidence and fresh verifier `PASS`; until then `passes=false`.
 
 ## Required Validation
 
 The builder must run and record command evidence with exit status and raw refs:
 
-- focused web test for `RESUME_N1` read-only continuation path and no start/resume mutation;
+- focused web test for N1-screen read-only refresh and no start/resume mutation;
 - `pnpm --filter @finrhythm/web typecheck`;
 - `pnpm --filter @finrhythm/web test`;
 - `pnpm --filter @finrhythm/web build`;
@@ -128,24 +136,28 @@ The builder must run and record command evidence with exit status and raw refs:
 - `pnpm --filter @finrhythm/api-client check:openapi-drift`;
 - `pnpm --filter @finrhythm/api-client typecheck`;
 - `pnpm --filter @finrhythm/api-client build`;
-- browser/API smoke proving reopened submitted/started state renders N1 continuation through `GET route-progress` + `GET lesson detail` and no `POST /start`, with screenshots or structured browser-network proof;
+- browser/API smoke proving already-rendered N1 continuation can refresh status through `GET route-progress` + `GET lesson detail` and no `POST /start`, with screenshots or structured browser-network proof;
+- browser/API smoke or focused regression proving initial read-only reopen still uses `GET route-progress` + `GET lesson detail` and no `POST /start`;
+- browser/API smoke or focused regression proving first `START_N1` path still works;
 - `make verify`;
 - `make test-unit`;
 - `make build`;
 - `jq empty` for changed JSON artifacts;
 - `git diff --check -- . ':(exclude).agent/stages/**/raw/**' ':(exclude).agent/tasks/**/raw/**'`;
-- guardrail scans for first touch, no backend contract/schema changes, generated helper usage, no hand-written lesson detail fetch/DTOs, no token storage/URL leakage, no start mutation on resume path, no N2+ scope, no completion/theory/quiz/practice/points/rewards, no scoring/R1-R6/HR reports/analytics, no exact sensitive data/advice and no real data.
+- guardrail scans for first touch, no backend contract/schema changes, generated helper usage, no hand-written lesson detail fetch/DTOs, no token storage/URL leakage, no start mutation on refresh path, no N2+ scope, no completion/theory/quiz/practice/points/rewards, no scoring/R1-R6/HR reports/analytics, no exact sensitive data/advice and no real data.
 
 ## Evidence Handoff Required
 
 The builder must record:
 
 - changed production/test files, with first-touch proof;
-- read-only resume path summary;
-- explicit proof that `RESUME_N1` reopens via read endpoints only and does not call `POST /start`;
+- N1-screen refresh summary;
+- explicit proof that refresh uses `GET route-progress` + `GET lesson detail` only and does not call `POST /start`;
 - proof that first-start path still works;
+- proof that read-only reopen path still works;
 - generated helper(s) used by web;
-- exact diagnostic-to-route-progress-to-read-only-N1-detail resume flow;
+- exact mounted flow: rendered N1 continuation -> refresh click -> route-progress `RESUME_N1` -> lesson-detail read -> updated continuation render;
+- failed/unsupported refresh behavior and proof that previous N1 detail remains visible;
 - proof that the profile-session token stays in mounted component memory only;
 - browser screenshots or structured browser-network proof raw refs;
 - command raw refs and outcomes;
@@ -155,14 +167,14 @@ The builder must record:
 - backend baseline note: Spring Boot, Java 21, Maven Wrapper, PostgreSQL, Flyway and OpenAPI/springdoc;
 - human-gate status and explicit non-closure;
 - explicit out-of-scope confirmation for completion, theory completion, quiz, practice, points, rewards, scoring, `R1-R6`, HR reports, analytics/events, exact sensitive data, advice and full MVP closure;
-- immutable evidence/verdict/problems refs for `MVP-07-n1-readonly-resume-continuation-001` after builder and fresh verifier phases.
+- immutable evidence/verdict/problems refs for `MVP-07-n1-readonly-status-refresh-001` after builder and fresh verifier phases.
 
 ## Doc Targets And Diagram Expectations
 
 - Product docs target: `NOOP_EXPECTED` for `docs/product/b2b-mvp/lemanapro/product-foundation-v1.md`, `docs/product/b2b-mvp/lemanapro/learning-methodology-v0.2.md`, `docs/product/b2b-mvp/lemanapro/content-mvp-spec-v0.1.md` and `docs/product/b2b-mvp/lemanapro/design-system-v0.1.md` if existing N1 semantics, draft review status, sensitive-data rules and mobile lesson patterns are followed.
-- Architecture doc target: conditional `docs/architecture/access-and-subscriptions.md` section 7.4 update only if existing docs do not clearly mention that mounted web can resume N1 by reading route-progress and lesson detail without re-posting start.
+- Architecture doc target: conditional `docs/architecture/access-and-subscriptions.md` section 7.4 update only if existing text does not clearly cover user-triggered N1 refresh from mounted continuation via read-only route-progress + lesson-detail.
 - API/generated-client docs target: `NOOP_EXPECTED`; update `packages/api-client/README.md` only if helper coverage wording needs a narrow clarification.
-- Stage evidence diagram expectation: compact flow from submitted diagnostic to route-progress `RESUME_N1`, read-only lesson detail fetch and mounted continuation render; can be stage evidence only unless canonical docs require update.
+- Stage evidence diagram expectation: compact flow from rendered N1 continuation to refresh click, `GET route-progress`, `GET lesson detail`, state update, and "no POST /start"; can be stage evidence only unless canonical docs require update.
 
 ## Human Gates That Remain Open
 
@@ -178,15 +190,15 @@ The builder must record:
 
 ## Fresh Verifier Status
 
-`MVP-07-n1-readonly-resume-continuation-001` now has builder implementation evidence and fresh verifier `PASS`.
+`MVP-07-n1-readonly-status-refresh-001` now has builder implementation evidence and fresh verifier `PASS`.
 
 - Builder evidence:
-  - `.agent/stages/mvp/evidence/MVP-07-n1-readonly-resume-continuation-001.md`
-  - `.agent/stages/mvp/evidence/MVP-07-n1-readonly-resume-continuation-001.json`
+  - `.agent/stages/mvp/evidence/MVP-07-n1-readonly-status-refresh-001.md`
+  - `.agent/stages/mvp/evidence/MVP-07-n1-readonly-status-refresh-001.json`
 - Fresh verifier PASS:
-  - `.agent/stages/mvp/verdicts/MVP-07-n1-readonly-resume-continuation-001.json`
-  - `.agent/stages/mvp/problems/MVP-07-n1-readonly-resume-continuation-001.md`
-  - `.agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-resume-continuation-001-20260514-fresh/`
+  - `.agent/stages/mvp/verdicts/MVP-07-n1-readonly-status-refresh-001.json`
+  - `.agent/stages/mvp/problems/MVP-07-n1-readonly-status-refresh-001.md`
+  - `.agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-status-refresh-001-20260514-fresh/`
 - Parent evidence/verdict/problems aliases now point to this sprint.
 - Full MVP-06, full MVP-07, the MVP stage and all human gates remain open.
 - Post-PASS publish is required now because `publish_after_pass=true`.
@@ -198,11 +210,11 @@ After builder evidence and fresh verifier `PASS`, update `.agent/stages/mvp/publ
 The manifest must include:
 
 - `publish_after_pass: true`;
-- sprint id `MVP-07-n1-readonly-resume-continuation-001`;
+- sprint id `MVP-07-n1-readonly-status-refresh-001`;
 - intended branch and commit summary;
 - PR title/body in Russian;
 - proof refs for evidence, verdict and problems;
-- validation commands and browser/API resume proof refs;
+- validation commands and browser/API refresh proof refs;
 - doc-sync refs or explicit docs `NOOP` decision;
 - explicit human gates still open;
 - continuation prompt asking the next `stage_orchestrator` to continue from updated `main`, preserve the proof loop, choose the next highest-impact verified product slice and repeat post-PASS publish.

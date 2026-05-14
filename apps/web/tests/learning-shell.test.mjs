@@ -857,6 +857,41 @@ describe("mobile learning shell", () => {
     );
   });
 
+  it("keeps mounted N1 status refresh read-only and generated-helper based", async () => {
+    const diagnosticSource = await readFile(join(appRoot, "components", "diagnostic-api-flow-screen.ts"), "utf8");
+    const refreshStart = diagnosticSource.indexOf("async function refreshStartedN1Status()");
+    const refreshEnd = diagnosticSource.indexOf("if (lessonProgress && lessonDetail)", refreshStart);
+    const refreshBlock = diagnosticSource.slice(refreshStart, refreshEnd);
+    const refreshPanelStart = diagnosticSource.indexOf("function N1StatusRefreshPanel");
+    const refreshPanelEnd = diagnosticSource.indexOf("function N1BackendLessonHero", refreshPanelStart);
+    const refreshPanelBlock = diagnosticSource.slice(refreshPanelStart, refreshPanelEnd);
+
+    assert.notEqual(refreshStart, -1, "mounted N1 refresh handler exists");
+    assert.notEqual(refreshPanelStart, -1, "mounted N1 refresh panel exists");
+    assert.match(refreshBlock, /loadSafeRouteProgress\(profileSessionToken\)/);
+    assert.match(refreshBlock, /buildReadOnlyN1LessonProgressFromRouteProgress\(safeRouteProgress\)/);
+    assert.match(refreshBlock, /loadSafeN1LessonDetail\(profileSessionToken, safeProgress\.lessonId\)/);
+    assert.equal(
+      refreshBlock.indexOf("loadSafeRouteProgress(profileSessionToken)") <
+        refreshBlock.indexOf("loadSafeN1LessonDetail(profileSessionToken, safeProgress.lessonId)"),
+      true,
+      "refresh reads route-progress before lesson detail"
+    );
+    assert.match(refreshBlock, /setRouteProgress\(safeRouteProgress\)/);
+    assert.match(refreshBlock, /setLessonProgress\(safeProgress\)/);
+    assert.match(refreshBlock, /setLessonDetail\(safeDetail\)/);
+    assert.match(refreshBlock, /Показываем уже открытый материал N1/);
+    assert.match(refreshBlock, /Урок остаётся только для чтения/);
+    assert.doesNotMatch(refreshBlock, /startLearningMeLesson|submitDiagnosticMeDraft|saveDiagnosticMeDraft/);
+    assert.doesNotMatch(refreshBlock, /\/start|POST|fetch\(|XMLHttpRequest|navigator\.sendBeacon|console\./);
+    assert.doesNotMatch(refreshBlock, /localStorage|sessionStorage|indexedDB|document\.cookie|cookieStore/);
+    assert.doesNotMatch(refreshBlock, /window\.location|location\.hash|history\.pushState|history\.replaceState/);
+    assert.match(refreshPanelBlock, /Проверить статус N1/);
+    assert.match(refreshPanelBlock, /Обновить N1 без записи старта/);
+    assert.match(refreshPanelBlock, /Если сервер не подтвердит безопасное продолжение, этот урок останется на экране/);
+    assert.doesNotMatch(refreshPanelBlock, /profileSessionToken|startLearningMeLesson|\/api\/v1\/learning/);
+  });
+
   it("keeps managed web source free of customer brand, active old access terms and forbidden claims", async () => {
     const haystack = await managedSourceText();
     const forbidden = [

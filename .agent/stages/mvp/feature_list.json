@@ -3076,5 +3076,42 @@
     "note": "Scoped fresh verifier PASS after builder evidence and parent alias sync. Read-only N1 resume renders through generated route-progress/detail reads with no POST /start on resume. Full MVP-06, MVP-07, MVP stage and human gates remain open. publish_after_pass=true; ready for post-PASS publish.",
     "fresh_verifier_pass": true,
     "parent_alias_sync_done": true
+  },
+  {
+    "id": "mvp-07-n1-readonly-status-refresh-contract-freeze",
+    "category": "web-integration",
+    "description": "MVP-07-n1-readonly-status-refresh-001 is frozen for a web-first read-only N1 status refresh action inside the mounted N1 continuation screen.",
+    "steps": [
+      "Freeze web-first read-only N1 status refresh after MVP-07-n1-readonly-resume-continuation-001 PASS",
+      "Require first meaningful builder touch in apps/web production/test files",
+      "Require existing generated fetchLearningMeRouteProgress and fetchLearningMeLessonDetail usage",
+      "Require no generated startLearningMeLesson call and no POST /learning/me/lessons/N1/start on the refresh path",
+      "Require first-start START_N1 and read-only reopen paths to remain working",
+      "Require browser/API proof for refresh GET route-progress plus GET lesson detail and no POST /start",
+      "Require profile-session token to remain mounted-memory-only",
+      "Exclude backend schema/API/generated-helper changes, completion, theory completion, quiz/practice submission, points, rewards, final scoring/routing, R1-R6, HR reports, analytics/events, exact sensitive data, advice, real data and full MVP closure"
+    ],
+    "passes": true,
+    "status": "PASS_AFTER_FRESH_VERIFIER_PARENT_SYNC",
+    "publish_after_pass": true,
+    "builder_checks_pass": true,
+    "fresh_verifier_required": false,
+    "evidence_refs": [
+      ".agent/stages/mvp/sprint_contract.md",
+      ".agent/stages/mvp/task-files/MVP-07-n1-readonly-status-refresh-001.md",
+      ".agent/stages/mvp/status.json",
+      ".agent/stages/mvp/publish_manifest.json",
+      ".agent/stages/mvp/evidence/MVP-07-n1-readonly-status-refresh-001.md",
+      ".agent/stages/mvp/evidence/MVP-07-n1-readonly-status-refresh-001.json",
+      ".agent/stages/mvp/raw/builder-MVP-07-n1-readonly-status-refresh-001-20260514/browser-smoke-abs/MVP-07-n1-readonly-status-refresh-001-browser-smoke.json",
+      ".agent/stages/mvp/verdicts/MVP-07-n1-readonly-status-refresh-001.json",
+      ".agent/stages/mvp/problems/MVP-07-n1-readonly-status-refresh-001.md",
+      ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-status-refresh-001-20260514-fresh/browser-smoke/MVP-07-n1-readonly-status-refresh-001-verifier-browser-smoke.json",
+      ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-status-refresh-001-20260514-fresh/browser-smoke/MVP-07-n1-readonly-status-refresh-001-verifier-mobile-profile-session-diagnostic-n1-readonly-refresh.png",
+      ".agent/stages/mvp/raw/verifier-MVP-07-n1-readonly-status-refresh-001-20260514-fresh/browser-smoke/MVP-07-n1-readonly-status-refresh-001-verifier-mobile-profile-session-diagnostic-n1-readonly-refresh-unsupported.png"
+    ],
+    "note": "Scoped fresh verifier PASS after builder evidence and parent alias sync. Mounted N1 status refresh uses generated route-progress/detail reads only, does not POST /start on refresh, preserves first-start and read-only reopen paths, and leaves full MVP-06, MVP-07, MVP stage and human gates open. publish_after_pass=true; ready for post-PASS publish.",
+    "fresh_verifier_pass": true,
+    "parent_alias_sync_done": true
   }
 ]

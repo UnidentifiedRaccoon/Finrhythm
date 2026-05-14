@@ -293,7 +293,7 @@ The route/progress summary may expose only safe state: diagnostic state `NOT_STA
 
 `GET /api/v1/learning/me/lessons/{lessonId}` is read-only and also accepts only the same bearer token plus `lessonId`. It rejects every `lessonId` except `N1` and returns backend-owned draft N1 detail only after both conditions are true for the authenticated registration: diagnostic state is `SUBMITTED` with safe N1 handoff, and an existing N1 progress row is `STARTED`. Before that, it returns a safe non-success response without lesson content. The response may include display title, estimated time, competencies `C1/C2/C8/C9`, `disclaimerType=education`, draft review flags, active methodology/GetCourse source refs, display-only lesson blocks and sensitive-data policy. It must not expose quiz answer keys, scoring, diagnostic answers, internal scope IDs, token/hash/code values, final level, `R1-R6`, weak zones, HR fields, completion, quiz/practice submission, points, rewards, analytics/events, exact sensitive data or advice.
 
-Employee web continuation must call generated API-client helpers for route-progress summary, first-start N1 mutation and N1 lesson detail while the profile-session token remains in mounted component memory. If route-progress returns `START_N1`, the user action may call `POST /api/v1/learning/me/lessons/N1/start`, refresh route-progress and then fetch lesson detail. If route-progress already returns `RESUME_N1` with `N1 STARTED`, mounted web reopens N1 by reading `GET /api/v1/learning/me/route-progress` and `GET /api/v1/learning/me/lessons/N1` only; it must not re-post start just to render the existing continuation. The token must not be transferred through URL path/query/hash, browser storage, cookies, IndexedDB, service-worker caches or logs.
+Employee web continuation must call generated API-client helpers for route-progress summary, first-start N1 mutation and N1 lesson detail while the profile-session token remains in mounted component memory. If route-progress returns `START_N1`, the user action may call `POST /api/v1/learning/me/lessons/N1/start`, refresh route-progress and then fetch lesson detail. If route-progress already returns `RESUME_N1` with `N1 STARTED`, mounted web reopens N1 by reading `GET /api/v1/learning/me/route-progress` and `GET /api/v1/learning/me/lessons/N1` only; it must not re-post start just to render the existing continuation. Once the N1 continuation is already mounted, a user-visible status refresh may repeat only that read-only sequence: first `GET /api/v1/learning/me/route-progress`, then `GET /api/v1/learning/me/lessons/N1` only when the refreshed summary is still `RESUME_N1` with `N1 STARTED`. Unsupported or failed refresh keeps the existing N1 content visible and must not call `POST /api/v1/learning/me/lessons/N1/start`. The token must not be transferred through URL path/query/hash, browser storage, cookies, IndexedDB, service-worker caches or logs.
 
 ```mermaid
 flowchart LR
@@ -312,6 +312,9 @@ flowchart LR
     RESUME_DETAIL --> READY
     DETAIL --> READY["Backend-owned draft N1 detail: review + provenance + privacy policy"]
     READY --> RENDER["Render mounted N1 continuation from backend payload"]
+    RENDER --> STATUS_REFRESH["Employee clicks re-check status"]
+    STATUS_REFRESH --> SUMMARY_REQ
+    SUMMARY -->|unsupported refresh| KEEP_VISIBLE["Keep existing N1 visible + neutral notice"]
     AUTH -->|missing, malformed, unknown, expired, revoked| DENY["401 without learning progress persistence"]
     SUMMARY_REQ -->|missing, malformed, unknown, expired, revoked| DENY
     DETAIL -->|not submitted or no N1 STARTED row| WAIT["Safe non-success without lesson content"]
@@ -329,6 +332,7 @@ stateDiagram-v2
     SubmittedNoN1 --> StartedN1: valid N1 start
     StartedN1 --> StartedN1: GET route-progress / RESUME_N1
     StartedN1 --> StartedN1: web reopen GET route-progress + GET lesson detail / no POST start
+    StartedN1 --> StartedN1: mounted refresh GET route-progress then conditional GET lesson detail / no POST start
     StartedN1 --> StartedN1: explicit repeated start/resume mutation updates last_opened_at
     SubmittedNoN1 --> Rejected: unsupported lesson id
     Rejected --> SubmittedNoN1
