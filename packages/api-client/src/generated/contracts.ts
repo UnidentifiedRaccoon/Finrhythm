@@ -284,6 +284,62 @@ export type LearningRouteProgressResponse = {
   nextAction: LearningRouteNextAction;
 };
 
+export type LearningLessonBlockResponse = {
+  blockId: string;
+  blockType: string;
+  title: string;
+  body: string;
+  displayOnly: boolean;
+  sensitiveDataNotice: boolean;
+  ctaLabel: string | null;
+};
+
+export type LearningLessonSourceRefResponse = {
+  path: string;
+  title: string;
+  humanReview: string;
+};
+
+export type LearningLessonProvenanceResponse = {
+  methodologyRef: string;
+  activeSourceRoot: string;
+  contentBriefRef: string;
+  sourceManifestRef: string;
+  sourceRefs: LearningLessonSourceRefResponse[];
+};
+
+export type LearningLessonReviewResponse = {
+  reviewStatus: string;
+  humanReviewRequired: boolean;
+  productionReady: boolean;
+  wordingReviewStatus: string;
+  financialReviewStatus: string;
+  legalReviewStatus: string;
+  hrWordingReviewStatus: string;
+  notes: string[];
+};
+
+export type LearningLessonSensitiveDataPolicyResponse = {
+  notRequired: string[];
+  hrReportingBoundary: string;
+  adviceBoundary: string;
+};
+
+export type LearningLessonDetailResponse = {
+  lessonId: string;
+  displayTitle: string;
+  shortTitle: string;
+  trackTitle: string;
+  userPromise: string;
+  estimatedTime: string;
+  competencyCodes: string[];
+  disclaimerType: string;
+  review: LearningLessonReviewResponse;
+  provenance: LearningLessonProvenanceResponse;
+  sensitiveDataPolicy: LearningLessonSensitiveDataPolicyResponse;
+  blocks: LearningLessonBlockResponse[];
+};
+
 export type AdminCodeStatusPathParams = {
   tenantId: string;
   pilotLaunchId: string;
@@ -618,6 +674,41 @@ export async function fetchLearningMeRouteProgress(
     throw new Error(`GET ${url.pathname} failed with HTTP ${response.status}.`);
   }
   return (await response.json()) as LearningRouteProgressResponse;
+}
+
+export type LearningMeLessonDetailClientRequest = DiagnosticMeAuthRequest & {
+  lessonId: string;
+};
+
+export const LEARNING_ME_LESSON_DETAIL_PATH_TEMPLATE = "/api/v1/learning/me/lessons/{lessonId}";
+
+export function buildLearningMeLessonDetailUrl(
+  baseUrl: string | URL,
+  params: Pick<LearningMeLessonDetailClientRequest, "lessonId">
+): URL {
+  return new URL(
+    LEARNING_ME_LESSON_DETAIL_PATH_TEMPLATE.replace("{lessonId}", encodeURIComponent(params.lessonId)),
+    baseUrl
+  );
+}
+
+export async function fetchLearningMeLessonDetail(
+  baseUrl: string | URL,
+  params: LearningMeLessonDetailClientRequest,
+  init: ApiClientRequestInit = {}
+): Promise<LearningLessonDetailResponse> {
+  const url = buildLearningMeLessonDetailUrl(baseUrl, params);
+  const headers = new Headers(init.headers);
+  headers.set("authorization", `Bearer ${params.profileSessionToken}`);
+  const response = await fetch(url, {
+    ...init,
+    method: "GET",
+    headers
+  });
+  if (!response.ok) {
+    throw new Error(`GET ${url.pathname} failed with HTTP ${response.status}.`);
+  }
+  return (await response.json()) as LearningLessonDetailResponse;
 }
 
 export type LearningMeLessonStartClientRequest = DiagnosticMeAuthRequest & {

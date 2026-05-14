@@ -52,6 +52,7 @@ function generateContracts(document, schemaMap) {
     ...emitDiagnosticMeDraftClient(document),
     ...emitDiagnosticMeSubmitClient(document),
     ...emitLearningMeRouteProgressClient(document),
+    ...emitLearningMeLessonDetailClient(document),
     ...emitLearningMeLessonStartClient(document),
     ""
   ];
@@ -561,6 +562,52 @@ function emitLearningMeLessonStartClient(document) {
     "    throw new Error(`POST ${url.pathname} failed with HTTP ${response.status}.`);",
     "  }",
     "  return (await response.json()) as LessonProgressResponse;",
+    "}",
+    ""
+  ];
+}
+
+function emitLearningMeLessonDetailClient(document) {
+  const path = "/api/v1/learning/me/lessons/{lessonId}";
+  const operation = document.paths?.[path]?.get;
+  if (!operation) {
+    throw new Error(`Missing OpenAPI operation for ${path}`);
+  }
+
+  return [
+    "export type LearningMeLessonDetailClientRequest = DiagnosticMeAuthRequest & {",
+    "  lessonId: string;",
+    "};",
+    "",
+    `export const LEARNING_ME_LESSON_DETAIL_PATH_TEMPLATE = ${JSON.stringify(path)};`,
+    "",
+    "export function buildLearningMeLessonDetailUrl(",
+    "  baseUrl: string | URL,",
+    "  params: Pick<LearningMeLessonDetailClientRequest, \"lessonId\">",
+    "): URL {",
+    "  return new URL(",
+    "    LEARNING_ME_LESSON_DETAIL_PATH_TEMPLATE.replace(\"{lessonId}\", encodeURIComponent(params.lessonId)),",
+    "    baseUrl",
+    "  );",
+    "}",
+    "",
+    "export async function fetchLearningMeLessonDetail(",
+    "  baseUrl: string | URL,",
+    "  params: LearningMeLessonDetailClientRequest,",
+    "  init: ApiClientRequestInit = {}",
+    "): Promise<LearningLessonDetailResponse> {",
+    "  const url = buildLearningMeLessonDetailUrl(baseUrl, params);",
+    "  const headers = new Headers(init.headers);",
+    "  headers.set(\"authorization\", `Bearer ${params.profileSessionToken}`);",
+    "  const response = await fetch(url, {",
+    "    ...init,",
+    "    method: \"GET\",",
+    "    headers",
+    "  });",
+    "  if (!response.ok) {",
+    "    throw new Error(`GET ${url.pathname} failed with HTTP ${response.status}.`);",
+    "  }",
+    "  return (await response.json()) as LearningLessonDetailResponse;",
     "}",
     ""
   ];

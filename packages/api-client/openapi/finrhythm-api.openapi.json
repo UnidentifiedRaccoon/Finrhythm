@@ -6,325 +6,6 @@
     "description": "Backend API for FinRhythm pilot access, invite-code activation, employee registration and privacy-safe admin code-status operations."
   },
   "paths": {
-    "/api/v1/employee-registrations": {
-      "post": {
-        "operationId": "registerEmployee",
-        "summary": "Register an employee with an invite code",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EmployeeRegistrationRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Idempotent retry for the same invite/contact.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EmployeeRegistrationResponse"
-                }
-              }
-            }
-          },
-          "201": {
-            "description": "First registration created.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EmployeeRegistrationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Validation or invite-code failure. Raw PII and raw invite code are not echoed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/employee-registrations/profile-summary": {
-      "post": {
-        "operationId": "profileSummary",
-        "summary": "Read a support-safe employee profile summary",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EmployeeProfileSummaryRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Profile summary found for the matching invite/contact.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EmployeeProfileSummaryResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Submitted contact or invite-code fields are invalid. Submitted PII and raw invite code are not echoed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "No registration matched the submitted invite/contact proof.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/employee-registrations/profile-sessions": {
-      "post": {
-        "operationId": "createProfileSession",
-        "summary": "Create a short-lived employee profile session",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EmployeeProfileSessionRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Profile session created. The opaque token is returned only once.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EmployeeProfileSessionResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Submitted contact or invite-code fields are invalid. Submitted PII and raw invite code are not echoed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "No registration matched the submitted invite/contact proof.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/employee-registrations/me/profile-summary": {
-      "get": {
-        "operationId": "profileSummaryForSession",
-        "summary": "Read the current employee profile summary",
-        "security": [
-          {
-            "employeeProfileSessionBearerAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Profile summary for the valid profile session.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EmployeeProfileSummaryResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Profile session token is missing, malformed, expired, revoked or unknown. Raw token is not echoed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Registration referenced by the session was not found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/employee-registrations/me/contact": {
-      "patch": {
-        "operationId": "updateContactForSession",
-        "summary": "Update the current employee contact fields",
-        "security": [
-          {
-            "employeeProfileSessionBearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EmployeeContactUpdateRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Accepted contact update or normalized no-op. One audit row is appended.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/EmployeeContactUpdateResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Empty payload or invalid contact field. Submitted raw values are not echoed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Profile session token is missing, malformed, expired, revoked or unknown. Raw token is not echoed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Registration referenced by the session was not found.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/employee-registrations/{employeeRegistrationId}/legal-acceptances": {
-      "post": {
-        "operationId": "acceptLegalDocuments",
-        "summary": "Record current draft legal document version acceptance",
-        "parameters": [
-          {
-            "name": "employeeRegistrationId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LegalDocumentAcceptanceRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Idempotent retry for the same employee registration and same current draft versions.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LegalDocumentAcceptanceResponse"
-                }
-              }
-            }
-          },
-          "201": {
-            "description": "Current draft document version set recorded for the first time.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LegalDocumentAcceptanceResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unsupported document type/version or incomplete current draft set.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Employee registration is unknown.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApiErrorResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/admin/tenants/{tenantId}/pilot-launches/{pilotLaunchId}/access-pools/{accessPoolId}/code-status": {
       "get": {
         "operationId": "getAdminCodeStatus",
@@ -574,6 +255,391 @@
           },
           "401": {
             "description": "Profile session token is missing, malformed, expired, revoked or unknown.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employee-registrations": {
+      "post": {
+        "operationId": "registerEmployee",
+        "summary": "Register an employee with an invite code",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeRegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Idempotent retry for the same invite/contact.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeRegistrationResponse"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "First registration created.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeRegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation or invite-code failure. Raw PII and raw invite code are not echoed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employee-registrations/{employeeRegistrationId}/legal-acceptances": {
+      "post": {
+        "operationId": "acceptLegalDocuments",
+        "summary": "Record current draft legal document version acceptance",
+        "parameters": [
+          {
+            "name": "employeeRegistrationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LegalDocumentAcceptanceRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Idempotent retry for the same employee registration and same current draft versions.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LegalDocumentAcceptanceResponse"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Current draft document version set recorded for the first time.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LegalDocumentAcceptanceResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Unsupported document type/version or incomplete current draft set.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Employee registration is unknown.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employee-registrations/me/contact": {
+      "patch": {
+        "operationId": "updateContactForSession",
+        "summary": "Update the current employee contact fields",
+        "security": [
+          {
+            "employeeProfileSessionBearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeContactUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Accepted contact update or normalized no-op. One audit row is appended.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeContactUpdateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Empty payload or invalid contact field. Submitted raw values are not echoed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Profile session token is missing, malformed, expired, revoked or unknown. Raw token is not echoed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Registration referenced by the session was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employee-registrations/me/profile-summary": {
+      "get": {
+        "operationId": "profileSummaryForSession",
+        "summary": "Read the current employee profile summary",
+        "security": [
+          {
+            "employeeProfileSessionBearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Profile summary for the valid profile session.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeProfileSummaryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Profile session token is missing, malformed, expired, revoked or unknown. Raw token is not echoed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Registration referenced by the session was not found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employee-registrations/profile-sessions": {
+      "post": {
+        "operationId": "createProfileSession",
+        "summary": "Create a short-lived employee profile session",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeProfileSessionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Profile session created. The opaque token is returned only once.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeProfileSessionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Submitted contact or invite-code fields are invalid. Submitted PII and raw invite code are not echoed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No registration matched the submitted invite/contact proof.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employee-registrations/profile-summary": {
+      "post": {
+        "operationId": "profileSummary",
+        "summary": "Read a support-safe employee profile summary",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeeProfileSummaryRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Profile summary found for the matching invite/contact.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeProfileSummaryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Submitted contact or invite-code fields are invalid. Submitted PII and raw invite code are not echoed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No registration matched the submitted invite/contact proof.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/learning/me/lessons/{lessonId}": {
+      "get": {
+        "operationId": "lessonDetail",
+        "summary": "Read N1 lesson detail for mounted continuation",
+        "description": "Reads backend-owned N1 draft lesson detail only after submitted diagnostic N1 handoff and an existing N1 STARTED progress row. No request body or client-provided scope identifiers are accepted, and the read persists nothing.",
+        "security": [
+          {
+            "employeeProfileSessionBearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lessonId",
+            "in": "path",
+            "required": true,
+            "description": "N1 is the only supported lesson id in this MVP slice.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "N1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Read-only N1 lesson detail.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LearningLessonDetailResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Only lesson id N1 is supported by this MVP slice.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Profile session token is missing, malformed, expired, revoked or unknown.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Lesson detail is not ready because diagnostic handoff or N1 started progress is missing.",
             "content": {
               "application/json": {
                 "schema": {
@@ -1776,6 +1842,267 @@
           },
           "nextAction": {
             "$ref": "#/components/schemas/LearningRouteNextAction"
+          }
+        }
+      },
+      "LearningLessonBlockResponse": {
+        "type": "object",
+        "description": "Display-only lesson block without submissions, scoring or answer keys.",
+        "required": [
+          "blockId",
+          "blockType",
+          "title",
+          "body",
+          "displayOnly",
+          "sensitiveDataNotice",
+          "ctaLabel"
+        ],
+        "properties": {
+          "blockId": {
+            "type": "string",
+            "description": "Stable display block id.",
+            "example": "N1-SITUATION"
+          },
+          "blockType": {
+            "type": "string",
+            "description": "Display block type.",
+            "example": "situation"
+          },
+          "title": {
+            "type": "string",
+            "description": "Block title shown in the mounted lesson continuation."
+          },
+          "body": {
+            "type": "string",
+            "description": "Safe educational display copy."
+          },
+          "displayOnly": {
+            "type": "boolean",
+            "description": "True because lesson detail reads never submit or score block interactions."
+          },
+          "sensitiveDataNotice": {
+            "type": "boolean",
+            "description": "True when the block repeats the no-exact-sensitive-data boundary."
+          },
+          "ctaLabel": {
+            "type": "string",
+            "description": "Optional disabled/display CTA label.",
+            "nullable": true
+          }
+        }
+      },
+      "LearningLessonSourceRefResponse": {
+        "type": "object",
+        "description": "Active local source ref for a draft lesson.",
+        "required": [
+          "path",
+          "title",
+          "humanReview"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "description": "Local source path."
+          },
+          "title": {
+            "type": "string",
+            "description": "Source title."
+          },
+          "humanReview": {
+            "type": "string",
+            "description": "Source human review state.",
+            "example": "required"
+          }
+        }
+      },
+      "LearningLessonProvenanceResponse": {
+        "type": "object",
+        "description": "Active methodology and content source refs for a draft lesson.",
+        "required": [
+          "methodologyRef",
+          "activeSourceRoot",
+          "contentBriefRef",
+          "sourceManifestRef",
+          "sourceRefs"
+        ],
+        "properties": {
+          "methodologyRef": {
+            "type": "string",
+            "description": "Canonical methodology ref for N1."
+          },
+          "activeSourceRoot": {
+            "type": "string",
+            "description": "Active GetCourse source root."
+          },
+          "contentBriefRef": {
+            "type": "string",
+            "description": "Active content brief ref."
+          },
+          "sourceManifestRef": {
+            "type": "string",
+            "description": "Active content baseline manifest ref."
+          },
+          "sourceRefs": {
+            "type": "array",
+            "description": "Source lesson refs used for this draft.",
+            "items": {
+              "$ref": "#/components/schemas/LearningLessonSourceRefResponse"
+            }
+          }
+        }
+      },
+      "LearningLessonReviewResponse": {
+        "type": "object",
+        "description": "Draft review flags for N1 content.",
+        "required": [
+          "reviewStatus",
+          "humanReviewRequired",
+          "productionReady",
+          "wordingReviewStatus",
+          "financialReviewStatus",
+          "legalReviewStatus",
+          "hrWordingReviewStatus",
+          "notes"
+        ],
+        "properties": {
+          "reviewStatus": {
+            "type": "string",
+            "description": "Current draft review status.",
+            "example": "method_adapted"
+          },
+          "humanReviewRequired": {
+            "type": "boolean",
+            "description": "True because final financial/content review remains human-gated."
+          },
+          "productionReady": {
+            "type": "boolean",
+            "description": "False until the production content approval gate is closed."
+          },
+          "wordingReviewStatus": {
+            "type": "string",
+            "description": "Wording review state.",
+            "example": "required"
+          },
+          "financialReviewStatus": {
+            "type": "string",
+            "description": "Financial review state.",
+            "example": "required"
+          },
+          "legalReviewStatus": {
+            "type": "string",
+            "description": "Legal review state.",
+            "example": "required"
+          },
+          "hrWordingReviewStatus": {
+            "type": "string",
+            "description": "HR wording review state.",
+            "example": "required"
+          },
+          "notes": {
+            "type": "array",
+            "description": "Human-gate and draft-status notes.",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "LearningLessonSensitiveDataPolicyResponse": {
+        "type": "object",
+        "description": "Sensitive data boundary shown with the lesson.",
+        "required": [
+          "notRequired",
+          "hrReportingBoundary",
+          "adviceBoundary"
+        ],
+        "properties": {
+          "notRequired": {
+            "type": "array",
+            "description": "Data categories not required for this lesson.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "hrReportingBoundary": {
+            "type": "string",
+            "description": "Employee-facing HR reporting boundary."
+          },
+          "adviceBoundary": {
+            "type": "string",
+            "description": "Educational, non-advisory boundary."
+          }
+        }
+      },
+      "LearningLessonDetailResponse": {
+        "type": "object",
+        "description": "Read-only backend-owned N1 lesson detail for mounted continuation.",
+        "required": [
+          "lessonId",
+          "displayTitle",
+          "shortTitle",
+          "trackTitle",
+          "userPromise",
+          "estimatedTime",
+          "competencyCodes",
+          "disclaimerType",
+          "review",
+          "provenance",
+          "sensitiveDataPolicy",
+          "blocks"
+        ],
+        "properties": {
+          "lessonId": {
+            "type": "string",
+            "description": "N1-only lesson id supported by this MVP slice.",
+            "example": "N1"
+          },
+          "displayTitle": {
+            "type": "string",
+            "description": "User-facing lesson display title."
+          },
+          "shortTitle": {
+            "type": "string",
+            "description": "Short user-facing lesson title."
+          },
+          "trackTitle": {
+            "type": "string",
+            "description": "User-facing novice track label."
+          },
+          "userPromise": {
+            "type": "string",
+            "description": "Educational promise without personal advice."
+          },
+          "estimatedTime": {
+            "type": "string",
+            "description": "Estimated reading time."
+          },
+          "competencyCodes": {
+            "type": "array",
+            "description": "Competency codes covered by this draft lesson.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "disclaimerType": {
+            "type": "string",
+            "description": "Disclaimer type. Education only for this slice.",
+            "example": "education"
+          },
+          "review": {
+            "$ref": "#/components/schemas/LearningLessonReviewResponse"
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/LearningLessonProvenanceResponse"
+          },
+          "sensitiveDataPolicy": {
+            "$ref": "#/components/schemas/LearningLessonSensitiveDataPolicyResponse"
+          },
+          "blocks": {
+            "type": "array",
+            "description": "Display-only lesson blocks.",
+            "items": {
+              "$ref": "#/components/schemas/LearningLessonBlockResponse"
+            }
           }
         }
       }

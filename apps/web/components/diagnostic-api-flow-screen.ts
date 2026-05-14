@@ -10,6 +10,7 @@ import {
 } from "react";
 import {
   fetchDiagnosticMeDraft,
+  fetchLearningMeLessonDetail,
   fetchLearningMeRouteProgress,
   startLearningMeLesson,
   saveDiagnosticMeDraft,
@@ -18,12 +19,11 @@ import {
   type DiagnosticAttemptState,
   type DiagnosticDraftUpdateRequest,
   type DiagnosticSubmitResponse,
+  type LearningLessonDetailResponse,
   type LearningRouteProgressResponse,
   type LessonProgressResponse
 } from "@finrhythm/api-client";
 import { EmployeeAppHeader, EmployeeBottomNav, SecondarySupportEntry } from "./employee-app-shell.ts";
-import { LessonRendererScreen } from "./lesson-renderer.ts";
-import { syntheticN1LessonFixture } from "../lib/learning-fixtures.ts";
 
 type DiagnosticApiPhase = "loading" | "draft" | "saving" | "submitting" | "submitted" | "error";
 type DiagnosticNoticeKind = "info" | "validation" | "error" | "success";
@@ -58,6 +58,11 @@ export type DiagnosticN1LessonProgress = {
   startedAt: string;
   lastOpenedAt: string;
   idempotentResume: boolean;
+};
+
+export type DiagnosticN1LessonDetail = LearningLessonDetailResponse & {
+  lessonId: "N1";
+  disclaimerType: "education";
 };
 
 export type DiagnosticRouteProgressSummary = {
@@ -201,6 +206,7 @@ export function DiagnosticApiFlowScreen({
   const [safeTransfer, setSafeTransfer] = useState<DiagnosticSafeTransfer | null>(null);
   const [routeProgress, setRouteProgress] = useState<DiagnosticRouteProgressSummary | null>(null);
   const [lessonProgress, setLessonProgress] = useState<DiagnosticN1LessonProgress | null>(null);
+  const [lessonDetail, setLessonDetail] = useState<DiagnosticN1LessonDetail | null>(null);
   const [lessonStartBusy, setLessonStartBusy] = useState(false);
   const [lessonStartNotice, setLessonStartNotice] = useState<DiagnosticNotice | null>(null);
   const [retryIndex, setRetryIndex] = useState(0);
@@ -217,6 +223,7 @@ export function DiagnosticApiFlowScreen({
     setSafeTransfer(null);
     setRouteProgress(null);
     setLessonProgress(null);
+    setLessonDetail(null);
     setLessonStartBusy(false);
     setLessonStartNotice(null);
 
@@ -398,9 +405,18 @@ export function DiagnosticApiFlowScreen({
       if (!safeRouteProgress || safeRouteProgress.n1.status !== "STARTED") {
         throw new Error("Неподдержанная обновлённая сводка маршрута.");
       }
+      const detailResponse = await fetchLearningMeLessonDetail(getBrowserApiBaseUrl(), {
+        profileSessionToken,
+        lessonId: safeTransfer.recommendedFirstLessonId
+      });
+      const safeDetail = buildSafeN1LessonDetail(detailResponse);
+      if (!safeDetail) {
+        throw new Error("Неподдержанный ответ урока N1.");
+      }
 
       setRouteProgress(safeRouteProgress);
       setLessonProgress(safeProgress);
+      setLessonDetail(safeDetail);
     } catch (_error: unknown) {
       setLessonStartNotice(
         buildDiagnosticFailureNotice("Не удалось открыть N1 через серверный прогресс. Попробуйте ещё раз, пока эта вкладка открыта.")
@@ -410,10 +426,11 @@ export function DiagnosticApiFlowScreen({
     }
   }
 
-  if (lessonProgress) {
-    return h(LessonRendererScreen, {
-      lesson: syntheticN1LessonFixture,
-      progressBanner: h(N1ProgressBanner, { progress: lessonProgress, routeProgress })
+  if (lessonProgress && lessonDetail) {
+    return h(N1BackendLessonContinuationScreen, {
+      lessonDetail,
+      progress: lessonProgress,
+      routeProgress
     });
   }
 
@@ -540,6 +557,33 @@ export function buildSafeN1LessonProgress(response: LessonProgressResponse): Dia
   };
 }
 
+export function buildSafeN1LessonDetail(response: LearningLessonDetailResponse): DiagnosticN1LessonDetail | null {
+  if (
+    response.lessonId !== "N1" ||
+    response.disclaimerType !== "education" ||
+    response.review.humanReviewRequired !== true ||
+    response.review.productionReady !== false ||
+    response.blocks.length === 0 ||
+    !response.blocks.every((block) => block.displayOnly === true) ||
+    !["C1", "C2", "C8", "C9"].every((code) => response.competencyCodes.includes(code))
+  ) {
+    return null;
+  }
+
+  const serialized = JSON.stringify(response).toLowerCase();
+  if (
+    serialized.includes("correctoptionid") ||
+    serialized.includes("answerkey") ||
+    serialized.includes("finallevel") ||
+    serialized.includes("diagnosticanswers") ||
+    serialized.includes("hrinsights")
+  ) {
+    return null;
+  }
+
+  return response as DiagnosticN1LessonDetail;
+}
+
 export function buildSafeRouteProgressSummary(
   response: LearningRouteProgressResponse
 ): DiagnosticRouteProgressSummary | null {
@@ -586,6 +630,155 @@ export function buildSafeRouteProgressSummary(
     },
     nextAction: "RESUME_N1"
   };
+}
+
+function N1BackendLessonContinuationScreen({
+  lessonDetail,
+  progress,
+  routeProgress
+}: {
+  lessonDetail: DiagnosticN1LessonDetail;
+  progress: DiagnosticN1LessonProgress;
+  routeProgress: DiagnosticRouteProgressSummary | null;
+}) {
+  return h(
+    "main",
+    { className: "learning-page lesson-renderer-page" },
+    h(
+      "div",
+      { className: "mobile-shell" },
+      h(EmployeeAppHeader, { pill: "N1 · сервер" }),
+      h(EmployeeBottomNav, { active: "learning" }),
+      h(N1BackendLessonHero, { lessonDetail }),
+      h(N1ProgressBanner, { progress, routeProgress }),
+      h(N1BackendLessonBlocks, { lessonDetail }),
+      h(N1BackendLessonReviewPanel, { lessonDetail }),
+      h(N1BackendLessonPolicyPanel, { lessonDetail }),
+      h("button", { className: "primary-action", disabled: true, type: "button" }, "Продолжение без отправки ответов")
+    )
+  );
+}
+
+function N1BackendLessonHero({ lessonDetail }: { lessonDetail: DiagnosticN1LessonDetail }) {
+  return h(
+    "section",
+    { className: "hero-section lesson-hero", "aria-labelledby": "lesson-title" },
+    h("p", { className: "section-label" }, "Серверный урок"),
+    h("h1", { id: "lesson-title" }, lessonDetail.displayTitle),
+    h("p", { className: "hero-copy" }, lessonDetail.userPromise),
+    h(
+      "div",
+      { className: "preview-meta lesson-hero-meta" },
+      h("span", null, lessonDetail.estimatedTime),
+      h("span", null, lessonDetail.trackTitle),
+      h("span", null, lessonDetail.competencyCodes.join(" / ")),
+      h("span", null, "education")
+    )
+  );
+}
+
+function N1BackendLessonBlocks({ lessonDetail }: { lessonDetail: DiagnosticN1LessonDetail }) {
+  return h(
+    "section",
+    { className: "lesson-renderer", "aria-labelledby": "backend-lesson-sections-title" },
+    h("p", { className: "section-label" }, "Материал N1"),
+    h("h2", { id: "backend-lesson-sections-title" }, `${lessonDetail.blocks.length} коротких блока`),
+    h(
+      "p",
+      null,
+      "Контент пришёл из API после старта N1. На этом шаге экран только показывает материал и не отправляет ответы."
+    ),
+    h(
+      "div",
+      { className: "lesson-block-list" },
+      lessonDetail.blocks.map((block) =>
+        h(
+          "article",
+          { className: block.sensitiveDataNotice ? "lesson-block lesson-block-sensitive" : "lesson-block", key: block.blockId },
+          h(
+            "div",
+            { className: "lesson-block-header" },
+            h("span", { className: "block-type" }, backendLessonBlockLabel(block.blockType)),
+            block.sensitiveDataNotice ? h("span", { className: "sensitive-pill" }, "без точных данных") : null,
+            h("h3", null, block.title)
+          ),
+          h("p", null, block.body),
+          block.ctaLabel ? h("button", { className: "secondary-action", disabled: true, type: "button" }, block.ctaLabel) : null
+        )
+      )
+    )
+  );
+}
+
+function N1BackendLessonReviewPanel({ lessonDetail }: { lessonDetail: DiagnosticN1LessonDetail }) {
+  return h(
+    "section",
+    { className: "lesson-progress-card", "aria-labelledby": "backend-review-title" },
+    h(
+      "div",
+      null,
+      h("p", { className: "section-label" }, "Review"),
+      h("h2", { id: "backend-review-title" }, "Черновой статус материала"),
+      h(
+        "p",
+        null,
+        lessonDetail.review.humanReviewRequired
+          ? "Материал требует human review и не помечен как production-ready."
+          : "Материал требует дополнительной проверки статуса."
+      )
+    ),
+    h(
+      "dl",
+      { className: "diagnostic-transfer-list", "aria-label": "Статус review урока" },
+      h("div", null, h("dt", null, "Статус"), h("dd", null, lessonDetail.review.reviewStatus)),
+      h("div", null, h("dt", null, "Production-ready"), h("dd", null, lessonDetail.review.productionReady ? "да" : "нет")),
+      h("div", null, h("dt", null, "Финансовая проверка"), h("dd", null, lessonDetail.review.financialReviewStatus)),
+      h("div", null, h("dt", null, "Юридическая проверка"), h("dd", null, lessonDetail.review.legalReviewStatus))
+    ),
+    h("ul", { className: "diagnostic-boundary-list" }, lessonDetail.review.notes.map((note) => h("li", { key: note }, note)))
+  );
+}
+
+function N1BackendLessonPolicyPanel({ lessonDetail }: { lessonDetail: DiagnosticN1LessonDetail }) {
+  return h(
+    "section",
+    { className: "policy-panel privacy-card", "aria-labelledby": "backend-policy-title" },
+    h("span", { className: "privacy-icon", "aria-hidden": "true" }),
+    h(
+      "div",
+      null,
+      h("p", { className: "section-label" }, "Границы данных"),
+      h("h2", { id: "backend-policy-title" }, "Что не нужно для N1"),
+      h("ul", { className: "safety-list" }, lessonDetail.sensitiveDataPolicy.notRequired.map((note) => h("li", { key: note }, note))),
+      h("p", null, lessonDetail.sensitiveDataPolicy.hrReportingBoundary),
+      h("p", null, lessonDetail.sensitiveDataPolicy.adviceBoundary),
+      h(
+        "dl",
+        { className: "diagnostic-transfer-list", "aria-label": "Источники урока" },
+        h("div", null, h("dt", null, "Методология"), h("dd", null, lessonDetail.provenance.methodologyRef)),
+        h("div", null, h("dt", null, "Источник"), h("dd", null, lessonDetail.provenance.sourceRefs[0]?.path ?? lessonDetail.provenance.activeSourceRoot))
+      )
+    )
+  );
+}
+
+function backendLessonBlockLabel(blockType: string): string {
+  if (blockType === "situation") {
+    return "Ситуация";
+  }
+  if (blockType === "why") {
+    return "Зачем";
+  }
+  if (blockType === "rule") {
+    return "Правило";
+  }
+  if (blockType === "example") {
+    return "Пример";
+  }
+  if (blockType === "practice") {
+    return "Практика";
+  }
+  return "Блок";
 }
 
 async function loadSafeRouteProgress(profileSessionToken: string): Promise<DiagnosticRouteProgressSummary | null> {

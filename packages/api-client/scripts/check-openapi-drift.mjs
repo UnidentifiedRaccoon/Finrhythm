@@ -171,6 +171,30 @@ async function checkRecords() {
       requiredFields: ["diagnosticState", "routePreview", "n1", "nextAction"]
     },
     {
+      schema: "LearningLessonBlockResponse",
+      file: "apps/api/src/main/java/com/finrhythm/api/learning/web/LearningLessonBlockResponse.java"
+    },
+    {
+      schema: "LearningLessonSourceRefResponse",
+      file: "apps/api/src/main/java/com/finrhythm/api/learning/web/LearningLessonSourceRefResponse.java"
+    },
+    {
+      schema: "LearningLessonProvenanceResponse",
+      file: "apps/api/src/main/java/com/finrhythm/api/learning/web/LearningLessonProvenanceResponse.java"
+    },
+    {
+      schema: "LearningLessonReviewResponse",
+      file: "apps/api/src/main/java/com/finrhythm/api/learning/web/LearningLessonReviewResponse.java"
+    },
+    {
+      schema: "LearningLessonSensitiveDataPolicyResponse",
+      file: "apps/api/src/main/java/com/finrhythm/api/learning/web/LearningLessonSensitiveDataPolicyResponse.java"
+    },
+    {
+      schema: "LearningLessonDetailResponse",
+      file: "apps/api/src/main/java/com/finrhythm/api/learning/web/LearningLessonDetailResponse.java"
+    },
+    {
       schema: "LegalDocumentVersionRequest",
       file: "apps/api/src/main/java/com/finrhythm/api/consent/web/LegalDocumentVersionRequest.java"
     },
@@ -422,6 +446,32 @@ function checkOperations() {
   }
   if (!learningRouteProgressOperation.security?.some((requirement) => requirement.employeeProfileSessionBearerAuth)) {
     throw new Error("Learning route-progress operation is missing employeeProfileSessionBearerAuth security.");
+  }
+
+  const learningLessonDetailPath = "/api/v1/learning/me/lessons/{lessonId}";
+  const learningLessonDetailOperation = openApi.paths?.[learningLessonDetailPath]?.get;
+  if (!learningLessonDetailOperation) {
+    throw new Error(`Missing learning lesson detail operation at ${learningLessonDetailPath}`);
+  }
+  assertRef(
+    "learning lesson detail 200 response",
+    learningLessonDetailOperation.responses?.["200"]?.content?.["application/json"]?.schema,
+    "#/components/schemas/LearningLessonDetailResponse"
+  );
+  if (learningLessonDetailOperation.requestBody) {
+    throw new Error("Learning lesson detail operation must not accept a request body.");
+  }
+  if ((learningLessonDetailOperation.parameters ?? []).some((parameter) => parameter.in !== "header" && parameter.in !== "path")) {
+    throw new Error("Learning lesson detail operation must not accept query parameters.");
+  }
+  const lessonDetailPathParameter = (learningLessonDetailOperation.parameters ?? []).find(
+    (parameter) => parameter.name === "lessonId" && parameter.in === "path"
+  );
+  if (!lessonDetailPathParameter?.required) {
+    throw new Error("Learning lesson detail operation must require path parameter lessonId.");
+  }
+  if (!learningLessonDetailOperation.security?.some((requirement) => requirement.employeeProfileSessionBearerAuth)) {
+    throw new Error("Learning lesson detail operation is missing employeeProfileSessionBearerAuth security.");
   }
 
   const legalAcceptancePath = "/api/v1/employee-registrations/{employeeRegistrationId}/legal-acceptances";
